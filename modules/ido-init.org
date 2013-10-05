@@ -1,0 +1,82 @@
+* Some extra packages for ido
+  + [[www.github.com/lewang/flx][flx]] - A more powerful alternative to ido-mode's
+          built-in flex matching.
+  + [[www.github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] - Use ido (nearly) everywhere
+  + [[www.github.com/nonsequitur/smex][smex]]- M-x interface with Ido-style fuzzy matching.
+  + [[][idomenu]] - imenu tag selection a la ido
+
+  #+begin_src emacs-lisp
+      (defvar iqbal-ido-packages
+        '(flx
+          ido-ubiquitous
+          smex))
+      
+      (el-get 'sync iqbal-ido-packages)
+	#+end_src
+  
+	
+* Ido setup
+** Enable ido-mode
+  #+begin_src emacs-lisp
+    (ido-mode t)
+  #+end_src
+  
+** Use flx for better flexible matching
+  #+begin_src emacs-lisp
+    (flx-ido-mode t)
+  #+end_src
+  
+** Use ido everywhere
+  #+begin_src emacs-lisp
+    (ido-ubiquitous-mode t)
+  #+end_src
+   
+** Look for filename at point
+   #+begin_src emacs-lisp
+     (setq ido-use-filename-at-point 'guess)
+   #+end_src
+   
+** Use flexible matching with Ido
+   #+begin_src emacs-lisp
+     (setq ido-enable-flex-matching t)
+   #+end_src
+
+** Keybindings
+   Keybinding for idomenu
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "<C-i-key>") 'idomenu)
+     (global-set-key (kbd "M-x") 'smex)
+     (global-set-key (kbd "C-x <C-m-key>") 'smex)
+   #+end_src
+   
+
+* Key chord mode
+** Installation
+  + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
+
+	#+begin_src emacs-lisp
+      (el-get 'sync 'key-chord)
+      (require 'key-chord)
+	#+end_src
+
+** Keybindings
+   #+begin_src emacs-lisp
+     (key-chord-define-global "jj" 'ace-jump-word-mode)
+     (key-chord-define-global "JJ" 'switch-to-previous-buffer)
+   #+end_src 
+
+
+* Ace jump mode
+** Installation
+  + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
+	
+	#+begin_src emacs-lisp
+      (el-get 'sync 'ace-jump-mode)  
+	#+end_src   
+
+** Keybindings
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c SPC") 'ace-jump-char-mode)
+     (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode) 
+   #+end_src 
+   
