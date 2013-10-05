@@ -1,0 +1,232 @@
+* Ensure that the required packages are installed
+  #+begin_src emacs-lisp
+    (defvar iqbal-display-packages
+      '(linum-off
+        tabbar-ruler
+        diminish
+        auto-highlight-symbol
+        volatile-highlights))
+    
+    (el-get 'sync iqbal-display-packages)
+  #+end_src
+  
+  
+* Load wombat theme
+  #+begin_src emacs-lisp
+    (load-theme 'wombat)
+  #+end_src
+
+  
+* Don't show menubar, scrollbar and toolbar
+  #+begin_src emacs-lisp
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+  #+end_src
+  
+  
+* Windows' default font is not good, use Consolas instead
+  #+begin_src emacs-lisp
+    (if (eq system-type 'windows-nt)
+        (set-default-font "Consolas-12:light"))    
+  #+end_src
+
+
+* Customizations for linum-mode
+** Make custom linum consistent [http://www.emacswiki.org/emacs/LineNumbers#toc6]
+   #+begin_src emacs-lisp
+     (defface linum-leading-zero
+       `((t :inherit 'linum
+            :foreground ,(face-attribute 'linum :background nil t)))
+       "Face for displaying leading zeroes for line numbers in display margin."
+       :group 'linum)
+     
+     (defun linum-format-func (line)
+       (let ((w (length
+                 (number-to-string (count-lines (point-min) (point-max))))))
+         (concat
+          (propertize (make-string (- w (length (number-to-string line))) ?0)
+                      'face 'linum-leading-zero)
+          (propertize (concat " " (number-to-string line) " ") 'face 'linum))))
+     
+     ;; Line numbers in margin
+                                             ;(global-linum-mode t)
+     (setq linum-format 'linum-format-func)
+   #+end_src
+
+** Don't show line numbers in speed-bar
+   #+begin_src emacs-lisp
+     (add-to-list 'linum-disabled-modes-list '(speedbar-mode))
+   #+end_src
+   
+
+* Customizations for modeline
+** Show date time in modeline
+   #+begin_src emacs-lisp
+     (display-time-mode 1)
+     (setq display-time-day-and-date t) 
+   #+end_src
+** Display current column number
+   #+begin_src emacs-lisp
+     (column-number-mode)
+   #+end_src
+   
+
+* Customizations for tabbar
+** Visual tweaks taken from [[https://gist.github.com/3demax/1264635][3demax]]
+
+  #+begin_src emacs-lisp
+    (require 'tabbar-ruler)
+    ;; Tabbar settings
+    (set-face-attribute
+     'tabbar-default nil
+     :background "gray20"
+     :foreground "gray20"
+     :box '(:line-width 2 :color "gray20" :style nil))
+    
+    (set-face-attribute
+     'tabbar-highlight nil
+     :background "white"
+     :foreground "black"
+     :underline nil
+     :box '(:line-width 5 :color "white" :style nil))
+    
+    ;; adding spaces
+    (defun tabbar-buffer-tab-label (tab)
+      "Return a label for TAB.
+    That is, a string used to represent it on the tab bar."
+      (let ((label  (if tabbar--buffer-show-groups
+                        (format "  [%s]  " (tabbar-tab-tabset tab))
+                      (format "  %s  " (tabbar-tab-value tab)))))
+        ;; Unless the tab bar auto scrolls to keep the selected tab
+        ;; visible, shorten the tab label to keep as many tabs as possible
+        ;; in the visible area of the tab bar.
+        (if tabbar-auto-scroll-flag
+            label
+          (tabbar-shorten
+           label (max 1 (/ (window-width)
+                           (length (tabbar-view
+                                    (tabbar-current-tabset)))))))))
+  #+end_src
+  
+** Group tabs according to projects
+   #+begin_src emacs-lisp
+     (tabbar-ruler-group-by-projectile-project)
+   #+end_src
+** Tabbar separator 
+   #+begin_src emacs-lisp
+     (setq tabbar-separator (quote (0.7)))
+   #+end_src
+
+** Navigate tabs with ctrl + (left|right)
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-<left>") 'tabbar-ruler-backward)
+     (global-set-key (kbd "C-<right>") 'tabbar-ruler-forward)
+   #+end_src
+   
+
+* Highlight changes in the buffer
+** Configuration for highlight changes mode
+  #+begin_src emacs-lisp
+    (global-highlight-changes-mode t)
+    (setq highlight-changes-visibility-initial-state nil)
+    (set-face-foreground 'highlight-changes nil)
+    (set-face-background 'highlight-changes "#382f2f")
+    (set-face-foreground 'highlight-changes-delete nil)
+    (set-face-background 'highlight-changes-delete "#916868")    
+  #+end_src
+  
+** Keybindings for highlight changes mode
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "<f6>") 'highlight-changes-visible-mode)
+     (global-set-key (kbd "<C-f6>") 'highlight-changes-next-change)
+     (global-set-key (kbd "<C-S-f6>") 'highlight-changes-previous-change)
+   #+end_src
+   
+
+* Highlight matching parenthesis
+  #+begin_src emacs-lisp
+    (show-paren-mode t)
+    (setq show-paren-delay 0)
+    (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold)
+    (setq show-paren-style 'expression)
+  #+end_src
+  
+
+* Highlight current line
+  #+begin_src emacs-lisp
+    (global-hl-line-mode)
+    (set-face-background hl-line-face "gray15")
+  #+end_src
+  
+
+* Make buffer size irrelevant for fontification
+  #+begin_src emacs-lisp
+    (setq font-lock-maximum-size nil)
+  #+end_src
+ 
+
+* Highlight current variable after certain interval
+  #+begin_src emacs-lisp
+      (setq ahs-set-idle-interval 0.1)
+  #+end_src
+
+
+* Temporarily highlight yanks and undos 
+  #+begin_src emacs-lisp
+    (volatile-highlights-mode 1)
+  #+end_src
+
+  
+* Display the keys pressed the minibuffer
+  #+begin_src emacs-lisp
+    (setq echo-keystrokes 0.01)
+  #+end_src
+
+
+* Customizations for cursor 
+** Display cursor as bar
+   #+begin_src emacs-lisp
+     (setq cursor-type 'bar)
+   #+end_src
+   
+** Cursor blink delay
+   #+begin_src emacs-lisp
+     (setq blink-cursor-delay 1)
+   #+end_src
+
+** Cursor blink interval
+   #+begin_src emacs-lisp
+     (setq blink-cursor-interval 1)
+   #+end_src
+
+
+* Change the cursor display according to minor modes
+  #+begin_src emacs-lisp
+    (setq my-set-cursor-color-color "")
+    (setq my-set-cursor-color-buffer "")
+    
+    (defun my-set-cursor-color-according-to-mode ()
+      "Change cursor color according to some minor modes."
+      (let ((color
+             (if buffer-read-only "purple1"
+               (if overwrite-mode "red"
+                 "white"))))  ; insert mode
+        (unless (and (string= color my-set-cursor-color-color)
+                     (string= (buffer-name) my-set-cursor-color-buffer))
+          (set-cursor-color (setq my-set-cursor-color-color color))
+          (setq my-set-cursor-color-buffer (buffer-name)))))
+  #+end_src
+
+  
+* Diminsh some minor modes 
+  #+begin_src emacs-lisp
+    (diminish 'yas-minor-mode)
+    (diminish 'smartparens-mode)
+    (diminish 'volatile-highlights-mode)
+    (diminish 'workgroups-mode)
+    (diminish 'projectile-mode)
+    (diminish 'auto-complete-mode)
+    (diminish 'undo-tree-mode)
+  #+end_src
+  
