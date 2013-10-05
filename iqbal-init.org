@@ -1,0 +1,191 @@
+* Declare global variables and utility functions
+  Set global variables to be used in the rest of the intialization
+** 1. Path to 'non-el-get' packages
+  Packages not currently installable via el-get reside in this directory
+  #+begin_src emacs-lisp
+    (defvar otherpackages "~/.emacs.d/otherpackages/")
+  #+end_src
+
+** 2. Path to 'lang'uage specific configurations
+   Modules contain the configuration related to one specific type of file.
+   They reside in the following directory
+   #+begin_src emacs-lisp
+     (defvar iqbal-modules-dir "~/.emacs.d/lang/")
+   #+end_src
+
+** 3. Function to load module
+   A simple helper function to load a particular module
+   #+begin_src emacs-lisp
+     (defun iqbal-load-module (language)
+	   (let ((module-path (concat iqbal-modules-dir language "/"))
+			 (load-if-present #'(lambda (file)
+								(if (file-exists-p file)
+									(org-babel-load-file file))))
+			 (files-to-load '("install.org" "setup.org" "keybindings.org")))
+		 (dolist (file files-to-load t) 
+		   (funcall load-if-present 
+					(concat module-path file)))))
+   #+end_src
+   
+
+* Unbind keys
+** Disable terminal key-sequence mappings
+   #+begin_src emacs-lisp
+     (when window-system
+       ;; C-m
+       (define-key key-translation-map [return] [?\r])
+       (define-key key-translation-map [?\C-\m] [(control m-key)])
+       (define-key function-key-map [return] nil)
+       (define-key function-key-map [?\r] nil)
+       ;; C-i
+       (define-key key-translation-map [tab] [?\t])
+       (define-key key-translation-map [?\C-\i] [(control i-key)])
+       (define-key function-key-map [tab] nil)
+       (define-key function-key-map [?\t] nil)
+       ;; escape
+       (define-key key-translation-map [escape] [?\e])
+       (define-key input-decode-map [?\C-\[] [(control left_bracket)])
+       (define-key function-key-map [escape] nil)
+       (define-key function-key-map [?\e] nil))
+   #+end_src
+   
+  (global-unset-key "\C-z"))
+
+** Unset C-z, I don't find it useful
+   #+begin_src emacs-lisp
+     (global-unset-key "\C-z")
+   #+end_src
+   
+
+* Integration with system clipboard
+  #+begin_src emacs-lisp
+    (setq x-select-enable-clipboard t)
+    (setq save-interprogram-paste-before-kill t)
+  #+end_src
+
+
+* Replace yes-no questions with y-n questions
+  #+begin_src emacs-lisp
+    (fset 'yes-or-no-p 'y-or-n-p)
+  #+end_src
+  
+
+* Declare common keybindings
+  These don't actually bind any rather they define the keys that will 
+  be used for common actions across multiple modes for common functions 
+  like jumping-to-definition etc. These keys will be bound to actual 
+  functions by the respective major modes.
+
+** Jumping to definitions
+
+   #+begin_src emacs-lisp
+     (defvar iqbal-jump-to-definition (kbd "M-."))
+     (defvar iqbal-pop-jump-to-definition-marker (kbd "M-,"))
+   #+end_src
+   
+** Displaying doc
+
+   #+begin_src emacs-lisp
+     (defvar iqbal-show-doc (kbd "C-c d"))
+   #+end_src
+
+** Refactoring
+
+   #+begin_src emacs-lisp     
+     (defvar iqbal-refactor-rename (kbd "C-c r"))
+     (defvar iqbal-refactor-auto-import (kbd "C-c i"))
+     (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
+   #+end_src
+
+** Moving around functions
+   
+   #+begin_src emacs-lisp     
+     (defvar iqbal-beginning-of-def (kbd "M-\S-a"))
+     (defvar iqbal-end-of-def (kbd "M-\S-e"))
+   #+end_src
+
+
+* Initialize package management
+  Initialize package manager and add repositories
+  #+begin_src emacs-lisp
+      (package-initialize)
+      
+      (add-to-list 'package-archives
+                 '("melpa" . "http://melpa.milkbox.net/packages/") t)
+      (add-to-list 'package-archives
+                 '("marmalade" . "http://marmalade-repo.org/packages/") t)
+      (add-to-list 'package-archives
+			     '("geiser" . "http://download.savannah.gnu.org/releases/geiser/packages"))
+  #+end_src
+
+  
+
+* Bootstrap el-get 
+  Install El-Get is not installed and configure it
+** Initialize El-Get
+   #+begin_src emacs-lisp
+     (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+     
+     (unless (require 'el-get nil 'noerror)
+       (with-current-buffer
+           (url-retrieve-synchronously
+            "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+         (let (el-get-master-branch)
+           (goto-char (point-max))
+           (eval-print-last-sexp))))
+   #+end_src
+   
+** Path to El-Get recipies
+   Use recipies from this directory
+   #+begin_src emacs-lisp
+       (add-to-list 'el-get-recipe-path "~/.emacs.d/recipies/")
+   #+end_src
+
+** Start El-Get
+   
+   #+begin_src emacs-lisp
+     (el-get 'sync)
+   #+end_src
+   
+
+* Load common libraries
+   These are general purpose libraries that can are used
+   by different modes
+
+   The libaries are loaded by the file 'lib/init.el'
+   #+begin_src emacs-lisp
+       (load-file "~/.emacs.d/modules/init.el")
+   #+end_src
+   
+
+* Configure loading of the major modes
+** Python
+  #+begin_src emacs-lisp
+    (el-get 'sync 'python-mode)
+    (require 'python-mode)
+    (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+    (add-hook 'python-mode-hook (lambda ()
+                                  (iqbal-load-module "python")))
+  #+end_src
+
+** Javascript
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
+     (add-hook 'js-mode-hook (lambda ()
+                               (iqbal-load-module "javascript")))
+   #+end_src
+
+** HTML mode
+   #+begin_src emacs-lisp
+     (el-get 'sync 'web-mode)
+     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+     (add-hook 'web-mode-hook (lambda ()
+                                   (iqbal-load-module "html")))
+   #+end_src  
+   
+
+* Initialize display
+  All the UI related configuration go into single file and are loaded at the end
+  #+begin_src emacs-lisp
+       (org-babel-load-file "~/.emacs.d/display.org")
+   #+end_src
