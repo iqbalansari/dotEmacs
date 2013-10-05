@@ -1,0 +1,23 @@
+* Indentation settings for web-mode
+  #+begin_src emacs-lisp
+    (setq web-mode-markup-indent-offset 4)
+    (setq web-mode-css-indent-offset 4)
+    (setq web-mode-code-indent-offset 4)
+  #+end_src
+
+* Function for cleaning up messy markup :IMPROVE:
+  #+begin_src emacs-lisp
+    (defun sgml-inspect ()
+      "Convert a messy chunk of sgml tags into one you can easily inspect"
+      (interactive)
+      (let ((beginning (point-min))
+            (end (point-max)))
+        (goto-char beginning)
+        (while (re-search-forward ">[ \t\n]*<" end t)
+          (replace-match ">\n<"))
+        (goto-char beginning)
+        (while (re-search-forward "\\( \\)[^ ]+=" end t)
+          (replace-match "\n" nil nil nil 1))
+        (indent-region beginning end)))    
+  #+end_src
+  
