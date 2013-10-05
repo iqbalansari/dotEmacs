@@ -1,0 +1,58 @@
+* Configurations for js-mode
+  Use 4 spaces for indentation
+  
+  #+begin_src emacs-lisp
+      (setq js-indent-level 4)
+  #+end_src
+  
+
+* Setup Tern for autocompletion and some refactoring
+** Load ternjs
+   
+   #+begin_src emacs-lisp
+     (autoload 'tern-mode "tern.el" nil t)
+     (tern-mode t)
+   #+end_src
+   
+** Setup autocompletion
+   Setup tern to use autocompletion. Trigger completion on dot
+
+   #+begin_src emacs-lisp
+     (require 'tern-auto-complete)
+     (tern-ac-setup)
+     (setq tern-ac-dot-complete t)
+   #+end_src
+
+   
+* Setup error checking
+** js2-mode provide awesome error highlighting plus warnings
+  
+  #+begin_src emacs-lisp
+     (js2-minor-mode)
+  #+end_src
+     
+
+* Setup autocompletion and documentation for jQuery
+  
+  #+begin_src emacs-lisp
+     (jquery-doc-setup)
+  #+end_src
+
+
+* Need to take a look at these
+
+  #+begin_src emacs-lisp
+  ;; FIXME js-comint
+  ;; (require 'js-comint)
+  ;; (setq inferior-js-program-command "node")
+
+  ;; (setenv "NODE_NO_READLINE" "1")
+  #+end_src
+
+* Use js-beautify to cleanup messy javascript :IMPROVE:
+  This can be also be used for reformatting JSON files for viewing them
+  #+begin_src emacs-lisp
+    (add-to-list 'load-path (concat otherpackages "js-beautify/"))
+    (require 'js-beautify)
+  #+end_src
+  

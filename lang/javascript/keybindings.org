@@ -1,0 +1,14 @@
+* Set keybindings for jumping to definition
+  
+  #+begin_src emacs-lisp
+    (local-set-key iqbal-jump-to-definition 'tern-find-definition)
+    (local-set-key iqbal-pop-jump-to-definition-marker 'tern-pop-find-definition)
+    (local-set-key iqbal-show-doc 'tern-get-docs)
+  #+end_src
+  
+
+* Set keybindings for refactoring
+
+  #+begin_src emacs-lisp
+    (local-set-key iqbal-refactor-rename 'tern-rename-variable)
+  #+end_src
