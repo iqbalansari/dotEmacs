@@ -1,0 +1,462 @@
+* Install some useful packages
+  + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
+  + [[http://www.dr-qubit.org/undo-tree/undo-tree-0.6.4.el][undo-tree]] - Represents your undo history as a tree and provides some really useful features
+  + [[https://github.com/browse-kill-ring/browse-kill-ring][browse-kill-ring]] - Useful package for interacting with the kill ring visually
+  + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
+  + [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] - Multiple cursors for emacs.
+  + [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
+  + [[https://github.com/zk-phi/phi-rectangle][phi-rectangle]] - Another rectangle command
+  + [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
+  + [[https://github.com/rejeep/drag-stuff][drag-stuff]] - Drag stuff (lines, words, region) around in Emacs
+
+	#+begin_src emacs-lisp
+      (defvar iqbal-editing-packages
+        '(ace-jump-mode
+          undo-tree
+          browse-kill-ring
+          key-chord
+          multiple-cursors
+          tiny
+          phi-rectangle
+          expand-region
+          drag-stuff))
+      
+      (el-get 'sync iqbal-editing-packages)  
+	#+end_src   
+
+
+* Ace Jump mode setup
+  Binding for jumping to character and line, 'jumping to word'
+  is bound to a 'key-chord' in later section
+  #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c SPC") 'ace-jump-char-mode)
+     (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode) 
+  #+end_src
+
+
+* Key chords setup
+  Keychords for some common functions
+  #+begin_src emacs-lisp
+    (key-chord-mode t)
+    (key-chord-define-global "jj" 'ace-jump-word-mode)
+    (defun switch-to-previous-buffer ()
+      "Switch to previously open buffer.
+    Repeated invocations toggle between the two most recently open buffers."
+      (interactive)
+      (switch-to-buffer (other-buffer (current-buffer) 1)))
+    (key-chord-define-global "JJ" 'switch-to-previous-buffer)
+  #+end_src
+  
+
+* Multiple cursors setup
+  Keybindings for multiple cursors
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-m") 'mc/mark-more-like-this-extended)
+    (global-set-key (kbd "<C-M-return>") 'mc/mark-all-like-this-dwim)
+    (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+  #+end_src
+  
+
+* Tiny setup
+  Keybindings for expanding tiny expressions
+  #+begin_src emacs-lisp
+    (require 'tiny)
+    (global-set-key (kbd "C-:") 'tiny-expand)
+  #+end_src
+  
+
+* Phi-rectangle setup
+  Enable pho-rectangle
+  #+begin_src emacs-lisp
+    (require 'phi-rectangle)
+    (phi-rectangle-mode)
+  #+end_src
+  
+
+* Expand region setup
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-=") 'er/expand-region)
+    (global-set-key (kbd "C--") 'er/contract-region)
+  #+end_src
+  
+
+* Drag stuff setup
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "S-<up>") 'drag-stuff-up)
+    (global-set-key (kbd "S-<down>") 'drag-stuff-down)
+    (global-set-key (kbd "S-<left>") 'drag-stuff-left)
+    (global-set-key (kbd "S-<right>") 'drag-stuff-right)
+  #+end_src
+  
+
+* Prompt for user input during macro execution
+  Following was borrowed from [[http://www.emacswiki.org/emacs/KeyboardMacros#toc5][emacswiki]], Pressing ‘C-x Q’ during macro
+  definition will present you with a minibuffer prompt (using
+  recursive edit). Inserting some text and pressing RET will end
+  recursive edit and continue the definition of the macro in the
+  minibuffer. Pressing RET again will insert the entered text at
+  point. If you don’t want to insert the text right away you can
+  instead kill the input at this point (using ‘C-a C-k RET’) and use
+  it later in the macro definition.
+  #+begin_src emacs-lisp
+    (defun my-macro-query (arg)
+      "Prompt for input using minibuffer during kbd macro execution.
+        With prefix argument, allows you to select what prompt string to use.
+        If the input is non-empty, it is inserted at point."
+      (interactive "P")
+      (let* ((prompt (if arg (read-from-minibuffer "PROMPT: ") "Input: "))
+             (input (minibuffer-with-setup-hook (lambda () (kbd-macro-query t))
+                      (read-from-minibuffer prompt))))
+        (unless (string= "" input) (insert input))))
+    (global-set-key "\C-xQ" 'my-macro-query)
+  #+end_src
+  
+
+* Undo tree setup
+** Save and restore undo-tree history along with the buffer
+   #+begin_src emacs-lisp
+     (setq undo-tree-auto-save-history t)
+   #+end_src
+   
+** Compress undo-tree histories
+   #+begin_src emacs-lisp
+     (defadvice undo-tree-make-history-save-file-name
+         (after undo-tree activate)
+       (setq ad-return-value (concat ad-return-value ".gz")))
+   #+end_src
+   
+** Keep the region active when undoing in a region
+   #+begin_src emacs-lisp
+     (defadvice undo-tree-undo (around keep-region activate)
+       (if (use-region-p)
+           (let ((m (set-marker (make-marker) (mark)))
+                 (p (set-marker (make-marker) (point))))
+             ad-do-it
+             (goto-char p)
+             (set-mark m)
+             (set-marker p nil)
+             (set-marker m nil))
+         ad-do-it))
+   #+end_src
+
+** Enable undo-tree globally
+  #+begin_src emacs-lisp
+    (global-undo-tree-mode)
+  #+end_src
+  
+
+* Browse kill ring setup
+** Use default keybindings
+  #+begin_src emacs-lisp
+    (browse-kill-ring-default-keybindings)
+  #+end_src
+  
+** Don't highlight current candidate in kill-ring
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-highlight-inserted-item nil)
+   #+end_src
+   
+
+* Toggle comment region or line if no region is selected
+  #+begin_src emacs-lisp
+    (defun comment-or-uncomment-region-or-line ()
+        "Comments or uncomments the region or the current line if there's no active region."
+        (interactive)
+        (let (beg end)
+            (if (region-active-p)
+                (setq beg (region-beginning) end (region-end))
+                (setq beg (line-beginning-position) end (line-end-position)))
+            (comment-or-uncomment-region beg end)
+            (next-line)))
+    (global-set-key (kbd "M-;") 'comment-or-uncomment-region)
+  #+end_src
+
+
+* Show all lines matching REGEXP in buffers with this major mode. Taken from
+  [[http://www.masteringemacs.org/articles/2011/07/20/searching-buffers-occur-mode/][mastering-emacs]]
+  #+begin_src emacs-lisp
+    (eval-when-compile
+      (require 'cl))
+    
+    ;; Get lines matching REGEXP in all buffers with this major mode
+    (defun get-buffers-matching-mode (mode)
+      "Returns a list of buffers where their major-mode is equal to MODE"
+      (let ((buffer-mode-matches '()))
+        (dolist (buf (buffer-list))
+          (with-current-buffer buf
+            (if (eq mode major-mode)
+                (add-to-list 'buffer-mode-matches buf))))
+        buffer-mode-matches))
+    
+    (defun multi-occur-in-this-mode ()
+      "Show all lines matching REGEXP in buffers with this major mode."
+      (interactive)
+      (multi-occur
+       (get-buffers-matching-mode major-mode)
+       (car (occur-read-primary-args))))
+    
+    (global-set-key (kbd "M-o") 'multi-occur-in-this-mode)
+  #+end_src
+
+
+* Keybindings to highlight text according to regexp
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c h l") 'highlight-lines-matching-regexp)
+    (global-set-key (kbd "C-c h w") 'highlight-regexp)
+    (global-set-key (kbd "C-c h r") 'unhighlight-regexp)
+  #+end_src
+
+
+* Copy/cut current line if no region is selected
+  #+begin_src emacs-lisp
+    (defun copy-line-or-region ()
+      "Copy current line, or current text selection."
+      (interactive)
+      (if (region-active-p)
+          (kill-ring-save (region-beginning) (region-end))
+        (kill-ring-save (line-beginning-position) (line-beginning-position 2)) ) )
+    
+    (defun cut-line-or-region ()
+      "Cut the current line, or current text selection."
+      (interactive)
+      (if (region-active-p)
+          (kill-region (region-beginning) (region-end))
+        (kill-region (line-beginning-position) (line-beginning-position 2)) ) )
+    
+    (global-set-key (kbd "M-w") 'copy-line-or-region)
+    (global-set-key (kbd "C-w") 'cut-line-or-region)
+  #+end_src
+
+
+* Keybinding to join lines
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-j")
+            (lambda ()
+                  (interactive)
+                  (join-line -1)))
+  #+end_src
+
+
+* Keybindings to move quickly
+  Move by then units by using ctrl + shift + [npfb]
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-S-n")
+                    (lambda ()
+                      (interactive)
+                      (ignore-errors (next-line 10))))
+    
+    (global-set-key (kbd "C-S-p")
+                    (lambda ()
+                      (interactive)
+                      (ignore-errors (previous-line 10))))
+    
+    (global-set-key (kbd "C-S-f")
+                    (lambda ()
+                      (interactive)
+                      (ignore-errors (forward-char 10))))
+    
+    (global-set-key (kbd "C-S-b")
+                    (lambda ()
+                      (interactive)
+                      (ignore-errors (backward-char 10))))
+    
+  #+end_src
+  
+  
+
+* Keybinding for duplicate current line or region
+  Duplicate current line if region is not selected else duplicate the region
+  taken from [[http://stackoverflow.com/questions/88399/how-do-i-duplicate-a-whole-line-in-emacs][stackoverflow]].
+  #+begin_src emacs-lisp
+    (defun duplicate-line-or-region (&optional n)
+      "Duplicate current line, or region if active.
+    With argument N, make N copies.
+    With negative N, comment out original line and use the absolute value."
+      (interactive "*p")
+      (let ((use-region (use-region-p)))
+        (save-excursion
+          (let ((text (if use-region        ;Get region if active, otherwise line
+                          (buffer-substring (region-beginning) (region-end))
+                        (prog1 (thing-at-point 'line)
+                          (end-of-line)
+                          (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                              (newline))))))
+            (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+              (insert text))))
+        (if use-region nil                  ;Only if we're working with a line (not a region)
+          (let ((pos (- (point) (line-beginning-position)))) ;Save column
+            (if (> 0 n)                             ;Comment out original with negative arg
+                (comment-region (line-beginning-position) (line-end-position)))
+            (forward-line 1)
+            (forward-char pos)))))
+    
+    (global-set-key (kbd "C-x C-d") 'duplicate-line-or-region)
+  #+end_src
+  
+
+* Convenient functions for opening newlines
+  Typing shift + return anywhere on a line will create a new line below the current
+  line, ctrl + shift + return will open a line above
+  #+begin_src emacs-lisp
+    (defun open-line-below ()
+      (interactive)
+      (end-of-line)
+      (newline)
+      (indent-for-tab-command))
+    
+    (defun open-line-above ()
+      (interactive)
+      (beginning-of-line)
+      (newline)
+      (forward-line -1)
+      (indent-for-tab-command))
+    
+    (global-set-key (kbd "<S-return>") 'open-line-below)
+    (global-set-key (kbd "<C-S-return>") 'open-line-above)
+  #+end_src
+  
+
+* Echo matching paren when it is offscreen
+  #+begin_src emacs-lisp
+    (defadvice show-paren-function
+        (after show-matching-paren-offscreen activate)
+      "If the matching paren is offscreen, show the matching line in the
+          echo area. Has no effect if the character before point is not of
+          the syntax class ')'."
+      (interactive)
+      (let* ((cb (char-before (point)))
+             (matching-text (and cb
+                                 (char-equal (char-syntax cb) ?\) )
+                                 (blink-matching-open))))
+        (when matching-text (message matching-text))))
+  #+end_src
+
+
+* Jump to matching parenthesis
+  #+begin_src emacs-lisp
+      (defun goto-match-paren (arg)
+        "Go to the matching parenthesis if on parenthesis. Else go to the
+         opening parenthesis one level up."
+        (interactive "p")
+        (cond ((looking-at "\\s\(") (forward-list 1))
+              (t
+               (backward-char 1)
+               (cond ((looking-at "\\s\)")
+                      (forward-char 1) (backward-list 1))
+                     (t
+                      (while (not (looking-at "\\s("))
+                        (backward-char 1)
+                        (cond ((looking-at "\\s\)")
+                               (message "->> )")
+                               (forward-char 1)
+                               (backward-list 1)
+                               (backward-char 1)))
+                        ))))))
+    (global-set-key (kbd "C-'") 'goto-match-paren)
+  #+end_src
+
+
+* Kill line backwards
+  #+begin_src emacs-lisp
+    (defun backward-kill-line (arg)
+      "Kill ARG lines backward."
+      (interactive "p")
+      (kill-line (- 1 arg)))
+    
+    (global-set-key (kbd "C-S-k") 'backward-kill-line)
+  #+end_src
+
+  
+* Goto beginning of the line or indentation
+  If we are the begining of the line goto to indentation and vice versa
+  #+begin_src emacs-lisp
+    (defun st2-like-beginning-of-line ()
+      "Go to the position of the first non-whitespace character.
+    If already there, go to actual beginning of line."
+      (interactive)
+      (let ((col (current-column)))
+        (back-to-indentation)
+        (if (= col (current-column)) (move-beginning-of-line nil))))
+    
+    (global-set-key (kbd "C-a") 'st2-like-beginning-of-line)
+  #+end_src
+  
+
+* Use regex searches by default.
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+    (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
+    (global-set-key (kbd "C-M-s") 'isearch-forward)
+    (global-set-key (kbd "C-M-r") 'isearch-backward)
+  #+end_src
+
+
+* Functions to increment and decrement integers at point
+  These were borrowed from prelude
+  #+begin_src emacs-lisp
+    (require 'thingatpt)
+    
+    (defun thing-at-point-goto-end-of-integer ()
+      "Go to end of integer at point."
+      (let ((inhibit-changing-match-data t))
+        ;; Skip over optional sign
+        (when (looking-at "[+-]")
+          (forward-char 1))
+        ;; Skip over digits
+        (skip-chars-forward "[[:digit:]]")
+        ;; Check for at least one digit
+        (unless (looking-back "[[:digit:]]")
+          (error "No integer here"))))
+    (put 'integer 'beginning-op 'thing-at-point-goto-end-of-integer)
+    
+    (defun thing-at-point-goto-beginning-of-integer ()
+      "Go to end of integer at point."
+      (let ((inhibit-changing-match-data t))
+        ;; Skip backward over digits
+        (skip-chars-backward "[[:digit:]]")
+        ;; Check for digits and optional sign
+        (unless (looking-at "[+-]?[[:digit:]]")
+          (error "No integer here"))
+        ;; Skip backward over optional sign
+        (when (looking-back "[+-]")
+          (backward-char 1))))
+    (put 'integer 'beginning-op 'thing-at-point-goto-beginning-of-integer)
+    
+    (defun thing-at-point-bounds-of-integer-at-point ()
+      "Get boundaries of integer at point."
+      (save-excursion
+        (let (beg end)
+          (thing-at-point-goto-beginning-of-integer)
+          (setq beg (point))
+          (thing-at-point-goto-end-of-integer)
+          (setq end (point))
+          (cons beg end))))
+    (put 'integer 'bounds-of-thing-at-point 'thing-at-point-bounds-of-integer-at-point)
+    
+    (defun thing-at-point-integer-at-point ()
+      "Get integer at point."
+      (let ((bounds (bounds-of-thing-at-point 'integer)))
+        (string-to-number (buffer-substring (car bounds) (cdr bounds)))))
+    (put 'integer 'thing-at-point 'thing-at-point-integer-at-point)
+    
+    (defun increment-integer-at-point (&optional inc)
+      "Increment integer at point by one.
+    
+    With numeric prefix arg INC, increment the integer by INC amount."
+      (interactive "p")
+      (let ((inc (or inc 1))
+            (n (thing-at-point 'integer))
+            (bounds (bounds-of-thing-at-point 'integer)))
+        (delete-region (car bounds) (cdr bounds))
+        (insert (int-to-string (+ n inc)))))
+    
+    (defun decrement-integer-at-point (&optional dec)
+      "Decrement integer at point by one.
+    
+    With numeric prefix arg DEC, decrement the integer by DEC amount."
+      (interactive "p")
+      (increment-integer-at-point (- (or dec 1))))
+    
+    (global-set-key (kbd "C-c +") 'increment-integer-at-point)
+    (global-set-key (kbd "C-c -") 'decrement-integer-at-point)
+  #+end_src
