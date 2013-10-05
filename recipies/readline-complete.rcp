@@ -1,0 +1,6 @@
+(:name readline-complete
+       :description "Offers completions in shell mode"
+       :type github
+	   :compile ()
+       :pkgname "monsanto/readline-complete.el"
+       :depends (auto-complete))
