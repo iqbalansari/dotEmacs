@@ -1,0 +1,35 @@
+* Configurations for backup files
+** Write backup files to own directory
+   #+begin_src emacs-lisp
+     (setq backup-directory-alist
+           `(("." . ,(expand-file-name
+                      (concat user-emacs-directory "backups")))))
+     
+     (setq auto-save-file-name-transforms
+           `((".*" ,(concat user-emacs-directory "auto-save/") t)))  
+   #+end_src
+ 
+** Make backups of files, even when they're in version control
+   #+begin_src emacs-lisp
+     (setq vc-make-backup-files t)
+   #+end_src
+   
+** Always use copying to create backup files (don't clobber symlinks)
+   #+begin_src emacs-lisp
+     (setq backup-by-copying t)
+   #+end_src
+   
+** Make numeric backup versions
+   #+begin_src emacs-lisp
+     (setq version-control t)
+   #+end_src
+   
+** Number of oldest versions to keep when a new numbered backup is made
+   #+begin_src emacs-lisp
+     (setq kept-old-versions 0)
+   #+end_src
+   
+** Number of newest versions to keep when a new numbered backup is made
+   #+begin_src emacs-lisp
+     (setq kept-new-versions 20)
+   #+end_src
