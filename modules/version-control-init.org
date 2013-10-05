@@ -1,0 +1,82 @@
+* Ensure that required packages are installed
+  + [[http://magit.github.io/magit/][magit]] - Makes the most git operations convenient 
+  + [[https://github.com/syohex/emacs-git-messenger][git-messenger]] - Popup commit message at current line
+
+  #+begin_src emacs-lisp
+    (defvar iqbal-version-control-packages
+      '(magit
+        git-messenger))
+    
+    (el-get 'sync iqbal-version-control-packages)
+    (require 'magit)
+  #+end_src
+
+  
+* Ignore whitespace in magit
+  The following function enable hiding of whitespace changes in
+  magit status buffer. Copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
+  
+  #+begin_src emacs-lisp
+    (defun magit-toggle-whitespace ()
+      (interactive)
+      (if (member "-w" magit-diff-options)
+          (magit-dont-ignore-whitespace)
+        (magit-ignore-whitespace)))
+    
+    (defun magit-ignore-whitespace ()
+      (interactive)
+      (add-to-list 'magit-diff-options "-w")
+      (magit-refresh))
+    
+    (defun magit-dont-ignore-whitespace ()
+      (interactive)
+      (setq magit-diff-options (remove "-w" magit-diff-options))
+      (magit-refresh))
+  #+end_src
+  
+
+* Show complete git commit message in git-messenger popup
+  #+begin_src emacs-lisp
+    (setq git-messenger:show-detail t)
+  #+end_src
+
+
+* Fullscreen magit
+  Start magit in fullscreen, on exit (from magit) restore 
+  window configuration. Again copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
+
+  #+begin_src emacs-lisp
+    (defadvice magit-status (around magit-fullscreen activate)
+      (window-configuration-to-register :magit-fullscreen)
+      ad-do-it
+      (delete-other-windows))
+    
+    (defun magit-quit-session ()
+      "Restores the previous window configuration and kills the magit buffer"
+      (interactive)
+      (kill-buffer)
+      (jump-to-register :magit-fullscreen))
+  #+end_src
+  
+
+* Function to exit magit-commit-mode
+  
+  #+begin_src emacs-lisp
+    (defun magit-exit-commit-mode ()
+      (interactive)
+      (kill-buffer)
+      (delete-window))
+  #+end_src
+  
+
+* Keybindings
+  
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-x g") 'magit-status)      
+    (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+    (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+    (eval-after-load "git-commit-mode"
+      '(define-key git-commit-mode-map (kbd "C-c C-k") 'magit-exit-commit-mode))
+  #+end_src
+
+  

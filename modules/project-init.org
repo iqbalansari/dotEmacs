@@ -1,0 +1,89 @@
+* Ensure that required packages are installed
+  + [[https://github.com/bbatsov/projectile][projectile]] - Lightweight project interaction library for emacs, provides
+	             handy functions to interact with projects, find files etc
+  + [[https://github.com/pashinin/workgroups2][workgroups2]]- Session manager for emacs, useful for creating workspaces as
+	             well as saving restoring state (open buffers etc) on startup
+
+  #+begin_src emacs-lisp
+    (defvar iqbal-project-packages
+      '(projectile
+        workgroups2))
+    
+    (el-get 'sync iqbal-project-packages)
+  #+end_src
+
+
+* Enable projectile
+  
+  #+begin_src emacs-lisp
+    (projectile-global-mode)
+  #+end_src  
+
+
+* Configurations for projectile
+** Custom projectile-completion taken from [[https://gist.github.com/rejeep/5933343]]
+   #+begin_src emacs-lisp
+     (defun rejeep-projectile-completion-fn (prompt choises)
+       "Projectile completion function that only shows file name.
+           
+          If two files have same name, new completion appears to select between
+          them. These include the path relative to the project root."
+       (interactive)
+       (let* ((stripped-choises
+               (-uniq (--map (file-name-nondirectory (directory-file-name it)) choises)))
+              (choise
+               (ido-completing-read prompt stripped-choises))
+              (matching-files
+               (-filter
+                (lambda (file)
+                  (equal (file-name-nondirectory (directory-file-name file)) choise))
+                choises)))
+         (if (> (length matching-files) 1)
+             (ido-completing-read prompt matching-files)
+           (car matching-files))))
+     
+     (setq projectile-completion-system 'rejeep-projectile-completion-fn)
+   #+end_src
+   
+** Keybindings
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-z f") 'projectile-find-file)
+     (global-set-key (kbd "C-z s") 'projectile-switch-project)
+     (global-set-key (kbd "C-z g") 'projectile-grep)
+   #+end_src
+   
+
+* Workgroups2 configurations
+** Require workgroups2
+   #+begin_src emacs-lisp
+     (require 'workgroups2)
+   #+end_src   
+
+** Save automatically when exiting emacs  
+  #+begin_src emacs-lisp
+    (setq wg-query-for-save-on-emacs-exit nil)
+    (push (lambda()(or (ignore-errors
+                         (wg-update-all-workgroups-and-save)) t))
+          kill-emacs-query-functions)
+  #+end_src
+
+** Key prefix for Workgroups2
+   #+begin_src emacs-lisp
+     (setq wg-prefix-key (kbd "C-z"))    
+   #+end_src
+
+** Display current workgroup in modeline
+   #+begin_src emacs-lisp
+     (setq wg-mode-line-display-on t)
+   #+end_src
+** Restore all buffers in workgroups
+   #+begin_src emacs-lisp
+     (setq wg-restore-associated-buffers t)
+   #+end_src
+
+   
+* Enable workgroups2
+  
+  #+begin_src emacs-lisp
+    (workgroups-mode 1)
+  #+end_src
