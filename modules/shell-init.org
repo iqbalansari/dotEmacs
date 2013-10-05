@@ -1,0 +1,21 @@
+* Install readline-complete to get auto-complete working in term
+  #+begin_src emacs-lisp
+    (el-get 'sync 'readline-complete)
+  #+end_src
+  
+
+* Several settings needed to make readline-complete work
+  #+begin_src emacs-lisp
+    (setq explicit-shell-file-name "bash")
+    (setq explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
+    (setq comint-process-echoes t)
+  #+end_src
+  
+
+* Setup readline-complete
+  #+begin_src emacs-lisp
+    (require 'readline-complete)
+    
+    (add-to-list 'ac-modes 'shell-mode)
+    (add-hook 'shell-mode-hook 'ac-rlc-setup-sources)
+  #+end_src

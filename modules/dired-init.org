@@ -1,0 +1,45 @@
+* Some additional packages for working with dired
+  #+begin_src emacs-lisp
+    (el-get 'sync 'dired-details)
+  #+end_src
+  
+
+* Allow recursive delete, after asking for each directory at top level
+  #+begin_src emacs-lisp
+    (setq dired-recursive-deletes 'top)
+  #+end_src
+  
+
+* Copy recursively without asking
+  #+begin_src emacs-lisp
+    (setq dired-recursive-copies 'always)
+  #+end_src
+  
+
+* When in dired jump to start and end of directory listing (not the dired buffer)
+  #+begin_src emacs-lisp
+    (defun dired-jump-to-bottom ()
+      (interactive)
+      (end-of-buffer)
+      (dired-next-line -1))
+    
+    (defun dired-back-to-top ()
+      (interactive)
+      (beginning-of-buffer)
+      (dired-next-line 4))
+    
+    (define-key dired-mode-map
+      (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+    
+    (define-key dired-mode-map
+      (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
+  #+end_src
+
+
+* Dired-details configuration
+  #+begin_src emacs-lisp
+    (require 'dired-details)
+    (dired-details-install)
+    (setq dired-details-hidden-string "[..] ")
+  #+end_src
+  
