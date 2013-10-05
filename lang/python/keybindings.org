@@ -1,0 +1,31 @@
+* Unbind offending keybindings
+  
+  #+begin_src emacs-lisp
+    (local-unset-key (kbd "C-c r"))
+  #+end_src
+
+
+* Set keybindings for jumping to definition
+  
+  #+begin_src emacs-lisp
+    (local-set-key iqbal-jump-to-definition 'jedi:goto-definition)
+    (local-set-key iqbal-pop-jump-to-definition-marker 'jedi:goto-definition-pop-marker)
+    (local-set-key iqbal-show-doc 'jedi:show-doc)
+  #+end_src
+  
+
+* Set keybindings for refactoring
+
+  #+begin_src emacs-lisp
+    (local-set-key iqbal-refactor-rename 'rope-rename)
+    (local-set-key iqbal-refactor-auto-import 'rope-auto-import)
+    (local-set-key iqbal-refactor-organize-imports 'rope-organize-imports)  
+  #+end_src
+
+
+* Set keybindings for moving around functions
+
+  #+begin_src emacs-lisp
+    (local-set-key iqbal-beginning-of-def 'py-beginning-of-def)
+    (local-set-key iqbal-end-of-def 'py-end-of-def)
+  #+end_src
