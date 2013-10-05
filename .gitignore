@@ -1,0 +1,8 @@
+el-get/
+eshell/
+auto-save-list/
+elpa/
+lang/*/*.el
+backups/
+auto-save/
+*~undo-tree~.gz
