@@ -1,0 +1,83 @@
+* Ensure that autocomplete is installed
+
+  #+BEGIN_SRC emacs-lisp
+    (el-get 'sync 'auto-complete)
+  #+END_SRC
+
+
+* Require auto-complete 
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'auto-complete)
+    (require 'auto-complete-config)
+  #+END_SRC
+
+
+* Auto-complete dictionaries
+
+  #+BEGIN_SRC emacs-lisp
+    (add-to-list 'ac-dictionary-directories "~/.emacs.d/el-get/autocomplete/ac-dict")
+  #+END_SRC
+
+
+* Auto-complete configurations
+** Set default sources for autocomplete
+
+  #+BEGIN_SRC emacs-lisp
+    (setq-default ac-sources (append ac-sources '(ac-source-yasnippet
+                                                  ac-source-imenu
+                                                  ac-source-abbrev
+                                                  ac-source-words-in-same-mode-buffers
+                                                  ac-source-filename)))
+  #+END_SRC
+
+** How sensitive is autocompletion
+
+   #+BEGIN_SRC emacs-lisp
+     (setq ac-auto-start 2)
+     (setq ac-auto-show-menu 0.5)
+   #+END_SRC
+   
+** Show help when auto-completing
+
+   #+BEGIN_SRC emacs-lisp
+     (setq ac-persist-help t)
+     (setq ac-set-quick-help-timer 0.5)
+   #+END_SRC
+
+** Enable fuzzy completion
+
+   #+BEGIN_SRC emacs-lisp
+     (setq ac-use-fuzzy t)
+   #+END_SRC
+
+** Enable menu mode-map when autocomplete menu is displayed
+
+   #+BEGIN_SRC emacs-lisp
+     (setq ac-use-menu-map t)
+   #+END_SRC
+
+** Trigger key
+
+   #+BEGIN_SRC emacs-lisp
+     (ac-set-trigger-key "TAB")
+   #+END_SRC
+   
+** Display completion correctly
+   
+   #+BEGIN_SRC emacs-lisp
+     (setq popup-use-optimized-column-computation nil)
+   #+END_SRC
+   
+** Use auto-complete with flyspell
+   #+begin_src emacs-lisp
+     (ac-flyspell-workaround)
+   #+end_src
+   
+   
+* Enable autocomplete mode globally
+  
+  #+BEGIN_SRC emacs-lisp
+     (global-auto-complete-mode)
+  #+END_SRC
+  
