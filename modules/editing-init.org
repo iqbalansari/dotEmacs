@@ -1,13 +1,13 @@
 * Install some useful packages
-  + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
-  + [[http://www.dr-qubit.org/undo-tree/undo-tree-0.6.4.el][undo-tree]] - Represents your undo history as a tree and provides some really useful features
-  + [[https://github.com/browse-kill-ring/browse-kill-ring][browse-kill-ring]] - Useful package for interacting with the kill ring visually
-  + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
-  + [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] - Multiple cursors for emacs.
-  + [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
-  + [[https://github.com/zk-phi/phi-rectangle][phi-rectangle]] - Another rectangle command
-  + [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
-  + [[https://github.com/rejeep/drag-stuff][drag-stuff]] - Drag stuff (lines, words, region) around in Emacs
++ [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
++ [[http://www.dr-qubit.org/undo-tree/undo-tree-0.6.4.el][undo-tree]] - Represents your undo history as a tree and provides some really useful features
++ [[https://github.com/browse-kill-ring/browse-kill-ring][browse-kill-ring]] - Useful package for interacting with the kill ring visually
++ [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
++ [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] - Multiple cursors for emacs.
++ [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
++ [[https://github.com/zk-phi/phi-rectangle][phi-rectangle]] - Another rectangle command
++ [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
++ [[https://github.com/rejeep/drag-stuff][drag-stuff]] - Drag stuff (lines, words, region) around in Emacs
 
 	#+begin_src emacs-lisp
       (defvar iqbal-editing-packages
@@ -122,6 +122,7 @@
 ** Save and restore undo-tree history along with the buffer
    #+begin_src emacs-lisp
      (setq undo-tree-auto-save-history t)
+     (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-hist")))
    #+end_src
    
 ** Compress undo-tree histories
