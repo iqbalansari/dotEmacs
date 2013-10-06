@@ -25,6 +25,12 @@
 	#+end_src   
 
 
+* Replace selected region with typed text
+  #+begin_src emacs-lisp
+    (delete-selection-mode)
+  #+end_src
+  
+
 * Ace Jump mode setup
   Binding for jumping to character and line, 'jumping to word'
   is bound to a 'key-chord' in later section
