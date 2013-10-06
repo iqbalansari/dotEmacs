@@ -128,8 +128,8 @@
 * Highlight changes in the buffer
 ** Configuration for highlight changes mode
   #+begin_src emacs-lisp
-    (global-highlight-changes-mode t)
     (setq highlight-changes-visibility-initial-state nil)
+    (global-highlight-changes-mode t)
     (set-face-foreground 'highlight-changes nil)
     (set-face-background 'highlight-changes "#382f2f")
     (set-face-foreground 'highlight-changes-delete nil)
