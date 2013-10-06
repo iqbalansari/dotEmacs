@@ -1,11 +1,11 @@
 * Ensure that the required packages are installed
-  + [[https://github.com/mooz/js2-mode][js2-mode]]     -  Improved JavaScript editing mode for GNU Emacs can be used
-                    along vanilla Emacs js-mode as a minor mode and provide error
-	                checking
+  + [[https://github.com/mooz/js2-mode][js2-mode]]     -  Improved JavaScript editing mode for GNU Emacs can be used along
+  vanilla Emacs js-mode as a minor mode and provide error
+  checking
   + [[http://ternjs.net/][ternjs]]       -  Standalone code analysis engine for Javascript, can provide intelligent
-	                autocompletion and refactorings
+    autocompletion and refactorings
   + [[https://github.com/ananthakumaran/jquery-doc.el][jquery-doc]]   -  jQuery api documentation interface for emacs
-	
+    
   + [[https://github.com/magnars/js2-refactor.el][js2-refactor]] -  A JavaScript refactoring library for emacs
 	
 
