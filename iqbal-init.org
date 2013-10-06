@@ -7,24 +7,24 @@
   #+end_src
 
 ** 2. Path to 'lang'uage specific configurations
-   Modules contain the configuration related to one specific type of file.
+   Lang contain the configuration related to one specific type of file.
    They reside in the following directory
    #+begin_src emacs-lisp
-     (defvar iqbal-modules-dir "~/.emacs.d/lang/")
+     (defvar iqbal-langs-dir "~/.emacs.d/lang/")
    #+end_src
 
-** 3. Function to load module
-   A simple helper function to load a particular module
+** 3. Function to load lang
+   A simple helper function to load a particular lang
    #+begin_src emacs-lisp
-     (defun iqbal-load-module (language)
-	   (let ((module-path (concat iqbal-modules-dir language "/"))
+     (defun iqbal-load-lang (language)
+	   (let ((lang-path (concat iqbal-langs-dir language "/"))
 			 (load-if-present #'(lambda (file)
 								(if (file-exists-p file)
 									(org-babel-load-file file))))
 			 (files-to-load '("install.org" "setup.org" "keybindings.org")))
 		 (dolist (file files-to-load t) 
 		   (funcall load-if-present 
-					(concat module-path file)))))
+					(concat lang-path file)))))
    #+end_src
    
 
