@@ -1,6 +1,5 @@
 (:name workgroups2
-:auto-generated t
-:type elpa
-:description "New workspaces for Emacs [github]"
-:repo ("melpa" . "http://melpa.milkbox.net/packages/")
-)
+       :type github
+       :pkgname "pashinin/workgroups2"
+       :load-path "src"
+       :description "New workspaces for Emacs [github]")
