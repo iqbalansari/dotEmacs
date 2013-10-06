@@ -152,7 +152,7 @@
 
    The libaries are loaded by the file 'lib/init.el'
    #+begin_src emacs-lisp
-       (load-file "~/.emacs.d/modules/init.el")
+     (org-babel-load-file "~/.emacs.d/modules/modules-init.org")
    #+end_src
    
 

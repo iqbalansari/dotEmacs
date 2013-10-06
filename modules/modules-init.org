@@ -1,0 +1,25 @@
+* Function to load modules
+  #+begin_src emacs-lisp
+    (defvar iqbal-modules-dir "~/.emacs.d/modules/")
+    
+    (defun iqbal-load-module (module)
+      (let ((module-file (concat iqbal-modules-dir module "-init.org")))
+        (org-babel-load-file module-file)))
+  #+end_src
+
+* Load the desired modules
+  #+begin_src emacs-lisp
+    (iqbal-load-module "auto-complete")
+    (iqbal-load-module "backup")
+    (iqbal-load-module "dired")
+    (iqbal-load-module "editing")
+    (iqbal-load-module "folding")
+    (iqbal-load-module "ido")
+    (iqbal-load-module "parenthesis")
+    (iqbal-load-module "project")
+    (iqbal-load-module "shell")
+    (iqbal-load-module "utilities")
+    (iqbal-load-module "version-control")
+    (iqbal-load-module "yasnippet")
+  #+end_src
+  
