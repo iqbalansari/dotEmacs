@@ -17,14 +17,14 @@
    A simple helper function to load a particular lang
    #+begin_src emacs-lisp
      (defun iqbal-load-lang (language)
-	   (let ((lang-path (concat iqbal-langs-dir language "/"))
-			 (load-if-present #'(lambda (file)
-								(if (file-exists-p file)
-									(org-babel-load-file file))))
-			 (files-to-load '("install.org" "setup.org" "keybindings.org")))
-		 (dolist (file files-to-load t) 
-		   (funcall load-if-present 
-					(concat lang-path file)))))
+       (let ((lang-path (concat iqbal-langs-dir language "/"))
+             (load-if-present #'(lambda (file)
+                                  (if (file-exists-p file)
+                                      (org-babel-load-file file))))
+             (files-to-load '("install.org" "setup.org" "keybindings.org")))
+         (dolist (file files-to-load t) 
+           (funcall load-if-present 
+                    (concat lang-path file)))))
    #+end_src
    
 
@@ -159,8 +159,6 @@
 * Configure loading of the major modes
 ** Python
   #+begin_src emacs-lisp
-    (el-get 'sync 'python-mode)
-    (require 'python-mode)
     (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
     (add-hook 'python-mode-hook (lambda ()
                                   (iqbal-load-lang "python")))

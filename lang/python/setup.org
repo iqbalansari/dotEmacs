@@ -1,17 +1,3 @@
-* Configurations for the python-mode
-  python-mode has a *lot* of configuration options, trying out a few of them
-  will try out others someday
-
-  #+begin_src emacs-lisp
-    (setq py-modeline-display-full-path-p t)
-    (setq py-fontify-shell-buffer-p t)
-    (setq py-hide-show-minor-mode-p t)
-    (setq py-org-cycle-p t)
-    (setq py-imenu-create-index-p t)
-    (setq py-highlight-error-source-p t)
-  #+end_src
-
-  
 * Setup Jedi for autocompletion
 ** Configuration
   Automatically start completion after inserting a dot
