@@ -1,10 +1,10 @@
 * Ensure that the required packages are installed
-  + [[https://launchpad.net/python-mode/][python-mode.el]] - An alternative to python.el which ships with Emacs,  developed 
++ [[https://launchpad.net/python-mode/][python-mode.el]] - An alternative to python.el which ships with Emacs,  developed 
   by python community and has more features, I am really not sure which is better so
   just trying this one out
-  + [[http://tkf.github.io/emacs-jedi/][jedi]] - Python auto-completion for Emacs. It is faster than other alternatives 
++ [[http://tkf.github.io/emacs-jedi/][jedi]] - Python auto-completion for Emacs. It is faster than other alternatives 
   and just works
-  + [[http://rope.sourceforge.net/ropemacs.html][ropemacs]] - A plugin to perform python refactorings in emacs
++ [[http://rope.sourceforge.net/ropemacs.html][ropemacs]] - A plugin to perform python refactorings in emacs
 
   #+begin_src emacs-lisp
     (defvar iqbal-python-packages

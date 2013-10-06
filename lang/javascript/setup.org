@@ -1,6 +1,5 @@
 * Configurations for js-mode
-  Use 4 spaces for indentation
-  
+  Use 4 spaces for indentation  
   #+begin_src emacs-lisp
       (setq js-indent-level 4)
   #+end_src
@@ -24,7 +23,7 @@
    #+end_src
 
    
-* Setup error checking
+* Setup syntax checking
 ** js2-mode provide awesome error highlighting plus warnings
   
   #+begin_src emacs-lisp
@@ -48,6 +47,7 @@
 
   ;; (setenv "NODE_NO_READLINE" "1")
   #+end_src
+
 
 * Use js-beautify to cleanup messy javascript :IMPROVE:
   This can be also be used for reformatting JSON files for viewing them
