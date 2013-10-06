@@ -163,14 +163,14 @@
     (require 'python-mode)
     (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
     (add-hook 'python-mode-hook (lambda ()
-                                  (iqbal-load-module "python")))
+                                  (iqbal-load-lang "python")))
   #+end_src
 
 ** Javascript
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
      (add-hook 'js-mode-hook (lambda ()
-                               (iqbal-load-module "javascript")))
+                               (iqbal-load-lang "javascript")))
    #+end_src
 
 ** HTML mode
@@ -178,7 +178,7 @@
      (el-get 'sync 'web-mode)
      (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
      (add-hook 'web-mode-hook (lambda ()
-                                   (iqbal-load-module "html")))
+                                   (iqbal-load-lang "html")))
    #+end_src  
    
 
