@@ -41,6 +41,23 @@
      (setq ido-enable-flex-matching t)
    #+end_src
 
+** Use ~ to jump to home directly or emacs init directory in ido-find-file
+   #+begin_src emacs-lisp
+     (add-hook 'ido-setup-hook
+               (lambda ()
+                 ;; Go straight home
+                 (define-key ido-file-completion-map
+                   (kbd "~")
+                   (lambda ()
+                     (interactive)
+                                     (if (looking-back "~/")
+                         (insert ".emacs.d/")
+                       (if (looking-back "/")
+                           (insert "~/")
+                         (call-interactively 'self-insert-command)))))))     
+   #+end_src
+   
+
 ** Keybindings
    Keybinding for idomenu
    #+begin_src emacs-lisp
