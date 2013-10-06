@@ -48,8 +48,6 @@
        (define-key function-key-map [escape] nil)
        (define-key function-key-map [?\e] nil))
    #+end_src
-   
-  (global-unset-key "\C-z"))
 
 ** Unset C-z, I don't find it useful
    #+begin_src emacs-lisp
