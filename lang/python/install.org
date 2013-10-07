@@ -1,11 +1,13 @@
 * Ensure that the required packages are installed
 + [[http://tkf.github.io/emacs-jedi/][jedi]] - Python auto-completion for Emacs. It is faster than other alternatives 
   and just works
++ [[www.github.com/pinard/Pymacs][pymacs]] - Interface between emacs-lisp and python, need by rope
 + [[http://rope.sourceforge.net/ropemacs.html][ropemacs]] - A plugin to perform python refactorings in emacs
 
   #+begin_src emacs-lisp
     (defvar iqbal-python-packages
      '(jedi
+       pymacs
        ropemacs
        ))
     (el-get 'sync iqbal-python-packages)
