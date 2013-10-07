@@ -9,6 +9,8 @@
 ** Load ternjs
    
    #+begin_src emacs-lisp
+     (when (eq system-type 'windows-nt)
+       (setq tern-command (list "node" (concat iqbal-home-dir "el-get/tern/bin/tern"))))
      (autoload 'tern-mode "tern.el" nil t)
      (tern-mode t)
    #+end_src
