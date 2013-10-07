@@ -34,7 +34,7 @@
   #+begin_src emacs-lisp
     (require 'auto-yasnippet)
     (global-set-key (kbd "<S-f3>") 'aya-create)
-    (global-set-key (kbd "<f4>") 'aya-expand)
+    (global-set-key (kbd "<S-f4>") 'aya-expand)
     (setq-default yas-fallback-behavior 'call-other-command)
   #+end_src
   
