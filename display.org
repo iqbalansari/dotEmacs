@@ -148,7 +148,7 @@
   #+begin_src emacs-lisp
     (show-paren-mode t)
     (setq show-paren-delay 0)
-    (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold)
+    (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold :background nil)
     (setq show-paren-style 'expression)
   #+end_src
   
@@ -200,7 +200,12 @@
      (setq blink-cursor-interval 1)
    #+end_src
 
-
+** Color for cursor
+   #+begin_src emacs-lisp
+     (set-cursor-color "#ffffff")
+   #+end_src
+   
+   
 * Change the cursor display according to minor modes
   #+begin_src emacs-lisp
     (setq my-set-cursor-color-color "")
@@ -216,6 +221,8 @@
                      (string= (buffer-name) my-set-cursor-color-buffer))
           (set-cursor-color (setq my-set-cursor-color-color color))
           (setq my-set-cursor-color-buffer (buffer-name)))))
+     
+    (add-hook 'post-command-hook 'my-set-cursor-color-according-to-mode)
   #+end_src
 
   
