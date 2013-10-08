@@ -19,3 +19,13 @@
     (add-to-list 'ac-modes 'shell-mode)
     (add-hook 'shell-mode-hook 'ac-rlc-setup-sources)
   #+end_src
+
+* Set C-x as the prefix command rather than C-c also set keybindings to copy and yank in the term
+  #+begin_src emacs-lisp
+    (add-hook 'term-mode-hook
+              (lambda ()
+                ;; C-x is the prefix command, rather than C-c
+                (term-set-escape-char ?\C-x)
+                (define-key term-raw-map "\M-y" 'yank-pop)
+                (define-key term-raw-map "\M-w" 'kill-ring-save)))
+  #+end_src
