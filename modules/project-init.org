@@ -57,6 +57,7 @@
 ** Require workgroups2
    #+begin_src emacs-lisp
      (require 'workgroups2)
+     (setq wg-use-default-session-file nil)
    #+end_src   
 
 ** Save automatically when exiting emacs  
