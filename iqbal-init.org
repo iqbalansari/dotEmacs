@@ -1,5 +1,11 @@
 * Declare global variables and utility functions
   Set global variables to be used in the rest of the intialization
+** 1. The full path to emacs.d
+   This is needed sometimes (eg. for ternjs on windows)
+   #+begin_src emacs-lisp
+     (defvar iqbal-home-dir (concat (expand-file-name "~/.emacs.d/")))
+   #+end_src
+   
 ** 1. Path to 'non-el-get' packages
   Packages not currently installable via el-get reside in this directory
   #+begin_src emacs-lisp
