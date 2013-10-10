@@ -1,0 +1,4 @@
+(:name emmet
+       :description "Unofficial emmet's support for"
+       :type github
+       :pkgname "smihica/emmet-mode")
