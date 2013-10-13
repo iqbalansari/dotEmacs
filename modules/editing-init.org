@@ -121,15 +121,17 @@
 * Undo tree setup
 ** Save and restore undo-tree history along with the buffer
    #+begin_src emacs-lisp
-     (setq undo-tree-auto-save-history t)
-     (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-hist")))
+     (unless (eq system-type 'windows-nt)
+           (setq undo-tree-auto-save-history t)
+           (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-hist"))))
    #+end_src
    
 ** Compress undo-tree histories
    #+begin_src emacs-lisp
-     (defadvice undo-tree-make-history-save-file-name
-         (after undo-tree activate)
-       (setq ad-return-value (concat ad-return-value ".gz")))
+     (unless (eq system-type 'windows-nt)
+         (defadvice undo-tree-make-history-save-file-name
+           (after undo-tree activate)
+           (setq ad-return-value (concat ad-return-value ".gz"))))
    #+end_src
    
 ** Keep the region active when undoing in a region

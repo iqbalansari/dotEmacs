@@ -25,8 +25,8 @@
    2. Enable autoimport and specify the modules that will we autoimported
 
    #+begin_src emacs-lisp
-	  (setq ropemacs-enable-autoimport t)
-      (setq ropemacs-autoimport-modules '("os" "shutil")) 
+     (setq ropemacs-enable-autoimport t)
+     (setq ropemacs-autoimport-modules '("os" "shutil")) 
    #+end_src
    
 ** Start ropemacs
@@ -87,5 +87,5 @@
   2. Expand folded region when searching
 
   #+begin_src emacs-lisp 
-	 (setq hs-isearch-open t)
+    (setq hs-isearch-open t)
   #+end_src
