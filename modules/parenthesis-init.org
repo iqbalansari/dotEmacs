@@ -16,12 +16,17 @@
   #+end_src
 
 
-* Do not use smartparens with python-mode autopair works better with python-mode
+* Diable smartparens in some modes
+** Do not use smartparens with python-mode autopair works better with python-mode
   #+begin_src emacs-lisp
-    (setq sp-ignore-modes-list
-      (cons 'python-mode sp-ignore-modes-list))
+    (add-to-list 'sp-ignore-modes-list 'python-mode)
   #+end_src
 
+** We don't need smartparens in RE builder
+   #+begin_src emacs-lisp
+     (add-to-list 'sp-ignore-modes-list 'reb-mode)
+   #+end_src
+   
 
 * Additional pairs for web-mode and html modes
   #+begin_src emacs-lisp
