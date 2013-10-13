@@ -152,16 +152,6 @@
    #+end_src
    
 
-* Load common libraries
-   These are general purpose libraries that can are used
-   by different modes
-
-   The libaries are loaded by the file 'modules/modules-init.org'
-   #+begin_src emacs-lisp
-     (org-babel-load-file "~/.emacs.d/modules/modules-init.org")
-   #+end_src
-   
-
 * Configure loading of the major modes
 ** Python
   #+begin_src emacs-lisp
@@ -184,6 +174,16 @@
      (add-hook 'web-mode-hook (lambda ()
                                    (iqbal-load-lang "html")))
    #+end_src  
+   
+
+* Load common libraries
+   These are general purpose libraries that can are used
+   by different modes
+
+   The libaries are loaded by the file 'modules/modules-init.org'
+   #+begin_src emacs-lisp
+     (org-babel-load-file "~/.emacs.d/modules/modules-init.org")
+   #+end_src
    
 
 * Initialize display
