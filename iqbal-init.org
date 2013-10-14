@@ -83,8 +83,8 @@
 ** Jumping to definitions
 
    #+begin_src emacs-lisp
-     (defvar iqbal-jump-to-definition (kbd "M-."))
-     (defvar iqbal-pop-jump-to-definition-marker (kbd "M-,"))
+     (defvar iqbal-jump-to-definition (kbd "C-."))
+     (defvar iqbal-pop-jump-to-definition-marker (kbd "C-,"))
    #+end_src
    
 ** Displaying doc
