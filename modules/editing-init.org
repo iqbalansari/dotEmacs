@@ -1,6 +1,7 @@
 * Install some useful packages
 + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
 + [[http://www.dr-qubit.org/undo-tree/undo-tree-0.6.4.el][undo-tree]] - Represents your undo history as a tree and provides some really useful features
++ [[http://www.emacswiki.org/cgi-bin/wiki/goto-last-change.el][goto-last-change]] - Move point through buffer-undo-list positions
 + [[https://github.com/browse-kill-ring/browse-kill-ring][browse-kill-ring]] - Useful package for interacting with the kill ring visually
 + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
 + [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] - Multiple cursors for emacs.
@@ -10,18 +11,19 @@
 + [[https://github.com/rejeep/drag-stuff][drag-stuff]] - Drag stuff (lines, words, region) around in Emacs
 
 	#+begin_src emacs-lisp
-      (defvar iqbal-editing-packages
-        '(ace-jump-mode
-          undo-tree
-          browse-kill-ring
-          key-chord
-          multiple-cursors
-          tiny
-          phi-rectangle
-          expand-region
-          drag-stuff))
-      
-      (el-get 'sync iqbal-editing-packages)  
+          (defvar iqbal-editing-packages
+            '(ace-jump-mode
+              undo-tree
+              goto-last-change
+              browse-kill-ring
+              key-chord
+              multiple-cursors
+              tiny
+              phi-rectangle
+              expand-region
+              drag-stuff))
+          
+          (el-get 'sync iqbal-editing-packages)  
 	#+end_src   
 
 
@@ -469,3 +471,9 @@
     (global-set-key (kbd "C-c +") 'increment-integer-at-point)
     (global-set-key (kbd "C-c -") 'decrement-integer-at-point)
   #+end_src
+
+* Keybinding for jumping to last change
+  #+begin_src emacs-lisp
+    (global-set-key "\C-x\C-\\" 'goto-last-change)    
+  #+end_src
+  
