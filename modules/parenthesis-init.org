@@ -119,6 +119,6 @@
     (define-key sp-keymap (kbd "<C-left_bracket>") 'sp-select-previous-thing)
     (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing)
     
-    (define-key sp-keymap (kbd "C-M-]") 'sp-add-to-next-sexp)
-    (define-key sp-keymap (kbd "C-M-[") 'sp-add-to-previous-sexp)
+    (define-key sp-keymap (kbd "C-M->") 'sp-add-to-next-sexp)
+    (define-key sp-keymap (kbd "C-M-<") 'sp-add-to-previous-sexp)
   #+end_src
