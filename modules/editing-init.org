@@ -59,8 +59,9 @@
 * Multiple cursors setup
   Keybindings for multiple cursors
   #+begin_src emacs-lisp
-    (global-set-key (kbd "M-m") 'mc/mark-more-like-this-extended)
-    (global-set-key (kbd "<C-M-return>") 'mc/mark-all-like-this-dwim)
+    (global-set-key (kbd "C-S-m") 'mc/mark-more-like-this-extended)
+    (global-set-key (kbd "C-S-l") 'mc/edit-lines)
+    (global-set-key (kbd "C-S-c") 'mc/mark-all-like-this-dwim)
     (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
   #+end_src
   
@@ -472,8 +473,9 @@
     (global-set-key (kbd "C-c -") 'decrement-integer-at-point)
   #+end_src
 
+
 * Keybinding for jumping to last change
   #+begin_src emacs-lisp
-    (global-set-key "\C-x\C-\\" 'goto-last-change)    
+    (global-set-key (kbd "C-x C-/") 'goto-last-change)
   #+end_src
   
