@@ -111,14 +111,14 @@
     (define-key sp-keymap (kbd "C-}") 'sp-splice-sexp-killing-backward)
     (define-key sp-keymap (kbd "C-M-|") 'sp-splice-sexp-killing-around)
     
-    (define-key sp-keymap (kbd "C-M-<right>") 'sp-forward-slurp-sexp)
-    (define-key sp-keymap (kbd "C-M-S-<right>") 'sp-backward-slurp-sexp)
-    (define-key sp-keymap (kbd "C-M-<left>") 'sp-forward-barf-sexp)
-    (define-key sp-keymap (kbd "C-M-S-<left>") 'sp-backward-barf-sexp)
+    (define-key sp-keymap (kbd "C-M->") 'sp-forward-slurp-sexp)
+    (define-key sp-keymap (kbd "C-M-<") 'sp-backward-slurp-sexp)
+    (define-key sp-keymap (kbd "C-M-.") 'sp-forward-barf-sexp)
+    (define-key sp-keymap (kbd "C-M-,") 'sp-backward-barf-sexp)
     
     (define-key sp-keymap (kbd "<C-left_bracket>") 'sp-select-previous-thing)
     (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing)
     
-    (define-key sp-keymap (kbd "C-M->") 'sp-add-to-next-sexp)
-    (define-key sp-keymap (kbd "C-M-<") 'sp-add-to-previous-sexp)
+    (define-key sp-keymap (kbd "C->") 'sp-add-to-next-sexp)
+    (define-key sp-keymap (kbd "C-<") 'sp-add-to-previous-sexp)
   #+end_src

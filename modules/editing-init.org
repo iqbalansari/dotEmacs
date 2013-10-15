@@ -476,6 +476,6 @@
 
 * Keybinding for jumping to last change
   #+begin_src emacs-lisp
-    (global-set-key "\C-x\C-\\" 'goto-last-change)    
+    (global-set-key (kbd "C-x C-/") 'goto-last-change)
   #+end_src
   
