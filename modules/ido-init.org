@@ -3,16 +3,17 @@
           built-in flex matching.
   + [[www.github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] - Use ido (nearly) everywhere
   + [[www.github.com/nonsequitur/smex][smex]]- M-x interface with Ido-style fuzzy matching.
-  + [[][idomenu]] - imenu tag selection a la ido
+  + [[http://www.emacswiki.org/emacs/download/idomenu.el][idomenu]] - imenu tag selection a la ido
 
   #+begin_src emacs-lisp
-      (defvar iqbal-ido-packages
-        '(flx
-          ido-ubiquitous
-          smex))
-      
-      (el-get 'sync iqbal-ido-packages)
-	#+end_src
+    (defvar iqbal-ido-packages
+      '(flx
+        ido-ubiquitous
+        idomenu
+        smex))
+    
+    (el-get 'sync iqbal-ido-packages)
+  #+end_src
   
 	
 * Ido setup
