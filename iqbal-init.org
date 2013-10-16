@@ -83,8 +83,8 @@
 ** Jumping to definitions
 
    #+begin_src emacs-lisp
-     (defvar iqbal-jump-to-definition (kbd "C-."))
-     (defvar iqbal-pop-jump-to-definition-marker (kbd "C-,"))
+     (defvar iqbal-jump-to-definition (kbd "M-."))
+     (defvar iqbal-pop-jump-to-definition-marker (kbd "M-,"))
    #+end_src
    
 ** Displaying doc
@@ -99,13 +99,6 @@
      (defvar iqbal-refactor-rename (kbd "C-c r"))
      (defvar iqbal-refactor-auto-import (kbd "C-c i"))
      (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
-   #+end_src
-
-** Moving around functions
-   
-   #+begin_src emacs-lisp     
-     (defvar iqbal-beginning-of-def (kbd "M-\S-a"))
-     (defvar iqbal-end-of-def (kbd "M-\S-e"))
    #+end_src
 
 
