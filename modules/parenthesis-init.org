@@ -1,10 +1,9 @@
 * Packages for working with paranthesis
-  + [[https://github.com/Fuco1/smartparens][smartparens]] - A very package for working with parenthesis. Alongwith providing
-	              regular features like autopairing, it also provides function for 
-	              naviagation and manipulation of parenthesis. However, python support
-                  is somewhat lacking.
+  + [[https://github.com/Fuco1/smartparens][smartparens]] - A very useful package for working with parenthesis. Alongwith providing
+  regular features like autopairing, it also provides function for naviagation and
+  manipulation of parenthesis. However, python support is somewhat lacking.
   + [[https://github.com/capitaomorte/autopair][autopairs]] - Package for automatically pairing braces and quotes. Has better support
-	            python.
+  python.
 
   #+begin_src emacs-lisp
     (defvar iqbal-paranthesis-packages
@@ -55,9 +54,16 @@
     (setq sp-navigate-consider-sgml-tags
           (cons 'web-mode sp-navigate-consider-sgml-tags))
   #+end_src
+
+
+* Treat expression with same opening and closing delimiter as sexp
+  #+begin_src emacs-lisp
+    (add-to-list 'sp-navigate-consider-stringlike-sexp 'web-mode)
+  #+end_src
+  
   
 
-* Wrapping with tags in web-modex
+* Wrapping with tags in web-mode
   #+begin_src emacs-lisp
     (sp-local-tag '(sgml-mode web-mode html-mode) "<" "<_>" "</_>" :transform 'sp-match-sgml-tags)
   #+end_src
@@ -103,16 +109,16 @@
     (define-key sp-keymap (kbd "C-M-s") 'sp-splice-sexp)
     (define-key sp-keymap (kbd "C-{") 'sp-splice-sexp-killing-forward)
     (define-key sp-keymap (kbd "C-}") 'sp-splice-sexp-killing-backward)
-    (define-key sp-keymap (kbd "C-M-\\") 'sp-splice-sexp-killing-around)
+    (define-key sp-keymap (kbd "C-M-|") 'sp-splice-sexp-killing-around)
     
-    (define-key sp-keymap (kbd "C-M-<right>") 'sp-forward-slurp-sexp)
-    (define-key sp-keymap (kbd "C-M-S-<right>") 'sp-backward-slurp-sexp)
-    (define-key sp-keymap (kbd "C-M-<left>") 'sp-forward-barf-sexp)
-    (define-key sp-keymap (kbd "C-M-S-<left>") 'sp-backward-barf-sexp)
+    (define-key sp-keymap (kbd "C-M->") 'sp-forward-slurp-sexp)
+    (define-key sp-keymap (kbd "C-M-<") 'sp-backward-slurp-sexp)
+    (define-key sp-keymap (kbd "C-M-.") 'sp-forward-barf-sexp)
+    (define-key sp-keymap (kbd "C-M-,") 'sp-backward-barf-sexp)
     
     (define-key sp-keymap (kbd "<C-left_bracket>") 'sp-select-previous-thing)
     (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing)
     
-    (define-key sp-keymap (kbd "C-M-]") 'sp-add-to-next-sexp)
-    (define-key sp-keymap (kbd "C-M-[") 'sp-add-to-previous-sexp)
+    (define-key sp-keymap (kbd "C->") 'sp-add-to-next-sexp)
+    (define-key sp-keymap (kbd "C-<") 'sp-add-to-previous-sexp)
   #+end_src

@@ -3,12 +3,15 @@
   and just works
 + [[www.github.com/pinard/Pymacs][pymacs]] - Interface between emacs-lisp and python, need by rope
 + [[http://rope.sourceforge.net/ropemacs.html][ropemacs]] - A plugin to perform python refactorings in emacs
-
++ [[https://bitbucket.org/jonwaltman/pydoc-info][pydoc-info]] - Emacs package for searching Python documentation in Info
++ [[https://bitbucket.org/durin42/nosemacs][nosemacs]] - Emacs extension to provide easy nosetest integration.
   #+begin_src emacs-lisp
     (defvar iqbal-python-packages
      '(jedi
        pymacs
        ropemacs
+       pydoc-info
+       nose
        ))
     (el-get 'sync iqbal-python-packages)
   #+end_src
