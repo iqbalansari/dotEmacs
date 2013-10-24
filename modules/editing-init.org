@@ -474,3 +474,11 @@
     (global-set-key (kbd "M-n") 'next-error)
     (global-set-key (kbd "M-p") 'previous-error)
   #+end_src
+
+* In isearch select the whole word at point by pressing C-W
+  #+begin_src emacs-lisp
+    (defadvice isearch-yank-word-or-char (before move-to-beginning-of-word)
+      (unless (eq last-command this-command)
+        (goto-char (car (bounds-of-thing-at-point 'word)))))
+  #+end_src
+  
