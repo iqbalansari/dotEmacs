@@ -13,19 +13,13 @@
   #+END_SRC
 
 
-* Auto-complete dictionaries
-
-  #+BEGIN_SRC emacs-lisp
-    (add-to-list 'ac-dictionary-directories "~/.emacs.d/el-get/autocomplete/ac-dict")
-  #+END_SRC
-
-
 * Auto-complete configurations
 ** Set default sources for autocomplete
 
   #+BEGIN_SRC emacs-lisp
     (setq-default ac-sources (append ac-sources '(ac-source-yasnippet
                                                   ac-source-imenu
+                                                  ac-source-dictionary
                                                   ac-source-abbrev
                                                   ac-source-words-in-same-mode-buffers
                                                   ac-source-filename)))
@@ -73,11 +67,12 @@
    #+begin_src emacs-lisp
      (ac-flyspell-workaround)
    #+end_src
-   
-   
+
+
+
 * Enable autocomplete mode globally
-  
   #+BEGIN_SRC emacs-lisp
-     (global-auto-complete-mode)
+    (add-to-list 'ac-modes 'org-mode)
+    (global-auto-complete-mode)
   #+END_SRC
   
