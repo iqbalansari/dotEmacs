@@ -8,7 +8,6 @@
 + [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
 + [[https://github.com/zk-phi/phi-rectangle][phi-rectangle]] - Another rectangle command
 + [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
-+ [[https://github.com/rejeep/drag-stuff][drag-stuff]] - Drag stuff (lines, words, region) around in Emacs
 
 	#+begin_src emacs-lisp
           (defvar iqbal-editing-packages
@@ -211,22 +210,22 @@
 
 * Copy/cut current line if no region is selected
   #+begin_src emacs-lisp
-    (defun copy-line-or-region ()
-      "Copy current line, or current text selection."
-      (interactive)
-      (if (region-active-p)
-          (kill-ring-save (region-beginning) (region-end))
-        (kill-ring-save (line-beginning-position) (line-beginning-position 2)) ) )
+    ;; (defun copy-line-or-region ()
+    ;;   "Copy current line, or current text selection."
+    ;;   (interactive)
+    ;;   (if (region-active-p)
+    ;;       (kill-ring-save (region-beginning) (region-end))
+    ;;     (kill-ring-save (line-beginning-position) (line-beginning-position 2)) ) )
     
-    (defun cut-line-or-region ()
-      "Cut the current line, or current text selection."
-      (interactive)
-      (if (region-active-p)
-          (kill-region (region-beginning) (region-end))
-        (kill-region (line-beginning-position) (line-beginning-position 2)) ) )
+    ;; (defun cut-line-or-region ()
+    ;;   "Cut the current line, or current text selection."
+    ;;   (interactive)
+    ;;   (if (region-active-p)
+    ;;       (kill-region (region-beginning) (region-end))
+    ;;     (kill-region (line-beginning-position) (line-beginning-position 2)) ) )
     
-    (global-set-key (kbd "M-w") 'copy-line-or-region)
-    (global-set-key (kbd "C-w") 'cut-line-or-region)
+    ;; (global-set-key (kbd "M-w") 'copy-line-or-region)
+    ;; (global-set-key (kbd "C-w") 'cut-line-or-region)
   #+end_src
 
 
