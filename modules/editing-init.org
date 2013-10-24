@@ -468,3 +468,9 @@
     (global-set-key (kbd "C-x C-/") 'goto-last-change)
   #+end_src
   
+
+* Keybindings for navigating between errors
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-n") 'next-error)
+    (global-set-key (kbd "M-p") 'previous-error)
+  #+end_src
