@@ -20,8 +20,7 @@
               multiple-cursors
               tiny
               phi-rectangle
-              expand-region
-              drag-stuff))
+              expand-region))
           
           (el-get 'sync iqbal-editing-packages)  
 	#+end_src   
@@ -79,22 +78,13 @@
   #+begin_src emacs-lisp
     (require 'phi-rectangle)
     (phi-rectangle-mode)
-  #+end_src
-  
-
+  #+end_src    	   
+       	       	   
+       	       	   
 * Expand region setup
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-=") 'er/expand-region)
     (global-set-key (kbd "C--") 'er/contract-region)
-  #+end_src
-  
-
-* Drag stuff setup
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "S-<up>") 'drag-stuff-up)
-    (global-set-key (kbd "S-<down>") 'drag-stuff-down)
-    (global-set-key (kbd "S-<left>") 'drag-stuff-left)
-    (global-set-key (kbd "S-<right>") 'drag-stuff-right)
   #+end_src
   
 
