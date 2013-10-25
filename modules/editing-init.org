@@ -472,6 +472,7 @@
     (global-set-key (kbd "C-c -") 'decrement-integer-at-point)
   #+end_src
 
+
 * Keybinding for jumping to last change
   #+begin_src emacs-lisp
     (global-set-key "\C-x\C-\\" 'goto-last-change)    
