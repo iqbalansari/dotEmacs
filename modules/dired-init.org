@@ -1,6 +1,7 @@
 * Some additional packages for working with dired
   #+begin_src emacs-lisp
-    (el-get 'sync 'dired-details)
+    (defvar iqbal-dired-packages '(dired-details dired-single))
+    (el-get 'sync iqbal-dired-packages)
   #+end_src
   
 
@@ -41,5 +42,25 @@
     (require 'dired-details)
     (dired-details-install)
     (setq dired-details-hidden-string "[..] ")
+  #+end_src
+  
+
+* Dired-single configuration as recommended in dired-single.el
+  #+begin_src emacs-lisp
+    (defun my-dired-init ()
+      "Bunch of stuff to run for dired, either immediately or when it's
+            loaded."
+      (define-key dired-mode-map (kbd "RET") 'dired-single-buffer)
+      (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
+      (define-key dired-mode-map "^"
+        (function
+         (lambda nil (interactive) (dired-single-buffer "..")))))
+    
+    ;; if dired's already loaded, then the keymap will be bound
+    (if (boundp 'dired-mode-map)
+        ;; we're good to go; just add our bindings
+        (my-dired-init)
+      ;; it's not loaded yet, so add our bindings to the load-hook
+      (add-hook 'dired-load-hook 'my-dired-init))
   #+end_src
   

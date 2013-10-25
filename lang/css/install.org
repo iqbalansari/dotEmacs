@@ -1,0 +1,7 @@
+* Install css-eldoc for syntax hints
+  #+begin_src emacs-lisp
+    (defvar iqbal-css-packages
+      '(css-eldoc))
+    
+    (el-get 'sync iqbal-css-packages)
+  #+end_src

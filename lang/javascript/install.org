@@ -9,12 +9,13 @@
   #+begin_src emacs-lisp
     (defvar iqbal-javascript-packages
     '(js2-mode
-  	tern
-  	jquery-doc
-  	js2-refactor	
-  	))
-  
+        tern
+        jquery-doc
+        js-comint
+        js2-refactor    
+        ))
+      
     (el-get 'sync iqbal-javascript-packages)
-  
+      
   #+end_src
 
