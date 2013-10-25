@@ -8,23 +8,23 @@
 + [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
 + [[https://github.com/zk-phi/phi-rectangle][phi-rectangle]] - Another rectangle command
 + [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
-+ [[https://github.com/rejeep/drag-stuff][drag-stuff]] - Drag stuff (lines, words, region) around in Emacs
++ [[https://github.com/nflath/hungry-delete][hungry-delete]] - Get hungry delete everywhere
 
-	#+begin_src emacs-lisp
-          (defvar iqbal-editing-packages
-            '(ace-jump-mode
-              undo-tree
-              goto-last-change
-              browse-kill-ring
-              key-chord
-              multiple-cursors
-              tiny
-              phi-rectangle
-              expand-region
-              drag-stuff))
-          
-          (el-get 'sync iqbal-editing-packages)  
-	#+end_src   
+#+begin_src emacs-lisp
+  (defvar iqbal-editing-packages
+    '(ace-jump-mode
+      undo-tree
+      goto-last-change
+      browse-kill-ring
+      key-chord
+      multiple-cursors
+      tiny
+      phi-rectangle
+      expand-region
+      hungry-delete))
+  
+  (el-get 'sync iqbal-editing-packages)  
+#+end_src   
 
 
 * Replace selected region with typed text
@@ -79,22 +79,13 @@
   #+begin_src emacs-lisp
     (require 'phi-rectangle)
     (phi-rectangle-mode)
-  #+end_src
-  
-
+  #+end_src    	   
+       	       	   
+       	       	   
 * Expand region setup
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-=") 'er/expand-region)
     (global-set-key (kbd "C--") 'er/contract-region)
-  #+end_src
-  
-
-* Drag stuff setup
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "S-<up>") 'drag-stuff-up)
-    (global-set-key (kbd "S-<down>") 'drag-stuff-down)
-    (global-set-key (kbd "S-<left>") 'drag-stuff-left)
-    (global-set-key (kbd "S-<right>") 'drag-stuff-right)
   #+end_src
   
 
@@ -221,22 +212,22 @@
 
 * Copy/cut current line if no region is selected
   #+begin_src emacs-lisp
-    (defun copy-line-or-region ()
-      "Copy current line, or current text selection."
-      (interactive)
-      (if (region-active-p)
-          (kill-ring-save (region-beginning) (region-end))
-        (kill-ring-save (line-beginning-position) (line-beginning-position 2)) ) )
+    ;; (defun copy-line-or-region ()
+    ;;   "Copy current line, or current text selection."
+    ;;   (interactive)
+    ;;   (if (region-active-p)
+    ;;       (kill-ring-save (region-beginning) (region-end))
+    ;;     (kill-ring-save (line-beginning-position) (line-beginning-position 2)) ) )
     
-    (defun cut-line-or-region ()
-      "Cut the current line, or current text selection."
-      (interactive)
-      (if (region-active-p)
-          (kill-region (region-beginning) (region-end))
-        (kill-region (line-beginning-position) (line-beginning-position 2)) ) )
+    ;; (defun cut-line-or-region ()
+    ;;   "Cut the current line, or current text selection."
+    ;;   (interactive)
+    ;;   (if (region-active-p)
+    ;;       (kill-region (region-beginning) (region-end))
+    ;;     (kill-region (line-beginning-position) (line-beginning-position 2)) ) )
     
-    (global-set-key (kbd "M-w") 'copy-line-or-region)
-    (global-set-key (kbd "C-w") 'cut-line-or-region)
+    ;; (global-set-key (kbd "M-w") 'copy-line-or-region)
+    ;; (global-set-key (kbd "C-w") 'cut-line-or-region)
   #+end_src
 
 
@@ -477,5 +468,45 @@
 * Keybinding for jumping to last change
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-/") 'goto-last-change)
+  #+end_src
+  
+
+* Keybindings for navigating between errors
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-n") 'next-error)
+    (global-set-key (kbd "M-p") 'previous-error)
+  #+end_src
+
+
+* In isearch select the whole word at point by pressing C-W
+  #+begin_src emacs-lisp
+    (defadvice isearch-yank-word-or-char (before move-to-beginning-of-word)
+      (unless (eq last-command this-command)
+        (goto-char (car (bounds-of-thing-at-point 'word)))))
+  #+end_src
+  
+
+* Auto-indent on yanked text taken from [[http://www.emacswiki.org/emacs/AutoIndentation#toc3][emacswiki]]
+  #+begin_src emacs-lisp
+    (dolist (command '(yank yank-pop))
+       (eval `(defadvice ,command (after indent-region activate)
+                (and (not current-prefix-arg)
+                     (member major-mode '(emacs-lisp-mode lisp-mode
+                                                          clojure-mode    scheme-mode
+                                                          haskell-mode    ruby-mode
+                                                          rspec-mode      python-mode
+                                                          c-mode          c++-mode
+                                                          objc-mode       latex-mode
+                                                          plain-tex-mode))
+                     (let ((mark-even-if-inactive transient-mark-mode))
+                       (indent-region (region-beginning) (region-end) nil))))))
+  #+end_src
+
+
+* Keybindings for hungry deletion
+  #+begin_src emacs-lisp
+    (require 'hungry-delete)
+    (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
+    (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
   #+end_src
   

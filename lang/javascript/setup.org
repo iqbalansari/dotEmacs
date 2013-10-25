@@ -40,21 +40,32 @@
   #+end_src
 
 
-* Need to take a look at these
+* Configure comint mode for javascript
 
   #+begin_src emacs-lisp
-  ;; FIXME js-comint
-  ;; (require 'js-comint)
-  ;; (setq inferior-js-program-command "node")
-
-  ;; (setenv "NODE_NO_READLINE" "1")
+    (require 'js-comint)
+    (setq inferior-js-program-command "node")
+    
+    (setenv "NODE_NO_READLINE" "1")
   #+end_src
 
 
-* Use js-beautify to cleanup messy javascript :IMPROVE:
+* Keybindings for js-comint
+  
+  #+begin_src emacs-lisp
+    (local-set-key "\C-x\C-e" 'js-send-last-sexp)
+    (local-set-key "\C-\M-x" 'js-send-last-sexp-and-go)
+    (local-set-key "\C-cb" 'js-send-buffer)
+    (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
+    (local-set-key "\C-cl" 'js-load-file-and-go)
+  #+end_src
+  
+
+* Use js-beautify to cleanup messy javascript
   This can be also be used for reformatting JSON files for viewing them
   #+begin_src emacs-lisp
     (add-to-list 'load-path (concat otherpackages "js-beautify/"))
     (require 'js-beautify)
+    (local-set-key (kbd "M-[") 'js-beautify)
   #+end_src
   

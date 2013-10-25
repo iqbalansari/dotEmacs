@@ -148,7 +148,6 @@
 * Configure loading of the major modes
 ** Python
   #+begin_src emacs-lisp
-    (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
     (add-hook 'python-mode-hook (lambda ()
                                   (iqbal-load-lang "python")))
   #+end_src
@@ -167,7 +166,13 @@
      (add-hook 'web-mode-hook (lambda ()
                                    (iqbal-load-lang "html")))
    #+end_src  
-   
+
+** CSS mode
+  #+begin_src emacs-lisp
+    (add-hook 'css-mode-hook (lambda ()
+                                  (iqbal-load-lang "css")))
+  #+end_src
+  
 
 * Load common libraries
    These are general purpose libraries that can are used
