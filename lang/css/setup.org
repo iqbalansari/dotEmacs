@@ -1,0 +1,11 @@
+* Setup autocompletion for css mode
+  #+begin_src emacs-lisp
+    (ac-css-mode-setup)
+  #+end_src
+  
+
+* Turn on el-doc mode
+  #+begin_src emacs-lisp
+    (require 'css-eldoc)
+    (turn-on-css-eldoc)
+  #+end_src
