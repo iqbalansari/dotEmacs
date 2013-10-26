@@ -38,11 +38,6 @@
 ** Disable terminal key-sequence mappings
    #+begin_src emacs-lisp
      (when window-system
-       ;; C-m
-       (define-key key-translation-map [return] [?\r])
-       (define-key key-translation-map [?\C-\m] [(control m-key)])
-       (define-key function-key-map [return] nil)
-       (define-key function-key-map [?\r] nil)
        ;; C-i
        (define-key key-translation-map [tab] [?\t])
        (define-key key-translation-map [?\C-\i] [(control i-key)])
