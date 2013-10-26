@@ -73,6 +73,7 @@
 * Enable autocomplete mode globally
   #+BEGIN_SRC emacs-lisp
     (add-to-list 'ac-modes 'org-mode)
+    (add-to-list 'ac-modes ' web-mode)
     (global-auto-complete-mode)
   #+END_SRC
   
