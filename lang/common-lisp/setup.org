@@ -1,0 +1,19 @@
+* Setup slime
+  #+begin_src emacs-lisp
+    (setq inferior-lisp-program "sbcl")
+    (require 'slime)
+    (slime-setup)
+  #+end_src
+
+  
+* Setup completion for slime
+  #+begin_src emacs-lisp
+    (require 'ac-slime)
+    (set-up-slime-ac)
+    
+    (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+    (eval-after-load "auto-complete"
+      '(add-to-list 'ac-modes 'slime-repl-mode))
+    
+  #+end_src
+  
