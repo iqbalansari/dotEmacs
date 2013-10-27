@@ -6,7 +6,6 @@
 + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
 + [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] - Multiple cursors for emacs.
 + [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
-+ [[https://github.com/zk-phi/phi-rectangle][phi-rectangle]] - Another rectangle command
 + [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
 + [[https://github.com/nflath/hungry-delete][hungry-delete]] - Get hungry delete everywhere
 
@@ -19,7 +18,6 @@
       key-chord
       multiple-cursors
       tiny
-      phi-rectangle
       expand-region
       hungry-delete))
   
@@ -63,6 +61,7 @@
     (global-set-key (kbd "C-S-l") 'mc/edit-lines)
     (global-set-key (kbd "C-S-c") 'mc/mark-all-like-this-dwim)
     (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+    (global-set-key (kbd "C-S-r") 'set-rectangular-region-anchor)
   #+end_src
   
 
@@ -73,14 +72,6 @@
     (global-set-key (kbd "C-:") 'tiny-expand)
   #+end_src
   
-
-* Phi-rectangle setup
-  Enable pho-rectangle
-  #+begin_src emacs-lisp
-    (require 'phi-rectangle)
-    (phi-rectangle-mode)
-  #+end_src    	   
-       	       	   
        	       	   
 * Expand region setup
   #+begin_src emacs-lisp
