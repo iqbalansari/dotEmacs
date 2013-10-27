@@ -1,0 +1,9 @@
+* Setup auto-completion
+  #+begin_src emacs-lisp
+    (require 'ac-geiser)
+    (ac-geiser-setup)
+    
+    (add-hook 'geiser-repl-mode-hook 'ac-geiser-setup)
+    (eval-after-load "auto-complete"
+      '(add-to-list 'ac-modes 'geiser-repl-mode))
+  #+end_src
