@@ -1,0 +1,4 @@
+* Load elisp-slime-nav
+  #+begin_src emacs-lisp 
+    (elisp-slime-nav-mode)
+  #+end_src
