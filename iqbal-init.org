@@ -168,6 +168,26 @@
                                   (iqbal-load-lang "css")))
   #+end_src
   
+** Scheme mode
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
+     
+     (add-hook 'scheme-mode-hook (lambda ()
+                                (iqbal-load-lang "scheme")))
+   #+end_src
+
+** Common-lisp mode
+   #+begin_src emacs-lisp
+     (add-hook 'lisp-mode-hook (lambda ()
+                                (iqbal-load-lang "common-lisp")))
+   #+end_src
+   
+** Emacs-lisp mode
+   #+begin_src emacs-lisp
+     (add-hook 'emacs-lisp-mode-hook (lambda ()
+                                 (iqbal-load-lang "emacs-lisp")))
+   #+end_src
+   
 
 * Load common libraries
    These are general purpose libraries that can are used
