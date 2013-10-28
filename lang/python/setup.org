@@ -50,33 +50,18 @@
   #+end_src
   
   
-* Setup flymake for error checking
-** Using pep8 and pyflakes together
-  Combine the output of pep8 and pyflakes for syntax checking borrowed
-  from [[http://people.cs.uct.ac.za/~ksmith/2011/better-python-flymake-integration-in-emacs.html][Better Python Flymake Integration in Emacs]].
-
+* Setup flycheck for error checking
+** Enable flycheck-mode
   #+begin_src emacs-lisp
-    (when (load "flymake" t)
-	  (defun flymake-pychecker-init ()
-		(let* ((temp-file (flymake-init-create-temp-buffer-copy
-						   'flymake-create-temp-inplace))
-			   (local-file (file-relative-name
-							temp-file
-							(file-name-directory buffer-file-name))))
-		  (list (concat otherpackages "pep8-pyflakes/pep8-pyflakes.py") (list local-file))))
-	  
-	  (add-to-list 'flymake-allowed-file-name-masks
-				   '("\\.py\\'" flymake-pychecker-init)))
+    (flycheck-mode)
   #+end_src
   
-** Start flymake
-   Just enable flymake-mode
-
+** Use pylint for syntax checking
    #+begin_src emacs-lisp
-     (flymake-mode)
+     (flycheck-select-checker 'python-pylint)
    #+end_src
-   
-   
+
+  
 * Setup code folding
   1. Enable "hs-minor-mode"
 
