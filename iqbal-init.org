@@ -140,6 +140,25 @@
    #+end_src
    
 
+* Configurations for Emacs lisp
+  Loading emacs-lisp configurations here since loading it via org-babel-load-file
+  can lead to circular loading. The situation is this org-babel-load-file first 
+  converts the org file to emacs-lisp using org-babel-tangle and then does a 
+  load-file. This problematic in our case since we load the mode specific configs using
+  a major mode hook, so when org-babel-load-file loads a lisp file, it triggers the
+  loading of, well, the config files for emacs-lisp, which will again load the emacs-lisp
+  file and so on.
+  #+begin_src emacs-lisp
+    (defvar iqbal-elisp-packages
+      '(elisp-slime-nav))
+    
+    (el-get 'sync iqbal-elisp-packages)
+    
+    (add-hook 'emacs-lisp-mode-hook 
+              (elisp-slime-nav-mode))
+  #+end_src
+  
+
 * Configure loading of the major modes
 ** Python
   #+begin_src emacs-lisp
@@ -180,12 +199,6 @@
    #+begin_src emacs-lisp
      (add-hook 'lisp-mode-hook (lambda ()
                                 (iqbal-load-lang "common-lisp")))
-   #+end_src
-   
-** Emacs-lisp mode
-   #+begin_src emacs-lisp
-     (add-hook 'emacs-lisp-mode-hook (lambda ()
-                                 (iqbal-load-lang "emacs-lisp")))
    #+end_src
    
 

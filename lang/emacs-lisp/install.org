@@ -1,8 +1,0 @@
-* Install emacs-slime-nav
-  #+begin_src emacs-lisp
-    (defvar iqbal-elisp-packages
-      '(elisp-slime-nav))
-    
-    (el-get 'sync iqbal-elisp-packages)
-  #+end_src
-  
