@@ -96,6 +96,11 @@
      (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
    #+end_src
 
+** Commenting and uncommenting
+   #+begin_src emacs-lisp 
+     (defvar iqbal-comment-uncomment-line-or-region (kbd "M-;"))
+   #+end_src
+
 
 * Initialize package management
   Initialize package manager and add repositories
@@ -201,6 +206,7 @@
                                 (iqbal-load-lang "common-lisp")))
    #+end_src
    
+
 
 * Load common libraries
    These are general purpose libraries that can are used
