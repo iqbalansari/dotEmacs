@@ -468,9 +468,45 @@
          ))
    #+end_src
    
-** Some addtional Keybindings
+** Insert current word in isearch prompt
+   #+begin_src emacs-lisp
+     (defun sacha/isearch-yank-current-word ()
+       "Pull current word from buffer into search string."
+       (interactive)
+       (save-excursion
+         (skip-syntax-backward "w_")
+         (isearch-yank-internal
+          (lambda ()
+            (skip-syntax-forward "w_")
+            (point)))))
+   #+end_src
+   
+** Some addtional keybindings
    #+begin_src emacs-lisp
      (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
      (define-key isearch-mode-map "\C-\M-w" 'isearch-yank-symbol)
-     (define-key isearch-mode-map [(meta z)] 'zap-to-isearch)
+     (define-key isearch-mode-map (kbd "M-z") 'zap-to-isearch)
+     (define-key isearch-mode-map (kbd "C-x") 'sacha/isearch-yank-current-word)
    #+end_src
+
+
+* Insert the word at point in the minbuffer from [[http://stackoverflow.com/questions/8257009/emacs-insert-word-at-point-into-replace-string-query][stackoverflow]]
+  #+begin_src emacs-lisp
+    (defun my-minibuffer-insert-word-at-point ()
+      "Get word at point in original buffer and insert it to minibuffer."
+      (interactive)
+      (let (word beg)
+        (with-current-buffer (window-buffer (minibuffer-selected-window))
+          (save-excursion
+            (skip-syntax-backward "w_")
+            (setq beg (point))
+            (skip-syntax-forward "w_")
+            (setq word (buffer-substring-no-properties beg (point)))))
+        (when word
+          (insert word))))
+    
+    (defun my-minibuffer-setup-hook ()
+      (local-set-key (kbd "C-w") 'my-minibuffer-insert-word-at-point))
+    
+    (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+  #+end_src
