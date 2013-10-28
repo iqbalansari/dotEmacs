@@ -1,6 +1,9 @@
 * Setup slime
   #+begin_src emacs-lisp
-    (setq inferior-lisp-program "sbcl")
+    (if (eq system-type 'windows-nt)
+        (setq inferior-lisp-program "clisp")
+      (setq inferior-lisp-program "sbcl"))
+    
     (require 'slime)
     (slime-setup)
   #+end_src

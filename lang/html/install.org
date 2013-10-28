@@ -1,0 +1,7 @@
+* Install required packages
+  #+begin_src emacs-lisp
+    (defvar iqbal-html-packages
+      '(emmet))
+    
+    (el-get 'sync iqbal-html-packages)
+  #+end_src
