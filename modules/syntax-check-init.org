@@ -1,0 +1,11 @@
+* Install flycheck
+  #+begin_src emacs-lisp
+    (el-get 'sync 'flycheck)
+  #+end_src
+
+
+* Do not underline errors in buffers
+  #+begin_src emacs-lisp
+    (setq flycheck-highlighting-mode nil)
+  #+end_src
+  
