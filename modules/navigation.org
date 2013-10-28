@@ -1,0 +1,81 @@
+* Install some packages useful for navigation
++ [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
++ [[http://www.emacswiki.org/cgi-bin/wiki/goto-last-change.el][goto-last-change]] - Move point through buffer-undo-list positions
++ [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
+
+#+begin_src emacs-lisp
+  (defvar iqbal-navigation-packages
+    '(goto-last-change
+    key-chord
+    ace-jump-mode))
+  
+  (el-get 'sync iqbal-navigation-packages)
+#+end_src
+
+
+
+* Ace Jump mode setup
+  Binding for jumping to character and line, 'jumping to word'
+  is bound to a 'key-chord' in later section
+  #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c SPC") 'ace-jump-char-mode)
+     (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode) 
+  #+end_src
+
+
+* Key chords setup
+  Keychords for some common functions
+  #+begin_src emacs-lisp
+    (key-chord-mode t)
+    (key-chord-define-global "jj" 'ace-jump-word-mode)
+    (defun switch-to-previous-buffer ()
+      "Switch to previously open buffer.
+    Repeated invocations toggle between the two most recently open buffers."
+      (interactive)
+      (switch-to-buffer (other-buffer (current-buffer) 1)))
+    (key-chord-define-global "JJ" 'switch-to-previous-buffer)
+  #+end_src
+
+
+* Jump to matching parenthesis
+  #+begin_src emacs-lisp
+      (defun goto-match-paren (arg)
+        "Go to the matching parenthesis if on parenthesis. Else go to the
+         opening parenthesis one level up."
+        (interactive "p")
+        (cond ((looking-at "\\s\(") (forward-list 1))
+              (t
+               (backward-char 1)
+               (cond ((looking-at "\\s\)")
+                      (forward-char 1) (backward-list 1))
+                     (t
+                      (while (not (looking-at "\\s("))
+                        (backward-char 1)
+                        (cond ((looking-at "\\s\)")
+                               (message "->> )")
+                               (forward-char 1)
+                               (backward-list 1)
+                               (backward-char 1)))
+                        ))))))
+    (global-set-key (kbd "C-'") 'goto-match-paren)
+  #+end_src
+
+* Goto beginning of the line or indentation
+  If we are the begining of the line goto to indentation and vice versa
+  #+begin_src emacs-lisp
+    (defun st2-like-beginning-of-line ()
+      "Go to the position of the first non-whitespace character.
+    If already there, go to actual beginning of line."
+      (interactive)
+      (let ((col (current-column)))
+        (back-to-indentation)
+        (if (= col (current-column)) (move-beginning-of-line nil))))
+    
+    (global-set-key (kbd "C-a") 'st2-like-beginning-of-line)
+  #+end_src
+
+
+* Keybinding for jumping to last change
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-x C-/") 'goto-last-change)
+  #+end_src

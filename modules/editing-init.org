@@ -1,9 +1,7 @@
 * Install some useful packages
 + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
 + [[http://www.dr-qubit.org/undo-tree/undo-tree-0.6.4.el][undo-tree]] - Represents your undo history as a tree and provides some really useful features
-+ [[http://www.emacswiki.org/cgi-bin/wiki/goto-last-change.el][goto-last-change]] - Move point through buffer-undo-list positions
 + [[https://github.com/browse-kill-ring/browse-kill-ring][browse-kill-ring]] - Useful package for interacting with the kill ring visually
-+ [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
 + [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] - Multiple cursors for emacs.
 + [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
 + [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
@@ -11,11 +9,8 @@
 
 #+begin_src emacs-lisp
   (defvar iqbal-editing-packages
-    '(ace-jump-mode
-      undo-tree
-      goto-last-change
+    '(undo-tree
       browse-kill-ring
-      key-chord
       multiple-cursors
       tiny
       expand-region
@@ -29,30 +24,7 @@
   #+begin_src emacs-lisp
     (delete-selection-mode)
   #+end_src
-  
 
-* Ace Jump mode setup
-  Binding for jumping to character and line, 'jumping to word'
-  is bound to a 'key-chord' in later section
-  #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c SPC") 'ace-jump-char-mode)
-     (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode) 
-  #+end_src
-
-
-* Key chords setup
-  Keychords for some common functions
-  #+begin_src emacs-lisp
-    (key-chord-mode t)
-    (key-chord-define-global "jj" 'ace-jump-word-mode)
-    (defun switch-to-previous-buffer ()
-      "Switch to previously open buffer.
-    Repeated invocations toggle between the two most recently open buffers."
-      (interactive)
-      (switch-to-buffer (other-buffer (current-buffer) 1)))
-    (key-chord-define-global "JJ" 'switch-to-previous-buffer)
-  #+end_src
-  
 
 * Multiple cursors setup
   Keybindings for multiple cursors
@@ -326,30 +298,6 @@
   #+end_src
 
 
-* Jump to matching parenthesis
-  #+begin_src emacs-lisp
-      (defun goto-match-paren (arg)
-        "Go to the matching parenthesis if on parenthesis. Else go to the
-         opening parenthesis one level up."
-        (interactive "p")
-        (cond ((looking-at "\\s\(") (forward-list 1))
-              (t
-               (backward-char 1)
-               (cond ((looking-at "\\s\)")
-                      (forward-char 1) (backward-list 1))
-                     (t
-                      (while (not (looking-at "\\s("))
-                        (backward-char 1)
-                        (cond ((looking-at "\\s\)")
-                               (message "->> )")
-                               (forward-char 1)
-                               (backward-list 1)
-                               (backward-char 1)))
-                        ))))))
-    (global-set-key (kbd "C-'") 'goto-match-paren)
-  #+end_src
-
-
 * Kill line backwards
   #+begin_src emacs-lisp
     (defun backward-kill-line (arg)
@@ -358,21 +306,6 @@
       (kill-line (- 1 arg)))
     
     (global-set-key (kbd "C-S-k") 'backward-kill-line)
-  #+end_src
-
-  
-* Goto beginning of the line or indentation
-  If we are the begining of the line goto to indentation and vice versa
-  #+begin_src emacs-lisp
-    (defun st2-like-beginning-of-line ()
-      "Go to the position of the first non-whitespace character.
-    If already there, go to actual beginning of line."
-      (interactive)
-      (let ((col (current-column)))
-        (back-to-indentation)
-        (if (= col (current-column)) (move-beginning-of-line nil))))
-    
-    (global-set-key (kbd "C-a") 'st2-like-beginning-of-line)
   #+end_src
   
 
@@ -456,26 +389,12 @@
   #+end_src
 
 
-* Keybinding for jumping to last change
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x C-/") 'goto-last-change)
-  #+end_src
-  
-
 * Keybindings for navigating between errors
   #+begin_src emacs-lisp
     (global-set-key (kbd "M-n") 'next-error)
     (global-set-key (kbd "M-p") 'previous-error)
   #+end_src
 
-
-* In isearch select the whole word at point by pressing C-W
-  #+begin_src emacs-lisp
-    (defadvice isearch-yank-word-or-char (before move-to-beginning-of-word)
-      (unless (eq last-command this-command)
-        (goto-char (car (bounds-of-thing-at-point 'word)))))
-  #+end_src
-  
 
 * Auto-indent on yanked text taken from [[http://www.emacswiki.org/emacs/AutoIndentation#toc3][emacswiki]]
   #+begin_src emacs-lisp
@@ -502,7 +421,7 @@
   #+end_src
   
 
-* Enhancements to isearch mode taken from [[https://github.com/purcell/emacs.d/blob/master/init-isearch.el][purcell/emacs.d]]
+* Enhancements to isearch mode taken from [[https://github.com/purcell/emacs.d/blob/master/init-isearch.el][purcell/emacs.d]] and [[http://sachachua.com/blog/2008/07/emacs-keyboard-shortcuts-for-navigating-code/][Sacha Chua]]
 ** Search back/forth for the symbol at point
    #+begin_src emacs-lisp
      (defun isearch-yank-symbol ()
