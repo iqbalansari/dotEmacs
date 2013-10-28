@@ -27,3 +27,8 @@
     (local-set-key iqbal-refactor-auto-import 'rope-auto-import)
     (local-set-key iqbal-refactor-organize-imports 'rope-organize-imports)  
   #+end_src
+
+* Keybinding for comments
+  #+begin_src emacs-lisp
+    (local-set-key iqbal-comment-uncomment-line-or-region 'comment-or-uncomment-region-or-line)
+  #+end_src
