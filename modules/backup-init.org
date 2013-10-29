@@ -45,13 +45,13 @@
        (string= (substring string1 0 (min (length string1) (length string2)))
                 string2))
      
-     (defun dont-backup-commit-files-p (filename)
+     (defun dont-backup-files-p (filename)
        (let ((filename-part (file-name-nondirectory filename)))
-         (if (or (starts-with-p filename-part "emacs_workgroups")
+         (if (or (starts-with-p filename-part ".emacs_workgroups")
                  (starts-with-p filename-part "COMMIT_EDITMSG"))
              nil
            (normal-backup-enable-predicate filename))))
      
-     (setq backup-enable-predicate 'dont-backup-commit-files-p)
+     (setq backup-enable-predicate 'dont-backup-files-p)
    #+end_src
    
