@@ -216,9 +216,3 @@
      (org-babel-load-file "~/.emacs.d/modules/modules-init.org")
    #+end_src
    
-
-* Initialize display
-  All the UI related configuration go into single file and are loaded at the end
-  #+begin_src emacs-lisp
-       (org-babel-load-file "~/.emacs.d/display.org")
-   #+end_src

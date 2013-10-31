@@ -77,7 +77,7 @@
   #+end_src
 
 
-* Load the desired modules
+* List of modules to be loaded
   #+begin_src emacs-lisp
     (defvar iqbal-modules-list '("auto-complete" 
                                  "backup"
@@ -92,7 +92,8 @@
                                  "shell"
                                  "utilities"
                                  "version-control"
-                                 "yasnippet"))
+                                 "yasnippet"
+                                 "display"))
   #+end_src
   
 
