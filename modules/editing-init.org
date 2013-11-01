@@ -102,6 +102,7 @@
 ** Use default keybindings
   #+begin_src emacs-lisp
     (browse-kill-ring-default-keybindings)
+    (global-set-key (kbd "M-y") 'browse-kill-ring)
   #+end_src
   
 ** Don't highlight current candidate in kill-ring
