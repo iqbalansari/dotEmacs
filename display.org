@@ -120,8 +120,8 @@
 
 ** Navigate tabs with ctrl + (left|right)
    #+begin_src emacs-lisp
-     (global-set-key (kbd "C-<left>") 'tabbar-ruler-backward)
-     (global-set-key (kbd "C-<right>") 'tabbar-ruler-forward)
+     (global-set-key (kbd "<C-prior>") 'tabbar-ruler-backward)
+     (global-set-key (kbd "<C-next>") 'tabbar-ruler-forward)
    #+end_src
    
 
