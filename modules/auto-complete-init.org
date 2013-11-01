@@ -1,7 +1,12 @@
 * Ensure that autocomplete is installed
 
   #+BEGIN_SRC emacs-lisp
-    (el-get 'sync 'auto-complete)
+    (defvar iqbal-auto-complete-packages 
+      '(auto-complete
+        ac-dabbrev
+        ))
+    
+    (el-get 'sync iqbal-auto-complete-packages)
   #+END_SRC
 
 
@@ -21,6 +26,7 @@
                                                   ac-source-imenu
                                                   ac-source-dictionary
                                                   ac-source-abbrev
+                                                  ac-source-dabbrev
                                                   ac-source-words-in-same-mode-buffers
                                                   ac-source-filename)))
   #+END_SRC
@@ -68,6 +74,12 @@
      (ac-flyspell-workaround)
    #+end_src
 
+
+** dabbrev face
+   #+begin_src emacs-lisp
+     (setq ac-dabbrev-menu-face '((t (:background "lightgray" :foreground "black"))))
+   #+end_src
+   
 
 
 * Enable autocomplete mode globally
