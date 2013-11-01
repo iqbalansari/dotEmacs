@@ -1,28 +1,104 @@
-* Function to load modules
+* Code to speed up the loading of modules
+  We have our configuration split in about 14 different org mode 
+  files while having different modules in different files enhances
+  readablity of the setup, loading all of these files at the startup
+  is expensive since each file first converted from .org to .el files
+  and then loaded separately to overcome this we do the following 
+  1) Combine convert the org mode files to el files 
+  2) Combine their code in one file and byte compile it and load it
+  
+  Now at subsequent emacs startups we first check if any org
+  file is newer then the compiled file, if so repeat step 1) and 2)
+  This way the startup will be slow only when any of the org files
+  are modified or there is some new org file, otherwise it will be
+  faster since we load a single byte-compiled file
   #+begin_src emacs-lisp
-    (defvar iqbal-modules-dir "~/.emacs.d/modules/")
+    (require 'cl-lib)
     
-    (defun iqbal-load-module (module)
-      (let ((module-file (concat iqbal-modules-dir module "-init.org")))
-        (org-babel-load-file module-file)))
+    (defvar iqbal-modules-dir "~/.emacs.d/modules/")
+    (defvar iqbal-tangled-modules "~/.emacs.d/modules/modules-compiled.el")
+    (defvar iqbal-compiled-modules "~/.emacs.d/modules/modules-compiled.elc")
+    
+    (defun iqbal-get-file-mod-time (path)
+      (nth 4 (file-attributes path)))
+    
+    (defvar iqbal-modules-compiled-time
+      (or (iqbal-get-file-mod-time iqbal-compiled-modules)
+          '(0 0 0 0)))
+    
+    (defun iqbal-get-module-paths (prefix)
+      (map 'list 
+           (lambda (module) (concat iqbal-modules-dir module prefix))
+           iqbal-modules-list))
+    
+    (defun iqbal-get-org-module-paths ()
+      (iqbal-get-module-paths "-init.org"))
+    
+    (defun iqbal-get-el-module-paths ()
+      (iqbal-get-module-paths "-init.el"))
+    
+    (defun iqbal-module-file-newer? (module-file)
+      (let ((module-file-mod-time (iqbal-get-file-mod-time module-file)))
+        (or (> (nth 0 module-file-mod-time) (nth 0 iqbal-modules-compiled-time))
+            (> (nth 1 module-file-mod-time) (nth 1 iqbal-modules-compiled-time)))))
+    
+    (defun iqbal-module-files-newer? ()
+      (reduce #'(lambda (need-compilation-yet module-file)
+                  (or (iqbal-module-file-newer? module-file) need-compilation-yet))
+              (iqbal-get-org-module-paths) :initial-value nil))
+    
+    (defun iqbal-modules-need-recompilation? ()
+      (or (not (file-exists-p iqbal-compiled-modules))
+          (iqbal-module-files-newer?)))
+    
+    (defun iqbal-read-file (path)
+      (with-temp-buffer
+        (insert-file-contents-literally path)
+        (buffer-substring-no-properties (point-min) (point-max))))
+    
+    (defun iqbal-compile-modules ()
+      (dolist (module-file (iqbal-get-org-module-paths))
+        (org-babel-tangle-file module-file 
+                               (concat (file-name-sans-extension module-file) ".el")
+                               "emacs-lisp"))
+      (let ((extracted-code (reduce #'(lambda (code input-file)
+                                        (concat code (iqbal-read-file input-file)))
+                                    (iqbal-get-el-module-paths) :initial-value "")))
+        (with-temp-file iqbal-tangled-modules
+          (insert extracted-code))
+        (byte-compile-file iqbal-tangled-modules)
+        (setq iqbal-modules-compiled-time 
+              (iqbal-get-file-mod-time iqbal-compiled-modules))))
+    
+    (defun iqbal-compile-and-load-modules ()
+      (when (iqbal-modules-need-recompilation?)
+        (iqbal-compile-modules))
+      (load-file iqbal-tangled-modules))
   #+end_src
 
 
-* Load the desired modules
+* List of modules to be loaded
   #+begin_src emacs-lisp
-    (iqbal-load-module "auto-complete")
-    (iqbal-load-module "backup")
-    (iqbal-load-module "dired")
-    (iqbal-load-module "editing")
-    (iqbal-load-module "navigation")
-    (iqbal-load-module "folding")
-    (iqbal-load-module "ido")
-    (iqbal-load-module "parenthesis")
-    (iqbal-load-module "syntax-check")
-    (iqbal-load-module "project")
-    (iqbal-load-module "shell")
-    (iqbal-load-module "utilities")
-    (iqbal-load-module "version-control")
-    (iqbal-load-module "yasnippet")
+    (defvar iqbal-modules-list '("auto-complete" 
+                                 "backup"
+                                 "dired"
+                                 "editing"
+                                 "navigation"
+                                 "folding"
+                                 "ido"
+                                 "parenthesis"
+                                 "syntax-check"
+                                 "project"
+                                 "shell"
+                                 "utilities"
+                                 "version-control"
+                                 "yasnippet"
+                                 "display"))
+  #+end_src
+  
+
+* Load the modules
+  #+begin_src emacs-lisp
+    (iqbal-compile-and-load-modules)
   #+end_src
   
