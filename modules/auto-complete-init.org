@@ -3,7 +3,6 @@
   #+BEGIN_SRC emacs-lisp
     (defvar iqbal-auto-complete-packages 
       '(auto-complete
-        ac-dabbrev
         ))
     
     (el-get 'sync iqbal-auto-complete-packages)
@@ -26,7 +25,6 @@
                                                   ac-source-imenu
                                                   ac-source-dictionary
                                                   ac-source-abbrev
-                                                  ac-source-dabbrev
                                                   ac-source-words-in-same-mode-buffers
                                                   ac-source-filename)))
   #+END_SRC
@@ -73,7 +71,6 @@
    #+begin_src emacs-lisp
      (ac-flyspell-workaround)
    #+end_src
-
 
 ** dabbrev face
    #+begin_src emacs-lisp
