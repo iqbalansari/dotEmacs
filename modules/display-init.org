@@ -190,14 +190,9 @@
      (setq cursor-type 'bar)
    #+end_src
    
-** Cursor blink delay
+** Don't blink the cursor
    #+begin_src emacs-lisp
-     (setq blink-cursor-delay 1)
-   #+end_src
-
-** Cursor blink interval
-   #+begin_src emacs-lisp
-     (setq blink-cursor-interval 1)
+     (setq blink-cursor-mode 0)
    #+end_src
 
 ** Color for cursor
