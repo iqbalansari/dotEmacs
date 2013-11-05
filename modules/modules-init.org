@@ -5,13 +5,13 @@
   is expensive since each file first converted from .org to .el files
   and then loaded separately to overcome this we do the following 
   1) Combine convert the org mode files to el files 
-  2) Combine their code in one file and byte compile it and load it
+  2) Combine their code in one file and load it
   
   Now at subsequent emacs startups we first check if any org
   file is newer then the compiled file, if so repeat step 1) and 2)
   This way the startup will be slow only when any of the org files
   are modified or there is some new org file, otherwise it will be
-  faster since we load a single byte-compiled file
+  faster since we load a single file
   #+begin_src emacs-lisp
     (require 'cl-lib)
     
@@ -57,6 +57,7 @@
         (buffer-substring-no-properties (point-min) (point-max))))
     
     (defun iqbal-compile-modules ()
+      (interactive)
       (dolist (module-file (iqbal-get-org-module-paths))
         (org-babel-tangle-file module-file 
                                (concat (file-name-sans-extension module-file) ".el")
@@ -71,6 +72,7 @@
               (iqbal-get-file-mod-time iqbal-compiled-modules))))
     
     (defun iqbal-compile-and-load-modules ()
+      (interactive)
       (when (iqbal-modules-need-recompilation?)
         (iqbal-compile-modules))
       (load-file iqbal-tangled-modules))
