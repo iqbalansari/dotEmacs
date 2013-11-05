@@ -60,13 +60,14 @@
     (global-set-key (kbd "C-'") 'goto-match-paren)
   #+end_src
 
+
 * Goto beginning of the line or indentation
   If we are the begining of the line goto to indentation and vice versa
   #+begin_src emacs-lisp
     (defun st2-like-beginning-of-line ()
       "Go to the position of the first non-whitespace character.
     If already there, go to actual beginning of line."
-      (interactive)
+      (interactive "^")
       (let ((col (current-column)))
         (back-to-indentation)
         (if (= col (current-column)) (move-beginning-of-line nil))))
