@@ -59,6 +59,11 @@
    #+end_src
    
 
+** Look for URLs at point
+   #+begin_src emacs-lisp
+     (setq ido-use-url-at-point t)
+   #+end_src
+
 
 ** Keybindings
    Keybinding for idomenu
