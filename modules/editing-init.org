@@ -6,7 +6,6 @@
 + [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
 + [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
 + [[https://github.com/nflath/hungry-delete][hungry-delete]] - Get hungry delete everywhere
-+ [[https://github.com/zk-phi/phi-rectangle][phi-rectangle]] - Package for working with rectangular selection with multiple-cursors support
 
 #+begin_src emacs-lisp
   (defvar iqbal-editing-packages
@@ -15,8 +14,7 @@
       multiple-cursors
       tiny
       expand-region
-      hungry-delete
-      phi-rectangle))
+      hungry-delete))
   
   (el-get 'sync iqbal-editing-packages)  
 #+end_src   
@@ -498,10 +496,3 @@
     
     (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
   #+end_src
-
-
-* phi-rectangle configuration
-  #+begin_src emacs-lisp
-    (phi-rectangle-mode)
-  #+end_src
-  
