@@ -80,3 +80,9 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-/") 'goto-last-change)
   #+end_src
+
+* Preserve point position when scrolling the window
+  #+begin_src emacs-lisp
+    (setq scroll-preserve-screen-position t)
+  #+end_src
+  
