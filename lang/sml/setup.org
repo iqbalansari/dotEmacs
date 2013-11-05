@@ -1,0 +1,5 @@
+* Load sml-mode
+  #+begin_src emacs-lisp
+    (sml-mode)
+  #+end_src
+  

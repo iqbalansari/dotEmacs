@@ -205,7 +205,12 @@
                                 (iqbal-load-lang "common-lisp")))
    #+end_src
    
-
+** SML mode
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.\\(sml\\|sig\\)\\'" . (lambda ()
+                                                                 (iqbal-load-lang "sml"))))
+   #+end_src
+   
 
 * Load common libraries
    These are general purpose libraries that can are used
