@@ -69,33 +69,3 @@
    #+end_src
    
 
-* Key chord mode
-** Installation
-  + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
-
-	#+begin_src emacs-lisp
-      (el-get 'sync 'key-chord)
-      (require 'key-chord)
-	#+end_src
-
-** Keybindings
-   #+begin_src emacs-lisp
-     (key-chord-define-global "jj" 'ace-jump-word-mode)
-     (key-chord-define-global "JJ" 'switch-to-previous-buffer)
-   #+end_src 
-
-
-* Ace jump mode
-** Installation
-  + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
-	
-	#+begin_src emacs-lisp
-      (el-get 'sync 'ace-jump-mode)  
-	#+end_src   
-
-** Keybindings
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c SPC") 'ace-jump-char-mode)
-     (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode) 
-   #+end_src 
-   
