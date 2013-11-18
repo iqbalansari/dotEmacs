@@ -12,7 +12,7 @@
 * Require yasnippet
 
   #+begin_src emacs-lisp
-    (require 'yasnippet)
+    (load "yasnippet")
   #+end_src
   
 

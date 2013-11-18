@@ -40,7 +40,7 @@
 * Tiny setup
   Keybindings for expanding tiny expressions
   #+begin_src emacs-lisp
-    (require 'tiny)
+    (load "tiny")
     (global-set-key (kbd "C-:") 'tiny-expand)
   #+end_src
   

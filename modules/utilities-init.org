@@ -167,7 +167,7 @@
 
 * Create unique names for same named buffers
   #+begin_src emacs-lisp
-    (require 'uniquify)
+    (load "uniquify")
     (setq uniquify-buffer-name-style 'post-forward)
   #+end_src
 
@@ -196,7 +196,7 @@
 
   #+begin_src emacs-lisp
     (el-get 'sync 'emacs-wgrep)
-    (require 'wgrep)
+    (load "wgrep")
   #+end_src
 
 

@@ -33,7 +33,7 @@
    'Require' pymacs and load rope
 
    #+begin_src emacs-lisp
-       (require 'pymacs)
+       (load "pymacs")
        (pymacs-load "ropemacs" "rope-")
    #+end_src
 

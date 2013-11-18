@@ -4,7 +4,7 @@
         (setq inferior-lisp-program "clisp")
       (setq inferior-lisp-program "sbcl"))
     
-    (require 'slime)
+    (load "slime")
     (slime-setup)
   #+end_src
 
