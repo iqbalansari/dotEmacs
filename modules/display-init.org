@@ -2,7 +2,6 @@
   #+begin_src emacs-lisp
     (defvar iqbal-display-packages
       '(linum-off
-        tabbar-ruler
         diminish
         auto-highlight-symbol
         volatile-highlights))
@@ -70,60 +69,7 @@
    #+begin_src emacs-lisp
      (column-number-mode)
    #+end_src
-   
-
-* Customizations for tabbar
-** Visual tweaks taken from [[https://gist.github.com/3demax/1264635][3demax]]
-
-  #+begin_src emacs-lisp
-    (require 'tabbar-ruler)
-    ;; Tabbar settings
-    (set-face-attribute
-     'tabbar-default nil
-     :background "gray20"
-     :foreground "gray20"
-     :box '(:line-width 2 :color "gray20" :style nil))
-    
-    (set-face-attribute
-     'tabbar-highlight nil
-     :background "white"
-     :foreground "black"
-     :underline nil
-     :box '(:line-width 5 :color "white" :style nil))
-    
-    ;; adding spaces
-    (defun tabbar-buffer-tab-label (tab)
-      "Return a label for TAB.
-    That is, a string used to represent it on the tab bar."
-      (let ((label  (if tabbar--buffer-show-groups
-                        (format "  [%s]  " (tabbar-tab-tabset tab))
-                      (format "  %s  " (tabbar-tab-value tab)))))
-        ;; Unless the tab bar auto scrolls to keep the selected tab
-        ;; visible, shorten the tab label to keep as many tabs as possible
-        ;; in the visible area of the tab bar.
-        (if tabbar-auto-scroll-flag
-            label
-          (tabbar-shorten
-           label (max 1 (/ (window-width)
-                           (length (tabbar-view
-                                    (tabbar-current-tabset)))))))))
-  #+end_src
-  
-** Group tabs according to projects
-   #+begin_src emacs-lisp
-     (tabbar-ruler-group-by-projectile-project)
-   #+end_src
-** Tabbar separator 
-   #+begin_src emacs-lisp
-     (setq tabbar-separator (quote (0.7)))
-   #+end_src
-
-** Navigate tabs with ctrl + (left|right)
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "<C-prior>") 'tabbar-ruler-backward)
-     (global-set-key (kbd "<C-next>") 'tabbar-ruler-forward)
-   #+end_src
-   
+      
 
 * Highlight changes in the buffer
 ** Configuration for highlight changes mode
