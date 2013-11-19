@@ -96,10 +96,6 @@
      (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
    #+end_src
 
-** Commenting and uncommenting
-   #+begin_src emacs-lisp 
-     (defvar iqbal-comment-uncomment-line-or-region (kbd "M-;"))
-   #+end_src
 
 
 * Initialize package management

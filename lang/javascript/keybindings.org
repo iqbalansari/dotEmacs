@@ -25,8 +25,3 @@
     (local-set-key "\C-cl" 'js-load-file-and-go)
   #+end_src
   
-
-* Keybinding for comments
-  #+begin_src emacs-lisp
-    (local-set-key iqbal-comment-uncomment-line-or-region 'comment-or-uncomment-region-or-line)
-  #+end_src

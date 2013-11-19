@@ -120,7 +120,7 @@
                 (setq beg (line-beginning-position) end (line-end-position)))
             (comment-or-uncomment-region beg end)
             (next-line)))
-    (global-set-key (kbd "M-;") 'comment-or-uncomment-region)
+    (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
   #+end_src
 
 
