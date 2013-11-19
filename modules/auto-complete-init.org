@@ -32,8 +32,8 @@
 ** How sensitive is autocompletion
 
    #+BEGIN_SRC emacs-lisp
-     (setq ac-auto-start 2)
-     (setq ac-auto-show-menu 0.5)
+     (setq ac-auto-start 4)
+     (setq ac-auto-show-menu 0.8)
    #+END_SRC
    
 ** Show help when auto-completing
