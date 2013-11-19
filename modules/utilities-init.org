@@ -250,3 +250,9 @@
     (require 'transpose-frame)
   #+end_src
   
+
+* Quickly insert some dummy text
+  #+begin_src emacs-lisp
+    (el-get 'sync 'lorem-ipsum)
+  #+end_src
+  
