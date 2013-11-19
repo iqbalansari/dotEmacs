@@ -1,0 +1,98 @@
+* Install packages useful for search and replace
+  #+begin_src emacs-lisp
+    (defvar iqbal-search-replace-packages
+      '(visual-regexp))
+  
+    (el-get 'sync iqbal-search-replace-packages)
+  #+end_src
+
+
+* Enhancements to isearch mode taken from [[https://github.com/purcell/emacs.d/blob/master/init-isearch.el][purcell/emacs.d]]
+** Search for the symbol at point
+   #+begin_src emacs-lisp
+     (defun isearch-yank-symbol ()
+       "*Put symbol at current point into search string."
+       (interactive)
+       (let ((sym (symbol-at-point)))
+         (if sym
+             (progn
+               (setq isearch-regexp t
+                     isearch-string (concat "\\_<" (regexp-quote (symbol-name sym)) "\\_>")
+                     isearch-message (mapconcat 'isearch-text-char-description isearch-string "")
+                     isearch-yank-flag t))
+           (ding)))
+       (isearch-search-and-update))
+   #+end_src
+
+** Delete region mark and closest portion of isearch match string
+   #+begin_src emacs-lisp
+     (defun zap-to-isearch (rbeg rend)
+       "Kill the region between the mark and the closest portion of
+     the isearch match string. The behaviour is meant to be analogous
+     to zap-to-char; let's call it zap-to-isearch. The deleted region
+     does not include the isearch word. This is meant to be bound only
+     in isearch mode.  The point of this function is that oftentimes
+     you want to delete some portion of text, one end of which happens
+     to be an active isearch word. The observation to make is that if
+     you use isearch a lot to move the cursor around (as you should,
+     it is much more efficient than using the arrows), it happens a
+     lot that you could just delete the active region between the mark
+     and the point, not include the isearch word."
+       (interactive "r")
+       (when (not mark-active)
+         (error "Mark is not active"))
+       (let* ((isearch-bounds (list isearch-other-end (point)))
+              (ismin (apply 'min isearch-bounds))
+              (ismax (apply 'max isearch-bounds))
+              )
+         (if (< (mark) ismin)
+             (kill-region (mark) ismin)
+           (if (> (mark) ismax)
+               (kill-region ismax (mark))
+             (error "Internal error in isearch kill function.")))
+         (isearch-exit)
+         ))
+   #+end_src
+      
+** Some addtional keybindings
+   #+begin_src emacs-lisp
+     (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
+     (define-key isearch-mode-map "\C-\M-w" 'isearch-yank-symbol)
+     (define-key isearch-mode-map (kbd "M-z") 'zap-to-isearch)
+   #+end_src
+
+
+* Function to search all the buffers
+  #+begin_src emacs-lisp
+    ;; I know that string is in my Emacs somewhere!
+    (require 'cl)
+    (defcustom search-all-buffers-ignored-files (list (rx-to-string '(and bos (or ".bash_history" "TAGS") eos)))
+      "Files to ignore when searching buffers via \\[search-all-buffers]."
+      :type 'editable-list)
+    
+    (require 'grep)
+    (defun search-all-buffers (regexp prefix)
+      "Searches file-visiting buffers for occurence of REGEXP.  With
+    prefix > 1 (i.e., if you type C-u \\[search-all-buffers]),
+    searches all buffers."
+      (interactive (list (grep-read-regexp)
+                         current-prefix-arg))
+      (message "Regexp is %s; prefix is %s" regexp prefix)
+      (multi-occur
+       (if (member prefix '(4 (4)))
+           (buffer-list)
+         (remove-if
+          (lambda (b) (some (lambda (rx) (string-match rx  (file-name-nondirectory (buffer-file-name b)))) search-all-buffers-ignored-files))
+          (remove-if-not 'buffer-file-name (buffer-list))))
+    
+       regexp))
+    
+    (global-set-key [f7] 'search-all-buffers)
+  #+end_src
+  
+
+* Keybindings for visual-regexp
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c M-%") 'vr/query-replace)
+  #+end_src
+  

@@ -87,6 +87,7 @@
                                  "editing"
                                  "navigation"
                                  "folding"
+                                 "search-replace"
                                  "ido"
                                  "parenthesis"
                                  "syntax-check"

@@ -234,8 +234,7 @@
   #+end_src
   
 
-* Seamlessly create, edit, remove boxes
-  
+* Seamlessly create, edit, remove boxes  
   #+begin_src emacs-lisp
     (el-get 'sync 'rebox2)
     (setq rebox-style-loop '(24 16))
@@ -244,3 +243,5 @@
     (global-set-key (kbd "C-c Q") 'rebox-cycle)
   #+end_src
   
+
+
