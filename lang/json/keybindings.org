@@ -1,0 +1,5 @@
+* Keybinding for json-snatcher
+  #+begin_src emacs-lisp
+    (local-set-key (kbd "C-c C-g") 'jsons-print-path)
+  #+end_src
+  

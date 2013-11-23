@@ -1,0 +1,11 @@
+* Use JSON mode
+  #+begin_src emacs-lisp
+    (json-mode)
+  #+end_src
+
+
+* Load json-snatcher
+  #+begin_src emacs-lisp
+    (load "json-snatcher")
+  #+end_src
+  

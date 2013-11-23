@@ -202,7 +202,12 @@
      (add-to-list 'auto-mode-alist '("\\.\\(sml\\|sig\\)\\'" . (lambda ()
                                                                  (iqbal-load-lang "sml"))))
    #+end_src
-   
+
+** Better mode for working with JSON
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.json\\'" . (lambda ()
+                                                                 (iqbal-load-lang "json"))))
+   #+end_src   
 
 
 * Load common libraries
