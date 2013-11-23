@@ -5,6 +5,12 @@
   #+end_src
   
 
+* Load js-mode
+  #+begin_src emacs-lisp
+    (js-mode)
+  #+end_src
+  
+
 * Setup Tern for autocompletion and some refactoring
 ** Load ternjs
    

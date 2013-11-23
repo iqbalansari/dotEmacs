@@ -68,7 +68,7 @@
     (fset 'yes-or-no-p 'y-or-n-p)
   #+end_src
   
-
+  
 * Declare common keybindings
   These don't actually bind any rather they define the keys that will 
   be used for common actions across multiple modes for common functions 
@@ -102,7 +102,6 @@
   Initialize package manager and add repositories
   #+begin_src emacs-lisp
       (package-initialize)
-      
       (add-to-list 'package-archives
                  '("melpa" . "http://melpa.milkbox.net/packages/") t)
       (add-to-list 'package-archives
@@ -168,17 +167,14 @@
 
 ** Javascript
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
-     (add-hook 'js-mode-hook (lambda ()
-                               (iqbal-load-lang "javascript")))
+     (add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda ()
+                                                    (iqbal-load-lang "javascript"))))
    #+end_src
 
 ** HTML mode
    #+begin_src emacs-lisp
-     (el-get 'sync 'web-mode)
-     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-     (add-hook 'web-mode-hook (lambda ()
-                                   (iqbal-load-lang "html")))
+     (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda ()
+                                                      (iqbal-load-lang "html"))))
    #+end_src  
 
 ** CSS mode
@@ -207,6 +203,7 @@
                                                                  (iqbal-load-lang "sml"))))
    #+end_src
    
+
 
 * Load common libraries
    These are general purpose libraries that can are used

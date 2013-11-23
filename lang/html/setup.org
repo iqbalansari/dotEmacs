@@ -6,6 +6,11 @@
   #+end_src
 
 
+* Use we-mode
+  #+begin_src emacs-lisp
+    (web-mode)
+  #+end_src
+
 * Enable emmet-mode
   #+begin_src emacs-lisp
     (emmet-mode)
