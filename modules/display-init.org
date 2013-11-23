@@ -103,10 +103,10 @@
 * Highlight current line
   #+begin_src emacs-lisp
     (global-hl-line-mode)
-    (set-face-background hl-line-face "gray15")
+    (set-face-background hl-line-face "gray19")
   #+end_src
   
-
+  
 * Make buffer size irrelevant for fontification
   #+begin_src emacs-lisp
     (setq font-lock-maximum-size nil)
