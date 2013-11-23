@@ -34,4 +34,5 @@
 ;; Use org mode to intialize dotFiles
 
 (require 'org)
+(require 'cl)
 (org-babel-load-file "~/.emacs.d/iqbal-init.org")
