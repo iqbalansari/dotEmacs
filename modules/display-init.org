@@ -4,6 +4,7 @@
       '(linum-off
         diminish
         auto-highlight-symbol
+        smooth-scrolling
         volatile-highlights))
     
     (el-get 'sync iqbal-display-packages)
@@ -208,5 +209,17 @@
     (diminish 'projectile-mode)
     (diminish 'auto-complete-mode)
     (diminish 'undo-tree-mode)
+  #+end_src
+  
+
+* Use smooth-scrolling for better scrolling
+  #+begin_src emacs-lisp
+    (require 'smooth-scrolling)
+  #+end_src
+
+
+* Better scrolling with mouse
+  #+begin_src emacs-lisp
+    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
   #+end_src
   
