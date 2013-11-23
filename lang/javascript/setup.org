@@ -7,7 +7,7 @@
 
 * Load js-mode
   #+begin_src emacs-lisp
-    (js-mode)
+    (js2-mode)
   #+end_src
   
 
@@ -29,14 +29,6 @@
      (tern-ac-setup)
      (setq tern-ac-dot-complete t)
    #+end_src
-
-   
-* Setup syntax checking
-** js2-mode provide awesome error highlighting plus warnings
-  
-  #+begin_src emacs-lisp
-     (js2-minor-mode)
-  #+end_src
      
 
 * Setup autocompletion and documentation for jQuery
