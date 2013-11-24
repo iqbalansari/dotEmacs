@@ -6,20 +6,20 @@
      (defvar iqbal-home-dir (concat (expand-file-name "~/.emacs.d/")))
    #+end_src
    
-** 1. Path to 'non-el-get' packages
+** 2. Path to 'non-el-get' packages
   Packages not currently installable via el-get reside in this directory
   #+begin_src emacs-lisp
     (defvar otherpackages "~/.emacs.d/otherpackages/")
   #+end_src
 
-** 2. Path to 'lang'uage specific configurations
+** 3. Path to 'lang'uage specific configurations
    Lang contain the configuration related to one specific type of file.
    They reside in the following directory
    #+begin_src emacs-lisp
      (defvar iqbal-langs-dir "~/.emacs.d/lang/")
    #+end_src
 
-** 3. Function to load lang
+** 4. Function to load lang
    A simple helper function to load a particular lang
    #+begin_src emacs-lisp
      (defun iqbal-load-lang (language)
@@ -32,6 +32,18 @@
            (funcall load-if-present 
                     (concat lang-path file)))))
    #+end_src
+
+** 5. Function to declare one-shot keybindings
+    These bindings active only after a particular command and are
+    deactivated as soon as some other key is pressed (as in 'C-x e'
+    and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
+    #+begin_src emacs-lisp
+      (defun one-shot-keybinding (key command)
+        (set-temporary-overlay-map
+         (let ((map (make-sparse-keymap)))
+           (define-key map (kbd key) command)
+           map) t))
+    #+end_src
    
 
 * Unbind keys
