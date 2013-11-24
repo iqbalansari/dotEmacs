@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: equation*
+# key: eqb
+# contributor: Rafael Villarroel (rvf0068@gmail.com)
+# --
+  \begin{equation*}
+  $0
+  \end{equation*}
