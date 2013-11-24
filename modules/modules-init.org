@@ -91,11 +91,11 @@
                                  "ido"
                                  "parenthesis"
                                  "syntax-check"
-                                 "project"
                                  "shell"
                                  "utilities"
                                  "version-control"
                                  "yasnippet"
+                                 "project"
                                  "display"))
   #+end_src
   
