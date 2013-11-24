@@ -16,13 +16,6 @@
   #+end_src
   
 
-* Snippets directory
-
-  #+begin_src emacs-lisp 
-    (setq yas/root-directory '("~/.emacs.d/snippets"))
-  #+end_src
-  
-
 * Start yasnippet global mode
   
   #+begin_src emacs-lisp
