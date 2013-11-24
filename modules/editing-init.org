@@ -166,14 +166,14 @@
       (interactive)
       (if (region-active-p)
           (kill-ring-save (region-beginning) (region-end))
-        (kill-ring-save (line-beginning-position) (line-beginning-position 2)) ) )
-    
+        (kill-ring-save (line-beginning-position) (line-end-position))))
+
     (defun cut-line-or-region ()
       "Cut the current line, or current text selection."
       (interactive)
       (if (region-active-p)
           (kill-region (region-beginning) (region-end))
-        (kill-region (line-beginning-position) (line-beginning-position 2)) ) )
+        (kill-region (line-beginning-position) (line-end-position))))
     
     (global-set-key (kbd "M-w") 'copy-line-or-region)
     (global-set-key (kbd "C-w") 'cut-line-or-region)
@@ -218,37 +218,54 @@
 
 * Keybinding for duplicate current line or region
   Duplicate current line if region is not selected else duplicate the region
-  taken from [[http://stackoverflow.com/questions/88399/how-do-i-duplicate-a-whole-line-in-emacs][stackoverflow]].
+  pressing 'd' immediately after duplicating a line will duplicate the line
+  again. 
   #+begin_src emacs-lisp
-    (defun duplicate-line-or-region (&optional n)
-      "Duplicate current line, or region if active.
-    With argument N, make N copies.
-    With negative N, comment out original line and use the absolute value."
-      (interactive "*p")
-      (let ((use-region (use-region-p)))
-        (save-excursion
-          (let ((text (if use-region        ;Get region if active, otherwise line
-                          (buffer-substring (region-beginning) (region-end))
-                        (prog1 (thing-at-point 'line)
-                          (end-of-line)
-                          (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
-                              (newline))))))
-            (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
-              (insert text))))
-        (if use-region nil                  ;Only if we're working with a line (not a region)
-          (let ((pos (- (point) (line-beginning-position)))) ;Save column
-            (if (> 0 n)                             ;Comment out original with negative arg
-                (comment-region (line-beginning-position) (line-end-position)))
-            (forward-line 1)
-            (forward-char pos)))))
+    (defun duplicate-current-line-or-region (arg)
+      "Duplicates the current line or region ARG times.
+    If there's no region, the current line will be duplicated."
+      (interactive "p")
+      (if (region-active-p)
+          (let ((beg (region-beginning))
+                (end (region-end)))
+            (duplicate-region arg beg end)
+            (one-shot-keybinding "d" (lambda ()
+                                       (interactive)
+                                       (duplicate-region 1 beg end))))
+        (duplicate-current-line arg)
+        (one-shot-keybinding "d" 'duplicate-current-line)))
     
-    (global-set-key (kbd "C-x C-d") 'duplicate-line-or-region)
+    (defun duplicate-region (&optional num start end)
+      "Duplicates the region bounded by START and END NUM times.
+    If no START and END is provided, the current region-beginning and
+    region-end is used."
+      (interactive "p")
+      (save-excursion
+        (let* ((start (or start (region-beginning)))
+               (end (or end (region-end)))
+               (region (buffer-substring start end)))
+          (goto-char end)
+          (dotimes (i num)
+            (insert region)))))
+    
+    (defun duplicate-current-line (&optional num)
+      "Duplicate the current line NUM times."
+      (interactive "p")
+      (save-excursion
+        (when (eq (point-at-eol) (point-max))
+          (goto-char (point-max))
+          (newline)
+          (forward-char -1))
+        (duplicate-region num (point-at-bol) (1+ (point-at-eol)))))
+    
+    (global-set-key (kbd "C-x C-d") 'duplicate-current-line-or-region)
   #+end_src
   
 
 * Convenient functions for opening newlines
-  Typing shift + return anywhere on a line will create a new line below the current
-  line, ctrl + shift + return will open a line above
+  Typing shift + return anywhere on a line will create a new line
+  below the current line, ctrl + shift + return will open a line above
+  M-RET between parenthesis will insert an newline between the parenthesis
   #+begin_src emacs-lisp
     (defun open-line-below ()
       (interactive)
@@ -263,8 +280,23 @@
       (forward-line -1)
       (indent-for-tab-command))
     
+    
+    (defun new-line-dwim ()
+      (interactive)
+      (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
+                                 (and (looking-back ">") (looking-at "<"))
+                                 (and (looking-back "\\[") (looking-at "\\]")))))
+        (newline)
+        (when break-open-pair
+          (save-excursion
+            (newline)
+            (indent-for-tab-command)))
+        (indent-for-tab-command)))
+    
+    
     (global-set-key (kbd "<C-return>") 'open-line-below)
     (global-set-key (kbd "<C-S-return>") 'open-line-above)
+    (global-set-key (kbd "<M-return>") 'new-line-dwim)
   #+end_src
 
   
