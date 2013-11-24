@@ -3,11 +3,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cursor-type (quote bar))
  '(custom-safe-themes
    (quote
     ("936e5cac238333f251a8d76a2ed96c8191b1e755782c99ea1d7b8c215e66d11e" "fc6e906a0e6ead5747ab2e7c5838166f7350b958d82e410257aeeb2820e8a07a" default)))
- '(cursor-type 'bar)
-)
+ '(inhibit-startup-screen t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
