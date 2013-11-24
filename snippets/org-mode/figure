@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: figure
+# key: fig
+# binding: C-c y f
+# contributor: Rafael Villarroel (rvf0068@gmail.com)
+# --
+#+attr_latex: :width $1\textwidth
+#+attr_html: :align center
+#+caption: $2
+`(org-insert-link '(4))`
+$0

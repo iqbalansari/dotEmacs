@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
-# name: email
-# key: email
-# condition: (or (= (current-column) 5) (= (current-column) 0))
+# name: language
+# key: lan
+# condition: (= (current-column) 3)
 # contributor: Rick Moynihan <rick@sourcesmouth.co.uk>
 # contributor: Rafael Villarroel (rvf0068@gmail.com)
 # --
-#+email: ${1:`user-mail-address`}
+#+language: ${1:$$(yas/choose-value '("en" "es"))}
