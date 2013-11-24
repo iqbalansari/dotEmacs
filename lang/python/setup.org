@@ -63,14 +63,7 @@
 
   
 * Setup code folding
-  1. Enable "hs-minor-mode"
-
+  Enable "hs-minor-mode"
   #+begin_src emacs-lisp 
     (hs-minor-mode)
-  #+end_src
-  
-  2. Expand folded region when searching
-
-  #+begin_src emacs-lisp 
-    (setq hs-isearch-open t)
   #+end_src

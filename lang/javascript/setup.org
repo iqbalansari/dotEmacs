@@ -62,3 +62,11 @@
     (local-set-key (kbd "M-[") 'js-beautify)
   #+end_src
   
+
+* Setup code folding
+  Enable "hs-minor-mode"
+  #+begin_src emacs-lisp 
+    (hs-minor-mode)
+  #+end_src
+
+  

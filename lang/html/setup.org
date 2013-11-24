@@ -6,10 +6,18 @@
   #+end_src
 
 
-* Use we-mode
+* Display config for web-mode
+  #+BEGIN_SRC emacs-lisp
+    (setq web-mode-html-attr-name-face '(:foreground "dark orange"))
+    (setq web-mode-html-tag-face '(:foreground "lawn green"))
+  #+END_SRC
+
+
+* Use web-mode
   #+begin_src emacs-lisp
     (web-mode)
   #+end_src
+
 
 * Enable emmet-mode
   #+begin_src emacs-lisp

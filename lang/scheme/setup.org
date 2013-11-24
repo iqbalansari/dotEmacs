@@ -7,3 +7,10 @@
     (eval-after-load "auto-complete"
       '(add-to-list 'ac-modes 'geiser-repl-mode))
   #+end_src
+
+* Setup code folding
+  Enable "hs-minor-mode"
+  #+begin_src emacs-lisp 
+    (hs-minor-mode)
+  #+end_src
+
