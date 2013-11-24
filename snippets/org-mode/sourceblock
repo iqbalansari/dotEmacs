@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name : #+srcname:..#+begin_src...#+end_src
+# key: sb
+# binding: C-c y s
+# condition: (or (= (current-column) 2) (= (current-column) 0))
+# --
+#+source: ${1:name}
+#+begin_src ${2:language}
+  $3
+#+end_src

@@ -1,0 +1,5 @@
+# name: attr_latex
+# key: atl
+# contributor: Rafael Villarroel (rvf0068@gmail.com)
+# --
+#+attr_latex: :width=$1cm
