@@ -1,10 +1,12 @@
 * Ensure that required packages are installed
   + [[http://magit.github.io/magit/][magit]] - Makes the most git operations convenient 
+  + [[https://github.com/dgutov/diff-hl][diff-hl]] - Emacs package for highlighting uncommitted changes
   + [[https://github.com/syohex/emacs-git-messenger][git-messenger]] - Popup commit message at current line
 
   #+begin_src emacs-lisp
     (defvar iqbal-version-control-packages
       '(magit
+        diff-hl
         git-messenger))
     
     (el-get 'sync iqbal-version-control-packages)
@@ -80,4 +82,9 @@
     (global-set-key (kbd "C-x v p") 'git-messenger:popup-message)
   #+end_src
 
+
+* Enable diff-hl mode
+  #+begin_src emacs-lisp
+    (global-diff-hl-mode)
+  #+end_src
   
