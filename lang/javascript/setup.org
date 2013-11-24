@@ -5,11 +5,17 @@
   #+end_src
   
 
-* Load js-mode
+* Load js2-mode
   #+begin_src emacs-lisp
     (js2-mode)
   #+end_src
+
   
+* Enhancements for imenu
+  #+begin_src emacs-lisp
+    (js2-imenu-extras-mode)
+  #+end_src
+
 
 * Setup Tern for autocompletion and some refactoring
 ** Load ternjs
