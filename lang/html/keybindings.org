@@ -1,0 +1,16 @@
+* Keybinding for jumping to matching tag
+  #+begin_src emacs-lisp
+    (local-set-key (kbd "C-'") 'web-mode-tag-match)
+  #+end_src
+
+
+* Keybinding to rename current tag
+  #+begin_src emacs-lisp
+    (local-set-key iqbal-refactor-rename 'web-mode-element-rename)
+  #+end_src
+
+
+* Keybinding to fold html entities
+  #+begin_src emacs-lisp
+    (local-set-key (kbd "C-\\") 'web-mode-fold-or-unfold)
+  #+end_src

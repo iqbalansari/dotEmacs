@@ -32,11 +32,3 @@
           (replace-match "\n" nil nil nil 1))
         (indent-region beginning end)))    
   #+end_src
-  
-
-
-* Keybindings
-  #+begin_src emacs-lisp
-    (local-set-key (kbd "C-'") 'web-mode-tag-match)
-  #+end_src
-  
