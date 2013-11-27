@@ -20,6 +20,7 @@
     (add-hook 'shell-mode-hook 'ac-rlc-setup-sources)
   #+end_src
 
+
 * Set C-x as the prefix command rather than C-c also set keybindings to copy and yank in the term
   #+begin_src emacs-lisp
     (add-hook 'term-mode-hook
