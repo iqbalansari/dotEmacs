@@ -64,3 +64,11 @@
       (add-hook 'dired-load-hook 'my-dired-init))
   #+end_src
   
+
+* Wdired configuration
+  #+begin_src emacs-lisp 
+    (require 'wdired)
+    (setq wdired-use-interactive-rename t)
+    (setq wdired-confirm-overwrite t)
+    (setq wdired-use-dired-vertical-movement t)
+  #+end_src
