@@ -6,3 +6,12 @@ lang/*/*.el
 backups/
 auto-save/
 *~undo-tree~.gz
+ac-comphist.dat
+eww-bookmarks
+history
+iqbal-init.el
+modules/*
+projectile-bookmarks.eld
+tramp
+url/*
+workgroups
