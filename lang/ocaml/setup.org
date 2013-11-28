@@ -1,0 +1,4 @@
+* Enable tuareg-mode
+  #+begin_src emacs-lisp
+    (tuareg-mode)
+  #+end_src

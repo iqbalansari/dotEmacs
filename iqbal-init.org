@@ -215,11 +215,18 @@
                                                                  (iqbal-load-lang "sml"))))
    #+end_src
 
+** OCaml mode
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.ml[iylp]?" . (lambda ()
+                                                        (iqbal-load-lang "ocaml"))))
+   #+end_src
+
 ** Better mode for working with JSON
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.json\\'" . (lambda ()
                                                                  (iqbal-load-lang "json"))))
    #+end_src   
+
 
 
 * Load common libraries

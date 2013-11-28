@@ -1,0 +1,4 @@
+* Install tuareg-mode
+  #+begin_src emacs-lisp
+    (el-get 'sync 'tuareg-mode)
+  #+end_src
