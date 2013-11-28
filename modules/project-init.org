@@ -60,6 +60,11 @@
      (setq wg-use-default-session-file nil)
    #+end_src   
 
+** Save the session file in .emacs.d rather than home
+   #+begin_src emacs-lisp
+     (setq wg-default-session-file "~/.emacs.d/workgroups")
+   #+end_src
+
 ** Save automatically when exiting emacs  
   #+begin_src emacs-lisp
     (setq wg-query-for-save-on-emacs-exit nil)
