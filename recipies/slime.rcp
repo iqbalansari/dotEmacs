@@ -5,5 +5,5 @@
        :info "doc"
        :pkgname "antifuchs/slime"
        :load-path ("." "contrib")
-       :compile (".")
+       :build '(("make" "-C" "doc" "slime.info"))
        :build/berkeley-unix '(("gmake" "-C" "doc" "slime.info")))
