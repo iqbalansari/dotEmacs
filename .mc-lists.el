@@ -3,8 +3,14 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	c-electric-colon
+	c-electric-delete-forward
+	c-electric-semi&comma
+	copy-line-or-region
+	cut-line-or-region
 	dabbrev-expand
 	eval-print-last-sexp
+	increment-integer-at-point
 	isearch-abort
 	jedi:dot-complete
 	overwrite-mode
@@ -22,4 +28,6 @@
 	))
 
 (setq mc/cmds-to-run-once
-      '())
+      '(
+	smex
+	))
