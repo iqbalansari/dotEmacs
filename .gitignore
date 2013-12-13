@@ -10,8 +10,9 @@ ac-comphist.dat
 eww-bookmarks
 history
 iqbal-init.el
-modules/*
+modules/*.el
 projectile-bookmarks.eld
 tramp
 url/*
 workgroups
+semanticdb/
