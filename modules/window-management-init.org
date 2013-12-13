@@ -1,0 +1,46 @@
+* Workgroups2 configurations
+** Require workgroups2
+   #+begin_src emacs-lisp
+     (require 'workgroups2)
+     (setq wg-use-default-session-file nil)
+   #+end_src   
+
+** Save the session file in .emacs.d rather than home
+   #+begin_src emacs-lisp
+     (setq wg-default-session-file "~/.emacs.d/workgroups")
+   #+end_src
+
+** Save automatically when exiting emacs  
+  #+begin_src emacs-lisp
+    (setq wg-query-for-save-on-emacs-exit nil)
+    (push (lambda()(or (ignore-errors
+                         (wg-update-all-workgroups-and-save)) t))
+          kill-emacs-query-functions)
+  #+end_src
+
+** Key prefix for Workgroups2
+   #+begin_src emacs-lisp
+     (setq wg-prefix-key (kbd "C-z"))    
+   #+end_src
+
+** Display current workgroup in modeline
+   #+begin_src emacs-lisp
+     (setq wg-mode-line-display-on t)
+   #+end_src
+** Restore all buffers in workgroups
+   #+begin_src emacs-lisp
+     (setq wg-restore-associated-buffers t)
+   #+end_src
+
+   
+* Enable workgroups2
+  
+  #+begin_src emacs-lisp
+    (workgroups-mode 1)
+  #+end_src
+
+
+* Enable winner-mode
+  #+begin_src emacs-lisp
+    (winner-mode 1)
+  #+end_src
