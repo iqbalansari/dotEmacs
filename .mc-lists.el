@@ -3,17 +3,29 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	backward-kill-line
+	backward-sexp
+	browse-kill-ring
+	cut-line-or-region
 	dabbrev-expand
+	delete-horizontal-space
 	eval-print-last-sexp
+	forward-sexp
 	isearch-abort
 	jedi:dot-complete
+	kill-sentence
 	overwrite-mode
 	phi-rectangle-kill-ring-save
 	sp--self-insert-command
+	sp-backward-down-sexp
+	sp-backward-sexp
+	sp-backward-unwrap-sexp
+	sp-backward-up-sexp
 	sp-down-sexp
 	sp-forward-sexp
 	sp-forward-slurp-sexp
 	sp-kill-sexp
+	sp-unwrap-sexp
 	st2-like-beginning-of-line
 	tern-ac-dot-complete
 	transpose-words
@@ -22,4 +34,6 @@
 	))
 
 (setq mc/cmds-to-run-once
-      '())
+      '(
+	help-for-help
+	))
