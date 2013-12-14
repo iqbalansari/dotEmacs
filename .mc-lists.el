@@ -6,16 +6,18 @@
 	backward-kill-line
 	backward-sexp
 	browse-kill-ring
+	c-electric-colon
+	c-electric-delete-forward
+	c-electric-semi&comma
+	copy-line-or-region
 	cut-line-or-region
 	dabbrev-expand
 	delete-horizontal-space
 	eval-print-last-sexp
 	forward-sexp
-	isearch-abort
+	increment-integer-at-point
 	jedi:dot-complete
 	kill-sentence
-	overwrite-mode
-	phi-rectangle-kill-ring-save
 	sp--self-insert-command
 	sp-backward-down-sexp
 	sp-backward-sexp
@@ -36,4 +38,5 @@
 (setq mc/cmds-to-run-once
       '(
 	help-for-help
+	smex
 	))
