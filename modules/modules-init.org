@@ -96,6 +96,7 @@
                                  "version-control"
                                  "yasnippet"
                                  "project"
+                                 "window-management"
                                  "display"))
   #+end_src
   
