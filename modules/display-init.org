@@ -222,4 +222,3 @@
   #+begin_src emacs-lisp
     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
   #+end_src
-  

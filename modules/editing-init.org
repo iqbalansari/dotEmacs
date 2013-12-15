@@ -20,6 +20,13 @@
 #+end_src   
 
 
+* Always use spaces to indent
+  #+begin_src emacs-lisp
+    (setq-default indent-tabs-mode nil)
+  #+end_src
+
+
+
 * Replace selected region with typed text
   #+begin_src emacs-lisp
     (delete-selection-mode)
