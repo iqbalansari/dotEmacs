@@ -1,3 +1,27 @@
+* Install smart-rep and guide-key
+  + [[https://github.com/myuhe/smartrep.el][smartrep]] - Support sequential operation which omitted prefix keys
+  + [[https://github.com/kbkbkbkb1/guide-key][guide-key]] - Guide following keys to an input key sequence automatically and
+    dynamically in Emacs.
+    #+begin_src emacs-lisp
+      (el-get 'sync '(smartrep guide-key))
+    #+end_src
+
+
+* Load smartrep
+  #+begin_src emacs-lisp
+    (load "smartrep")
+  #+end_src
+
+
+* TODO Configuration for guide-key
+  Need to add some keys
+  #+begin_src emacs-lisp
+    (load "guide-key")
+    (setq guide-key/idle-delay 0.1)
+    (guide-key-mode 1)
+  #+end_src
+
+
 * Use switch-window for switching between windows
   #+begin_src emacs-lisp
     (el-get 'sync 'switch-window)
@@ -255,4 +279,3 @@
   #+begin_src emacs-lisp
     (el-get 'sync 'lorem-ipsum)
   #+end_src
-  

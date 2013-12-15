@@ -4,6 +4,7 @@
 + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
 + [[https://github.com/rolandwalker/back-button][back-button]] - Visual navigation through mark rings in Emacs
 + [[https://github.com/rolandwalker/back-button][visible-mark]] - Highlight marks in a buffer
++ [[https://github.com/rolandwalker/nav-flash][nav-flash]] - Temporarily flash current line
 
 #+begin_src emacs-lisp
   (defvar iqbal-navigation-packages
@@ -11,11 +12,11 @@
       key-chord
       ace-jump-mode
       back-button
-      visible-mark))
+      visible-mark
+      nav-flash))
   
   (el-get 'sync iqbal-navigation-packages)
 #+end_src
-
 
 
 * Ace Jump mode setup
@@ -97,3 +98,4 @@
     (load "back-button")
     (back-button-mode 1)
   #+end_src
+
