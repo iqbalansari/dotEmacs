@@ -1,0 +1,4 @@
+(:name visible-mark
+       :type emacswiki
+       :description "Make marks visible."
+       :website "https://raw.github.com/emacsmirror/emacswiki.org/master/visible-mark.el")
