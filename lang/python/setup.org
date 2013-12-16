@@ -62,6 +62,14 @@
    #+end_src
 
   
+
+* Use nosetests for testing
+  #+begin_src emacs-lisp
+    (require 'nose)
+  #+end_src
+
+
+
 * Setup code folding
   Enable "hs-minor-mode"
   #+begin_src emacs-lisp 
