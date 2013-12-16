@@ -30,9 +30,9 @@
                                           (actions
                                            ("a" "Run all nose tests" 
                                             (lambda (options) (iqbal-execute-nose-tests options #'nosetests-all)))
-                                           ("m" "Run nosetests (via eggs/bin/test) on current buffer" 
+                                           ("b" "Run nosetests on current buffer" 
                                             (lambda (options) (iqbal-execute-nose-tests options #'nosetests-module)))
-                                           ("c" "Run nosetests (via eggs/bin/test) on testable thing at point in current buffer"
+                                           ("p" "Run nosetests on testable thing at point in current buffer"
                                             (lambda (options) (iqbal-execute-nose-tests options #'nosetests-one))))))))
     
     (defun iqbal-execute-nose-tests (options nose-fn)
