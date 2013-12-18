@@ -7,6 +7,14 @@
   #+end_src
 
 
+* Use regex searches by default.
+  Universal prefix argument will initiate normal search
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+    (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
+  #+end_src
+
+
 * Enhancements to isearch mode taken from [[https://github.com/purcell/emacs.d/blob/master/init-isearch.el][purcell/emacs.d]]
 ** Search for the symbol at point
    #+begin_src emacs-lisp

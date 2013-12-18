@@ -316,15 +316,6 @@
     
     (global-set-key (kbd "C-S-k") 'backward-kill-line)
   #+end_src
-  
-
-* Use regex searches by default.
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-    (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
-    (global-set-key (kbd "C-M-s") 'isearch-forward)
-    (global-set-key (kbd "C-M-r") 'isearch-backward)
-  #+end_src
 
 
 * Functions to increment and decrement integers at point
