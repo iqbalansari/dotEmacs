@@ -55,3 +55,8 @@
      (setq backup-enable-predicate 'dont-backup-files-p)
    #+end_src
    
+
+* Delete excess backup files without asking
+  #+begin_src emacs-lisp
+    (setq delete-old-versions t)
+  #+end_src

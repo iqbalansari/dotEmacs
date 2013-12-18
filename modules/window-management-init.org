@@ -13,9 +13,6 @@
 ** Save automatically when exiting emacs  
   #+begin_src emacs-lisp
     (setq wg-query-for-save-on-emacs-exit nil)
-    (push (lambda()(or (ignore-errors
-                         (wg-update-all-workgroups-and-save)) t))
-          kill-emacs-query-functions)
   #+end_src
 
 ** Key prefix for Workgroups2
