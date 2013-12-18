@@ -37,6 +37,13 @@
   #+end_src
   
 
+* Use 'emacsclient' as editor
+  #+begin_src emacs-lisp 
+    (setenv "EDITOR" "emacsclient")
+  #+end_src
+
+
+
 * Show complete git commit message in git-messenger popup
   #+begin_src emacs-lisp
     (setq git-messenger:show-detail t)
