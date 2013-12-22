@@ -72,3 +72,9 @@
     (setq wdired-confirm-overwrite t)
     (setq wdired-use-dired-vertical-movement t)
   #+end_src
+
+
+* Keybindings for starting dired
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-x C-d") 'ido-dired)
+  #+end_src

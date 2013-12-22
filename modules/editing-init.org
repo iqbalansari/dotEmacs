@@ -26,7 +26,6 @@
   #+end_src
 
 
-
 * Replace selected region with typed text
   #+begin_src emacs-lisp
     (delete-selection-mode)
@@ -41,6 +40,7 @@
     (global-set-key (kbd "C-S-c") 'mc/mark-all-like-this-dwim)
     (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
     (global-set-key (kbd "C-S-r") 'set-rectangular-region-anchor)
+    (global-set-key (kbd "C-|") 'mc/mark-all-in-region)
   #+end_src
   
 
@@ -265,7 +265,7 @@
           (forward-char -1))
         (duplicate-region num (point-at-bol) (1+ (point-at-eol)))))
     
-    (global-set-key (kbd "C-x C-d") 'duplicate-current-line-or-region)
+    (global-set-key (kbd "C-x d") 'duplicate-current-line-or-region)
   #+end_src
   
 
