@@ -4,7 +4,6 @@ auto-save-list/
 elpa/
 lang/*/*.el
 backups/
-auto-save/
 *~undo-tree~.gz
 ac-comphist.dat
 eww-bookmarks
