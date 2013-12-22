@@ -1,3 +1,12 @@
+* Install workgroup2
+  + [[https://github.com/pashinin/workgroups2][workgroups2]]- Session manager for emacs, useful for creating workspaces as
+                 well as saving restoring state (open buffers etc) on startup
+
+  #+begin_src emacs-lisp
+    (el-get 'sync 'workgroups2)
+  #+end_src
+
+
 * Workgroups2 configurations
 ** Require workgroups2
    #+begin_src emacs-lisp

@@ -1,15 +1,9 @@
 * Ensure that required packages are installed
   + [[https://github.com/bbatsov/projectile][projectile]] - Lightweight project interaction library for emacs, provides
-	             handy functions to interact with projects, find files etc
-  + [[https://github.com/pashinin/workgroups2][workgroups2]]- Session manager for emacs, useful for creating workspaces as
-	             well as saving restoring state (open buffers etc) on startup
+                 handy functions to interact with projects, find files etc
 
   #+begin_src emacs-lisp
-    (defvar iqbal-project-packages
-      '(projectile
-        workgroups2))
-    
-    (el-get 'sync iqbal-project-packages)
+    (el-get 'sync 'projectile)
   #+end_src
 
 
