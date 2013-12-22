@@ -23,6 +23,11 @@
    A simple helper function to load a particular lang
    #+begin_src emacs-lisp
      (defun iqbal-load-lang (language)
+       (interactive 
+        (list (ido-completing-read "Language: " 
+                                   (delete "."
+                                         (delete ".." 
+                                               (directory-files iqbal-langs-dir))))))
        (let ((lang-path (concat iqbal-langs-dir language "/"))
              (load-if-present #'(lambda (file)
                                   (if (file-exists-p file)
