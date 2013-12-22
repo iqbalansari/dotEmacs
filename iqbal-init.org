@@ -229,9 +229,16 @@
 ** Better mode for working with JSON
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.json\\'" . (lambda ()
-                                                                 (iqbal-load-lang "json"))))
-   #+end_src   
+                                                      (iqbal-load-lang "json"))))
+   #+end_src
 
+** Markdown mode
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.markdown\\'" . (lambda ()
+                                                          (iqbal-load-lang "markdown"))))
+     (add-to-list 'auto-mode-alist '("\\.md\\'" . (lambda ()
+                                                    (iqbal-load-lang "markdown"))))
+   #+end_src
 
 
 * Load common libraries

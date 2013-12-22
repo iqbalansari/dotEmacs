@@ -1,0 +1,4 @@
+* Enable markdown mode
+  #+begin_src emacs-lisp
+    (markdown-mode)
+  #+end_src
