@@ -31,13 +31,6 @@
 
    
 * Enable workgroups2
-  
   #+begin_src emacs-lisp
     (workgroups-mode 1)
-  #+end_src
-
-
-* Enable winner-mode
-  #+begin_src emacs-lisp
-    (winner-mode 1)
   #+end_src
