@@ -41,3 +41,9 @@
   #+begin_src emacs-lisp
     (winner-mode 1)
   #+end_src
+
+
+* Use default windmove bindings
+  #+begin_src emacs-lisp
+    (windmove-default-keybindings)
+  #+end_src
