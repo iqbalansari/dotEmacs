@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        autopair-insert-opening
         backward-kill-line
         backward-sexp
         browse-kill-ring
@@ -18,6 +19,7 @@
         increment-integer-at-point
         jedi:dot-complete
         kill-sentence
+        kill-sexp
         sp--self-insert-command
         sp-backward-down-sexp
         sp-backward-sexp
@@ -27,6 +29,7 @@
         sp-forward-sexp
         sp-forward-slurp-sexp
         sp-kill-sexp
+        sp-rewrap-sexp
         sp-unwrap-sexp
         st2-like-beginning-of-line
         tern-ac-dot-complete
@@ -39,5 +42,6 @@
       '(
         help-for-help
         isearch-forward-regexp
+        mouse-set-region
         smex
         ))
