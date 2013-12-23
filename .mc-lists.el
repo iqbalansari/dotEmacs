@@ -40,6 +40,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        describe-key
         help-for-help
         isearch-forward-regexp
         mouse-set-region

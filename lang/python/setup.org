@@ -1,14 +1,12 @@
 * Setup Jedi for autocompletion
 ** Configuration
   Automatically start completion after inserting a dot
-
   #+begin_src emacs-lisp
     (setq jedi:complete-on-dot t)
   #+end_src
 
 ** Setup jedi for current buffer
    We simply need to call jedi:setup
-
    #+begin_src emacs-lisp
        (jedi:setup)
    #+end_src
@@ -17,13 +15,11 @@
 * Setup Rope for refactoring
 ** Configuration
    1. Prevent rope from setting up keybindings, we'll set our keybindings
-
    #+begin_src emacs-lisp
      (setq ropemacs-enable-shortcuts nil)
    #+end_src
    
    2. Enable autoimport and specify the modules that will we autoimported
-
    #+begin_src emacs-lisp
      (setq ropemacs-enable-autoimport t)
      (setq ropemacs-autoimport-modules '("os" "shutil")) 
@@ -31,7 +27,6 @@
    
 ** Start ropemacs
    'Require' pymacs and load rope
-
    #+begin_src emacs-lisp
        (load "pymacs")
        (pymacs-load "ropemacs" "rope-")
@@ -40,8 +35,7 @@
 
 * Autopair setup
   Smartparens does not have good support for python's triple
-  quoted strings so hence using autopair
-
+  quoted strings using autopair instead
   #+begin_src emacs-lisp
     (autopair-mode)
     (setq autopair-handle-action-fns
@@ -61,13 +55,11 @@
      (flycheck-select-checker 'python-pylint)
    #+end_src
 
-  
 
 * Use nosetests for testing
   #+begin_src emacs-lisp
     (require 'nose)
   #+end_src
-
 
 
 * Setup code folding

@@ -286,3 +286,9 @@
     (el-get 'sync 'mag-menu)
     (load "mag-menu")
   #+end_src
+
+
+* inf-mongo for interacting with mongo
+  #+begin_src emacs-lisp
+    (el-get 'sync 'inf-mongo)
+  #+end_src

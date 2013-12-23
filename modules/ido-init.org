@@ -56,8 +56,7 @@
                        (if (looking-back "/")
                            (insert "~/")
                          (call-interactively 'self-insert-command)))))))     
-   #+end_src
-   
+   #+end_src   
 
 ** Look for URLs at point
    #+begin_src emacs-lisp
@@ -65,12 +64,12 @@
    #+end_src
 
 
-** Keybindings
+* Keybindings
    Keybinding for idomenu
    #+begin_src emacs-lisp
      (global-set-key (kbd "<C-i-key>") 'idomenu)
      (global-set-key (kbd "M-x") 'smex)
-     (global-set-key (kbd "C-x <C-m-key>") 'smex)
+     (global-set-key (kbd "M-X") 'smex-major-mode-commands)
    #+end_src
    
 
