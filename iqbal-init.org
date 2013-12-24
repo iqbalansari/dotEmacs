@@ -36,6 +36,17 @@
          (dolist (file files-to-load t) 
            (funcall load-if-present 
                     (concat lang-path file)))))
+     
+     (defun iqbal-install-lang (language)
+       (interactive 
+        (list (ido-completing-read "Language: " 
+                                   (delete "."
+                                           (delete ".." 
+                                                   (directory-files iqbal-langs-dir))))))
+       (let ((install-file (concat iqbal-langs-dir 
+                                language "/install.org")))
+             (if (file-exists-p install-file)
+                 (org-babel-load-file install-file))))
    #+end_src
 
 ** 5. Function to declare one-shot keybindings

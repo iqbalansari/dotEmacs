@@ -14,6 +14,7 @@
         cut-line-or-region
         dabbrev-expand
         delete-horizontal-space
+        eval-last-sexp
         eval-print-last-sexp
         forward-sexp
         increment-integer-at-point
