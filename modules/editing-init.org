@@ -168,19 +168,33 @@
 
 * Copy/cut current line if no region is selected
   #+begin_src emacs-lisp
-    (defun copy-line-or-region ()
+    (defun iqbal-mark-lines(arg)
+      (back-to-indentation)
+      (set-mark-command nil)
+      (move-end-of-line arg))
+    
+    (defun copy-line-or-region (arg)
       "Copy current line, or current text selection."
-      (interactive)
+      (interactive "p")
       (if (region-active-p)
-          (kill-ring-save (region-beginning) (region-end))
-        (kill-ring-save (line-beginning-position) (line-end-position))))
-
-    (defun cut-line-or-region ()
+          (call-interactively 'kill-ring-save)
+        (let ((cur-pos (point)))
+          (iqbal-mark-lines arg)
+          (call-interactively 'kill-ring-save)
+          (deactivate-mark t)
+          (goto-char cur-pos)
+          (message (concat "Saved " 
+                           (number-to-string arg)
+                           " line(s) to kill ring")))))
+    
+    (defun cut-line-or-region (arg)
       "Cut the current line, or current text selection."
-      (interactive)
+      (interactive "p")
       (if (region-active-p)
-          (kill-region (region-beginning) (region-end))
-        (kill-region (line-beginning-position) (line-end-position))))
+          (call-interactively 'kill-region)
+        (iqbal-mark-lines arg)
+        (call-interactively 'kill-region)
+        (message (concat "Killed " (number-to-string arg) " line(s)"))))
     
     (global-set-key (kbd "M-w") 'copy-line-or-region)
     (global-set-key (kbd "C-w") 'cut-line-or-region)
@@ -420,3 +434,14 @@
     (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
   #+end_src
   
+
+* Keybinding to save current file's name to kill-ring
+  #+begin_src emacs-lisp 
+    (defun iqbal-copy-file-path ()
+      (interactive)
+      (when (buffer-file-name)
+        (kill-new (buffer-file-name))
+        (message "Copied file's path")))
+    
+    (global-set-key (kbd "C-c f") 'iqbal-copy-file-path)
+  #+end_src
