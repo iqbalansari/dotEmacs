@@ -292,3 +292,16 @@
   #+begin_src emacs-lisp
     (el-get 'sync 'inf-mongo)
   #+end_src
+
+
+* Start edit-server this is used by 'Edit with Emacs' chrome extension
+  #+begin_src emacs-lisp
+    (el-get 'sync 'edit-server)
+    (edit-server-start t)
+  #+end_src
+
+
+* Start emacs-server
+  #+begin_src emacs-lisp 
+    (server-start)
+  #+end_src

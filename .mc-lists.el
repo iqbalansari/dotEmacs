@@ -20,6 +20,7 @@
         jedi:dot-complete
         kill-sentence
         kill-sexp
+        python-indent-electric-colon
         sp--self-insert-command
         sp-backward-down-sexp
         sp-backward-sexp
