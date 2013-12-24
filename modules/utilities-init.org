@@ -20,13 +20,6 @@
     (setq guide-key/idle-delay 0.1)
     (guide-key-mode 1)
   #+end_src
-
-
-* Use switch-window for switching between windows
-  #+begin_src emacs-lisp
-    (el-get 'sync 'switch-window)
-    (global-set-key (kbd "C-x o") 'switch-window)
-  #+end_src
   
 
 * Function to rename current buffer and associated file taken from
