@@ -202,13 +202,21 @@
   
 * Diminsh some minor modes 
   #+begin_src emacs-lisp
-    (diminish 'yas-minor-mode)
-    (diminish 'smartparens-mode)
-    (diminish 'volatile-highlights-mode)
-    (diminish 'workgroups-mode)
-    (diminish 'projectile-mode)
-    (diminish 'auto-complete-mode)
-    (diminish 'undo-tree-mode)
+    (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+    (eval-after-load "smartparens" '(diminish 'smartparens-mode))
+    (eval-after-load "volatile-highlights" '(diminish 'volatile-highlights-mode))
+    (eval-after-load "workgroups2" '(diminish 'workgroups-mode))
+    (eval-after-load "projectile" '(diminish 'projectile-mode))
+    (eval-after-load "auto-complete" '(diminish 'auto-complete-mode))
+    (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
+    (eval-after-load "guide-key" '(diminish 'guide-key-mode))
+    (eval-after-load "back-button" '(diminish 'back-button-mode))
+    (eval-after-load "el-spice" '(diminish 'el-spice-mode))
+    (eval-after-load "eldoc" '(diminish 'eldoc-mode))
+    (eval-after-load "hideshow" '(diminish 'hs-minor-mode))
+    (eval-after-load "autopair" '(diminish 'autopair-mode))
+    (eval-after-load "hilit-chg" '(diminish 'highlight-changes-mode))
+    (eval-after-load "tern" '(diminish 'tern-mode))
   #+end_src
   
 
