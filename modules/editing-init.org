@@ -336,7 +336,7 @@
     
     (global-set-key (kbd "M-D") 'backward-kill-word)
     
-    (global-set-key (kbd "C-D") 'backward-delete-char-untabify)
+    (global-set-key (kbd "C-S-d") 'backward-delete-char-untabify)
     
   #+end_src
 
