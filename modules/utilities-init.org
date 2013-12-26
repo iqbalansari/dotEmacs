@@ -1,27 +1,3 @@
-* Install smart-rep and guide-key
-  + [[https://github.com/myuhe/smartrep.el][smartrep]] - Support sequential operation which omitted prefix keys
-  + [[https://github.com/kbkbkbkb1/guide-key][guide-key]] - Guide following keys to an input key sequence automatically and
-    dynamically in Emacs.
-    #+begin_src emacs-lisp
-      (el-get 'sync '(smartrep guide-key))
-    #+end_src
-
-
-* Load smartrep
-  #+begin_src emacs-lisp
-    (load "smartrep")
-  #+end_src
-
-
-* TODO Configuration for guide-key
-  Need to add some keys
-  #+begin_src emacs-lisp
-    (load "guide-key")
-    (setq guide-key/idle-delay 0.1)
-    (guide-key-mode 1)
-  #+end_src
-  
-
 * Function to rename current buffer and associated file taken from
   [[http://whattheemacsd.com/file-defuns.el-01.html][whattheemacsd]].
   #+begin_src emacs-lisp
@@ -297,4 +273,19 @@
 * Start emacs-server
   #+begin_src emacs-lisp 
     (server-start)
+  #+end_src
+
+* Use 'C-h C-a' as a entry point to starting various types of apropos
+  #+begin_src emacs-lisp 
+    (setq apropos-do-all t)
+    (global-set-key (kbd "C-h a") 'apropos-command)
+    (define-prefix-command 'Apropos-Prefix nil "Apropos (a,d,f,l,v,C-v)")
+    (global-set-key (kbd "C-h C-a") 'Apropos-Prefix)
+    (define-key Apropos-Prefix (kbd "a")   'apropos)
+    (define-key Apropos-Prefix (kbd "C-a") 'apropos)
+    (define-key Apropos-Prefix (kbd "d")   'apropos-documentation)
+    (define-key Apropos-Prefix (kbd "f")   'apropos-command)
+    (define-key Apropos-Prefix (kbd "l")   'apropos-library)
+    (define-key Apropos-Prefix (kbd "v")   'apropos-variable)
+    (define-key Apropos-Prefix (kbd "C-v") 'apropos-value)
   #+end_src
