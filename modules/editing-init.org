@@ -20,9 +20,10 @@
 #+end_src   
 
 
-* Always use spaces to indent
+* Always use spaces to indent and use four space
   #+begin_src emacs-lisp
     (setq-default indent-tabs-mode nil)
+    (setq tab-stop-list (number-sequence 4 200 4))
   #+end_src
 
 
@@ -177,7 +178,9 @@
       "Copy current line, or current text selection."
       (interactive "p")
       (if (region-active-p)
-          (call-interactively 'kill-ring-save)
+          (progn
+            (call-interactively 'kill-ring-save)
+            (indicate-copied-region))
         (let ((cur-pos (point)))
           (iqbal-mark-lines arg)
           (call-interactively 'kill-ring-save)

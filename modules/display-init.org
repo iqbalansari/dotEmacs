@@ -230,3 +230,14 @@
   #+begin_src emacs-lisp
     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
   #+end_src
+
+* Helper function to momentarily flash current line
+  #+begin_src emacs-lisp
+    (defun iqbal-highlight-line ()
+      (pulse-momentary-highlight-one-line (point)))
+  #+end_src
+
+* Flash jumping to definition using imenu
+  #+begin_src emacs-lisp
+    (add-hook 'imenu-after-jump-hook 'iqbal-highlight-line)
+  #+end_src
