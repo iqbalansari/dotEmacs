@@ -62,26 +62,7 @@
 * Save minibuffer history across sessions
   #+begin_src emacs-lisp
     (savehist-mode 1)
-  #+end_src
- 
-
-* Create unique names for same named buffers
-  #+begin_src emacs-lisp
-    (load "uniquify")
-    (setq uniquify-buffer-name-style 'post-forward)
-  #+end_src
-
-
-* Auto refresh buffers
-  #+begin_src emacs-lisp
-    (global-auto-revert-mode 1)
-  #+end_src
-  
-
-* Use ibuffer instead of regular buffer switcher
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x C-b") 'ibuffer)
-  #+end_src
+  #+end_src 
 
 
 * Backup walker traverses versioned backups, showing incremental diffs
@@ -182,6 +163,7 @@
     (server-start)
   #+end_src
 
+
 * Use 'C-h C-a' as a entry point to starting various types of apropos
   #+begin_src emacs-lisp 
     (setq apropos-do-all t)
@@ -195,4 +177,10 @@
     (define-key Apropos-Prefix (kbd "l")   'apropos-library)
     (define-key Apropos-Prefix (kbd "v")   'apropos-variable)
     (define-key Apropos-Prefix (kbd "C-v") 'apropos-value)
+  #+end_src
+
+
+* Do not delete files directly
+  #+begin_src emacs-lisp
+    (setq delete-by-moving-to-trash t)
   #+end_src
