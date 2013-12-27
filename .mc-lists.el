@@ -47,6 +47,7 @@
         describe-key
         help-for-help
         isearch-forward-regexp
+        keyboard-escape-quit
         mouse-set-region
         smex
         ))

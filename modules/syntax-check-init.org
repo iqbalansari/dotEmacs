@@ -8,9 +8,3 @@
   #+begin_src emacs-lisp
     (setq flycheck-highlighting-mode nil)
   #+end_src
-  
-
-* Enable flycheck in all buffers by default
-  #+begin_src emacs-lisp 
-    (global-flycheck-mode +1)
-  #+end_src
