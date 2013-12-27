@@ -105,17 +105,39 @@
   
 
 * Browse kill ring setup
-** Use default keybindings
+** Keybindings for browse kill ring
   #+begin_src emacs-lisp
-    (browse-kill-ring-default-keybindings)
-    (global-set-key (kbd "M-y") 'browse-kill-ring)
+    (global-set-key (kbd "C-c M-y") 'browse-kill-ring)
   #+end_src
   
+** Do not show duplicates in kill-ring
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-display-duplicates nil)
+   #+end_src
+
 ** Don't highlight current candidate in kill-ring
    #+begin_src emacs-lisp
      (setq browse-kill-ring-highlight-inserted-item nil)
    #+end_src
-   
+
+** Display maximum of 100 characters per entry in kill-ring
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-maximum-display-length 100)
+   #+end_src
+
+** Do not add duplicates to kill-ring
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-no-duplicates t)
+     (load "browse-kill-ring")
+     (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
+     (ad-activate 'kill-new)
+   #+end_src
+
+** Always keep the current entry in kill ring at the top
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-recenter t)
+   #+end_src
+
 
 * Toggle comment region or line if no region is selected
   #+begin_src emacs-lisp
@@ -441,27 +463,4 @@
     (require 'hungry-delete)
     (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
     (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
-  #+end_src
-  
-
-* Keybinding to save current file's name to kill-ring
-  #+begin_src emacs-lisp 
-    (defun iqbal-copy-file-path (arg)
-      "With prefix argument copy the name of current buffer
-    Else if we are in dired mode copy the path to directory,
-    Otherwise copy the path to the file the current buffer is
-    visiting"
-      (interactive "P")
-      (cond 
-       (current-prefix-arg (setq kill-text (buffer-name))
-                           (setq what " buffer's "))
-       ((eq major-mode 'dired-mode) (setq kill-text (expand-file-name default-directory)) (setq what " directory's "))
-       ((buffer-file-name) (setq kill-text (buffer-file-name)) (setq what " file's "))
-       (t (setq kill-text nil)
-          (message "Nothing to copy")))
-      (when kill-text
-        (kill-new kill-text)
-        (message (concat "Copied" what "path"))))
-    
-    (global-set-key (kbd "C-c f") 'iqbal-copy-file-path)
   #+end_src
