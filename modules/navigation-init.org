@@ -99,3 +99,8 @@
     (back-button-mode 1)
   #+end_src
 
+
+* Always rescan buffers when using imenu
+  #+begin_src emacs-lisp
+    (setq imenu-auto-rescan t)
+  #+end_src
