@@ -10,18 +10,16 @@
 
   
 * Require yasnippet
-
   #+begin_src emacs-lisp
     (load "yasnippet")
   #+end_src
   
 
 * Start yasnippet global mode
-  
   #+begin_src emacs-lisp
     (yas-global-mode)
   #+end_src
-
+  
 
 * Keybindings for auto-yasnippet
   #+begin_src emacs-lisp
