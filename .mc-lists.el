@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         autopair-insert-opening
+        autopair-insert-or-skip-quote
         backward-kill-line
         backward-sexp
         browse-kill-ring
@@ -14,6 +15,7 @@
         cut-line-or-region
         dabbrev-expand
         delete-horizontal-space
+        down-list
         eval-last-sexp
         eval-print-last-sexp
         forward-sexp
