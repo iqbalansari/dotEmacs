@@ -1,0 +1,93 @@
+* Create unique names for same named buffers
+  #+begin_src emacs-lisp
+    (load "uniquify")
+    (setq uniquify-buffer-name-style 'forward)
+  #+end_src
+
+
+* Auto refresh buffers
+  #+begin_src emacs-lisp
+    (global-auto-revert-mode 1)
+  #+end_src
+  
+
+* Use ibuffer instead of regular buffer switcher
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-x C-b") 'ibuffer)
+  #+end_src
+
+
+* Filter groups for ibuffer
+** The filters
+  #+begin_src emacs-lisp
+    (setq ibuffer-saved-filter-groups
+          '(("default"
+             ("Chat"
+              (mode . circe-mode))
+             ("Org"
+              (or
+               (mode . diary-mode)
+               (mode . org-mode)
+               (mode . org-agenda-mode)))
+             ("LaTeX"
+              (or
+               (mode . latex-mode)
+               (mode . LaTeX-mode)
+               (mode . bibtex-mode)
+               (mode . reftex-mode)))
+             ("Gnus & News"
+              (or
+               (mode . message-mode)
+               (mode . bbdb-mode)
+               (mode . mail-mode)
+               (mode . gnus-group-mode)
+               (mode . gnus-summary-mode)
+               (mode . gnus-article-mode)
+               (name . "^\\(\\.bbdb\\|dot-bbdb\\)$")
+               (name . "^\\.newsrc-dribble$")
+               (mode . newsticker-mode)))
+             ("Files"
+              (filename . ".*"))
+             ("Dired"
+              (mode . dired-mode))
+             ("Shell"
+              (mode . shell-mode))
+             ("Version Control"
+              (or
+               (mode . svn-status-mode)
+               (mode . svn-log-edit-mode)
+               (name . "^\\*svn-")
+               (name . "^\\*vc\\*$")
+               (name . "^\\*Annotate")
+               (name . "^\\*git-")
+               (name . "^\\*vc-")))
+             ("Emacs"
+              (or
+               (name . "^\\*scratch\\*$")
+               (name . "^\\*Messages\\*$")
+               (name . "^TAGS\\(<[0-9]+>\\)?$")
+               (name . "^\\*Occur\\*$")
+               (name . "^\\*grep\\*$")
+               (name . "^\\*Compile-Log\\*$")
+               (name . "^\\*Backtrace\\*$")
+               (name . "^\\*Process List\\*$")
+               (name . "^\\*gud\\*$")
+               (name . "^\\*Kill Ring\\*$")
+               (name . "^\\*Completions\\*$")
+               (name . "^\\*tramp")
+               (name . "^\\*compilation\\*$")))
+             ("Emacs Source"
+              (mode . emacs-lisp-mode))
+             ("Documentation"
+              (or
+               (mode . Info-mode)
+               (mode . apropos-mode)
+               (mode . woman-mode)
+               (mode . help-mode)
+               (mode . Man-mode))))))
+  #+end_src
+
+** Do not show empty groups
+   #+begin_src emacs-lisp
+     (setq ibuffer-show-empty-filter-groups nil)
+   #+end_src

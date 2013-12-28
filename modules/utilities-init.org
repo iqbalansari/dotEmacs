@@ -1,43 +1,3 @@
-* Function to rename current buffer and associated file taken from
-  [[http://whattheemacsd.com/file-defuns.el-01.html][whattheemacsd]].
-  #+begin_src emacs-lisp
-    (defun rename-current-buffer-file ()
-      "Renames current buffer and file it is visiting."
-      (interactive)
-      (let ((name (buffer-name))
-            (filename (buffer-file-name)))
-        (if (not (and filename (file-exists-p filename)))
-            (error "Buffer '%s' is not visiting a file!" name)
-          (let ((new-name (read-file-name "New name: " filename)))
-            (if (get-buffer new-name)
-                (error "A buffer named '%s' already exists!" new-name)
-              (rename-file filename new-name 1)
-              (rename-buffer new-name)
-              (set-visited-file-name new-name)
-              (set-buffer-modified-p nil)
-              (message "File '%s' successfully renamed to '%s'"
-                       name (file-name-nondirectory new-name)))))))
-    
-    (global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
-  #+end_src
-
-
-* Function to delete current buffer and its associated file
-  #+begin_src emacs-lisp
-    (defun delete-file-and-buffer ()
-      "Kill the current buffer and deletes the file it is visiting."
-      (interactive)
-      (let ((filename (buffer-file-name)))
-        (when filename
-          (if (vc-backend filename)
-              (vc-delete-file filename)
-            (progn
-              (delete-file filename)
-              (message "Deleted file %s" filename)
-              (kill-buffer))))))
-  #+end_src
-  
-  
 * Replace the current expression with the result of its evaluation
   #+begin_src emacs-lisp
     (defun eval-and-replace ()
@@ -58,60 +18,7 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-p") 'proced)
   #+end_src
-  
 
-* Functions for swapping and toggling current windows
-  I don't currently remember where I got these from
-  #+begin_src emacs-lisp
-    (defun my-swap-windows ()
-      "If you have 2 windows, it swaps them."
-      (interactive)
-      (cond ((not (= (count-windows) 2))
-             (message "You need exactly 2 windows to do this."))
-            (t
-             (let* ((w1 (first (window-list)))
-                    (w2 (second (window-list)))
-                    (b1 (window-buffer w1))
-                    (b2 (window-buffer w2))
-                    (s1 (window-start w1))
-                    (s2 (window-start w2)))
-               (set-window-buffer w1 b2)
-               (set-window-buffer w2 b1)
-               (set-window-start w1 s2)
-               (set-window-start w2 s1)))))
-    
-    (defun my-toggle-window-split ()
-      "Vertical split shows more of each line, horizontal split shows
-    more lines. This code toggles between them. It only works for
-    frames with exactly two windows."
-      (interactive)
-      (if (= (count-windows) 2)
-          (let* ((this-win-buffer (window-buffer))
-                 (next-win-buffer (window-buffer (next-window)))
-                 (this-win-edges (window-edges (selected-window)))
-                 (next-win-edges (window-edges (next-window)))
-                 (this-win-2nd (not (and (<= (car this-win-edges)
-                                             (car next-win-edges))
-                                         (<= (cadr this-win-edges)
-                                             (cadr next-win-edges)))))
-                 (splitter
-                  (if (= (car this-win-edges)
-                         (car (window-edges (next-window))))
-                      'split-window-horizontally
-                    'split-window-vertically)))
-            (delete-other-windows)
-            (let ((first-win (selected-window)))
-              (funcall splitter)
-              (if this-win-2nd (other-window 1))
-              (set-window-buffer (selected-window) this-win-buffer)
-              (set-window-buffer (next-window) next-win-buffer)
-              (select-window first-win)
-              (if this-win-2nd (other-window 1))))))
-    
-    (global-set-key (kbd "C-c w t") 'my-toggle-window-split)
-    (global-set-key (kbd "C-c w s") 'my-swap-windows)
-  #+end_src
-  
   
 * Cleanup whitespace in the buffer
   #+begin_src emacs-lisp
@@ -155,26 +62,7 @@
 * Save minibuffer history across sessions
   #+begin_src emacs-lisp
     (savehist-mode 1)
-  #+end_src
- 
-
-* Create unique names for same named buffers
-  #+begin_src emacs-lisp
-    (load "uniquify")
-    (setq uniquify-buffer-name-style 'post-forward)
-  #+end_src
-
-
-* Auto refresh buffers
-  #+begin_src emacs-lisp
-    (global-auto-revert-mode 1)
-  #+end_src
-  
-
-* Use ibuffer instead of regular buffer switcher
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x C-b") 'ibuffer)
-  #+end_src
+  #+end_src 
 
 
 * Backup walker traverses versioned backups, showing incremental diffs
@@ -275,6 +163,7 @@
     (server-start)
   #+end_src
 
+
 * Use 'C-h C-a' as a entry point to starting various types of apropos
   #+begin_src emacs-lisp 
     (setq apropos-do-all t)
@@ -288,4 +177,10 @@
     (define-key Apropos-Prefix (kbd "l")   'apropos-library)
     (define-key Apropos-Prefix (kbd "v")   'apropos-variable)
     (define-key Apropos-Prefix (kbd "C-v") 'apropos-value)
+  #+end_src
+
+
+* Do not delete files directly
+  #+begin_src emacs-lisp
+    (setq delete-by-moving-to-trash t)
   #+end_src

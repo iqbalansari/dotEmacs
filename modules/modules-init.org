@@ -83,6 +83,8 @@
   #+begin_src emacs-lisp
     (defvar iqbal-modules-list '("auto-complete" 
                                  "backup"
+                                 "files"
+                                 "buffers"
                                  "dired"
                                  "editing"
                                  "navigation"

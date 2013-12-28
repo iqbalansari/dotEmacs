@@ -14,7 +14,7 @@
       back-button
       visible-mark
       nav-flash))
-  
+
   (el-get 'sync iqbal-navigation-packages)
 #+end_src
 
@@ -24,7 +24,7 @@
   is bound to a 'key-chord' in later section
   #+begin_src emacs-lisp
      (global-set-key (kbd "C-c SPC") 'ace-jump-char-mode)
-     (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode) 
+     (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode)
   #+end_src
 
 
@@ -76,7 +76,7 @@
       (let ((col (current-column)))
         (back-to-indentation)
         (if (= col (current-column)) (move-beginning-of-line nil))))
-    
+
     (global-set-key (kbd "C-a") 'st2-like-beginning-of-line)
   #+end_src
 
@@ -99,3 +99,8 @@
     (back-button-mode 1)
   #+end_src
 
+
+* Always rescan buffers when using imenu
+  #+begin_src emacs-lisp
+    (setq imenu-auto-rescan t)
+  #+end_src
