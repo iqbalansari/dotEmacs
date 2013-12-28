@@ -256,3 +256,9 @@
     (which-func-mode 1)
   #+end_src
 
+
+* Flash the currently executed sexp
+  #+begin_src emacs-lisp
+    (el-get 'sync 'eval-sexp-fu)
+    (load "eval-sexp-fu")
+  #+end_src
