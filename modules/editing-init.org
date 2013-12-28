@@ -158,7 +158,7 @@
   [[http://www.masteringemacs.org/articles/2011/07/20/searching-buffers-occur-mode/][mastering-emacs]]
   #+begin_src emacs-lisp
     (eval-when-compile
-      (require 'cl))
+      (load  "cl"))
     
     ;; Get lines matching REGEXP in all buffers with this major mode
     (defun get-buffers-matching-mode (mode)
@@ -366,7 +366,7 @@
 * Functions to increment and decrement integers at point
   These were borrowed from prelude
   #+begin_src emacs-lisp
-    (require 'thingatpt)
+    (load  "thingatpt")
     
     (defun thing-at-point-goto-end-of-integer ()
       "Go to end of integer at point."
@@ -460,7 +460,7 @@
 
 * Keybindings for hungry deletion
   #+begin_src emacs-lisp
-    (require 'hungry-delete)
+    (load  "hungry-delete")
     (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
     (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
   #+end_src

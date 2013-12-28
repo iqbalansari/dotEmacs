@@ -11,7 +11,7 @@
   
 * Setup completion for slime
   #+begin_src emacs-lisp
-    (require 'ac-slime)
+    (load "ac-slime")
     (set-up-slime-ac)
     
     (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)

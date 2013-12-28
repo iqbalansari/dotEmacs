@@ -12,8 +12,8 @@
 * Require auto-complete 
 
   #+BEGIN_SRC emacs-lisp
-    (require 'auto-complete)
-    (require 'auto-complete-config)
+    (load "auto-complete")
+    (load "auto-complete-config")
   #+END_SRC
 
 

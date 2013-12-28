@@ -6,6 +6,6 @@
 
 * Turn on el-doc mode
   #+begin_src emacs-lisp
-    (require 'css-eldoc)
+    (load "css-eldoc")
     (turn-on-css-eldoc)
   #+end_src

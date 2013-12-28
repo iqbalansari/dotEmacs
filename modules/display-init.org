@@ -222,7 +222,7 @@
 
 * Use smooth-scrolling for better scrolling
   #+begin_src emacs-lisp
-    (require 'smooth-scrolling)
+    (load "smooth-scrolling")
   #+end_src
 
 
