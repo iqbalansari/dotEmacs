@@ -32,11 +32,24 @@
   #+end_src
   
   
-* Windows' default font is not good, use Consolas instead
+* Windows' default font is not good, use Consolas instead otherwise use DejaVu
   #+begin_src emacs-lisp
     (if (eq system-type 'windows-nt)
-        (set-default-font "Consolas-12:light"))    
+      (set-default-font "Consolas-12:light")
+    (set-default-font '(:family "DejaVu Sans Mono"  :weight normal)))
   #+end_src
+
+
+* Customizations for org-src
+** Fontify code blocks in org-src
+   #+begin_src emacs-lisp
+     (setq org-src-fontify-natively t)
+   #+end_src
+
+** Preserve leading whitespaces on export
+   #+begin_src emacs-lisp
+     (setq org-src-preserve-indentation t)
+   #+end_src
 
 
 * Customizations for linum-mode
