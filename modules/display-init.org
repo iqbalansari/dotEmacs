@@ -11,9 +11,16 @@
   #+end_src
   
   
-* Load wombat theme
+* Do not show the startup screen
   #+begin_src emacs-lisp
-    (load-theme 'wombat)
+    (setq inhibit-startup-screen t)
+  #+end_src
+
+
+* Load zenburn theme
+  #+begin_src emacs-lisp
+    (el-get 'sync 'zenburn-theme)
+    (load-theme 'zenburn)
   #+end_src
 
   
@@ -103,7 +110,7 @@
 * Highlight current line
   #+begin_src emacs-lisp
     (global-hl-line-mode)
-    (set-face-background hl-line-face "gray19")
+;    (set-face-background hl-line-face "gray19")
   #+end_src
   
   
@@ -131,10 +138,10 @@
   #+end_src
 
 
-* Customizations for cursor 
+* Customizations for cursor
 ** Display cursor as bar
    #+begin_src emacs-lisp
-     (setq cursor-type 'bar)
+     ;(setq cursor-type 'bar)
    #+end_src
    
 ** Don't blink the cursor
@@ -144,7 +151,7 @@
 
 ** Color for cursor
    #+begin_src emacs-lisp
-     (set-cursor-color "#ffffff")
+     ;(set-cursor-color "#000000")
    #+end_src
    
    
@@ -200,7 +207,7 @@
   #+end_src
   
   
-* Diminsh some minor modes 
+* Diminsh some minor modes
   #+begin_src emacs-lisp
     (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
     (eval-after-load "smartparens" '(diminish 'smartparens-mode))
@@ -245,9 +252,9 @@
   #+end_src
 
 
-* Display empty lines at the end of the buffer
+* Indicate size in modeline
   #+begin_src emacs-lisp
-    (setq-default indicate-empty-lines t)
+    (size-indication-mode)
   #+end_src
 
 
