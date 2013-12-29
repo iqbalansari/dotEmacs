@@ -1,0 +1,4 @@
+(:name molokai-theme
+       :type elpa
+       :description "molokai theme with Emacs theme engine"
+       :repo ("melpa" . "http://melpa.milkbox.net/packages/"))
