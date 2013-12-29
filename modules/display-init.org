@@ -115,7 +115,7 @@
   #+begin_src emacs-lisp
     (show-paren-mode t)
     (setq show-paren-delay 0)
-    (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold :background nil)
+    (set-face-attribute 'show-paren-match-face nil :weight 'bold :background nil :foreground nil)
     (setq show-paren-style 'expression)
   #+end_src
   
@@ -123,7 +123,6 @@
 * Highlight current line
   #+begin_src emacs-lisp
     (global-hl-line-mode)
-;    (set-face-background hl-line-face "gray19")
   #+end_src
   
   
