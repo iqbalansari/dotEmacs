@@ -10,7 +10,7 @@
 * Workgroups2 configurations
 ** Require workgroups2
    #+begin_src emacs-lisp
-     (require 'workgroups2)
+     (load "workgroups2")
      (setq wg-use-default-session-file t)
    #+end_src   
 

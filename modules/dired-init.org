@@ -39,7 +39,7 @@
 
 * Dired-details configuration
   #+begin_src emacs-lisp
-    (require 'dired-details)
+    (load "dired-details")
     (dired-details-install)
     (setq dired-details-hidden-string "[..] ")
   #+end_src
@@ -67,7 +67,7 @@
 
 * Wdired configuration
   #+begin_src emacs-lisp 
-    (require 'wdired)
+    (load "wdired")
     (setq wdired-use-interactive-rename t)
     (setq wdired-confirm-overwrite t)
     (setq wdired-use-dired-vertical-movement t)

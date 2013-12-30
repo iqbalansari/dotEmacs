@@ -38,14 +38,14 @@
       (interactive "P")
       (cond 
        (current-prefix-arg (setq kill-text (buffer-name))
-                           (setq what " buffer's "))
-       ((eq major-mode 'dired-mode) (setq kill-text (expand-file-name default-directory)) (setq what " directory's "))
-       ((buffer-file-name) (setq kill-text (buffer-file-name)) (setq what " file's "))
-       (t (setq kill-text nil)
-          (message "Nothing to copy")))
+                           (setq what " buffer's name"))
+       ((eq major-mode 'dired-mode) (setq kill-text (expand-file-name default-directory)) (setq what " directory's path"))
+       ((buffer-file-name) (setq kill-text (buffer-file-name)) (setq what " file's path"))
+       (t (setq kill-text (buffer-name))
+          (setq what " buffer's name")))
       (when kill-text
         (kill-new kill-text)
-        (message (concat "Copied" what "path"))))
+        (message (concat "Copied" what))))
     
     (global-set-key (kbd "C-c f") 'iqbal-copy-file-path)
   #+end_src

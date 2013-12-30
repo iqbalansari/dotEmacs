@@ -6,6 +6,13 @@
   #+end_src
 
 
+* Color customizations for web-mode
+  #+begin_src emacs-lisp
+    (custom-theme-set-faces 'user '(web-mode-html-attr-name-face ((t (:foreground "dark orange"))))
+                            '(web-mode-html-tag-face ((t (:foreground "lawn green")))))
+  #+end_src
+
+
 * Use web-mode
   #+begin_src emacs-lisp
     (web-mode)

@@ -54,7 +54,7 @@
 
 * RE Builder configurations
   #+begin_src emacs-lisp
-    (require 're-builder)
+    (load "re-builder")
     (setq reb-re-syntax 'string)
   #+end_src
 
@@ -69,7 +69,7 @@
 
   #+begin_src emacs-lisp
     (el-get 'sync 'backup-walker)
-    (require 'backup-walker)
+    (load "backup-walker")
   #+end_src
   
 
@@ -78,13 +78,15 @@
   #+begin_src emacs-lisp
     (el-get 'sync 'emacs-wgrep)
     (load "wgrep")
+    (setq wgrep-auto-save-buffer t)
+    (setq wgrep-enable-key "e")
   #+end_src
 
 
 * Replace words in parallel taken from [[http://stackoverflow.com/questions/2588277/how-can-i-swap-or-replace-multiple-strings-in-code-at-the-same-time][stackoverflow]]
 
   #+begin_src emacs-lisp 
-    (require 'cl)
+    (load "cl")
     (defun parallel-query-replace (plist &optional delimited start end)
       "Replace every occurrence of the (2n)th token of PLIST in
     buffer with the (2n+1)th token; if only two tokens are provided,
@@ -115,11 +117,11 @@
   #+end_src
   
 
-* Seamlessly create, edit, remove boxes  
+* Seamlessly create, edit, remove boxes
   #+begin_src emacs-lisp
     (el-get 'sync 'rebox2)
     (setq rebox-style-loop '(24 16))
-    (require 'rebox2)
+    (load "rebox2")
     (global-set-key (kbd "C-c q") 'rebox-dwim)
     (global-set-key (kbd "C-c Q") 'rebox-cycle)
   #+end_src
@@ -128,7 +130,7 @@
 * Package for transposing, swapping windows
   #+begin_src emacs-lisp
     (el-get 'sync 'transpose-frame)
-    (require 'transpose-frame)
+    (load "transpose-frame")
   #+end_src
   
 
@@ -184,3 +186,11 @@
   #+begin_src emacs-lisp
     (setq delete-by-moving-to-trash t)
   #+end_src
+
+
+* Install lacarte to execute menubar command using keyboard
+  #+begin_src emacs-lisp
+    (el-get 'sync 'lacarte)
+    (global-set-key (kbd "M-m") 'lacarte-execute-menu-command)
+  #+end_src
+

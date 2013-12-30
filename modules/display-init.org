@@ -11,9 +11,16 @@
   #+end_src
   
   
-* Load wombat theme
+* Do not show the startup screen
   #+begin_src emacs-lisp
-    (load-theme 'wombat)
+    (setq inhibit-startup-screen t)
+  #+end_src
+
+
+* Load molokai theme
+  #+begin_src emacs-lisp
+    (el-get 'sync 'molokai-theme)
+    (load "molokai-theme")
   #+end_src
 
   
@@ -25,11 +32,24 @@
   #+end_src
   
   
-* Windows' default font is not good, use Consolas instead
+* Windows' default font is not good, use Consolas instead otherwise use DejaVu
   #+begin_src emacs-lisp
     (if (eq system-type 'windows-nt)
-        (set-default-font "Consolas-12:light"))    
+      (set-default-font "Consolas-12:light")
+    (set-default-font '(:family "DejaVu Sans Mono"  :weight normal)))
   #+end_src
+
+
+* Customizations for org-src
+** Fontify code blocks in org-src
+   #+begin_src emacs-lisp
+     (setq org-src-fontify-natively t)
+   #+end_src
+
+** Preserve leading whitespaces on export
+   #+begin_src emacs-lisp
+     (setq org-src-preserve-indentation t)
+   #+end_src
 
 
 * Customizations for linum-mode
@@ -95,7 +115,7 @@
   #+begin_src emacs-lisp
     (show-paren-mode t)
     (setq show-paren-delay 0)
-    (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold :background nil)
+    (set-face-attribute 'show-paren-match-face nil :weight 'bold :background nil :foreground nil)
     (setq show-paren-style 'expression)
   #+end_src
   
@@ -103,7 +123,6 @@
 * Highlight current line
   #+begin_src emacs-lisp
     (global-hl-line-mode)
-    (set-face-background hl-line-face "gray19")
   #+end_src
   
   
@@ -131,10 +150,10 @@
   #+end_src
 
 
-* Customizations for cursor 
+* Customizations for cursor
 ** Display cursor as bar
    #+begin_src emacs-lisp
-     (setq cursor-type 'bar)
+     ;(setq cursor-type 'bar)
    #+end_src
    
 ** Don't blink the cursor
@@ -144,7 +163,7 @@
 
 ** Color for cursor
    #+begin_src emacs-lisp
-     (set-cursor-color "#ffffff")
+     ;(set-cursor-color "#000000")
    #+end_src
    
    
@@ -200,7 +219,7 @@
   #+end_src
   
   
-* Diminsh some minor modes 
+* Diminsh some minor modes
   #+begin_src emacs-lisp
     (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
     (eval-after-load "smartparens" '(diminish 'smartparens-mode))
@@ -222,7 +241,7 @@
 
 * Use smooth-scrolling for better scrolling
   #+begin_src emacs-lisp
-    (require 'smooth-scrolling)
+    (load "smooth-scrolling")
   #+end_src
 
 
@@ -245,9 +264,9 @@
   #+end_src
 
 
-* Display empty lines at the end of the buffer
+* Indicate size in modeline
   #+begin_src emacs-lisp
-    (setq-default indicate-empty-lines t)
+    (size-indication-mode)
   #+end_src
 
 
@@ -256,3 +275,9 @@
     (which-func-mode 1)
   #+end_src
 
+
+* Flash the currently executed sexp
+  #+begin_src emacs-lisp
+    (el-get 'sync 'eval-sexp-fu)
+    (load "eval-sexp-fu")
+  #+end_src

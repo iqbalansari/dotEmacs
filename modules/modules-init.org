@@ -13,7 +13,7 @@
   are modified or there is some new org file, otherwise it will be
   faster since we load a single file
   #+begin_src emacs-lisp
-    (require 'cl-lib)
+    (load "cl-lib")
     
     (defvar iqbal-modules-dir "~/.emacs.d/modules/")
     (defvar iqbal-tangled-modules "~/.emacs.d/modules/modules-compiled.el")

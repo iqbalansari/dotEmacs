@@ -26,7 +26,7 @@
    #+end_src
    
 ** Start ropemacs
-   'Require' pymacs and load rope
+   Load pymacs and load rope
    #+begin_src emacs-lisp
        (load "pymacs")
        (pymacs-load "ropemacs" "rope-")
@@ -58,7 +58,7 @@
 
 * Use nosetests for testing
   #+begin_src emacs-lisp
-    (require 'nose)
+    (load "nose")
   #+end_src
 
 
@@ -66,4 +66,16 @@
   Enable "hs-minor-mode"
   #+begin_src emacs-lisp 
     (hs-minor-mode)
+  #+end_src
+
+
+* Flash current line after a jump to definition
+  #+begin_src emacs-lisp
+    (defadvice jedi:goto-definition (after highlight-current-line
+                                           (&optional other-window deftype use-cache index))
+      "Flash the current line after jedi jump"
+      (sit-for 0.1)
+      (iqbal-highlight-line))
+    
+    (ad-activate 'jedi:goto-definition)
   #+end_src

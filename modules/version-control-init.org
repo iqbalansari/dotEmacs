@@ -10,7 +10,7 @@
         git-messenger))
     
     (el-get 'sync iqbal-version-control-packages)
-    (require 'magit)
+    (load "magit")
   #+end_src
 
   
