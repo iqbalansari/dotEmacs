@@ -153,7 +153,7 @@
 * Customizations for cursor
 ** Display cursor as bar
    #+begin_src emacs-lisp
-     ;(setq cursor-type 'bar)
+     (setq-default cursor-type 'bar)
    #+end_src
    
 ** Don't blink the cursor
