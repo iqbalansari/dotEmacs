@@ -92,6 +92,7 @@
                                  "parenthesis"
                                  "syntax-check"
                                  "shell"
+                                 "org"
                                  "utilities"
                                  "version-control"
                                  "yasnippet"
