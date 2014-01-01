@@ -10,8 +10,10 @@ eww-bookmarks
 history
 iqbal-init.el
 modules/*.el
+modules/*.elc
 projectile-bookmarks.eld
 tramp
 url/*
 workgroups
 semanticdb/
+session*
