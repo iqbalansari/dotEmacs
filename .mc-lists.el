@@ -47,8 +47,8 @@
         isearch-forward-regexp
         keyboard-escape-quit
         mouse-set-region
-        wgrep-finish-edit
         smex
+        sp-transpose-sexp
         wgrep-change-to-wgrep-mode
+        wgrep-finish-edit
         ))
-

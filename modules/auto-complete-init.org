@@ -18,6 +18,13 @@
 
 
 * Auto-complete configurations
+** Load deafult configuration
+   #+begin_src emacs-lisp
+    (ac-config-default)
+   #+end_src
+
+
+
 ** Set default sources for autocomplete
 
   #+BEGIN_SRC emacs-lisp
@@ -97,4 +104,22 @@
             try-expand-dabbrev
             try-expand-dabbrev-all-buffers
             try-expand-dabbrev-from-kill))
+  #+end_src
+
+
+* Configuration for using tab for autocompletion taken from [[https://github.com/purcell/emacs.d][Steve Purcell's config]]
+  Trigger autocompletion using <tab>
+  #+begin_src emacs-lisp    
+    (defun iqbal-auto-complete-at-point ()
+      (when (and (not (minibufferp))
+                 (fboundp 'auto-complete-mode)
+                 auto-complete-mode)
+        (auto-complete)))
+    
+    (defun set-auto-complete-as-completion-at-point-function ()
+      (setq completion-at-point-functions
+            (cons 'iqbal-auto-complete-at-point
+                  (remove 'iqbal-auto-complete-at-point completion-at-point-functions))))
+    
+    (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
   #+end_src
