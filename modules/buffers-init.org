@@ -91,3 +91,10 @@
    #+begin_src emacs-lisp
      (setq ibuffer-show-empty-filter-groups nil)
    #+end_src
+
+** Display ibuffer with filter groups
+   #+begin_src emacs-lisp
+     (add-hook 'ibuffer-mode-hook
+               (lambda ()
+                 (ibuffer-switch-to-saved-filter-groups "default")))
+   #+end_src
