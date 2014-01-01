@@ -14,13 +14,16 @@
         cut-line-or-region
         dabbrev-expand
         delete-horizontal-space
+        eval-and-replace
         eval-last-sexp
         eval-print-last-sexp
+        forward-sentence
         forward-sexp
         increment-integer-at-point
         jedi:dot-complete
         kill-sentence
         kill-sexp
+        mark-sexp
         python-indent-electric-colon
         sp--self-insert-command
         sp-backward-down-sexp
@@ -38,6 +41,7 @@
         transpose-words
         wdired-finish-edit
         yas-expand
+        completion-at-point
         ))
 
 (setq mc/cmds-to-run-once
