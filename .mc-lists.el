@@ -10,6 +10,7 @@
         c-electric-colon
         c-electric-delete-forward
         c-electric-semi&comma
+        completion-at-point
         copy-line-or-region
         cut-line-or-region
         dabbrev-expand
@@ -27,6 +28,7 @@
         python-indent-electric-colon
         sp--self-insert-command
         sp-backward-down-sexp
+        sp-backward-kill-sexp
         sp-backward-sexp
         sp-backward-unwrap-sexp
         sp-backward-up-sexp
@@ -41,7 +43,6 @@
         transpose-words
         wdired-finish-edit
         yas-expand
-        completion-at-point
         ))
 
 (setq mc/cmds-to-run-once

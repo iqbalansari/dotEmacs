@@ -22,15 +22,11 @@
     (defun iqbal-get-file-mod-time (path)
       (nth 5 (file-attributes path)))
     
-    (defvar iqbal-modules-compiled-time
-      (or (iqbal-get-file-mod-time iqbal-tangled-modules)
-          '(0 0 0 0)))
-    
     (defun iqbal-get-module-paths (prefix)
       (map 'list 
            (lambda (module) (concat iqbal-modules-dir module prefix))
            iqbal-modules-list))
-
+    
     (defun iqbal-get-org-module-paths ()
       (iqbal-get-module-paths "-init.org"))
     
@@ -38,10 +34,11 @@
       (iqbal-get-module-paths "-init.el"))
     
     (defun iqbal-module-file-newer? (module-file)
-      (let ((module-file-mod-time (iqbal-get-file-mod-time module-file)))
-        (or (> (nth 0 module-file-mod-time) (nth 0 iqbal-modules-compiled-time))
-            (and (= (nth 0 module-file-mod-time) (nth 0 iqbal-modules-compiled-time))
-                 (> (nth 1 module-file-mod-time) (nth 1 iqbal-modules-compiled-time))))))
+      (let ((module-file-mod-time (iqbal-get-file-mod-time module-file))
+            (modules-compiled-time (iqbal-get-file-mod-time iqbal-tangled-modules)))
+        (or (> (nth 0 module-file-mod-time) (nth 0 modules-compiled-time))
+            (and (= (nth 0 module-file-mod-time) (nth 0 modules-compiled-time))
+                 (> (nth 1 module-file-mod-time) (nth 1 modules-compiled-time))))))
     
     (defun iqbal-module-files-newer? ()
       (reduce #'(lambda (need-compilation-yet module-file)
@@ -49,7 +46,7 @@
               (iqbal-get-org-module-paths) :initial-value nil))
     
     (defun iqbal-modules-need-recompilation? ()
-      (or (not (file-exists-p iqbal-compiled-modules))
+      (or (not (file-exists-p iqbal-tangled-modules))
           (iqbal-module-files-newer?)))
     
     (defun iqbal-read-file (path)
