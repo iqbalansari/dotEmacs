@@ -17,3 +17,5 @@ url/*
 workgroups
 semanticdb/
 session*
+server/*
+projectile.cache
