@@ -96,6 +96,13 @@
     (fset 'yes-or-no-p 'y-or-n-p)
   #+end_src
   
+
+* Create auto-save directory if it does not already exist
+  #+begin_src emacs-lisp
+    (unless (file-exists-p "~/.emacs.d/auto-save/")
+      (make-directory "~/.emacs.d/auto-save/"))
+  #+end_src
+
   
 * Declare common keybindings
   These don't actually bind any rather they define the keys that will 
