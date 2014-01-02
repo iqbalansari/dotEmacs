@@ -24,6 +24,7 @@
         kill-sentence
         kill-sexp
         python-indent-electric-colon
+        repeat
         sp--self-insert-command
         sp-backward-down-sexp
         sp-backward-sexp
@@ -49,8 +50,7 @@
         isearch-forward-regexp
         keyboard-escape-quit
         mouse-set-region
-        wgrep-finish-edit
         smex
         wgrep-change-to-wgrep-mode
+        wgrep-finish-edit
         ))
-
