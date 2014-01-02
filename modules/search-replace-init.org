@@ -1,9 +1,10 @@
 * Install packages useful for search and replace
   #+begin_src emacs-lisp
-    (defvar iqbal-search-replace-packages
-      '(visual-regexp))
-  
-    (el-get 'sync iqbal-search-replace-packages)
+        (defvar iqbal-search-replace-packages
+          '(visual-regexp
+            anzu))
+      
+        (el-get 'sync iqbal-search-replace-packages)
   #+end_src
 
 
@@ -101,6 +102,26 @@
 
 * Keybindings for visual-regexp
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c M-%") 'vr/query-replace)
+    (global-set-key (kbd "C-M-%") 'vr/query-replace)
   #+end_src
   
+
+* Configurations for anzu
+** Load anzu
+   #+begin_src emacs-lisp
+     (load "anzu")
+     (global-anzu-mode +1)
+   #+end_src
+
+** Sample configuration taken from README
+   #+begin_src emacs-lisp
+     (setq anzu-mode-lighter "")
+     (setq anzu-deactivate-region t)
+     (setq anzu-search-threshold 1000)
+     (setq anzu-replace-to-string-separator " => ")
+   #+end_src
+
+** Keybindings
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "M-%") 'anzu-query-replace)
+   #+end_src

@@ -1,0 +1,26 @@
+* The org agenda files
+** Org agenda files will stored in ~/.emacs.d/org/
+   #+begin_src emacs-lisp
+     (defvar iqbal-org-dir (concat iqbal-home-dir "org/"))
+   #+end_src
+
+** Create the folder if it does not already exist
+   #+begin_src emacs-lisp
+     (unless (file-exists-p iqbal-org-dir)
+       (make-directory iqbal-org-dir))
+   #+end_src
+
+** Any files in org folder will be added to agenda files
+  #+begin_src emacs-lisp
+    (require 'cl)
+    (setq org-agenda-files (remove-if (lambda (file)
+                                        (file-directory-p file))
+                                      (directory-files (concat iqbal-home-dir "org/") t)))
+  #+end_src
+
+
+* Display customizations for org-src
+** Fontify code blocks in org-src
+   #+begin_src emacs-lisp
+     (setq org-src-fontify-natively t)
+   #+end_src

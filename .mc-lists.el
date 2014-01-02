@@ -11,22 +11,27 @@
         c-electric-colon
         c-electric-delete-forward
         c-electric-semi&comma
+        completion-at-point
         copy-line-or-region
         cut-line-or-region
         dabbrev-expand
         delete-horizontal-space
         down-list
+        eval-and-replace
         eval-last-sexp
         eval-print-last-sexp
+        forward-sentence
         forward-sexp
         increment-integer-at-point
         jedi:dot-complete
         kill-sentence
         kill-sexp
+        mark-sexp
         python-indent-electric-colon
         repeat
         sp--self-insert-command
         sp-backward-down-sexp
+        sp-backward-kill-sexp
         sp-backward-sexp
         sp-backward-unwrap-sexp
         sp-backward-up-sexp
@@ -51,6 +56,7 @@
         keyboard-escape-quit
         mouse-set-region
         smex
+        sp-transpose-sexp
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit
         ))

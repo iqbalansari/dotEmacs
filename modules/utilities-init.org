@@ -191,6 +191,5 @@
 * Install lacarte to execute menubar command using keyboard
   #+begin_src emacs-lisp
     (el-get 'sync 'lacarte)
-    (global-set-key (kbd "M-m") 'lacarte-execute-menu-command)
+    (global-set-key (kbd "C-c M-m") 'lacarte-execute-menu-command)
   #+end_src
-

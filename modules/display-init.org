@@ -40,18 +40,6 @@
   #+end_src
 
 
-* Customizations for org-src
-** Fontify code blocks in org-src
-   #+begin_src emacs-lisp
-     (setq org-src-fontify-natively t)
-   #+end_src
-
-** Preserve leading whitespaces on export
-   #+begin_src emacs-lisp
-     (setq org-src-preserve-indentation t)
-   #+end_src
-
-
 * Customizations for linum-mode
 ** Make custom linum consistent [http://www.emacswiki.org/emacs/LineNumbers#toc6]
    #+begin_src emacs-lisp

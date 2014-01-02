@@ -1,6 +1,6 @@
 * Install some packages useful for navigation
 + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
-+ [[http://www.emacswiki.org/cgi-bin/wiki/goto-last-change.el][goto-last-change]] - Move point through buffer-undo-list positions
++ [[http://www.emacswiki.org/emacs/goto-chg.el][goto-chg]] - Move point through buffer-undo-list positions
 + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
 + [[https://github.com/rolandwalker/back-button][back-button]] - Visual navigation through mark rings in Emacs
 + [[https://github.com/rolandwalker/back-button][visible-mark]] - Highlight marks in a buffer
@@ -8,7 +8,7 @@
 
 #+begin_src emacs-lisp
   (defvar iqbal-navigation-packages
-    '(goto-last-change
+    '(goto-chg
       key-chord
       ace-jump-mode
       back-button
@@ -84,6 +84,7 @@
 * Keybinding for jumping to last change
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-/") 'goto-last-change)
+    (global-set-key (kbd "C-x C-?") 'goto-last-change-reverse)
   #+end_src
 
 
