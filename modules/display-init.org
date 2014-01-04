@@ -258,12 +258,6 @@
   #+end_src
 
 
-* Display current function in modeline
-  #+begin_src emacs-lisp
-    (which-func-mode 1)
-  #+end_src
-
-
 * Flash the currently executed sexp
   #+begin_src emacs-lisp
     (el-get 'sync 'eval-sexp-fu)
