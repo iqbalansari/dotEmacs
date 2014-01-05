@@ -461,8 +461,8 @@
 
 * Keybindings for hungry deletion
   #+begin_src emacs-lisp
-    (autload 'hungry-delete-forward "hungry-delete")
-    (autload 'hungry-delete-backward "hungry-delete")
+    (autoload 'hungry-delete-forward "hungry-delete")
+    (autoload 'hungry-delete-backward "hungry-delete")
     (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
     (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
   #+end_src
