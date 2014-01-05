@@ -57,6 +57,7 @@
     (windmove-default-keybindings)
   #+end_src
 
+
 * Keybindings to resize the windows
   #+begin_src emacs-lisp
     (global-set-key
@@ -74,6 +75,7 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "<C-f10>") 'balance-windows)
   #+end_src
+
 
 * Functions for swapping and toggling current windows
   I don't currently remember where I got these from
