@@ -22,9 +22,9 @@
     (defun iqbal-get-file-mod-time (path)
       (nth 5 (file-attributes path)))
     
-    (defun iqbal-get-module-paths (prefix)
+    (defun iqbal-get-module-paths (suffix)
       (map 'list 
-           (lambda (module) (concat iqbal-modules-dir module prefix))
+           (lambda (module) (concat iqbal-modules-dir module suffix))
            iqbal-modules-list))
     
     (defun iqbal-get-org-module-paths ()
@@ -33,17 +33,24 @@
     (defun iqbal-get-el-module-paths ()
       (iqbal-get-module-paths "-init.el"))
     
-    (defun iqbal-module-file-newer? (module-file)
-      (let ((module-file-mod-time (iqbal-get-file-mod-time module-file))
+    (defun iqbal-get-module-org-file (module)
+      (concat iqbal-modules-dir module "-init.org"))
+    
+    (defun iqbal-get-module-el-file (module)
+      (concat iqbal-modules-dir module "-init.el"))
+    
+    (defun iqbal-module-file-newer? (module)
+      (let ((module-file-mod-time (iqbal-get-file-mod-time (iqbal-get-module-org-file module)))
             (modules-compiled-time (iqbal-get-file-mod-time iqbal-tangled-modules)))
-        (or (> (nth 0 module-file-mod-time) (nth 0 modules-compiled-time))
+        (or (not (file-exists-p (iqbal-get-module-el-file module)))
+            (> (nth 0 module-file-mod-time) (nth 0 modules-compiled-time))
             (and (= (nth 0 module-file-mod-time) (nth 0 modules-compiled-time))
                  (> (nth 1 module-file-mod-time) (nth 1 modules-compiled-time))))))
     
-    (defun iqbal-get-newer-module-files ()
+    (defun iqbal-get-newer-modules ()
       (remove-if-not (lambda (module-file)
                        (iqbal-module-file-newer? module-file))
-                     (iqbal-get-org-module-paths)))
+                     iqbal-modules-list))
     
     (defun iqbal-read-file (path)
       (with-temp-buffer
@@ -51,10 +58,15 @@
         (buffer-substring-no-properties (point-min) (point-max))))
     
     (defun iqbal-compile-modules (modules)
-      (interactive (list (iqbal-get-newer-module-files)))
-      (dolist (module-file modules)
-        (org-babel-tangle-file module-file 
-                               (concat (file-name-sans-extension module-file) ".el")
+      "Tangle the MODULES and concat store the combined results in
+    a single file also write the current modules to previous-modules.el
+    This file is read to determine if any module has been removed
+    since last compilation
+    "
+      (interactive (list (iqbal-get-newer-modules)))
+      (dolist (module modules)
+        (org-babel-tangle-file (iqbal-get-module-org-file module)
+                               (iqbal-get-module-el-file module)
                                "emacs-lisp"))
       (let ((extracted-code (reduce #'(lambda (code input-file)
                                         (concat code (iqbal-read-file input-file)))
@@ -63,13 +75,31 @@
           (insert extracted-code))
         (byte-compile-file iqbal-tangled-modules)
         (setq iqbal-modules-compiled-time 
-              (iqbal-get-file-mod-time iqbal-compiled-modules))))
+              (iqbal-get-file-mod-time iqbal-compiled-modules))
+        (with-temp-file (concat iqbal-modules-dir "previous-modules.el")
+          (insert (concat "(defvar iqbal-previous-modules '"
+                          (prin1-to-string iqbal-modules-list)
+                          ")")))))
+    
+    (defun iqbal-module-removed?()
+      "Check if any module has been removed"
+      (let ((meta-file (concat iqbal-modules-dir "previous-modules.el")))
+        (when (file-exists-p meta-file)
+          (load-file meta-file)
+          (reduce #'(lambda (any-module-removed? module)
+                      (or any-module-removed? 
+                          (not (member module iqbal-modules-list))))
+                  iqbal-previous-modules :initial-value nil))))
     
     (defun iqbal-compile-and-load-modules ()
+      "If any new module(s) are added or any module has been
+    removed, then compile and load compiled file
+    or simply load previously compiled file
+    "
       (interactive)
-      (let ((newer-module (iqbal-get-newer-module-files)))
-        (when newer-module
-          (iqbal-compile-modules newer-module))
+      (let ((newer-modules (iqbal-get-newer-modules)))
+        (when (or newer-modules (iqbal-module-removed?))
+          (iqbal-compile-modules newer-modules))
         (load-file iqbal-tangled-modules)))
   #+end_src
 
