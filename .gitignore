@@ -20,3 +20,4 @@ session*
 server/*
 projectile.cache
 org/
+auto-save/*

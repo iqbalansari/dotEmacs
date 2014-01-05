@@ -40,23 +40,19 @@
             (and (= (nth 0 module-file-mod-time) (nth 0 modules-compiled-time))
                  (> (nth 1 module-file-mod-time) (nth 1 modules-compiled-time))))))
     
-    (defun iqbal-module-files-newer? ()
-      (reduce #'(lambda (need-compilation-yet module-file)
-                  (or (iqbal-module-file-newer? module-file) need-compilation-yet))
-              (iqbal-get-org-module-paths) :initial-value nil))
-    
-    (defun iqbal-modules-need-recompilation? ()
-      (or (not (file-exists-p iqbal-tangled-modules))
-          (iqbal-module-files-newer?)))
+    (defun iqbal-get-newer-module-files ()
+      (remove-if-not (lambda (module-file)
+                       (iqbal-module-file-newer? module-file))
+                     (iqbal-get-org-module-paths)))
     
     (defun iqbal-read-file (path)
       (with-temp-buffer
         (insert-file-contents-literally path)
         (buffer-substring-no-properties (point-min) (point-max))))
     
-    (defun iqbal-compile-modules ()
-      (interactive)
-      (dolist (module-file (iqbal-get-org-module-paths))
+    (defun iqbal-compile-modules (modules)
+      (interactive (list (iqbal-get-newer-module-files)))
+      (dolist (module-file modules)
         (org-babel-tangle-file module-file 
                                (concat (file-name-sans-extension module-file) ".el")
                                "emacs-lisp"))
@@ -71,9 +67,10 @@
     
     (defun iqbal-compile-and-load-modules ()
       (interactive)
-      (when (iqbal-modules-need-recompilation?)
-        (iqbal-compile-modules))
-      (load-file iqbal-tangled-modules))
+      (let ((newer-module (iqbal-get-newer-module-files)))
+        (when newer-module
+          (iqbal-compile-modules newer-module))
+        (load-file iqbal-tangled-modules)))
   #+end_src
 
 

@@ -48,7 +48,7 @@
 * Tiny setup
   Keybindings for expanding tiny expressions
   #+begin_src emacs-lisp
-    (load "tiny")
+    (autoload 'tiny-expand "tiny")
     (global-set-key (kbd "C-:") 'tiny-expand)
   #+end_src
   
@@ -107,6 +107,7 @@
 * Browse kill ring setup
 ** Keybindings for browse kill ring
   #+begin_src emacs-lisp
+    (autoload 'browse-kill-ring "browse-kill-ring")
     (global-set-key (kbd "C-c M-y") 'browse-kill-ring)
   #+end_src
   
@@ -460,7 +461,8 @@
 
 * Keybindings for hungry deletion
   #+begin_src emacs-lisp
-    (load  "hungry-delete")
+    (autload 'hungry-delete-forward "hungry-delete")
+    (autload 'hungry-delete-backward "hungry-delete")
     (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
     (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
   #+end_src
