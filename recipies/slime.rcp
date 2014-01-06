@@ -3,7 +3,7 @@
        :type github
        :autoloads "slime-autoloads"
        :info "doc"
-       :pkgname "antifuchs/slime"
+       :pkgname "slime/slime"
        :load-path ("." "contrib")
        :build '(("make" "-C" "doc" "slime.info"))
        :build/berkeley-unix '(("gmake" "-C" "doc" "slime.info")))
