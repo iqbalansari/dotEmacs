@@ -8,6 +8,16 @@
   #+end_src
 
 
+* Use findstr on windows
+  Taken from [[https://github.com/npostavs/emacs.d]]
+  #+begin_src emacs-lisp
+    (when (eq system-type 'windows-nt)
+      (grep-apply-setting 'grep-find-template
+                          "findstr /S /N /D:. /C:<R> <F>")
+      (setq find-name-arg nil))
+  #+end_src
+
+
 * Use regex searches by default.
   Universal prefix argument will initiate normal search
   #+begin_src emacs-lisp
