@@ -1,0 +1,50 @@
+* Load cedet and semantic
+  #+begin_src emacs-lisp
+    (load "cedet")
+    (load "semantic")
+  #+end_src
+
+
+* Enable semantic only in c-mode, cc-mode and java-mode
+  #+begin_src emacs-lisp 
+    (add-to-list 'semantic-inhibit-functions
+                 (lambda () (not (member major-mode '(java-mode c-mode c++-mode)))))
+  #+end_src
+
+
+* Minor modes enabled by semantic mode
+  #+begin_src emacs-lisp
+    (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-show-unmatched-syntax-mode t)
+    (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode t)
+  #+end_src
+
+
+* Enable Semantic
+  #+BEGIN_SRC emacs-lisp
+    (setq semantic-load-turn-everything-on t)
+    (semantic-mode 1)
+    (load "semantic/senator")
+    (load "semantic")
+    (load "semantic/ia")
+    (load "semantic/wisent")
+    (load "semantic/wisent/java-tags")
+  #+END_SRC
+
+
+* Setup autocompletion
+  #+begin_src emacs-lisp 
+    (add-to-list 'ac-sources 'ac-source-gtags)
+    (add-to-list 'ac-sources 'ac-source-semantic)
+  #+end_src
+
+
+
+
