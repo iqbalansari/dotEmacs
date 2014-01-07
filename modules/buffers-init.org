@@ -84,7 +84,8 @@
                (mode . apropos-mode)
                (mode . woman-mode)
                (mode . help-mode)
-               (mode . Man-mode))))))
+               (mode . Man-mode)))
+             ("Procs" (predicate . (get-buffer-process (current-buffer)))))))
   #+end_src
 
 ** Do not show empty groups
