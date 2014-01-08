@@ -5,6 +5,12 @@
   #+end_src
   
 
+* Load dired-x for additional functionality
+  #+begin_src emacs-lisp
+    (load "dired-x")
+  #+end_src
+
+
 * Allow recursive delete, after asking for each directory at top level
   #+begin_src emacs-lisp
     (setq dired-recursive-deletes 'top)
