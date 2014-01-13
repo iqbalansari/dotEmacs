@@ -15,8 +15,10 @@
 (setq user-full-name "Iqbal Ansari"
       user-mail-address "iqbal.ansari@ignitesol.com")
 
-;; Use org babel to load dotFiles
+;; Memory is cheap
+(setq gc-cons-threshold 20000000)
 
+;; Use org babel to load rest of the configuration
 (require 'org)
 (require 'cl)
 (org-babel-load-file "~/.emacs.d/iqbal-init.org")
