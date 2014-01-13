@@ -8,6 +8,12 @@
     (slime-setup)
   #+end_src
 
+
+* Enable slime-mode
+  #+begin_src emacs-lisp
+    (slime-mode)
+  #+end_src
+
   
 * Setup completion for slime
   #+begin_src emacs-lisp
