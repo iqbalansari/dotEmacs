@@ -14,6 +14,14 @@
      (setq js2-indent-switch-body t)
    #+end_src
 
+** Additional globals
+   #+begin_src emacs-lisp
+     (setq-default js2-global-externs '("module" "require" "setTimeout" "clearTimeout"
+                                        "setInterval" "clearInterval" "console" "JSON"))
+   #+end_src
+
+
+
   
 * Enhancements for imenu
   #+begin_src emacs-lisp
@@ -64,13 +72,7 @@
     (add-to-list 'load-path (concat otherpackages "js-beautify/"))
     (load "js-beautify")
     (local-set-key (kbd "M-[") 'js-beautify)
-  #+end_src
-  
-
-* Enable subword mode
-  #+begin_src emacs-lisp 
-    (subword-mode)
-  #+end_src
+  #+end_src  
 
 
 * Setup code folding
