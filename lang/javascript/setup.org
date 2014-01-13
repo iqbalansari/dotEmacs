@@ -1,14 +1,18 @@
-* Configurations for js-mode
-  Use 4 spaces for indentation  
-  #+begin_src emacs-lisp
-      (setq js-indent-level 4)
-  #+end_src
-  
-
 * Load js2-mode
   #+begin_src emacs-lisp
     (js2-mode)
   #+end_src
+
+
+* Configurations for js2-mode
+** Use 'tab' to choose between possible indentations
+  #+begin_src emacs-lisp
+    (setq js2-bounce-indent-p t)
+  #+end_src
+** Indent 'case' on additional level inside 'switch' statements
+   #+begin_src emacs-lisp
+     (setq js2-indent-switch-body t)
+   #+end_src
 
   
 * Enhancements for imenu
