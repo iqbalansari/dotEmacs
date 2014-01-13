@@ -31,17 +31,6 @@
        (load "pymacs")
        (pymacs-load "ropemacs" "rope-")
    #+end_src
-
-
-* Autopair setup
-  Smartparens does not have good support for python's triple
-  quoted strings using autopair instead
-  #+begin_src emacs-lisp
-    (autopair-mode)
-    (setq autopair-handle-action-fns
-		(list #'autopair-default-handle-action
-			  #'autopair-python-triple-quote-action))
-  #+end_src
   
   
 * Setup flycheck for error checking
