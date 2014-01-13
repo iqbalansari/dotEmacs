@@ -118,7 +118,6 @@
                                  "ido"
                                  "parenthesis"
                                  "syntax-check"
-                                 "cedet"
                                  "shell"
                                  "org"
                                  "utilities"
