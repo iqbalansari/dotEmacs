@@ -193,3 +193,18 @@
     (el-get 'sync 'lacarte)
     (global-set-key (kbd "C-c M-m") 'lacarte-execute-menu-command)
   #+end_src
+
+
+* Prodigy for managing external processes
+  #+begin_src emacs-lisp
+    (el-get 'sync 'prodigy)
+    
+    (prodigy-define-service
+      :name "web2py dev instance"
+      :command "python"
+      :args '("web2py.py" "-a" "admin")
+      :cwd "/home/iqbal/workspace/web2py/"
+      :tags '(work)
+      :kill-signal 'sigkill
+      :kill-process-buffer-on-stop t)
+  #+end_src
