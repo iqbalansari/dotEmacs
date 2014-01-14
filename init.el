@@ -1,6 +1,7 @@
 ;; Save custom variables in separate file
 (setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+(when (file-exists-p "~/.emacs.d/custom.el")
+  (load custom-file))
 
 (setq user-full-name "Iqbal Ansari"
       user-mail-address "iqbal.ansari@ignitesol.com")
