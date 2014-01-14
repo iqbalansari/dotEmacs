@@ -7,6 +7,7 @@
         autopair-insert-or-skip-quote
         backward-kill-line
         backward-sexp
+        beginning-of-buffer
         browse-kill-ring
         c-electric-colon
         c-electric-delete-forward
@@ -28,6 +29,10 @@
         kill-sentence
         kill-sexp
         mark-sexp
+        org-beginning-of-line
+        org-end-of-line
+        org-kill-line
+        org-self-insert-command
         python-indent-electric-colon
         repeat
         sp--self-insert-command
