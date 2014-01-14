@@ -263,3 +263,10 @@
     (el-get 'sync 'eval-sexp-fu)
     (load "eval-sexp-fu")
   #+end_src
+
+
+* Use nyan-cat for indicating position in the buffer
+  #+begin_src emacs-lisp
+    (el-get 'sync 'nyan-mode)
+    (nyan-mode)
+  #+end_src

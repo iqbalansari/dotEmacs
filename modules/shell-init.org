@@ -10,18 +10,9 @@
 
 
 * Various customizations picked up from [[http://snarfed.org/why_i_run_shells_inside_emacs][snarfed.org]]
-** Always insert at the bottom
-   #+begin_src emacs-lisp
-     (setq comint-scroll-to-bottom-on-input t)
-   #+end_src
 ** Always add output at the bottom
    #+begin_src emacs-lisp
      (setq comint-scroll-to-bottom-on-output nil)
-   #+end_src
-
-** Scroll to show max possible output
-   #+begin_src emacs-lisp
-     (setq comint-scroll-show-maximum-output t)
    #+end_src
 
 ** No duplicates in command history
@@ -32,17 +23,6 @@
 ** Truncate buffers continuously
    #+begin_src emacs-lisp
      (add-hook 'comint-output-filter-functions 'comint-truncate-buffer)
-   #+end_src
-
-** Make shell outputs read-only
-   #+begin_src emacs-lisp
-     (defun make-my-shell-output-read-only (text)
-       "Add to comint-output-filter-functions to make stdout read only in my shells."
-       (let ((inhibit-read-only t)
-             (output-end (process-mark (get-buffer-process (current-buffer)))))
-         (put-text-property comint-last-output-start output-end 'read-only t)))
-     
-     (add-hook 'comint-output-filter-functions 'make-my-shell-output-read-only)
    #+end_src
 
 ** Set pager to 'cat'

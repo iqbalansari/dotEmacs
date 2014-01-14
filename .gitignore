@@ -21,3 +21,4 @@ server/*
 projectile.cache
 org/
 auto-save/*
+var/*

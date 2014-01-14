@@ -17,23 +17,62 @@
 
 
 * Diable smartparens in some modes
-** Do not use smartparens with python-mode autopair works better with python-mode
-  #+begin_src emacs-lisp
-    (add-to-list 'sp-ignore-modes-list 'python-mode)
-  #+end_src
-
 ** We don't need smartparens in RE builder
    #+begin_src emacs-lisp
      (add-to-list 'sp-ignore-modes-list 'reb-mode)
    #+end_src
    
 
-* Additional pairs for web-mode and html modes
+* Configure smartparens for web-mode
+** Additional pairs for web-mode and html modes
   #+begin_src emacs-lisp
     (sp-with-modes '(web-mode sgml-mode)
                    (sp-local-pair "<" ">"))
   #+end_src
-  
+
+** Use smartparens navigating around html tags as well
+  #+begin_src emacs-lisp
+    (setq sp-navigate-consider-sgml-tags
+          (cons 'web-mode sp-navigate-consider-sgml-tags))
+  #+end_src
+
+** Treat expression with same opening and closing delimiter as sexp
+  #+begin_src emacs-lisp
+    (add-to-list 'sp-navigate-consider-stringlike-sexp 'web-mode)
+  #+end_src   
+
+** Wrapping with tags in web-mode
+  #+begin_src emacs-lisp
+    (sp-local-tag '(sgml-mode web-mode html-mode) "<" "<_>" "</_>" :transform 'sp-match-sgml-tags)
+  #+end_src
+
+
+
+
+* Do not add autopair "'" if after a word
+  #+begin_src emacs-lisp
+    (sp-pair "'" nil :unless '(sp-point-after-word-p))
+  #+end_src
+
+
+
+* Do not autopair "`" and "'" in lisp buffer
+  #+begin_src emacs-lisp
+    (sp-local-pair '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode) 
+                   "`" "'" 
+                   :when '(sp-in-string-p sp-in-comment-p))
+    
+    (sp-local-pair '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode)
+                   "'" nil
+                   :actions nil)
+  #+end_src
+
+
+* Do not autoescape string
+  #+begin_src emacs-lisp
+    (setq sp-autoescape-string-quote nil)
+  #+end_src
+
 
 * Display configuration for smartparens
   #+begin_src emacs-lisp
@@ -47,27 +86,7 @@
   #+begin_src emacs-lisp
     (setq sp-autoskip-closing-pair 'always)
   #+end_src
-  
 
-* Use smartparens navigating around html tags as well
-  #+begin_src emacs-lisp
-    (setq sp-navigate-consider-sgml-tags
-          (cons 'web-mode sp-navigate-consider-sgml-tags))
-  #+end_src
-
-
-* Treat expression with same opening and closing delimiter as sexp
-  #+begin_src emacs-lisp
-    (add-to-list 'sp-navigate-consider-stringlike-sexp 'web-mode)
-  #+end_src
-  
-  
-
-* Wrapping with tags in web-mode
-  #+begin_src emacs-lisp
-    (sp-local-tag '(sgml-mode web-mode html-mode) "<" "<_>" "</_>" :transform 'sp-match-sgml-tags)
-  #+end_src
-  
 
 * Keybindings for navigating around sexps using smartparens
   #+begin_src emacs-lisp

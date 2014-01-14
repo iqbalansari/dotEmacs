@@ -27,6 +27,12 @@
   #+end_src
 
 
+* Enable subword mode globally
+  #+begin_src emacs-lisp
+    (global-subword-mode 1)
+  #+end_src
+
+
 * Replace selected region with typed text
   #+begin_src emacs-lisp
     (delete-selection-mode)
