@@ -12,3 +12,7 @@
 (require 'org)
 (require 'cl)
 (org-babel-load-file "~/.emacs.d/iqbal-init.org")
+
+;; Load private settings if exist
+(when (file-exists-p "~/.emacs.d/private.org")
+  (org-babel-load-file "~/.emacs.d/private.org"))
