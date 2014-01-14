@@ -86,9 +86,9 @@
       (let ((meta-file (concat iqbal-modules-dir "previous-modules.el")))
         (when (file-exists-p meta-file)
           (load-file meta-file)
-          (reduce #'(lambda (any-module-removed? module)
+          (cl-reduce #'(lambda (any-module-removed? module)
                       (or any-module-removed? 
-                          (not (member module iqbal-modules-list))))
+                          (not (cl-member module iqbal-modules-list))))
                   iqbal-previous-modules :initial-value nil))))
     
     (defun iqbal-compile-and-load-modules ()

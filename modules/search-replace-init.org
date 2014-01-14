@@ -99,9 +99,9 @@
       (multi-occur
        (if (member prefix '(4 (4)))
            (buffer-list)
-         (remove-if
-          (lambda (b) (some (lambda (rx) (string-match rx  (file-name-nondirectory (buffer-file-name b)))) search-all-buffers-ignored-files))
-          (remove-if-not 'buffer-file-name (buffer-list))))
+         (cl-remove-if
+          (lambda (b) (cl-some (lambda (rx) (string-match rx  (file-name-nondirectory (buffer-file-name b)))) search-all-buffers-ignored-files))
+          (cl-remove-if-not 'buffer-file-name (buffer-list))))
     
        regexp))
     

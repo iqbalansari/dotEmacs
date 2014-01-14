@@ -12,8 +12,8 @@
 
 ** Any files in org folder will be added to agenda files
   #+begin_src emacs-lisp
-    (require 'cl)
-    (setq org-agenda-files (remove-if (lambda (file)
+    (load "cl-lib")
+    (setq org-agenda-files (cl-remove-if (lambda (file)
                                         (file-directory-p file))
                                       (directory-files (concat iqbal-home-dir "org/") t)))
   #+end_src
