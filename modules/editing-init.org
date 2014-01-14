@@ -156,7 +156,7 @@
                 (setq beg (region-beginning) end (region-end))
                 (setq beg (line-beginning-position) end (line-end-position)))
             (comment-or-uncomment-region beg end)
-            (next-line)))
+            (forward-line)))
     (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
   #+end_src
 
@@ -248,12 +248,12 @@
     (global-set-key (kbd "C-S-n")
                     (lambda ()
                       (interactive)
-                      (ignore-errors (next-line 10))))
+                      (ignore-errors (forward-line 10))))
     
     (global-set-key (kbd "C-S-p")
                     (lambda ()
                       (interactive)
-                      (ignore-errors (previous-line 10))))
+                      (ignore-errors (forward-line -10))))
     
     (global-set-key (kbd "C-S-f")
                     (lambda ()

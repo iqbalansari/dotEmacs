@@ -35,8 +35,8 @@
 * Windows' default font is not good, use Consolas instead otherwise use DejaVu
   #+begin_src emacs-lisp
     (if (eq system-type 'windows-nt)
-      (set-default-font "Consolas-12:light")
-    (set-default-font '(:family "DejaVu Sans Mono"  :weight normal)))
+      (set-frame-font "Consolas-12:light")
+    (set-frame-font '(:family "DejaVu Sans Mono"  :weight normal)))
   #+end_src
 
 
@@ -111,14 +111,8 @@
 * Highlight current line
   #+begin_src emacs-lisp
     (global-hl-line-mode)
-  #+end_src
+  #+end_src  
   
-  
-* Make buffer size irrelevant for fontification
-  #+begin_src emacs-lisp
-    (setq font-lock-maximum-size nil)
-  #+end_src
- 
 
 * Highlight current variable after certain interval
   #+begin_src emacs-lisp
@@ -157,8 +151,8 @@
    
 * Change the cursor display according to minor modes
   #+begin_src emacs-lisp
-    (setq my-set-cursor-color-color "")
-    (setq my-set-cursor-color-buffer "")
+    (defvar my-set-cursor-color-color nil)
+    (defvar my-set-cursor-color-buffer nil)
     
     (defun my-set-cursor-color-according-to-mode ()
       "Change cursor color according to some minor modes."

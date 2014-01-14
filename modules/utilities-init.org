@@ -86,7 +86,7 @@
 * Replace words in parallel taken from [[http://stackoverflow.com/questions/2588277/how-can-i-swap-or-replace-multiple-strings-in-code-at-the-same-time][stackoverflow]]
 
   #+begin_src emacs-lisp 
-    (load "cl")
+    (load "cl-lib")
     (defun parallel-query-replace (plist &optional delimited start end)
       "Replace every occurrence of the (2n)th token of PLIST in
     buffer with the (2n+1)th token; if only two tokens are provided,

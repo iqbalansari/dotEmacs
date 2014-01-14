@@ -36,16 +36,17 @@
     Otherwise copy the path to the file the current buffer is
     visiting"
       (interactive "P")
-      (cond 
-       (current-prefix-arg (setq kill-text (buffer-name))
-                           (setq what " buffer's name"))
-       ((eq major-mode 'dired-mode) (setq kill-text (expand-file-name default-directory)) (setq what " directory's path"))
-       ((buffer-file-name) (setq kill-text (buffer-file-name)) (setq what " file's path"))
-       (t (setq kill-text (buffer-name))
-          (setq what " buffer's name")))
-      (when kill-text
-        (kill-new kill-text)
-        (message (concat "Copied" what))))
+      (let (kill-text what)
+        (cond 
+         (current-prefix-arg (setq kill-text (buffer-name))
+                             (setq what " buffer's name"))
+         ((eq major-mode 'dired-mode) (setq kill-text (expand-file-name default-directory)) (setq what " directory's path"))
+         ((buffer-file-name) (setq kill-text (buffer-file-name)) (setq what " file's path"))
+         (t (setq kill-text (buffer-name))
+            (setq what " buffer's name")))
+        (when kill-text
+          (kill-new kill-text)
+          (message (concat "Copied" what)))))
     
     (global-set-key (kbd "C-c f") 'iqbal-copy-file-path)
   #+end_src
