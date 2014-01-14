@@ -51,7 +51,8 @@
              ("Dired"
               (mode . dired-mode))
              ("Shell"
-              (mode . shell-mode))
+              (mode . shell-mode)
+              (mode . eshell-mode))
              ("Version Control"
               (or
                (mode . svn-status-mode)
