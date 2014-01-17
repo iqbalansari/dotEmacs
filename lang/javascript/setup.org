@@ -5,10 +5,6 @@
 
 
 * Configurations for js2-mode
-** Use 'tab' to choose between possible indentations
-  #+begin_src emacs-lisp
-    (setq js2-bounce-indent-p t)
-  #+end_src
 ** Indent 'case' on additional level inside 'switch' statements
    #+begin_src emacs-lisp
      (setq js2-indent-switch-body t)
