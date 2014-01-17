@@ -3,15 +3,12 @@
 (when (file-exists-p "~/.emacs.d/custom.el")
   (load custom-file))
 
-(setq user-full-name "Iqbal Ansari"
-      user-mail-address "iqbal.ansari@ignitesol.com")
-
-;; Memory is cheap
-(setq gc-cons-threshold 20000000)
+;; Memory is cheap, stop the world only after 20 megabytes are used
+(setq gc-cons-threshold (* 20 1024 1024))
 
 ;; Use org babel to load rest of the configuration
-(require 'org)
-(require 'cl)
+(load "org")
+(load "cl-lib")
 (org-babel-load-file "~/.emacs.d/iqbal-init.org")
 
 ;; Load private settings if exist
