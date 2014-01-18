@@ -88,7 +88,7 @@
           (load-file meta-file)
           (cl-reduce #'(lambda (any-module-removed? module)
                       (or any-module-removed? 
-                          (not (cl-member module iqbal-modules-list))))
+                          (not (member module iqbal-modules-list))))
                   iqbal-previous-modules :initial-value nil))))
     
     (defun iqbal-compile-and-load-modules ()
@@ -114,6 +114,7 @@
                                  "editing"
                                  "navigation"
                                  "folding"
+                                 "cedet"
                                  "search-replace"
                                  "ido"
                                  "parenthesis"
