@@ -2,7 +2,6 @@
 + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
 + [[http://www.emacswiki.org/emacs/goto-chg.el][goto-chg]] - Move point through buffer-undo-list positions
 + [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
-+ [[https://github.com/rolandwalker/back-button][back-button]] - Visual navigation through mark rings in Emacs
 + [[https://github.com/rolandwalker/back-button][visible-mark]] - Highlight marks in a buffer
 + [[https://github.com/rolandwalker/nav-flash][nav-flash]] - Temporarily flash current line
 
@@ -11,7 +10,6 @@
     '(goto-chg
       key-chord
       ace-jump-mode
-      back-button
       visible-mark
       nav-flash))
 
@@ -91,13 +89,6 @@
 * Preserve point position when scrolling the window
   #+begin_src emacs-lisp
     (setq scroll-preserve-screen-position t)
-  #+end_src
-
-
-* Use back-button to navigate mark-ring
-  #+begin_src emacs-lisp
-    (load "back-button")
-    (back-button-mode 1)
   #+end_src
 
 
