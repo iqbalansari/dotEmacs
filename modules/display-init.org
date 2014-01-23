@@ -264,3 +264,9 @@
     (el-get 'sync 'nyan-mode)
     (nyan-mode)
   #+end_src
+
+
+* Not ringing and dinging please!
+  #+begin_src emacs-lisp
+    (setq ring-bell-function 'ignore)
+  #+end_src
