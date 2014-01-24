@@ -68,6 +68,22 @@
   #+end_src
   
 
+* Configurations for magit-repos-dir
+  If projectile is present then configure magit to prompt for the
+  projectile projects that are also git repositories, when magit is
+  invoked with a prefix argument or from a non-git folder
+  #+begin_src emacs-lisp
+    (eval-after-load "projectile" 
+      (progn (setq magit-repo-dirs (mapcar (lambda (dir)
+                                             (substring dir 0 -1))
+                                           (remove-if-not (lambda (project)
+                                                            (file-directory-p (concat project "/.git/"))) 
+                                                          (projectile-relevant-known-projects))))
+    
+             (setq magit-repo-dirs-depth 1)))
+  #+end_src
+
+
 * Function to exit magit-commit-mode
   
   #+begin_src emacs-lisp
