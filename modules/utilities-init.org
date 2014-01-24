@@ -200,3 +200,9 @@
   #+begin_src emacs-lisp
     (el-get 'sync 'prodigy)
   #+end_src
+
+
+* Goto to next/previous page we reach the end/start of a page in doc-view
+  #+begin_src emacs-lisp
+    (setq doc-view-continuous t)
+  #+end_src
