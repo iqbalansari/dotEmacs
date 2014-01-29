@@ -140,12 +140,7 @@
    
 ** Don't blink the cursor
    #+begin_src emacs-lisp
-     (setq blink-cursor-mode 0)
-   #+end_src
-
-** Color for cursor
-   #+begin_src emacs-lisp
-     ;(set-cursor-color "#000000")
+     (blink-cursor-mode 0)
    #+end_src
    
    
