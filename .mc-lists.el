@@ -17,6 +17,7 @@
         copy-line-or-region
         cut-line-or-region
         dabbrev-expand
+        decrement-integer-at-point
         delete-horizontal-space
         down-list
         eval-and-replace
@@ -24,6 +25,7 @@
         eval-print-last-sexp
         forward-sentence
         forward-sexp
+        hungry-delete-backward
         increment-integer-at-point
         jedi:dot-complete
         kill-sentence
@@ -33,6 +35,7 @@
         org-end-of-line
         org-kill-line
         org-self-insert-command
+        org-table-sum
         python-indent-electric-colon
         repeat
         sp--self-insert-command
