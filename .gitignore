@@ -24,3 +24,4 @@ auto-save/*
 var/*
 custom.el
 private*
+bookmarks

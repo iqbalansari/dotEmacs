@@ -13,6 +13,16 @@
   #+begin_src emacs-lisp
     (load "yasnippet")
   #+end_src
+
+
+* Use ido to prompt for snippets
+  #+begin_src emacs-lisp
+    (setq yas-prompt-functions
+          (cons 'yas-ido-prompt
+                (remove 'yas-ido-prompt
+                        yas-prompt-functions)))
+  #+end_src
+
   
 
 * Start yasnippet global mode
