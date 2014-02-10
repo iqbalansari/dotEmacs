@@ -265,3 +265,9 @@
   #+begin_src emacs-lisp
     (setq ring-bell-function 'ignore)
   #+end_src
+
+
+* Load pulse
+  #+begin_src emacs-lisp
+    (load "pulse")
+  #+end_src
