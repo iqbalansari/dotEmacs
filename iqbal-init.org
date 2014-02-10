@@ -265,6 +265,6 @@
 
    The libaries are loaded by the file 'modules/modules-init.org'
    #+begin_src emacs-lisp
-     (org-babel-load-file "~/.emacs.d/modules/modules-init.org")
+     (org-babel-load-file "~/.emacs.d/modules/init-modules.org")
    #+end_src
    

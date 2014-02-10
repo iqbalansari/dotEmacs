@@ -11,6 +11,7 @@ history
 iqbal-init.el
 modules/*.el
 modules/*.elc
+modules/.previous-modules
 projectile-bookmarks.eld
 tramp
 url/*
