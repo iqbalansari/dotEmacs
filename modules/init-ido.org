@@ -67,7 +67,7 @@
 * Keybindings
 ** Keybinding for idomenu
    #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c i") 'idomenu)
+     (global-set-key (kbd "<C-i-key>") 'idomenu)
    #+end_src
    
 ** Keybindings for smex
@@ -80,6 +80,6 @@
    I often mistakenly type these when in ido-find-file leading to
    'buffer-read-only' error
    #+begin_src emacs-lisp
-     (define-key ido-file-dir-completion-map (kbd "M-DEL") 'ido-delete-backward-updir)
+     (define-key ido-file-dir-completion-map (kbd "<M-backspace>") 'ido-delete-backward-updir)
    #+end_src
 
