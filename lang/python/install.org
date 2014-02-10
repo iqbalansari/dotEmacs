@@ -10,8 +10,10 @@
      '(jedi
        pymacs
        ropemacs
-       pydoc-info
-       nose
        ))
     (el-get 'sync iqbal-python-packages)
+    
+    (if (executable-find "hg")
+      (el-get 'sync '(pydoc-info nose))
+      (message "You need to have hg installed for installing pydoc-info and nose"))
   #+end_src

@@ -1,4 +1,5 @@
 * Enable tuareg-mode
   #+begin_src emacs-lisp
-    (tuareg-mode)
+    (eval-after-load "tuareg-mode"
+      (tuareg-mode))
   #+end_src

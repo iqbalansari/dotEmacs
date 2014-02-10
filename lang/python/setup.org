@@ -47,7 +47,8 @@
 
 * Use nosetests for testing
   #+begin_src emacs-lisp
-    (load "nose")
+    (when (locate-library "nose")
+      (load "nose"))
   #+end_src
 
 
