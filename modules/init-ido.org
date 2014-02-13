@@ -82,4 +82,3 @@
    #+begin_src emacs-lisp
      (define-key ido-file-dir-completion-map (kbd "<M-backspace>") 'ido-delete-backward-updir)
    #+end_src
-
