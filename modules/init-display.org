@@ -17,10 +17,10 @@
   #+end_src
 
 
-* Load molokai theme
+* Load zenburn theme
   #+begin_src emacs-lisp
-    (el-get 'sync 'molokai-theme)
-    (load "molokai-theme")
+    (el-get 'sync 'zenburn-theme)
+    (load-theme 'zenburn)
   #+end_src
 
   
@@ -235,7 +235,7 @@
   #+end_src
 
 
-* Flash jumping to definition using imenu
+* Flash after jumping to definition using imenu
   #+begin_src emacs-lisp
     (add-hook 'imenu-after-jump-hook 'iqbal-highlight-line)
   #+end_src

@@ -2,7 +2,7 @@
 
   #+BEGIN_SRC emacs-lisp
     (defvar iqbal-auto-complete-packages 
-      '(auto-complete))
+      '(auto-complete pos-tip))
     
     (el-get 'sync iqbal-auto-complete-packages)
   #+END_SRC
@@ -103,4 +103,10 @@
                   (remove 'iqbal-auto-complete-at-point completion-at-point-functions))))
     
     (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
+  #+end_src
+
+
+* Load pos-tip for better help tips with autocomplete
+  #+begin_src emacs-lisp
+    (load "pos-tip")
   #+end_src
