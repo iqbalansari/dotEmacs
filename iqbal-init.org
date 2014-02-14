@@ -145,7 +145,6 @@
 			     '("geiser" . "http://download.savannah.gnu.org/releases/geiser/packages"))
   #+end_src
 
-  
 
 * Bootstrap el-get 
   Install El-Get is not installed and configure it
