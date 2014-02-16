@@ -20,6 +20,7 @@
 * Load zenburn theme
   #+begin_src emacs-lisp
     (el-get 'sync 'zenburn-theme)
+    (load "zenburn-theme")
     (load-theme 'zenburn)
   #+end_src
 
