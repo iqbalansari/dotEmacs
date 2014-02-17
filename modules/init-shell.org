@@ -35,6 +35,18 @@
      (defun set-scroll-conservatively ()
        "Add to shell-mode-hook to prevent jump-scrolling on newlines in shell buffers."
        (set (make-local-variable 'scroll-conservatively) 10))
-     
+
      (add-hook 'shell-mode-hook 'set-scroll-conservatively)
+   #+end_src
+
+
+* Few useful tips from wikiemacs
+** Make URLs clickable
+   #+begin_src emacs-lisp
+     (add-hook 'shell-mode-hook (lambda () (goto-address-mode )))
+   #+end_src
+
+** Make file paths clickable
+   #+begin_src emacs-lisp
+     (add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
    #+end_src

@@ -110,7 +110,7 @@
     (defvar iqbal-modules-list '(auto-complete backup files buffers dired editing 
                                                navigation folding search-replace ido parenthesis
                                                syntax-check shell org utilities version-control
-                                               yasnippet project window-management display))
+                                               yasnippet project window-management display mail))
   #+end_src
 
   
