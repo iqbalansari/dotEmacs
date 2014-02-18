@@ -36,7 +36,7 @@
 * Windows' default font is not good, use Consolas instead otherwise use DejaVu
   #+begin_src emacs-lisp
     (if (eq system-type 'windows-nt)
-      (set-frame-font "Consolas-12:light")
+      (set-frame-font "Consolas-11.5:light")
     (set-frame-font '(:family "DejaVu Sans Mono"  :weight normal)))
   #+end_src
 
