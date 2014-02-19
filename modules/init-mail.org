@@ -11,10 +11,16 @@
   #+end_src
 
 
-* Install offlineimap if `offlineimap` is installed on system
+* Install emacs interface to offlineimap if `offlineimap` is installed on system
   #+begin_src emacs-lisp
     (when (and (eq system-type 'gnu/linux)
                (executable-find "offlineimap"))
       (el-get 'sync 'offlineimap))
   #+end_src
 
+
+* Use offlineimap to update messages in mu4e
+  #+begin_src emacs-lisp
+    (when (executable-find "offlineimap")
+      (setq mu4e-get-mail-command "offlineimap"))
+  #+end_src
