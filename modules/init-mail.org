@@ -24,3 +24,25 @@
     (when (executable-find "offlineimap")
       (setq mu4e-get-mail-command "offlineimap"))
   #+end_src
+
+
+* Use html2text (if installed) to render html messages
+  #+begin_src emacs-lisp
+    (when (executable-find "html2text")
+      (setq mu4e-html2text-command "html2text -utf8 -width 72"))
+  #+end_src
+
+
+* View images inline in message view buffer
+  #+begin_src emacs-lisp
+    (setq mu4e-view-show-images t)
+    
+    (when (fboundp 'imagemagick-register-types)
+      (imagemagick-register-types))
+  #+end_src
+
+
+* Save attachments in ~/Downloads directory
+  #+begin_src emacs-lisp
+    (setq mu4e-attachment-dir "~/Downloads")
+  #+end_src
