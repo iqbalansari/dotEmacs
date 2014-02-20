@@ -63,21 +63,6 @@
    
 
 * Unbind keys
-** Disable terminal key-sequence mappings
-   #+begin_src emacs-lisp
-     (when window-system
-       ;; C-i
-       (define-key key-translation-map [tab] [?\t])
-       (define-key key-translation-map [?\C-\i] [(control i-key)])
-       (define-key function-key-map [tab] nil)
-       (define-key function-key-map [?\t] nil)
-       ;; escape
-       (define-key key-translation-map [escape] [?\e])
-       (define-key input-decode-map [?\C-\[] [(control left_bracket)])
-       (define-key function-key-map [escape] nil)
-       (define-key function-key-map [?\e] nil))
-   #+end_src
-
 ** Unset C-z, I don't find it useful
    #+begin_src emacs-lisp
      (global-unset-key "\C-z")
