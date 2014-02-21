@@ -74,7 +74,7 @@
   invoked with a prefix argument or from a non-git folder
   #+begin_src emacs-lisp
     (eval-after-load "projectile" 
-      (progn (setq magit-repo-dirs (mapcar (lambda (dir)
+      '(progn (setq magit-repo-dirs (mapcar (lambda (dir)
                                              (substring dir 0 -1))
                                            (remove-if-not (lambda (project)
                                                             (file-directory-p (concat project "/.git/"))) 

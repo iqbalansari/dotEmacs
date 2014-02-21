@@ -32,8 +32,10 @@
         kill-sexp
         mark-sexp
         org-beginning-of-line
+        org-delete-char
         org-end-of-line
         org-kill-line
+        org-return-indent
         org-self-insert-command
         org-table-sum
         python-indent-electric-colon
@@ -52,6 +54,7 @@
         sp-unwrap-sexp
         st2-like-beginning-of-line
         tern-ac-dot-complete
+        tiny-expand
         transpose-words
         wdired-finish-edit
         yas-expand
