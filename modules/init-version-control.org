@@ -75,12 +75,12 @@
   #+begin_src emacs-lisp
     (eval-after-load "projectile" 
       '(progn (setq magit-repo-dirs (mapcar (lambda (dir)
-                                             (substring dir 0 -1))
-                                           (remove-if-not (lambda (project)
-                                                            (file-directory-p (concat project "/.git/"))) 
-                                                          (projectile-relevant-known-projects))))
+                                              (substring dir 0 -1))
+                                            (remove-if-not (lambda (project)
+                                                             (file-directory-p (concat project "/.git/"))) 
+                                                           (projectile-relevant-known-projects)))
     
-             (setq magit-repo-dirs-depth 1)))
+                    magit-repo-dirs-depth 1)))
   #+end_src
 
 
