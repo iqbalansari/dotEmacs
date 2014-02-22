@@ -112,6 +112,7 @@
 * Keybindings for visual-regexp
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-M-%") 'vr/query-replace)
+    (global-set-key (kbd "C-S-j") 'vr/mc-mark)
   #+end_src
   
 
