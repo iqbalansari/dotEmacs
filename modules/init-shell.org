@@ -43,10 +43,6 @@
 * Few useful tips from wikiemacs
 ** Make URLs clickable
    #+begin_src emacs-lisp
-     (add-hook 'shell-mode-hook (lambda () (goto-address-mode )))
-   #+end_src
-
-** Make file paths clickable
-   #+begin_src emacs-lisp
-     (add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
+     (add-hook 'shell-mode-hook 'goto-address-mode)
+     (add-hook 'term-mode-hook 'goto-address-mode)
    #+end_src
