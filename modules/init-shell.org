@@ -46,3 +46,12 @@
      (add-hook 'shell-mode-hook 'goto-address-mode)
      (add-hook 'term-mode-hook 'goto-address-mode)
    #+end_src
+
+   
+* Better colors for term mode
+  #+begin_src emacs-lisp
+    (set-face-attribute 'term-color-blue nil :foreground "#4169e1")
+    (set-face-attribute 'term-color-red nil :foreground "#ff6347")
+    (set-face-attribute 'term-color-cyan nil :foreground "#8cd0d3")
+    (set-face-attribute 'term-color-green nil :foreground "#7cfc00")
+  #+end_src
