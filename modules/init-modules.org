@@ -107,10 +107,10 @@
 
 * List of modules to be loaded
   #+begin_src emacs-lisp
-    (defvar iqbal-modules-list '(auto-complete backup files buffers dired editing 
-                                               navigation folding search-replace ido parenthesis
-                                               syntax-check shell org utilities version-control
-                                               yasnippet project window-management display mail))
+    (defvar iqbal-modules-list '(display auto-complete backup files buffers dired editing 
+                                         navigation folding search-replace ido parenthesis
+                                         syntax-check shell org utilities version-control
+                                         yasnippet project window-management mail))
   #+end_src
 
   
