@@ -120,10 +120,8 @@
 * Seamlessly create, edit, remove boxes
   #+begin_src emacs-lisp
     (el-get 'sync 'rebox2)
-    (setq rebox-style-loop '(24 16))
     (load "rebox2")
-    (global-set-key (kbd "C-c q") 'rebox-dwim)
-    (global-set-key (kbd "C-c Q") 'rebox-cycle)
+    (global-set-key (kbd "C-c q") 'rebox-cycle)
   #+end_src
   
 
