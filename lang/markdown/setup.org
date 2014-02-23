@@ -2,3 +2,11 @@
   #+begin_src emacs-lisp
     (markdown-mode)
   #+end_src
+
+
+* Enable spell check
+  #+begin_src emacs-lisp
+    (flyspell-mode 1)
+  #+end_src
+
+  

@@ -202,7 +202,6 @@
     (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
     (eval-after-load "smartparens" '(diminish 'smartparens-mode))
     (eval-after-load "volatile-highlights" '(diminish 'volatile-highlights-mode))
-    (eval-after-load "workgroups2" '(diminish 'workgroups-mode))
     (eval-after-load "projectile" '(diminish 'projectile-mode))
     (eval-after-load "auto-complete" '(diminish 'auto-complete-mode))
     (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
