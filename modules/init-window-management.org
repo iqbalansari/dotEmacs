@@ -6,7 +6,7 @@
     (el-get 'sync 'workgroups2)
   #+end_src
 
-
+  
 * Workgroups2 configurations
 ** Require workgroups2
    #+begin_src emacs-lisp
@@ -41,7 +41,11 @@
    
 * Enable workgroups2
   #+begin_src emacs-lisp
-    (workgroups-mode 1)
+    (condition-case nil
+      (workgroups-mode 1)
+      (error  (progn 
+                (delete-file wg-default-session-file)
+                (workgroups-mode 1))))
   #+end_src
 
 
@@ -141,3 +145,49 @@
         (set-window-buffer (selected-window) current-buffer)))
   #+end_src
 
+
+* Advices for wg-undo-config functions
+  Pressing <left>/<right> immediately after executing these command
+  will undo/redo the config
+  #+begin_src emacs-lisp
+    (defvar my-wg-config-keymap
+      (let ((map (make-sparse-keymap)))
+        (define-key map (kbd "<left>") 'wg-undo-wconfig-change)
+        (define-key map (kbd "<right>") 'wg-redo-wconfig-change)
+        map))
+    
+    (defadvice wg-undo-wconfig-change (after set-left-arrow-to-undo 
+                                             (&optional workspace))
+      (set-temporary-overlay-map my-wg-config-keymap t))
+    
+    (defadvice wg-redo-wconfig-change (after set-left-arrow-to-undo 
+                                             (&optional workspace))
+      (set-temporary-overlay-map my-wg-config-keymap t))
+    
+    (ad-activate 'wg-undo-wconfig-change)
+    (ad-activate 'wg-redo-wconfig-change)
+    
+  #+end_src
+
+
+* Advices for wg-switch-workgroup functions
+  Pressing n/p immediately after executing these commands
+  will cycle among available workgroups
+  #+begin_src emacs-lisp
+    (defvar my-wg-config-keymap
+      (let ((map (make-sparse-keymap)))
+        (define-key map (kbd "<left>") 'wg-undo-wconfig-change)
+        (define-key map (kbd "<right>") 'wg-redo-wconfig-change)
+        map))
+    
+    (defadvice wg-undo-wconfig-change (after set-left-arrow-to-undo 
+                                             (&optional workspace))
+      (set-temporary-overlay-map my-wg-config-keymap t))
+    
+    (defadvice wg-redo-wconfig-change (after set-left-arrow-to-undo 
+                                             (&optional workspace))
+      (set-temporary-overlay-map my-wg-config-keymap t))
+    
+    (ad-activate 'wg-undo-wconfig-change)
+    (ad-activate 'wg-redo-wconfig-change)
+  #+end_src
