@@ -21,3 +21,9 @@
    #+begin_src emacs-lisp
      (setq org-src-fontify-natively t)
    #+end_src
+
+
+* Start flyspell in org mode buffers
+  #+begin_src emacs-lisp
+    (add-to-list 'org-mode-hook 'flyspell-mode)
+  #+end_src
