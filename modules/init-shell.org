@@ -120,6 +120,10 @@
       (select-window (split-window-right))
       (my-start-preferred-shell current-prefix-arg))
     
+    (defun my-start-terminal ()
+      (interactive)
+      (my-start-preferred-shell current-prefix-arg))
+    
     (defun my-kill-term-buffer ()
       (let ((kill-buffer-query-functions nil)
             (number-of-windows (length (window-list))))
@@ -140,6 +144,7 @@
      (global-set-key (kbd "C-\"") 'my-split-window-below-start-terminal)
      (global-set-key (kbd "C-|") 'my-split-window-right-start-terminal)
      (global-set-key (kbd "C-S-w") 'my-kill-term-delete-window)
+     (global-set-key (kbd "C-S-t") 'my-start-terminal)
    #+end_src
 
 
