@@ -62,6 +62,18 @@
    #+end_src
 
 
+* Making shift-tab work with term-mode
+  #+begin_src emacs-lisp
+    (defun my-term-send-backtab ()
+      "Send backtab to the term process"
+      (interactive)
+      (term-send-raw-string (kbd "\033[Z")))
+    
+    (eval-after-load 'term
+      '(define-key term-raw-map (kbd "<backtab>") 'my-term-send-backtab))
+  #+end_src
+
+
 * Do not scroll term-buffers on output
   #+begin_src emacs-lisp
     (setq term-scroll-to-bottom-on-output nil)
