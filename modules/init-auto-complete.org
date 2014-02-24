@@ -1,18 +1,18 @@
 * Ensure that autocomplete is installed
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (defvar iqbal-auto-complete-packages 
       '(auto-complete pos-tip))
     
     (el-get 'sync iqbal-auto-complete-packages)
-  #+END_SRC
+  #+end_src
 
 
 * Require auto-complete 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (load "auto-complete")
     (load "auto-complete-config")
-  #+END_SRC
+  #+end_src
 
 
 * Auto-complete configurations
@@ -22,44 +22,46 @@
    #+end_src
 
 ** Set default sources for autocomplete
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (setq-default ac-sources (append ac-sources '(ac-source-yasnippet
                                                   ac-source-imenu
                                                   ac-source-dictionary
                                                   ac-source-abbrev
                                                   ac-source-words-in-same-mode-buffers
                                                   ac-source-filename)))
-  #+END_SRC
+  #+end_src
 
 ** How sensitive is autocompletion
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq ac-auto-start 4)
      (setq ac-auto-show-menu 0.8)
-   #+END_SRC
+   #+end_src
 
 ** Enable fuzzy completion
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq ac-use-fuzzy t)
-   #+END_SRC
+   #+end_src
 
 ** Enable menu mode-map when autocomplete menu is displayed
-
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq ac-use-menu-map t)
-   #+END_SRC
+     (define-key ac-menu-map [backtab] 'ac-previous)
+     (define-key ac-menu-map [tab] 'ac-next)
+     
+   #+end_src
 
 ** Trigger key
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (ac-set-trigger-key "TAB")
-   #+END_SRC
+   #+end_src
    
 ** Display completion correctly
    
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq popup-use-optimized-column-computation nil)
-   #+END_SRC
+   #+end_src
    
 ** Use auto-complete with flyspell
    #+begin_src emacs-lisp
@@ -68,11 +70,11 @@
 
 
 * Enable autocomplete mode globally
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (add-to-list 'ac-modes 'org-mode)
     (add-to-list 'ac-modes ' web-mode)
     (global-auto-complete-mode)
-  #+END_SRC
+  #+end_src
   
   
 * Use M-/ for hippie-expand
@@ -103,10 +105,4 @@
                   (remove 'iqbal-auto-complete-at-point completion-at-point-functions))))
     
     (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
-  #+end_src
-
-
-* Load pos-tip for better help tips with autocomplete
-  #+begin_src emacs-lisp
-    (load "pos-tip")
   #+end_src
