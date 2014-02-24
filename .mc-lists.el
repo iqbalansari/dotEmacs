@@ -28,6 +28,7 @@
         hungry-delete-backward
         increment-integer-at-point
         jedi:dot-complete
+        kill-region
         kill-sentence
         kill-sexp
         mark-sexp
