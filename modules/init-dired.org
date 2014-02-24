@@ -7,7 +7,8 @@
 
 * Load dired-x for additional functionality
   #+begin_src emacs-lisp
-    (load "dired-x")
+    (eval-after-load "dired"
+      '(load "dired-x"))
   #+end_src
 
 
@@ -45,9 +46,11 @@
 
 * Dired-details configuration
   #+begin_src emacs-lisp
-    (load "dired-details")
-    (dired-details-install)
-    (setq dired-details-hidden-string "[..] ")
+    (eval-after-load "dired"
+      '(progn
+        (load "dired-details")
+        (dired-details-install)
+        (setq dired-details-hidden-string "[..] ")))
   #+end_src
   
 
@@ -73,7 +76,7 @@
 
 * Wdired configuration
   #+begin_src emacs-lisp 
-    (load "wdired")
+    (autoload 'wdired-change-to-wdired-mode "wdired")
     (setq wdired-use-interactive-rename t)
     (setq wdired-confirm-overwrite t)
     (setq wdired-use-dired-vertical-movement t)

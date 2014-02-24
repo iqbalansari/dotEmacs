@@ -9,6 +9,7 @@
   :type '(string)
   :group 'js-beautify)
 
+;;;###autoload
 (defun js-beautify ()
   "Beautify a region of javascript using the code from jsbeautify.org"
   (interactive)

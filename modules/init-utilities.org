@@ -54,8 +54,8 @@
 
 * RE Builder configurations
   #+begin_src emacs-lisp
-    (load "re-builder")
-    (setq reb-re-syntax 'string)
+    (eval-after-load 're-builder
+      (setq reb-re-syntax 'string))
   #+end_src
 
 
@@ -69,7 +69,7 @@
 
   #+begin_src emacs-lisp
     (el-get 'sync 'backup-walker)
-    (load "backup-walker")
+    (autoload 'backup-walker-start "backup-walker")
   #+end_src
   
 
@@ -77,7 +77,7 @@
 
   #+begin_src emacs-lisp
     (el-get 'sync 'emacs-wgrep)
-    (load "wgrep")
+    
     (setq wgrep-auto-save-buffer t)
     (setq wgrep-enable-key "e")
   #+end_src
@@ -120,7 +120,7 @@
 * Seamlessly create, edit, remove boxes
   #+begin_src emacs-lisp
     (el-get 'sync 'rebox2)
-    (load "rebox2")
+    (autoload 'rebox-cycle "rebox2")
     (global-set-key (kbd "C-c q") 'rebox-cycle)
   #+end_src
   
@@ -211,6 +211,6 @@
   #+begin_src emacs-lisp
     (add-to-list 'load-path (concat otherpackages "js-beautify/"))
     (when (executable-find "js-beautify")
-      (load "js-beautify")
+      (autoload 'js-beautify "js-beautify")
       (local-set-key (kbd "M-[") 'js-beautify))
   #+end_src  
