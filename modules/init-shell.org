@@ -91,21 +91,22 @@
     (defvar my-preferred-shell (or (executable-find "zsh")
                                    (executable-find "bash")))
     
-    (defun my-start-preferred-shell ()
-      (if my-preferred-shell
+    (defun my-start-preferred-shell (&optional eshell?)
+      (if (and my-preferred-shell
+               (not eshell?))
           (ansi-term my-preferred-shell)
-        (eshell))
-      (rename-buffer (concat (user-real-login-name) "@" (system-name)) t))
+        (eshell)
+        (rename-buffer (concat (user-real-login-name) "@" (system-name)) t)))
     
     (defun my-split-window-below-start-terminal ()
       (interactive)
       (select-window (split-window-below))
-      (my-start-preferred-shell))
+      (my-start-preferred-shell current-prefix-arg))
     
     (defun my-split-window-right-start-terminal ()
       (interactive)
       (select-window (split-window-right))
-      (my-start-preferred-shell))
+      (my-start-preferred-shell current-prefix-arg))
     
     (defun my-kill-term-buffer ()
       (let ((kill-buffer-query-functions nil)
@@ -124,8 +125,8 @@
 
 ** Keybindings 
    #+begin_src emacs-lisp
-     (global-set-key (kbd "C-S-e") 'my-split-window-below-start-terminal)
-     (global-set-key (kbd "C-S-o") 'my-split-window-right-start-terminal)
+     (global-set-key (kbd "C-\"") 'my-split-window-below-start-terminal)
+     (global-set-key (kbd "C-|") 'my-split-window-right-start-terminal)
      (global-set-key (kbd "C-S-w") 'my-kill-term-delete-window)
    #+end_src
 
