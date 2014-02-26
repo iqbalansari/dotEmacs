@@ -10,9 +10,7 @@
   This way the startup will be slow only when any of the org files
   are modified or there is some new org file, otherwise it will be
   faster since we load a single file
-  #+begin_src emacs-lisp
-    (load "cl-lib")
-    
+  #+begin_src emacs-lisp    
     (defvar iqbal-modules-dir "~/.emacs.d/modules/")
     (defvar iqbal-tangled-modules "~/.emacs.d/modules/modules-compiled.el")
     (defvar iqbal-compiled-modules "~/.emacs.d/modules/modules-compiled.elc")

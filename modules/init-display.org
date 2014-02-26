@@ -231,6 +231,7 @@
 * Helper function to momentarily flash current line
   #+begin_src emacs-lisp
     (defun iqbal-highlight-line ()
+      (require 'pulse)
       (pulse-momentary-highlight-one-line (point)))
   #+end_src
 
@@ -264,10 +265,4 @@
 * Not ringing and dinging please!
   #+begin_src emacs-lisp
     (setq ring-bell-function 'ignore)
-  #+end_src
-
-
-* Load pulse
-  #+begin_src emacs-lisp
-    (load "pulse")
   #+end_src

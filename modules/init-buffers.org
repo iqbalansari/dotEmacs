@@ -10,7 +10,6 @@
 
 * Create unique names for same named buffers
   #+begin_src emacs-lisp
-    (load "uniquify")
     (setq uniquify-buffer-name-style 'forward)
   #+end_src
 

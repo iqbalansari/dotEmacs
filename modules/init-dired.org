@@ -7,8 +7,9 @@
 
 * Load dired-x for additional functionality
   #+begin_src emacs-lisp
-    (eval-after-load "dired"
-      '(load "dired-x"))
+    (add-hook 'dired-load-hook
+              (lambda ()
+                (load "dired-x")))
   #+end_src
 
 
@@ -46,11 +47,11 @@
 
 * Dired-details configuration
   #+begin_src emacs-lisp
-    (eval-after-load "dired"
-      '(progn
-        (load "dired-details")
-        (dired-details-install)
-        (setq dired-details-hidden-string "[..] ")))
+    (add-hook 'dired-load-hook
+              (lambda ()
+                (load "dired-details")
+                (dired-details-install)
+                (setq dired-details-hidden-string "[..] ")))
   #+end_src
   
 

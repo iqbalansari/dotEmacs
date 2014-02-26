@@ -84,11 +84,9 @@
 * Function to search all the buffers
   #+begin_src emacs-lisp
     ;; I know that string is in my Emacs somewhere!
-    (load "cl-lib")
     (defvar search-all-buffers-ignored-files (list (rx-to-string '(and bos (or ".bash_history" "TAGS") eos)))
       "Files to ignore when searching buffers via \\[search-all-buffers].")
     
-    (load "grep")
     (defun search-all-buffers (regexp prefix)
       "Searches file-visiting buffers for occurence of REGEXP.  With
     prefix > 1 (i.e., if you type C-u \\[search-all-buffers]),

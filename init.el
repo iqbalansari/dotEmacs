@@ -14,8 +14,8 @@
 (setq gc-cons-threshold (* 20 1024 1024))
 
 ;; Use org babel to load rest of the configuration
-(load "org")
-(load "cl-lib")
+(require 'org)
+(require 'cl-lib)
 (org-babel-load-file "~/.emacs.d/iqbal-init.org")
 
 ;; Load private settings if exist

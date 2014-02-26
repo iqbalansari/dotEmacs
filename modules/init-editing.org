@@ -372,9 +372,7 @@
 
 * Functions to increment and decrement integers at point
   These were borrowed from prelude
-  #+begin_src emacs-lisp
-    (load  "thingatpt")
-    
+  #+begin_src emacs-lisp    
     (defun thing-at-point-goto-end-of-integer ()
       "Go to end of integer at point."
       (let ((inhibit-changing-match-data t))

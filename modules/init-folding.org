@@ -2,7 +2,7 @@
 ** Fold-this can be used to fold the selected region
    #+begin_src emacs-lisp
      (el-get 'sync 'fold-this)
-     (load "fold-this")
+     (autoload 'fold-this "fold-this")
    #+end_src
 
 ** popup can be used display folded region
@@ -10,7 +10,6 @@
    instead of displaying it in the echo area
    #+begin_src emacs-lisp
      (el-get 'sync 'popup)
-     (load "popup")
    #+end_src
    
 
@@ -18,7 +17,6 @@
   Setup help-at-pt to display help when idle, in case of folded code
   it will actually execute the code to display the [[folded_code][folded code popup]].
   #+begin_src emacs-lisp
-       (load "help-at-pt")
        (setq help-at-pt-display-when-idle t)
        (help-at-pt-set-timer)
   #+end_src
