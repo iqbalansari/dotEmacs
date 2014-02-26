@@ -1,6 +1,13 @@
 ;; Save custom variables in separate file
+(require 'package)
+(package-initialize)
+(unless (package-installed-p 'org-plus-contrib)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  (package-refresh-contents)
+  (package-install 'org-plus-contrib))
+
 (setq custom-file "~/.emacs.d/custom.el")
-(when (file-exists-p "~/.emacs.d/custom.el")
+(when (file-exists-p custom-file)
   (load custom-file))
 
 ;; Memory is cheap, stop the world only after 20 megabytes are used
