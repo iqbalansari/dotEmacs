@@ -39,6 +39,7 @@
         org-return-indent
         org-self-insert-command
         org-table-sum
+        org-yank
         python-indent-electric-colon
         repeat
         sp--self-insert-command
