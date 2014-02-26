@@ -1,8 +1,8 @@
 ;; Save custom variables in separate file
 (require 'package)
 (package-initialize)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (unless (package-installed-p 'org-plus-contrib)
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
 
