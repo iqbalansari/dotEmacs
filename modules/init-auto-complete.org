@@ -46,9 +46,7 @@
 ** Enable menu mode-map when autocomplete menu is displayed
    #+begin_src emacs-lisp
      (setq ac-use-menu-map t)
-     (define-key ac-menu-map [backtab] 'ac-previous)
-     (define-key ac-menu-map [tab] 'ac-next)
-     
+     (define-key ac-menu-map [backtab] 'ac-previous)     
    #+end_src
 
 ** Trigger key
