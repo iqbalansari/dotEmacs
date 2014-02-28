@@ -159,7 +159,9 @@
 
 * Start emacs-server
   #+begin_src emacs-lisp 
-    (server-start)
+    (require 'server)
+    (unless (server-running-p)
+      (server-start))
   #+end_src
 
 
