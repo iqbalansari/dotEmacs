@@ -84,6 +84,7 @@
   #+begin_src emacs-lisp
     (add-hook 'term-mode-hook (lambda () 
                                 (yas-minor-mode -1)
+                                (toggle-truncate-lines 1)
                                 (hl-line-mode -1)))
   #+end_src
 
