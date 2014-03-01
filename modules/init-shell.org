@@ -91,10 +91,11 @@
 
 * Better colors for term mode
   #+begin_src emacs-lisp
-    (set-face-attribute 'term-color-blue nil :foreground "#1e90ff")
-    (set-face-attribute 'term-color-red nil :foreground "#ee5c42")
-    (set-face-attribute 'term-color-cyan nil :foreground "#8cd0d3")
-    (set-face-attribute 'term-color-green nil :foreground "#00ff00")
+    (eval-after-load 'term
+      '(progn (set-face-attribute 'term-color-blue nil :foreground "#1e90ff")
+             (set-face-attribute 'term-color-red nil :foreground "#ee5c42")
+             (set-face-attribute 'term-color-cyan nil :foreground "#8cd0d3")
+             (set-face-attribute 'term-color-green nil :foreground "#00ff00")))
   #+end_src
 
 
