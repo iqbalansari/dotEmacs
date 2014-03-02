@@ -21,12 +21,13 @@
   #+end_src
 
 
-* Set keybindings to copy and yank in the term
+* Set keybindings to copy, yank and undo in the term
   #+begin_src emacs-lisp
     (eval-after-load 'term
       '(progn (define-key term-raw-map "\C-y" 'term-paste)
               (define-key term-raw-map "\M-w" 'copy-line-or-region)
-              (define-key term-raw-map "\C-w" 'cut-line-or-region)))
+              (define-key term-raw-map "\C-w" 'cut-line-or-region)
+              (define-key term-raw-map (kbd "C-/") (lambda () (interactive) (term-send-raw-string (kbd "C-_"))))))
   #+end_src
 
 
@@ -141,6 +142,8 @@
      (global-set-key (kbd "C-|") 'my-split-window-right-start-terminal)
      (global-set-key (kbd "C-S-w") 'my-kill-term-delete-window)
      (global-set-key (kbd "C-S-t") 'my-start-terminal)
+     (eval-after-load "term"
+       '(define-key term-raw-map (kbd "C-\\") 'my-split-window-below-start-terminal))
    #+end_src
 
 
