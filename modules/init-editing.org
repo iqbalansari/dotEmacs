@@ -554,7 +554,7 @@
        (if (region-active-p)
            (fold-this (region-beginning)
                           (region-end))
-         (when hs-minor-mode 
+         (when (and (boundp 'hs-minor-mode) hs-minor-mode) 
            (hs-toggle-hiding))))
    #+end_src
 

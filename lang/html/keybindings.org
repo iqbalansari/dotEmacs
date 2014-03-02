@@ -12,5 +12,5 @@
 
 * Keybinding to fold html entities
   #+begin_src emacs-lisp
-    (local-set-key (kbd "C-\\") 'web-mode-fold-or-unfold)
+    (local-set-key (kbd "C-x C-\\") 'web-mode-fold-or-unfold)
   #+end_src

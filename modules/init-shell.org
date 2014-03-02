@@ -74,12 +74,6 @@
   #+end_src
 
 
-* Do not scroll term-buffers on output
-  #+begin_src emacs-lisp
-    (setq term-scroll-to-bottom-on-output nil)
-  #+end_src
-
-
 * Yasnippet breaks tab completion in term-mode disable it, also disable hl-line-mode
   #+begin_src emacs-lisp
     (add-hook 'term-mode-hook (lambda () 
@@ -143,12 +137,11 @@
 
 ** Keybindings 
    #+begin_src emacs-lisp
-     (global-set-key (kbd "C-\"") 'my-split-window-below-start-terminal)
+     (global-set-key (kbd "C-\\") 'my-split-window-below-start-terminal)
      (global-set-key (kbd "C-|") 'my-split-window-right-start-terminal)
      (global-set-key (kbd "C-S-w") 'my-kill-term-delete-window)
      (global-set-key (kbd "C-S-t") 'my-start-terminal)
    #+end_src
-
 
 
 * Various customizations picked up from [[http://snarfed.org/why_i_run_shells_inside_emacs][snarfed.org]]
