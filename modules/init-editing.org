@@ -475,6 +475,14 @@
 
 
 * Code folding configuration
+** Enable hs-minor-mode for supported modes
+   #+begin_src emacs-lisp
+     (add-hook 'prog-mode-hook (lambda ()
+                                 (ignore-errors
+                                     (hs-minor-mode))))
+   #+end_src
+
+
 ** Setup help at point to display local-help
   Setup help-at-pt to display help when idle, in case of folded code
   it will actually execute the code to display the [[folded_code][folded code popup]].
