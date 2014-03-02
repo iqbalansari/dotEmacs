@@ -14,7 +14,9 @@
       multiple-cursors
       tiny
       expand-region
-      hungry-delete))
+      hungry-delete
+      fold-this
+      pos-tip))
   
   (el-get 'sync iqbal-editing-packages)  
 #+end_src   
@@ -469,4 +471,95 @@
     (autoload 'hungry-delete-backward "hungry-delete")
     (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
     (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
+  #+end_src
+
+
+* Code folding configuration
+** Setup help at point to display local-help
+  Setup help-at-pt to display help when idle, in case of folded code
+  it will actually execute the code to display the [[folded_code][folded code popup]].
+  #+begin_src emacs-lisp
+       (setq help-at-pt-display-when-idle t)
+       (help-at-pt-set-timer)
+  #+end_src
+
+** Function to display folded area as a popup <<folded_code>>
+   hs-mode mode allows us to additional data to the overlay, this can 
+   be used to set overlay's 'help-echo' property so that 'help-at-pt'
+   can then display it after certain delay. In our case we set help
+   echo to a function which when called displays a popup with folded code.
+
+   Further we can toggle the folded region with 'C-g' or '<return>' by setting
+   keymap property of the overlay
+
+   #+begin_src emacs-lisp
+     (defun iqbal--display-folded-content (window ov pos)
+       (require 'pos-tip)
+       (pos-tip-show (buffer-substring (overlay-start ov)
+                                       (overlay-end ov)) nil (overlay-end ov))
+       nil)
+   #+end_src
+
+** Unfold code when searching
+  #+begin_src emacs-lisp
+      (setq hs-isearch-open t)
+  #+end_src
+
+** Keymap for folded content
+   #+begin_src emacs-lisp
+     (defvar iqbal-folding-keymap (make-sparse-keymap))
+     (define-key iqbal-folding-keymap (kbd "<return>") 'hs-toggle-hiding)
+     (define-key iqbal-folding-keymap (kbd "C-g") 'hs-toggle-hiding)
+   #+end_src
+
+** Show folded code in a pos-tip
+*** With fold this
+    #+begin_src emacs-lisp
+      (defadvice fold-this (after fold-this-show-help (start end))
+        (let ((overlays (overlays-in start end)))
+          (dolist (ov overlays)
+            (when (eq (overlay-get ov  'type) 'fold-this)
+              (overlay-put ov 'help-echo 'iqbal--display-folded-content)
+              (define-key (overlay-get ov 'keymap) (kbd "C-x C-\\") 'fold-this-unfold-at-point)))))
+      
+      (ad-activate 'fold-this)
+    #+end_src
+*** With hs-minor-mode
+    #+begin_src emacs-lisp
+      (defun iqbal-display-folded-content (ov)
+        (overlay-put ov 'display "...")
+        (overlay-put ov 'keymap iqbal-folding-keymap)
+        (overlay-put ov 'help-echo 'iqbal--display-folded-content))
+      
+      (setq hs-set-up-overlay 'iqbal-display-folded-content)
+    #+end_src
+
+** Function to fold code at current indentation <<fold_indentation>>
+   The following code was borrowed from [[http://www.emacswiki.org/emacs/HideShow#toc5][EmacsWiki]] and modified a bit
+   #+begin_src emacs-lisp
+     (defun iqbal-hide-current-indentation ()
+       (interactive)
+       (set-selective-display
+        (unless selective-display
+          (progn
+            (back-to-indentation)
+            (current-column)))))
+   #+end_src
+
+** Combining fold-this and hs-minor-mode   
+   #+begin_src emacs-lisp
+     (defun iqbal-fold-this-hs-hide ()
+       "Folds the region if mark is active otherwise fold the current indent"
+       (interactive)
+       (if (region-active-p)
+           (fold-this (region-beginning)
+                          (region-end))
+         (when hs-minor-mode 
+           (hs-toggle-hiding))))
+   #+end_src
+
+
+* Global keys for code folding
+  #+begin_src emacs-lisp
+      (global-set-key (kbd "C-x C-\\") 'iqbal-fold-this-hs-hide)
   #+end_src
