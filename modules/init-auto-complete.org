@@ -66,6 +66,12 @@
      (ac-flyspell-workaround)
    #+end_src   
 
+** Do not prefer pos-tip
+   #+begin_src emacs-lisp
+     (setq ac-quick-help-prefer-pos-tip nil)
+   #+end_src
+
+
 
 * Enable autocomplete mode globally
   #+begin_src emacs-lisp
