@@ -201,7 +201,7 @@
 * Enable cua-selection-mode
   #+begin_src emacs-lisp
     (cua-selection-mode 1)
-    (set-face-attribute 'cua-rectangle nil :inherit 'region :background nil)
+    (set-face-attribute 'cua-rectangle nil :inherit 'region :background 'unspecified :foreground 'unspecified)
   #+end_src
 
 
