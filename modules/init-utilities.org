@@ -213,5 +213,5 @@
     (add-to-list 'load-path (concat otherpackages "js-beautify/"))
     (when (executable-find "js-beautify")
       (autoload 'js-beautify "js-beautify")
-      (local-set-key (kbd "M-[") 'js-beautify))
+      (global-set-key (kbd "M-[") 'js-beautify))
   #+end_src  
