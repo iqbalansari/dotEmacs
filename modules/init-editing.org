@@ -534,14 +534,16 @@
 ** Show folded code in a pos-tip
 *** With fold this
     #+begin_src emacs-lisp
-      (defadvice fold-this (after fold-this-show-help (start end))
-        (let ((overlays (overlays-in start end)))
-          (dolist (ov overlays)
-            (when (eq (overlay-get ov  'type) 'fold-this)
-              (overlay-put ov 'help-echo 'iqbal--display-folded-content)
-              (define-key (overlay-get ov 'keymap) (kbd "C-x C-\\") 'fold-this-unfold-at-point)))))
+      (eval-after-load "fold-this"
+        '(progn 
+           (defadvice fold-this (after fold-this-show-help (start end))
+             (let ((overlays (overlays-in start end)))
+               (dolist (ov overlays)
+                 (when (eq (overlay-get ov  'type) 'fold-this)
+                   (overlay-put ov 'help-echo 'iqbal--display-folded-content)
+                   (define-key (overlay-get ov 'keymap) (kbd "C-x C-\\") 'fold-this-unfold-at-point)))))
       
-      (ad-activate 'fold-this)
+           (ad-activate 'fold-this)))
     #+end_src
 *** With hs-minor-mode
     #+begin_src emacs-lisp
