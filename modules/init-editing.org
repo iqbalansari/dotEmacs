@@ -198,13 +198,6 @@
   #+end_src
 
 
-* Enable cua-selection-mode
-  #+begin_src emacs-lisp
-    (cua-selection-mode 1)
-    (set-face-attribute 'cua-rectangle nil :inherit 'region :background 'unspecified :foreground 'unspecified)
-  #+end_src
-
-
 * Copy/cut current line if no region is selected, if rectangle is selected use it
   #+begin_src emacs-lisp
     (defun iqbal-mark-lines(arg)
