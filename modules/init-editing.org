@@ -208,7 +208,7 @@
     (defun copy-line-or-region (arg)
       "Copy current line, or current text selection."
       (interactive "p")
-      (cond (cua--rectangle
+      (cond ((and (boundp 'cua--rectangle) cua--rectangle)
              (progn (call-interactively 'cua-copy-rectangle)
                     (message "Copied rectangle")))
             ((region-active-p)
@@ -226,8 +226,8 @@
     (defun cut-line-or-region (arg)
       "Cut the current line, or current text selection."
       (interactive "p")
-      (cond (cua--rectangle (progn (call-interactively 'cua-cut-rectangle)
-                                   (message "Killed rectangle")))
+      (cond ((and (boundp 'cua--rectangle) cua--rectangle) (progn (call-interactively 'cua-cut-rectangle)
+                                                                  (message "Killed rectangle")))
             ((region-active-p) (progn (call-interactively 'kill-region)
                                       (message "Killed region")))
             (t  (progn (iqbal-mark-lines arg)
