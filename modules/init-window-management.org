@@ -58,7 +58,7 @@
 
 * Use default windmove bindings
   #+begin_src emacs-lisp
-    (windmove-default-keybindings)
+    (windmove-default-keybindings 'super)
   #+end_src
 
 
