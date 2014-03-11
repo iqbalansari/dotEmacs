@@ -1,4 +1,0 @@
-(:name ido-ubiquitous
-       :description "Use ido (nearly) everywhere"
-       :type github
-       :pkgname "technomancy/ido-ubiquitous")

@@ -1,4 +1,0 @@
-(:name tiny
-       :description "Quickly generate linear ranges in Emacs"
-       :type github
-       :pkgname "abo-abo/tiny")

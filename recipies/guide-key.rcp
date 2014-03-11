@@ -1,5 +1,0 @@
-(:name guide-key
-       :depends popwin
-       :description "Guide following keys to an input key sequence automatically and dynamically in Emacs."
-       :type github
-       :pkgname "kbkbkbkb1/guide-key")

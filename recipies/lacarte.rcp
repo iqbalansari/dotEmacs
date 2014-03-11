@@ -1,4 +1,0 @@
-(:name lacarte
-       :type elpa
-       :description "Execute menu items as commands, with completion."
-       :repo ("melpa" . "http://melpa.milkbox.net/packages/"))

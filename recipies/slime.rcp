@@ -1,9 +1,0 @@
-(:name slime
-       :description "Superior Lisp Interaction Mode for Emacs"
-       :type github
-       :autoloads "slime-autoloads"
-       :info "doc"
-       :pkgname "slime/slime"
-       :load-path ("." "contrib")
-       :build '(("make" "-C" "doc" "slime.info"))
-       :build/berkeley-unix '(("gmake" "-C" "doc" "slime.info")))

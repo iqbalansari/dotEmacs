@@ -1,4 +1,0 @@
-(:name nav-flash
-       :description "Briefly highlight the current line in Emacs"
-       :type github
-       :pkgname "rolandwalker/nav-flash")

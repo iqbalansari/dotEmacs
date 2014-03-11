@@ -1,5 +1,0 @@
-(:name "fold-this"
-	   :type github
-	   :description "Fold this active region please"
-	   :pkgname "magnars/fold-this.el"
-	   :load-path ".")

@@ -1,4 +1,0 @@
-(:name phi-rectangle
-	   :description "Another rectangle command"
-	   :type github
-	   :pkgname "zk-phi/phi-rectangle")

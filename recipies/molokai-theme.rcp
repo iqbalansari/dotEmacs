@@ -1,4 +1,0 @@
-(:name molokai-theme
-       :type github
-       :pkgname "alloy-d/color-theme-molokai"
-       :description "An Emacs port of the Vim port of the Monokai color scheme for TextMate.")
