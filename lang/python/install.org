@@ -9,8 +9,8 @@
     (defvar iqbal-python-packages
      '(jedi
        pymacs
-       ropemacs
-       ))
+       ropemacs))
+    
     (el-get 'sync iqbal-python-packages)
     
     (if (executable-find "hg")
