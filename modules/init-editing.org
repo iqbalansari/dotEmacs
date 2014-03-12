@@ -148,6 +148,14 @@
    #+end_src
 
 
+
+* Set fill-column to 80
+#+begin_src emacs-lisp
+  (setq-default fill-column 80)
+#+end_src
+
+
+
 * Toggle comment region or line if no region is selected
   #+begin_src emacs-lisp
     (defun comment-or-uncomment-region-or-line ()
@@ -481,9 +489,11 @@
 * Code folding configuration
 ** Enable hs-minor-mode for supported modes
    #+begin_src emacs-lisp
-     (add-hook 'prog-mode-hook (lambda ()
-                                 (ignore-errors
-                                     (hs-minor-mode))))
+     (defun iqbal-enable-hs ()
+       (ignore-errors
+         (hs-minor-mode)))
+     
+     (add-hook 'prog-mode-hook 'iqbal-enable-hs)
    #+end_src
 
 
