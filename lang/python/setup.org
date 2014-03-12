@@ -45,6 +45,12 @@
    #+end_src
 
 
+* Use django style comments with fill-column
+  #+begin_src emacs-lisp
+    (setq python-fill-docstring-style 'django)
+  #+end_src
+
+
 * Use nosetests for testing
   #+begin_src emacs-lisp
     (when (locate-library "nose")
