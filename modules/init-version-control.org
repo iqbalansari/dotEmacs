@@ -82,16 +82,6 @@
     
                     magit-repo-dirs-depth 1)))
   #+end_src
-
-
-* Function to exit magit-commit-mode
-  
-  #+begin_src emacs-lisp
-    (defun magit-exit-commit-mode ()
-      (interactive)
-      (kill-buffer)
-      (delete-window))
-  #+end_src
   
 
 * Keybindings
@@ -104,7 +94,7 @@
              (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)))
     
     (eval-after-load "git-commit-mode"
-      '(define-key git-commit-mode-map (kbd "C-c C-k") 'magit-exit-commit-mode))
+      '(define-key git-commit-mode-map (kbd "C-c C-k") 'git-commit-abort))
     
     (global-set-key (kbd "C-x v p") 'git-messenger:popup-message)
   #+end_src
