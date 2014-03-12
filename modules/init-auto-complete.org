@@ -14,7 +14,7 @@
     (load "auto-complete-config")
   #+end_src
 
-
+  
 * Auto-complete configurations
 ** Load deafult configuration
    #+begin_src emacs-lisp
@@ -70,7 +70,10 @@
    #+begin_src emacs-lisp
      (setq ac-quick-help-prefer-pos-tip nil)
    #+end_src
-
+** Maximum width of auto-complete menu
+   #+begin_src emacs-lisp
+     (setq ac-max-width 0.5)
+   #+end_src
 
 
 * Enable autocomplete mode globally
