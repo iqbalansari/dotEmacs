@@ -1,14 +1,8 @@
-* Load cedet and semantic
-  #+begin_src emacs-lisp
-    (load "cedet")
-    (load "semantic")
-  #+end_src
-
-
 * Enable semantic only in c-mode, cc-mode and java-mode
   #+begin_src emacs-lisp 
-    (add-to-list 'semantic-inhibit-functions
-                 (lambda () (not (member major-mode '(java-mode c-mode c++-mode)))))
+    (eval-after-load "semantic"
+      '(add-to-list 'semantic-inhibit-functions
+                   (lambda () (not (member major-mode '(java-mode c-mode c++-mode))))))
   #+end_src
 
 
@@ -29,14 +23,29 @@
 
 * Enable Semantic
   #+BEGIN_SRC emacs-lisp
-    (setq semantic-load-turn-everything-on t)
     (semantic-mode 1)
-    (load "semantic/senator")
-    (load "semantic")
-    (load "semantic/ia")
-    (load "semantic/wisent")
-    (load "semantic/wisent/java-tags")
   #+END_SRC
+
+
+* Disable setup by semantic for python and javascript buffers
+  #+begin_src emacs-lisp
+    (setq semantic-new-buffer-setup-functions
+          '((c-mode . semantic-default-c-setup)
+            (c++-mode . semantic-default-c-setup)
+            (html-mode . semantic-default-html-setup)
+            (java-mode . wisent-java-default-setup)
+            (srecode-template-mode . srecode-template-setup-parser)
+            (texinfo-mode . semantic-default-texi-setup)
+            (makefile-automake-mode . semantic-default-make-setup)
+            (makefile-gmake-mode . semantic-default-make-setup)
+            (makefile-makepp-mode . semantic-default-make-setup)
+            (makefile-bsdmake-mode . semantic-default-make-setup)
+            (makefile-imake-mode . semantic-default-make-setup)
+            (makefile-mode . semantic-default-make-setup)))
+    
+    (remove-hook 'python-mode-hook 'wisent-python-default-setup)
+  #+end_src
+
 
 
 * Setup autocompletion
