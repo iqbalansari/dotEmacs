@@ -156,11 +156,11 @@
         (define-key map (kbd "<right>") 'wg-redo-wconfig-change)
         map))
     
-    (defadvice wg-undo-wconfig-change (after set-left-arrow-to-undo 
+    (defadvice wg-undo-wconfig-change (after set-arrow-keys 
                                              (&optional workspace))
       (set-temporary-overlay-map my-wg-config-keymap t))
     
-    (defadvice wg-redo-wconfig-change (after set-left-arrow-to-undo 
+    (defadvice wg-redo-wconfig-change (after set-arrow-keys 
                                              (&optional workspace))
       (set-temporary-overlay-map my-wg-config-keymap t))
     
@@ -174,20 +174,20 @@
   Pressing n/p immediately after executing these commands
   will cycle among available workgroups
   #+begin_src emacs-lisp
-    (defvar my-wg-config-keymap
+    (defvar my-wg-switch-keymap
       (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "<left>") 'wg-undo-wconfig-change)
-        (define-key map (kbd "<right>") 'wg-redo-wconfig-change)
+        (define-key map (kbd "n") 'wg-switch-to-workgroup-right)
+        (define-key map (kbd "p") 'wg-switch-to-workgroup-left)
         map))
     
-    (defadvice wg-undo-wconfig-change (after set-left-arrow-to-undo 
-                                             (&optional workspace))
-      (set-temporary-overlay-map my-wg-config-keymap t))
+    (defadvice wg-switch-to-workgroup-left (after set-switch-keys 
+                                             (&optional workspace N))
+      (set-temporary-overlay-map my-wg-switch-keymap t))
     
-    (defadvice wg-redo-wconfig-change (after set-left-arrow-to-undo 
-                                             (&optional workspace))
-      (set-temporary-overlay-map my-wg-config-keymap t))
+    (defadvice wg-switch-to-workgroup-right (after set-switch-keys 
+                                             (&optional workspace N))
+      (set-temporary-overlay-map my-wg-switch-keymap t))
     
-    (ad-activate 'wg-undo-wconfig-change)
-    (ad-activate 'wg-redo-wconfig-change)
+    (ad-activate 'wg-switch-to-workgroup-left)
+    (ad-activate 'wg-switch-to-workgroup-right)
   #+end_src
