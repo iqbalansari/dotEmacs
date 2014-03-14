@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name : kbd
+# key: kbd
+# contributor: Iqbal Ansari (iqbalansari02@yahoo.com)
+# --
+<kbd>$1</kbd>
