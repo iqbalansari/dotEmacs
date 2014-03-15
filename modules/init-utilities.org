@@ -52,13 +52,6 @@
   #+end_src
 
 
-* RE Builder configurations
-  #+begin_src emacs-lisp
-    (eval-after-load 're-builder
-      (setq reb-re-syntax 'string))
-  #+end_src
-
-
 * Save minibuffer history across sessions
   #+begin_src emacs-lisp
     (savehist-mode 1)
