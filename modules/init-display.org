@@ -217,7 +217,8 @@
 
 * Use smooth-scrolling for better scrolling
   #+begin_src emacs-lisp
-    (load "smooth-scrolling")
+    (when (eq system-type 'windows-nt)
+      (setq smooth-scroll-margin 1))
   #+end_src
 
 
@@ -265,4 +266,14 @@
 * Not ringing and dinging please!
   #+begin_src emacs-lisp
     (setq ring-bell-function 'ignore)
+  #+end_src
+
+
+* Fix scroll lagging on windows not very good but better than earlier
+  #+begin_src emacs-lisp
+    (setq redisplay-dont-pause t
+          scroll-margin 1
+          scroll-step 1
+          scroll-conservatively 10000
+          scroll-preserve-screen-position 1)
   #+end_src
