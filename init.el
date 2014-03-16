@@ -10,6 +10,9 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;; Disable vc for Git repositories
+(delete 'Git vc-handled-backends)
+
 ;; Memory is cheap, stop the world only after 20 megabytes are used
 (setq gc-cons-threshold (* 20 1024 1024))
 
