@@ -72,14 +72,7 @@
     (autoload 'rebox-cycle "rebox2")
     (global-set-key (kbd "C-c q") 'rebox-cycle)
   #+end_src
-  
 
-* Package for transposing, swapping windows
-  #+begin_src emacs-lisp
-    (el-get 'sync 'transpose-frame)
-    (load "transpose-frame")
-  #+end_src
-  
 
 * Quickly insert some dummy text
   #+begin_src emacs-lisp
