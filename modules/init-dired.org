@@ -25,6 +25,18 @@
   #+end_src
   
 
+* Auto revert dired buffer on revisiting
+  #+begin_src emacs-lisp
+    (setq dired-auto-revert-buffer t)
+  #+end_src
+
+
+* Display human-readable sizes in dired
+  #+begin_src emacs-lisp
+    (setq dired-listing-switches "-lah")
+  #+end_src
+
+
 * When in dired jump to start and end of directory listing (not the dired buffer)
   #+begin_src emacs-lisp
     (defun dired-jump-to-bottom ()
