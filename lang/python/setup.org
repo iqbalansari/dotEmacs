@@ -37,7 +37,7 @@
 * Setup flycheck for error checking
 ** Enable flycheck-mode
   #+begin_src emacs-lisp
-    (flycheck-mode-on-safe)
+    (flycheck-mode)
   #+end_src
   
 ** Use pylint for syntax checking
