@@ -26,6 +26,7 @@
         forward-sentence
         forward-sexp
         hungry-delete-backward
+        hungry-delete-forward
         increment-integer-at-point
         jedi:dot-complete
         kill-region
@@ -35,6 +36,7 @@
         org-beginning-of-line
         org-delete-char
         org-end-of-line
+        org-force-self-insert
         org-kill-line
         org-return-indent
         org-self-insert-command
@@ -69,6 +71,7 @@
         isearch-forward-regexp
         keyboard-escape-quit
         mouse-set-region
+        org-ctrl-c-ctrl-c
         smex
         sp-transpose-sexp
         wgrep-change-to-wgrep-mode
