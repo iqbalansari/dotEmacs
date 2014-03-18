@@ -7,7 +7,7 @@
 
 * Load dired-x for additional functionality
   #+begin_src emacs-lisp
-    (add-hook 'dired-load-hook
+    (add-hook 'dired-mode-hook
               (lambda ()
                 (load "dired-x")))
   #+end_src
@@ -24,6 +24,18 @@
     (setq dired-recursive-copies 'always)
   #+end_src
   
+
+* Auto revert dired buffer on revisiting
+  #+begin_src emacs-lisp
+    (setq dired-auto-revert-buffer t)
+  #+end_src
+
+
+* Display human-readable sizes in dired
+  #+begin_src emacs-lisp
+    (setq dired-listing-switches "-lah")
+  #+end_src
+
 
 * When in dired jump to start and end of directory listing (not the dired buffer)
   #+begin_src emacs-lisp
@@ -47,7 +59,7 @@
 
 * Dired-details configuration
   #+begin_src emacs-lisp
-    (add-hook 'dired-load-hook
+    (add-hook 'dired-mode-hook
               (lambda ()
                 (load "dired-details")
                 (dired-details-install)

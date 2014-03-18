@@ -26,10 +26,11 @@
    #+end_src
    
 ** Start ropemacs
-   Load pymacs and load rope
+   Load pymacs and load rope, if not already loaded
    #+begin_src emacs-lisp
+     (unless (featurep 'pymacs)
        (load "pymacs")
-       (pymacs-load "ropemacs" "rope-")
+       (pymacs-load "ropemacs" "rope-"))
    #+end_src
   
   

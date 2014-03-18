@@ -2,7 +2,7 @@
   #+begin_src emacs-lisp
     (defvar iqbal-html-packages
       '(web-mode
-        emmet))
+        emmet-mode))
     
     (el-get 'sync iqbal-html-packages)
   #+end_src

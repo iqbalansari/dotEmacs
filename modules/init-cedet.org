@@ -27,21 +27,12 @@
   #+END_SRC
 
 
-* Disable setup by semantic for python and javascript buffers
+* Disable setup by semantic for python, javascript and scheme buffers
   #+begin_src emacs-lisp
-    (setq semantic-new-buffer-setup-functions
-          '((c-mode . semantic-default-c-setup)
-            (c++-mode . semantic-default-c-setup)
-            (html-mode . semantic-default-html-setup)
-            (java-mode . wisent-java-default-setup)
-            (srecode-template-mode . srecode-template-setup-parser)
-            (texinfo-mode . semantic-default-texi-setup)
-            (makefile-automake-mode . semantic-default-make-setup)
-            (makefile-gmake-mode . semantic-default-make-setup)
-            (makefile-makepp-mode . semantic-default-make-setup)
-            (makefile-bsdmake-mode . semantic-default-make-setup)
-            (makefile-imake-mode . semantic-default-make-setup)
-            (makefile-mode . semantic-default-make-setup)))
+    (setq semantic-new-buffer-setup-functions (remove-if (lambda (buffer-setup-function)
+                                                           (member (car buffer-setup-function)
+                                                                   '(python-mode js-mode scheme-mode html-mode)))
+                                                         semantic-new-buffer-setup-functions))
     
     (remove-hook 'python-mode-hook 'wisent-python-default-setup)
   #+end_src
@@ -50,8 +41,10 @@
 
 * Setup autocompletion
   #+begin_src emacs-lisp 
-    (add-to-list 'ac-sources 'ac-source-gtags)
-    (add-to-list 'ac-sources 'ac-source-semantic)
+    (defun iqbal-setup-cedet-auto-completion ()
+      (add-to-list 'ac-sources 'ac-source-semantic))
+    
+    (add-hook 'c-mode-common-hook 'iqbal-setup-cedet-auto-completion)
   #+end_src
 
 
