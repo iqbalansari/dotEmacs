@@ -105,3 +105,8 @@
     (global-diff-hl-mode)
   #+end_src
   
+
+* Disable vc for git repositories
+  #+begin_src emacs-lisp
+    (delete 'Git vc-handled-backends)
+  #+end_src
