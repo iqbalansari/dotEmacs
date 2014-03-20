@@ -177,3 +177,16 @@
    #+begin_src emacs-lisp
      (global-set-key (kbd "M-%") 'anzu-query-replace)
    #+end_src
+
+
+* Keep the search results in the center in incremental search
+  #+begin_src emacs-lisp
+    (defadvice isearch-repeat-forward (after isearch-repeat-forward-recenter activate)
+      (recenter))
+    
+    (defadvice isearch-repeat-backward (after isearch-repeat-backward-recenter activate)
+      (recenter))
+    
+    (ad-activate 'isearch-repeat-forward)
+    (ad-activate 'isearch-repeat-backward)
+  #+end_src
