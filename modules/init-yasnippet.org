@@ -1,17 +1,7 @@
 * Ensure that required packages are installed
   
   #+begin_src emacs-lisp
-    (defvar iqbal-yasnippet-packages
-      '(yasnippet
-        auto-yasnippet))
-    
-    (el-get 'sync iqbal-yasnippet-packages)
-  #+end_src
-
-  
-* Require yasnippet
-  #+begin_src emacs-lisp
-    (load "yasnippet")
+    (el-get 'sync 'yasnippet)
   #+end_src
 
 
@@ -22,19 +12,9 @@
                 (remove 'yas-ido-prompt
                         yas-prompt-functions)))
   #+end_src
-
   
 
 * Start yasnippet global mode
   #+begin_src emacs-lisp
     (yas-global-mode)
   #+end_src
-  
-
-* Keybindings for auto-yasnippet
-  #+begin_src emacs-lisp
-    (load "auto-yasnippet")
-    (global-set-key (kbd "<S-f3>") 'aya-create)
-    (global-set-key (kbd "<S-f4>") 'aya-expand)
-  #+end_src
-  

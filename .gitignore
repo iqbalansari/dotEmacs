@@ -27,3 +27,4 @@ custom.el
 private*
 bookmarks
 image-dired/*
+.python-environments/*
