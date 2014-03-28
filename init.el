@@ -1,14 +1,14 @@
 ;; Save custom variables in separate file
+(setq custom-file "~/.emacs.d/custom.el")
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (unless (package-installed-p 'org-plus-contrib)
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
-
-(setq custom-file "~/.emacs.d/custom.el")
-(when (file-exists-p custom-file)
-  (load custom-file))
 
 ;; Disable vc for Git repositories
 (delete 'Git vc-handled-backends)
