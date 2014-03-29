@@ -1,14 +1,12 @@
 * Install some packages useful for navigation
 + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
 + [[http://www.emacswiki.org/emacs/goto-chg.el][goto-chg]] - Move point through buffer-undo-list positions
-+ [[http://www.emacswiki.org/emacs/key-chord.el][key-chord]] - Map pairs of simultaneously pressed keys to commands.
 + [[https://github.com/rolandwalker/back-button][visible-mark]] - Highlight marks in a buffer
 + [[https://github.com/rolandwalker/nav-flash][nav-flash]] - Temporarily flash current line
 
 #+begin_src emacs-lisp
   (defvar iqbal-navigation-packages
     '(goto-chg
-      key-chord
       ace-jump-mode
       visible-mark
       nav-flash))
@@ -21,22 +19,8 @@
   Binding for jumping to character and line, 'jumping to word'
   is bound to a 'key-chord' in later section
   #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c SPC") 'ace-jump-char-mode)
-     (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode)
-  #+end_src
-
-
-* Key chords setup
-  Keychords for some common functions
-  #+begin_src emacs-lisp
-    (key-chord-mode t)
-    (key-chord-define-global "jj" 'ace-jump-word-mode)
-    (defun switch-to-previous-buffer ()
-      "Switch to previously open buffer.
-    Repeated invocations toggle between the two most recently open buffers."
-      (interactive)
-      (switch-to-buffer (other-buffer (current-buffer) 1)))
-    (key-chord-define-global "JJ" 'switch-to-previous-buffer)
+    (global-set-key (kbd "C-c SPC") 'ace-jump-word-mode)
+    (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode)
   #+end_src
 
 
