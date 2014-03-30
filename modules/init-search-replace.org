@@ -94,7 +94,6 @@
 * Replace words in parallel taken from [[http://stackoverflow.com/questions/2588277/how-can-i-swap-or-replace-multiple-strings-in-code-at-the-same-time][stackoverflow]]
 
   #+begin_src emacs-lisp 
-    (load "cl-lib")
     (defun parallel-query-replace (plist &optional delimited start end)
       "Replace every occurrence of the (2n)th token of PLIST in
     buffer with the (2n+1)th token; if only two tokens are provided,
@@ -113,6 +112,7 @@
                 collect (prin1-to-string item t) until (<= limit i))
          ,current-prefix-arg
          ,@(if (use-region-p) `(,(region-beginning) ,(region-end)))))
+      (require 'cl-lib)
       (let* ((alist (cond ((= (length plist) 2) (list plist (reverse plist)))
                           ((loop for (key val . tail) on plist by #'cddr
                                  collect (list (prin1-to-string key t) val)))))
@@ -161,7 +161,6 @@
 * Configurations for anzu
 ** Load anzu
    #+begin_src emacs-lisp
-     (load "anzu")
      (global-anzu-mode +1)
    #+end_src
 

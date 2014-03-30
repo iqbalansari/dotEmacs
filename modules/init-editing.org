@@ -174,9 +174,6 @@
 * Show all lines matching REGEXP in buffers with this major mode. Taken from
   [[http://www.masteringemacs.org/articles/2011/07/20/searching-buffers-occur-mode/][mastering-emacs]]
   #+begin_src emacs-lisp
-    (eval-when-compile
-      (load  "cl"))
-    
     ;; Get lines matching REGEXP in all buffers with this major mode
     (defun get-buffers-matching-mode (mode)
       "Returns a list of buffers where their major-mode is equal to MODE"

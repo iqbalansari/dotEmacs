@@ -10,7 +10,6 @@
 
 * Require auto-complete 
   #+begin_src emacs-lisp
-    (load "auto-complete")
     (load "auto-complete-config")
   #+end_src
 
@@ -18,7 +17,7 @@
 * Auto-complete configurations
 ** Load deafult configuration
    #+begin_src emacs-lisp
-    (ac-config-default)
+     (ac-config-default)
    #+end_src
 
 ** Set default sources for autocomplete
