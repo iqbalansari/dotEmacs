@@ -279,6 +279,18 @@
                                                     (iqbal-load-lang "markdown"))))
    #+end_src
 
+** Apache
+   #+begin_src emacs-lisp
+     (defun iqbal-load-apache-conf ()
+       (iqbal-load-lang "apache"))
+     (add-to-list 'auto-mode-alist '("\\.htaccess\\'"   . iqbal-load-apache-conf))
+     (add-to-list 'auto-mode-alist '("httpd\\.conf\\'"  . iqbal-load-apache-conf))
+     (add-to-list 'auto-mode-alist '("srm\\.conf\\'"    . iqbal-load-apache-conf))
+     (add-to-list 'auto-mode-alist '("access\\.conf\\'" . iqbal-load-apache-conf))
+     (add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . iqbal-load-apache-conf))
+     
+   #+end_src
+
 
 * Load common libraries
    These are general purpose libraries that can are used
