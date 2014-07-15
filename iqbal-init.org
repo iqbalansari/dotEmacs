@@ -76,6 +76,13 @@
 
    
 
+* Enable some disable commands
+  #+begin_src emacs-lisp
+    (put 'narrow-to-region 'disabled nil)
+    (put 'scroll-left 'disabled nil)
+  #+end_src
+
+
 * Integration with system clipboard
 ** Use system clipboard, these are helpful only when running GUI emacs
   #+begin_src emacs-lisp
