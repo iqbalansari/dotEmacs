@@ -1,0 +1,4 @@
+* Enable apache mode
+  #+begin_src emacs-lisp
+    (apache-mode)
+  #+end_src

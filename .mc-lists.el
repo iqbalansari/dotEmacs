@@ -68,12 +68,16 @@
       '(
         describe-key
         help-for-help
+        ido-switch-buffer
+        isearch-backward-regexp
         isearch-forward-regexp
         keyboard-escape-quit
         mouse-set-region
         org-ctrl-c-ctrl-c
         smex
+        sp-next-sexp
         sp-transpose-sexp
+        tern-find-definition
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit
         ))
