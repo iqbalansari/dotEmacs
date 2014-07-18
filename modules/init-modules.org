@@ -58,7 +58,7 @@
       (remove-if-not (lambda (module-file)
                        (iqbal-module-file-newer? module-file))
                      iqbal-modules-list))
-        
+    
     (defun iqbal-compile-modules (modules)
       "Tangle the MODULES and concat store the combined results in
     a single file also write the current modules to .previous-modules
@@ -66,6 +66,8 @@
     since last compilation
     "
       (interactive (list (iqbal-get-newer-modules)))
+      (unless (file-exists-p iqbal-modules-compiled-dir)
+        (make-directory iqbal-modules-compiled-dir))
       (dolist (module modules)
         (org-babel-tangle-file (iqbal-get-module-org-file module)
                                (iqbal-get-module-el-file module)
@@ -101,14 +103,13 @@
         (load-file iqbal-tangled-modules)))
     
     (defun iqbal-remove-generated-files ()
-      (let* ((language-related-gen (mapcar (lambda (dir)
-                                             (concat dir "/.compiled"))
-                                           (remove-if-not #'file-directory-p
-                                                          (directory-files iqbal-langs-dir t "[^.]+")))))
+      (interactive)
+      (let* ((language-folders (remove-if-not #'file-directory-p
+                                              (directory-files iqbal-langs-dir t "[^.]+"))))
         (delete-directory (concat iqbal-modules-dir "/.compiled/") t nil)
     
-        (dolist (gen-file language-related-gen)
-          (when (file-exists-p gen-file)
+        (dolist (folder language-folders)
+          (dolist (gen-file (directory-files folder t ".*\.el[c]?"))
             (delete-file gen-file)))))
   #+end_src
 
