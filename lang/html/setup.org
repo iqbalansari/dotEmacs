@@ -23,7 +23,13 @@
   #+begin_src emacs-lisp
     (emmet-mode)
   #+end_src
+
   
+* Disable web-mode's autopairing
+  #+begin_src emacs-lisp
+    (setq web-mode-enable-auto-pairing nil)
+  #+end_src
+
 
 * Function for cleaning up messy markup :IMPROVE:
   #+begin_src emacs-lisp

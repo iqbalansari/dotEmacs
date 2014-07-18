@@ -23,17 +23,15 @@
    #+end_src
    
 
-* Configure smartparens for web-mode
-** Additional pairs for web-mode and html modes
+* Configure smartparens for html/xml 
+** Use smartparens navigating around html/xml tags as well
   #+begin_src emacs-lisp
-    (sp-with-modes '(web-mode sgml-mode)
-                   (sp-local-pair "<" ">"))
-  #+end_src
+    (sp-with-modes '(web-mode sgml-mode nxml-mode apache-mode)
+      (sp-local-pair "<" ">"))
 
-** Use smartparens navigating around html tags as well
-  #+begin_src emacs-lisp
-    (setq sp-navigate-consider-sgml-tags
-          (cons 'web-mode sp-navigate-consider-sgml-tags))
+    (add-to-list 'sp-navigate-consider-sgml-tags 'web-mode)
+    (add-to-list 'sp-navigate-consider-sgml-tags 'nxml-mode)
+    (add-to-list 'sp-navigate-consider-sgml-tags 'apache-mode)
   #+end_src
 
 ** Treat expression with same opening and closing delimiter as sexp
@@ -45,8 +43,6 @@
   #+begin_src emacs-lisp
     (sp-local-tag '(sgml-mode web-mode html-mode) "<" "<_>" "</_>" :transform 'sp-match-sgml-tags)
   #+end_src
-
-
 
 
 * Do not add autopair "'" if after a word
@@ -71,6 +67,19 @@
 * Do not autoescape string
   #+begin_src emacs-lisp
     (setq sp-autoescape-string-quote nil)
+  #+end_src
+
+
+* Do not autopair '<' and '>' when working in non HTML context in web-mode
+  #+begin_src emacs-lisp
+    (defun sp-web-mode-is-code-context (id action context)
+      (when (and (eq action 'insert)
+                 (not (or (get-text-property (point) 'part-side)
+                          (get-text-property (point) 'block-side))))
+    
+        t))
+
+    (sp-local-pair 'web-mode "<" nil :when '(sp-web-mode-is-code-context))
   #+end_src
 
 
