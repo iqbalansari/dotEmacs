@@ -19,23 +19,83 @@
      (defvar iqbal-langs-dir "~/.emacs.d/lang/")
    #+end_src
 
-** 4. Function to load lang
-   A simple helper function to load a particular lang
+** 4. Find a files age
+   #+begin_src emacs-lisp
+     (defun iqbal-get-files-age (file)
+       (float-time
+        (time-subtract (current-time)
+                       (nth 5 (or (file-attributes (file-truename file))
+                                  (file-attributes file))))))
+   #+end_src
+
+** 5. Check if given file is older than any of the other given files
+   #+begin_src emacs-lisp
+     (defun iqbal-is-file-stale (orig-file &rest files)
+       (let ((orig-file-age (iqbal-get-files-age orig-file)))
+         (reduce (lambda (is-stale-yet? file)
+                   (let ((file-age (iqbal-get-files-age file)))
+                     (or is-stale-yet?
+                         (> orig-file-age file-age))))
+                 files
+                 :initial-value nil)))
+   #+end_src
+
+** 6. Helper functions to read/write from/to file
+   #+begin_src emacs-lisp
+     (defun iqbal-read-file (path)
+       (with-temp-buffer
+         (insert-file-contents-literally path)
+         (buffer-substring-no-properties (point-min) (point-max))))
+     
+     (defun iqbal-write-to-file (file data)
+       (with-temp-file file
+         (erase-buffer)
+         (insert data)))
+   #+end_src
+
+** 7. Combine the code in the given org-files to a single string
+   #+begin_src emacs-lisp
+     (defun iqbal-combine-org-files (target sources language)
+       (let* ((extracted-files (mapcar (lambda (source)
+                                         (let ((export-file (concat (file-name-sans-extension source) ".el")))
+                                           (org-babel-tangle-file source 
+                                                                  export-file
+                                                                  language)
+                                           export-file))
+                                       sources))
+              (extracted-code (reduce (lambda (code input-file)
+                                        (if input-file
+                                            (concat code (iqbal-read-file input-file))
+                                          code))
+                                      extracted-files :initial-value "")))
+         (when target
+           (iqbal-write-to-file target extracted-code))
+         extracted-code))
+   #+end_src
+
+** 8. Function to load language configuration
+   A simple helper function to load a particular language configuration.
+   Instead of loading the org files one by one it combines all the code in
+   them in one compiled file and loads that file, the compiled file is regenerated
+   if any of the org files change
    #+begin_src emacs-lisp
      (defun iqbal-load-lang (language)
        (interactive 
         (list (ido-completing-read "Language: " 
                                    (delete "."
-                                         (delete ".." 
-                                               (directory-files iqbal-langs-dir))))))
-       (let ((lang-path (concat iqbal-langs-dir language "/"))
-             (load-if-present #'(lambda (file)
-                                  (if (file-exists-p file)
-                                      (org-babel-load-file file))))
-             (files-to-load '("install.org" "setup.org" "keybindings.org")))
-         (dolist (file files-to-load t) 
-           (funcall load-if-present 
-                    (concat lang-path file)))))
+                                           (delete ".." 
+                                                   (directory-files iqbal-langs-dir))))))
+       (let* ((lang-path (concat iqbal-langs-dir language "/"))
+              (compiled-file (concat lang-path "/.compiled.el"))
+              (source-files (remove-if-not #'file-exists-p
+                                           (mapcar (lambda (file)
+                                                     (concat lang-path file))
+                                                   '("install.org" "setup.org" "keybindings.org")))))
+         (when (or (not (file-exists-p compiled-file))
+                   (apply #'iqbal-is-file-stale compiled-file source-files))
+           (iqbal-combine-org-files compiled-file source-files "emacs-lisp")
+           (byte-compile-file compiled-file))
+         (load-file compiled-file)))
      
      (defun iqbal-install-lang (language)
        (interactive 
@@ -49,7 +109,7 @@
                  (org-babel-load-file install-file))))
    #+end_src
 
-** 5. Function to declare one-shot keybindings
+** 9. Function to declare one-shot keybindings
     These bindings active only after a particular command and are
     deactivated as soon as some other key is pressed (as in 'C-x e'
     and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
