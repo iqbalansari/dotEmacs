@@ -29,3 +29,5 @@ bookmarks
 image-dired/*
 .python-environments/*
 /.emacs.desktop
+modules/.compiled/
+*.elc
