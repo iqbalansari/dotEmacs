@@ -57,6 +57,7 @@
         sp-rewrap-sexp
         sp-unwrap-sexp
         st2-like-beginning-of-line
+        subword-right
         tern-ac-dot-complete
         tiny-expand
         transpose-words
@@ -80,4 +81,5 @@
         tern-find-definition
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit
+        yank-rectangle
         ))

@@ -19,28 +19,17 @@
      (defvar iqbal-langs-dir "~/.emacs.d/lang/")
    #+end_src
 
-** 4. Find a files age
-   #+begin_src emacs-lisp
-     (defun iqbal-get-files-age (file)
-       (float-time
-        (time-subtract (current-time)
-                       (nth 5 (or (file-attributes (file-truename file))
-                                  (file-attributes file))))))
-   #+end_src
-
-** 5. Check if given file is older than any of the other given files
+** 4. Check if given file is older than any of the other given files
    #+begin_src emacs-lisp
      (defun iqbal-is-file-stale (orig-file &rest files)
-       (let ((orig-file-age (iqbal-get-files-age orig-file)))
-         (reduce (lambda (is-stale-yet? file)
-                   (let ((file-age (iqbal-get-files-age file)))
-                     (or is-stale-yet?
-                         (> orig-file-age file-age))))
-                 files
-                 :initial-value nil)))
+       (reduce (lambda (is-stale-yet? file)
+                 (or is-stale-yet?
+                     (file-newer-than-file-p file orig-file)))
+               files
+               :initial-value nil))
    #+end_src
 
-** 6. Helper functions to read/write from/to file
+** 5. Helper functions to read/write from/to file
    #+begin_src emacs-lisp
      (defun iqbal-read-file (path)
        (with-temp-buffer
@@ -53,7 +42,7 @@
          (insert data)))
    #+end_src
 
-** 7. Combine the code in the given org-files to a single string
+** 6. Combine the code in the given org-files to a single string
    #+begin_src emacs-lisp
      (defun iqbal-combine-org-files (target sources language)
        (let* ((extracted-files (mapcar (lambda (source)
@@ -73,7 +62,7 @@
          extracted-code))
    #+end_src
 
-** 8. Function to load language configuration
+** 7. Function to load language configuration
    A simple helper function to load a particular language configuration.
    Instead of loading the org files one by one it combines all the code in
    them in one compiled file and loads that file, the compiled file is regenerated
@@ -109,7 +98,7 @@
                  (org-babel-load-file install-file))))
    #+end_src
 
-** 9. Function to declare one-shot keybindings
+** 8. Function to declare one-shot keybindings
     These bindings active only after a particular command and are
     deactivated as soon as some other key is pressed (as in 'C-x e'
     and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
