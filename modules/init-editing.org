@@ -493,7 +493,6 @@
      (add-hook 'prog-mode-hook 'iqbal-enable-hs)
    #+end_src
 
-
 ** Setup help at point to display local-help
   Setup help-at-pt to display help when idle, in case of folded code
   it will actually execute the code to display the [[folded_code][folded code popup]].
@@ -512,10 +511,10 @@
    keymap property of the overlay
 
    #+begin_src emacs-lisp
+     (el-get 'sync 'pos-tip)
      (defun iqbal--display-folded-content (window ov pos)
-       (require 'pos-tip)
        (pos-tip-show (buffer-substring (overlay-start ov)
-                                       (overlay-end ov)) nil (overlay-end ov))
+                                                (overlay-end ov)))
        nil)
    #+end_src
 
