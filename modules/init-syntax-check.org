@@ -48,21 +48,19 @@
    in a popup
    #+begin_src emacs-lisp
      (defun iqbal-display-messages-in-popup (errors)
+       ;; Do not interfere with autocomplete popups
        (unless (or (popup-live-p ac-menu) (popup-live-p ac-quick-help))
          (let ((messages (remove-if-not 'identity (mapcar #'flycheck-error-message errors))))
            (when messages
-             (popup-tip (concat "\n" 
-                                (mapconcat (lambda (message) (concat "  " message "  ")) 
-                                           messages 
-                                           "\n") 
-                                "\n"))))))
+             ;; Showing/hiding popups triggers a text change which in turn
+             ;; triggers syntax check
+             (setq inhibit-modification-hooks t)
+             (iqbal-singleton-popup (concat "\n" 
+                                            (mapconcat (lambda (message) (concat "  " message "  ")) 
+                                                       messages 
+                                                       "\n") 
+                                            "\n"))
+             (setq inhibit-modification-hooks nil)))))
      
      (setq flycheck-display-errors-function #'iqbal-display-messages-in-popup)
    #+end_src
-
-
-* Display errors message after a delay of 2 seconds
-  #+begin_src emacs-lisp
-    (setq flycheck-display-errors-delay 2)
-  #+end_src
-

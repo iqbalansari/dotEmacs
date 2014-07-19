@@ -1,3 +1,33 @@
+* Utility function to display popup messages
+  #+begin_src emacs-lisp
+    (defvar iqbal-singleton-popup-displaying? nil)
+    
+    (defun iqbal-singleton-popup (popup-string)
+      (unless iqbal-singleton-popup-displaying?
+        (setq iqbal-singleton-popup-displaying? t)
+        (condition-case nil
+            (let* ((string (substring-no-properties popup-string))
+                   (filled-string (popup-fill-string string nil popup-tip-max-width))
+                   (width (car filled-string))
+                   (lines (cdr filled-string))
+                   (popup-instance (popup-create (point) width 100
+                                                 :around t
+                                                 :scroll-bar t
+                                                 :face 'popup-tip-face)))
+              (unwind-protect
+                  (when (> (popup-width popup-instance) 0)                   ; not to be corrupted
+                    (popup-set-list popup-instance lines)
+                    (popup-draw popup-instance)
+                    (setq iqbal-singleton-popup-instance popup-instance)
+                    (clear-this-command-keys)
+                    (push (read-event nil) unread-command-events))
+                (popup-delete popup-instance)
+                (setq iqbal-singleton-popup-displaying? nil)))
+          (error (setq iqbal-singleton-popup-displaying? nil)))))
+    
+  #+end_src
+
+
 * Code to speed up the loading of modules
   Loading all of the config files at the startup is expensive since 
   each file first converted from .org to .el files and then loaded 
