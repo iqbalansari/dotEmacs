@@ -37,10 +37,11 @@
    #+end_src
 
 
-* Display errors in a pop-tip
+* Display errors in a pos-tip
 ** Ensure that popup is installed
    #+begin_src emacs-lisp
      (el-get 'sync 'pos-tip)
+     (require 'pos-tip)
    #+end_src
 
 ** Custom function to display errors
@@ -55,11 +56,9 @@
              ;; Showing/hiding popups triggers a text change which in turn
              ;; triggers syntax check
              (setq inhibit-modification-hooks t)
-             (pos-tip-show (concat "\n" 
-                                            (mapconcat (lambda (message) (concat "  " message "  ")) 
+             (pos-tip-show (mapconcat (lambda (message) (concat "  " message "  ")) 
                                                        messages 
-                                                       "\n") 
-                                            "\n"))
+                                                       "\n"))
              (setq inhibit-modification-hooks nil)))))
      
      (setq flycheck-display-errors-function #'iqbal-display-messages-in-popup)

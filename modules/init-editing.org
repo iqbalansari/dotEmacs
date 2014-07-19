@@ -512,6 +512,7 @@
 
    #+begin_src emacs-lisp
      (el-get 'sync 'pos-tip)
+     (require 'pos-tip)
      (defun iqbal--display-folded-content (window ov pos)
        (pos-tip-show (buffer-substring (overlay-start ov)
                                                 (overlay-end ov)))
