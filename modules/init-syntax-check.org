@@ -35,3 +35,26 @@
      (eval-after-load 'flycheck
        '(add-to-list 'flycheck-process-error-functions #'iqbal-add-lines-for-errors))
    #+end_src
+
+
+* Display errors in a pop-tip
+** Ensure that popup is installed
+   #+begin_src emacs-lisp
+     (el-get 'sync 'popup)
+   #+end_src
+
+** Custom function to display errors
+   The following function displays the errors at a point
+   in a popup
+   #+begin_src emacs-lisp
+     (defun iqbal-display-messages-in-popup (errors)
+       (let ((messages (remove-if-not 'identity (mapcar #'flycheck-error-message errors))))
+         (when messages
+           (popup-tip (concat "\n" 
+                              (mapconcat (lambda (message) (concat "  " message "  ")) 
+                                         messages 
+                                         "\n") 
+                              "\n")))))
+     
+     (setq flycheck-display-errors-function #'iqbal-display-messages-in-popup)
+   #+end_src
