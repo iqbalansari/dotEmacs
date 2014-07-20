@@ -91,3 +91,43 @@
               (message "Deleted file %s" filename)
               (kill-buffer))))))
   #+end_src
+
+
+* Do not prompt to apply local vars if user has said no once
+  #+begin_src emacs-lisp
+    (defvar iqbal-local-vars-file "~/.emacs.d/.disabled-local-vars"
+      "Directories with ignore local vars are stored here")
+    
+    (defvar iqbal-local-vars-ignored (when (file-exists-p iqbal-local-vars-file)
+                                       (read (iqbal-read-file iqbal-local-vars-file)))
+      "Local copy of directories for which local vars are ignored")
+    
+    (defun iqbal-store-ignored-local-vars ()
+      "Write the local copy of ignored directories to disk wiil be
+    restored on startup"
+      (iqbal-write-to-file iqbal-local-vars-file
+                           (prin1-to-string iqbal-local-vars-ignored)))
+    
+    (defun iqbal-enable-local-vars-for (dir)
+      "Re-enable local vars for directory"
+      (interactive (list (ido-completing-read "Enable local vars for: "
+                                              iqbal-local-vars-ignored)))
+      (setq iqbal-local-vars-ignored (delete dir iqbal-local-vars-ignored)))
+    
+    (defadvice hack-local-variables-confirm (around iqbal-cache-local-vars-resp
+                                                    (all-vars unsafe-vars risky-vars dir-name))
+      "If the user reply in negative to applying local vars remember it and do not
+    prompt the user the next time, otherwise ask the user for confirmation and
+    remember the response if it is negative"
+      (unless (memq dir-name iqbal-local-vars-ignored)
+        ad-do-it
+        (unless ad-return-value
+          (add-to-list 'iqbal-local-vars-ignored dir-name)))
+      (setq ad-return-value nil))
+    
+    ;; Activate the advice
+    (ad-activate 'hack-local-variables-confirm)
+    
+    ;; Store the user choices when emacs exists
+    (add-hook 'kill-emacs-hook #'iqbal-store-ignored-local-vars)
+  #+end_src
