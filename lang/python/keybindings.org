@@ -6,13 +6,26 @@
 
 
 * Keybinding for python-mode
+** Keybindings for editing
   #+begin_src emacs-lisp
     (local-set-key (kbd "RET") 'newline-and-indent)
-    (local-set-key (kbd "C-c C-r") 'iqbal-py-send-region)
-    (local-set-key (kbd "C-c C-l") 'iqbal-py-send-line)
-    
   #+end_src
-  
+
+** Keybindings for interacting with python shell
+   #+begin_src emacs-lisp
+     (local-set-key (kbd "C-c C-r") 'iqbal-py-send-region)
+     (local-set-key (kbd "C-c C-l") 'iqbal-py-send-line)
+   #+end_src
+
+** Keybindings for navigation (set only when not in terminal)
+   #+begin_src emacs-lisp
+     (when (display-graphic-p)
+       (local-set-key (kbd "C-M-a") 'iqbal-py-begining-of-defun)
+       (local-set-key (kbd "C-M-e") 'iqbal-py-end-of-defun)
+       (local-set-key (kbd "C-M-S-a") 'iqbal-py-begining-of-class)
+       (local-set-key (kbd "C-M-S-e") 'iqbal-py-end-of-class))
+   #+end_src
+
 
 * Set keybindings for jumping to definition
   

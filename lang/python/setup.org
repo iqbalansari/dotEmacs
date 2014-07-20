@@ -39,6 +39,63 @@
    #+end_src
 
 
+* Separate functions for moving to start/end of function and class
+** A modified version of python-mode's python-nav-end-of-defun
+   #+begin_src emacs-lisp
+     (defun iqbal-python-nav-end-of-defun ()
+       "Move point to the end of def or class.
+     Returns nil if point is not in a def or class."
+       (interactive)
+       (let ((beg-defun-indent)
+             (beg-pos (point)))
+         (when (or (python-info-looking-at-beginning-of-defun)
+                   (python-nav-beginning-of-defun -1)
+                   (python-nav-beginning-of-defun 1))
+           (setq beg-defun-indent (current-indentation))
+           (while (progn
+                    (python-nav-end-of-statement)
+                    (python-util-forward-comment 1)
+                    (and (> (current-indentation) beg-defun-indent)
+                         (not (eobp)))))
+           (python-util-forward-comment -1)
+           (forward-line 1)
+           ;; Ensure point moves forward.
+           (and (> beg-pos (point)) (goto-char beg-pos)))))
+   #+end_src
+
+** Function for moving at start of class
+  #+begin_src emacs-lisp
+    (defun iqbal-py-begining-of-class (&optional args)
+      (interactive "p")
+      (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
+        (python-nav-beginning-of-defun args)))
+  #+end_src
+
+** Function for moving at end of class
+   #+begin_src emacs-lisp
+     (defun iqbal-py-end-of-class ()
+       (interactive)
+       (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
+         (iqbal-python-nav-end-of-defun)))
+   #+end_src
+
+** Function for moving at start of function
+   #+begin_src emacs-lisp
+     (defun iqbal-py-begining-of-defun (&optional args)
+       (interactive "p")
+       (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
+         (python-nav-beginning-of-defun args)))
+   #+end_src
+
+** Function for moving at end of function
+   #+begin_src emacs-lisp
+     (defun iqbal-py-end-of-defun ()
+       (interactive)
+       (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
+         (iqbal-python-nav-end-of-defun)))
+   #+end_src
+
+
 * Setup Jedi for autocompletion
 ** Configuration
   Automatically start completion after inserting a dot
