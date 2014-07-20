@@ -8,6 +8,9 @@
 * Keybinding for python-mode
   #+begin_src emacs-lisp
     (local-set-key (kbd "RET") 'newline-and-indent)
+    (local-set-key (kbd "C-c C-r") 'iqbal-py-send-region)
+    (local-set-key (kbd "C-c C-l") 'iqbal-py-send-line)
+    
   #+end_src
   
 
