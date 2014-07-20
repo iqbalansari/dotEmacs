@@ -63,6 +63,11 @@
      (setq ido-use-url-at-point t)
    #+end_src
 
+** Use virtual buffers
+   #+begin_src emacs-lisp
+     (setq ido-use-virtual-buffers t)
+   #+end_src
+
 
 * Keybindings
 ** Keybinding for idomenu
