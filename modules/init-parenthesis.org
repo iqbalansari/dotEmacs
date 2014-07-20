@@ -147,3 +147,10 @@
     (define-key sp-keymap (kbd "C->") 'sp-add-to-next-sexp)
     (define-key sp-keymap (kbd "C-<") 'sp-add-to-previous-sexp)
   #+end_src
+
+* Highlight matching parenthesis
+  #+begin_src emacs-lisp
+    (show-paren-mode t)
+    (setq show-paren-delay 0)
+    (setq show-paren-style 'mixed)
+  #+end_src

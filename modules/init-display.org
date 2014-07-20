@@ -97,17 +97,8 @@
      (global-set-key (kbd "<C-f6>") 'highlight-changes-next-change)
      (global-set-key (kbd "<C-S-f6>") 'highlight-changes-previous-change)
    #+end_src
-   
 
-* Highlight matching parenthesis
-  #+begin_src emacs-lisp
-    (show-paren-mode t)
-    (setq show-paren-delay 0)
-    (set-face-attribute 'show-paren-match-face nil :weight 'bold :background nil :foreground nil)
-    (setq show-paren-style 'expression)
-  #+end_src
   
-
 * Highlight current line
   #+begin_src emacs-lisp
     (global-hl-line-mode)
