@@ -68,6 +68,11 @@
      (setq ido-use-virtual-buffers t)
    #+end_src
 
+** Disable automatic file search
+   #+begin_src emacs-lisp
+     (setq ido-auto-merge-work-directories-length -1)
+   #+end_src
+
 
 * Keybindings
 ** Keybinding for idomenu
