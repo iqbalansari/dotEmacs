@@ -58,6 +58,8 @@
    1. Prevent rope from setting up keybindings, we'll set our keybindings
    #+begin_src emacs-lisp
      (setq ropemacs-enable-shortcuts nil)
+     (setq ropemacs-local-prefix nil)
+     (setq ropemacs-global-prefix nil)
    #+end_src
    
    2. Enable autoimport and specify the modules that will we autoimported
