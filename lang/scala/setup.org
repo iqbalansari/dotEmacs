@@ -1,0 +1,37 @@
+* Load scala-mode2
+** Load it just once per session
+  #+begin_src emacs-lisp
+    (unless (fboundp 'scala-mode)
+      (load "scala-mode2")
+      (setq auto-mode-alist (cdr auto-mode-alist)))
+  #+end_src
+
+** Enable scala-mode2
+   #+begin_src emacs-lisp
+     (scala-mode)
+   #+end_src
+
+
+* Load sbt-mode
+** Load it just once per session
+  #+begin_src emacs-lisp
+    (unless (fboundp 'start-sbt)
+      (load "sbt-mode"))
+  #+end_src
+  
+
+* Start ensime if inside 'ensime' project else start normal scala-mode
+  #+begin_src emacs-lisp
+    (ignore-errors (when (and (buffer-file-name)
+                              (locate-dominating-file (buffer-file-name) ".ensime"))
+                     (progn (unless (fboundp 'ensime-scala-mode-hook) (load "ensime"))
+                            (ensime-scala-mode-hook))))
+  #+end_src
+
+
+* Enable flycheck
+  #+begin_src emacs-lisp
+    (unless (or (not (buffer-file-name))
+                (string-equal (file-name-extension (buffer-file-name)) "sbt"))
+      (flycheck-mode))
+  #+end_src

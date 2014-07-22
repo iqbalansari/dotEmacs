@@ -1,0 +1,5 @@
+* Binding to start scala interpreter
+  #+begin_src emacs-lisp
+    (local-set-key (kbd "C-c C-z") 'run-scala)
+  #+end_src
+

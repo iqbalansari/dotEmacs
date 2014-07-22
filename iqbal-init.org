@@ -343,8 +343,13 @@
      (add-to-list 'auto-mode-alist '("httpd\\.conf\\'"  . iqbal-load-apache-conf))
      (add-to-list 'auto-mode-alist '("srm\\.conf\\'"    . iqbal-load-apache-conf))
      (add-to-list 'auto-mode-alist '("access\\.conf\\'" . iqbal-load-apache-conf))
-     (add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . iqbal-load-apache-conf))
-     
+     (add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . iqbal-load-apache-conf))     
+   #+end_src
+
+** Scala
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.\\(scala\\|sbt\\)\\'" . (lambda ()
+                                                      (iqbal-load-lang "scala"))))
    #+end_src
 
 
