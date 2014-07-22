@@ -150,8 +150,23 @@
 
 
 * Highlight matching parenthesis
+** Enable highlighting
   #+begin_src emacs-lisp
     (show-paren-mode t)
-    (setq show-paren-delay 0)
-    (setq show-paren-style 'parenthesis)
   #+end_src
+
+** Show matching paranthesis immediately
+   #+begin_src emacs-lisp
+     (setq show-paren-delay 0)
+   #+end_src
+
+** Highlight only the paranthesis
+   #+begin_src emacs-lisp
+     (setq show-paren-style 'parenthesis)
+   #+end_src
+
+** Custom colors for paranthesis
+   #+begin_src emacs-lisp
+     (set-face-attribute 'show-paren-match nil :background "#7E7B7B" :weight 'bold)
+     (set-face-attribute 'show-paren-mismatch nil :foreground "white" :background "red")
+   #+end_src
