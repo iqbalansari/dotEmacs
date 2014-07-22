@@ -5,11 +5,13 @@
 + [[http://rope.sourceforge.net/ropemacs.html][ropemacs]] - A plugin to perform python refactorings in emacs
 + [[https://bitbucket.org/jonwaltman/pydoc-info][pydoc-info]] - Emacs package for searching Python documentation in Info
 + [[https://bitbucket.org/durin42/nosemacs][nosemacs]] - Emacs extension to provide easy nosetest integration.
++ [[https://github.com/porterjamesj/virtualenvwrapper.el][virtualenvwrapper]] - A virtualenvwrapper written in elisp
   #+begin_src emacs-lisp
     (defvar iqbal-python-packages
      '(jedi
        pymacs
-       ropemacs))
+       ropemacs
+       virtualenvwrapper))
     
     (el-get 'sync iqbal-python-packages)
     
