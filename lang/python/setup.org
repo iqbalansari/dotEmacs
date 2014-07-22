@@ -151,8 +151,9 @@
      
      (defun iqbal-generate-auto-import-cache (force)
        (interactive (list t))
-       (let ((project-dir (or (locate-dominating-file (buffer-file-name) ".ropeproject")
-                              (ignore-errors (projectile-project-root)))))
+       (let ((project-dir (when (buffer-file-name)
+                            (or (locate-dominating-file (buffer-file-name) ".ropeproject")
+                                (ignore-errors (projectile-project-root))))))
          (if project-dir
              (iqbal--generate-auto-import-cache project-dir force)
            (message "Not in a project"))))
