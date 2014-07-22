@@ -184,6 +184,22 @@
      (iqbal-generate-auto-import-cache nil)
    #+end_src
 
+** If a ropeproject is not created always create it at the projectile-project-root
+   To open a different project use 'iqbal-open-rope-project'
+   #+begin_src emacs-lisp
+     (defadvice rope-open-project (around iqbal-use-projectile (&optional root))
+       (ad-set-arg 0 (if (not root)
+                       (ignore-errors (projectile-project-root))
+                       root))
+       ad-do-it)
+     
+     (ad-activate 'rope-open-project)
+     
+     (defun iqbal-open-rope-project (root)
+       (interactive  "D")
+       (rope-open-project root))
+   #+end_src
+
   
 * Setup flycheck for error checking
 ** Enable flycheck-mode
