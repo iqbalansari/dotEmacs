@@ -17,8 +17,6 @@
    #+end_src
 
 
-
-  
 * Enhancements for imenu
   #+begin_src emacs-lisp
     (js2-imenu-extras-mode)
@@ -27,17 +25,15 @@
 
 * Setup Tern for autocompletion and some refactoring
 ** Load ternjs
-   
    #+begin_src emacs-lisp
      (when (eq system-type 'windows-nt)
        (setq tern-command (list "node" (concat iqbal-home-dir "el-get/tern/bin/tern"))))
-     (autoload 'tern-mode "tern.el" nil t)
+     
      (tern-mode t)
    #+end_src
    
 ** Setup autocompletion
    Setup tern to use autocompletion. Trigger completion on dot
-
    #+begin_src emacs-lisp
      (load "tern-auto-complete")
      (tern-ac-setup)
@@ -46,14 +42,12 @@
      
 
 * Setup autocompletion and documentation for jQuery
-  
   #+begin_src emacs-lisp
      (jquery-doc-setup)
   #+end_src
 
 
 * Configure comint mode for javascript
-
   #+begin_src emacs-lisp
     (load "js-comint")
     (setq inferior-js-program-command "node")

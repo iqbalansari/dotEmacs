@@ -190,26 +190,31 @@
   functions by the respective major modes.
 
 ** Jumping to definitions
-
    #+begin_src emacs-lisp
      (defvar iqbal-jump-to-definition (kbd "M-."))
      (defvar iqbal-pop-jump-to-definition-marker (kbd "M-,"))
    #+end_src
    
 ** Displaying doc
-
    #+begin_src emacs-lisp
      (defvar iqbal-show-doc (kbd "C-c d"))
    #+end_src
 
 ** Refactoring
-
    #+begin_src emacs-lisp     
      (defvar iqbal-refactor-rename (kbd "C-c r"))
      (defvar iqbal-refactor-auto-import (kbd "C-c i"))
      (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
    #+end_src
 
+** Interacting with REPL
+   #+begin_src emacs-lisp
+     (defvar iqbal-run-shell (kbd "C-c C-z"))
+     (defvar iqbal-send-region (kbd "C-c C-r"))
+     (defvar iqbal-send-buffer (kbd "C-c C-b"))
+     (defvar iqbal-send-line (kbd "C-c C-l"))
+     (defvar iqbal-send-file (kbd "C-c C-f"))
+   #+end_src
 
 
 * Bootstrap el-get 

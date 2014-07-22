@@ -1,10 +1,3 @@
-* Unbind offending keybindings
-  
-  #+begin_src emacs-lisp
-    (local-unset-key (kbd "C-c r"))
-  #+end_src
-
-
 * Keybinding for python-mode
 ** Keybindings for editing
   #+begin_src emacs-lisp
@@ -13,8 +6,10 @@
 
 ** Keybindings for interacting with python shell
    #+begin_src emacs-lisp
-     (local-set-key (kbd "C-c C-r") 'iqbal-py-send-region)
-     (local-set-key (kbd "C-c C-l") 'iqbal-py-send-line)
+     (local-set-key iqbal-send-region #'iqbal-py-send-region)
+     (local-set-key iqbal-send-line #'iqbal-py-send-line)
+     (local-set-key iqbal-send-buffer #'python-shell-send-buffer)
+     (local-set-key iqbal-send-file #'python-shell-send-file)
    #+end_src
 
 ** Keybindings for navigation (set only when not in terminal)
@@ -27,8 +22,7 @@
    #+end_src
 
 
-* Set keybindings for jumping to definition
-  
+* Set keybindings for jumping to definition  
   #+begin_src emacs-lisp
     (local-set-key iqbal-jump-to-definition 'jedi:goto-definition)
     (local-set-key iqbal-pop-jump-to-definition-marker 'jedi:goto-definition-pop-marker)
@@ -58,7 +52,6 @@
   
 
 * Set keybindings for refactoring
-
   #+begin_src emacs-lisp
     (local-set-key iqbal-refactor-rename 'rope-rename)
     (local-set-key iqbal-refactor-auto-import 'rope-auto-import)

@@ -31,3 +31,4 @@ image-dired/*
 /.emacs.desktop
 modules/.compiled/
 *.elc
+.disabled-local-vars
