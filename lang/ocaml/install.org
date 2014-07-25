@@ -1,6 +1,18 @@
 * Install tuareg-mode
   #+begin_src emacs-lisp
-    (if (executable-find "svn")
-      (el-get 'sync 'tuareg-mode)
-      (message "You need to have svn installed for installing tuareg"))
+    (el-get 'sync 'tuareg-mode)
+  #+end_src
+
+
+* Install merlin if ocamlmerlin is installed
+  #+begin_src emacs-lisp
+    (when (executable-find "ocamlmerlin")
+      (el-get 'sync 'merlin))
+  #+end_src
+
+
+* Install utop is utop is installed on the system
+  #+begin_src emacs-lisp
+    (when (executable-find "utop")
+      (el-get 'sync 'utop))
   #+end_src

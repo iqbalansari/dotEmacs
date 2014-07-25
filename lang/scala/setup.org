@@ -20,11 +20,23 @@
   #+end_src
   
 
-* Start ensime if inside 'ensime' project else start normal scala-mode
+* Start ensime if inside 'ensime' project
   #+begin_src emacs-lisp
+    (setq ensime-auto-connect 'ask)
+    
+    (defvar iqbal-ensime-sbt-plugin-code "")
+    
+    (defun iqbal-load-ensime ()
+      (when (and (executable-find "sbt")
+                 (version< (nth 3 (split-string (shell-command-to-string "sbt --version")))
+                           "0.13"))
+        (warn "Ensime requires sbt 0.13.x and upwards for sbt project"))
+      (load "ensime"))
+    
     (ignore-errors (when (and (buffer-file-name)
                               (locate-dominating-file (buffer-file-name) ".ensime"))
-                     (progn (unless (fboundp 'ensime-scala-mode-hook) (load "ensime"))
+                     (progn (unless (fboundp 'ensime-scala-mode-hook)
+                              (iqbal-load-ensime))
                             (ensime-scala-mode-hook))))
   #+end_src
 

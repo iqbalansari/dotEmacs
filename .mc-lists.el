@@ -33,6 +33,7 @@
         kill-sentence
         kill-sexp
         mark-sexp
+        open-line-below
         org-beginning-of-line
         org-delete-char
         org-end-of-line

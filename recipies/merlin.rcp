@@ -1,0 +1,5 @@
+(:name merlin
+       :description "Interface to ocamlmerlin for completion for OCaml"
+       :depends auto-complete
+       :type elpa
+       :repo melpa)

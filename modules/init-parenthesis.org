@@ -70,19 +70,6 @@
   #+end_src
 
 
-* Do not autopair '<' and '>' when working in non HTML context in web-mode
-  #+begin_src emacs-lisp
-    (defun sp-web-mode-is-code-context (id action context)
-      (when (and (eq action 'insert)
-                 (not (or (get-text-property (point) 'part-side)
-                          (get-text-property (point) 'block-side))))
-    
-        t))
-
-    (sp-local-pair 'web-mode "<" nil :when '(sp-web-mode-is-code-context))
-  #+end_src
-
-
 * Display configuration for smartparens
   #+begin_src emacs-lisp
     (setq sp-highlight-pair-overlay nil)
