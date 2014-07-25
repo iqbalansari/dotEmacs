@@ -1,5 +1,4 @@
 * Ensure that autocomplete is installed
-
   #+begin_src emacs-lisp
     (defvar iqbal-auto-complete-packages 
       '(auto-complete pos-tip))
@@ -15,7 +14,7 @@
 
   
 * Auto-complete configurations
-** Load deafult configuration
+** Load default configuration
    #+begin_src emacs-lisp
      (ac-config-default)
    #+end_src
