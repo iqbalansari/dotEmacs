@@ -1,5 +1,18 @@
 * Enable tuareg-mode
   #+begin_src emacs-lisp
-    (eval-after-load "tuareg-mode"
-      (tuareg-mode))
+    (tuareg-mode)
+  #+end_src
+
+
+* Enable merlin if present
+  #+begin_src emacs-lisp
+    (when (locate-library "merlin")
+      (merlin-mode))
+  #+end_src
+
+
+* Enable utop if present
+  #+begin_src emacs-lisp
+    (when (locate-library "utop")
+      (utop-setup-ocaml-buffer))
   #+end_src

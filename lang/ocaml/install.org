@@ -4,15 +4,24 @@
   #+end_src
 
 
-* Install merlin if ocamlmerlin is installed
+* Update emacs exec path so that emacs can locate opam packages
+  OPAM packages likes merlin and utop come with required elisp files
+  add the path to those files to load-path
   #+begin_src emacs-lisp
-    (when (executable-find "ocamlmerlin")
-      (el-get 'sync 'merlin))
+    (when (executable-find "opam")
+      (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
+        (setenv (car var) (cadr var)))
+    
+      ;; Update the emacs path
+      (setq exec-path (split-string (getenv "PATH") path-separator))
+      (push (concat (getenv "OCAML_TOPLEVEL_PATH") "/../../share/emacs/site-lisp") load-path))
   #+end_src
 
 
-* Install utop is utop is installed on the system
+* Autoloads for merlin and utop
   #+begin_src emacs-lisp
-    (when (executable-find "utop")
-      (el-get 'sync 'utop))
+    (autoload 'merlin-mode "merlin")
+    (autoload 'utop "utop" "Toplevel for OCaml" t)
+    (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
   #+end_src
+
