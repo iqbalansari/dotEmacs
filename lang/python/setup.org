@@ -252,11 +252,5 @@
 
 * Flash current line after a jump to definition
   #+begin_src emacs-lisp
-    (defadvice jedi:goto-definition (after highlight-current-line
-                                           (&optional other-window deftype use-cache index))
-      "Flash the current line after jedi jump"
-      (sit-for 0.1)
-      (iqbal-highlight-line))
-    
-    (ad-activate 'jedi:goto-definition)
+    (iqbal-highlight-line-after-func jedi:goto-definition)
   #+end_src

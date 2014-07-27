@@ -16,3 +16,16 @@
     (when (locate-library "utop")
       (utop-setup-ocaml-buffer))
   #+end_src
+
+
+* Do not prompt for utop command when starting REPL
+  #+begin_src emacs-lisp
+    (setq utop-edit-command nil)
+  #+end_src
+
+
+* Flash current line after jumping to definition
+  #+begin_src emacs-lisp
+    (when (fboundp 'merlin-locate)
+      (iqbal-highlight-line-after-func merlin-locate))
+  #+end_src

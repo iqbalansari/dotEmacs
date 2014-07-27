@@ -1,5 +1,38 @@
-* Binding to start scala interpreter
+* Unset some keybindings
   #+begin_src emacs-lisp
-    (local-set-key (kbd "C-c C-z") 'run-scala)
+    (dolist (letter '("r" "o" "l" "m" "i" "t"))
+      (define-key ensime-mode-map (kbd (concat "C-c C-r " letter)) nil))
+    
+    (define-key ensime-mode-map (kbd "C-c C-r") nil)
   #+end_src
 
+
+* Binding to start scala interpreter or sbt
+  #+begin_src emacs-lisp
+    (if (equal (file-name-extension buffer-file-name) "sbt")
+        (local-set-key iqbal-run-shell #'sbt-start)
+      (local-set-key iqbal-run-shell #'run-scala))
+  #+end_src
+
+
+* Bindings for interacting with the REPL
+  #+begin_src emacs-lisp
+    (defun iqbal-sbt-send-string (string)
+      (interactive)
+      (with-temp-buffer
+        (insert string)
+        (sbt:send-region (point-min) (point-max))))
+    
+    (local-set-key iqbal-send-region #'sbt-send-region)
+    (local-set-key iqbal-send-buffer (iqbal-evaluate-buffer-in-repl iqbal-scala-eval-buffer iqbal-sbt-send-string))
+    (local-set-key iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-scala-eval-line iqbal-sbt-send-string))
+    (local-set-key iqbal-send-function (iqbal-evaluate-defun-in-repl iqbal-scala-eval-defun iqbal-sbt-send-string))
+    (local-set-key iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-scala-eval-file iqbal-sbt-send-string))
+  #+end_src
+
+
+* Bindings for refactoring
+  #+begin_src emacs-lisp
+    (local-set-key iqbal-refactor-rename #'ensime-refactor-rename)
+    (local-set-key iqbal-refactor-organize-imports #'ensime-refactor-organize-imports)
+  #+end_src

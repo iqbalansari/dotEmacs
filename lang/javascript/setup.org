@@ -65,12 +65,6 @@
   
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (defadvice tern-find-definition (after highlight-current-line
-                                           (&optional prompt-var))
-      "Flash the current line after tern jump"
-      (sit-for 0.1)
-      (iqbal-highlight-line))
-    
-    (ad-activate 'tern-find-definition)
+    (iqbal-highlight-line-after-func tern-find-definition)
   #+end_src
 

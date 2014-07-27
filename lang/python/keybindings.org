@@ -1,18 +1,20 @@
-* Keybinding for python-mode
-** Keybindings for editing
+* Keybindings for editing
   #+begin_src emacs-lisp
     (local-set-key (kbd "RET") 'newline-and-indent)
   #+end_src
 
-** Keybindings for interacting with python shell
+
+* Keybindings for interacting with python shell
    #+begin_src emacs-lisp
      (local-set-key iqbal-send-region #'iqbal-py-send-region)
      (local-set-key iqbal-send-line #'iqbal-py-send-line)
      (local-set-key iqbal-send-buffer #'python-shell-send-buffer)
+     (local-set-key iqbal-send-function #'python-shell-send-defun)
      (local-set-key iqbal-send-file #'python-shell-send-file)
    #+end_src
 
-** Keybindings for navigation (set only when not in terminal)
+
+* Keybindings for navigation (set only when not in terminal)
    #+begin_src emacs-lisp
      (when (display-graphic-p)
        (local-set-key (kbd "C-M-a") 'iqbal-py-begining-of-defun)

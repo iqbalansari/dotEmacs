@@ -33,8 +33,9 @@
         (warn "Ensime requires sbt 0.13.x and upwards for sbt project"))
       (load "ensime"))
     
-    (ignore-errors (when (and (buffer-file-name)
-                              (locate-dominating-file (buffer-file-name) ".ensime"))
+    (ignore-errors (when (and buffer-file-name
+                              (equal (file-name-extension buffer-file-name) "scala")
+                              (locate-dominating-file buffer-file-name ".ensime"))
                      (progn (unless (fboundp 'ensime-scala-mode-hook)
                               (iqbal-load-ensime))
                             (ensime-scala-mode-hook))))
@@ -44,6 +45,13 @@
 * Enable flycheck
   #+begin_src emacs-lisp
     (unless (or (not (buffer-file-name))
-                (string-equal (file-name-extension (buffer-file-name)) "sbt"))
+                (string-equal (file-name-extension buffer-file-name) "sbt"))
       (flycheck-mode))
+  #+end_src
+
+
+* Flash current line after jumping to definition
+  #+begin_src emacs-lisp
+    (when (fboundp 'ensime-edit-definition)
+      (iqbal-highlight-line-after-func ensime-edit-definition))
   #+end_src

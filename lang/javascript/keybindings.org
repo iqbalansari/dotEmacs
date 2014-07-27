@@ -22,20 +22,17 @@
   #+end_src
 
 
-* Keybindings for js-comint  
+* Keybindings for js-comint
   #+begin_src emacs-lisp
+    (defun iqbal-js-send-string (string)
+      (comint-send-string inferior-js-buffer (concat string "\n")))
+    
     (local-set-key iqbal-run-shell #'run-js)
     (local-set-key iqbal-send-region #'js-send-region)
     (local-set-key iqbal-send-buffer #'js-send-buffer)
-    (local-set-key iqbal-send-line (lambda ()
-                                     (interactive)
-                                     (js-send-region (line-beginning-position)
-                                                     (line-end-position))))
-    (local-set-key iqbal-send-file (lambda (file)
-                                     (interactive (list (ido-read-file-name "Javascript file: ")))
-                                     (with-temp-buffer
-                                       (insert (iqbal-read-file file))
-                                       (js-send-region (point-min)
-                                                       (point-max)))))
+    (local-set-key iqbal-send-phrase/sexp/block #'js-send-last-sexp)
+    (local-set-key iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-js-eval-line iqbal-js-send-string))
+    (local-set-key iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-js-eval-file iqbal-js-send-string))
+    (local-set-key iqbal-send-function (iqbal-evaluate-defun-in-repl iqbal-js-eval-defun iqbal-js-send-string))
   #+end_src
   
