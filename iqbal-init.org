@@ -138,11 +138,11 @@
      
    #+end_src
 
-** Highlighting the line to reorient the user
+** 10. Highlighting the line to reorient the user
    #+begin_src emacs-lisp
      (defmacro iqbal-highlight-line-after-func (func)
        `(progn (defadvice ,func (after highlight-current-line
-                                            (&optional prompt-var))
+                                            (&rest args))
                  "Flash the current line after tern jump"
                  (sit-for 0.1)
                  (iqbal-highlight-line))
@@ -397,6 +397,12 @@
      (add-to-list 'auto-mode-alist '("\\.\\(scala\\|sbt\\)\\'" . (lambda ()
                                                       (iqbal-load-lang "scala"))))
    #+end_src
+
+** Ruby
+  #+begin_src emacs-lisp
+    (add-hook 'ruby-mode-hook (lambda ()
+                                  (iqbal-load-lang "ruby")))
+  #+end_src
 
 
 * Load common libraries
