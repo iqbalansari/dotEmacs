@@ -11,6 +11,11 @@
      (scala-mode)
    #+end_src
 
+** Use eager mode for indenting code
+   #+begin_src emacs-lisp
+     (setq scala-indent:default-run-on-strategy scala-indent:eager-strategy)
+   #+end_src
+
 
 * Load sbt-mode
 ** Load it just once per session

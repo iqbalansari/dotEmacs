@@ -7,6 +7,22 @@
   #+end_src
 
 
+* Bindings for editing
+  Suggestions from scala-mode2's readme
+** If inside a multi line comment add asterisk on pressing enter
+  #+begin_src emacs-lisp
+    (local-set-key (kbd "RET") '(lambda ()
+                                  (interactive)
+                                  (newline-and-indent)
+                                  (scala-indent:insert-asterisk-on-multiline-comment)))
+  #+end_src
+
+** Outdent code after indenting it
+   #+begin_src emacs-lisp
+     (local-set-key (kbd "<backtab>") 'scala-indent:indent-with-reluctant-strategy)
+   #+end_src
+
+
 * Binding to start scala interpreter or sbt
   #+begin_src emacs-lisp
     (if (equal (file-name-extension buffer-file-name) "sbt")
