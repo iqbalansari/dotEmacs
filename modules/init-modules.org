@@ -42,10 +42,7 @@
   faster since we load a single file
   #+begin_src emacs-lisp    
     (defvar iqbal-modules-dir "~/.emacs.d/modules/")
-    
     (defvar iqbal-modules-compiled-dir (concat iqbal-modules-dir ".compiled/"))
-    (unless (file-exists-p iqbal-modules-compiled-dir)
-      (make-directory iqbal-modules-compiled-dir))
     
     (defvar iqbal-tangled-modules (concat iqbal-modules-compiled-dir ".combined.el"))
     (defvar iqbal-previous-modules-file (concat iqbal-modules-compiled-dir ".previous-modules"))

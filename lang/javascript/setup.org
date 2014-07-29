@@ -27,11 +27,11 @@
 ** Load ternjs
    #+begin_src emacs-lisp
      (when (eq system-type 'windows-nt)
-       (setq tern-command (list "node" (concat iqbal-home-dir "el-get/tern/bin/tern"))))
+       (setq tern-command (list "node" (car tern-command))))
      
      (tern-mode t)
    #+end_src
-   
+
 ** Setup autocompletion
    Setup tern to use autocompletion. Trigger completion on dot
    #+begin_src emacs-lisp
