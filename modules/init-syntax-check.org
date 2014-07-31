@@ -6,8 +6,7 @@
 
 * Underline only errors in buffers
 ** Disable underlining provided by flycheck
-   We will add a custom function that
-   will underline only errors
+   We will add a custom function that will underline only errors
    #+begin_src emacs-lisp
      (setq flycheck-highlighting-mode nil)
    #+end_src
@@ -38,16 +37,11 @@
 
 
 * Display errors in a pos-tip
-** Ensure that popup is installed
-   #+begin_src emacs-lisp
-     (el-get 'sync 'pos-tip)
-     (require 'pos-tip)
-   #+end_src
-
 ** Custom function to display errors
    The following function displays the errors at a point
    in a popup
    #+begin_src emacs-lisp
+     (require 'pos-tip)
      (defun iqbal-display-messages-in-popup (errors)
        ;; Do not interfere with autocomplete popups
        (unless (or (popup-live-p ac-menu) (popup-live-p ac-quick-help))

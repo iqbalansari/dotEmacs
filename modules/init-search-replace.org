@@ -1,10 +1,11 @@
 * Install packages useful for search and replace
   #+begin_src emacs-lisp
-        (defvar iqbal-search-replace-packages
-          '(visual-regexp
-            anzu))
-      
-        (el-get 'sync iqbal-search-replace-packages)
+    (defvar iqbal-search-replace-packages
+      '(visual-regexp
+        wgrep
+        anzu))
+          
+    (el-get 'sync iqbal-search-replace-packages)
   #+end_src
 
 
@@ -84,8 +85,6 @@
 * Wgrep allows modifying the grep buffer and apply the changes to the files
 
   #+begin_src emacs-lisp
-    (el-get 'sync 'wgrep)
-    
     (setq wgrep-auto-save-buffer t)
     (setq wgrep-enable-key "e")
   #+end_src

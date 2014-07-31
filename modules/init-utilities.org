@@ -1,3 +1,14 @@
+* Install required packages
+  #+begin_src emacs-lisp
+    (el-get 'sync '(rebox2 
+                    lorem-ipsum
+                    mag-menu
+                    inf-mongo
+                    edit-server
+                    prodigy))
+  #+end_src
+
+
 * Replace the current expression with the result of its evaluation
   #+begin_src emacs-lisp
     (defun eval-and-replace ()
@@ -60,42 +71,20 @@
 
 
 * Backup walker traverses versioned backups, showing incremental diffs
-
   #+begin_src emacs-lisp
-    (el-get 'sync 'backup-walker)
     (autoload 'backup-walker-start "backup-walker")
   #+end_src  
 
 
 * Seamlessly create, edit, remove boxes
   #+begin_src emacs-lisp
-    (el-get 'sync 'rebox2)
     (autoload 'rebox-cycle "rebox2")
     (global-set-key (kbd "C-c q") 'rebox-cycle)
   #+end_src
 
 
-* Quickly insert some dummy text
-  #+begin_src emacs-lisp
-    (el-get 'sync 'lorem-ipsum)
-  #+end_src
-
-
-* mag-menu allows to quickly create magit like menus
-  #+begin_src emacs-lisp
-    (el-get 'sync 'mag-menu)
-  #+end_src
-
-
-* inf-mongo for interacting with mongo
-  #+begin_src emacs-lisp
-    (el-get 'sync 'inf-mongo)
-  #+end_src
-
-
 * Start edit-server this is used by 'Edit with Emacs' chrome extension
   #+begin_src emacs-lisp
-    (el-get 'sync 'edit-server)
     (edit-server-start t)
   #+end_src
 
@@ -135,12 +124,6 @@
     (setq ediff-diff-options "-w")
     (setq ediff-split-window-function 'split-window-horizontally)
     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  #+end_src
-
-
-* Prodigy for managing external processes
-  #+begin_src emacs-lisp
-    (el-get 'sync 'prodigy)
   #+end_src
 
 
