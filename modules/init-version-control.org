@@ -11,9 +11,13 @@
         git-messenger))
     
     (el-get 'sync iqbal-version-control-packages)
+    
+    (when (= (shell-command "git flow version")
+             0)
+      (el-get 'sync 'magit-gitflow))
   #+end_src
 
-  
+
 * Ignore whitespace in magit
   The following function enable hiding of whitespace changes in
   magit status buffer. Copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
@@ -109,4 +113,11 @@
 * Disable vc for git repositories
   #+begin_src emacs-lisp
     (delete 'Git vc-handled-backends)
+  #+end_src
+
+
+* Enable magit-gitflow in magit mode
+  #+begin_src emacs-lisp
+    (when (locate-library "magit-gitflow")
+      (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
   #+end_src

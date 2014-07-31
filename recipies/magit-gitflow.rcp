@@ -1,0 +1,4 @@
+(:name magit-gitflow
+       :description "GitFlow plugin for magit.el"
+       :type github
+       :pkgname "jtatarik/magit-gitflow")
