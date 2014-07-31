@@ -8,7 +8,7 @@ backups/
 ac-comphist.dat
 eww-bookmarks
 history
-iqbal-init.el
+my-init.el
 modules/*.el
 modules/*.elc
 modules/.previous-modules
@@ -32,3 +32,6 @@ image-dired/*
 modules/.compiled/
 *.elc
 .disabled-local-vars
+irony/
+.downloads/
+.modules
