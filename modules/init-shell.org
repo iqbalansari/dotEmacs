@@ -31,6 +31,14 @@
   #+end_src
 
 
+* Disable C-<right>, C-<left> in term
+  #+begin_src emacs-lisp
+    (eval-after-load 'term
+      '(progn (define-key term-raw-map (kbd "C-<left>") (lambda () (interactive)))
+              (define-key term-raw-map (kbd "C-<right>") (lambda () (interactive)))))
+  #+end_src
+
+
 * Keybinding to facilitate copying region in term-mode
 ** A simple function that executes the command bound to
    the key in global-map if region is active otherwise
