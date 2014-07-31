@@ -8,13 +8,10 @@
       '(magit
         diff-hl
         git-timemachine
-        git-messenger))
+        git-messenger
+        magit-gitflow))
     
     (el-get 'sync iqbal-version-control-packages)
-    
-    (when (= (shell-command "git flow version")
-             0)
-      (el-get 'sync 'magit-gitflow))
   #+end_src
 
 
@@ -118,6 +115,6 @@
 
 * Enable magit-gitflow in magit mode
   #+begin_src emacs-lisp
-    (when (locate-library "magit-gitflow")
-      (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+    (autoload 'turn-on-magit-gitflow "magit-gitflow")
+    (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
   #+end_src

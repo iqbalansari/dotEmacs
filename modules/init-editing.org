@@ -16,7 +16,8 @@
       expand-region
       hungry-delete
       fold-this
-      pos-tip))
+      pos-tip
+      phi-search-mc))
   
   (el-get 'sync iqbal-editing-packages)  
 #+end_src   
@@ -42,7 +43,7 @@
 
 
 * Multiple cursors setup
-  Keybindings for multiple cursors
+** Keybindings for multiple cursors
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-S-m") 'mc/mark-more-like-this-extended)
     (global-set-key (kbd "C-S-l") 'mc/edit-lines)
@@ -51,7 +52,13 @@
     (global-set-key (kbd "C-S-r") 'set-rectangular-region-anchor)
     (global-set-key (kbd "C-S-a") 'mc/mark-all-in-region)
   #+end_src
-  
+
+** Enable search in multiple cursors
+   #+begin_src emacs-lisp
+     (autoload 'phi-search-from-isearch-mc/mark-next "phi-search-mc")
+     (add-hook 'isearch-mode-hook 'phi-search-from-isearch-mc/setup-keys)
+   #+end_src
+
 
 * Tiny setup
   Keybindings for expanding tiny expressions
