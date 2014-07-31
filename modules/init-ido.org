@@ -6,13 +6,13 @@
   + [[http://www.emacswiki.org/emacs/download/idomenu.el][idomenu]] - imenu tag selection a la ido
 
   #+begin_src emacs-lisp
-    (defvar iqbal-ido-packages
+    (defvar my-ido-packages
       '(flx
         ido-ubiquitous
         idomenu
         smex))
     
-    (el-get 'sync iqbal-ido-packages)
+    (el-get 'sync my-ido-packages)
   #+end_src
   
 	

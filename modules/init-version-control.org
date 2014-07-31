@@ -4,14 +4,14 @@
   + [[https://github.com/syohex/emacs-git-messenger][git-messenger]] - Popup commit message at current line
   + [[https://github.com/pidu/git-timemachine][git-timemachine]] - Walk through git revisions of a file
   #+begin_src emacs-lisp
-    (defvar iqbal-version-control-packages
+    (defvar my-version-control-packages
       '(magit
         diff-hl
         git-timemachine
         git-messenger
         magit-gitflow))
     
-    (el-get 'sync iqbal-version-control-packages)
+    (el-get 'sync my-version-control-packages)
   #+end_src
 
 

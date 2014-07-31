@@ -1,10 +1,10 @@
 * Utility function to display popup messages
   #+begin_src emacs-lisp
-    (defvar iqbal-singleton-popup-displaying? nil)
+    (defvar my-singleton-popup-displaying? nil)
     
-    (defun iqbal-singleton-popup (popup-string)
-      (unless iqbal-singleton-popup-displaying?
-        (setq iqbal-singleton-popup-displaying? t)
+    (defun my-singleton-popup (popup-string)
+      (unless my-singleton-popup-displaying?
+        (setq my-singleton-popup-displaying? t)
         (condition-case nil
             (let* ((string (substring-no-properties popup-string))
                    (filled-string (popup-fill-string string nil popup-tip-max-width))
@@ -18,12 +18,12 @@
                   (when (> (popup-width popup-instance) 0)                   ; not to be corrupted
                     (popup-set-list popup-instance lines)
                     (popup-draw popup-instance)
-                    (setq iqbal-singleton-popup-instance popup-instance)
+                    (setq my-singleton-popup-instance popup-instance)
                     (clear-this-command-keys)
                     (push (read-event nil) unread-command-events))
                 (popup-delete popup-instance)
-                (setq iqbal-singleton-popup-displaying? nil)))
-          (error (setq iqbal-singleton-popup-displaying? nil)))))
+                (setq my-singleton-popup-displaying? nil)))
+          (error (setq my-singleton-popup-displaying? nil)))))
     
   #+end_src
 
@@ -41,78 +41,78 @@
   are modified or there is some new org file, otherwise it will be
   faster since we load a single file
   #+begin_src emacs-lisp    
-    (defvar iqbal-modules-dir "~/.emacs.d/modules/")
-    (defvar iqbal-modules-compiled-dir (concat iqbal-modules-dir ".compiled/"))
+    (defvar my-modules-dir "~/.emacs.d/modules/")
+    (defvar my-modules-compiled-dir (concat my-modules-dir ".compiled/"))
     
-    (defvar iqbal-tangled-modules (concat iqbal-modules-compiled-dir ".combined.el"))
-    (defvar iqbal-previous-modules-file (concat iqbal-modules-compiled-dir ".previous-modules"))
+    (defvar my-tangled-modules (concat my-modules-compiled-dir ".combined.el"))
+    (defvar my-previous-modules-file (concat my-modules-compiled-dir ".previous-modules"))
     
-    (defvar iqbal-previous-modules (when (file-exists-p iqbal-previous-modules-file)
-                                     (read (iqbal-read-file iqbal-previous-modules-file))))
+    (defvar my-previous-modules (when (file-exists-p my-previous-modules-file)
+                                     (read (my-read-file my-previous-modules-file))))
     
-    (defun iqbal-get-module-org-file (module)
-      (concat iqbal-modules-dir "init-" (symbol-name module) ".org"))
+    (defun my-get-module-org-file (module)
+      (concat my-modules-dir "init-" (symbol-name module) ".org"))
     
-    (defun iqbal-get-module-el-file (module)
-      (concat iqbal-modules-compiled-dir "init-" (symbol-name module) ".el"))
+    (defun my-get-module-el-file (module)
+      (concat my-modules-compiled-dir "init-" (symbol-name module) ".el"))
     
-    (defun iqbal-get-changed-module-files (modules)
-      (if (file-exists-p iqbal-tangled-modules)
+    (defun my-get-changed-module-files (modules)
+      (if (file-exists-p my-tangled-modules)
           (remove-if-not (lambda (module)
-                       (file-newer-than-file-p (iqbal-get-module-org-file module)
-                                               (iqbal-get-module-el-file module)))
+                       (file-newer-than-file-p (my-get-module-org-file module)
+                                               (my-get-module-el-file module)))
                      modules)
         modules))
     
-    (defun iqbal-combine-modules (modules target)
-      (iqbal-write-to-file target
+    (defun my-combine-modules (modules target)
+      (my-write-to-file target
                            (reduce (lambda (code module)
                                      (concat code
-                                             (iqbal-read-file (iqbal-get-module-el-file module))))
+                                             (my-read-file (my-get-module-el-file module))))
                                      modules :initial-value ""))
       (byte-compile-file target))
     
-    (defun iqbal-compile-modules (modules)
+    (defun my-compile-modules (modules)
       (dolist (module modules)
-        (org-babel-tangle-file (iqbal-get-module-org-file module)
-                               (iqbal-get-module-el-file module)
+        (org-babel-tangle-file (my-get-module-org-file module)
+                               (my-get-module-el-file module)
                                "emacs-lisp")))
     
-    (defun iqbal-regenerate-compiled-file-maybe (current-modules previous-modules target)
-      (let ((stale-modules (iqbal-get-changed-module-files current-modules))
+    (defun my-regenerate-compiled-file-maybe (current-modules previous-modules target)
+      (let ((stale-modules (my-get-changed-module-files current-modules))
             (module-list-changed? (set-exclusive-or previous-modules current-modules)))
         (when (or stale-modules module-list-changed?)
-          (iqbal-compile-modules stale-modules)
-          (iqbal-combine-modules current-modules target))))
+          (my-compile-modules stale-modules)
+          (my-combine-modules current-modules target))))
     
-    (defun iqbal--compile-and-load-modules (current-modules)
-      (iqbal-regenerate-compiled-file-maybe current-modules iqbal-previous-modules iqbal-tangled-modules)
-      (iqbal-write-to-file iqbal-previous-modules-file
+    (defun my--compile-and-load-modules (current-modules)
+      (my-regenerate-compiled-file-maybe current-modules my-previous-modules my-tangled-modules)
+      (my-write-to-file my-previous-modules-file
                            (prin1-to-string current-modules))
-      (load-file iqbal-tangled-modules))
+      (load-file my-tangled-modules))
     
-    (defun iqbal-remove-generated-files ()
+    (defun my-remove-generated-files ()
       (interactive)
       (let* ((language-folders (remove-if-not #'file-directory-p
-                                              (directory-files iqbal-langs-dir t "[^.]+"))))
-        (delete-directory (concat iqbal-modules-dir "/.compiled/") t nil)
+                                              (directory-files my-langs-dir t "[^.]+"))))
+        (delete-directory (concat my-modules-dir "/.compiled/") t nil)
     
         (dolist (folder language-folders)
           (dolist (gen-file (directory-files folder t ".*\.el[c]?"))
             (delete-file gen-file)))))
     
-    (defun iqbal-compile-and-load-modules ()
+    (defun my-compile-and-load-modules ()
       (interactive)
-      (unless (file-exists-p iqbal-modules-compiled-dir)
-        (make-directory iqbal-modules-compiled-dir))
+      (unless (file-exists-p my-modules-compiled-dir)
+        (make-directory my-modules-compiled-dir))
     
-      (iqbal--compile-and-load-modules iqbal-modules-list))
+      (my--compile-and-load-modules my-modules-list))
   #+end_src
 
 
 * List of modules to be loaded
   #+begin_src emacs-lisp
-    (defvar iqbal-modules-list '(display auto-complete backup files buffers dired editing
+    (defvar my-modules-list '(display auto-complete backup files buffers dired editing
                                          navigation search-replace ido parenthesis syntax-check 
                                          shell org utilities version-control yasnippet project
                                          window-management mail))
@@ -121,6 +121,6 @@
   
 * Load the modules
   #+begin_src emacs-lisp
-    (iqbal-compile-and-load-modules)
+    (my-compile-and-load-modules)
   #+end_src
   

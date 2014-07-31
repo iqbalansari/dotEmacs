@@ -6,11 +6,11 @@
   python.
 
   #+begin_src emacs-lisp
-    (defvar iqbal-paranthesis-packages
+    (defvar my-paranthesis-packages
       '(autopair
         smartparens))
     
-    (el-get 'sync iqbal-paranthesis-packages)
+    (el-get 'sync my-paranthesis-packages)
     
     (smartparens-global-mode t)
   #+end_src

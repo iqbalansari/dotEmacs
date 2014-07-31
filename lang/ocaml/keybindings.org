@@ -1,48 +1,48 @@
 * Unset keybindings
   #+begin_src emacs-lisp
     (when (fboundp 'merlin-mode)
-      (define-key merlin-mode-map iqbal-send-region nil)
-      (define-key merlin-mode-map iqbal-send-line nil))
+      (define-key merlin-mode-map my-send-region nil)
+      (define-key merlin-mode-map my-send-line nil))
   #+end_src
 
 
 * Keybindings for interaction with OCaml REPL
   #+begin_src emacs-lisp
-    (defun iqbal-tuareg-send-string (string)
+    (defun my-tuareg-send-string (string)
       ())
     
-    (defun iqbal-set-bindings-for-utop ()
-      (local-set-key iqbal-run-shell #'utop)
-      (local-set-key iqbal-send-region #'utop-eval-region)
-      (local-set-key iqbal-send-buffer #'utop-eval-buffer)
-      (local-set-key iqbal-send-phrase/sexp/block #'utop-eval-phrase)
-      (local-set-key iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-ocaml-send-line utop-eval-string))
-      (local-set-key iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-ocaml-send-file utop-eval-string)))
+    (defun my-set-bindings-for-utop ()
+      (local-set-key my-run-shell #'utop)
+      (local-set-key my-send-region #'utop-eval-region)
+      (local-set-key my-send-buffer #'utop-eval-buffer)
+      (local-set-key my-send-phrase/sexp/block #'utop-eval-phrase)
+      (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line utop-eval-string))
+      (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file utop-eval-string)))
     
-    (defun iqbal-set-bindings-for-ocaml-repl ()
-      (local-set-key iqbal-run-shell #'run-ocaml)
-      (local-set-key iqbal-send-region #'tuareg-eval-region)
-      (local-set-key iqbal-send-buffer #'tuareg-eval-buffer)
-      (local-set-key iqbal-send-phrase/sexp/block #'utop-eval-phrase)
-      (local-set-key iqbal-send-line (lambda ()
+    (defun my-set-bindings-for-ocaml-repl ()
+      (local-set-key my-run-shell #'run-ocaml)
+      (local-set-key my-send-region #'tuareg-eval-region)
+      (local-set-key my-send-buffer #'tuareg-eval-buffer)
+      (local-set-key my-send-phrase/sexp/block #'utop-eval-phrase)
+      (local-set-key my-send-line (lambda ()
                                        (interactive)
                                        (tuareg-eval-region (line-beginning-position)
                                                            (line-end-position))))
-      (local-set-key iqbal-send-file (lambda (file)
+      (local-set-key my-send-file (lambda (file)
                                        (interactive "fFile: ")
                                        (with-temp-buffer
-                                         (insert (iqbal-read-file file))
+                                         (insert (my-read-file file))
                                          (tuareg-eval-buffer)))))
     
     (if (featurep 'utop)
-        (iqbal-set-bindings-for-utop)
-      (iqbal-set-bindings-for-ocaml-repl))
+        (my-set-bindings-for-utop)
+      (my-set-bindings-for-ocaml-repl))
   #+end_src
 
 
 * Keybindings to jump to definition
   #+begin_src emacs-lisp
     (when (fboundp 'merlin-mode)
-      (local-set-key iqbal-jump-to-definition #'merlin-locate)
-      (local-set-key iqbal-pop-jump-to-definition-marker #'merlin-pop-stack))
+      (local-set-key my-jump-to-definition #'merlin-locate)
+      (local-set-key my-pop-jump-to-definition-marker #'merlin-pop-stack))
   #+end_src

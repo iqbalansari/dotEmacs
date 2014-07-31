@@ -1,11 +1,11 @@
 * Install packages useful for search and replace
   #+begin_src emacs-lisp
-    (defvar iqbal-search-replace-packages
+    (defvar my-search-replace-packages
       '(visual-regexp
         wgrep
         anzu))
           
-    (el-get 'sync iqbal-search-replace-packages)
+    (el-get 'sync my-search-replace-packages)
   #+end_src
 
 

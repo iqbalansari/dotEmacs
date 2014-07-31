@@ -1,7 +1,7 @@
 * Some additional packages for working with dired
   #+begin_src emacs-lisp
-    (defvar iqbal-dired-packages '(dired-details dired-single))
-    (el-get 'sync iqbal-dired-packages)
+    (defvar my-dired-packages '(dired-details dired-single))
+    (el-get 'sync my-dired-packages)
   #+end_src
   
 

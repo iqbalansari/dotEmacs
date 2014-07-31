@@ -1,6 +1,6 @@
 * Ensure that the required packages are installed
   #+begin_src emacs-lisp
-    (defvar iqbal-display-packages
+    (defvar my-display-packages
       '(linum-off
         color-theme-zenburn
         diminish
@@ -10,7 +10,7 @@
         volatile-highlights
         nyan-mode))
     
-    (el-get 'sync iqbal-display-packages)
+    (el-get 'sync my-display-packages)
   #+end_src
   
   
@@ -222,7 +222,7 @@
 
 * Helper function to momentarily flash current line
   #+begin_src emacs-lisp
-    (defun iqbal-highlight-line ()
+    (defun my-highlight-line ()
       (require 'pulse)
       (pulse-momentary-highlight-one-line (point)))
   #+end_src
@@ -230,7 +230,7 @@
 
 * Flash after jumping to definition using imenu
   #+begin_src emacs-lisp
-    (add-hook 'imenu-after-jump-hook 'iqbal-highlight-line)
+    (add-hook 'imenu-after-jump-hook 'my-highlight-line)
   #+end_src
 
 

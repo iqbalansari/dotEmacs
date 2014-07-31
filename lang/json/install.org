@@ -1,11 +1,11 @@
 * Ensure that the required packages are installed
 	
   #+begin_src emacs-lisp
-    (defvar iqbal-json-packages
+    (defvar my-json-packages
       '(json-mode
         json-snatcher))
     
-    (el-get 'sync iqbal-json-packages)
+    (el-get 'sync my-json-packages)
     
   #+end_src
 

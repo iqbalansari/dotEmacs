@@ -6,7 +6,7 @@
 
 * Keybinding to rename current tag
   #+begin_src emacs-lisp
-    (local-set-key iqbal-refactor-rename 'web-mode-element-rename)
+    (local-set-key my-refactor-rename 'web-mode-element-rename)
   #+end_src
 
 

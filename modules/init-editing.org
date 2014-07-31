@@ -8,7 +8,7 @@
 + [[https://github.com/nflath/hungry-delete][hungry-delete]] - Get hungry delete everywhere
 
 #+begin_src emacs-lisp
-  (defvar iqbal-editing-packages
+  (defvar my-editing-packages
     '(undo-tree
       browse-kill-ring
       multiple-cursors
@@ -19,7 +19,7 @@
       pos-tip
       phi-search-mc))
   
-  (el-get 'sync iqbal-editing-packages)  
+  (el-get 'sync my-editing-packages)  
 #+end_src   
 
 
@@ -212,7 +212,7 @@
 
 * Copy/cut current line if no region is selected, if rectangle is selected use it
   #+begin_src emacs-lisp
-    (defun iqbal-mark-lines(arg)
+    (defun my-mark-lines(arg)
       (back-to-indentation)
       (set-mark-command nil)
       (move-end-of-line arg))
@@ -227,7 +227,7 @@
              (progn (call-interactively 'kill-ring-save)
                     (indicate-copied-region)))
             (t (let ((cur-pos (point)))
-                 (iqbal-mark-lines arg)
+                 (my-mark-lines arg)
                  (call-interactively 'kill-ring-save)
                  (deactivate-mark t)
                  (goto-char cur-pos)
@@ -242,7 +242,7 @@
                                                                   (message "Killed rectangle")))
             ((region-active-p) (progn (call-interactively 'kill-region)
                                       (message "Killed region")))
-            (t  (progn (iqbal-mark-lines arg)
+            (t  (progn (my-mark-lines arg)
                        (call-interactively 'kill-region)
                        (message (concat "Killed " (number-to-string arg) " line(s)"))))))
     
@@ -493,11 +493,11 @@
 * Code folding configuration
 ** Enable hs-minor-mode for supported modes
    #+begin_src emacs-lisp
-     (defun iqbal-enable-hs ()
+     (defun my-enable-hs ()
        (ignore-errors
          (hs-minor-mode)))
      
-     (add-hook 'prog-mode-hook 'iqbal-enable-hs)
+     (add-hook 'prog-mode-hook 'my-enable-hs)
    #+end_src
 
 ** Setup help at point to display local-help
@@ -519,7 +519,7 @@
 
    #+begin_src emacs-lisp
      (require 'pos-tip)
-     (defun iqbal--display-folded-content (window ov pos)
+     (defun my--display-folded-content (window ov pos)
        (pos-tip-show (buffer-substring (overlay-start ov)
                                                 (overlay-end ov)))
        nil)
@@ -532,9 +532,9 @@
 
 ** Keymap for folded content
    #+begin_src emacs-lisp
-     (defvar iqbal-folding-keymap (make-sparse-keymap))
-     (define-key iqbal-folding-keymap (kbd "<return>") 'hs-toggle-hiding)
-     (define-key iqbal-folding-keymap (kbd "C-g") 'hs-toggle-hiding)
+     (defvar my-folding-keymap (make-sparse-keymap))
+     (define-key my-folding-keymap (kbd "<return>") 'hs-toggle-hiding)
+     (define-key my-folding-keymap (kbd "C-g") 'hs-toggle-hiding)
    #+end_src
 
 ** Show folded code in a pos-tip
@@ -546,25 +546,25 @@
              (let ((overlays (overlays-in start end)))
                (dolist (ov overlays)
                  (when (eq (overlay-get ov  'type) 'fold-this)
-                   (overlay-put ov 'help-echo 'iqbal--display-folded-content)
+                   (overlay-put ov 'help-echo 'my--display-folded-content)
                    (define-key (overlay-get ov 'keymap) (kbd "C-x C-\\") 'fold-this-unfold-at-point)))))
       
            (ad-activate 'fold-this)))
     #+end_src
 *** With hs-minor-mode
     #+begin_src emacs-lisp
-      (defun iqbal-display-folded-content (ov)
+      (defun my-display-folded-content (ov)
         (overlay-put ov 'display "...")
-        (overlay-put ov 'keymap iqbal-folding-keymap)
-        (overlay-put ov 'help-echo 'iqbal--display-folded-content))
+        (overlay-put ov 'keymap my-folding-keymap)
+        (overlay-put ov 'help-echo 'my--display-folded-content))
       
-      (setq hs-set-up-overlay 'iqbal-display-folded-content)
+      (setq hs-set-up-overlay 'my-display-folded-content)
     #+end_src
 
 ** Function to fold code at current indentation <<fold_indentation>>
    The following code was borrowed from [[http://www.emacswiki.org/emacs/HideShow#toc5][EmacsWiki]] and modified a bit
    #+begin_src emacs-lisp
-     (defun iqbal-hide-current-indentation ()
+     (defun my-hide-current-indentation ()
        (interactive)
        (set-selective-display
         (unless selective-display
@@ -575,7 +575,7 @@
 
 ** Combining fold-this and hs-minor-mode   
    #+begin_src emacs-lisp
-     (defun iqbal-fold-this-hs-hide ()
+     (defun my-fold-this-hs-hide ()
        "Folds the region if mark is active otherwise fold the current indent"
        (interactive)
        (if (region-active-p)
@@ -588,5 +588,5 @@
 
 * Global keys for code folding
   #+begin_src emacs-lisp
-      (global-set-key (kbd "C-x C-\\") 'iqbal-fold-this-hs-hide)
+      (global-set-key (kbd "C-x C-\\") 'my-fold-this-hs-hide)
   #+end_src

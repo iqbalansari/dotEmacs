@@ -7,13 +7,13 @@
 + [[https://bitbucket.org/durin42/nosemacs][nosemacs]] - Emacs extension to provide easy nosetest integration.
 + [[https://github.com/porterjamesj/virtualenvwrapper.el][virtualenvwrapper]] - A virtualenvwrapper written in elisp
   #+begin_src emacs-lisp
-    (defvar iqbal-python-packages
+    (defvar my-python-packages
      '(jedi
        pymacs
        ropemacs
        virtualenvwrapper))
     
-    (el-get 'sync iqbal-python-packages)
+    (el-get 'sync my-python-packages)
     
     (if (executable-find "hg")
       (el-get 'sync '(pydoc-info nose))

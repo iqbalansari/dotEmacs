@@ -29,9 +29,9 @@
   #+begin_src emacs-lisp
     (setq ensime-auto-connect 'ask)
     
-    (defvar iqbal-ensime-sbt-plugin-code "")
+    (defvar my-ensime-sbt-plugin-code "")
     
-    (defun iqbal-load-ensime ()
+    (defun my-load-ensime ()
       (when (and (executable-find "sbt")
                  (version< (nth 3 (split-string (shell-command-to-string "sbt --version")))
                            "0.13"))
@@ -42,7 +42,7 @@
                               (equal (file-name-extension buffer-file-name) "scala")
                               (locate-dominating-file buffer-file-name ".ensime"))
                      (progn (unless (fboundp 'ensime-scala-mode-hook)
-                              (iqbal-load-ensime))
+                              (my-load-ensime))
                             (ensime-scala-mode-hook))))
   #+end_src
 
@@ -58,5 +58,5 @@
 * Flash current line after jumping to definition
   #+begin_src emacs-lisp
     (when (fboundp 'ensime-edit-definition)
-      (iqbal-highlight-line-after-func ensime-edit-definition))
+      (my-highlight-line-after-func ensime-edit-definition))
   #+end_src

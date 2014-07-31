@@ -41,10 +41,10 @@
 
 * Setup autocompletion
   #+begin_src emacs-lisp 
-    (defun iqbal-setup-cedet-auto-completion ()
+    (defun my-setup-cedet-auto-completion ()
       (add-to-list 'ac-sources 'ac-source-semantic))
     
-    (add-hook 'c-mode-common-hook 'iqbal-setup-cedet-auto-completion)
+    (add-hook 'c-mode-common-hook 'my-setup-cedet-auto-completion)
   #+end_src
 
 

@@ -1,9 +1,9 @@
 * Install slime and auto-completion package for slime
   #+begin_src emacs-lisp
-    (defvar iqbal-clisp-packages
+    (defvar my-clisp-packages
       '(slime
         ac-slime))
     
-    (el-get 'sync iqbal-clisp-packages)
+    (el-get 'sync my-clisp-packages)
   #+end_src
  

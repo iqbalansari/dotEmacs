@@ -26,29 +26,29 @@
 * Binding to start scala interpreter or sbt
   #+begin_src emacs-lisp
     (if (equal (file-name-extension buffer-file-name) "sbt")
-        (local-set-key iqbal-run-shell #'sbt-start)
-      (local-set-key iqbal-run-shell #'run-scala))
+        (local-set-key my-run-shell #'sbt-start)
+      (local-set-key my-run-shell #'run-scala))
   #+end_src
 
 
 * Bindings for interacting with the REPL
   #+begin_src emacs-lisp
-    (defun iqbal-sbt-send-string (string)
+    (defun my-sbt-send-string (string)
       (interactive)
       (with-temp-buffer
         (insert string)
         (sbt:send-region (point-min) (point-max))))
     
-    (local-set-key iqbal-send-region #'sbt-send-region)
-    (local-set-key iqbal-send-buffer (iqbal-evaluate-buffer-in-repl iqbal-scala-eval-buffer iqbal-sbt-send-string))
-    (local-set-key iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-scala-eval-line iqbal-sbt-send-string))
-    (local-set-key iqbal-send-function (iqbal-evaluate-defun-in-repl iqbal-scala-eval-defun iqbal-sbt-send-string))
-    (local-set-key iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-scala-eval-file iqbal-sbt-send-string))
+    (local-set-key my-send-region #'sbt-send-region)
+    (local-set-key my-send-buffer (my-evaluate-buffer-in-repl my-scala-eval-buffer my-sbt-send-string))
+    (local-set-key my-send-line (my-evaluate-line-in-repl my-scala-eval-line my-sbt-send-string))
+    (local-set-key my-send-function (my-evaluate-defun-in-repl my-scala-eval-defun my-sbt-send-string))
+    (local-set-key my-send-file (my-evaluate-file-in-repl my-scala-eval-file my-sbt-send-string))
   #+end_src
 
 
 * Bindings for refactoring
   #+begin_src emacs-lisp
-    (local-set-key iqbal-refactor-rename #'ensime-refactor-rename)
-    (local-set-key iqbal-refactor-organize-imports #'ensime-refactor-organize-imports)
+    (local-set-key my-refactor-rename #'ensime-refactor-rename)
+    (local-set-key my-refactor-organize-imports #'ensime-refactor-organize-imports)
   #+end_src

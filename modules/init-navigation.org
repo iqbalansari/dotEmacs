@@ -5,13 +5,13 @@
 + [[https://github.com/rolandwalker/nav-flash][nav-flash]] - Temporarily flash current line
 
 #+begin_src emacs-lisp
-  (defvar iqbal-navigation-packages
+  (defvar my-navigation-packages
     '(goto-chg
       ace-jump-mode
       visible-mark
       nav-flash))
 
-  (el-get 'sync iqbal-navigation-packages)
+  (el-get 'sync my-navigation-packages)
 #+end_src
 
 

@@ -28,11 +28,11 @@
 
 ** Custom functions for sending regions based on elpy's code
    #+begin_src emacs-lisp
-     (defun iqbal-py-send-region (beg end)
+     (defun my-py-send-region (beg end)
        (interactive "r")
        (python-shell-send-string (elpy--region-without-indentation beg end)))
      
-     (defun iqbal-py-send-line ()
+     (defun my-py-send-line ()
        (interactive)
        (python-shell-send-string (elpy--region-without-indentation (line-beginning-position)
                                                                    (line-end-position))))
@@ -42,7 +42,7 @@
 * Separate functions for moving to start/end of function and class
 ** A modified version of python-mode's python-nav-end-of-defun
    #+begin_src emacs-lisp
-     (defun iqbal-python-nav-end-of-defun ()
+     (defun my-python-nav-end-of-defun ()
        "Move point to the end of def or class.
      Returns nil if point is not in a def or class."
        (interactive)
@@ -65,7 +65,7 @@
 
 ** Function for moving at start of class
   #+begin_src emacs-lisp
-    (defun iqbal-py-begining-of-class (&optional args)
+    (defun my-py-begining-of-class (&optional args)
       (interactive "p")
       (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
         (python-nav-beginning-of-defun args)))
@@ -73,15 +73,15 @@
 
 ** Function for moving at end of class
    #+begin_src emacs-lisp
-     (defun iqbal-py-end-of-class ()
+     (defun my-py-end-of-class ()
        (interactive)
        (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
-         (iqbal-python-nav-end-of-defun)))
+         (my-python-nav-end-of-defun)))
    #+end_src
 
 ** Function for moving at start of function
    #+begin_src emacs-lisp
-     (defun iqbal-py-begining-of-defun (&optional args)
+     (defun my-py-begining-of-defun (&optional args)
        (interactive "p")
        (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
          (python-nav-beginning-of-defun args)))
@@ -89,10 +89,10 @@
 
 ** Function for moving at end of function
    #+begin_src emacs-lisp
-     (defun iqbal-py-end-of-defun ()
+     (defun my-py-end-of-defun ()
        (interactive)
        (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
-         (iqbal-python-nav-end-of-defun)))
+         (my-python-nav-end-of-defun)))
    #+end_src
 
 
@@ -113,9 +113,9 @@
 * Setup Rope for refactoring
 ** Functions for finding current python modules and generating auto-import cache
    #+begin_src emacs-lisp
-     (defvar iqbal-python-modules-code "python -c 'import pkgutil; print tuple([i[1] for i in pkgutil.iter_modules()])'")
+     (defvar my-python-modules-code "python -c 'import pkgutil; print tuple([i[1] for i in pkgutil.iter_modules()])'")
      
-     (defun iqbal-parse-and-store-python-modules (buffer file)
+     (defun my-parse-and-store-python-modules (buffer file)
        (with-current-buffer buffer
          ;; Replace all ' with " to make them lisp strings
          (goto-char (point-min))
@@ -126,36 +126,36 @@
          (while (search-forward "," nil t)
            (replace-match "" nil t))
          
-         (iqbal-write-to-file file (buffer-string))))
+         (my-write-to-file file (buffer-string))))
      
-     (defun iqbal-read-existing-python-modules (callback)
+     (defun my-read-existing-python-modules (callback)
        (with-current-buffer (get-buffer-create "python-modules")
          (erase-buffer))
        (set-process-sentinel (start-process-shell-command "python-modules"
                                                           "python-modules"
-                                                          iqbal-python-modules-code)
+                                                          my-python-modules-code)
                              callback))
      
-     (defun iqbal--generate-auto-import-cache (project-dir &optional force)
+     (defun my--generate-auto-import-cache (project-dir &optional force)
        (lexical-let ((modules-file (when project-dir
                                      (concat project-dir "/.modules"))))
          (when (and modules-file
                     (or force
                         (not (file-exists-p modules-file))))
      
-           (iqbal-read-existing-python-modules (lambda (proc state)
+           (my-read-existing-python-modules (lambda (proc state)
                                                  (when (equal state "finished\n")
-                                                   (iqbal-parse-and-store-python-modules (process-buffer proc) modules-file)
-                                                   (setq ropemacs-autoimport-modules (read (iqbal-read-file modules-file)))
+                                                   (my-parse-and-store-python-modules (process-buffer proc) modules-file)
+                                                   (setq ropemacs-autoimport-modules (read (my-read-file modules-file)))
                                                    (rope-generate-autoimport-cache)))))))
      
-     (defun iqbal-generate-auto-import-cache (force)
+     (defun my-generate-auto-import-cache (force)
        (interactive (list t))
        (let ((project-dir (when (buffer-file-name)
                             (or (locate-dominating-file (buffer-file-name) ".ropeproject")
                                 (ignore-errors (projectile-project-root))))))
          (if project-dir
-             (iqbal--generate-auto-import-cache project-dir force)
+             (my--generate-auto-import-cache project-dir force)
            (message "Not in a project"))))
    #+end_src
 
@@ -182,13 +182,13 @@
 
 ** Generate auto-import cache if not generated already
    #+begin_src emacs-lisp
-     (iqbal-generate-auto-import-cache nil)
+     (my-generate-auto-import-cache nil)
    #+end_src
 
 ** If a ropeproject is not created always create it at the projectile-project-root
-   To open a different project use 'iqbal-open-rope-project'
+   To open a different project use 'my-open-rope-project'
    #+begin_src emacs-lisp
-     (defadvice rope-open-project (around iqbal-use-projectile (&optional root))
+     (defadvice rope-open-project (around my-use-projectile (&optional root))
        (ad-set-arg 0 (if (not root)
                        (ignore-errors (projectile-project-root))
                        root))
@@ -196,7 +196,7 @@
      
      (ad-activate 'rope-open-project)
      
-     (defun iqbal-open-rope-project (root)
+     (defun my-open-rope-project (root)
        (interactive  "D")
        (rope-open-project root))
    #+end_src
@@ -252,5 +252,5 @@
 
 * Flash current line after a jump to definition
   #+begin_src emacs-lisp
-    (iqbal-highlight-line-after-func jedi:goto-definition)
+    (my-highlight-line-after-func jedi:goto-definition)
   #+end_src

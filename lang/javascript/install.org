@@ -7,13 +7,13 @@
 + [[https://github.com/magnars/js2-refactor.el][js2-refactor]] - A JavaScript refactoring library for emacs
 	
   #+begin_src emacs-lisp
-    (defvar iqbal-javascript-packages '(js2-mode
+    (defvar my-javascript-packages '(js2-mode
                                         tern
                                         jquery-doc
                                         js-comint
                                         js2-refactor))
       
-    (el-get 'sync iqbal-javascript-packages)
+    (el-get 'sync my-javascript-packages)
       
   #+end_src
 

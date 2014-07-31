@@ -1,18 +1,18 @@
 * The org agenda files
 ** Org agenda files will stored in ~/.emacs.d/org/
    #+begin_src emacs-lisp
-     (defvar iqbal-org-dir (concat iqbal-home-dir "org/"))
+     (defvar my-org-dir (concat my-home-dir "org/"))
    #+end_src
 
 ** Create the folder if it does not already exist
    #+begin_src emacs-lisp
-     (unless (file-exists-p iqbal-org-dir)
-       (make-directory iqbal-org-dir))
+     (unless (file-exists-p my-org-dir)
+       (make-directory my-org-dir))
    #+end_src
 
 ** Any files in org folder will be added to agenda files
   #+begin_src emacs-lisp
-    (setq org-agenda-files (list iqbal-org-dir))
+    (setq org-agenda-files (list my-org-dir))
   #+end_src
 
 

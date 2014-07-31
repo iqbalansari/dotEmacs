@@ -26,10 +26,10 @@
   (make-directory "~/.emacs.d/modules/.compiled/"))
 
 ;; Avoid re-extraction if file has not changed
-(if (file-newer-than-file-p "~/.emacs.d/iqbal-init.org" 
-			    "~/.emacs.d/iqbal-init.el")
-    (org-babel-load-file "~/.emacs.d/iqbal-init.org")
-  (load-file "~/.emacs.d/iqbal-init.el"))
+(if (file-newer-than-file-p "~/.emacs.d/my-init.org" 
+			    "~/.emacs.d/my-init.el")
+    (org-babel-load-file "~/.emacs.d/my-init.org")
+  (load-file "~/.emacs.d/my-init.el"))
 
 ;; Load private settings if exist
 (when (file-exists-p "~/.emacs.d/private.org")

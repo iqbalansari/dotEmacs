@@ -65,6 +65,6 @@
   
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (iqbal-highlight-line-after-func tern-find-definition)
+    (my-highlight-line-after-func tern-find-definition)
   #+end_src
 

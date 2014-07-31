@@ -1,9 +1,9 @@
 * Ensure that autocomplete is installed
   #+begin_src emacs-lisp
-    (defvar iqbal-auto-complete-packages 
+    (defvar my-auto-complete-packages 
       '(auto-complete pos-tip))
     
-    (el-get 'sync iqbal-auto-complete-packages)
+    (el-get 'sync my-auto-complete-packages)
   #+end_src
 
 
@@ -98,7 +98,7 @@
 * Configuration for using tab for autocompletion taken from [[https://github.com/purcell/emacs.d][Steve Purcell's config]]
   Trigger autocompletion using <tab>
   #+begin_src emacs-lisp    
-    (defun iqbal-auto-complete-at-point ()
+    (defun my-auto-complete-at-point ()
       (when (and (not (minibufferp))
                  (fboundp 'auto-complete-mode)
                  auto-complete-mode)
@@ -106,8 +106,8 @@
     
     (defun set-auto-complete-as-completion-at-point-function ()
       (setq completion-at-point-functions
-            (cons 'iqbal-auto-complete-at-point
-                  (remove 'iqbal-auto-complete-at-point completion-at-point-functions))))
+            (cons 'my-auto-complete-at-point
+                  (remove 'my-auto-complete-at-point completion-at-point-functions))))
     
     (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
   #+end_src

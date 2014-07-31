@@ -1,38 +1,38 @@
 * Set keybindings for jumping to definition
   #+begin_src emacs-lisp
-    (local-set-key iqbal-jump-to-definition 'tern-find-definition)
-    (local-set-key iqbal-pop-jump-to-definition-marker 'tern-pop-find-definition)
-    (local-set-key iqbal-show-doc 'tern-get-docs)
+    (local-set-key my-jump-to-definition 'tern-find-definition)
+    (local-set-key my-pop-jump-to-definition-marker 'tern-pop-find-definition)
+    (local-set-key my-show-doc 'tern-get-docs)
   #+end_src
   
 
 * Unset some keybindings
   Tern takes them over
   #+begin_src emacs-lisp
-    (define-key tern-mode-keymap iqbal-send-region nil)
-    (define-key tern-mode-keymap iqbal-send-line nil)
-    (define-key tern-mode-keymap iqbal-send-buffer nil)
-    (define-key tern-mode-keymap iqbal-refactor-rename nil)
+    (define-key tern-mode-keymap my-send-region nil)
+    (define-key tern-mode-keymap my-send-line nil)
+    (define-key tern-mode-keymap my-send-buffer nil)
+    (define-key tern-mode-keymap my-refactor-rename nil)
   #+end_src
 
 
 * Set keybindings for refactoring
   #+begin_src emacs-lisp
-    (local-set-key iqbal-refactor-rename 'tern-rename-variable)
+    (local-set-key my-refactor-rename 'tern-rename-variable)
   #+end_src
 
 
 * Keybindings for js-comint
   #+begin_src emacs-lisp
-    (defun iqbal-js-send-string (string)
+    (defun my-js-send-string (string)
       (comint-send-string inferior-js-buffer (concat string "\n")))
     
-    (local-set-key iqbal-run-shell #'run-js)
-    (local-set-key iqbal-send-region #'js-send-region)
-    (local-set-key iqbal-send-buffer #'js-send-buffer)
-    (local-set-key iqbal-send-phrase/sexp/block #'js-send-last-sexp)
-    (local-set-key iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-js-eval-line iqbal-js-send-string))
-    (local-set-key iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-js-eval-file iqbal-js-send-string))
-    (local-set-key iqbal-send-function (iqbal-evaluate-defun-in-repl iqbal-js-eval-defun iqbal-js-send-string))
+    (local-set-key my-run-shell #'run-js)
+    (local-set-key my-send-region #'js-send-region)
+    (local-set-key my-send-buffer #'js-send-buffer)
+    (local-set-key my-send-phrase/sexp/block #'js-send-last-sexp)
+    (local-set-key my-send-line (my-evaluate-line-in-repl my-js-eval-line my-js-send-string))
+    (local-set-key my-send-file (my-evaluate-file-in-repl my-js-eval-file my-js-send-string))
+    (local-set-key my-send-function (my-evaluate-defun-in-repl my-js-eval-defun my-js-send-string))
   #+end_src
   

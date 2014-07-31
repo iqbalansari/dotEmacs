@@ -13,7 +13,7 @@
 
 ** Add a custom function for underlining errors
    #+begin_src emacs-lisp
-     (defun iqbal-add-lines-for-errors (err)
+     (defun my-add-lines-for-errors (err)
        (flycheck-error-with-buffer err
          (when (equal (flycheck-error-level err) 'error)
            (pcase-let* ((`(,beg . ,end) (flycheck-error-region-for-mode
@@ -32,7 +32,7 @@
              overlay))))
      
      (eval-after-load 'flycheck
-       '(add-to-list 'flycheck-process-error-functions #'iqbal-add-lines-for-errors))
+       '(add-to-list 'flycheck-process-error-functions #'my-add-lines-for-errors))
    #+end_src
 
 
@@ -42,7 +42,7 @@
    in a popup
    #+begin_src emacs-lisp
      (require 'pos-tip)
-     (defun iqbal-display-messages-in-popup (errors)
+     (defun my-display-messages-in-popup (errors)
        ;; Do not interfere with autocomplete popups
        (unless (or (popup-live-p ac-menu) (popup-live-p ac-quick-help))
          (let ((messages (remove-if-not 'identity (mapcar #'flycheck-error-message errors))))
@@ -55,5 +55,5 @@
                                                        "\n"))
              (setq inhibit-modification-hooks nil)))))
      
-     (setq flycheck-display-errors-function #'iqbal-display-messages-in-popup)
+     (setq flycheck-display-errors-function #'my-display-messages-in-popup)
    #+end_src
