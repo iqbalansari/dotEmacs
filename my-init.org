@@ -72,10 +72,9 @@
          (my-write-to-file compiled-file 
                            (loop for file in files
                                  when (file-exists-p (concat lang-path file ".org"))
-                                 concat (progn (org-babel-tangle-file (concat lang-path file ".org")
-                                                                      (concat compiled-file-dest file ".el")
-                                                                      "emacs-lisp")
-                                               (my-read-file (concat compiled-file-dest file ".el")))))
+                                 concat (my-read-file (car (org-babel-tangle-file (concat lang-path file ".org")
+                                                                                  (concat compiled-file-dest file ".el")
+                                                                                  "emacs-lisp")))))
          (byte-compile-file compiled-file)))
      
      (defun my-load-lang (language)
