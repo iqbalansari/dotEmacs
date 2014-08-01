@@ -50,56 +50,56 @@
    them in one compiled file and loads that file, the compiled file is regenerated
    if any of the org files change
    #+begin_src emacs-lisp
-          (defun my-install-lang (language)
-            (interactive 
-             (list (ido-completing-read "Language: " 
-                                        (directory-files my-langs-dir nil "[^.]+"))))
-          
-            (let ((install-file (concat my-langs-dir 
-                                        language "/install.org")))
-              (when (file-exists-p install-file)
-                (org-babel-load-file install-file))))
-          
-          (defun my-compile-lang-config (lang)
-            (let* ((files '("install" "setup" "keybindings"))
-                   (lang-path (concat my-langs-dir lang "/"))
-                   (compiled-file-dest (concat lang-path ".compiled/"))
-                   (compiled-file (concat compiled-file-dest ".combined.el")))
-          
-              (unless (file-exists-p compiled-file-dest)
-                (make-directory compiled-file-dest))
-          
-              (my-write-to-file compiled-file 
-                                (loop for file in files
-                                      when (file-exists-p (concat lang-path file ".org"))
-                                      concat (my-read-file (car (org-babel-tangle-file 
-                                                                 (concat lang-path file ".org")
-                                                                 (concat compiled-file-dest file ".el")
-                                                                 "emacs-lisp")))))
-              (byte-compile-file compiled-file)))
-          
-          (defun my-load-lang (language)
-            (interactive 
-             (list (ido-completing-read "Language: " 
-                                        (directory-files my-langs-dir nil "[^.]+"))))
-            (let* ((files '("install" "setup" "keybindings"))
-                   (lang-path (concat my-langs-dir language "/"))
-                   (compiled-file-dest (concat lang-path ".compiled/"))
-                   (compiled-file (concat compiled-file-dest ".combined.el")))
-          
-              (when (apply #'my-is-file-stale compiled-file 
-                           (loop for file in files 
+     (defun my-install-lang (language)
+       (interactive 
+        (list (ido-completing-read "Language: " 
+                                   (directory-files my-langs-dir nil "[^.]+"))))
+       
+       (let ((install-file (concat my-langs-dir 
+                                   language "/install.org")))
+         (when (file-exists-p install-file)
+           (org-babel-load-file install-file))))
+     
+     (defun my-compile-lang-config (lang)
+       (let* ((files '("install" "setup" "keybindings"))
+              (lang-path (concat my-langs-dir lang "/"))
+              (compiled-file-dest (concat lang-path ".compiled/"))
+              (compiled-file (concat compiled-file-dest ".combined.el")))
+         
+         (unless (file-exists-p compiled-file-dest)
+           (make-directory compiled-file-dest))
+         
+         (my-write-to-file compiled-file 
+                           (loop for file in files
                                  when (file-exists-p (concat lang-path file ".org"))
-                                 collect (concat lang-path file ".org")))
-                (my-compile-lang-config language))
-          
-              (load-file compiled-file)))
-          
-          
-          (defun my-compile-all-lang-config ()
-            (interactive)
-            (dolist (lang (directory-files my-langs-dir nil "[^.]+"))
-              (my-compile-lang-config lang)))
+                                 concat (my-read-file (car (org-babel-tangle-file 
+                                                            (concat lang-path file ".org")
+                                                            (concat compiled-file-dest file ".el")
+                                                            "emacs-lisp")))))
+         (byte-compile-file compiled-file)))
+     
+     (defun my-load-lang (language)
+       (interactive 
+        (list (ido-completing-read "Language: " 
+                                   (directory-files my-langs-dir nil "[^.]+"))))
+       (let* ((files '("install" "setup" "keybindings"))
+              (lang-path (concat my-langs-dir language "/"))
+              (compiled-file-dest (concat lang-path ".compiled/"))
+              (compiled-file (concat compiled-file-dest ".combined.el")))
+         
+         (when (apply #'my-is-file-stale compiled-file 
+                      (loop for file in files 
+                            when (file-exists-p (concat lang-path file ".org"))
+                            collect (concat lang-path file ".org")))
+           (my-compile-lang-config language))
+         
+         (load-file compiled-file)))
+     
+     
+     (defun my-compile-all-lang-config ()
+       (interactive)
+       (dolist (lang (directory-files my-langs-dir nil "[^.]+"))
+         (my-compile-lang-config lang)))
    #+end_src
 
 ** 7. Function to declare one-shot keybindings
