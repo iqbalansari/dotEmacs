@@ -17,7 +17,7 @@
       hungry-delete
       fold-this
       pos-tip
-      phi-search-mc))
+      phi-search))
   
   (el-get 'sync my-editing-packages)  
 #+end_src   
@@ -55,8 +55,12 @@
 
 ** Enable search in multiple cursors
    #+begin_src emacs-lisp
-     (autoload 'phi-search-from-isearch-mc/mark-next "phi-search-mc")
-     (add-hook 'isearch-mode-hook 'phi-search-from-isearch-mc/setup-keys)
+     (autoload #'phi-search "phi-search")
+     (autoload #'phi-search-backward "phi-search")
+     
+     (eval-after-load "multiple-cursors"
+       '(progn (define-key mc/keymap (kbd "C-s") #'phi-search)
+               (define-key mc/keymap (kbd "C-r") #'phi-search-backward)))
    #+end_src
 
 
