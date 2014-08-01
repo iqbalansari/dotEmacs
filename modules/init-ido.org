@@ -16,33 +16,31 @@
   #+end_src
   
 	
-* Ido setup
-** Enable ido-mode
+* Enable ido-mode
   #+begin_src emacs-lisp
     (ido-mode t)
   #+end_src
+
   
-** Use flx for better flexible matching
+* Use flx for better flex matching
   #+begin_src emacs-lisp
     (flx-ido-mode t)
   #+end_src
+
   
-** Use ido everywhere
+* Use ido everywhere
   #+begin_src emacs-lisp
     (ido-ubiquitous-mode t)
   #+end_src
    
-** Look for filename at point
-   #+begin_src emacs-lisp
-     (setq ido-use-filename-at-point 'guess)
-   #+end_src
    
-** Use flexible matching with Ido
+* Use flex matching with Ido
    #+begin_src emacs-lisp
      (setq ido-enable-flex-matching t)
    #+end_src
 
-** Use ~ to jump to home directly or emacs init directory in ido-find-file
+
+* Use ~ to jump to home directly or emacs init directory in ido-find-file
    #+begin_src emacs-lisp
      (add-hook 'ido-setup-hook
                (lambda ()
@@ -58,35 +56,33 @@
                          (call-interactively 'self-insert-command)))))))     
    #+end_src   
 
-** Look for URLs at point
-   #+begin_src emacs-lisp
-     (setq ido-use-url-at-point t)
-   #+end_src
 
-** Use virtual buffers
+* Use virtual buffers
    #+begin_src emacs-lisp
      (setq ido-use-virtual-buffers t)
    #+end_src
 
-** Disable automatic file search
+
+* Disable automatic file search
    #+begin_src emacs-lisp
      (setq ido-auto-merge-work-directories-length -1)
    #+end_src
 
 
-* Keybindings
-** Keybinding for idomenu
+* Keybinding for idomenu
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-c m") 'idomenu)
    #+end_src
+
    
-** Keybindings for smex
+* Keybindings for smex
    #+begin_src emacs-lisp
      (global-set-key (kbd "M-x") 'smex)
      (global-set-key (kbd "M-X") 'smex-major-mode-commands)
    #+end_src
 
-** Map Alt-backspace to 'ido-delete-backward-updir
+
+* Map Alt-backspace to 'ido-delete-backward-updir
    I often mistakenly type these when in ido-find-file leading to
    'buffer-read-only' error
    #+begin_src emacs-lisp
