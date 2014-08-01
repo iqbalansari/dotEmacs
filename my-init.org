@@ -22,11 +22,13 @@
 ** 4. Check if given file is older than any of the other given files
    #+begin_src emacs-lisp
      (defun my-is-file-stale (orig-file &rest files)
-       (reduce (lambda (is-stale-yet? file)
-                 (or is-stale-yet?
-                     (file-newer-than-file-p file orig-file)))
-               files
-               :initial-value nil))
+       (if (file-exists-p orig-file)
+           (reduce (lambda (is-stale-yet? file)
+                     (or is-stale-yet?
+                         (file-newer-than-file-p file orig-file)))
+                   files
+                   :initial-value nil)
+         t))
    #+end_src
 
 ** 5. Helper functions to read/write from/to file
@@ -42,66 +44,57 @@
          (insert data)))
    #+end_src
 
-** 6. Combine the code in the given org-files to a single string
-   #+begin_src emacs-lisp
-     (defun my-combine-org-files (target sources language)
-       (let* ((extracted-files (mapcar (lambda (source)
-                                         (let ((export-file (concat (file-name-sans-extension source) ".el")))
-                                           (org-babel-tangle-file source 
-                                                                  export-file
-                                                                  language)
-                                           export-file))
-                                       sources))
-              (extracted-code (reduce (lambda (code input-file)
-                                        (if input-file
-                                            (concat code (my-read-file input-file))
-                                          code))
-                                      extracted-files :initial-value "")))
-         (when target
-           (my-write-to-file target extracted-code))
-         extracted-code))
-   #+end_src
-
-** 7. Function to load language configuration
+** 6. Function to load language configuration
    A simple helper function to load a particular language configuration.
    Instead of loading the org files one by one it combines all the code in
    them in one compiled file and loads that file, the compiled file is regenerated
    if any of the org files change
    #+begin_src emacs-lisp
-     (defun my-load-lang (language)
-       (interactive 
-        (list (ido-completing-read "Language: " 
-                                   (directory-files my-langs-dir nil "[^.]+"))))
-       (let* ((lang-path (concat my-langs-dir language "/"))
-              (compiled-file (concat lang-path "/.compiled.el"))
-              (source-files (remove-if-not #'file-exists-p
-                                           (mapcar (lambda (file)
-                                                     (concat lang-path file))
-                                                   '("install.org" "setup.org" "keybindings.org")))))
-         (when (or (not (file-exists-p compiled-file))
-                   (apply #'my-is-file-stale compiled-file source-files))
-           (my-combine-org-files compiled-file source-files "emacs-lisp")
-           (byte-compile-file compiled-file))
-         (load-file compiled-file)))
-     
      (defun my-install-lang (language)
        (interactive 
         (list (ido-completing-read "Language: " 
                                    (directory-files my-langs-dir nil "[^.]+"))))
+     
        (let ((install-file (concat my-langs-dir 
-                                language "/install.org")))
-             (if (file-exists-p install-file)
-                 (org-babel-load-file install-file))))
+                                   language "/install.org")))
+         (when (file-exists-p install-file)
+           (org-babel-load-file install-file))))
      
      (defun my-compile-lang-config (lang)
-       (let* ((lang-path (concat my-langs-dir lang "/"))
-             (compiled-file (concat lang-path "/.compiled.el"))
-             (source-files (remove-if-not #'file-exists-p
-                                          (mapcar (lambda (file)
-                                                    (concat lang-path file))
-                                                  '("install.org" "setup.org" "keybindings.org")))))
-         (my-combine-org-files compiled-file source-files "emacs-lisp")
+       (let* ((files '("install" "setup" "keybindings"))
+              (lang-path (concat my-langs-dir lang "/"))
+              (compiled-file-dest (concat lang-path ".compiled/"))
+              (compiled-file (concat compiled-file-dest ".combined.el")))
+     
+         (unless (file-exists-p compiled-file-dest)
+           (make-directory compiled-file-dest))
+     
+         (my-write-to-file compiled-file 
+                           (loop for file in files
+                                 when (file-exists-p (concat lang-path file ".org"))
+                                 concat (progn (org-babel-tangle-file (concat lang-path file ".org")
+                                                                      (concat compiled-file-dest file ".el")
+                                                                      "emacs-lisp")
+                                               (my-read-file (concat compiled-file-dest file ".el")))))
          (byte-compile-file compiled-file)))
+     
+     (defun my-load-lang (language)
+       (interactive 
+        (list (ido-completing-read "Language: " 
+                                   (directory-files my-langs-dir nil "[^.]+"))))
+       (let* ((files '("install" "setup" "keybindings"))
+              (lang-path (concat my-langs-dir language "/"))
+              (compiled-file-dest (concat lang-path ".compiled/"))
+              (compiled-file (concat compiled-file-dest ".combined.el")))
+     
+         (when (apply #'my-is-file-stale compiled-file 
+                      (loop for file in files 
+                            when (file-exists-p (concat lang-path file ".org"))
+                            collect (concat lang-path file ".org")))
+           (my-compile-lang-config language))
+     
+         (load-file compiled-file)))
+     
      
      (defun my-compile-all-lang-config ()
        (interactive)
@@ -109,7 +102,7 @@
          (my-compile-lang-config lang)))
    #+end_src
 
-** 8. Function to declare one-shot keybindings
+** 7. Function to declare one-shot keybindings
     These bindings active only after a particular command and are
     deactivated as soon as some other key is pressed (as in 'C-x e'
     and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
@@ -121,7 +114,7 @@
            map) t))
     #+end_src
 
-** 9. Interacting with REPL
+** 8. Interacting with REPL
    #+begin_src emacs-lisp
      (defmacro my-evaluate-line-in-repl (name send-string-func)
        `(defun ,name ()
@@ -149,7 +142,7 @@
      
    #+end_src
 
-** 10. Highlighting the line to reorient the user
+** 9. Highlighting the line to reorient the user
    #+begin_src emacs-lisp
      (defmacro my-highlight-line-after-func (func)
        `(progn (defadvice ,func (after highlight-current-line
@@ -290,8 +283,7 @@
        (add-to-list 'el-get-recipe-path "~/.emacs.d/recipies/")
    #+end_src
 
-** Start El-Get
-   
+** Start El-Get   
    #+begin_src emacs-lisp
      (el-get 'sync)
    #+end_src
@@ -310,12 +302,12 @@
 
 
 * Configurations for Emacs lisp
-  Loading emacs-lisp configurations here since loading it via org-babel-load-file
-  can lead to circular loading. org-babel-load-file internally used find-file for
-  its operations. This problematic in our case since we load the mode specific configs using
-  a major mode hook, so when org-babel-load-file loads a lisp file, it triggers the
-  loading of, well, the config files for emacs-lisp, which will again load the emacs-lisp
-  file and so on.
+  Loading emacs-lisp configurations here since loading it via
+  org-babel-load-file can lead to circular loading. org-babel-load-file
+  internally uses find-file for its operations. This problematic in our case
+  since it leads to loading emacs-lisp mode and since we load the configs in
+  emacs-lisp-mode hook this agains triggers the loading of our
+  emacs-lisp-config.
   #+begin_src emacs-lisp
     (defvar my-elisp-packages
       '(el-spice))

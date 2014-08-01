@@ -93,13 +93,15 @@
     
     (defun my-remove-generated-files ()
       (interactive)
-      (let* ((language-folders (remove-if-not #'file-directory-p
-                                              (directory-files my-langs-dir t "[^.]+"))))
-        (delete-directory (concat my-modules-dir "/.compiled/") t nil)
+      (let ((compiled-folders (mapcar (lambda (folder)
+                                        (concat folder "/.compiled"))
+                                      (append (remove-if-not #'file-directory-p
+                                                             (directory-files my-langs-dir t "[^.]+"))
+                                              (list my-modules-dir)))))
     
-        (dolist (folder language-folders)
-          (dolist (gen-file (directory-files folder t ".*\.el[c]?"))
-            (delete-file gen-file)))))
+        (dolist (folder compiled-folders)
+          (when (file-exists-p folder)
+            (delete-directory folder t nil)))))
     
     (defun my-compile-and-load-modules ()
       (interactive)

@@ -29,7 +29,7 @@ bookmarks
 image-dired/*
 .python-environments/*
 /.emacs.desktop
-modules/.compiled/
+.compiled/
 *.elc
 .disabled-local-vars
 irony/
