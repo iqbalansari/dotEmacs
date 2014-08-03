@@ -138,16 +138,19 @@
           (let ((start (save-excursion (beginning-of-defun) (point)))
                 (end   (save-excursion (end-of-defun) (point))))
             (,send-string-func (buffer-substring start
-                                                 end)))))
-     
+                                                 end)))))     
    #+end_src
 
 ** 9. Highlighting the line to reorient the user
    #+begin_src emacs-lisp
+     (defun my-highlight-line ()
+       (require 'pulse)
+       (pulse-momentary-highlight-one-line (point)))
+     
      (defmacro my-highlight-line-after-func (func)
        `(progn (defadvice ,func (after highlight-current-line
                                             (&rest args))
-                 "Flash the current line after tern jump"
+                 "Flash the current line after jump"
                  (sit-for 0.1)
                  (my-highlight-line))
                (ad-activate ',func)))
