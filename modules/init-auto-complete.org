@@ -74,13 +74,6 @@
    #+end_src
 
 
-* Enable autocomplete mode globally
-  #+begin_src emacs-lisp
-    (add-to-list 'ac-modes 'org-mode)
-    (add-to-list 'ac-modes 'web-mode)
-    (global-auto-complete-mode)
-  #+end_src
-  
   
 * Use M-/ for hippie-expand
   #+begin_src emacs-lisp
