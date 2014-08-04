@@ -31,7 +31,7 @@
   #+end_src
 
 
-* Start rdm
+* Load rtags and start rdm
   #+begin_src emacs-lisp
     (when my-rtags-available
       (unless (fboundp 'rtags-start-process-maybe)
@@ -41,12 +41,36 @@
   #+end_src
 
 
+* Load malinka
+  #+begin_src emacs-lisp
+    (unless (boundp 'malinka-projects-map)
+      (load "malinka")
+      (when (file-exists-p "~/.emacs.d/malinka-projects.el")
+        (load "~/.emacs.d/malinka-projects.el")))
+  #+end_src
+
+
+* Index files if not already indexed
+  #+begin_src emacs-lisp
+    (let* ((project-root (ignore-errors (projectile-project-root)))
+          (project-map (when project-root
+                         (car (loop for project-map in malinka-projects-map
+                                    when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
+                                    collect project-map)))))
+      (if (not project-map)
+          (warn (concat "Project not configured, please add malinka-define-project directive"
+                        "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
+        (unless (file-exists-p (concat project-root "/compile_commands.json"))
+          (message "Indexing project, this may take some time")
+          (malinka-project-configure (cdr (assoc 'name project-map))
+                                     project-root))))
+  #+end_src
+
+
 * Setup jump to definition
-  TODO: Prompt for creation of malinka project so that we do not
-  to manually index the files
 ** Custom jump to definition function using rtags
   Try to use rtags, if it fails fallback to gtags, if gtags is not available use
-  etags
+  etags TODO: Does not work properly yet
   #+begin_src emacs-lisp
     (defun my-find-definition-rtags-fallback (prefix marker)
       (when (equal (point-marker) marker)
