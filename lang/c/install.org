@@ -168,7 +168,7 @@
           (progn (el-get 'sync 'gtags)
                  (setq my-gtags-available t))
         (cond ((not my-gnu-global-version) (warn "GNU Global not installed, not installing gtags"))
-              (t (warn (concat "GNU Global version is " my-global-version 
+              (t (warn (concat "GNU Global version is " my-gnu-global-version 
                                " install latest version to install gtags"))))))
   #+end_src
 
