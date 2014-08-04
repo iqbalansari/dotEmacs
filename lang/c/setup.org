@@ -4,6 +4,12 @@
   #+end_src
 
 
+* Enable gtags-mode
+  #+begin_src emacs-lisp
+    (gtags-mode)
+  #+end_src
+
+
 * Enable prepaint mode
   #+begin_src emacs-lisp
     (prepaint-mode)
@@ -12,7 +18,7 @@
   
 * Create GTAGS/TAGS if not created yet
   #+begin_src emacs-lisp
-    (let ((project-root (projectile-project-root)))
+    (let ((project-root (ignore-errors (projectile-project-root))))
       (when project-root
         (cond (my-gtags-available (unless (file-exists-p (concat project-root "GTAGS"))
                                     (shell-command (concat "cd "
@@ -67,32 +73,14 @@
 
 
 * Setup auto-completion
-** auto-complete does not work well here, disable it
+** Disable auto-complete and enable company mode
+   Also add company-c-headers to company-backends
    #+begin_src emacs-lisp
-     (auto-complete-mode -1)
-   #+end_src
-
-** Use company instead
-   #+begin_src emacs-lisp
-     (company-mode)
-   #+end_src
-
-** Enable irony mode for general completion
-  #+begin_src emacs-lisp
-    (irony-mode)
-  #+end_src
-
-** Add irony to company backends
-   #+begin_src emacs-lisp
-     (add-to-list 'company-backends 'company-irony)
-   #+end_src
-
-** Trigger completion at interesting places, such as after scope operator
-   #+begin_src emacs-lisp
-     (company-irony-setup-begin-commands)
-   #+end_src
-
-** Add company-c-headers for completion in include directives
-   #+begin_src emacs-lisp
-     (add-to-list 'company-backends 'company-c-headers)
+     (when my-irony-available
+       (auto-complete-mode -1)
+       (company-mode)
+       (irony-mode)
+       (add-to-list 'company-backends 'company-irony)
+       (company-irony-setup-begin-commands)
+       (add-to-list 'company-backends 'company-c-headers))
    #+end_src
