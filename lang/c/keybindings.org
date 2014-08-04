@@ -1,0 +1,29 @@
+* Keybindings for navigation
+** Jump to definition
+   #+begin_src emacs-lisp
+     (local-set-key my-jump-to-definition (cond (my-rtags-available #'my-c-find-definition-rtags)
+                                                (my-gtags-available #'gtags-find-tag)
+                                                (t #'find-tag)))
+   #+end_src
+
+** And back
+  #+begin_src emacs-lisp
+    (local-set-key my-pop-jump-to-definition-marker (cond (my-rtags-available #'rtags-location-stack-back)
+                                                          (my-gtags-available #'gtags-pop-stack)
+                                                          (t #'pop-tag-mark)))
+  #+end_src
+
+  
+* Keybinding for renaming
+  Bound only if rtags is available
+  #+begin_src emacs-lisp
+    (when my-rtags-available
+      (local-set-key my-refactor-rename #'rtags-rename-symbol))
+  #+end_src
+
+
+* Keybinding for finding references
+  #+begin_src emacs-lisp
+    (local-set-key my-find-references (cond (my-rtags-available #'rtags-find-references)
+                                            (my-gtags-available #'gtags-find-rtag)))
+  #+end_src

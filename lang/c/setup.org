@@ -1,0 +1,98 @@
+* Use c-mode
+  #+begin_src emacs-lisp
+    (c-mode)
+  #+end_src
+
+
+* Enable prepaint mode
+  #+begin_src emacs-lisp
+    (prepaint-mode)
+  #+end_src
+
+  
+* Create GTAGS/TAGS if not created yet
+  #+begin_src emacs-lisp
+    (let ((project-root (projectile-project-root)))
+      (when project-root
+        (cond (my-gtags-available (unless (file-exists-p (concat project-root "GTAGS"))
+                                    (shell-command (concat "cd "
+                                                           project-root
+                                                           " && gtags"))))
+              ((executable-find "etags") (unless  (file-exists-p (concat project-root "TAGS"))
+                                           (shell-command (concat "cd "
+                                                                  project-root
+                                                                  " && find . -name \"*.[ch]\" -print | xargs etags -a ")))))))
+  #+end_src
+
+
+* Start rdm
+  #+begin_src emacs-lisp
+    (when my-rtags-available
+      (unless (fboundp 'rtags-start-process-maybe)
+        (load "rtags"))
+    
+      (rtags-start-process-maybe))
+  #+end_src
+
+
+* Setup jump to definition
+  TODO: Prompt for creation of malinka project so that we do not
+  to manually index the files
+** Custom jump to definition function using rtags
+  Try to use rtags, if it fails fallback to gtags, if gtags is not available use
+  etags
+  #+begin_src emacs-lisp
+    (defun my-find-definition-rtags-fallback (prefix marker)
+      (when (equal (point-marker) marker)
+        (if rtags-last-request-not-indexed
+            (if my-gtags-available (gtags-find-tag) (call-interactively #'find-tag))
+          (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol" 
+                                               "-F"
+                                               (and prefix buffer-file-name)))))
+    
+    (defun my-c-find-definition-rtags (&optional prefix)
+      (interactive "P")
+      ;; Check if the jump completed after 1
+      (run-at-time 1 nil #'my-find-definition-rtags-fallback prefix (point-marker))
+      (rtags-find-symbol-at-point prefix))
+  #+end_src
+
+** Highlight line after jump
+   #+begin_src emacs-lisp
+     (my-highlight-line-after-func my-c-find-definition-rtags)
+     (my-highlight-line-after-func my-find-definition-rtags-fallback)
+     (my-highlight-line-after-func gtags-find-tag)
+     (my-highlight-line-after-func find-tag)
+   #+end_src
+
+
+* Setup auto-completion
+** auto-complete does not work well here, disable it
+   #+begin_src emacs-lisp
+     (auto-complete-mode -1)
+   #+end_src
+
+** Use company instead
+   #+begin_src emacs-lisp
+     (company-mode)
+   #+end_src
+
+** Enable irony mode for general completion
+  #+begin_src emacs-lisp
+    (irony-mode)
+  #+end_src
+
+** Add irony to company backends
+   #+begin_src emacs-lisp
+     (add-to-list 'company-backends 'company-irony)
+   #+end_src
+
+** Trigger completion at interesting places, such as after scope operator
+   #+begin_src emacs-lisp
+     (company-irony-setup-begin-commands)
+   #+end_src
+
+** Add company-c-headers for completion in include directives
+   #+begin_src emacs-lisp
+     (add-to-list 'company-backends 'company-c-headers)
+   #+end_src

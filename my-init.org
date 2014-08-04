@@ -240,7 +240,12 @@
      (defvar my-jump-to-definition (kbd "M-."))
      (defvar my-pop-jump-to-definition-marker (kbd "M-,"))
    #+end_src
-   
+
+** Finding references
+   #+begin_src emacs-lisp
+     (defvar my-find-references (kbd "C-<"))
+   #+end_src
+
 ** Displaying doc
    #+begin_src emacs-lisp
      (defvar my-show-doc (kbd "C-c d"))
@@ -323,6 +328,12 @@
   
 
 * Configure loading of the major modes
+** C
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.c\\'" . (lambda ()
+                                                   (my-load-lang "c"))))
+   #+end_src
+
 ** Python
   #+begin_src emacs-lisp
     (add-hook 'python-mode-hook (lambda ()

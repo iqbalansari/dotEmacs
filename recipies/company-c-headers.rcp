@@ -1,0 +1,4 @@
+(:name company-c-headers
+       :description "Auto-completion for C/C++ headers using Company"
+       :type github
+       :pkgname "randomphrase/company-c-headers")
