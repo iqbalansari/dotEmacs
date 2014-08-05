@@ -1,3 +1,9 @@
+* Install projectile if not installed yet
+  #+begin_src emacs-lisp
+    (el-get 'sync 'projectile)
+  #+end_src
+
+
 * Faster keybinding to switch between line and character mode in term
   #+begin_src emacs-lisp
     (defun my-toggle-term-mode ()

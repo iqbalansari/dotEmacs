@@ -8,9 +8,6 @@
 
 * Keybindings for interaction with OCaml REPL
   #+begin_src emacs-lisp
-    (defun my-tuareg-send-string (string)
-      ())
-    
     (defun my-set-bindings-for-utop ()
       (local-set-key my-run-shell #'utop)
       (local-set-key my-send-region #'utop-eval-region)

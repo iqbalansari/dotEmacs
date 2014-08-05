@@ -11,7 +11,8 @@
      '(jedi
        pymacs
        ropemacs
-       virtualenvwrapper))
+       virtualenvwrapper
+       projectile))
     
     (el-get 'sync my-python-packages)
     
