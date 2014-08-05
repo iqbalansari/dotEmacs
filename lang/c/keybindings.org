@@ -27,3 +27,10 @@
     (local-set-key my-find-references (cond (my-rtags-available #'rtags-find-references)
                                             (my-gtags-available #'gtags-find-rtag)))
   #+end_src
+
+
+* Use rtags imenu if rtags is available
+  #+begin_src emacs-lisp
+    (when my-rtags-available
+      (local-set-key (kbd "C-c m") 'rtags-imenu))
+  #+end_src
