@@ -15,6 +15,16 @@
     (prepaint-mode)
   #+end_src
 
+
+* Load rtags and start rdm
+  #+begin_src emacs-lisp
+    (when my-rtags-available
+      (unless (fboundp 'rtags-start-process-maybe)
+        (load "rtags"))
+    
+      (rtags-start-process-maybe))
+  #+end_src
+
   
 * Create GTAGS/TAGS if not created yet
   #+begin_src emacs-lisp
@@ -31,18 +41,9 @@
   #+end_src
 
 
-* Load rtags and start rdm
-  #+begin_src emacs-lisp
-    (when my-rtags-available
-      (unless (fboundp 'rtags-start-process-maybe)
-        (load "rtags"))
-    
-      (rtags-start-process-maybe))
-  #+end_src
-
-
 * Automatically jump to symbol under cursor in *RTags* buffer
   #+begin_src emacs-lisp
+    (setq rtags-error-timer-interval 0.1)
     (setq rtags-tracking t)
   #+end_src
 
@@ -59,14 +60,16 @@
 * Index files if not already indexed
   #+begin_src emacs-lisp
     (let* ((project-root (ignore-errors (projectile-project-root)))
-          (project-map (when project-root
-                         (car (loop for project-map in malinka-projects-map
-                                    when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
-                                    collect project-map)))))
+           (project-map (when project-root
+                          (car (loop for project-map in malinka-projects-map
+                                     when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
+                                     collect project-map)))))
       (if (not project-map)
           (warn (concat "Project not configured, please add malinka-define-project directive\n"
                         "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
-        (unless (file-exists-p (concat project-root "/compile_commands.json"))
+        (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc") 
+                                                                          " --has-filemanager "
+                                                                          project-root))))
           (message (concat "Indexing project, this may take some time, this happens just once per project."
                            " You can manually invoke indexing with malinka-configure-project."
                            "\nThe result of indexing can be seen in *rdm* buffer"))
