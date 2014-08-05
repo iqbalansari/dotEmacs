@@ -42,7 +42,7 @@
 * Separate functions for moving to start/end of function and class
 ** A modified version of python-mode's python-nav-end-of-defun
    #+begin_src emacs-lisp
-     (defun my-python-nav-end-of-defun ()
+     (defun my-python-nav-end-of-defun (&optional args)
        "Move point to the end of def or class.
      Returns nil if point is not in a def or class."
        (interactive)
@@ -63,36 +63,42 @@
            (and (> beg-pos (point)) (goto-char beg-pos)))))
    #+end_src
 
+** Macro to define modified navigation commands
+   #+begin_src emacs-lisp
+     (defmacro my-py-define-nav-command (name begining-of-defun-regexp nav-func)
+       `(defun ,name (&optional args)
+          (interactive "p")
+          (let ((python-nav-beginning-of-defun-regexp ,begining-of-defun-regexp))
+            (push-mark)
+            (,nav-func args))))
+   #+end_src
+
 ** Function for moving at start of class
   #+begin_src emacs-lisp
-    (defun my-py-begining-of-class (&optional args)
-      (interactive "p")
-      (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
-        (python-nav-beginning-of-defun args)))
+    (my-py-define-nav-command my-py-begining-of-class
+                              "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
+                              python-nav-beginning-of-defun)
   #+end_src
 
 ** Function for moving at end of class
    #+begin_src emacs-lisp
-     (defun my-py-end-of-class ()
-       (interactive)
-       (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
-         (my-python-nav-end-of-defun)))
+     (my-py-define-nav-command my-py-end-of-class
+                               "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
+                               my-python-nav-end-of-defun)
    #+end_src
 
 ** Function for moving at start of function
    #+begin_src emacs-lisp
-     (defun my-py-begining-of-defun (&optional args)
-       (interactive "p")
-       (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
-         (python-nav-beginning-of-defun args)))
+     (my-py-define-nav-command my-py-begining-of-defun 
+                               "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
+                               python-nav-beginning-of-defun)
    #+end_src
 
 ** Function for moving at end of function
    #+begin_src emacs-lisp
-     (defun my-py-end-of-defun ()
-       (interactive)
-       (let ((python-nav-beginning-of-defun-regexp "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"))
-         (my-python-nav-end-of-defun)))
+     (my-py-define-nav-command my-py-end-of-defun 
+                               "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)" 
+                               my-python-nav-end-of-defun)
    #+end_src
 
 
