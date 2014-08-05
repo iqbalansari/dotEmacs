@@ -31,11 +31,15 @@
   #+end_src
 
 
-* Disable C-<right>, C-<left> in term
+* Fix C-<right>, C-<left> in term, don't know why it was not working in the first place
   #+begin_src emacs-lisp
     (eval-after-load 'term
-      '(progn (define-key term-raw-map (kbd "C-<left>") (lambda () (interactive)))
-              (define-key term-raw-map (kbd "C-<right>") (lambda () (interactive)))))
+      '(progn (define-key term-raw-map (kbd "C-<left>") (lambda ()
+                                                          (interactive)
+                                                          (term-send-raw-string (kbd "\033[1;5D"))))
+              (define-key term-raw-map (kbd "C-<right>") (lambda ()
+                                                           (interactive)
+                                                           (term-send-raw-string (kbd "\033[1;5C"))))))
   #+end_src
 
 

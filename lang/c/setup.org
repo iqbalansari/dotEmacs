@@ -41,6 +41,12 @@
   #+end_src
 
 
+* Automatically jump to symbol under cursor in *RTags* buffer
+  #+begin_src emacs-lisp
+    (setq rtags-tracking t)
+  #+end_src
+
+
 * Load malinka
   #+begin_src emacs-lisp
     (unless (boundp 'malinka-projects-map)
@@ -58,10 +64,12 @@
                                     when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
                                     collect project-map)))))
       (if (not project-map)
-          (warn (concat "Project not configured, please add malinka-define-project directive"
+          (warn (concat "Project not configured, please add malinka-define-project directive\n"
                         "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
         (unless (file-exists-p (concat project-root "/compile_commands.json"))
-          (message "Indexing project, this may take some time")
+          (message (concat "Indexing project, this may take some time, this happens just once per project."
+                           " You can manually invoke indexing with malinka-configure-project."
+                           "\nThe result of indexing can be seen in *rdm* buffer"))
           (malinka-project-configure (cdr (assoc 'name project-map))
                                      project-root))))
   #+end_src
