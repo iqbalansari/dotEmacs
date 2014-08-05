@@ -166,16 +166,22 @@
     (defun my-split-window-below-start-terminal ()
       (interactive)
       (select-window (split-window-below))
-      (my-start-shell current-prefix-arg))
+      (my-start-shell (or current-prefix-arg 
+                          (eq major-mode 'term-mode)
+                          (eq major-mode 'eshell))))
     
     (defun my-split-window-right-start-terminal ()
       (interactive)
       (select-window (split-window-right))
-      (my-start-shell current-prefix-arg))
+      (my-start-shell (or current-prefix-arg 
+                          (eq major-mode 'term-mode)
+                          (eq major-mode 'eshell))))
     
     (defun my-start-terminal ()
       (interactive)
-      (my-start-shell current-prefix-arg))
+      (my-start-shell (or current-prefix-arg 
+                          (eq major-mode 'term-mode)
+                          (eq major-mode 'eshell))))
     
     (defun my-kill-term-buffer ()
       (let ((kill-buffer-query-functions nil)
