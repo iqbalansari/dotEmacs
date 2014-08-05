@@ -12,7 +12,7 @@
     
     (defun my-find-file-sudo (filename)
       "Open FILENAME with root privileges."
-      (interactive "F")
+      (interactive (list (ido-read-file-name "File name: ")))
       (set-buffer (find-file (concat "/sudo::" filename)))
       (my-find-file-sudo-header-warning))
   #+end_src
