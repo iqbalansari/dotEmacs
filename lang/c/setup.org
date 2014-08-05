@@ -80,19 +80,18 @@
   Try to use rtags, if it fails fallback to gtags, if gtags is not available use
   etags TODO: Does not work properly yet
   #+begin_src emacs-lisp
-    (defun my-find-definition-rtags-fallback (prefix marker)
-      (when (equal (point-marker) marker)
-        (if rtags-last-request-not-indexed
-            (if my-gtags-available (gtags-find-tag) (call-interactively #'find-tag))
-          (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol" 
-                                               "-F"
-                                               (and prefix buffer-file-name)))))
+    (defun my-find-definition-rtags-fallback ()
+      (with-current-buffer rtags-buffer-name
+        (when (= (point-min) (point-max))
+          (if rtags-last-request-not-indexed
+              (if my-gtags-available (gtags-find-tag) (call-interactively #'find-tag))
+            (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol" 
+                                                 "-F")))))
     
     (defun my-c-find-definition-rtags (&optional prefix)
       (interactive "P")
-      ;; Check if the jump completed after 1
-      (run-at-time 1 nil #'my-find-definition-rtags-fallback prefix (point-marker))
-      (rtags-find-symbol-at-point prefix))
+      (rtags-find-symbol-at-point prefix)
+      (my-find-definition-rtags-fallback))
   #+end_src
 
 ** Highlight line after jump
