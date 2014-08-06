@@ -2,7 +2,6 @@
   #+begin_src emacs-lisp
     (defvar my-display-packages
       '(linum-off
-        color-theme-zenburn
         diminish
         eval-sexp-fu
         auto-highlight-symbol
@@ -21,7 +20,7 @@
   #+end_src
 
 
-* Load zenburn theme
+* Load sanityinc-light theme
   #+begin_src emacs-lisp
     (color-theme-sanityinc-light)
   #+end_src
