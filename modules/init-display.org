@@ -23,7 +23,6 @@
 
 * Load zenburn theme
   #+begin_src emacs-lisp
-    (require 'color-theme-sanityinc)
     (color-theme-sanityinc-light)
   #+end_src
 

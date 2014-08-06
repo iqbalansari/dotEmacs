@@ -1,11 +1,11 @@
 * Install required packages
   #+begin_src emacs-lisp
     (el-get 'sync '(rebox2 
-                    lorem-ipsum
                     mag-menu
                     inf-mongo
                     edit-server
-                    prodigy))
+                    prodigy
+                    eldoc-eval))
   #+end_src
 
 
@@ -141,3 +141,10 @@
       (autoload 'js-beautify "js-beautify")
       (global-set-key (kbd "M-[") 'js-beautify))
   #+end_src  
+
+
+* Enable eldoc in modeline when minibuffer is active
+  #+begin_src emacs-lisp
+    (eldoc-in-minibuffer-mode 1)
+  #+end_src
+
