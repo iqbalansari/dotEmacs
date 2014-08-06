@@ -93,13 +93,25 @@
   #+end_src
 
 
-* Yasnippet breaks tab completion in term-mode disable it, also disable hl-line-mode
+* Yasnippet breaks tab completion in term-mode disable it
   #+begin_src emacs-lisp
     (add-hook 'term-mode-hook (lambda () 
                                 (yas-minor-mode -1)
-                                (toggle-truncate-lines 1)
-                                (hl-line-mode -1)))
+                                (toggle-truncate-lines 1)))
   #+end_src
+
+
+* Disable hl-line-mode in term buffer
+  Need to set hl-line-range-function function since (hl-line-mode -1)
+  isn't working
+  #+begin_src emacs-lisp
+    (defun my-hide-hl-line ()
+      (make-local-variable 'hl-line-range-function)
+      (setq hl-line-range-function (lambda () nil)))
+    
+    (add-hook 'term-mode-hook #'my-hide-hl-line)
+  #+end_src
+
 
 
 * Better colors for term mode
