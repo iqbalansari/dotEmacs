@@ -104,12 +104,6 @@
   #+end_src  
   
 
-* Highlight current variable after certain interval
-  #+begin_src emacs-lisp
-      (setq ahs-set-idle-interval 0.1)
-  #+end_src
-
-
 * Temporarily highlight yanks and undos 
   #+begin_src emacs-lisp
     (volatile-highlights-mode 1)
