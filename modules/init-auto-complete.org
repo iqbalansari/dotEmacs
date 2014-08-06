@@ -36,7 +36,6 @@
    #+end_src
 
 ** Enable fuzzy completion
-
    #+begin_src emacs-lisp
      (setq ac-use-fuzzy t)
    #+end_src
@@ -64,17 +63,16 @@
      (ac-flyspell-workaround)
    #+end_src   
 
-** Do not prefer pos-tip
+** To get pop-ups with docs even if a word is uniquely completed from Steve Purcell's config
    #+begin_src emacs-lisp
-     (setq ac-quick-help-prefer-pos-tip nil)
+     (setq-default ac-dwim nil)
    #+end_src
 ** Maximum width of auto-complete menu
    #+begin_src emacs-lisp
      (setq ac-max-width 0.5)
    #+end_src
-
-
   
+
 * Use M-/ for hippie-expand
   #+begin_src emacs-lisp
     (global-set-key (kbd "M-/") 'hippie-expand)
