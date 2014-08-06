@@ -1,5 +1,5 @@
 * Enable semantic only in c-mode, cc-mode and java-mode
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (eval-after-load "semantic"
       '(add-to-list 'semantic-inhibit-functions
                    (lambda () (not (member major-mode '(java-mode c-mode c++-mode))))))
@@ -33,20 +33,16 @@
                                                            (member (car buffer-setup-function)
                                                                    '(python-mode js-mode scheme-mode html-mode)))
                                                          semantic-new-buffer-setup-functions))
-    
+
     (remove-hook 'python-mode-hook 'wisent-python-default-setup)
   #+end_src
 
 
 
 * Setup autocompletion
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (defun my-setup-cedet-auto-completion ()
       (add-to-list 'ac-sources 'ac-source-semantic))
-    
+
     (add-hook 'c-mode-common-hook 'my-setup-cedet-auto-completion)
   #+end_src
-
-
-
-

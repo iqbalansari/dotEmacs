@@ -8,5 +8,3 @@
   #+begin_src emacs-lisp
     (flyspell-mode 1)
   #+end_src
-
-  

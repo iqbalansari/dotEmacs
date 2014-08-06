@@ -17,7 +17,7 @@
     (defadvice switch-window (around switch-to-bar-cursor)
       (let ((cursor-type nil))
         ad-do-it))
-    
+
     (ad-activate 'switch-window)
   #+end_src
 
@@ -86,7 +86,7 @@
              (if (string= "comm" (car attr))
                  (setq cmd (cdr attr))))
            (if (and cmd (or (string= "emacs" cmd) (string= "emacs.exe" cmd))) t))))
-     
+
      (defadvice desktop-owner (after pry-from-cold-dead-hands activate)
        "Don't allow dead emacsen to own the desktop file."
        (when (not (emacs-process-p ad-return-value))

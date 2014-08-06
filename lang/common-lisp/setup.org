@@ -3,7 +3,7 @@
     (if (eq system-type 'windows-nt)
         (setq inferior-lisp-program "clisp")
       (setq inferior-lisp-program "sbcl"))
-    
+
     (load "slime")
     (slime-setup)
   #+end_src
@@ -14,21 +14,20 @@
     (slime-mode)
   #+end_src
 
-  
+
 * Setup completion for slime
   #+begin_src emacs-lisp
     (load "ac-slime")
     (set-up-slime-ac)
-    
+
     (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
     (eval-after-load "auto-complete"
-      '(add-to-list 'ac-modes 'slime-repl-mode))    
+      '(add-to-list 'ac-modes 'slime-repl-mode))
   #+end_src
 
 
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (hs-minor-mode)
   #+end_src
-

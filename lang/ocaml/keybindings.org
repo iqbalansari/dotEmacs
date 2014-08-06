@@ -15,7 +15,7 @@
       (local-set-key my-send-phrase/sexp/block #'utop-eval-phrase)
       (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line utop-eval-string))
       (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file utop-eval-string)))
-    
+
     (defun my-set-bindings-for-ocaml-repl ()
       (local-set-key my-run-shell #'run-ocaml)
       (local-set-key my-send-region #'tuareg-eval-region)
@@ -30,7 +30,7 @@
                                        (with-temp-buffer
                                          (insert (my-read-file file))
                                          (tuareg-eval-buffer)))))
-    
+
     (if (featurep 'utop)
         (my-set-bindings-for-utop)
       (my-set-bindings-for-ocaml-repl))

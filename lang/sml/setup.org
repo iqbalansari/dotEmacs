@@ -3,9 +3,9 @@
     (sml-mode)
   #+end_src
 
-  
+
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (hs-minor-mode)
   #+end_src

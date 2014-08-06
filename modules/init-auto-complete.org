@@ -1,18 +1,18 @@
 * Ensure that autocomplete is installed
   #+begin_src emacs-lisp
-    (defvar my-auto-complete-packages 
+    (defvar my-auto-complete-packages
       '(auto-complete pos-tip))
-    
+
     (el-get 'sync my-auto-complete-packages)
   #+end_src
 
 
-* Require auto-complete 
+* Require auto-complete
   #+begin_src emacs-lisp
     (load "auto-complete-config")
   #+end_src
 
-  
+
 * Auto-complete configurations
 ** Load default configuration
    #+begin_src emacs-lisp
@@ -43,7 +43,7 @@
 ** Enable menu mode-map when autocomplete menu is displayed
    #+begin_src emacs-lisp
      (setq ac-use-menu-map t)
-     (define-key ac-menu-map [backtab] 'ac-previous)     
+     (define-key ac-menu-map [backtab] 'ac-previous)
    #+end_src
 
 ** Trigger key
@@ -51,17 +51,17 @@
    #+begin_src emacs-lisp
      (ac-set-trigger-key "TAB")
    #+end_src
-   
+
 ** Display completion correctly
-   
+
    #+begin_src emacs-lisp
      (setq popup-use-optimized-column-computation nil)
    #+end_src
-   
+
 ** Use auto-complete with flyspell
    #+begin_src emacs-lisp
      (ac-flyspell-workaround)
-   #+end_src   
+   #+end_src
 
 ** To get pop-ups with docs even if a word is uniquely completed from Steve Purcell's config
    #+begin_src emacs-lisp
@@ -71,12 +71,12 @@
    #+begin_src emacs-lisp
      (setq ac-max-width 0.5)
    #+end_src
-  
+
 
 * Use M-/ for hippie-expand
   #+begin_src emacs-lisp
     (global-set-key (kbd "M-/") 'hippie-expand)
-    
+
     (setq hippie-expand-try-functions-list
           '(try-complete-file-name-partially
             try-complete-file-name
@@ -88,17 +88,17 @@
 
 * Configuration for using tab for autocompletion taken from [[https://github.com/purcell/emacs.d][Steve Purcell's config]]
   Trigger autocompletion using <tab>
-  #+begin_src emacs-lisp    
+  #+begin_src emacs-lisp
     (defun my-auto-complete-at-point ()
       (when (and (not (minibufferp))
                  (fboundp 'auto-complete-mode)
                  auto-complete-mode)
         (auto-complete)))
-    
+
     (defun set-auto-complete-as-completion-at-point-function ()
       (setq completion-at-point-functions
             (cons 'my-auto-complete-at-point
                   (remove 'my-auto-complete-at-point completion-at-point-functions))))
-    
+
     (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
   #+end_src

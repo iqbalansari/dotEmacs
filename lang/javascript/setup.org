@@ -28,7 +28,7 @@
    #+begin_src emacs-lisp
      (when (eq system-type 'windows-nt)
        (setq tern-command (list "node" (car tern-command))))
-     
+
      (tern-mode t)
    #+end_src
 
@@ -39,7 +39,7 @@
      (tern-ac-setup)
      (setq tern-ac-dot-complete t)
    #+end_src
-     
+
 
 * Setup autocompletion and documentation for jQuery
   #+begin_src emacs-lisp
@@ -51,20 +51,19 @@
   #+begin_src emacs-lisp
     (load "js-comint")
     (setq inferior-js-program-command "node")
-    
+
     (setenv "NODE_NO_READLINE" "1")
   #+end_src
 
 
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (hs-minor-mode)
   #+end_src
 
-  
+
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
     (my-highlight-line-after-func tern-find-definition)
   #+end_src
-

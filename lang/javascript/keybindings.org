@@ -4,7 +4,7 @@
     (local-set-key my-pop-jump-to-definition-marker 'tern-pop-find-definition)
     (local-set-key my-show-doc 'tern-get-docs)
   #+end_src
-  
+
 
 * Unset some keybindings
   Tern takes them over
@@ -26,7 +26,7 @@
   #+begin_src emacs-lisp
     (defun my-js-send-string (string)
       (comint-send-string inferior-js-buffer (concat string "\n")))
-    
+
     (local-set-key my-run-shell #'run-js)
     (local-set-key my-send-region #'js-send-region)
     (local-set-key my-send-buffer #'js-send-buffer)
@@ -35,4 +35,3 @@
     (local-set-key my-send-file (my-evaluate-file-in-repl my-js-eval-file my-js-send-string))
     (local-set-key my-send-function (my-evaluate-defun-in-repl my-js-eval-defun my-js-send-string))
   #+end_src
-  

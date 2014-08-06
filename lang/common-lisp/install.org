@@ -3,7 +3,6 @@
     (defvar my-clisp-packages
       '(slime
         ac-slime))
-    
+
     (el-get 'sync my-clisp-packages)
   #+end_src
- 

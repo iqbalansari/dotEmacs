@@ -11,7 +11,7 @@
     (when (executable-find "opam")
       (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
         (setenv (car var) (cadr var)))
-    
+
       ;; Update the emacs path
       (setq exec-path (split-string (getenv "PATH") path-separator))
       (push (concat (getenv "OCAML_TOPLEVEL_PATH") "/../../share/emacs/site-lisp") load-path))
@@ -24,4 +24,3 @@
     (autoload 'utop "utop" "Toplevel for OCaml" t)
     (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
   #+end_src
-

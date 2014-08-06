@@ -18,28 +18,28 @@
                       (lambda (file1 file2)
                         (version< (or (nth 2 (split-string file2 "-")) "0")
                                   (or (nth 2 (split-string file1 "-")) "0")))))))
-     
+
      (defun my--get-gcc-version()
        "Get gcc version"
        (when (executable-find "gcc")
          (nth 3
               (split-string (car (split-string (shell-command-to-string "gcc --version")
                                                "\n"))))))
-     
+
      (defun my--get-g++-version()
        "Get g++ version"
        (when (executable-find "g++")
          (nth 3
               (split-string (car (split-string (shell-command-to-string "g++ --version")
                                                "\n"))))))
-     
+
      (defun my--get-clang-version()
        "Get clang compiler version"
        (when (executable-find "clang")
          (car (split-string (nth 3
                                  (split-string (car (split-string (shell-command-to-string "clang --version") "\n"))))
                             "-"))))
-     
+
      (defun my--extract-libclang-version-from-file (file)
        "Extract libclang version from header file"
        (let* ((declarations (split-string (my-read-file file) "\n"))
@@ -48,7 +48,7 @@
                                                      declarations))))
          (when clang-version-dec
            (car (last (split-string clang-version-dec " "))))))
-     
+
      (defun my--get-libclang-version (llvm-config-executable)
        "Get version of libclang version associated with given llvm installation"
        (let* ((llvm-include-dir (substring (shell-command-to-string (concat llvm-config-executable
@@ -58,14 +58,14 @@
               (clang-version-file (concat llvm-include-dir "/clang/Basic/Version.inc")))
          (when (file-exists-p clang-version-file)
            (my--extract-libclang-version-from-file clang-version-file))))
-     
+
      (defun my--get-gnu-global-version ()
        (when (executable-find "global")
          (car (last (split-string (car (split-string (shell-command-to-string "global --version") "\n"))
                                   " ")))))
    #+end_src
 
-** Find and store information about the environment   
+** Find and store information about the environment
    Try retrieving the information only if we need
    to install any of the libraries
    #+begin_src emacs-lisp
@@ -76,7 +76,7 @@
      (defvar my-llvm-version)
      (defvar my-libclang-version)
      (defvar my-cmake-version)
-     
+
      (when (or (and my-install-rtags
                     (not (locate-library "rtags")))
                (and my-install-irony
@@ -107,7 +107,7 @@
   satisfied otherwise display the missing requirements
   #+begin_src emacs-lisp
     (defvar my-rtags-available nil)
-    
+
     (defun my-try-installing-rtags ()
       "Tries installing rtags if requirements are satisfied otherwise displays a warning
     about missing requirements"
@@ -123,17 +123,17 @@
           (warn (concat "rtags requirements not satisfied"
                         "\n\t1. cmake " (if my-cmake-version (concat "[found " my-cmake-version "]") "[not found]")
                         "\n\t2. llvm >= 3.1 " (if my-llvm-executable (concat "[found " my-llvm-version "]") "[not found]")
-                        "\n\t3. libclang-dev >= 3.2 " 
+                        "\n\t3. libclang-dev >= 3.2 "
                         (if (not (version< (or my-libclang-version "0") "3.2"))
-                            " [found]" 
+                            " [found]"
                           " [not found]")
-                          "\n\t4. g++ >= 4.7 or clang >= 3.2 " 
+                          "\n\t4. g++ >= 4.7 or clang >= 3.2 "
                           (if (or (not (version< (or my-g++-version "0") "4.7"))
                                   (not (version< (or my-clang-version "0") "3.2")))
-                              "[found]" 
+                              "[found]"
                             "[not found]") "\n"
                             "skipping installation")))))
-    
+
     (my-try-installing-rtags)
   #+end_src
 
@@ -143,7 +143,7 @@
   satisfied otherwise display the missing requirements
   #+begin_src emacs-lisp
     (defvar my-irony-available nil)
-    
+
     (defun my-try-installing-irony-mode ()
       "Tries installing irony-mode if requirements are satisfied otherwise displays a warning
     about missing requirements"
@@ -158,11 +158,11 @@
                         (irony-install-server)))
                    (setq my-irony-available t))
           (warn (concat "irony requirements not satisfied, require\n"
-                        "\t1. cmake >= 2.8.3" 
+                        "\t1. cmake >= 2.8.3"
                         (if my-cmake-version (concat " [found " my-cmake-version "]") " [not found]") "\n"
                         "\t2. libclang-dev" (if my-libclang-version (concat " [found " my-libclang-version " ]") " [not found]")
                         "\nskipping installation")))))
-    
+
     (my-try-installing-irony-mode)
   #+end_src
 
@@ -183,7 +183,7 @@
           (progn (el-get 'sync 'gtags)
                  (setq my-gtags-available t))
         (cond ((not my-gnu-global-version) (warn "GNU Global not installed, not installing gtags"))
-              (t (warn (concat "GNU Global version is " my-gnu-global-version 
+              (t (warn (concat "GNU Global version is " my-gnu-global-version
                                " install latest version to install gtags"))))))
   #+end_src
 
@@ -198,9 +198,8 @@
         (el-get 'sync 'malinka))
   #+end_src
 
-   
+
 * Install prepaint for highlighting preprocessor directives
   #+begin_src emacs-lisp
     (el-get 'sync 'prepaint)
   #+end_src
-

@@ -2,6 +2,6 @@
   #+begin_src emacs-lisp
     (defvar my-css-packages
       '(css-eldoc))
-    
+
     (el-get 'sync my-css-packages)
   #+end_src

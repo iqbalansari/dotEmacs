@@ -3,7 +3,7 @@
     (defvar my-dired-packages '(dired-details dired-single))
     (el-get 'sync my-dired-packages)
   #+end_src
-  
+
 
 * Load dired-x for additional functionality
   #+begin_src emacs-lisp
@@ -17,13 +17,13 @@
   #+begin_src emacs-lisp
     (setq dired-recursive-deletes 'top)
   #+end_src
-  
+
 
 * Copy recursively without asking
   #+begin_src emacs-lisp
     (setq dired-recursive-copies 'always)
   #+end_src
-  
+
 
 * Auto revert dired buffer on revisiting
   #+begin_src emacs-lisp
@@ -43,15 +43,15 @@
       (interactive)
       (goto-char (point-max))
       (dired-next-line -1))
-    
+
     (defun dired-back-to-top ()
       (interactive)
       (goto-char (point-min))
       (dired-next-line 3))
-    
+
     (define-key dired-mode-map
       (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
-    
+
     (define-key dired-mode-map
       (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
   #+end_src
@@ -65,7 +65,7 @@
                 (dired-details-install)
                 (setq dired-details-hidden-string "[..] ")))
   #+end_src
-  
+
 
 * Dired-single configuration as recommended in dired-single.el
   #+begin_src emacs-lisp
@@ -77,7 +77,7 @@
       (define-key dired-mode-map "^"
         (function
          (lambda nil (interactive) (dired-single-buffer "..")))))
-    
+
     ;; if dired's already loaded, then the keymap will be bound
     (if (boundp 'dired-mode-map)
         ;; we're good to go; just add our bindings
@@ -85,10 +85,10 @@
       ;; it's not loaded yet, so add our bindings to the load-hook
       (add-hook 'dired-load-hook 'my-dired-init))
   #+end_src
-  
+
 
 * Wdired configuration
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (autoload 'wdired-change-to-wdired-mode "wdired")
     (setq wdired-use-interactive-rename t)
     (setq wdired-confirm-overwrite t)

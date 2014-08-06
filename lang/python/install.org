@@ -1,5 +1,5 @@
 * Ensure that the required "packages" are installed
-+ [[http://tkf.github.io/emacs-jedi/][jedi]] - Python auto-completion for Emacs. It is faster than other alternatives 
++ [[http://tkf.github.io/emacs-jedi/][jedi]] - Python auto-completion for Emacs. It is faster than other alternatives
   and just works
 + [[www.github.com/pinard/Pymacs][pymacs]] - Interface between emacs-lisp and python, need by rope
 + [[http://rope.sourceforge.net/ropemacs.html][ropemacs]] - A plugin to perform python refactorings in emacs
@@ -13,9 +13,9 @@
        ropemacs
        virtualenvwrapper
        projectile))
-    
+
     (el-get 'sync my-python-packages)
-    
+
     (if (executable-find "hg")
       (el-get 'sync '(pydoc-info nose))
       (message "You need to have hg installed for installing pydoc-info and nose"))

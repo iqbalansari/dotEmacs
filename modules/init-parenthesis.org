@@ -9,9 +9,9 @@
     (defvar my-paranthesis-packages
       '(autopair
         smartparens))
-    
+
     (el-get 'sync my-paranthesis-packages)
-    
+
     (smartparens-global-mode t)
   #+end_src
 
@@ -21,9 +21,9 @@
    #+begin_src emacs-lisp
      (add-to-list 'sp-ignore-modes-list 'reb-mode)
    #+end_src
-   
 
-* Configure smartparens for html/xml 
+
+* Configure smartparens for html/xml
 ** Use smartparens navigating around html/xml tags as well
   #+begin_src emacs-lisp
     (sp-with-modes '(web-mode sgml-mode nxml-mode apache-mode)
@@ -37,7 +37,7 @@
 ** Treat expression with same opening and closing delimiter as sexp
   #+begin_src emacs-lisp
     (add-to-list 'sp-navigate-consider-stringlike-sexp 'web-mode)
-  #+end_src   
+  #+end_src
 
 ** Wrapping with tags in web-mode
   #+begin_src emacs-lisp
@@ -54,10 +54,10 @@
 
 * Do not autopair "`" and "'" in lisp buffer
   #+begin_src emacs-lisp
-    (sp-local-pair '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode) 
-                   "`" "'" 
+    (sp-local-pair '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode)
+                   "`" "'"
                    :when '(sp-in-string-p sp-in-comment-p))
-    
+
     (sp-local-pair '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode)
                    "'" nil
                    :actions nil)
@@ -76,7 +76,7 @@
     (setq sp-highlight-wrap-overlay nil)
     (setq sp-highlight-wrap-tag-overlay nil)
   #+end_src
-  
+
 
 * Always skip closing parenthesis
   #+begin_src emacs-lisp
@@ -88,49 +88,49 @@
   #+begin_src emacs-lisp
     (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
     (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
-    
+
     (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
     (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
-    
+
     (define-key sp-keymap (kbd "C-M-u") 'sp-up-sexp)
     (define-key sp-keymap (kbd "C-M-S-u") 'sp-backward-up-sexp)
     (define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
     (define-key sp-keymap (kbd "C-M-S-d") 'sp-backward-down-sexp)
   #+end_src
-  
-  
+
+
 * Keybindings for manipulating sexps using smartparens
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
     (define-key sp-keymap (kbd "C-M-S-k") 'sp-backward-kill-sexp)
     (define-key sp-keymap (kbd "C-M-;") 'sp-kill-hybrid-sexp)
-    
+
     (define-key sp-keymap (kbd "C-M-r") 'sp-rewrap-sexp)
     (define-key sp-keymap (kbd "C-M-S-r") 'sp-swap-enclosing-sexp)
-    
+
     (define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp)
     (define-key sp-keymap (kbd "C-M-S-w") 'sp-backward-copy-sexp)
-    
+
     (define-key sp-keymap (kbd "C-M-j") 'sp-join-sexp)
     (define-key sp-keymap (kbd "C-M-S-j") 'sp-split-sexp)
     (define-key sp-keymap (kbd "C-M-S-t") 'sp-transpose-sexp)
-    
+
     (define-key sp-keymap (kbd "M-S-<delete>") 'sp-unwrap-sexp)
     (define-key sp-keymap (kbd "M-S-<backspace>") 'sp-backward-unwrap-sexp)
-    
+
     (define-key sp-keymap (kbd "C-M-s") 'sp-splice-sexp)
     (define-key sp-keymap (kbd "C-{") 'sp-splice-sexp-killing-forward)
     (define-key sp-keymap (kbd "C-}") 'sp-splice-sexp-killing-backward)
     (define-key sp-keymap (kbd "C-M-|") 'sp-splice-sexp-killing-around)
-    
+
     (define-key sp-keymap (kbd "C-M->") 'sp-forward-slurp-sexp)
     (define-key sp-keymap (kbd "C-M-<") 'sp-backward-slurp-sexp)
     (define-key sp-keymap (kbd "C-M-.") 'sp-forward-barf-sexp)
     (define-key sp-keymap (kbd "C-M-,") 'sp-backward-barf-sexp)
-    
+
     (define-key sp-keymap (kbd "<C-left_bracket>") 'sp-select-previous-thing)
     (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing)
-    
+
     (define-key sp-keymap (kbd "C->") 'sp-add-to-next-sexp)
     (define-key sp-keymap (kbd "C-<") 'sp-add-to-previous-sexp)
   #+end_src

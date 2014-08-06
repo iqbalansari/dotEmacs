@@ -1,5 +1,5 @@
 * Ensure that required packages are installed
-  + [[http://magit.github.io/magit/][magit]] - Makes the most git operations convenient 
+  + [[http://magit.github.io/magit/][magit]] - Makes the most git operations convenient
   + [[https://github.com/dgutov/diff-hl][diff-hl]] - Emacs package for highlighting uncommitted changes
   + [[https://github.com/syohex/emacs-git-messenger][git-messenger]] - Popup commit message at current line
   + [[https://github.com/pidu/git-timemachine][git-timemachine]] - Walk through git revisions of a file
@@ -10,7 +10,7 @@
         git-timemachine
         git-messenger
         magit-gitflow))
-    
+
     (el-get 'sync my-version-control-packages)
   #+end_src
 
@@ -24,28 +24,28 @@
 * Ignore whitespace in magit
   The following function enable hiding of whitespace changes in
   magit status buffer. Copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
-  
+
   #+begin_src emacs-lisp
     (defun magit-toggle-whitespace ()
       (interactive)
       (if (member "-w" magit-diff-options)
           (magit-dont-ignore-whitespace)
         (magit-ignore-whitespace)))
-    
+
     (defun magit-ignore-whitespace ()
       (interactive)
       (add-to-list 'magit-diff-options "-w")
       (magit-refresh))
-    
+
     (defun magit-dont-ignore-whitespace ()
       (interactive)
       (setq magit-diff-options (remove "-w" magit-diff-options))
       (magit-refresh))
   #+end_src
-  
+
 
 * Use 'emacsclient' as editor
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (setenv "EDITOR" "emacsclient")
   #+end_src
 
@@ -57,7 +57,7 @@
 
 
 * Fullscreen magit
-  Start magit in fullscreen, on exit (from magit) restore 
+  Start magit in fullscreen, on exit (from magit) restore
   window configuration. Again copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
 
   #+begin_src emacs-lisp
@@ -66,43 +66,43 @@
          (window-configuration-to-register :magit-fullscreen)
          ad-do-it
          (delete-other-windows)))
-    
+
     (defun magit-quit-session ()
       "Restores the previous window configuration and kills the magit buffer"
       (interactive)
       (kill-buffer)
       (jump-to-register :magit-fullscreen))
   #+end_src
-  
+
 
 * Configurations for magit-repos-dir
   If projectile is present then configure magit to prompt for the
   projectile projects that are also git repositories, when magit is
   invoked with a prefix argument or from a non-git folder
   #+begin_src emacs-lisp
-    (eval-after-load "projectile" 
+    (eval-after-load "projectile"
       '(progn (setq magit-repo-dirs (mapcar (lambda (dir)
                                               (substring dir 0 -1))
                                             (remove-if-not (lambda (project)
-                                                             (file-directory-p (concat project "/.git/"))) 
+                                                             (file-directory-p (concat project "/.git/")))
                                                            (projectile-relevant-known-projects)))
-    
+
                     magit-repo-dirs-depth 1)))
   #+end_src
-  
+
 
 * Keybindings
-  
+
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x g") 'magit-status)
-    
-    (eval-after-load "magit"      
+
+    (eval-after-load "magit"
       '(progn (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
              (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)))
-    
+
     (eval-after-load "git-commit-mode"
       '(define-key git-commit-mode-map (kbd "C-c C-k") 'git-commit-abort))
-    
+
     (global-set-key (kbd "C-x v p") 'git-messenger:popup-message)
   #+end_src
 
@@ -111,7 +111,7 @@
   #+begin_src emacs-lisp
     (global-diff-hl-mode)
   #+end_src
-  
+
 
 * Disable vc for git repositories
   #+begin_src emacs-lisp

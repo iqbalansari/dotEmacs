@@ -2,7 +2,7 @@
   #+begin_src emacs-lisp
     (dolist (letter '("r" "o" "l" "m" "i" "t"))
       (define-key ensime-mode-map (kbd (concat "C-c C-r " letter)) nil))
-    
+
     (define-key ensime-mode-map (kbd "C-c C-r") nil)
   #+end_src
 
@@ -38,7 +38,7 @@
       (with-temp-buffer
         (insert string)
         (sbt:send-region (point-min) (point-max))))
-    
+
     (local-set-key my-send-region #'sbt-send-region)
     (local-set-key my-send-buffer (my-evaluate-buffer-in-repl my-scala-eval-buffer my-sbt-send-string))
     (local-set-key my-send-line (my-evaluate-line-in-repl my-scala-eval-line my-sbt-send-string))

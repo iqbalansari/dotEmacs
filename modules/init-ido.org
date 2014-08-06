@@ -11,29 +11,29 @@
         ido-ubiquitous
         idomenu
         smex))
-    
+
     (el-get 'sync my-ido-packages)
   #+end_src
-  
-	
+
+
 * Enable ido-mode
   #+begin_src emacs-lisp
     (ido-mode t)
   #+end_src
 
-  
+
 * Use flx for better flex matching
   #+begin_src emacs-lisp
     (flx-ido-mode t)
   #+end_src
 
-  
+
 * Use ido everywhere
   #+begin_src emacs-lisp
     (ido-ubiquitous-mode t)
   #+end_src
-   
-   
+
+
 * Use flex matching with Ido
    #+begin_src emacs-lisp
      (setq ido-enable-flex-matching t)
@@ -53,8 +53,8 @@
                          (insert ".emacs.d/")
                        (if (looking-back "/")
                            (insert "~/")
-                         (call-interactively 'self-insert-command)))))))     
-   #+end_src   
+                         (call-interactively 'self-insert-command)))))))
+   #+end_src
 
 
 * Use virtual buffers
@@ -74,7 +74,7 @@
      (global-set-key (kbd "C-c m") 'idomenu)
    #+end_src
 
-   
+
 * Keybindings for smex
    #+begin_src emacs-lisp
      (global-set-key (kbd "M-x") 'smex)
@@ -87,7 +87,7 @@
    'buffer-read-only' error
    #+begin_src emacs-lisp
      (add-hook 'ido-setup-hook 'ido-my-keys)
-     
+
      (defun ido-my-keys ()
        "Add my keybindings for ido."
        (define-key ido-file-dir-completion-map (kbd "<M-backspace>") 'ido-delete-backward-updir))

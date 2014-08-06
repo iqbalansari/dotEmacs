@@ -5,7 +5,7 @@
    #+begin_src emacs-lisp
      (defvar my-home-dir (concat (expand-file-name "~/.emacs.d/")))
    #+end_src
-   
+
 ** 2. Path to 'non-el-get' packages
   Packages not currently installable via el-get reside in this directory
   #+begin_src emacs-lisp
@@ -37,7 +37,7 @@
        (with-temp-buffer
          (insert-file-contents-literally path)
          (buffer-substring-no-properties (point-min) (point-max))))
-     
+
      (defun my-write-to-file (file data)
        (with-temp-file file
          (erase-buffer)
@@ -51,51 +51,51 @@
    if any of the org files change
    #+begin_src emacs-lisp
      (defun my-install-lang (language)
-       (interactive 
-        (list (ido-completing-read "Language: " 
+       (interactive
+        (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
-       
-       (let ((install-file (concat my-langs-dir 
+
+       (let ((install-file (concat my-langs-dir
                                    language "/install.org")))
          (when (file-exists-p install-file)
            (org-babel-load-file install-file))))
-     
+
      (defun my-compile-lang-config (lang)
        (let* ((files '("install" "setup" "keybindings"))
               (lang-path (concat my-langs-dir lang "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
-         
+
          (unless (file-exists-p compiled-file-dest)
            (make-directory compiled-file-dest))
-         
-         (my-write-to-file compiled-file 
+
+         (my-write-to-file compiled-file
                            (loop for file in files
                                  when (file-exists-p (concat lang-path file ".org"))
-                                 concat (my-read-file (car (org-babel-tangle-file 
+                                 concat (my-read-file (car (org-babel-tangle-file
                                                             (concat lang-path file ".org")
                                                             (concat compiled-file-dest file ".el")
                                                             "emacs-lisp")))))
          (byte-compile-file compiled-file)))
-     
+
      (defun my-load-lang (language)
-       (interactive 
-        (list (ido-completing-read "Language: " 
+       (interactive
+        (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
        (let* ((files '("install" "setup" "keybindings"))
               (lang-path (concat my-langs-dir language "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
-         
-         (when (apply #'my-is-file-stale compiled-file 
-                      (loop for file in files 
+
+         (when (apply #'my-is-file-stale compiled-file
+                      (loop for file in files
                             when (file-exists-p (concat lang-path file ".org"))
                             collect (concat lang-path file ".org")))
            (my-compile-lang-config language))
-         
+
          (load-file compiled-file)))
-     
-     
+
+
      (defun my-compile-all-lang-config ()
        (interactive)
        (dolist (lang (directory-files my-langs-dir nil "[^.]+"))
@@ -121,24 +121,24 @@
           (interactive)
           (,send-string-func (buffer-substring (line-beginning-position)
                                                     (line-end-position)))))
-     
+
      (defmacro my-evaluate-file-in-repl (name send-string-func)
        `(defun ,name (file)
           (interactive (list (ido-read-file-name "File to evaluate: ")))
           (,send-string-func (my-read-file file))))
-     
+
      (defmacro my-evaluate-buffer-in-repl (name send-string-func)
        `(defun ,name ()
           (interactive)
           (,send-string-func (buffer-string))))
-     
+
      (defmacro my-evaluate-defun-in-repl (name send-string-func)
        `(defun ,name ()
           (interactive)
           (let ((start (save-excursion (beginning-of-defun) (point)))
                 (end   (save-excursion (end-of-defun) (point))))
             (,send-string-func (buffer-substring start
-                                                 end)))))     
+                                                 end)))))
    #+end_src
 
 ** 9. Highlighting the line to reorient the user
@@ -146,7 +146,7 @@
      (defun my-highlight-line ()
        (require 'pulse)
        (pulse-momentary-highlight-one-line (point)))
-     
+
      (defmacro my-highlight-line-after-func (func)
        `(progn (defadvice ,func (after highlight-current-line
                                             (&rest args))
@@ -180,9 +180,9 @@
      (global-set-key (kbd "C-x r q") 'save-buffers-kill-emacs)
    #+end_src
 
-   
 
-* Enable some disable commands
+
+* Enable some disabled commands
   #+begin_src emacs-lisp
     (put 'narrow-to-region 'disabled nil)
     (put 'scroll-left 'disabled nil)
@@ -231,7 +231,7 @@
   #+begin_src emacs-lisp
     (fset 'yes-or-no-p 'y-or-n-p)
   #+end_src
-  
+
 
 * Create auto-save directory if it does not already exist
   #+begin_src emacs-lisp
@@ -239,11 +239,11 @@
       (make-directory "~/.emacs.d/auto-save/"))
   #+end_src
 
-  
+
 * Declare common keybindings
-  These don't actually bind any command rather they define the keys that will 
-  be used for common actions across multiple modes for commands 
-  like jumping-to-definition etc. These keys will be bound to actual 
+  These don't actually bind any command rather they define the keys that will
+  be used for common actions across multiple modes for commands
+  like jumping-to-definition etc. These keys will be bound to actual
   functions by the respective major modes.
 
 ** Jumping to definitions
@@ -263,7 +263,7 @@
    #+end_src
 
 ** Refactoring
-   #+begin_src emacs-lisp     
+   #+begin_src emacs-lisp
      (defvar my-refactor-rename (kbd "C-c r"))
      (defvar my-refactor-auto-import (kbd "C-c i"))
      (defvar my-refactor-organize-imports (kbd "C-c o"))
@@ -280,13 +280,13 @@
      (defvar my-send-phrase/sexp/block (kbd "C-c C-e"))
    #+end_src
 
-   
-* Bootstrap el-get 
+
+* Bootstrap el-get
   Install El-Get is not installed and configure it
 ** Initialize El-Get
    #+begin_src emacs-lisp
      (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-     
+
      (unless (require 'el-get nil 'noerror)
        (with-current-buffer
            (url-retrieve-synchronously
@@ -295,18 +295,18 @@
            (goto-char (point-max))
            (eval-print-last-sexp))))
    #+end_src
-   
+
 ** Path to El-Get recipies
    Use recipies from this directory
    #+begin_src emacs-lisp
        (add-to-list 'el-get-recipe-path "~/.emacs.d/recipies/")
    #+end_src
 
-** Start El-Get   
+** Start El-Get
    #+begin_src emacs-lisp
      (el-get 'sync)
    #+end_src
-   
+
 
 * Initialize package management
   Initialize package manager and add repositories
@@ -330,13 +330,13 @@
   #+begin_src emacs-lisp
     (defvar my-elisp-packages
       '(el-spice))
-    
+
     (el-get 'sync my-elisp-packages)
-    
+
     (add-hook 'emacs-lisp-mode-hook 'el-spice-mode)
     (add-hook 'lisp-interaction-mode-hook 'el-spice-mode)
   #+end_src
-  
+
 
 * Configure loading of the major modes
 ** C
@@ -361,18 +361,18 @@
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda ()
                                                       (my-load-lang "html"))))
-   #+end_src  
+   #+end_src
 
 ** CSS mode
   #+begin_src emacs-lisp
     (add-hook 'css-mode-hook (lambda ()
                                   (my-load-lang "css")))
   #+end_src
-  
+
 ** Scheme mode
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
-     
+
      (add-hook 'scheme-mode-hook (lambda ()
                                 (my-load-lang "scheme")))
    #+end_src
@@ -382,7 +382,7 @@
      (add-hook 'lisp-mode-hook (lambda ()
                                 (my-load-lang "common-lisp")))
    #+end_src
-   
+
 ** SML mode
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.\\(sml\\|sig\\)\\'" . (lambda ()
@@ -417,7 +417,7 @@
      (add-to-list 'auto-mode-alist '("httpd\\.conf\\'"  . my-load-apache-conf))
      (add-to-list 'auto-mode-alist '("srm\\.conf\\'"    . my-load-apache-conf))
      (add-to-list 'auto-mode-alist '("access\\.conf\\'" . my-load-apache-conf))
-     (add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . my-load-apache-conf))     
+     (add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . my-load-apache-conf))
    #+end_src
 
 ** Scala
@@ -439,7 +439,7 @@
 
    The libaries are loaded by the file 'modules/init-modules.org'
    #+begin_src emacs-lisp
-     (when (file-newer-than-file-p "~/.emacs.d/modules/init-modules.org" 
+     (when (file-newer-than-file-p "~/.emacs.d/modules/init-modules.org"
                                    "~/.emacs.d/modules/.compiled/init-modules.el")
        (org-babel-tangle-file "~/.emacs.d/modules/init-modules.org"
                               "~/.emacs.d/modules/.compiled/init-modules.el"
@@ -447,4 +447,3 @@
 
      (load-file "~/.emacs.d/modules/.compiled/init-modules.el")
    #+end_src
-   

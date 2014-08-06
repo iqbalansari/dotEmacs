@@ -1,7 +1,7 @@
 * Utility function to display popup messages
   #+begin_src emacs-lisp
     (defvar my-singleton-popup-displaying? nil)
-    
+
     (defun my-singleton-popup (popup-string)
       (unless my-singleton-popup-displaying?
         (setq my-singleton-popup-displaying? t)
@@ -24,38 +24,38 @@
                 (popup-delete popup-instance)
                 (setq my-singleton-popup-displaying? nil)))
           (error (setq my-singleton-popup-displaying? nil)))))
-    
+
   #+end_src
 
 
 * Code to speed up the loading of modules
-  Loading all of the config files at the startup is expensive since 
-  each file first converted from .org to .el files and then loaded 
-  separately to overcome this we do the following 
-  1) Convert the org mode files to el files 
+  Loading all of the config files at the startup is expensive since
+  each file first converted from .org to .el files and then loaded
+  separately to overcome this we do the following
+  1) Convert the org mode files to el files
   2) Combine their code in one file and load it
-  
+
   Now at subsequent emacs startups we first check if any org
   file is newer then the compiled file, if so repeat step 1) and 2)
   This way the startup will be slow only when any of the org files
   are modified or there is some new org file, otherwise it will be
   faster since we load a single file
-  #+begin_src emacs-lisp    
+  #+begin_src emacs-lisp
     (defvar my-modules-dir "~/.emacs.d/modules/")
     (defvar my-modules-compiled-dir (concat my-modules-dir ".compiled/"))
-    
+
     (defvar my-tangled-modules (concat my-modules-compiled-dir ".combined.el"))
     (defvar my-previous-modules-file (concat my-modules-compiled-dir ".previous-modules"))
-    
+
     (defvar my-previous-modules (when (file-exists-p my-previous-modules-file)
                                      (read (my-read-file my-previous-modules-file))))
-    
+
     (defun my-get-module-org-file (module)
       (concat my-modules-dir "init-" (symbol-name module) ".org"))
-    
+
     (defun my-get-module-el-file (module)
       (concat my-modules-compiled-dir "init-" (symbol-name module) ".el"))
-    
+
     (defun my-get-changed-module-files (modules)
       (if (file-exists-p my-tangled-modules)
           (remove-if-not (lambda (module)
@@ -63,7 +63,7 @@
                                                (my-get-module-el-file module)))
                      modules)
         modules))
-    
+
     (defun my-combine-modules (modules target)
       (my-write-to-file target
                            (reduce (lambda (code module)
@@ -71,26 +71,26 @@
                                              (my-read-file (my-get-module-el-file module))))
                                      modules :initial-value ""))
       (byte-compile-file target))
-    
+
     (defun my-compile-modules (modules)
       (dolist (module modules)
         (org-babel-tangle-file (my-get-module-org-file module)
                                (my-get-module-el-file module)
                                "emacs-lisp")))
-    
+
     (defun my-regenerate-compiled-file-maybe (current-modules previous-modules target)
       (let ((stale-modules (my-get-changed-module-files current-modules))
             (module-list-changed? (set-exclusive-or previous-modules current-modules)))
         (when (or stale-modules module-list-changed?)
           (my-compile-modules stale-modules)
           (my-combine-modules current-modules target))))
-    
+
     (defun my--compile-and-load-modules (current-modules)
       (my-regenerate-compiled-file-maybe current-modules my-previous-modules my-tangled-modules)
       (my-write-to-file my-previous-modules-file
                            (prin1-to-string current-modules))
       (load-file my-tangled-modules))
-    
+
     (defun my-remove-generated-files ()
       (interactive)
       (let ((compiled-folders (mapcar (lambda (folder)
@@ -98,16 +98,16 @@
                                       (append (remove-if-not #'file-directory-p
                                                              (directory-files my-langs-dir t "[^.]+"))
                                               (list my-modules-dir)))))
-    
+
         (dolist (folder compiled-folders)
           (when (file-exists-p folder)
             (delete-directory folder t nil)))))
-    
+
     (defun my-compile-and-load-modules ()
       (interactive)
       (unless (file-exists-p my-modules-compiled-dir)
         (make-directory my-modules-compiled-dir))
-    
+
       (my--compile-and-load-modules my-modules-list))
   #+end_src
 
@@ -115,14 +115,13 @@
 * List of modules to be loaded
   #+begin_src emacs-lisp
     (defvar my-modules-list '(display auto-complete backup files buffers dired editing
-                                         navigation search-replace ido parenthesis syntax-check 
+                                         navigation search-replace ido parenthesis syntax-check
                                          shell org utilities version-control yasnippet project
-                                         window-management mail))
+                                         window-management))
   #+end_src
 
-  
+
 * Load the modules
   #+begin_src emacs-lisp
     (my-compile-and-load-modules)
   #+end_src
-  

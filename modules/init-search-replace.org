@@ -4,7 +4,7 @@
       '(visual-regexp
         wgrep
         anzu))
-          
+
     (el-get 'sync my-search-replace-packages)
   #+end_src
 
@@ -73,7 +73,7 @@
          (isearch-exit)
          ))
    #+end_src
-      
+
 ** Some addtional keybindings
    #+begin_src emacs-lisp
      (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
@@ -92,15 +92,15 @@
 
 * Replace words in parallel taken from [[http://stackoverflow.com/questions/2588277/how-can-i-swap-or-replace-multiple-strings-in-code-at-the-same-time][stackoverflow]]
 
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (defun parallel-query-replace (plist &optional delimited start end)
       "Replace every occurrence of the (2n)th token of PLIST in
     buffer with the (2n+1)th token; if only two tokens are provided,
     replace them with each other (ie, swap them).
-    
+
     If optional second argument DELIMITED is nil, match words
     according to syntax-table; otherwise match symbols.
-    
+
     When called interactively, PLIST is input as space separated
     tokens, and DELIMITED as prefix arg."
       (interactive
@@ -122,14 +122,14 @@
                                                                      case-fold-search)))))
         (query-replace-regexp matcher to-spec nil start end)))
   #+end_src
-  
+
 
 * Function to search all the buffers
   #+begin_src emacs-lisp
     ;; I know that string is in my Emacs somewhere!
     (defvar search-all-buffers-ignored-files (list (rx-to-string '(and bos (or ".bash_history" "TAGS") eos)))
       "Files to ignore when searching buffers via \\[search-all-buffers].")
-    
+
     (defun search-all-buffers (regexp prefix)
       "Searches file-visiting buffers for occurence of REGEXP.  With
     prefix > 1 (i.e., if you type C-u \\[search-all-buffers]),
@@ -143,19 +143,19 @@
          (cl-remove-if
           (lambda (b) (cl-some (lambda (rx) (string-match rx  (file-name-nondirectory (buffer-file-name b)))) search-all-buffers-ignored-files))
           (cl-remove-if-not 'buffer-file-name (buffer-list))))
-    
+
        regexp))
-    
+
     (global-set-key [f7] 'search-all-buffers)
   #+end_src
-  
+
 
 * Keybindings for visual-regexp
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-M-%") 'vr/query-replace)
     (global-set-key (kbd "C-S-v") 'vr/mc-mark)
   #+end_src
-  
+
 
 * Configurations for anzu
 ** Load anzu
@@ -181,10 +181,10 @@
   #+begin_src emacs-lisp
     (defadvice isearch-repeat-forward (after isearch-repeat-forward-recenter activate)
       (recenter))
-    
+
     (defadvice isearch-repeat-backward (after isearch-repeat-backward-recenter activate)
       (recenter))
-    
+
     (ad-activate 'isearch-repeat-forward)
     (ad-activate 'isearch-repeat-backward)
   #+end_src

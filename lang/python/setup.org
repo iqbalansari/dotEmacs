@@ -31,7 +31,7 @@
      (defun my-py-send-region (beg end)
        (interactive "r")
        (python-shell-send-string (elpy--region-without-indentation beg end)))
-     
+
      (defun my-py-send-line ()
        (interactive)
        (python-shell-send-string (elpy--region-without-indentation (line-beginning-position)
@@ -89,15 +89,15 @@
 
 ** Function for moving at start of function
    #+begin_src emacs-lisp
-     (my-py-define-nav-command my-py-begining-of-defun 
+     (my-py-define-nav-command my-py-begining-of-defun
                                "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
                                python-nav-beginning-of-defun)
    #+end_src
 
 ** Function for moving at end of function
    #+begin_src emacs-lisp
-     (my-py-define-nav-command my-py-end-of-defun 
-                               "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)" 
+     (my-py-define-nav-command my-py-end-of-defun
+                               "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
                                my-python-nav-end-of-defun)
    #+end_src
 
@@ -120,20 +120,20 @@
 ** Functions for finding current python modules and generating auto-import cache
    #+begin_src emacs-lisp
      (defvar my-python-modules-code "python -c 'import pkgutil; print tuple([i[1] for i in pkgutil.iter_modules()])'")
-     
+
      (defun my-parse-and-store-python-modules (buffer file)
        (with-current-buffer buffer
          ;; Replace all ' with " to make them lisp strings
          (goto-char (point-min))
          (while (search-forward "'" nil t)
            (replace-match "\"" nil t))
-     
+
          (goto-char (point-min))
          (while (search-forward "," nil t)
            (replace-match "" nil t))
-         
+
          (my-write-to-file file (buffer-string))))
-     
+
      (defun my-read-existing-python-modules (callback)
        (with-current-buffer (get-buffer-create "python-modules")
          (erase-buffer))
@@ -141,20 +141,20 @@
                                                           "python-modules"
                                                           my-python-modules-code)
                              callback))
-     
+
      (defun my--generate-auto-import-cache (project-dir &optional force)
        (lexical-let ((modules-file (when project-dir
                                      (concat project-dir "/.modules"))))
          (when (and modules-file
                     (or force
                         (not (file-exists-p modules-file))))
-     
+
            (my-read-existing-python-modules (lambda (proc state)
                                                  (when (equal state "finished\n")
                                                    (my-parse-and-store-python-modules (process-buffer proc) modules-file)
                                                    (setq ropemacs-autoimport-modules (read (my-read-file modules-file)))
                                                    (rope-generate-autoimport-cache)))))))
-     
+
      (defun my-generate-auto-import-cache (force)
        (interactive (list t))
        (let ((project-dir (when (buffer-file-name)
@@ -172,12 +172,12 @@
      (setq ropemacs-local-prefix nil)
      (setq ropemacs-global-prefix nil)
    #+end_src
-   
+
    2. Enable autoimport
    #+begin_src emacs-lisp
      (setq ropemacs-enable-autoimport t)
    #+end_src
-   
+
 ** Start ropemacs
    Load pymacs and load rope, if not already loaded
    #+begin_src emacs-lisp
@@ -199,21 +199,21 @@
                        (ignore-errors (projectile-project-root))
                        root))
        ad-do-it)
-     
+
      (ad-activate 'rope-open-project)
-     
+
      (defun my-open-rope-project (root)
        (interactive  "D")
        (rope-open-project root))
    #+end_src
 
-  
+
 * Setup flycheck for error checking
 ** Enable flycheck-mode
   #+begin_src emacs-lisp
     (flycheck-mode)
   #+end_src
-  
+
 ** Use pylint for syntax checking
    #+begin_src emacs-lisp
      (flycheck-select-checker 'python-pylint)
@@ -235,14 +235,14 @@
 
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp 
+  #+begin_src emacs-lisp
     (hs-minor-mode)
   #+end_src
 
 
 * Use ipython if available
   #+begin_src emacs-lisp
-    (when (executable-find "ipython") 
+    (when (executable-find "ipython")
       (setq
        python-shell-interpreter "ipython"
        python-shell-prompt-regexp "In \\[[0-9]+\\]: "

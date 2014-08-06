@@ -1,4 +1,4 @@
-* Ensure that required packages are installed  
+* Ensure that required packages are installed
   #+begin_src emacs-lisp
     (el-get 'sync 'yasnippet)
   #+end_src
@@ -17,4 +17,3 @@
                 (remove 'yas-ido-prompt
                         yas-prompt-functions)))
   #+end_src
-  

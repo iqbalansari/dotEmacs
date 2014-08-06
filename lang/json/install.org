@@ -1,11 +1,10 @@
 * Ensure that the required packages are installed
-	
+
   #+begin_src emacs-lisp
     (defvar my-json-packages
       '(json-mode
         json-snatcher))
-    
-    (el-get 'sync my-json-packages)
-    
-  #+end_src
 
+    (el-get 'sync my-json-packages)
+
+  #+end_src

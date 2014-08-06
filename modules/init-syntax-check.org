@@ -30,7 +30,7 @@
                              level flycheck-indication-mode)))
              (overlay-put overlay 'help-echo (flycheck-error-message err))
              overlay))))
-     
+
      (eval-after-load 'flycheck
        '(add-to-list 'flycheck-process-error-functions #'my-add-lines-for-errors))
    #+end_src
@@ -50,10 +50,10 @@
              ;; Showing/hiding popups triggers a text change which in turn
              ;; triggers syntax check
              (setq inhibit-modification-hooks t)
-             (pos-tip-show (mapconcat (lambda (message) (concat "  " message "  ")) 
-                                                       messages 
+             (pos-tip-show (mapconcat (lambda (message) (concat "  " message "  "))
+                                                       messages
                                                        "\n"))
              (setq inhibit-modification-hooks nil)))))
-     
+
      (setq flycheck-display-errors-function #'my-display-messages-in-popup)
    #+end_src

@@ -36,7 +36,7 @@
   #+begin_src emacs-lisp
     (emmet-mode)
   #+end_src
-  
+
 
 * Function for cleaning up messy markup :IMPROVE:
   #+begin_src emacs-lisp
@@ -51,5 +51,5 @@
         (goto-char beginning)
         (while (re-search-forward "\\( \\)[^ ]+=" end t)
           (replace-match "\n" nil nil nil 1))
-        (indent-region beginning end)))    
+        (indent-region beginning end)))
   #+end_src

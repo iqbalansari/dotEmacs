@@ -24,7 +24,7 @@
    #+end_src
 
 
-* Set keybindings for jumping to definition  
+* Set keybindings for jumping to definition
   #+begin_src emacs-lisp
     (local-set-key my-jump-to-definition 'jedi:goto-definition)
     (local-set-key my-pop-jump-to-definition-marker 'jedi:goto-definition-pop-marker)
@@ -40,23 +40,22 @@
                                           (switches
                                            ("-d" "Drop into debugger on errors" "--pdb"))
                                           (actions
-                                           ("a" "Run all nose tests" 
+                                           ("a" "Run all nose tests"
                                             (lambda (options) (my-execute-nose-tests options #'nosetests-all)))
-                                           ("b" "Run nosetests on current buffer" 
+                                           ("b" "Run nosetests on current buffer"
                                             (lambda (options) (my-execute-nose-tests options #'nosetests-module)))
                                            ("p" "Run nosetests on testable thing at point in current buffer"
                                             (lambda (options) (my-execute-nose-tests options #'nosetests-one))))))))
-    
+
     (defun my-execute-nose-tests (options nose-fn)
       (let ((debug (assoc "--pdb" options)))
         (funcall nose-fn debug)))
   #+end_src
-  
+
 
 * Set keybindings for refactoring
   #+begin_src emacs-lisp
     (local-set-key my-refactor-rename 'rope-rename)
     (local-set-key my-refactor-auto-import 'rope-auto-import)
-    (local-set-key my-refactor-organize-imports 'rope-organize-imports)  
+    (local-set-key my-refactor-organize-imports 'rope-organize-imports)
   #+end_src
-

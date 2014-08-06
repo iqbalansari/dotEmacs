@@ -7,11 +7,11 @@
         volatile-highlights
         color-theme-sanityinc
         nyan-mode))
-    
+
     (el-get 'sync my-display-packages)
   #+end_src
-  
-  
+
+
 * Do not show the startup screen
   #+begin_src emacs-lisp
     (setq inhibit-startup-screen t)
@@ -23,17 +23,17 @@
     (color-theme-sanityinc-light)
   #+end_src
 
-  
+
 * Don't show menubar, scrollbar and toolbar
   #+begin_src emacs-lisp
     (menu-bar-mode -1)
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
   #+end_src
-  
-  
+
+
 * Use Source Code Pro / Consolas font if available
-  #+begin_src emacs-lisp    
+  #+begin_src emacs-lisp
     (cond ((member "Source Code Pro" (font-family-list)) (set-frame-font "Source Code Pro-11"))
           ((member "Consolas" (font-family-list)) (set-frame-font "Consolas-11.8:light")))
   #+end_src
@@ -47,7 +47,7 @@
             :foreground ,(face-attribute 'linum :background nil t)))
        "Face for displaying leading zeroes for line numbers in display margin."
        :group 'linum)
-     
+
      (defun linum-format-func (line)
        (let ((w (length
                  (number-to-string (count-lines (point-min) (point-max))))))
@@ -55,7 +55,7 @@
           (propertize (make-string (- w (length (number-to-string line))) ?0)
                       'face 'linum-leading-zero)
           (propertize (concat " " (number-to-string line) " ") 'face 'linum))))
-     
+
      ;; Line numbers in margin
                                              ;(global-linum-mode t)
      (setq linum-format 'linum-format-func)
@@ -65,19 +65,19 @@
    #+begin_src emacs-lisp
      (add-to-list 'linum-disabled-modes-list '(speedbar-mode))
    #+end_src
-   
+
 
 * Customizations for modeline
 ** Show date time in modeline
    #+begin_src emacs-lisp
      (display-time-mode 1)
-     (setq display-time-day-and-date t) 
+     (setq display-time-day-and-date t)
    #+end_src
 ** Display current column number
    #+begin_src emacs-lisp
      (column-number-mode)
    #+end_src
-      
+
 
 * Highlight changes in the buffer
 ** Configuration for highlight changes mode
@@ -87,9 +87,9 @@
     (set-face-foreground 'highlight-changes nil)
     (set-face-background 'highlight-changes "#382f2f")
     (set-face-foreground 'highlight-changes-delete nil)
-    (set-face-background 'highlight-changes-delete "#916868")    
+    (set-face-background 'highlight-changes-delete "#916868")
   #+end_src
-  
+
 ** Keybindings for highlight changes mode
    #+begin_src emacs-lisp
      (global-set-key (kbd "<f6>") 'highlight-changes-visible-mode)
@@ -97,19 +97,19 @@
      (global-set-key (kbd "<C-S-f6>") 'highlight-changes-previous-change)
    #+end_src
 
-  
+
 * Highlight current line
   #+begin_src emacs-lisp
     (global-hl-line-mode)
-  #+end_src  
-  
+  #+end_src
 
-* Temporarily highlight yanks and undos 
+
+* Temporarily highlight yanks and undos
   #+begin_src emacs-lisp
     (volatile-highlights-mode 1)
   #+end_src
 
-  
+
 * Display the keys pressed the minibuffer
   #+begin_src emacs-lisp
     (setq echo-keystrokes 0.01)
@@ -121,18 +121,18 @@
    #+begin_src emacs-lisp
      (setq-default cursor-type 'box)
    #+end_src
-   
+
 ** Don't blink the cursor
    #+begin_src emacs-lisp
      (blink-cursor-mode 0)
    #+end_src
-   
+
 
 * Change the cursor display according to minor modes
   #+begin_src emacs-lisp
     (defvar my-set-cursor-color-color nil)
     (defvar my-set-cursor-color-buffer nil)
-    
+
     (defun my-set-cursor-color-according-to-mode ()
       "Change cursor color according to some minor modes."
       (let ((color
@@ -143,7 +143,7 @@
                      (string= (buffer-name) my-set-cursor-color-buffer))
           (set-cursor-color (setq my-set-cursor-color-color color))
           (setq my-set-cursor-color-buffer (buffer-name)))))
-     
+
     (add-hook 'post-command-hook 'my-set-cursor-color-according-to-mode)
   #+end_src
 
@@ -153,7 +153,7 @@
   borrowed from emacswiki
   #+begin_src emacs-lisp
     (defvar my-fullscreen-p t "Check if fullscreen is on or off")
-    
+
     (defun my-non-fullscreen ()
       (interactive)
       (if (fboundp 'w32-send-sys-command)
@@ -161,25 +161,25 @@
           (w32-send-sys-command 61728)
         (progn (set-frame-parameter nil 'width 82)
                (set-frame-parameter nil 'fullscreen 'fullheight))))
-    
+
     (defun my-fullscreen ()
       (interactive)
       (if (fboundp 'w32-send-sys-command)
           ;; WM_SYSCOMMAND maximaze #xf030
           (w32-send-sys-command 61488)
         (set-frame-parameter nil 'fullscreen 'fullboth)))
-    
+
     (defun my-toggle-fullscreen ()
       (interactive)
       (setq my-fullscreen-p (not my-fullscreen-p))
       (if my-fullscreen-p
           (my-non-fullscreen)
         (my-fullscreen)))
-    
+
     (global-set-key (kbd "<f11>") 'my-toggle-fullscreen)
   #+end_src
-  
-  
+
+
 * Diminsh some minor modes
   #+begin_src emacs-lisp
     (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
@@ -197,7 +197,7 @@
     (eval-after-load "hilit-chg" '(diminish 'highlight-changes-mode))
     (eval-after-load "tern" '(diminish 'tern-mode))
   #+end_src
-  
+
 
 * Use smooth-scrolling for better scrolling
   #+begin_src emacs-lisp

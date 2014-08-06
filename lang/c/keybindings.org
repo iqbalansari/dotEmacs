@@ -13,7 +13,7 @@
                                                           (t #'pop-tag-mark)))
   #+end_src
 
-  
+
 * Keybinding for renaming
   Bound only if rtags is available
   #+begin_src emacs-lisp

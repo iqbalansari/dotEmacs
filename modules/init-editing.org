@@ -18,9 +18,9 @@
       fold-this
       pos-tip
       phi-search))
-  
-  (el-get 'sync my-editing-packages)  
-#+end_src   
+
+  (el-get 'sync my-editing-packages)
+#+end_src
 
 
 * Always use spaces to indent and use four space
@@ -57,7 +57,7 @@
    #+begin_src emacs-lisp
      (autoload #'phi-search "phi-search")
      (autoload #'phi-search-backward "phi-search")
-     
+
      (eval-after-load "multiple-cursors"
        '(progn (define-key mc/keymap (kbd "C-s") #'phi-search)
                (define-key mc/keymap (kbd "C-r") #'phi-search-backward)))
@@ -70,14 +70,14 @@
     (autoload 'tiny-expand "tiny")
     (global-set-key (kbd "C-:") 'tiny-expand)
   #+end_src
-  
-       	       	   
+
+
 * Expand region setup
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-=") 'er/expand-region)
     (global-set-key (kbd "C--") 'er/contract-region)
   #+end_src
-  
+
 
 * Prompt for user input during macro execution
   Following was borrowed from [[http://www.emacswiki.org/emacs/KeyboardMacros#toc5][emacswiki]], Pressing ‘C-x Q’ during macro
@@ -100,7 +100,7 @@
         (unless (string= "" input) (insert input))))
     (global-set-key "\C-xQ" 'my-macro-query)
   #+end_src
-  
+
 
 * Undo tree setup
 ** Keep the region active when undoing in a region
@@ -121,7 +121,7 @@
   #+begin_src emacs-lisp
     (global-undo-tree-mode)
   #+end_src
-  
+
 
 * Browse kill ring setup
 ** Keybindings for browse kill ring
@@ -129,7 +129,7 @@
     (autoload 'browse-kill-ring "browse-kill-ring")
     (global-set-key (kbd "C-c M-y") 'browse-kill-ring)
   #+end_src
-  
+
 ** Do not show duplicates in kill-ring
    #+begin_src emacs-lisp
      (setq browse-kill-ring-display-duplicates nil)
@@ -194,14 +194,14 @@
             (if (eq mode major-mode)
                 (add-to-list 'buffer-mode-matches buf))))
         buffer-mode-matches))
-    
+
     (defun multi-occur-in-this-mode ()
       "Show all lines matching REGEXP in buffers with this major mode."
       (interactive)
       (multi-occur
        (get-buffers-matching-mode major-mode)
        (car (occur-read-primary-args))))
-    
+
     (global-set-key (kbd "M-o") 'multi-occur-in-this-mode)
   #+end_src
 
@@ -220,7 +220,7 @@
       (back-to-indentation)
       (set-mark-command nil)
       (move-end-of-line arg))
-    
+
     (defun copy-line-or-region (arg)
       "Copy current line, or current text selection."
       (interactive "p")
@@ -235,10 +235,10 @@
                  (call-interactively 'kill-ring-save)
                  (deactivate-mark t)
                  (goto-char cur-pos)
-                 (message (concat "Saved " 
+                 (message (concat "Saved "
                                   (number-to-string arg)
                                   " line(s) to kill ring"))))))
-    
+
     (defun cut-line-or-region (arg)
       "Cut the current line, or current text selection."
       (interactive "p")
@@ -249,7 +249,7 @@
             (t  (progn (my-mark-lines arg)
                        (call-interactively 'kill-region)
                        (message (concat "Killed " (number-to-string arg) " line(s)"))))))
-    
+
     (global-set-key (kbd "M-w") 'copy-line-or-region)
     (global-set-key (kbd "C-w") 'cut-line-or-region)
   #+end_src
@@ -271,30 +271,30 @@
                     (lambda ()
                       (interactive)
                       (ignore-errors (forward-line 10))))
-    
+
     (global-set-key (kbd "C-S-p")
                     (lambda ()
                       (interactive)
                       (ignore-errors (forward-line -10))))
-    
+
     (global-set-key (kbd "C-S-f")
                     (lambda ()
                       (interactive)
                       (ignore-errors (forward-char 10))))
-    
+
     (global-set-key (kbd "C-S-b")
                     (lambda ()
                       (interactive)
                       (ignore-errors (backward-char 10))))
-    
+
   #+end_src
-  
-  
+
+
 
 * Keybinding for duplicate current line or region
   Duplicate current line if region is not selected else duplicate the region
   pressing 'd' immediately after duplicating a line will duplicate the line
-  again. 
+  again.
   #+begin_src emacs-lisp
     (defun duplicate-current-line-or-region (arg)
       "Duplicates the current line or region ARG times.
@@ -309,7 +309,7 @@
                                        (duplicate-region 1 beg end))))
         (duplicate-current-line arg)
         (one-shot-keybinding "d" 'duplicate-current-line)))
-    
+
     (defun duplicate-region (&optional num start end)
       "Duplicates the region bounded by START and END NUM times.
     If no START and END is provided, the current region-beginning and
@@ -322,7 +322,7 @@
           (goto-char end)
           (dotimes (i num)
             (insert region)))))
-    
+
     (defun duplicate-current-line (&optional num)
       "Duplicate the current line NUM times."
       (interactive "p")
@@ -332,10 +332,10 @@
           (newline)
           (forward-char -1))
         (duplicate-region num (point-at-bol) (1+ (point-at-eol)))))
-    
+
     (global-set-key (kbd "C-x d") 'duplicate-current-line-or-region)
   #+end_src
-  
+
 
 * Convenient functions for opening newlines
   Typing shift + return anywhere on a line will create a new line
@@ -347,15 +347,15 @@
       (end-of-line)
       (newline)
       (indent-for-tab-command))
-    
+
     (defun open-line-above ()
       (interactive)
       (beginning-of-line)
       (newline)
       (forward-line -1)
       (indent-for-tab-command))
-    
-    
+
+
     (defun new-line-dwim ()
       (interactive)
       (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
@@ -367,14 +367,14 @@
             (newline)
             (indent-for-tab-command)))
         (indent-for-tab-command)))
-    
-    
+
+
     (global-set-key (kbd "<C-return>") 'open-line-below)
     (global-set-key (kbd "<C-S-return>") 'open-line-above)
     (global-set-key (kbd "<M-return>") 'new-line-dwim)
   #+end_src
 
-  
+
 * Keybindings for killing backwards
   Pressing shift with usual keys will reverse the operations
   #+begin_src emacs-lisp
@@ -382,19 +382,19 @@
       "Kill ARG lines backward."
       (interactive "p")
       (kill-line (- 1 arg)))
-    
+
     (global-set-key (kbd "C-S-k") 'backward-kill-line)
-    
+
     (global-set-key (kbd "M-D") 'backward-kill-word)
-    
+
     (global-set-key (kbd "C-S-d") 'backward-delete-char-untabify)
-    
+
   #+end_src
 
 
 * Functions to increment and decrement integers at point
   These were borrowed from prelude
-  #+begin_src emacs-lisp    
+  #+begin_src emacs-lisp
     (defun thing-at-point-goto-end-of-integer ()
       "Go to end of integer at point."
       (let ((inhibit-changing-match-data t))
@@ -407,7 +407,7 @@
         (unless (looking-back "[[:digit:]]")
           (error "No integer here"))))
     (put 'integer 'beginning-op 'thing-at-point-goto-end-of-integer)
-    
+
     (defun thing-at-point-goto-beginning-of-integer ()
       "Go to end of integer at point."
       (let ((inhibit-changing-match-data t))
@@ -420,7 +420,7 @@
         (when (looking-back "[+-]")
           (backward-char 1))))
     (put 'integer 'beginning-op 'thing-at-point-goto-beginning-of-integer)
-    
+
     (defun thing-at-point-bounds-of-integer-at-point ()
       "Get boundaries of integer at point."
       (save-excursion
@@ -431,16 +431,16 @@
           (setq end (point))
           (cons beg end))))
     (put 'integer 'bounds-of-thing-at-point 'thing-at-point-bounds-of-integer-at-point)
-    
+
     (defun thing-at-point-integer-at-point ()
       "Get integer at point."
       (let ((bounds (bounds-of-thing-at-point 'integer)))
         (string-to-number (buffer-substring (car bounds) (cdr bounds)))))
     (put 'integer 'thing-at-point 'thing-at-point-integer-at-point)
-    
+
     (defun increment-integer-at-point (&optional inc)
       "Increment integer at point by one.
-    
+
     With numeric prefix arg INC, increment the integer by INC amount."
       (interactive "p")
       (let ((inc (or inc 1))
@@ -448,14 +448,14 @@
             (bounds (bounds-of-thing-at-point 'integer)))
         (delete-region (car bounds) (cdr bounds))
         (insert (int-to-string (+ n inc)))))
-    
+
     (defun decrement-integer-at-point (&optional dec)
       "Decrement integer at point by one.
-    
+
     With numeric prefix arg DEC, decrement the integer by DEC amount."
       (interactive "p")
       (increment-integer-at-point (- (or dec 1))))
-    
+
     (global-set-key (kbd "C-c +") 'increment-integer-at-point)
     (global-set-key (kbd "C-c -") 'decrement-integer-at-point)
   #+end_src
@@ -500,7 +500,7 @@
      (defun my-enable-hs ()
        (ignore-errors
          (hs-minor-mode)))
-     
+
      (add-hook 'prog-mode-hook 'my-enable-hs)
    #+end_src
 
@@ -513,7 +513,7 @@
   #+end_src
 
 ** Function to display folded area as a popup <<folded_code>>
-   hs-mode mode allows us to additional data to the overlay, this can 
+   hs-mode mode allows us to additional data to the overlay, this can
    be used to set overlay's 'help-echo' property so that 'help-at-pt'
    can then display it after certain delay. In our case we set help
    echo to a function which when called displays a popup with folded code.
@@ -545,14 +545,14 @@
 *** With fold this
     #+begin_src emacs-lisp
       (eval-after-load "fold-this"
-        '(progn 
+        '(progn
            (defadvice fold-this (after fold-this-show-help (start end))
              (let ((overlays (overlays-in start end)))
                (dolist (ov overlays)
                  (when (eq (overlay-get ov  'type) 'fold-this)
                    (overlay-put ov 'help-echo 'my--display-folded-content)
                    (define-key (overlay-get ov 'keymap) (kbd "C-x C-\\") 'fold-this-unfold-at-point)))))
-      
+
            (ad-activate 'fold-this)))
     #+end_src
 *** With hs-minor-mode
@@ -561,7 +561,7 @@
         (overlay-put ov 'display "...")
         (overlay-put ov 'keymap my-folding-keymap)
         (overlay-put ov 'help-echo 'my--display-folded-content))
-      
+
       (setq hs-set-up-overlay 'my-display-folded-content)
     #+end_src
 
@@ -577,7 +577,7 @@
             (current-column)))))
    #+end_src
 
-** Combining fold-this and hs-minor-mode   
+** Combining fold-this and hs-minor-mode
    #+begin_src emacs-lisp
      (defun my-fold-this-hs-hide ()
        "Folds the region if mark is active otherwise fold the current indent"
@@ -585,7 +585,7 @@
        (if (region-active-p)
            (fold-this (region-beginning)
                           (region-end))
-         (when (and (boundp 'hs-minor-mode) hs-minor-mode) 
+         (when (and (boundp 'hs-minor-mode) hs-minor-mode)
            (hs-toggle-hiding))))
    #+end_src
 

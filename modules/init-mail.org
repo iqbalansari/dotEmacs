@@ -37,7 +37,7 @@
 * View images inline in message view buffer
   #+begin_src emacs-lisp
     (setq mu4e-view-show-images t)
-    
+
     (when (fboundp 'imagemagick-register-types)
       (imagemagick-register-types))
   #+end_src

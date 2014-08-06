@@ -21,11 +21,11 @@
     (when my-rtags-available
       (unless (fboundp 'rtags-start-process-maybe)
         (load "rtags"))
-    
+
       (rtags-start-process-maybe))
   #+end_src
 
-  
+
 * Create GTAGS/TAGS if not created yet
   #+begin_src emacs-lisp
     (let ((project-root (ignore-errors (projectile-project-root))))
@@ -67,7 +67,7 @@
       (if (not project-map)
           (warn (concat "Project not configured, please add malinka-define-project directive\n"
                         "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
-        (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc") 
+        (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
                                                                           " --has-filemanager "
                                                                           project-root))))
           (message (concat "Indexing project, this may take some time, this happens just once per project."
@@ -88,9 +88,9 @@
         (when (= (point-min) (point-max))
           (if rtags-last-request-not-indexed
               (if my-gtags-available (gtags-find-tag) (call-interactively #'find-tag))
-            (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol" 
+            (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol"
                                                  "-F")))))
-    
+
     (defun my-c-find-definition-rtags (&optional prefix)
       (interactive "P")
       (rtags-find-symbol-at-point prefix)

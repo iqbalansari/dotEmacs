@@ -18,7 +18,7 @@
   #+begin_src emacs-lisp
     (global-auto-revert-mode 1)
   #+end_src
-  
+
 
 * Use ibuffer instead of regular buffer switcher
   #+begin_src emacs-lisp

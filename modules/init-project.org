@@ -7,10 +7,10 @@
   #+end_src
 
 
-* Enable projectile  
+* Enable projectile
   #+begin_src emacs-lisp
     (projectile-global-mode)
-  #+end_src  
+  #+end_src
 
 
 * Process buffers should not be considered part of project unless they are shells
@@ -24,7 +24,7 @@
                                    (eq buffer-major-mode 'shell-mode)
                                    (eq buffer-major-mode 'eshell-mode))))))
                  buffers))
-    
+
     (setq projectile-buffers-filter-function #'my-filter-out-non-shell-processes)
   #+end_src
 
@@ -33,7 +33,7 @@
    #+begin_src emacs-lisp
      (defun rejeep-projectile-completion-fn (prompt choises)
        "Projectile completion function that only shows file name.
-           
+
           If two files have same name, new completion appears to select between
           them. These include the path relative to the project root."
        (interactive)
@@ -49,11 +49,11 @@
          (if (> (length matching-files) 1)
              (ido-completing-read prompt matching-files)
            (car matching-files))))
-     
+
      (setq projectile-completion-system 'rejeep-projectile-completion-fn)
    #+end_src
 
-   
+
 * Keybindings
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-z f") 'projectile-find-file)
