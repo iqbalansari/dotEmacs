@@ -5,6 +5,23 @@
   #+end_src
 
 
+* Use qwerty shortcuts to switch windows
+  #+begin_src emacs-lisp
+    (setq switch-window-shortcut-style 'qwerty)
+  #+end_src
+
+
+* Switch to bar cursor type before invoking switch-window
+  Box cursor doesn't look good in switch-window
+  #+begin_src emacs-lisp
+    (defadvice switch-window (around switch-to-bar-cursor)
+      (let ((cursor-type nil))
+        ad-do-it))
+    
+    (ad-activate 'switch-window)
+  #+end_src
+
+
 * Use default windmove bindings
   #+begin_src emacs-lisp
     (windmove-default-keybindings 'super)
