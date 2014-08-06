@@ -156,6 +156,17 @@
                (ad-activate ',func)))
    #+end_src
 
+** 10. Require cl-lib, it defines a lot of useful functions
+   #+begin_src emacs-lisp
+     (require 'cl-lib)
+   #+end_src
+
+
+* Increase gc threshhold
+  #+begin_src emacs-lisp
+    (setq gc-cons-threshold (* 100 1024 1024))
+  #+end_src
+
 
 * Unbind keys
 ** Unset C-z, I don't find it useful

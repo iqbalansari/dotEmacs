@@ -11,15 +11,8 @@
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
 
-;; Disable vc for Git repositories
-(delete 'Git vc-handled-backends)
-
-;; Memory is cheap, stop the world only after 100 megabytes are used
-(setq gc-cons-threshold (* 100 1024 1024))
-
 ;; Use org babel to load rest of the configuration
 (require 'org)
-(require 'cl-lib)
 
 ;; Create .compiled dir in modules
 (unless (file-exists-p "~/.emacs.d/modules/.compiled/")
