@@ -18,7 +18,7 @@
   #+end_src
 
 
-* Load sanityinc-light theme
+* Use sanityinc-light theme
   #+begin_src emacs-lisp
     (color-theme-sanityinc-light)
   #+end_src
