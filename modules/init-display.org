@@ -8,6 +8,7 @@
         auto-highlight-symbol
         smooth-scrolling
         volatile-highlights
+        color-theme-sanityinc
         nyan-mode))
     
     (el-get 'sync my-display-packages)
@@ -22,7 +23,8 @@
 
 * Load zenburn theme
   #+begin_src emacs-lisp
-    (load-theme 'zenburn t)
+    (require 'color-theme-sanityinc)
+    (color-theme-sanityinc-light)
   #+end_src
 
   
@@ -127,7 +129,7 @@
 * Customizations for cursor
 ** Display cursor as bar
    #+begin_src emacs-lisp
-     (setq-default cursor-type 'bar)
+     (setq-default cursor-type 'box)
    #+end_src
    
 ** Don't blink the cursor
@@ -146,7 +148,7 @@
       (let ((color
              (if buffer-read-only "purple1"
                (if overwrite-mode "red"
-                 "white"))))  ; insert mode
+                 "yellow"))))  ; insert mode
         (unless (and (string= color my-set-cursor-color-color)
                      (string= (buffer-name) my-set-cursor-color-buffer))
           (set-cursor-color (setq my-set-cursor-color-color color))
