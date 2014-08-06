@@ -1,15 +1,11 @@
 * Install some packages useful for navigation
 + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
 + [[http://www.emacswiki.org/emacs/goto-chg.el][goto-chg]] - Move point through buffer-undo-list positions
-+ [[https://github.com/rolandwalker/back-button][visible-mark]] - Highlight marks in a buffer
-+ [[https://github.com/rolandwalker/nav-flash][nav-flash]] - Temporarily flash current line
 
 #+begin_src emacs-lisp
   (defvar my-navigation-packages
     '(goto-chg
-      ace-jump-mode
-      visible-mark
-      nav-flash))
+      ace-jump-mode))
 
   (el-get 'sync my-navigation-packages)
 #+end_src

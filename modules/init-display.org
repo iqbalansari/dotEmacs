@@ -1,10 +1,8 @@
 * Ensure that the required packages are installed
   #+begin_src emacs-lisp
     (defvar my-display-packages
-      '(linum-off
-        diminish
+      '(diminish
         eval-sexp-fu
-        auto-highlight-symbol
         smooth-scrolling
         volatile-highlights
         color-theme-sanityinc
