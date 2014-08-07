@@ -1,14 +1,11 @@
 * Packages for working with paranthesis
   + [[https://github.com/Fuco1/smartparens][smartparens]] - A very useful package for working with parenthesis. Alongwith providing
   regular features like autopairing, it also provides function for naviagation and
-  manipulation of parenthesis. However, python support is somewhat lacking.
-  + [[https://github.com/capitaomorte/autopair][autopairs]] - Package for automatically pairing braces and quotes. Has better support
-  python.
+  manipulation of parenthesis.
 
   #+begin_src emacs-lisp
     (defvar my-paranthesis-packages
-      '(autopair
-        smartparens))
+      '(smartparens))
 
     (el-get 'sync my-paranthesis-packages)
 
