@@ -1,0 +1,4 @@
+(:name pos-tip
+       :description "Show tool tip at point."
+       :type github
+       :pkgname "pitkali/pos-tip")
