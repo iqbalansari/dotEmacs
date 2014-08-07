@@ -43,28 +43,24 @@
 * Customizations for linum-mode
 ** Make custom linum consistent [http://www.emacswiki.org/emacs/LineNumbers#toc6]
    #+begin_src emacs-lisp
-     (defface linum-leading-zero
-       `((t :inherit 'linum
-            :foreground ,(face-attribute 'linum :background nil t)))
-       "Face for displaying leading zeroes for line numbers in display margin."
-       :group 'linum)
-
-     (defun linum-format-func (line)
-       (let ((w (length
-                 (number-to-string (count-lines (point-min) (point-max))))))
-         (concat
-          (propertize (make-string (- w (length (number-to-string line))) ?0)
-                      'face 'linum-leading-zero)
-          (propertize (concat " " (number-to-string line) " ") 'face 'linum))))
-
-     ;; Line numbers in margin
+     (eval-after-load "linum"
+       '(progn (defface linum-leading-zero
+                 `((t :inherit 'linum
+                      :foreground ,(face-attribute 'linum :background nil t)))
+                 "Face for displaying leading zeroes for line numbers in display margin."
+                 :group 'linum)
+     
+               (defun linum-format-func (line)
+                 (let ((w (length
+                           (number-to-string (count-lines (point-min) (point-max))))))
+                   (concat
+                    (propertize (make-string (- w (length (number-to-string line))) ?0)
+                                'face 'linum-leading-zero)
+                    (propertize (concat " " (number-to-string line) " ") 'face 'linum))))
+     
+               ;; Line numbers in margin
                                              ;(global-linum-mode t)
-     (setq linum-format 'linum-format-func)
-   #+end_src
-
-** Don't show line numbers in speed-bar
-   #+begin_src emacs-lisp
-     (add-to-list 'linum-disabled-modes-list '(speedbar-mode))
+               (setq linum-format 'linum-format-func)))
    #+end_src
 
 
