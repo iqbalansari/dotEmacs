@@ -6,8 +6,9 @@
         smooth-scrolling
         volatile-highlights
         color-theme-sanityinc
+        page-break-lines
         nyan-mode))
-
+    
     (el-get 'sync my-display-packages)
   #+end_src
 
@@ -250,4 +251,10 @@
           scroll-step 1
           scroll-conservatively 10000
           scroll-preserve-screen-position 1)
+  #+end_src
+
+
+* Show form feed characters as horizontal lines
+  #+begin_src emacs-lisp
+    (global-page-break-lines-mode)
   #+end_src
