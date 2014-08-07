@@ -144,6 +144,12 @@
 
 
 * Enable eldoc in modeline when minibuffer is active
+** Enable eldoc
   #+begin_src emacs-lisp
     (eldoc-in-minibuffer-mode 1)
   #+end_src
+
+** Use eval-expression to evaluate expressions
+   #+begin_src emacs-lisp
+     (setq eldoc-eval-preferred-function 'eval-expression)
+   #+end_src
