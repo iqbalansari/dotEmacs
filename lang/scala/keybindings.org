@@ -2,8 +2,13 @@
   #+begin_src emacs-lisp
     (dolist (letter '("r" "o" "l" "m" "i" "t"))
       (define-key ensime-mode-map (kbd (concat "C-c C-r " letter)) nil))
-
+    
     (define-key ensime-mode-map (kbd "C-c C-r") nil)
+
+    (dolist (letter '("c" "n" "p" "s"))
+      (define-key ensime-mode-map (kbd (concat "C-c C-b " letter)) nil))
+    
+    (define-key ensime-mode-map (kbd "C-c C-b") nil)
   #+end_src
 
 
@@ -33,17 +38,11 @@
 
 * Bindings for interacting with the REPL
   #+begin_src emacs-lisp
-    (defun my-sbt-send-string (string)
-      (interactive)
-      (with-temp-buffer
-        (insert string)
-        (sbt:send-region (point-min) (point-max))))
-
     (local-set-key my-send-region #'sbt-send-region)
-    (local-set-key my-send-buffer (my-evaluate-buffer-in-repl my-scala-eval-buffer my-sbt-send-string))
-    (local-set-key my-send-line (my-evaluate-line-in-repl my-scala-eval-line my-sbt-send-string))
-    (local-set-key my-send-function (my-evaluate-defun-in-repl my-scala-eval-defun my-sbt-send-string))
-    (local-set-key my-send-file (my-evaluate-file-in-repl my-scala-eval-file my-sbt-send-string))
+    (local-set-key my-send-buffer (my-evaluate-buffer-in-repl my-scala-eval-buffer sbt:send-region))
+    (local-set-key my-send-line (my-evaluate-line-in-repl my-scala-eval-line sbt:send-region))
+    (local-set-key my-send-function (my-evaluate-defun-in-repl my-scala-eval-defun sbt:send-region))
+    (local-set-key my-send-file (my-evaluate-file-in-repl my-scala-eval-file sbt:send-region))
   #+end_src
 
 

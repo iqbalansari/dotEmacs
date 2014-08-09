@@ -13,24 +13,17 @@
       (local-set-key my-send-region #'utop-eval-region)
       (local-set-key my-send-buffer #'utop-eval-buffer)
       (local-set-key my-send-phrase/sexp/block #'utop-eval-phrase)
-      (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line utop-eval-string))
-      (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file utop-eval-string)))
-
+      (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line utop-eval-region))
+      (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file utop-eval-region)))
+    
     (defun my-set-bindings-for-ocaml-repl ()
       (local-set-key my-run-shell #'run-ocaml)
       (local-set-key my-send-region #'tuareg-eval-region)
       (local-set-key my-send-buffer #'tuareg-eval-buffer)
       (local-set-key my-send-phrase/sexp/block #'utop-eval-phrase)
-      (local-set-key my-send-line (lambda ()
-                                       (interactive)
-                                       (tuareg-eval-region (line-beginning-position)
-                                                           (line-end-position))))
-      (local-set-key my-send-file (lambda (file)
-                                       (interactive "fFile: ")
-                                       (with-temp-buffer
-                                         (insert (my-read-file file))
-                                         (tuareg-eval-buffer)))))
-
+      (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line tuareg-eval-buffer))
+      (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file tuareg-eval-buffer)))
+    
     (if (featurep 'utop)
         (my-set-bindings-for-utop)
       (my-set-bindings-for-ocaml-repl))

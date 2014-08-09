@@ -116,29 +116,33 @@
 
 ** 8. Interacting with REPL
    #+begin_src emacs-lisp
-     (defmacro my-evaluate-line-in-repl (name send-string-func)
+     (defmacro my-evaluate-line-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
-          (,send-string-func (buffer-substring (line-beginning-position)
-                                                    (line-end-position)))))
-
-     (defmacro my-evaluate-file-in-repl (name send-string-func)
+          (,send-region-func (line-beginning-position)
+                             (line-end-position))))
+     
+     (defmacro my-evaluate-file-in-repl (name send-region-func)
        `(defun ,name (file)
           (interactive (list (ido-read-file-name "File to evaluate: ")))
-          (,send-string-func (my-read-file file))))
-
-     (defmacro my-evaluate-buffer-in-repl (name send-string-func)
+          (with-temp-buffer
+            (insert-file-contents file)
+            (,send-region-func (point-min)
+                               (point-max)))))
+     
+     (defmacro my-evaluate-buffer-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
-          (,send-string-func (buffer-string))))
-
-     (defmacro my-evaluate-defun-in-repl (name send-string-func)
+          (,send-region-func (point-min)
+                             (point-max))))
+     
+     (defmacro my-evaluate-defun-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
           (let ((start (save-excursion (beginning-of-defun) (point)))
                 (end   (save-excursion (end-of-defun) (point))))
-            (,send-string-func (buffer-substring start
-                                                 end)))))
+            (,send-region-func  start
+                                end))))
    #+end_src
 
 ** 9. Highlighting the line to reorient the user
