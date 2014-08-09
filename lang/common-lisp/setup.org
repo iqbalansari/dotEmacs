@@ -40,6 +40,12 @@
   #+end_src
 
 
+* Enable smartparens strict mode
+  #+begin_src emacs-lisp
+    (smartparens-strict-mode)
+  #+end_src
+
+
 * Setup code folding
   Enable "hs-minor-mode"
   #+begin_src emacs-lisp

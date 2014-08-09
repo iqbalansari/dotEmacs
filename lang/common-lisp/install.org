@@ -2,7 +2,9 @@
   #+begin_src emacs-lisp
     (defvar my-clisp-packages
       '(slime
-        ac-slime))
-
+        ac-slime
+        auto-complete
+        smartparens))
+    
     (el-get 'sync my-clisp-packages)
   #+end_src
