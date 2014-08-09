@@ -54,11 +54,13 @@
 
 * Do not autopair "`" and "'" in lisp buffer
   #+begin_src emacs-lisp
-    (sp-local-pair '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode)
+    (defvar my-lisp-modes '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode slime-repl-mode))
+    
+    (sp-local-pair my-lisp-modes
                    "`" "'"
                    :when '(sp-in-string-p sp-in-comment-p))
-
-    (sp-local-pair '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode)
+    
+    (sp-local-pair my-lisp-modes
                    "'" nil
                    :actions nil)
   #+end_src
