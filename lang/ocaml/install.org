@@ -18,6 +18,13 @@
   #+end_src
 
 
+* Merlin required auto-complete for compeletion
+  #+begin_src emacs-lisp
+    (when (executable-find "merlin")
+      (el-get 'sync 'auto-complete))
+  #+end_src
+
+
 * Autoloads for merlin and utop
   #+begin_src emacs-lisp
     (autoload 'merlin-mode "merlin")
