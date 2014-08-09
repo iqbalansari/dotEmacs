@@ -1,11 +1,24 @@
-* Setup slime
+* Choose lisp implementation
   #+begin_src emacs-lisp
     (if (eq system-type 'windows-nt)
         (setq inferior-lisp-program "clisp")
       (setq inferior-lisp-program "sbcl"))
+  #+end_src
 
+
+* Setup slime
+  #+begin_src emacs-lisp
     (load "slime")
+    (setq slime-contribs '(slime-fancy))
+    
     (slime-setup)
+  #+end_src
+
+
+* Start slime if not connected yet
+  #+begin_src emacs-lisp
+    (unless (slime-connected-p)
+      (slime))
   #+end_src
 
 
@@ -19,8 +32,9 @@
   #+begin_src emacs-lisp
     (load "ac-slime")
     (set-up-slime-ac)
-
+    
     (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+    
     (eval-after-load "auto-complete"
       '(add-to-list 'ac-modes 'slime-repl-mode))
   #+end_src

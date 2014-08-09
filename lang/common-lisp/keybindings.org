@@ -1,0 +1,20 @@
+* Unset some keybindings
+  #+begin_src emacs-lisp
+    (define-key slime-mode-map my-send-buffer nil)
+    (define-key slime-mode-map my-send-phrase/sexp/block nil)
+  #+end_src
+
+
+* Keybindings for interacting with the REPL
+  #+begin_src emacs-lisp
+    (local-set-key my-run-shell #'slime-switch-to-output-buffer)
+    (local-set-key my-send-buffer #'slime-eval-buffer)
+    (local-set-key my-send-file #'slime-load-file)
+    (local-set-key my-send-phrase/sexp/block #'slime-eval-last-expression)
+  #+end_src
+
+
+* Describe the current symbol
+  #+begin_src emacs-lisp
+    (local-set-key my-show-doc #'slime-describe-symbol)
+  #+end_src
