@@ -3,6 +3,7 @@
     (defvar my-clisp-packages
       '(slime
         ac-slime
+        redshank
         auto-complete
         smartparens))
     
