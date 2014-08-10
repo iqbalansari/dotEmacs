@@ -1,4 +1,0 @@
-(:name utop
-       :description "Emacs interface to Utop"
-       :type elpa
-       :repo ("melpa" . "http://melpa.milkbox.net/packages/"))

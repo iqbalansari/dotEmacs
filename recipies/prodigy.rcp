@@ -1,4 +1,0 @@
-(:name prodigy
-       :description "Manage external services from within Emacs"
-       :type github
-       :pkgname "rejeep/prodigy.el")

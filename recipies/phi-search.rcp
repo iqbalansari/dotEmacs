@@ -1,4 +1,0 @@
-(:name phi-search
-       :description "Search compatible with multiple cursors"
-       :type github
-       :pkgname "zk-phi/phi-search")
