@@ -1,0 +1,7 @@
+* Install erlang mode and distel
+  #+begin_src emacs-lisp
+    (defvar my-erlang-packages '(erlang
+                                 edts))
+    
+    (el-get 'sync my-erlang-packages)
+  #+end_src

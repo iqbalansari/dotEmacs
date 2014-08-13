@@ -1,0 +1,4 @@
+(:name erlang
+       :type elpa
+       :repo ("melpa" . "http://melpa.milkbox.net/packages/")
+       :description "Major mode for editing and running Erlang")

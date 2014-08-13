@@ -1,0 +1,17 @@
+* Enable erlang mode
+  #+begin_src emacs-lisp
+    (erlang-mode)
+  #+end_src
+
+
+* Start edts
+  #+begin_src emacs-lisp
+    (unless (fboundp #'edts-erlang-mode-hook)
+      (load "edts-start"))
+  #+end_src
+
+
+* Enable edts mode
+  #+begin_src emacs-lisp
+    (edts-mode)
+  #+end_src

@@ -1,0 +1,4 @@
+* Keybindings for REPL interaction
+  #+begin_src emacs-lisp
+    (local-set-key my-run-shell #'edts-shell)
+  #+end_src

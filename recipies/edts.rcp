@@ -1,0 +1,7 @@
+(:name edts
+       :description "Erlang Development Tool Suite."
+       :type github
+       :pkgname "tjarvstrand/edts"
+       :depends (auto-complete auto-highlight-symbol dash eproject erlang f popup)
+       :build ("make libs plugins")
+       :submodule nil)
