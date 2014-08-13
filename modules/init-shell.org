@@ -27,11 +27,10 @@
   #+end_src
 
 
-* Set keybindings to yank and undo in the term
+* Set keybindings for undo in the term
   #+begin_src emacs-lisp
     (eval-after-load 'term
-      '(progn (define-key term-raw-map "\C-y" 'term-paste)
-              (define-key term-raw-map (kbd "C-/") (lambda () (interactive) (term-send-raw-string (kbd "C-_"))))))
+      '(progn (define-key term-raw-map (kbd "C-/") (lambda () (interactive) (term-send-raw-string (kbd "C-_"))))))
   #+end_src
 
 

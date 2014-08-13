@@ -1,4 +1,4 @@
-* Install erlang mode and distel
+* Install erlang mode and edts
   #+begin_src emacs-lisp
     (defvar my-erlang-packages '(erlang
                                  edts))

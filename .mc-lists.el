@@ -82,5 +82,6 @@
         tern-find-definition
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit
+        where-is
         yank-rectangle
         ))

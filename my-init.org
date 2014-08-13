@@ -285,6 +285,18 @@
    #+end_src
 
 
+* Add some more repositories
+  Initialize package manager and add repositories
+  #+begin_src emacs-lisp
+      (add-to-list 'package-archives
+                 '("melpa" . "http://melpa.milkbox.net/packages/") t)
+      (add-to-list 'package-archives
+                 '("marmalade" . "http://marmalade-repo.org/packages/") t)
+      (add-to-list 'package-archives
+			     '("geiser" . "http://download.savannah.gnu.org/releases/geiser/packages"))
+  #+end_src
+
+
 * Bootstrap el-get
   Install El-Get is not installed and configure it
 ** Initialize El-Get
@@ -310,18 +322,6 @@
    #+begin_src emacs-lisp
      (el-get 'sync)
    #+end_src
-
-
-* Initialize package management
-  Initialize package manager and add repositories
-  #+begin_src emacs-lisp
-      (add-to-list 'package-archives
-                 '("melpa" . "http://melpa.milkbox.net/packages/") t)
-      (add-to-list 'package-archives
-                 '("marmalade" . "http://marmalade-repo.org/packages/") t)
-      (add-to-list 'package-archives
-			     '("geiser" . "http://download.savannah.gnu.org/releases/geiser/packages"))
-  #+end_src
 
 
 * Configurations for Emacs lisp
@@ -435,6 +435,12 @@
     (add-hook 'ruby-mode-hook (lambda ()
                                   (my-load-lang "ruby")))
   #+end_src
+
+** Erlang
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.erl\\'" . (lambda ()
+                                                     (my-load-lang "erlang"))))
+   #+end_src
 
 
 * Load common libraries
