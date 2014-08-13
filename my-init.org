@@ -436,6 +436,12 @@
                                   (my-load-lang "ruby")))
   #+end_src
 
+** Erlang
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.erl$" . (lambda ()
+                                                   (my-load-lang "erlang"))))
+   #+end_src
+
 
 * Load common libraries
    These are general purpose libraries that can are used
