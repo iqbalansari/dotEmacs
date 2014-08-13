@@ -153,3 +153,20 @@
    #+begin_src emacs-lisp
      (setq eldoc-eval-preferred-function 'eval-expression)
    #+end_src
+
+
+* Save macros as functions, credit [[draketo.de/light/english/emacs/babcore]]
+  #+begin_src emacs-lisp
+    (defun my-save-current-kbd-macro-to-dot-emacs (name)
+      "Save the current macro as named function definition inside
+    your initialization file so you can reuse it anytime in the
+    future."
+      (interactive "SSave Macro as: ")
+      (name-last-kbd-macro name)
+      (save-excursion 
+        (find-file-literally user-init-file)
+        (goto-char (point-max))
+        (insert "\n\n;; Saved macro\n")
+        (insert-kbd-macro name)
+        (insert "\n")))
+  #+end_src
