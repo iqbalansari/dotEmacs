@@ -1,6 +1,6 @@
 * Install flycheck
   #+begin_src emacs-lisp
-    (el-get 'sync 'flycheck)
+    (el-get 'sync '(flycheck flycheck-color-mode-line))
   #+end_src
 
 
@@ -63,3 +63,16 @@
   #+begin_src emacs-lisp
     (global-flycheck-mode +1)
   #+end_src
+
+
+* Enable flycheck-color-mode-line
+** Load and enable flycheck-color-mode-line
+  #+begin_src emacs-lisp
+    (load "flycheck-color-mode-line")
+    (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
+  #+end_src
+
+** Custom colors flycheck-color-mode-line
+   #+begin_src emacs-lisp
+     (set-face-attribute 'flycheck-color-mode-line-error-face nil :background (face-attribute 'error :foreground))
+   #+end_src
