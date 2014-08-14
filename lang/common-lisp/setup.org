@@ -1,3 +1,9 @@
+* COMMENT Enable lisp mode
+  #+begin_src emacs-lisp
+    (lisp-mode)
+  #+end_src
+
+
 * Choose lisp implementation
   #+begin_src emacs-lisp
     (if (eq system-type 'windows-nt)

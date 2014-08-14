@@ -1,3 +1,9 @@
+* Enable python-mode
+  #+begin_src emacs-lisp
+    (python-mode)
+  #+end_src
+
+
 * Fix python-mode's send region
 ** Elpy's send region works well for arbitrary regions use it instead
    #+begin_src emacs-lisp

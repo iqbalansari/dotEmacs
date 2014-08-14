@@ -24,15 +24,6 @@
 
 
 * Setup Tern for autocompletion and some refactoring
-** Load ternjs, on windows add node explicitly to tern command since
-   cmd does not understand shebang
-   #+begin_src emacs-lisp
-     (unless (fboundp #'tern-mode)
-       (load "tern")
-       (when (eq system-type 'windows-nt)
-         (setq tern-command (list "node" (car tern-command)))))
-   #+end_src
-
 ** Enable tern-mode
    #+begin_src emacs-lisp
      (tern-mode t)

@@ -1,3 +1,9 @@
+* Enable css mode
+  #+begin_src emacs-lisp
+    (css-mode)
+  #+end_src
+
+
 * Setup autocompletion for css mode
   #+begin_src emacs-lisp
     (ac-css-mode-setup)

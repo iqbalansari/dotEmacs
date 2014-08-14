@@ -1,3 +1,9 @@
+* Enable scheme mode
+  #+begin_src emacs-lisp
+    (scheme-mode)
+  #+end_src
+
+
 * Setup auto-completion
   #+begin_src emacs-lisp
     (load "ac-geiser")

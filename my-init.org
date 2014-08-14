@@ -1,4 +1,4 @@
-* Declare global variables and utility functions
+* Declaration of global variables and utility functions
   Set global variables to be used in the rest of the intialization
 ** 1. The full path to emacs.d
    This is needed sometimes (eg. for ternjs on windows)
@@ -54,21 +54,24 @@
        (interactive
         (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
-
+     
        (let ((install-file (concat my-langs-dir
                                    language "/install.org")))
          (when (file-exists-p install-file)
            (org-babel-load-file install-file))))
-
+     
      (defun my-compile-lang-config (lang)
+       (interactive
+        (list (ido-completing-read "Language: "
+                                   (directory-files my-langs-dir nil "[^.]+"))))
        (let* ((files '("install" "setup" "keybindings"))
               (lang-path (concat my-langs-dir lang "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
-
+     
          (unless (file-exists-p compiled-file-dest)
            (make-directory compiled-file-dest))
-
+     
          (my-write-to-file compiled-file
                            (loop for file in files
                                  when (file-exists-p (concat lang-path file ".org"))
@@ -77,8 +80,8 @@
                                                             (concat compiled-file-dest file ".el")
                                                             "emacs-lisp")))))
          (byte-compile-file compiled-file)))
-
-     (defun my-load-lang (language)
+     
+     (defun my-load-lang-config (language)
        (interactive
         (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
@@ -86,20 +89,25 @@
               (lang-path (concat my-langs-dir language "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
-
+     
          (when (apply #'my-is-file-stale compiled-file
                       (loop for file in files
                             when (file-exists-p (concat lang-path file ".org"))
                             collect (concat lang-path file ".org")))
            (my-compile-lang-config language))
-
+     
          (load-file compiled-file)))
-
-
+     
+     
      (defun my-compile-all-lang-config ()
        (interactive)
        (dolist (lang (directory-files my-langs-dir nil "[^.]+"))
          (my-compile-lang-config lang)))
+     
+     (defmacro my-load-lang (language)
+       `(lambda ()
+          (let (auto-mode-alist)
+            (my-load-lang-config ,language))))
    #+end_src
 
 ** 7. Function to declare one-shot keybindings
@@ -292,8 +300,6 @@
                  '("melpa" . "http://melpa.milkbox.net/packages/") t)
       (add-to-list 'package-archives
                  '("marmalade" . "http://marmalade-repo.org/packages/") t)
-      (add-to-list 'package-archives
-			     '("geiser" . "http://download.savannah.gnu.org/releases/geiser/packages"))
   #+end_src
 
 
@@ -345,101 +351,77 @@
 * Configure loading of the major modes
 ** C
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.c\\'" . (lambda ()
-                                                   (my-load-lang "c"))))
+     (add-to-list 'auto-mode-alist (cons "\\.c\\'" (my-load-lang "c")))
    #+end_src
 
 ** Python
   #+begin_src emacs-lisp
-    (add-hook 'python-mode-hook (lambda ()
-                                  (my-load-lang "python")))
+    (add-to-list 'auto-mode-alist (cons "\\.py\\'" (my-load-lang "python")))
   #+end_src
 
 ** Javascript
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.js\\'" . (lambda ()
-                                                    (my-load-lang "javascript"))))
+     (add-to-list 'auto-mode-alist (cons "\\.js\\'"  (my-load-lang "javascript")))
    #+end_src
 
 ** HTML mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.html\\'" . (lambda ()
-                                                      (my-load-lang "html"))))
+     (add-to-list 'auto-mode-alist (cons "\\.html\\'" (my-load-lang "html")))
    #+end_src
 
 ** CSS mode
   #+begin_src emacs-lisp
-    (add-hook 'css-mode-hook (lambda ()
-                                  (my-load-lang "css")))
+    (add-to-list 'auto-mode-alist (cons "\\.css\\'" (my-load-lang "css")))
+    
   #+end_src
 
 ** Scheme mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
-
-     (add-hook 'scheme-mode-hook (lambda ()
-                                (my-load-lang "scheme")))
+     (add-to-list 'auto-mode-alist (cons "\\.rkt\\'" (my-load-lang "scheme")))
    #+end_src
 
 ** Common-lisp mode
    #+begin_src emacs-lisp
-     (add-hook 'lisp-mode-hook (lambda ()
-                                (my-load-lang "common-lisp")))
+     (add-to-list 'auto-mode-alist (cons "\\.li?sp\\'" (my-load-lang "common-lisp")))
    #+end_src
 
 ** SML mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.\\(sml\\|sig\\)\\'" . (lambda ()
-                                                                 (my-load-lang "sml"))))
+     (add-to-list 'auto-mode-alist (cons "\\.\\(sml\\|sig\\)\\'" (my-load-lang "sml")))
    #+end_src
 
 ** OCaml mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.ml[iylp]?" . (lambda ()
-                                                        (my-load-lang "ocaml"))))
+     (add-to-list 'auto-mode-alist (cons "\\.ml[iylp]?" (my-load-lang "ocaml")))
    #+end_src
 
 ** Better mode for working with JSON
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.json\\'" . (lambda ()
-                                                      (my-load-lang "json"))))
+     (add-to-list 'auto-mode-alist (cons "\\.json\\'" (my-load-lang "json")))
    #+end_src
 
 ** Markdown mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.markdown\\'" . (lambda ()
-                                                          (my-load-lang "markdown"))))
-     (add-to-list 'auto-mode-alist '("\\.md\\'" . (lambda ()
-                                                    (my-load-lang "markdown"))))
+     (add-to-list 'auto-mode-alist (cons "\\.\\(markdown\\|md\\)\\'" (my-load-lang "markdown")))
    #+end_src
 
 ** Apache
    #+begin_src emacs-lisp
-     (defun my-load-apache-conf ()
-       (my-load-lang "apache"))
-     (add-to-list 'auto-mode-alist '("\\.htaccess\\'"   . my-load-apache-conf))
-     (add-to-list 'auto-mode-alist '("httpd\\.conf\\'"  . my-load-apache-conf))
-     (add-to-list 'auto-mode-alist '("srm\\.conf\\'"    . my-load-apache-conf))
-     (add-to-list 'auto-mode-alist '("access\\.conf\\'" . my-load-apache-conf))
-     (add-to-list 'auto-mode-alist '("sites-\\(available\\|enabled\\)/" . my-load-apache-conf))
+     (add-to-list 'auto-mode-alist (cons "\\.htaccess\\'" (my-load-lang "apache")))
+     (add-to-list 'auto-mode-alist (cons "httpd\\.conf\\'" (my-load-lang "apache")))
+     (add-to-list 'auto-mode-alist (cons "srm\\.conf\\'" (my-load-lang "apache")))
+     (add-to-list 'auto-mode-alist (cons "access\\.conf\\'" (my-load-lang "apache")))
+     (add-to-list 'auto-mode-alist (cons "sites-\\(available\\|enabled\\)/" (my-load-lang "apache")))
    #+end_src
 
 ** Scala
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.\\(scala\\|sbt\\)\\'" . (lambda ()
-                                                      (my-load-lang "scala"))))
+     (add-to-list 'auto-mode-alist (cons "\\.\\(scala\\|sbt\\)\\'" (my-load-lang "scala")))
    #+end_src
-
-** Ruby
-  #+begin_src emacs-lisp
-    (add-hook 'ruby-mode-hook (lambda ()
-                                  (my-load-lang "ruby")))
-  #+end_src
 
 ** Erlang
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.erl$" . (lambda ()
-                                                   (my-load-lang "erlang"))))
+     (add-to-list 'auto-mode-alist (cons "\\.erl$" (my-load-lang "erlang")))
    #+end_src
 
 

@@ -1,11 +1,4 @@
 * Load scala-mode2
-** Load it just once per session
-  #+begin_src emacs-lisp
-    (unless (fboundp 'scala-mode)
-      (load "scala-mode2")
-      (setq auto-mode-alist (cdr auto-mode-alist)))
-  #+end_src
-
 ** Enable scala-mode2
    #+begin_src emacs-lisp
      (scala-mode)
