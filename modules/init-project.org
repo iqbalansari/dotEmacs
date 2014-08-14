@@ -13,6 +13,12 @@
   #+end_src
 
 
+* Custom project types
+  #+begin_src emacs-lisp
+    (add-to-list 'projectile-project-root-files ".dropbox")
+  #+end_src
+
+
 * Process buffers should not be considered part of project unless they are shells
   #+begin_src emacs-lisp
     (defun my-filter-out-non-shell-processes (buffers)

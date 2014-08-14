@@ -20,6 +20,7 @@
         decrement-integer-at-point
         delete-horizontal-space
         down-list
+        end-of-visual-line
         eval-and-replace
         eval-last-sexp
         eval-print-last-sexp
