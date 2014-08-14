@@ -1,4 +1,11 @@
 * Load scala-mode2
+** Load scala-mode if not already loaded
+   #+begin_src emacs-lisp
+     (unless (fboundp #'scala-mode)
+       (load "scala-mode2"))
+   #+end_src
+
+
 ** Enable scala-mode2
    #+begin_src emacs-lisp
      (scala-mode)
@@ -52,4 +59,11 @@
   #+begin_src emacs-lisp
     (when (fboundp 'ensime-edit-definition)
       (my-highlight-line-after-func ensime-edit-definition))
+  #+end_src
+
+
+* Use .ensime files to identify project roots in projectile
+  #+begin_src emacs-lisp
+    (eval-after-load 'projectile
+      '(add-to-list 'projectile-project-root-files ".ensime"))
   #+end_src
