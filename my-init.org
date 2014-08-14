@@ -438,8 +438,8 @@
 
 ** Erlang
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.erl\\'" . (lambda ()
-                                                     (my-load-lang "erlang"))))
+     (add-to-list 'auto-mode-alist '("\\.erl$" . (lambda ()
+                                                   (my-load-lang "erlang"))))
    #+end_src
 
 

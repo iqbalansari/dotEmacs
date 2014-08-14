@@ -33,6 +33,12 @@
   #+end_src
 
 
+* Enable visual line mode
+  #+begin_src emacs-lisp
+    (global-visual-line-mode)
+  #+end_src
+
+
 * Use Source Code Pro / Consolas font if available
   #+begin_src emacs-lisp
     (cond ((member "Source Code Pro" (font-family-list)) (set-frame-font "Source Code Pro-11"))
@@ -222,9 +228,15 @@
 
 
 * Flash the currently executed sexp
+** Load eval-sexp-fu
   #+begin_src emacs-lisp
     (load "eval-sexp-fu")
   #+end_src
+
+** Custom colors
+   #+begin_src emacs-lisp
+     (set-face-attribute 'eval-sexp-fu-flash nil :background "#38B4D2" :foreground nil)
+   #+end_src
 
 
 * Use nyan-cat for indicating position in the buffer

@@ -1,0 +1,4 @@
+(:name goto-chg
+       :type elpa
+       :repo ("melpa" . "http://melpa.milkbox.net/packages/")
+       :description "Goto the point of the most recent edit in the buffer")
