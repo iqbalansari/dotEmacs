@@ -98,16 +98,15 @@
      
          (load-file compiled-file)))
      
-     
      (defun my-compile-all-lang-config ()
        (interactive)
        (dolist (lang (directory-files my-langs-dir nil "[^.]+"))
          (my-compile-lang-config lang)))
      
-     (defmacro my-load-lang (language)
-       `(lambda ()
-          (let (auto-mode-alist)
-            (my-load-lang-config ,language))))
+     (defmacro my-associate-lang (extension language)
+       `(add-to-list 'auto-mode-alist (cons ,extension (lambda ()
+                                              (let (auto-mode-alist)
+                                                (my-load-lang-config ,language))))))
    #+end_src
 
 ** 7. Function to declare one-shot keybindings
@@ -351,77 +350,77 @@
 * Configure loading of the major modes
 ** C
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.c\\'" (my-load-lang "c")))
+     (my-associate-lang "\\.c\\'" "c")
    #+end_src
 
 ** Python
   #+begin_src emacs-lisp
-    (add-to-list 'auto-mode-alist (cons "\\.py\\'" (my-load-lang "python")))
+    (my-associate-lang "\\.py\\'" "python")
   #+end_src
 
 ** Javascript
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.js\\'"  (my-load-lang "javascript")))
+     (my-associate-lang "\\.js\\'" "javascript")
    #+end_src
 
 ** HTML mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.html\\'" (my-load-lang "html")))
+     (my-associate-lang "\\.html\\'" "html")
    #+end_src
 
 ** CSS mode
   #+begin_src emacs-lisp
-    (add-to-list 'auto-mode-alist (cons "\\.css\\'" (my-load-lang "css")))
+    (my-associate-lang "\\.css\\'" "css")
     
   #+end_src
 
 ** Scheme mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.rkt\\'" (my-load-lang "scheme")))
+     (my-associate-lang "\\.rkt\\'" "scheme")
    #+end_src
 
 ** Common-lisp mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.li?sp\\'" (my-load-lang "common-lisp")))
+     (my-associate-lang "\\.li?sp\\'" "common-lisp")
    #+end_src
 
 ** SML mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.\\(sml\\|sig\\)\\'" (my-load-lang "sml")))
+     (my-associate-lang "\\.\\(sml\\|sig\\)\\'" "sml")
    #+end_src
 
 ** OCaml mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.ml[iylp]?" (my-load-lang "ocaml")))
+     (my-associate-lang "\\.ml[iylp]?" "ocaml")
    #+end_src
 
 ** Better mode for working with JSON
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.json\\'" (my-load-lang "json")))
+     (my-associate-lang "\\.json\\'" "json")
    #+end_src
 
 ** Markdown mode
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.\\(markdown\\|md\\)\\'" (my-load-lang "markdown")))
+     (my-associate-lang "\\.\\(markdown\\|md\\)\\'" "markdown")
    #+end_src
 
 ** Apache
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.htaccess\\'" (my-load-lang "apache")))
-     (add-to-list 'auto-mode-alist (cons "httpd\\.conf\\'" (my-load-lang "apache")))
-     (add-to-list 'auto-mode-alist (cons "srm\\.conf\\'" (my-load-lang "apache")))
-     (add-to-list 'auto-mode-alist (cons "access\\.conf\\'" (my-load-lang "apache")))
-     (add-to-list 'auto-mode-alist (cons "sites-\\(available\\|enabled\\)/" (my-load-lang "apache")))
+     (my-associate-lang "\\.htaccess\\'" "apache")
+     (my-associate-lang "httpd\\.conf\\'" "apache")
+     (my-associate-lang "srm\\.conf\\'" "apache")
+     (my-associate-lang "access\\.conf\\'" "apache")
+     (my-associate-lang "sites-\\(available\\|enabled\\)/" "apache")
    #+end_src
 
 ** Scala
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.\\(scala\\|sbt\\)\\'" (my-load-lang "scala")))
+     (my-associate-lang "\\.\\(scala\\|sbt\\)\\'" "scala")
    #+end_src
 
 ** Erlang
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist (cons "\\.erl$" (my-load-lang "erlang")))
+     (my-associate-lang "\\.erl$" "erlang")
    #+end_src
 
 
