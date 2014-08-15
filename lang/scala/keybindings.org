@@ -1,14 +1,15 @@
 * Unset some keybindings
   #+begin_src emacs-lisp
-    (dolist (letter '("r" "o" "l" "m" "i" "t"))
-      (define-key ensime-mode-map (kbd (concat "C-c C-r " letter)) nil))
+    (when (boundp 'ensime-mode-map)
+      (dolist (letter '("r" "o" "l" "m" "i" "t"))
+        (define-key ensime-mode-map (kbd (concat "C-c C-r " letter)) nil))
     
-    (define-key ensime-mode-map (kbd "C-c C-r") nil)
-
-    (dolist (letter '("c" "n" "p" "s"))
-      (define-key ensime-mode-map (kbd (concat "C-c C-b " letter)) nil))
+      (define-key ensime-mode-map (kbd "C-c C-r") nil)
     
-    (define-key ensime-mode-map (kbd "C-c C-b") nil)
+      (dolist (letter '("c" "n" "p" "s"))
+        (define-key ensime-mode-map (kbd (concat "C-c C-b " letter)) nil))
+    
+      (define-key ensime-mode-map (kbd "C-c C-b") nil))
   #+end_src
 
 
