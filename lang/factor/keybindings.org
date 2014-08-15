@@ -1,0 +1,16 @@
+* Set keybindings for refactoring
+  #+begin_src emacs-lisp
+    (local-set-key my-refactor-rename #'fuel-refactor-rename-word)
+  #+end_src
+
+
+* Finding references
+  #+begin_src emacs-lisp
+    (local-set-key my-find-references #'fuel-show-callers)
+  #+end_src
+
+
+* Keybinding for get documentation
+  #+begin_src emacs-lisp
+    (local-set-key my-show-doc #'fuel-help)
+  #+end_src

@@ -1,0 +1,16 @@
+* Enable factor-mode
+  #+begin_src emacs-lisp
+    (factor-mode)
+  #+end_src
+
+
+* Enable fuel-mode
+  #+begin_src emacs-lisp
+    (fuel-mode)
+  #+end_src
+
+
+* Run factor
+  #+begin_src emacs-lisp
+    (run-at-time 0.1 nil #'run-factor)
+  #+end_src

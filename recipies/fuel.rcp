@@ -1,0 +1,4 @@
+(:name fuel
+       :type elpa
+       :repo ("melpa" . "http://melpa.milkbox.net/packages/")
+       :description "Major mode for the Factor programming language.")

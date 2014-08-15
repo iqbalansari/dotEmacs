@@ -259,7 +259,7 @@
 
 ** Finding references
    #+begin_src emacs-lisp
-     (defvar my-find-references (kbd "C-<"))
+     (defvar my-find-references (kbd "C-c <"))
    #+end_src
 
 ** Displaying doc
@@ -415,6 +415,11 @@
 ** Erlang
    #+begin_src emacs-lisp
      (my-associate-lang "\\.erl$" "erlang")
+   #+end_src
+
+** Factor
+   #+begin_src emacs-lisp
+     (my-associate-lang "\\.factor$" "factor")
    #+end_src
 
 
