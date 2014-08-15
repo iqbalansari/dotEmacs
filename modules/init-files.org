@@ -95,25 +95,25 @@
 
 * Do not prompt to apply local vars if user has said no once
   #+begin_src emacs-lisp
-    (defvar my-local-vars-file "~/.emacs.d/.disabled-local-vars"
+    (defvar my-local-vars-file (concat my-home-dir ".disabled-local-vars")
       "Directories with ignore local vars are stored here")
-
+    
     (defvar my-ignored-local-vars (when (file-exists-p my-local-vars-file)
                                        (read (my-read-file my-local-vars-file)))
       "Local copy of directories for which local vars are ignored")
-
+    
     (defun my-store-ignored-local-vars ()
       "Write the local copy of ignored directories to disk wiil be
     restored on startup"
       (my-write-to-file my-local-vars-file
                            (prin1-to-string my-ignored-local-vars)))
-
+    
     (defun my-enable-local-vars-for (dir)
       "Re-enable local vars for directory"
       (interactive (list (ido-completing-read "Enable local vars for: "
                                               my-ignored-local-vars)))
       (setq my-ignored-local-vars (delete dir my-ignored-local-vars)))
-
+    
     (defadvice hack-local-variables-confirm (around my-cache-local-vars-resp
                                                     (all-vars unsafe-vars risky-vars dir-name))
       "If the user reply in negative to applying local vars remember it and do not
@@ -124,10 +124,10 @@
         (unless ad-return-value
           (add-to-list 'my-ignored-local-vars dir-name)))
       (setq ad-return-value nil))
-
+    
     ;; Activate the advice
     (ad-activate 'hack-local-variables-confirm)
-
+    
     ;; Store the user choices when emacs exists
     (add-hook 'kill-emacs-hook #'my-store-ignored-local-vars)
   #+end_src

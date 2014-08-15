@@ -52,8 +52,8 @@
   #+begin_src emacs-lisp
     (unless (boundp 'malinka-projects-map)
       (load "malinka")
-      (when (file-exists-p "~/.emacs.d/malinka-projects.el")
-        (load "~/.emacs.d/malinka-projects.el")))
+      (when (file-exists-p (concat my-home-dir "malinka-projects.el"))
+        (load (concat my-home-dir "malinka-projects.el"))))
   #+end_src
 
 
