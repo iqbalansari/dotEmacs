@@ -29,3 +29,10 @@
     (when (fboundp 'merlin-locate)
       (my-highlight-line-after-func merlin-locate))
   #+end_src
+
+
+* Use .merlin files to identify project roots in projectile
+  #+begin_src emacs-lisp
+    (eval-after-load 'projectile
+      '(add-to-list 'projectile-project-root-files ".merlin"))
+  #+end_src

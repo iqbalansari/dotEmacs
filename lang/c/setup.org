@@ -21,7 +21,7 @@
     (when my-rtags-available
       (unless (fboundp 'rtags-start-process-maybe)
         (load "rtags"))
-
+    
       (rtags-start-process-maybe))
   #+end_src
 
@@ -121,3 +121,10 @@
        (company-irony-setup-begin-commands)
        (add-to-list 'company-backends 'company-c-headers))
    #+end_src
+
+
+* Use .compile_commands.json files to identify project roots in projectile
+  #+begin_src emacs-lisp
+    (eval-after-load 'projectile
+      '(add-to-list 'projectile-project-root-files ".compile_commands.json"))
+  #+end_src
