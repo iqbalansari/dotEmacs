@@ -64,3 +64,10 @@
   #+begin_src emacs-lisp
     (my-highlight-line-after-func tern-find-definition)
   #+end_src
+
+
+* Use .tern-project files to identify project roots in projectile
+  #+begin_src emacs-lisp
+    (eval-after-load 'projectile
+      '(add-to-list 'projectile-project-root-files ".tern-project"))
+  #+end_src
