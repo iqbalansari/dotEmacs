@@ -59,25 +59,30 @@
 
 * Index files if not already indexed
   #+begin_src emacs-lisp
-    (defun my-may-be-index-c-project ()
-      (let* ((project-root (ignore-errors (projectile-project-root)))
-             (project-map (when project-root
-                            (car (loop for project-map in malinka-projects-map
-                                       when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
-                                       collect project-map)))))
-        (if (not project-map)
-            (warn (concat "Project not configured, please add malinka-define-project directive\n"
-                          "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
-          (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
-                                                                          " --has-filemanager "
-                                                                          project-root))))
-            (message (concat "Indexing project, this may take some time, this happens just once per project."
-                             " You can manually invoke indexing with malinka-configure-project."
-                             "\nThe result of indexing can be seen in *rdm* buffer"))
-            (malinka-project-configure (cdr (assoc 'name project-map))
-                                       project-root)))))
+    (defvar my-rtags-project-indexed nil)
+    (make-local-variable 'my-rtags-project-indexed)
     
-    (run-at-time 0.5 nil #'my-may-be-index-c-project)
+    (defun my-may-be-index-c-project (buffer)
+      (with-current-buffer buffer
+        (let* ((project-root (ignore-errors (projectile-project-root)))
+               (project-map (when project-root
+                              (car (loop for project-map in malinka-projects-map
+                                         when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
+                                         collect project-map)))))
+          (if (not project-map)
+              (warn (concat "Project not configured, please add malinka-define-project directive\n"
+                            "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
+            (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
+                                                                            " --has-filemanager "
+                                                                            project-root))))
+              (message (concat "Indexing project, this may take some time, this happens just once per project."
+                               " You can manually invoke indexing with malinka-configure-project."
+                               "\nThe result of indexing can be seen in *rdm* buffer"))
+              (malinka-project-configure (cdr (assoc 'name project-map))
+                                         project-root))
+            (setq-local my-rtags-project-indexed t)))))
+    
+    (run-at-time 0.5 nil #'my-may-be-index-c-project (current-buffer))
   #+end_src
 
 
@@ -93,11 +98,23 @@
               (if my-gtags-available (gtags-find-tag) (call-interactively #'find-tag))
             (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol"
                                                  "-F")))))
-
+    
     (defun my-c-find-definition-rtags (&optional prefix)
       (interactive "P")
       (rtags-find-symbol-at-point prefix)
       (my-find-definition-rtags-fallback))
+    
+    (defun my-c-find-definition (&optional prefix)
+      (interactive "P")
+      (cond (my-rtags-project-indexed (call-interactively #'my-c-find-definition-rtags))
+            (my-gtags-available (call-interactively  #'gtags-find-tag))
+            (t (call-interactively  #'find-tag))))
+    
+    (defun my-c-pop-mark ()
+      (interactive)
+      (cond (my-rtags-project-indexed (call-interactively #'rtags-location-stack-back))
+            (my-gtags-available (call-interactively #'gtags-pop-stack))
+            (t (call-interactively #'pop-tag-mark))))
   #+end_src
 
 ** Highlight line after jump
@@ -107,6 +124,16 @@
      (my-highlight-line-after-func gtags-find-tag)
      (my-highlight-line-after-func find-tag)
    #+end_src
+
+
+* Find references
+  #+begin_src emacs-lisp
+    (defun my-c-find-references ()
+      (interactive)
+      (cond (my-rtags-project-indexed (call-interactively #'rtags-find-references))
+            (my-gtags-available (call-interactively #'gtags-find-rtag))
+            (t (call-interactively #'rgrep))))
+  #+end_src
 
 
 * Setup auto-completion
