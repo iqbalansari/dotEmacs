@@ -1,5 +1,6 @@
 ;; Save custom variables in separate file
 (defvar my-home-dir (file-truename "~/.emacs.d/"))
+(setq user-emacs-directory my-home-dir)
 
 (setq custom-file (concat my-home-dir "custom.el"))
 

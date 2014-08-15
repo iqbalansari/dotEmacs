@@ -21,7 +21,12 @@
 
 * Use sanityinc-light theme
   #+begin_src emacs-lisp
-    (color-theme-sanityinc-light)
+    (let ((current-hour (third (decode-time)))
+          (current-minute (second (decode-time))))
+      (if (and (< current-hour 19)
+               (> current-hour 7))
+          (color-theme-sanityinc-light)
+        (color-theme-sanityinc-dark)))
   #+end_src
 
 

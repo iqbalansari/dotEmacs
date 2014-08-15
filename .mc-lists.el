@@ -58,6 +58,7 @@
         sp-kill-sexp
         sp-rewrap-sexp
         sp-unwrap-sexp
+        sp-up-sexp
         st2-like-beginning-of-line
         subword-right
         tern-ac-dot-complete
