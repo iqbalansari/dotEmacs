@@ -1,0 +1,4 @@
+* Install clojure mode and cider
+  #+begin_src emacs-lisp
+    (el-get 'sync '(clojure-mode cider))
+  #+end_src

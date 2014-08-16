@@ -378,6 +378,11 @@
      (my-associate-lang "\\.li?sp\\'" "common-lisp")
    #+end_src
 
+** Clojure
+   #+begin_src emacs-lisp
+     (my-associate-lang "\\.clj\\'" "clojure")
+   #+end_src
+
 ** SML mode
    #+begin_src emacs-lisp
      (my-associate-lang "\\.\\(sml\\|sig\\)\\'" "sml")

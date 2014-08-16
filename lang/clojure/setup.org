@@ -1,0 +1,16 @@
+* Enable clojure mode and cider
+  #+begin_src emacs-lisp
+    (clojure-mode)
+  #+end_src
+
+
+* Enable cider
+  #+begin_src emacs-lisp
+    (cider-mode)
+  #+end_src
+
+
+* Enable smartparens strict mode
+  #+begin_src emacs-lisp
+    (smartparens-strict-mode)
+  #+end_src
