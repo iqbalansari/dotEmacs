@@ -109,16 +109,14 @@
 
 
 * Setup Jedi for autocompletion
-** Configuration
-  Automatically start completion after inserting a dot
+** Automatically start completion after inserting a dot
   #+begin_src emacs-lisp
     (setq jedi:complete-on-dot t)
   #+end_src
 
 ** Setup jedi for current buffer
-   We simply need to call jedi:setup
    #+begin_src emacs-lisp
-       (jedi:setup)
+     (jedi:setup)
    #+end_src
 
 

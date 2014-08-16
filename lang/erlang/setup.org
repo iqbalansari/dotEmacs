@@ -19,6 +19,12 @@
   #+end_src
 
 
+* Enable auto-complete mode for auto-completion mode
+  #+begin_src emacs-lisp
+    (auto-complete-mode)
+  #+end_src
+
+
 * Use .edts files to identify project roots in projectile
   #+begin_src emacs-lisp
     (eval-after-load 'projectile

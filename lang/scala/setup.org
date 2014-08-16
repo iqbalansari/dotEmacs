@@ -5,7 +5,6 @@
        (load "scala-mode2"))
    #+end_src
 
-
 ** Enable scala-mode2
    #+begin_src emacs-lisp
      (scala-mode)
@@ -46,6 +45,12 @@
                               (ensime-scala-mode-hook))
                      (unless (locate-dominating-file buffer-file-name ".ensime")
                        (warn "Not in ensime project, do M-x ensime-config-gen"))))
+  #+end_src
+
+
+* Enable auto-complete mode
+  #+begin_src emacs-lisp
+    (auto-complete-mode)
   #+end_src
 
 
