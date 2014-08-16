@@ -16,18 +16,3 @@
       (setq exec-path (split-string (getenv "PATH") path-separator))
       (push (concat (getenv "OCAML_TOPLEVEL_PATH") "/../../share/emacs/site-lisp") load-path))
   #+end_src
-
-
-* Merlin required auto-complete for compeletion
-  #+begin_src emacs-lisp
-    (when (executable-find "merlin")
-      (el-get 'sync 'auto-complete))
-  #+end_src
-
-
-* Autoloads for merlin and utop
-  #+begin_src emacs-lisp
-    (autoload 'merlin-mode "merlin")
-    (autoload 'utop "utop" "Toplevel for OCaml" t)
-    (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
-  #+end_src

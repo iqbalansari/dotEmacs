@@ -7,6 +7,7 @@
 * Enable merlin if present
   #+begin_src emacs-lisp
     (when (locate-library "merlin")
+      (load "merlin")
       (merlin-mode))
   #+end_src
 
@@ -14,6 +15,7 @@
 * Enable utop if present
   #+begin_src emacs-lisp
     (when (locate-library "utop")
+      (load "utop")
       (utop-setup-ocaml-buffer))
   #+end_src
 
