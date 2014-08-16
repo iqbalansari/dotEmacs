@@ -12,8 +12,9 @@
                                         jquery-doc
                                         js-comint
                                         auto-complete
-                                        js2-refactor))
-    
+                                        js2-refactor
+                                        js2-refactor
+                                        skewer-mode))
+
     (el-get 'sync my-javascript-packages)
-    
   #+end_src

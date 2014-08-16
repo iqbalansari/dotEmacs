@@ -2,7 +2,8 @@
   #+begin_src emacs-lisp
     (defvar my-html-packages
       '(web-mode
-        emmet-mode))
-
+        emmet-mode
+        skewer-mode))
+    
     (el-get 'sync my-html-packages)
   #+end_src

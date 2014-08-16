@@ -56,6 +56,12 @@
   #+end_src
 
 
+* Enable skewer mode
+  #+begin_src emacs-lisp
+    (skewer-html-mode)
+  #+end_src
+
+
 * Function for cleaning up messy markup :IMPROVE:
   #+begin_src emacs-lisp
     (defun sgml-inspect ()

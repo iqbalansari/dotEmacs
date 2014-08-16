@@ -1,7 +1,7 @@
-* Install css-eldoc for syntax hints
+* Install required packages
   #+begin_src emacs-lisp
     (defvar my-css-packages
-      '(css-eldoc))
+      '(css-eldoc skewer-mode))
 
     (el-get 'sync my-css-packages)
   #+end_src
