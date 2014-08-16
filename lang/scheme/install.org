@@ -1,8 +1,7 @@
 * Install geiser and auto-completion package for geiser
   #+begin_src emacs-lisp
     (defvar my-scm-packages
-      '(geiser
-        ac-geiser))
+      '(geiser))
 
     (el-get 'sync my-scm-packages)
   #+end_src
