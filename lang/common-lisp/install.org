@@ -2,7 +2,7 @@
   #+begin_src emacs-lisp
     (defvar my-clisp-packages
       '(slime
-        ac-slime
+        slime-company
         redshank
         auto-complete
         smartparens))
