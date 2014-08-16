@@ -1,7 +1,7 @@
 * Ensure that company, autocomplete are installed
   #+begin_src emacs-lisp
     (defvar my-auto-complete-packages
-      '(company auto-complete pos-tip))
+      '(company-mode auto-complete pos-tip))
 
     (el-get 'sync my-auto-complete-packages)
   #+end_src
@@ -33,12 +33,6 @@
      (setq popup-use-optimized-column-computation nil)
    #+end_src
 
-** Use auto-complete with flyspell
-   #+begin_src emacs-lisp
-     (eval-after-load "auto-complete"
-       (ac-flyspell-workaround))
-   #+end_src
-
 ** To get pop-ups with docs even if a word is uniquely completed from Steve Purcell's config
    #+begin_src emacs-lisp
      (setq-default ac-dwim nil)
@@ -66,4 +60,10 @@
 * Enable company mode globally
   #+begin_src emacs-lisp
     (global-company-mode)
+  #+end_src
+
+
+* Company mode configuration
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-;") 'company-yasnippet)
   #+end_src

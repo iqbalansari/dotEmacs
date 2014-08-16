@@ -19,8 +19,9 @@
   #+end_src
 
 
-* Enable auto-complete mode for auto-completion mode
+* Enable auto-complete mode
   #+begin_src emacs-lisp
+    (company-mode -1)
     (auto-complete-mode)
   #+end_src
 

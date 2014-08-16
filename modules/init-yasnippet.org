@@ -24,3 +24,10 @@
     (setq yas-snippet-dirs (append (list (concat my-home-dir "snippets/"))
                                    (remove "~/.emacs.d/snippets" yas-snippet-dirs)))
   #+end_src
+
+
+* Leave my tab alone
+  #+begin_src emacs-lisp
+    (define-key yas-minor-mode-map (kbd "TAB") nil)
+    (define-key yas-minor-mode-map [(tab)] nil)
+  #+end_src

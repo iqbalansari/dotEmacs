@@ -1,0 +1,4 @@
+(:name slime-company
+       :description "Company-mode completion backend for Slime."
+       :type github
+       :pkgname "anwyn/slime-company")

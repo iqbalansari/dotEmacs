@@ -11,8 +11,9 @@
                                         tern
                                         jquery-doc
                                         js-comint
+                                        auto-complete
                                         js2-refactor))
-
+    
     (el-get 'sync my-javascript-packages)
-
+    
   #+end_src
