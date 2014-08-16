@@ -4,9 +4,9 @@
   #+end_src
 
 
-* Setup autocompletion for css mode
+* Enable auto-completion
   #+begin_src emacs-lisp
-    (ac-css-mode-setup)
+    (add-to-list 'company-backends 'company-css)
   #+end_src
 
 

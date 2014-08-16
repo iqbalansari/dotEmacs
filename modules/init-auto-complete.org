@@ -28,7 +28,6 @@
    #+end_src
 
 ** Display completion correctly
-
    #+begin_src emacs-lisp
      (setq popup-use-optimized-column-computation nil)
    #+end_src
@@ -64,6 +63,15 @@
 
 
 * Company mode configuration
+** Show popup as soon as 'company-minimum-prefix-length' characters are typed
+   #+begin_src emacs-lisp
+     (setq company-idle-delay t)
+   #+end_src
+
+** Keybinding for company-yasnippet
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-;") 'company-yasnippet)
+    
+    (eval-after-load "flyspell"
+      '(define-key flyspell-mode-map (kbd "C-;") nil))
   #+end_src
