@@ -15,3 +15,9 @@
     (load "css-eldoc")
     (turn-on-css-eldoc)
   #+end_src
+
+
+* Enable skewer mode
+  #+begin_src emacs-lisp
+    (skewer-css-mode)
+  #+end_src
