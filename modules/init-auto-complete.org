@@ -24,7 +24,7 @@
      (setq ac-use-menu-map t)
      
      (eval-after-load "auto-complete"
-       (define-key ac-menu-map [backtab] 'ac-previous))
+       '(define-key ac-menu-map [backtab] 'ac-previous))
    #+end_src
 
 ** Display completion correctly
@@ -65,7 +65,7 @@
 * Company mode configuration
 ** Show popup as soon as 'company-minimum-prefix-length' characters are typed
    #+begin_src emacs-lisp
-     (setq company-idle-delay t)
+     (setq company-idle-delay 0)
    #+end_src
 
 ** Keybinding for company-yasnippet
