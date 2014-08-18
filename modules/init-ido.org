@@ -45,15 +45,14 @@
      (add-hook 'ido-setup-hook
                (lambda ()
                  ;; Go straight home
-                 (define-key ido-file-completion-map
-                   (kbd "~")
-                   (lambda ()
-                     (interactive)
-                                     (if (looking-back "~/")
-                         (insert ".emacs.d/")
-                       (if (looking-back "/")
-                           (insert "~/")
-                         (call-interactively 'self-insert-command)))))))
+                 (dolist (map (list ido-file-completion-map ido-file-dir-completion-map))
+                   (define-key map (kbd "~") (lambda ()
+                                               (interactive)
+                                               (if (looking-back "~/")
+                                                   (insert (substring (abbreviate-file-name user-emacs-directory) 2))
+                                                 (if (looking-back "/")
+                                                     (insert "~/")
+                                                   (call-interactively 'self-insert-command))))))))
    #+end_src
 
 
