@@ -49,7 +49,7 @@
                    (define-key map (kbd "~") (lambda ()
                                                (interactive)
                                                (if (looking-back "~/")
-                                                   (insert (substring (abbreviate-file-name user-emacs-directory) 2))
+                                                   (insert ".emacs.d/")
                                                  (if (looking-back "/")
                                                      (insert "~/")
                                                    (call-interactively 'self-insert-command))))))))
