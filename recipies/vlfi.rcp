@@ -1,0 +1,4 @@
+(:name vlfi
+       :description "View Large Files in Emacs"
+       :type github
+       :pkgname "m00natic/vlfi")
