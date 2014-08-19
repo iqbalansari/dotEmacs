@@ -4,7 +4,15 @@
   #+end_src
 
 
-* Start yasnippet global mode
+* Do not use '~/.emacs.d' in yas-snippets-dir
+  #+begin_src emacs-lisp
+    (require 'yasnippet)
+    (setq yas-snippet-dirs (append (list (concat my-home-dir "snippets/"))
+                                   (remove "~/.emacs.d/snippets" yas-snippet-dirs)))
+  #+end_src
+
+
+* Enable yasnippet global mode
   #+begin_src emacs-lisp
     (yas-global-mode)
   #+end_src
@@ -16,13 +24,6 @@
           (cons 'yas-ido-prompt
                 (remove 'yas-ido-prompt
                         yas-prompt-functions)))
-  #+end_src
-
-
-* Do not use '~/.emacs.d' in yas-snippets-dir
-  #+begin_src emacs-lisp
-    (setq yas-snippet-dirs (append (list (concat my-home-dir "snippets/"))
-                                   (remove "~/.emacs.d/snippets" yas-snippet-dirs)))
   #+end_src
 
 
