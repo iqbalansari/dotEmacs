@@ -24,7 +24,7 @@ org/
 auto-save/*
 var/*
 custom.el
-private*
+*private*
 bookmarks
 image-dired/*
 .python-environments/*
