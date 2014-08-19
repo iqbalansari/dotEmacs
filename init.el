@@ -9,7 +9,12 @@
 
 (require 'package)
 (package-initialize)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
+(dolist (archive '(("org" . "http://orgmode.org/elpa/")
+                   ("melpa" . "http://melpa.milkbox.net/packages/")
+                   ("marmalade" . "http://marmalade-repo.org/packages/")))
+  (add-to-list 'package-archives archive t))
+
 (unless (package-installed-p 'org-plus-contrib)
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
