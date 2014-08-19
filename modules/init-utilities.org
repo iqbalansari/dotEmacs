@@ -3,7 +3,6 @@
     (el-get 'sync '(rebox2
                     mag-menu
                     inf-mongo
-                    edit-server
                     prodigy
                     eldoc-eval))
   #+end_src
@@ -80,12 +79,6 @@
   #+begin_src emacs-lisp
     (autoload 'rebox-cycle "rebox2")
     (global-set-key (kbd "C-c q") 'rebox-cycle)
-  #+end_src
-
-
-* Start edit-server this is used by 'Edit with Emacs' chrome extension
-  #+begin_src emacs-lisp
-    (edit-server-start t)
   #+end_src
 
 
