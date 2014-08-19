@@ -48,12 +48,12 @@
        (interactive
         (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
-     
+
        (let ((install-file (concat my-langs-dir
                                    language "/install.org")))
          (when (file-exists-p install-file)
            (org-babel-load-file install-file))))
-     
+
      (defun my-compile-lang-config (lang)
        (interactive
         (list (ido-completing-read "Language: "
@@ -74,7 +74,7 @@
                                                             (concat compiled-file-dest file ".el")
                                                             "emacs-lisp")))))
          (byte-compile-file compiled-file)))
-     
+
      (defun my-load-lang-config (language)
        (interactive
         (list (ido-completing-read "Language: "
@@ -83,20 +83,20 @@
               (lang-path (concat my-langs-dir language "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
-     
+
          (when (apply #'my-is-file-stale compiled-file
                       (loop for file in files
                             when (file-exists-p (concat lang-path file ".org"))
                             collect (concat lang-path file ".org")))
            (my-compile-lang-config language))
-     
+
          (load-file compiled-file)))
-     
+
      (defun my-compile-all-lang-config ()
        (interactive)
        (dolist (lang (directory-files my-langs-dir nil "[^.]+"))
          (my-compile-lang-config lang)))
-     
+
      (defmacro my-associate-lang (extension language)
        `(add-to-list 'auto-mode-alist (cons ,extension (lambda ()
                                               (let (auto-mode-alist)
@@ -315,19 +315,16 @@
 
 * Configurations for Emacs lisp
   Loading emacs-lisp configurations here since loading it via
-  org-babel-load-file can lead to circular loading. org-babel-load-file
-  internally uses find-file for its operations. This problematic in our case
-  since it leads to loading emacs-lisp mode and since we load the configs in
-  emacs-lisp-mode hook this agains triggers the loading of our
-  emacs-lisp-config.
+  org-babel-load-file can lead to circular loading.
   #+begin_src emacs-lisp
     (defvar my-elisp-packages
-      '(el-spice))
+      '(el-spice macrostep))
 
     (el-get 'sync my-elisp-packages)
 
     (add-hook 'emacs-lisp-mode-hook 'el-spice-mode)
     (add-hook 'lisp-interaction-mode-hook 'el-spice-mode)
+    (define-key emacs-lisp-mode-map (kbd "C-c s") 'macrostep-expand)
   #+end_src
 
 
