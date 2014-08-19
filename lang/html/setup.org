@@ -27,12 +27,12 @@
 * Disable hl-line when current tag is highlighted
   #+begin_src emacs-lisp
     (make-local-variable 'hl-line-range-function)
-    
+
     (defun my-disable-hl-line-on-tags ()
-      (if (web-mode-tags-pos)
+      (if (web-mode-element-boundaries)
           nil
         (cons (line-beginning-position) (line-end-position))))
-    
+
     (setq hl-line-range-function #'my-disable-hl-line-on-tags)
   #+end_src
 
