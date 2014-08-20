@@ -5,6 +5,11 @@
 
 
 * Configurations for js2-mode
+** Underline errors
+   #+begin_src emacs-lisp
+     (set-face-attribute 'js2-error nil :underline "red" :foreground nil)
+   #+end_src
+
 ** Indent 'case' on additional level inside 'switch' statements
    #+begin_src emacs-lisp
      (setq js2-indent-switch-body t)
@@ -28,6 +33,7 @@
    #+begin_src emacs-lisp
      (tern-mode t)
    #+end_src
+
 
 * Enable auto-complete mode
   #+begin_src emacs-lisp
