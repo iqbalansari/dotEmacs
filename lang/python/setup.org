@@ -213,9 +213,11 @@
 
 
 * Setup flycheck for error checking
-** Enable flycheck-mode
+** Enable flycheck-mode (except if the file is in non-writable folder)
   #+begin_src emacs-lisp
-    (flycheck-mode)
+    (when (and (buffer-file-name)
+               (file-writable-p (file-name-directory (buffer-file-name))))
+      (flycheck-mode))
   #+end_src
 
 ** Use pylint for syntax checking
