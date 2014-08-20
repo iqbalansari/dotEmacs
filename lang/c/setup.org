@@ -150,6 +150,15 @@
    #+end_src
 
 
+* Setup syntax checking
+  #+begin_src emacs-lisp
+    (flycheck-mode)
+
+    (cond ((executable-find "gcc") (flycheck-select-checker 'c/c++-gcc))
+          ((executable-find "clang") (flycheck-select-checker 'c/c++-clang)))
+  #+end_src
+
+
 * Use .compile_commands.json files to identify project roots in projectile
   #+begin_src emacs-lisp
     (eval-after-load 'projectile
