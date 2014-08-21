@@ -29,47 +29,60 @@
 
 
 * Setup Tern for autocompletion and some refactoring
+** Check ternjs availability
+   #+begin_src emacs-lisp
+     (defvar my-ternjs-available)
+     (setq my-ternjs-available (locate-library "tern"))
+   #+end_src
+
 ** Enable tern-mode
    #+begin_src emacs-lisp
-     (tern-mode t)
+     (when my-ternjs-available
+       (tern-mode t))
    #+end_src
 
 
 * Enable auto-complete mode
+** Enable auto-complete mode
   #+begin_src emacs-lisp
     (company-mode -1)
     (auto-complete-mode)
   #+end_src
 
-
-** Setup autocompletion
-   Setup tern to use autocompletion. Trigger completion on dot
+** Trigger completion on dot
    #+begin_src emacs-lisp
-     (load "tern-auto-complete")
      (setq tern-ac-dot-complete t)
-     (tern-ac-setup)
+   #+end_src
+
+** Enable auto-completion if ternjs is available
+   #+begin_src emacs-lisp
+     (when my-ternjs-available
+       (load "tern-auto-complete")
+       (tern-ac-setup))
    #+end_src
 
 
-* Setup autocompletion and documentation for jQuery
-  #+begin_src emacs-lisp
-     (jquery-doc-setup)
-  #+end_src
-
-
-* Configure comint mode for javascript
-  #+begin_src emacs-lisp
-    (load "js-comint")
-    (setq inferior-js-program-command "node")
-
-    (setenv "NODE_NO_READLINE" "1")
-  #+end_src
-
-
-* Enable skewer mode
+* Skewer mode configuation
+** Enable skewer mode
   #+begin_src emacs-lisp
     (skewer-mode)
   #+end_src
+
+** Helper function to work with skewer repl
+*** Function for sending region to js repl
+   #+begin_src emacs-lisp
+     (defun my-js-eval-region (start end)
+       (interactive "r")
+       (skewer-eval (buffer-substring-no-properties start end)))
+   #+end_src
+
+*** Function to start js repl
+   #+begin_src emacs-lisp
+     (defun my-start-js-repl ()
+       (interactive)
+       (run-skewer)
+       (skewer-repl))
+   #+end_src
 
 
 * Setup code folding
@@ -81,7 +94,8 @@
 
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func tern-find-definition)
+    (when my-ternjs-available
+      (my-highlight-line-after-func tern-find-definition))
   #+end_src
 
 

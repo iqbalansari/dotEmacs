@@ -3,18 +3,25 @@
   vanilla Emacs js-mode as a minor mode and provide error checking
 + [[http://ternjs.net/][ternjs]] - Standalone code analysis engine for Javascript, can provide intelligent
   autocompletion and refactorings
-+ [[https://github.com/ananthakumaran/jquery-doc.el][jquery-doc]] - jQuery api documentation interface for emacs
 + [[https://github.com/magnars/js2-refactor.el][js2-refactor]] - A JavaScript refactoring library for emacs
 
   #+begin_src emacs-lisp
     (defvar my-javascript-packages '(js2-mode
-                                        tern
-                                        jquery-doc
-                                        js-comint
-                                        auto-complete
-                                        js2-refactor
-                                        js2-refactor
-                                        skewer-mode))
+                                     js2-refactor
+                                     skewer-mode
+                                     auto-complete))
+  #+end_src
 
+
+* Install ternjs if npm is installed
+  #+begin_src emacs-lisp
+    (if (executable-find "npm")
+        (add-to-list 'my-javascript-packages 'tern)
+      (warn "Install npm to install ternjs"))
+  #+end_src
+
+
+* Install the packages
+  #+begin_src emacs-lisp
     (el-get 'sync my-javascript-packages)
   #+end_src
