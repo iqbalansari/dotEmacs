@@ -24,32 +24,34 @@
    #+end_src
 
 
-* Set keybindings for jumping to definition
+* Set keybindings for Jedi
   #+begin_src emacs-lisp
-    (local-set-key my-jump-to-definition 'jedi:goto-definition)
-    (local-set-key my-pop-jump-to-definition-marker 'jedi:goto-definition-pop-marker)
-    (local-set-key my-show-doc 'jedi:show-doc)
+    (when my-jedi-available
+      (local-set-key my-jump-to-definition 'jedi:goto-definition)
+      (local-set-key my-pop-jump-to-definition-marker 'jedi:goto-definition-pop-marker)
+      (local-set-key my-show-doc 'jedi:show-doc))
   #+end_src
 
 
 * TODO Keybinding for nosetests menu
   #+begin_src emacs-lisp
-    (local-set-key "\C-ct" (lambda ()
-                              (interactive)
-                              (mag-menu '(title
-                                          (switches
-                                           ("-d" "Drop into debugger on errors" "--pdb"))
-                                          (actions
-                                           ("a" "Run all nose tests"
-                                            (lambda (options) (my-execute-nose-tests options #'nosetests-all)))
-                                           ("b" "Run nosetests on current buffer"
-                                            (lambda (options) (my-execute-nose-tests options #'nosetests-module)))
-                                           ("p" "Run nosetests on testable thing at point in current buffer"
-                                            (lambda (options) (my-execute-nose-tests options #'nosetests-one))))))))
+    (when (locate-library "nose")
+      (local-set-key "\C-ct" (lambda ()
+                               (interactive)
+                               (mag-menu '(title
+                                           (switches
+                                            ("-d" "Drop into debugger on errors" "--pdb"))
+                                           (actions
+                                            ("a" "Run all nose tests"
+                                             (lambda (options) (my-execute-nose-tests options #'nosetests-all)))
+                                            ("b" "Run nosetests on current buffer"
+                                             (lambda (options) (my-execute-nose-tests options #'nosetests-module)))
+                                            ("p" "Run nosetests on testable thing at point in current buffer"
+                                             (lambda (options) (my-execute-nose-tests options #'nosetests-one))))))))
 
-    (defun my-execute-nose-tests (options nose-fn)
-      (let ((debug (assoc "--pdb" options)))
-        (funcall nose-fn debug)))
+      (defun my-execute-nose-tests (options nose-fn)
+        (let ((debug (assoc "--pdb" options)))
+          (funcall nose-fn debug))))
   #+end_src
 
 

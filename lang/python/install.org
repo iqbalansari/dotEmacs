@@ -8,16 +8,25 @@
 + [[https://github.com/porterjamesj/virtualenvwrapper.el][virtualenvwrapper]] - A virtualenvwrapper written in elisp
   #+begin_src emacs-lisp
     (defvar my-python-packages
-     '(jedi
-       pymacs
+     '(pymacs
        ropemacs
+       nose
        virtualenvwrapper
        auto-complete
-       projectile))
-    
+       projectile
+       flycheck))
+  #+end_src
+
+
+* Install jedi if virtualenv is present
+  #+begin_src emacs-lisp
+    (if (executable-find "virtualenv")
+        (add-to-list 'my-python-packages 'jedi)
+      (warn "You need to install python `virtualenv' to install jedi"))
+  #+end_src
+
+
+* Install the packages
+  #+begin_src emacs-lisp
     (el-get 'sync my-python-packages)
-    
-    (if (executable-find "hg")
-      (el-get 'sync '(pydoc-info nose))
-      (message "You need to have hg installed for installing pydoc-info and nose"))
   #+end_src

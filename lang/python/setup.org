@@ -4,6 +4,22 @@
   #+end_src
 
 
+* Use ipython if available
+  #+begin_src emacs-lisp
+    (when (executable-find "ipython")
+      (setq
+       python-shell-interpreter "ipython"
+       python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+       python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+       python-shell-completion-setup-code
+       "from IPython.core.completerlib import module_completion"
+       python-shell-completion-module-string-code
+       "';'.join(module_completion('''%s'''))\n"
+       python-shell-completion-string-code
+       "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"))
+  #+end_src
+
+
 * Fix python-mode's send region
 ** Elpy's send region works well for arbitrary regions use it instead
    #+begin_src emacs-lisp
@@ -109,6 +125,18 @@
 
 
 * Setup Jedi for autocompletion
+** Disable company-mode, since jedi only works only with auto-complete
+   #+begin_src emacs-lisp
+     (company-mode -1)
+     (auto-complete-mode)
+   #+end_src
+
+** Check if jedi is installed
+   #+begin_src emacs-lisp
+     (defvar my-jedi-available)
+     (setq my-jedi-available (locate-library "jedi"))
+   #+end_src
+
 ** Automatically start completion after inserting a dot
   #+begin_src emacs-lisp
     (setq jedi:complete-on-dot t)
@@ -116,8 +144,15 @@
 
 ** Setup jedi for current buffer
    #+begin_src emacs-lisp
-     (jedi:setup)
+     (when my-jedi-available
+       (jedi:setup))
    #+end_src
+
+
+* Use django style comments with fill-column
+  #+begin_src emacs-lisp
+    (setq python-fill-docstring-style 'django)
+  #+end_src
 
 
 * Setup Rope for refactoring
@@ -220,16 +255,12 @@
       (flycheck-mode))
   #+end_src
 
-** Use pylint for syntax checking
+** Use pylint (if available) for syntax checking
    #+begin_src emacs-lisp
-     (flycheck-select-checker 'python-pylint)
+     (if (executable-find "pylint")
+         (flycheck-select-checker 'python-pylint)
+       (warn "Install pylint enable syntax checking"))
    #+end_src
-
-
-* Use django style comments with fill-column
-  #+begin_src emacs-lisp
-    (setq python-fill-docstring-style 'django)
-  #+end_src
 
 
 * Use nosetests for testing
@@ -246,23 +277,8 @@
   #+end_src
 
 
-* Use ipython if available
-  #+begin_src emacs-lisp
-    (when (executable-find "ipython")
-      (setq
-       python-shell-interpreter "ipython"
-       python-shell-prompt-regexp "In \\[[0-9]+\\]: "
-       python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
-       python-shell-completion-setup-code
-       "from IPython.core.completerlib import module_completion"
-       python-shell-completion-module-string-code
-       "';'.join(module_completion('''%s'''))\n"
-       python-shell-completion-string-code
-       "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"))
-  #+end_src
-
-
 * Flash current line after a jump to definition
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func jedi:goto-definition)
+    (when my-jedi-available
+      (my-highlight-line-after-func jedi:goto-definition))
   #+end_src
