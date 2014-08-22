@@ -31,8 +31,8 @@
 
 ** How sensitive is autocompletion
    #+begin_src emacs-lisp
-     (setq ac-auto-start 4)
-     (setq ac-auto-show-menu 0.8)
+     (setq ac-auto-start 3)
+     (setq ac-auto-show-menu 0.5)
    #+end_src
 
 ** Enable fuzzy completion
