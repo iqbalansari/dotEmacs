@@ -4,6 +4,17 @@
   #+end_src
 
 
+* Setup auto-completion
+  #+begin_src emacs-lisp
+    (load "ac-geiser")
+    (ac-geiser-setup)
+
+    (add-hook 'geiser-repl-mode-hook 'ac-geiser-setup)
+    (eval-after-load "auto-complete"
+      '(add-to-list 'ac-modes 'geiser-repl-mode))
+  #+end_src
+
+
 * Enable smartparens strict mode
   #+begin_src emacs-lisp
     (smartparens-strict-mode)

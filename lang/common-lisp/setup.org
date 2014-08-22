@@ -1,4 +1,4 @@
-* Enable lisp mode
+* COMMENT Enable lisp mode
   #+begin_src emacs-lisp
     (lisp-mode)
   #+end_src
@@ -13,10 +13,9 @@
 
 
 * Setup slime
-** slime-fancy adds a better repl (amongst other things), slime-company adds company backend
   #+begin_src emacs-lisp
     (load "slime")
-    (setq slime-contribs '(slime-fancy slime-company))
+    (setq slime-contribs '(slime-fancy))
     
     (slime-setup)
   #+end_src
@@ -34,6 +33,18 @@
 * Enable slime-mode
   #+begin_src emacs-lisp
     (slime-mode)
+  #+end_src
+
+
+* Setup completion for slime
+  #+begin_src emacs-lisp
+    (load "ac-slime")
+    (set-up-slime-ac)
+    
+    (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+    
+    (eval-after-load "auto-complete"
+      '(add-to-list 'ac-modes 'slime-repl-mode))
   #+end_src
 
 

@@ -1,13 +1,34 @@
-* Ensure that company, autocomplete are installed
+* Ensure that autocomplete is installed
   #+begin_src emacs-lisp
     (defvar my-auto-complete-packages
-      '(company-mode auto-complete pos-tip))
+      '(auto-complete pos-tip))
 
     (el-get 'sync my-auto-complete-packages)
   #+end_src
 
 
+* Require auto-complete
+  #+begin_src emacs-lisp
+    (load "auto-complete-config")
+  #+end_src
+
+
 * Auto-complete configurations
+** Load default configuration
+   #+begin_src emacs-lisp
+     (ac-config-default)
+   #+end_src
+
+** Set default sources for autocomplete
+  #+begin_src emacs-lisp
+    (setq-default ac-sources (append ac-sources '(ac-source-yasnippet
+                                                  ac-source-imenu
+                                                  ac-source-dictionary
+                                                  ac-source-abbrev
+                                                  ac-source-words-in-same-mode-buffers
+                                                  ac-source-filename)))
+  #+end_src
+
 ** How sensitive is autocompletion
    #+begin_src emacs-lisp
      (setq ac-auto-start 4)
@@ -22,9 +43,13 @@
 ** Enable menu mode-map when autocomplete menu is displayed
    #+begin_src emacs-lisp
      (setq ac-use-menu-map t)
-     
-     (eval-after-load "auto-complete"
-       '(define-key ac-menu-map [backtab] 'ac-previous))
+     (define-key ac-menu-map [backtab] 'ac-previous)
+   #+end_src
+
+** Trigger key
+
+   #+begin_src emacs-lisp
+     (ac-set-trigger-key "TAB")
    #+end_src
 
 ** Display completion correctly
@@ -32,11 +57,15 @@
      (setq popup-use-optimized-column-computation nil)
    #+end_src
 
+** Use auto-complete with flyspell
+   #+begin_src emacs-lisp
+     (ac-flyspell-workaround)
+   #+end_src
+
 ** To get pop-ups with docs even if a word is uniquely completed from Steve Purcell's config
    #+begin_src emacs-lisp
      (setq-default ac-dwim nil)
    #+end_src
-
 ** Maximum width of auto-complete menu
    #+begin_src emacs-lisp
      (setq ac-max-width 0.5)
@@ -56,22 +85,19 @@
   #+end_src
 
 
-* Enable company mode globally
+* Configuration for using tab for autocompletion taken from [[https://github.com/purcell/emacs.d][Steve Purcell's config]]
+  Trigger autocompletion using <tab>
   #+begin_src emacs-lisp
-    (global-company-mode)
-  #+end_src
+    (defun my-auto-complete-at-point ()
+      (when (and (not (minibufferp))
+                 (fboundp 'auto-complete-mode)
+                 auto-complete-mode)
+        (auto-complete)))
 
+    (defun set-auto-complete-as-completion-at-point-function ()
+      (setq completion-at-point-functions
+            (cons 'my-auto-complete-at-point
+                  (remove 'my-auto-complete-at-point completion-at-point-functions))))
 
-* Company mode configuration
-** Show popup as soon as 'company-minimum-prefix-length' characters are typed
-   #+begin_src emacs-lisp
-     (setq company-idle-delay 0)
-   #+end_src
-
-** Keybinding for company-yasnippet
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-;") 'company-yasnippet)
-    
-    (eval-after-load "flyspell"
-      '(define-key flyspell-mode-map (kbd "C-;") nil))
+    (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
   #+end_src

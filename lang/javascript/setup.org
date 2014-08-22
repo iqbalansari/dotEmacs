@@ -34,20 +34,12 @@
      (tern-mode t)
    #+end_src
 
-
-* Enable auto-complete mode
-  #+begin_src emacs-lisp
-    (company-mode -1)
-    (auto-complete-mode)
-  #+end_src
-
-
 ** Setup autocompletion
    Setup tern to use autocompletion. Trigger completion on dot
    #+begin_src emacs-lisp
      (load "tern-auto-complete")
-     (setq tern-ac-dot-complete t)
      (tern-ac-setup)
+     (setq tern-ac-dot-complete t)
    #+end_src
 
 

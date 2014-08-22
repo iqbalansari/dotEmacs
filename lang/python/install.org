@@ -12,11 +12,10 @@
        pymacs
        ropemacs
        virtualenvwrapper
-       auto-complete
        projectile))
-    
+
     (el-get 'sync my-python-packages)
-    
+
     (if (executable-find "hg")
       (el-get 'sync '(pydoc-info nose))
       (message "You need to have hg installed for installing pydoc-info and nose"))

@@ -4,12 +4,6 @@
   #+end_src
 
 
-* Enable auto-completion
-  #+begin_src emacs-lisp
-    (add-to-list 'company-backends 'company-css)
-  #+end_src
-
-
 * Turn on el-doc mode
   #+begin_src emacs-lisp
     (load "css-eldoc")
