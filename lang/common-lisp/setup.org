@@ -8,7 +8,9 @@
   #+begin_src emacs-lisp
     (setq inferior-lisp-program (or (executable-find "lisp")
                                     (executable-find "sbcl")
-                                    (executable-find "clisp")))
+                                    (executable-find "clisp")
+                                    (progn (warn "No suitable lisp implementation found, slime may not work")
+                                           nil)))
   #+end_src
 
 
