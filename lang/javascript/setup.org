@@ -78,13 +78,10 @@
 
 *** Function to start js repl
    #+begin_src emacs-lisp
-     (defvar my-skewer-running-p nil)
-
      (defun my-start-js-repl ()
        (interactive)
-       (unless my-skewer-running-p 
-         (run-skewer)
-         (setq my-skewer-running-p t))
+       (unless skewer-clients 
+         (run-skewer))
        (skewer-repl))
    #+end_src
 
