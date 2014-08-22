@@ -1,8 +1,7 @@
 * Install erlang mode and edts
   #+begin_src emacs-lisp
     (defvar my-erlang-packages '(erlang
-                                 edts
-                                 auto-complete))
+                                 edts))
     
     (el-get 'sync my-erlang-packages)
   #+end_src

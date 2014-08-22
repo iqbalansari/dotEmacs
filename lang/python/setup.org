@@ -125,12 +125,6 @@
 
 
 * Setup Jedi for autocompletion
-** Disable company-mode, since jedi only works only with auto-complete
-   #+begin_src emacs-lisp
-     (company-mode -1)
-     (auto-complete-mode)
-   #+end_src
-
 ** Check if jedi is installed
    #+begin_src emacs-lisp
      (defvar my-jedi-available)

@@ -10,11 +10,10 @@
     (defvar my-python-packages
      '(pymacs
        ropemacs
-       nose
        virtualenvwrapper
-       auto-complete
-       projectile
-       flycheck))
+       flycheck
+       nose
+       projectile))
   #+end_src
 
 

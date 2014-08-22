@@ -1,4 +1,4 @@
 * Install scala2, ensime and sbt-mode
   #+begin_src emacs-lisp
-    (el-get 'sync '(scala-mode2 sbt-mode ensime auto-complete))
+    (el-get 'sync '(scala-mode2 sbt-mode ensime))
   #+end_src
