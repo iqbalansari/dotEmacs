@@ -1,4 +1,4 @@
-* COMMENT Enable lisp mode
+* Enable lisp mode
   #+begin_src emacs-lisp
     (lisp-mode)
   #+end_src
@@ -6,9 +6,9 @@
 
 * Choose lisp implementation
   #+begin_src emacs-lisp
-    (if (eq system-type 'windows-nt)
-        (setq inferior-lisp-program "clisp")
-      (setq inferior-lisp-program "sbcl"))
+    (setq inferior-lisp-program (or (executable-find "lisp")
+                                    (executable-find "sbcl")
+                                    (executable-find "clisp")))
   #+end_src
 
 
@@ -16,7 +16,7 @@
   #+begin_src emacs-lisp
     (load "slime")
     (setq slime-contribs '(slime-fancy))
-    
+
     (slime-setup)
   #+end_src
 

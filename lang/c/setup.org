@@ -6,7 +6,8 @@
 
 * Enable gtags-mode
   #+begin_src emacs-lisp
-    (gtags-mode)
+    (when my-gtags-available
+      (gtags-mode))
   #+end_src
 
 
@@ -50,7 +51,8 @@
 
 * Load malinka
   #+begin_src emacs-lisp
-    (unless (boundp 'malinka-projects-map)
+    (when (and (not (boundp 'malinka-projects-map))
+               (locate-library "malinka"))
       (load "malinka")
       (when (file-exists-p (concat my-home-dir "malinka-projects.el"))
         (load (concat my-home-dir "malinka-projects.el"))))
@@ -61,7 +63,7 @@
   #+begin_src emacs-lisp
     (defvar my-rtags-project-indexed nil)
     (make-local-variable 'my-rtags-project-indexed)
-    
+
     (defun my-may-be-index-c-project (buffer)
       (with-current-buffer buffer
         (let* ((project-root (ignore-errors (projectile-project-root)))
@@ -69,7 +71,8 @@
                               (car (loop for project-map in malinka-projects-map
                                          when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
                                          collect project-map)))))
-          (if (not project-map)
+          (if (or my-rtags-available
+                  (not project-map))
               (warn (concat "Project not configured, please add malinka-define-project directive\n"
                             "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
             (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
@@ -81,7 +84,7 @@
               (malinka-project-configure (cdr (assoc 'name project-map))
                                          project-root))
             (setq-local my-rtags-project-indexed t)))))
-    
+
     (run-at-time 0.5 nil #'my-may-be-index-c-project (current-buffer))
   #+end_src
 
