@@ -4,21 +4,26 @@
   #+end_src
 
 
+* Instruct merlin to use autocomplete mode
+  #+begin_src emacs-lisp
+    (setq merlin-use-auto-complete-mode t)
+  #+end_src
+
+
 * Enable merlin if present
   #+begin_src emacs-lisp
     (when (locate-library "merlin")
       (merlin-mode))
   #+end_src
 
+* UTOP configuration
+** Load utop
+   #+begin_src emacs-lisp
+     (when (locate-library "utop")
+       (load "utop"))
+   #+end_src
 
-* Enable utop if present
-  #+begin_src emacs-lisp
-    (when (locate-library "utop")
-      (utop-setup-ocaml-buffer))
-  #+end_src
-
-
-* Do not prompt for utop command when starting REPL
+** Do not prompt for utop command when starting REPL
   #+begin_src emacs-lisp
     (setq utop-edit-command nil)
   #+end_src
