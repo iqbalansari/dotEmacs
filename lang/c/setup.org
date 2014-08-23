@@ -161,8 +161,8 @@
 
 ** Select whichever checker is available
    #+begin_src emacs-lisp
-     (cond ((not (version< my-gcc-version "4.8.1")) (flycheck-select-checker 'c/c++-gcc))
-           (my-clang-version (flycheck-select-checker 'c/c++-clang)))
+     (flycheck-select-checker (cond ((not (version< my-gcc-version "4.8.1")) 'c/c++-gcc)
+                                    (my-clang-version 'c/c++-clang)))
    #+end_src
 
 

@@ -21,8 +21,8 @@
       (local-set-key my-send-region #'tuareg-eval-region)
       (local-set-key my-send-buffer #'tuareg-eval-buffer)
       (local-set-key my-send-phrase/sexp/block #'utop-eval-phrase)
-      (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line tuareg-eval-buffer))
-      (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file tuareg-eval-buffer)))
+      (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line tuareg-eval-region))
+      (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file tuareg-eval-region)))
     
     (if (featurep 'utop)
         (my-set-bindings-for-utop)
