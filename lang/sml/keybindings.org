@@ -1,0 +1,7 @@
+* Interacting with the REPL
+  #+begin_src emacs-lisp
+    (local-set-key my-run-shell #'switch-to-sml)
+    (local-set-key my-send-function #'sml-send-function)
+    (local-set-key my-send-line (my-evaluate-line-in-repl my-sml-eval-line sml-send-region))
+    (local-set-key my-send-file #'sml-load-file)
+  #+end_src
