@@ -154,12 +154,16 @@
 
 
 * Setup syntax checking
+** Enable flycheck mode
   #+begin_src emacs-lisp
     (flycheck-mode)
-
-    (cond ((executable-find "gcc") (flycheck-select-checker 'c/c++-gcc))
-          ((executable-find "clang") (flycheck-select-checker 'c/c++-clang)))
   #+end_src
+
+** Select whichever checker is available
+   #+begin_src emacs-lisp
+     (cond ((not (version< my-gcc-version "4.8.1")) (flycheck-select-checker 'c/c++-gcc))
+           (my-clang-version (flycheck-select-checker 'c/c++-clang)))
+   #+end_src
 
 
 * Use .compile_commands.json files to identify project roots in projectile
