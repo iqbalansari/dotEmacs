@@ -5,17 +5,25 @@
 
 
 * Start edts
+** Is edts available
+  #+begin_src emacs-lisp
+    (defvar my-edts-available)
+    (setq my-edts-available (locate-library "edts"))
+  #+end_src
+
   #+begin_src emacs-lisp
     (setq edts-inhibit-package-check t)
 
-    (unless (fboundp #'edts-erlang-mode-hook)
+    (when (and my-edts-available
+               (not (fboundp #'edts-erlang-mode-hook)))
       (load "edts-start"))
   #+end_src
 
 
 * Enable edts mode
   #+begin_src emacs-lisp
-    (edts-mode)
+    (when my-edts-available
+      (edts-mode))
   #+end_src
 
 
