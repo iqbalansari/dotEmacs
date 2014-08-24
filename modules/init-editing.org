@@ -369,8 +369,8 @@
         (indent-for-tab-command)))
 
 
-    (global-set-key (kbd "<C-return>") 'open-line-below)
-    (global-set-key (kbd "<C-S-return>") 'open-line-above)
+    (global-set-key (kbd "C-o") 'open-line-below)
+    (global-set-key (kbd "C-S-o") 'open-line-above)
     (global-set-key (kbd "<M-return>") 'new-line-dwim)
   #+end_src
 
