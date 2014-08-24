@@ -11,11 +11,12 @@
     (setq my-edts-available (locate-library "edts-mode"))
   #+end_src
 
+** Load edts if not already loaded
   #+begin_src emacs-lisp
     (setq edts-inhibit-package-check t)
 
     (when (and my-edts-available
-               (not (fboundp #'edts-erlang-mode-hook)))
+               (not (fboundp #'edts-mode)))
       (load "edts-start"))
   #+end_src
 
