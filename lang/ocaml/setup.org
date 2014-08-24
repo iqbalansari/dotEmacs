@@ -16,6 +16,7 @@
       (merlin-mode))
   #+end_src
 
+
 * UTOP configuration
 ** Load utop
    #+begin_src emacs-lisp

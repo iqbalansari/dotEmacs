@@ -10,7 +10,15 @@
   #+end_src
 
 
+* Flash the current line after jump to definition
+  #+begin_src emacs-lisp
+    (my-highlight-line-after-func fuel-edit-word-at-point)
+  #+end_src
+
+
 * Run factor
   #+begin_src emacs-lisp
-    (run-at-time 0.1 nil #'run-factor)
+    (if fuel-factor-root-dir
+        (run-at-time 0.1 nil #'run-factor)
+    (warn "`fuel-factor-root-dir' not set, please set it directory containing factor"))
   #+end_src

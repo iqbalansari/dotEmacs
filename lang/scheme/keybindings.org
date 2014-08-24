@@ -1,7 +1,6 @@
 * Interacting with the REPL
   #+begin_src emacs-lisp
     (local-set-key my-send-file #'geiser-load-file)
-    (local-set-key my-send-line (my-evaluate-line-in-repl my-geiser-eval-line geiser-eval-region))
     (local-set-key my-send-phrase/sexp/block #'geiser-eval-last-sexp)
   #+end_src
 

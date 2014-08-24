@@ -56,8 +56,7 @@
 
 * Flash current line after jumping to definition
   #+begin_src emacs-lisp
-    (when (fboundp 'ensime-edit-definition)
-      (my-highlight-line-after-func ensime-edit-definition))
+    (my-highlight-line-after-func geiser-edit-symbol-at-point)
   #+end_src
 
 

@@ -27,6 +27,13 @@
   #+end_src
 
 
+* Flash the current line after jump to definition
+  #+begin_src emacs-lisp
+    (when my-edts-available
+      (my-highlight-line-after-func edts-find-source-under-point))
+  #+end_src
+
+
 * Use .edts files to identify project roots in projectile
   #+begin_src emacs-lisp
     (eval-after-load 'projectile

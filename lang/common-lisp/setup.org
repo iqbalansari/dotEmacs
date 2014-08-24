@@ -38,7 +38,7 @@
   #+end_src
 
 
-* Setup completion for slime
+* Setup auto-completion for slime
   #+begin_src emacs-lisp
     (load "ac-slime")
     (set-up-slime-ac)
