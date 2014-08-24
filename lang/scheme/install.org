@@ -6,3 +6,9 @@
 
     (el-get 'sync my-scm-packages)
   #+end_src
+
+
+* Workaround for a bug in guile-2.0
+  #+begin_src emacs-lisp
+    (setenv "LC_ALL" "en_US.UTF-8")
+  #+end_src
