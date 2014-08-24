@@ -5,7 +5,6 @@
        (load "scala-mode2"))
    #+end_src
 
-
 ** Enable scala-mode2
    #+begin_src emacs-lisp
      (scala-mode)
@@ -28,9 +27,7 @@
 * Start ensime if inside 'ensime' project
   #+begin_src emacs-lisp
     (setq ensime-auto-connect 'ask)
-    
-    (defvar my-ensime-sbt-plugin-code "")
-    
+
     (defun my-load-ensime ()
       (when (and (executable-find "sbt")
                  (version< (nth 3 (split-string (shell-command-to-string "sbt --version")))

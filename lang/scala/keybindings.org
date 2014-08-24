@@ -13,7 +13,7 @@
   #+end_src
 
 
-* Bindings for editing
+* Keybindings for editing
   Suggestions from scala-mode2's readme
 ** If inside a multi line comment add asterisk on pressing enter
   #+begin_src emacs-lisp
@@ -29,7 +29,7 @@
    #+end_src
 
 
-* Binding to start scala interpreter or sbt
+* Keybinding to start scala interpreter or sbt
   #+begin_src emacs-lisp
     (if (equal (file-name-extension buffer-file-name) "sbt")
         (local-set-key my-run-shell #'sbt-start)
@@ -37,7 +37,7 @@
   #+end_src
 
 
-* Bindings for interacting with the REPL
+* Keybindings for interacting with the REPL
   #+begin_src emacs-lisp
     (local-set-key my-send-region #'sbt-send-region)
     (local-set-key my-send-buffer (my-evaluate-buffer-in-repl my-scala-eval-buffer sbt:send-region))
@@ -47,7 +47,7 @@
   #+end_src
 
 
-* Bindings for refactoring
+* Keybindings for refactoring
   #+begin_src emacs-lisp
     (local-set-key my-refactor-rename #'ensime-refactor-rename)
     (local-set-key my-refactor-organize-imports #'ensime-refactor-organize-imports)
