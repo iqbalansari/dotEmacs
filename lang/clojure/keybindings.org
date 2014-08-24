@@ -1,0 +1,8 @@
+* Interaction with the REPL
+  #+begin_src emacs-lisp
+    (define-key cider-mode-map my-send-file nil)
+    (local-set-key my-send-file #'cider-load-file)
+
+    (define-key cider-mode-map my-send-buffer nil)
+    (local-set-key my-send-buffer #'cider-eval-buffer)
+  #+end_src

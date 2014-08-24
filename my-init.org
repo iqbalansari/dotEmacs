@@ -371,7 +371,7 @@
 
 ** Clojure
    #+begin_src emacs-lisp
-     (my-associate-lang "\\.clj\\'" "clojure")
+     (my-associate-lang "\\.\\(clj[sx]?\\|dtm\\|edn\\)\\'" "clojure")
    #+end_src
 
 ** SML mode

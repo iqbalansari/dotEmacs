@@ -10,6 +10,33 @@
   #+end_src
 
 
+* Setup auto-completion
+** Setup completion in current buffer
+  #+begin_src emacs-lisp
+    (ac-cider-setup)
+  #+end_src
+
+** Enable auto-completion in cider repl
+   #+begin_src emacs-lisp
+     (eval-after-load "auto-complete"
+       '(add-to-list 'ac-modes 'cider-repl-mode))
+
+     (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+   #+end_src
+
+
+* Enable eldoc
+  #+begin_src emacs-lisp
+    (cider-turn-on-eldoc-mode)
+  #+end_src
+
+
+* Flash the current line after jump to definition
+  #+begin_src emacs-lisp
+    (my-highlight-line-after-func cider-find-var)
+  #+end_src
+
+
 * Enable smartparens strict mode
   #+begin_src emacs-lisp
     (smartparens-strict-mode)
