@@ -1,3 +1,9 @@
+* Getting documentation at point
+  #+begin_src emacs-lisp
+    (local-set-key my-show-doc #'cider-doc)
+  #+end_src
+
+
 * Interaction with the REPL
   #+begin_src emacs-lisp
     (define-key cider-mode-map my-send-file nil)
