@@ -42,24 +42,27 @@
   #+end_src
 
 
-* Do not add autopair "'" if after a word
+* Do not add autopair "'" or """ if around a word
   #+begin_src emacs-lisp
-    (sp-pair "'" nil :unless '(sp-point-after-word-p))
+    (sp-pair "'" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
+    (sp-pair "\"" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
   #+end_src
-
 
 
 * Do not autopair "`" and "'" in lisp buffer
   #+begin_src emacs-lisp
-    (defvar my-lisp-modes '(emacs-lisp-mode lisp-mode scheme-mode lisp-interaction-mode slime-repl-mode))
-    
-    (sp-local-pair my-lisp-modes
-                   "`" "'"
-                   :when '(sp-in-string-p sp-in-comment-p))
-    
-    (sp-local-pair my-lisp-modes
-                   "'" nil
-                   :actions nil)
+        (defvar my-lisp-modes '(emacs-lisp-mode lisp-mode scheme-mode 
+                                                lisp-interaction-mode slime-repl-mode 
+                                                cider-mode cider-repl-mode 
+                                                geiser-repl-mode))
+
+        (sp-local-pair my-lisp-modes
+                       "`" "'"
+                       :when '(sp-in-string-p sp-in-comment-p))
+
+        (sp-local-pair my-lisp-modes
+                       "'" nil
+                       :actions nil)
   #+end_src
 
 
