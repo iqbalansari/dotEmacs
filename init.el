@@ -1,8 +1,8 @@
-;; Save custom variables in separate file
 (defvar my-home-dir (file-truename "~/.emacs.d/"))
 (setq user-emacs-directory my-home-dir)
 
-(setq custom-file (concat my-home-dir "custom.el"))
+;; Save custom variables in separate file
+(setq custom-file (locate-user-emacs-file "custom.el"))
 
 (when (file-exists-p custom-file)
   (load custom-file))
@@ -20,15 +20,15 @@
 (require 'org)
 
 ;; Create .compiled dir in modules
-(unless (file-exists-p (concat my-home-dir "/modules/.compiled/"))
-  (make-directory (concat my-home-dir "/modules/.compiled/")))
+(unless (file-exists-p (locate-user-emacs-file "modules/.compiled/"))
+  (make-directory (locate-user-emacs-file "modules/.compiled/")))
 
 ;; Avoid re-extraction if file has not changed
-(if (file-newer-than-file-p (concat my-home-dir "my-init.org") 
-			    (concat my-home-dir "my-init.el"))
-    (org-babel-load-file (concat my-home-dir "my-init.org"))
-  (load-file (concat my-home-dir "my-init.el")))
+(if (file-newer-than-file-p (locate-user-emacs-file "my-init.org") 
+			    (locate-user-emacs-file "my-init.el"))
+    (org-babel-load-file (locate-user-emacs-file "my-init.org"))
+  (load-file (locate-user-emacs-file "my-init.el")))
 
 ;; Load private settings if exist
-(when (file-exists-p (concat my-home-dir "private.org"))
-  (org-babel-load-file (concat my-home-dir "private.org")))
+(when (file-exists-p (locate-user-emacs-file "private.org"))
+  (org-babel-load-file (locate-user-emacs-file "private.org")))

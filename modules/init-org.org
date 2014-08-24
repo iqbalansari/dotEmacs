@@ -1,7 +1,7 @@
 * The org agenda files
 ** Org agenda files will stored in ~/.emacs.d/org/
    #+begin_src emacs-lisp
-     (defvar my-org-dir (concat my-home-dir "org/"))
+     (defvar my-org-dir (locate-user-emacs-file "org/"))
    #+end_src
 
 ** Create the folder if it does not already exist

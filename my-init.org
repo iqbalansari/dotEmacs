@@ -3,14 +3,14 @@
 ** 1. Path to 'non-el-get' packages
   Packages not currently installable via el-get reside in this directory
   #+begin_src emacs-lisp
-    (defvar otherpackages (concat my-home-dir "otherpackages/"))
+    (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
   #+end_src
 
 ** 2. Path to 'lang'uage specific configurations
    Lang contain the configuration related to one specific type of file.
    They reside in the following directory
    #+begin_src emacs-lisp
-     (defvar my-langs-dir (concat my-home-dir "lang/"))
+     (defvar my-langs-dir (locate-user-emacs-file "lang/"))
    #+end_src
 
 ** 3. Check if given file is older than any of the other given files
@@ -240,8 +240,8 @@
 
 * Create auto-save directory if it does not already exist
   #+begin_src emacs-lisp
-    (unless (file-exists-p (concat my-home-dir "auto-save/"))
-      (make-directory (concat my-home-dir "auto-save/")))
+    (unless (file-exists-p (locate-user-emacs-file "auto-save/"))
+      (make-directory (locate-user-emacs-file "auto-save/")))
   #+end_src
 
 
@@ -301,13 +301,14 @@
             "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
          (let (el-get-master-branch)
            (goto-char (point-max))
-           (eval-print-last-sexp))))
+           (eval-print-last-sexp)
+           (el-get-elpa-build-local-recipes))))
    #+end_src
 
 ** Path to El-Get recipies
    Use recipies from this directory
    #+begin_src emacs-lisp
-       (add-to-list 'el-get-recipe-path (concat my-home-dir "recipies/"))
+       (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
    #+end_src
 
 ** Start El-Get
@@ -424,11 +425,11 @@
 
    The libaries are loaded by the file 'modules/init-modules.org'
    #+begin_src emacs-lisp
-     (when (file-newer-than-file-p (concat my-home-dir "modules/init-modules.org")
-                                   (concat my-home-dir "modules/.compiled/init-modules.el"))
-       (org-babel-tangle-file (concat my-home-dir "modules/init-modules.org")
-                              (concat my-home-dir "modules/.compiled/init-modules.el")
+     (when (file-newer-than-file-p (locate-user-emacs-file "modules/init-modules.org")
+                                   (locate-user-emacs-file "modules/.compiled/init-modules.el"))
+       (org-babel-tangle-file (locate-user-emacs-file "modules/init-modules.org")
+                              (locate-user-emacs-file "modules/.compiled/init-modules.el")
                               "emacs-lisp"))
      
-     (load-file (concat my-home-dir "modules/.compiled/init-modules.el"))
+     (load-file (locate-user-emacs-file "modules/.compiled/init-modules.el"))
    #+end_src

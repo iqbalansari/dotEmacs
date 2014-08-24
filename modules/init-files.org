@@ -95,7 +95,7 @@
 
 * Do not prompt to apply local vars if user has said no once
   #+begin_src emacs-lisp
-    (defvar my-local-vars-file (concat my-home-dir ".disabled-local-vars")
+    (defvar my-local-vars-file (locate-user-emacs-file ".disabled-local-vars")
       "Directories with ignore local vars are stored here")
     
     (defvar my-ignored-local-vars (when (file-exists-p my-local-vars-file)

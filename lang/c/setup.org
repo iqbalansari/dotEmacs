@@ -54,8 +54,8 @@
     (when (and (not (boundp 'malinka-projects-map))
                (locate-library "malinka"))
       (load "malinka")
-      (when (file-exists-p (concat my-home-dir "malinka-projects.el"))
-        (load (concat my-home-dir "malinka-projects.el"))))
+      (when (file-exists-p (locate-user-emacs-file "malinka-projects.el"))
+        (load (locate-user-emacs-file "malinka-projects.el"))))
   #+end_src
 
 
