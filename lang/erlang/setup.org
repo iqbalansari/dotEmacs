@@ -8,7 +8,7 @@
 ** Is edts available?
   #+begin_src emacs-lisp
     (defvar my-edts-available)
-    (setq my-edts-available (locate-library "edts"))
+    (setq my-edts-available (locate-library "edts-mode"))
   #+end_src
 
   #+begin_src emacs-lisp

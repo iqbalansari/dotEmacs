@@ -6,7 +6,7 @@
 
 * Install edts only if erlang is installed
   #+begin_src emacs-lisp
-    (when (executable-find "erlang")
+    (when (executable-find "escript")
       (add-to-list 'my-erlang-packages 'edts))
   #+end_src
 
