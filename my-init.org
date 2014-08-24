@@ -282,7 +282,7 @@
      (defvar my-send-line (kbd "C-c C-l"))
      (defvar my-send-file (kbd "C-c C-f"))
      (defvar my-send-function (kbd "C-M-x"))
-     (defvar my-send-phrase/sexp/block (kbd "C-c C-e"))
+     (defvar my-send-phrase/sexp/block (kbd "C-x C-e"))
    #+end_src
 
 
@@ -357,7 +357,7 @@
 
 ** Scheme mode
    #+begin_src emacs-lisp
-     (my-associate-lang "\\.rkt\\'" "scheme")
+     (my-associate-lang "\\.\\(rkt\\|scm\\)\\'" "scheme")
    #+end_src
 
 ** Common-lisp mode
