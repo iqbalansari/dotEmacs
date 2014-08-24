@@ -4,6 +4,12 @@
   #+end_src
 
 
+* Always start a repl (if one is not running already) when geiser is activated
+  #+begin_src emacs-lisp
+    (setq geiser-mode-start-repl-p t)
+  #+end_src
+
+
 * Setup auto-completion
   #+begin_src emacs-lisp
     (load "ac-geiser")
