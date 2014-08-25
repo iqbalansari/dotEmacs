@@ -26,7 +26,7 @@
 
 * Keybindings for skewer-mode
   #+begin_src emacs-lisp
-    (define-key skewer-mode-map my-run-shell #'my-start-js-repl)
+    (local-set-key my-run-shell #'skewer-repl)
     (local-set-key my-send-buffer #'skewer-load-buffer)
     (local-set-key my-send-function #'skewer-eval-defun)
     (local-set-key my-send-region #'my-js-eval-region)

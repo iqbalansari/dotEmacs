@@ -64,13 +64,13 @@
        (skewer-eval (buffer-substring-no-properties start end)))
    #+end_src
 
-*** Function to start js repl
+*** Advice skewer-repl so that run-skewer is executed before switching to repl
    #+begin_src emacs-lisp
-     (defun my-start-js-repl ()
-       (interactive)
-       (unless skewer-clients 
-         (run-skewer))
-       (skewer-repl))
+     (defadvice skewer-repl (before ensure-skewer-clients (&rest args))
+       (unless skewer-clients
+         (run-skewer)))
+
+     (ad-activate #'skewer-repl)
    #+end_src
 
 
