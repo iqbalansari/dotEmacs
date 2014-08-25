@@ -65,27 +65,27 @@
     (make-local-variable 'my-rtags-project-indexed)
 
     (defun my-may-be-index-c-project (buffer)
-      (with-current-buffer buffer
-        (let* ((project-root (ignore-errors (projectile-project-root)))
-               (project-map (when project-root
-                              (car (loop for project-map in malinka-projects-map
-                                         when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
-                                         collect project-map)))))
-          (if (or my-rtags-available
-                  (not project-map))
-              (warn (concat "Project not configured, please add malinka-define-project directive\n"
-                            "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
-            (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
-                                                                            " --has-filemanager "
-                                                                            project-root))))
-              (message (concat "Indexing project, this may take some time, this happens just once per project."
-                               " You can manually invoke indexing with malinka-configure-project."
-                               "\nThe result of indexing can be seen in *rdm* buffer"))
-              (malinka-project-configure (cdr (assoc 'name project-map))
-                                         project-root))
-            (setq-local my-rtags-project-indexed t)))))
+      (when my-rtags-available
+        (with-current-buffer buffer
+          (let* ((project-root (ignore-errors (projectile-project-root)))
+                 (project-map (when project-root
+                                (car (loop for project-map in malinka-projects-map
+                                           when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
+                                           collect project-map)))))
+            (if (not project-map)
+                (warn (concat "Project not configured, please add malinka-define-project directive\n"
+                              "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
+              (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
+                                                                              " --has-filemanager "
+                                                                              project-root))))
+                (message (concat "Indexing project, this may take some time, this happens just once per project."
+                                 " You can manually invoke indexing with malinka-configure-project."
+                                 "\nThe result of indexing can be seen in *rdm* buffer"))
+                (malinka-project-configure (cdr (assoc 'name project-map))
+                                           project-root))
+              (setq-local my-rtags-project-indexed t))))))
 
-    (run-at-time 0.5 nil #'my-may-be-index-c-project (current-buffer))
+    (run-at-time 0.1 nil #'my-may-be-index-c-project (current-buffer))
   #+end_src
 
 

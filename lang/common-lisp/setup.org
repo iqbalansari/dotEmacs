@@ -23,6 +23,12 @@
   #+end_src
 
 
+* Enable redshank mode
+  #+begin_src emacs-lisp
+    (redshank-mode)
+  #+end_src
+
+
 * Start slime if not connected yet
   #+begin_src emacs-lisp
     ;; Ensures slime is loaded after entire config has loaded
