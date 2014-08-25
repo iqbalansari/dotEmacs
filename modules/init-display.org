@@ -5,7 +5,7 @@
         eval-sexp-fu
         smooth-scrolling
         volatile-highlights
-        color-theme-sanityinc
+        color-theme-sanityinc-tomorrow
         page-break-lines
         nyan-mode))
     
@@ -19,14 +19,14 @@
   #+end_src
 
 
-* Use sanityinc-light theme
+* Use sanityinc-tomorrow theme
   #+begin_src emacs-lisp
     (let ((current-hour (third (decode-time)))
           (current-minute (second (decode-time))))
       (if (and (< current-hour 19)
                (> current-hour 7))
-          (color-theme-sanityinc-light)
-        (color-theme-sanityinc-dark)))
+          (color-theme-sanityinc-tomorrow-day)
+        (color-theme-sanityinc-tomorrow-night)))
   #+end_src
 
 
