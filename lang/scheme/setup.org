@@ -29,7 +29,7 @@
 
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func cider-find-var)
+    (my-highlight-line-after-func geiser-edit-symbol-at-point)
   #+end_src
 
 
