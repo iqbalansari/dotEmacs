@@ -18,15 +18,9 @@
       (define-key tern-mode-keymap my-refactor-rename nil))
   #+end_src
 
-** We use a custom command to switch to skewer repl
-   #+begin_src emacs-lisp
-     (define-key skewer-mode-map (kbd "C-c C-z") nil)
-   #+end_src
-
 
 * Keybindings for skewer-mode
   #+begin_src emacs-lisp
-    (local-set-key my-run-shell #'skewer-repl)
     (local-set-key my-send-buffer #'skewer-load-buffer)
     (local-set-key my-send-function #'skewer-eval-defun)
     (local-set-key my-send-region #'my-js-eval-region)

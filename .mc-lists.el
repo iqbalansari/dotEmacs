@@ -78,6 +78,7 @@
         keyboard-escape-quit
         mouse-set-region
         org-ctrl-c-ctrl-c
+        scroll-other-window
         smex
         sp-next-sexp
         sp-transpose-sexp
