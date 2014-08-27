@@ -19,7 +19,7 @@
   #+end_src
 
 
-* Use sanityinc-light theme
+* Use sanityinc-tomorrow theme
   #+begin_src emacs-lisp
     (let ((current-hour (third (decode-time)))
           (current-minute (second (decode-time))))
