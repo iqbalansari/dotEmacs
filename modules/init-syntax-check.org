@@ -3,7 +3,7 @@
     (my-install-package 'flycheck)
   #+end_src
 
-
+  
 * Underline only errors in buffers
 ** Disable underlining provided by flycheck
    We will add a custom function that will underline only errors
