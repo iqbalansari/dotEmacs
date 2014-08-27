@@ -63,6 +63,11 @@
                (define-key mc/keymap (kbd "C-r") #'phi-search-backward)))
    #+end_src
 
+** Location for mc/list-file
+   #+begin_src emacs-lisp
+     (setq mc/list-file (locate-user-emacs-file ".mc-lists.el"))
+   #+end_src
+
 
 * Tiny setup
   Keybindings for expanding tiny expressions
