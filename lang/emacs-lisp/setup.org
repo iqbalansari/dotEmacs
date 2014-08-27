@@ -1,0 +1,36 @@
+* Enable emacs-lisp-mode
+  #+begin_src emacs-lisp
+    (emacs-lisp-mode)
+  #+end_src
+
+
+* Enable elisp-slime-nav mode
+  #+begin_src emacs-lisp
+    (elisp-slime-nav-mode +1)
+  #+end_src
+
+
+* Enable eldoc-mode
+  #+begin_src emacs-lisp
+    (eldoc-mode +1)
+  #+end_src
+
+
+* Enable smartparens strict mode
+  #+begin_src emacs-lisp
+    (smartparens-strict-mode +1)
+  #+end_src
+
+
+* Enable flycheck mode
+  #+begin_src emacs-lisp
+    (flycheck-mode)
+  #+end_src
+
+
+* Turn on eldoc and auto-completion in ielm
+  #+begin_src emacs-lisp
+    (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
+    (add-hook 'ielm-mode-hook 'ac-emacs-lisp-mode-setup)
+    (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+  #+end_src

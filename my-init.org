@@ -374,13 +374,7 @@
 * Configure loading of the major modes
 ** Elisp
    #+begin_src emacs-lisp
-     (defvar my-elisp-packages '(el-spice macrostep))
-
-     (my-install-packages my-elisp-packages)
-
-     (add-hook 'emacs-lisp-mode-hook 'el-spice-mode)
-     (add-hook 'lisp-interaction-mode-hook 'el-spice-mode)
-     (define-key emacs-lisp-mode-map (kbd "C-c s") 'macrostep-expand)
+     (my-associate-lang "\\.el\\'" "emacs-lisp")
    #+end_src
 
 ** C
