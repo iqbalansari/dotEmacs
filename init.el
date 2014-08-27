@@ -12,6 +12,11 @@
 (package-initialize)
 
 ;; Use org babel to load rest of the configuration
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(unless (package-installed-p 'org-plus-contrib)
+  (package-refresh-contents)
+  (package-install 'org-plus-contrib))
+
 (require 'org)
 
 ;; Create .compiled dir in modules
