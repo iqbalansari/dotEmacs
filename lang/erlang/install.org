@@ -1,17 +1,11 @@
 * Install erlang mode and edts
   #+begin_src emacs-lisp
-    (defvar my-erlang-packages '(erlang))
+    (my-install-package 'erlang)
   #+end_src
 
 
 * Install edts only if erlang is installed
   #+begin_src emacs-lisp
     (when (executable-find "escript")
-      (add-to-list 'my-erlang-packages 'edts))
-  #+end_src
-
-
-* Install the packages
-  #+begin_src emacs-lisp
-    (el-get 'sync my-erlang-packages)
+      (el-get 'sync 'edts))
   #+end_src

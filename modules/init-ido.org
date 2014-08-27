@@ -8,11 +8,12 @@
   #+begin_src emacs-lisp
     (defvar my-ido-packages
       '(flx
+        flx-ido
         ido-ubiquitous
         idomenu
         smex))
 
-    (el-get 'sync my-ido-packages)
+    (my-install-packages my-ido-packages)
   #+end_src
 
 

@@ -1,5 +1,0 @@
-(:name ac-cider
-       :description "Emacs auto-complete client for CIDER"
-       :type github
-       :depends (auto-complete)
-       :pkgname "clojure-emacs/ac-cider")

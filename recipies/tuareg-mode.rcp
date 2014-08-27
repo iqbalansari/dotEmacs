@@ -1,4 +1,0 @@
-(:name tuareg-mode
-       :type github
-       :description "A  GOOD Emacs mode to edit Objective Caml code."
-       :pkgname "ocaml/tuareg")

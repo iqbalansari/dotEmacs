@@ -1,4 +1,0 @@
-(:name idomenu
-       :description "imenu tag selection a la ido"
-       :type http
-       :url "http://www.emacswiki.org/emacs/download/idomenu.el")

@@ -1,4 +1,0 @@
-(:name ido-ubiquitous
-       :description "Fancy completion all over Emacs, not just for buffers and files."
-       :type github
-       :pkgname "DarwinAwardWinner/ido-ubiquitous")

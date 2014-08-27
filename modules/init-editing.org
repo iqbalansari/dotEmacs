@@ -19,7 +19,7 @@
       pos-tip
       phi-search))
 
-  (el-get 'sync my-editing-packages)
+  (my-install-packages my-editing-packages)
 #+end_src
 
 

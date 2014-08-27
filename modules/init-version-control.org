@@ -11,7 +11,7 @@
         git-messenger
         magit-gitflow))
 
-    (el-get 'sync my-version-control-packages)
+    (my-install-packages my-version-control-packages)
   #+end_src
 
 

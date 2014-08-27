@@ -5,7 +5,7 @@
         wgrep
         anzu))
 
-    (el-get 'sync my-search-replace-packages)
+    (my-install-packages my-search-replace-packages)
   #+end_src
 
 

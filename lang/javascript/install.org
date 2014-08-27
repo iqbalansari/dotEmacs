@@ -23,5 +23,5 @@
 
 * Install the packages
   #+begin_src emacs-lisp
-    (el-get 'sync my-javascript-packages)
+    (my-install-packages my-javascript-packages)
   #+end_src

@@ -8,24 +8,28 @@
 + [[https://github.com/porterjamesj/virtualenvwrapper.el][virtualenvwrapper]] - A virtualenvwrapper written in elisp
   #+begin_src emacs-lisp
     (defvar my-python-packages
-     '(pymacs
-       ropemacs
-       virtualenvwrapper
+     '(virtualenvwrapper
        flycheck
        nose
        projectile))
   #+end_src
 
 
+* Install the packages
+  #+begin_src emacs-lisp
+    (my-install-packages my-python-packages)
+  #+end_src
+
+
 * Install jedi if virtualenv is present
   #+begin_src emacs-lisp
     (if (executable-find "virtualenv")
-        (add-to-list 'my-python-packages 'jedi)
+        (my-install-package 'jedi)
       (warn "You need to install python `virtualenv' to install jedi"))
   #+end_src
 
 
-* Install the packages
+* Install rope using el-get
   #+begin_src emacs-lisp
-    (el-get 'sync my-python-packages)
+    (el-get 'sync '(pymacs ropemacs))
   #+end_src

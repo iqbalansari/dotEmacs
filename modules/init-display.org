@@ -5,11 +5,11 @@
         eval-sexp-fu
         smooth-scrolling
         volatile-highlights
-        color-theme-sanityinc
+        color-theme-sanityinc-tomorrow
         page-break-lines
         nyan-mode))
-    
-    (el-get 'sync my-display-packages)
+
+    (my-install-packages my-display-packages)
   #+end_src
 
 
@@ -25,8 +25,8 @@
           (current-minute (second (decode-time))))
       (if (and (< current-hour 19)
                (> current-hour 7))
-          (color-theme-sanityinc-light)
-        (color-theme-sanityinc-dark)))
+          (color-theme-sanityinc-tomorrow-day)
+        (color-theme-sanityinc-tomorrow-night)))
   #+end_src
 
 
@@ -114,6 +114,7 @@
 
 * Temporarily highlight yanks and undos
   #+begin_src emacs-lisp
+    (require 'volatile-highlights)
     (volatile-highlights-mode 1)
   #+end_src
 

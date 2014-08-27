@@ -1,10 +1,11 @@
 * Declaration of global variables and utility functions
   Set global variables to be used in the rest of the intialization
-** 1. Path to 'non-el-get' packages
-  Packages not currently installable via el-get reside in this directory
-  #+begin_src emacs-lisp
-    (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
-  #+end_src
+** 1. Path to packages not in a package manager
+   Packages not currently installable package manager reside in this directory
+   #+begin_src emacs-lisp
+     (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
+     (add-to-list 'load-path otherpackages)
+   #+end_src
 
 ** 2. Path to 'lang'uage specific configurations
    Lang contain the configuration related to one specific type of file.
@@ -163,7 +164,7 @@
 
 ** 9. Require cl-lib, it defines a lot of useful functions
    #+begin_src emacs-lisp
-     (require 'cl-lib)
+     (require 'cl)
    #+end_src
 
 
@@ -171,6 +172,69 @@
   #+begin_src emacs-lisp
     (setq gc-cons-threshold (* 100 1024 1024))
   #+end_src
+
+
+* Initialize package management
+** Add some more repositories
+   #+begin_src emacs-lisp
+     (require 'package)
+     (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+     (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+     (package-initialize)
+   #+end_src
+
+** Refresh package contents if needed
+   #+begin_src emacs-lisp
+     (defvar my-package-refresh-needed (reduce (lambda (need-refresh repo)
+                                                 (or (not (file-exists-p (concat package-user-dir "/archives/"
+                                                                                 (car repo)
+                                                                                 "/archive-contents")))
+                                                     need-refresh))
+                                               package-archives :initial-value nil))
+
+     (when my-package-refresh-needed
+       (package-refresh-contents))
+   #+end_src
+
+** Path to El-Get recipies
+   Use recipies from this directory
+   #+begin_src emacs-lisp
+     (defvar my-local-recipes (locate-user-emacs-file "recipies/"))
+   #+end_src
+
+** Helper functions to install package if not already installed 
+   #+begin_src emacs-lisp
+     (defun my-install-package (package &optional dont-load after-install)
+       "Install package if not already installed, use el-get if 'local' recipe exists
+     for the package. Otherwise install it using package"
+       (if (file-exists-p (concat my-local-recipes 
+                                  (symbol-name package)
+                                  ".rcp"))
+           (el-get 'sync package)
+         (unless (package-installed-p package)
+           (package-install package)
+           (when after-install
+             (funcall after-install))))
+       (unless dont-load
+         (require package)))
+
+     (defun my-install-packages (packages)
+       (dolist (package packages)
+         (my-install-package package)))
+   #+end_src
+
+** Install el-get for installing packages that have external dependencies
+   #+begin_src emacs-lisp
+     (my-install-package 'el-get)
+     (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
+   #+end_src
+
+** Create directory for el-get
+   #+begin_src emacs-lisp
+     (unless (file-exists-p (locate-user-emacs-file "el-get"))
+       (make-directory (locate-user-emacs-file "el-get")))
+   #+end_src
 
 
 * Unbind keys
@@ -286,53 +350,34 @@
    #+end_src
 
 
-* Bootstrap el-get
-  Install El-Get is not installed and configure it
-** Initialize El-Get
+* Load common libraries
+   These are general purpose libraries that can are used
+   by different modes
+
+   The libaries are loaded by the file 'modules/init-modules.org'
    #+begin_src emacs-lisp
-     (add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
-
-     (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-
-     (unless (require 'el-get nil 'noerror)
-       (with-current-buffer
-           (url-retrieve-synchronously
-            "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-         (let (el-get-master-branch)
-           (goto-char (point-max))
-           (eval-print-last-sexp)
-           (el-get-elpa-build-local-recipes))))
+     (when (file-newer-than-file-p (locate-user-emacs-file "modules/init-modules.org")
+                                   (locate-user-emacs-file "modules/.compiled/init-modules.el"))
+       (org-babel-tangle-file (locate-user-emacs-file "modules/init-modules.org")
+                              (locate-user-emacs-file "modules/.compiled/init-modules.el")
+                              "emacs-lisp"))
+     
+     (load-file (locate-user-emacs-file "modules/.compiled/init-modules.el"))
    #+end_src
-
-** Path to El-Get recipies
-   Use recipies from this directory
-   #+begin_src emacs-lisp
-       (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
-   #+end_src
-
-** Start El-Get
-   #+begin_src emacs-lisp
-     (el-get 'sync)
-   #+end_src
-
-
-* Configurations for Emacs lisp
-  Loading emacs-lisp configurations here since loading it via
-  org-babel-load-file can lead to circular loading.
-  #+begin_src emacs-lisp
-    (defvar my-elisp-packages
-      '(el-spice macrostep))
-
-    (el-get 'sync my-elisp-packages)
-
-    (add-hook 'emacs-lisp-mode-hook 'el-spice-mode)
-    (add-hook 'lisp-interaction-mode-hook 'el-spice-mode)
-    (define-key emacs-lisp-mode-map (kbd "C-c s") 'macrostep-expand)
-  #+end_src
 
 
 * Configure loading of the major modes
+** Elisp
+   #+begin_src emacs-lisp
+     (defvar my-elisp-packages '(el-spice macrostep))
+
+     (my-install-packages my-elisp-packages)
+
+     (add-hook 'emacs-lisp-mode-hook 'el-spice-mode)
+     (add-hook 'lisp-interaction-mode-hook 'el-spice-mode)
+     (define-key emacs-lisp-mode-map (kbd "C-c s") 'macrostep-expand)
+   #+end_src
+
 ** C
    #+begin_src emacs-lisp
      (my-associate-lang "\\.c\\'" "c")
@@ -416,20 +461,4 @@
 ** Factor
    #+begin_src emacs-lisp
      (my-associate-lang "\\.factor$" "factor")
-   #+end_src
-
-
-* Load common libraries
-   These are general purpose libraries that can are used
-   by different modes
-
-   The libaries are loaded by the file 'modules/init-modules.org'
-   #+begin_src emacs-lisp
-     (when (file-newer-than-file-p (locate-user-emacs-file "modules/init-modules.org")
-                                   (locate-user-emacs-file "modules/.compiled/init-modules.el"))
-       (org-babel-tangle-file (locate-user-emacs-file "modules/init-modules.org")
-                              (locate-user-emacs-file "modules/.compiled/init-modules.el")
-                              "emacs-lisp"))
-     
-     (load-file (locate-user-emacs-file "modules/.compiled/init-modules.el"))
    #+end_src

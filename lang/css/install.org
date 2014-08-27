@@ -3,5 +3,5 @@
     (defvar my-css-packages
       '(css-eldoc skewer-mode))
 
-    (el-get 'sync my-css-packages)
+    (my-install-packages my-css-packages)
   #+end_src

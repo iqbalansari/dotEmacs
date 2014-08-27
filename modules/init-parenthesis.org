@@ -7,7 +7,7 @@
     (defvar my-paranthesis-packages
       '(smartparens))
 
-    (el-get 'sync my-paranthesis-packages)
+    (my-install-packages my-paranthesis-packages)
 
     (smartparens-global-mode t)
   #+end_src

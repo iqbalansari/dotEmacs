@@ -1,6 +1,6 @@
 * Install required packages
   #+begin_src emacs-lisp
-    (el-get 'sync '(rebox2
+    (my-install-packages '(rebox2
                     mag-menu
                     inf-mongo
                     prodigy

@@ -1,7 +1,7 @@
 * Some additional packages for working with dired
   #+begin_src emacs-lisp
     (defvar my-dired-packages '(dired-details dired-single))
-    (el-get 'sync my-dired-packages)
+    (my-install-packages my-dired-packages)
   #+end_src
 
 
@@ -49,11 +49,12 @@
       (goto-char (point-min))
       (dired-next-line 3))
 
-    (define-key dired-mode-map
-      (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+    (eval-after-load "dired"
+      '(progn (define-key dired-mode-map
+                (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
 
-    (define-key dired-mode-map
-      (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)
+              (define-key dired-mode-map
+                (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)))
   #+end_src
 
 

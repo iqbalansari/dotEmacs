@@ -3,9 +3,10 @@
     (defvar my-clisp-packages
       '(slime
         ac-slime
+        paredit
         redshank
         auto-complete
         smartparens))
-    
-    (el-get 'sync my-clisp-packages)
+
+    (my-install-packages my-clisp-packages)
   #+end_src

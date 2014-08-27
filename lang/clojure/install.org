@@ -1,6 +1,6 @@
 * Install clojure mode, cider and ac-cider
   #+begin_src emacs-lisp
-    (el-get 'sync '(clojure-mode 
+    (my-install-packages '(clojure-mode 
                     cider 
                     ac-cider
                     clj-refactor))

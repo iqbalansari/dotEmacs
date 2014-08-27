@@ -1,3 +1,4 @@
+;; Use absolute file name of user-emacs-directory.
 (defvar my-home-dir (file-truename "~/.emacs.d/"))
 (setq user-emacs-directory my-home-dir)
 
@@ -9,12 +10,6 @@
 
 (require 'package)
 (package-initialize)
-
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-
-(unless (package-installed-p 'org-plus-contrib)
-  (package-refresh-contents)
-  (package-install 'org-plus-contrib))
 
 ;; Use org babel to load rest of the configuration
 (require 'org)

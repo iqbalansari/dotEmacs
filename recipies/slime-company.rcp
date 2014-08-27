@@ -1,5 +1,0 @@
-(:name slime-company
-       :description "Company-mode completion backend for Slime."
-       :type github
-       :compile nil
-       :pkgname "anwyn/slime-company")

@@ -1,4 +1,0 @@
-(:name backup-walker
-       :description "Traverse versioned backups, showing incremental diffs."
-       :type github
-       :pkgname "lewang/backup-walker")

@@ -1,6 +1,6 @@
 * Install flycheck
   #+begin_src emacs-lisp
-    (el-get 'sync '(flycheck flycheck-color-mode-line))
+    (my-install-package 'flycheck)
   #+end_src
 
 

@@ -1,6 +1,6 @@
 * Install tuareg-mode
   #+begin_src emacs-lisp
-    (el-get 'sync 'tuareg-mode)
+    (my-install-package 'tuareg)
   #+end_src
 
 
@@ -20,7 +20,7 @@
 * Install merlin if ocamlmerlin is installed
   #+begin_src emacs-lisp
     (if (executable-find "ocamlmerlin")
-        (el-get 'sync '(auto-complete merlin))
+        (my-install-packages '(auto-complete merlin))
       (warn "`ocamlmerlin' not installed, use opam to install it"))
   #+end_src
 
@@ -28,6 +28,6 @@
 * Install utop package if utop is installed
   #+begin_src emacs-lisp
     (if (executable-find "utop")
-        (el-get 'sync 'utop)
+        (my-install-package 'utop)
       (warn "`utop' not installed will use vanilla ocaml toplevel"))
   #+end_src

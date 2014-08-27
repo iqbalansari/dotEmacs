@@ -3,7 +3,7 @@
     (defvar my-auto-complete-packages
       '(auto-complete pos-tip))
 
-    (el-get 'sync my-auto-complete-packages)
+    (my-install-packages my-auto-complete-packages)
   #+end_src
 
 

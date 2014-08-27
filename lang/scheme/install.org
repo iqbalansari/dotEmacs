@@ -4,7 +4,7 @@
       '(geiser
         ac-geiser))
 
-    (el-get 'sync my-scm-packages)
+    (my-install-packages my-scm-packages)
   #+end_src
 
 

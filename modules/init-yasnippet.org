@@ -1,6 +1,6 @@
 * Ensure that required packages are installed
   #+begin_src emacs-lisp
-    (el-get 'sync 'yasnippet)
+    (my-install-package 'yasnippet)
   #+end_src
 
 

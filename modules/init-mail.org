@@ -5,7 +5,7 @@
       (if (and (executable-find "xapian-config")
                  (executable-find "libtool")
                  (file-exists-p "/usr/include/gmime-2.6/gmime/gmime-certificate.h"))
-        (el-get 'sync 'mu4e)
+        (my-install-package 'mu4e)
         (message "You need to install `autoreconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev'\
      for building mu4e, use apt-get to install them")))
   #+end_src
@@ -15,7 +15,7 @@
   #+begin_src emacs-lisp
     (when (and (eq system-type 'gnu/linux)
                (executable-find "offlineimap"))
-      (el-get 'sync 'offlineimap))
+      (my-install-package 'offlineimap))
   #+end_src
 
 

@@ -5,5 +5,5 @@
         emmet-mode
         skewer-mode))
     
-    (el-get 'sync my-html-packages)
+    (my-install-packages my-html-packages)
   #+end_src

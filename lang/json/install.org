@@ -5,6 +5,6 @@
       '(json-mode
         json-snatcher))
 
-    (el-get 'sync my-json-packages)
+    (my-install-packages my-json-packages)
 
   #+end_src

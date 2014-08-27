@@ -1,7 +1,0 @@
-(:name slime
-       :description "Superior Lisp Interaction Mode for Emacs"
-       :type github
-       :autoloads "slime-autoloads"
-       :pkgname "slime/slime"
-       :depends cl-lib
-       :load-path ("." "contrib"))
