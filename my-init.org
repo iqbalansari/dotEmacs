@@ -349,6 +349,11 @@
      (defvar my-send-phrase/sexp/block (kbd "C-x C-e"))
    #+end_src
 
+** Expanding macro
+   #+begin_src emacs-lisp
+     (defvar my-expand-macro (kbd "C-c RET"))
+   #+end_src
+
 
 * Load common libraries
    These are general purpose libraries that can are used
