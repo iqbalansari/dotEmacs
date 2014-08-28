@@ -205,6 +205,17 @@
 
 ** Helper functions to install package if not already installed 
    #+begin_src emacs-lisp
+     (defun my--install-package (package &optional after-install)
+       (unless (package-installed-p package)
+         (condition-case err
+             (package-install package)
+           (error (when (string= (error-message-string err)
+                                 "Error during download request: Not Found")
+                    (progn (package-refresh-contents)
+                           (package-install package))))))
+         (when after-install
+           (funcall after-install)))
+
      (defun my-install-package (package &optional dont-load after-install)
        "Install package if not already installed, use el-get if 'local' recipe exists
      for the package. Otherwise install it using package"
@@ -212,10 +223,7 @@
                                   (symbol-name package)
                                   ".rcp"))
            (el-get 'sync package)
-         (unless (package-installed-p package)
-           (package-install package)
-           (when after-install
-             (funcall after-install))))
+         (my--install-package package after-install))
        (unless dont-load
          (require package)))
 
