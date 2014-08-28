@@ -347,18 +347,20 @@
   below the current line, ctrl + shift + return will open a line above
   M-RET between parenthesis will insert an newline between the parenthesis
   #+begin_src emacs-lisp
+    ;; Directly calling indent-line-function, since indent-for-tab-command can
+    ;; trigger completions (if tab-always-indent is set to complete)
     (defun open-line-below ()
       (interactive)
       (end-of-line)
       (newline)
-      (indent-for-tab-command))
+      (function indent-line-function))
 
     (defun open-line-above ()
       (interactive)
       (beginning-of-line)
       (newline)
       (forward-line -1)
-      (indent-for-tab-command))
+      (function indent-line-function))
 
 
     (defun new-line-dwim ()
@@ -370,8 +372,8 @@
         (when break-open-pair
           (save-excursion
             (newline)
-            (indent-for-tab-command)))
-        (indent-for-tab-command)))
+            (function indent-line-function)))
+        (function indent-line-function)))
 
 
     (global-set-key (kbd "C-o") 'open-line-below)

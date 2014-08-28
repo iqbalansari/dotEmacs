@@ -24,7 +24,7 @@
 * Install jedi if virtualenv is present
   #+begin_src emacs-lisp
     (if (executable-find "virtualenv")
-        (my-install-package 'jedi #'jedi:install-server-block))
+        (my-install-package 'jedi #'jedi:install-server-block)
       (warn "You need to install python `virtualenv' to install jedi"))
   #+end_src
 
