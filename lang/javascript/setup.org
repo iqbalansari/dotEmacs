@@ -46,7 +46,8 @@
      (when my-ternjs-available
        (load "tern-auto-complete")
        (setq tern-ac-dot-complete t)
-       (tern-ac-setup))
+       (tern-ac-setup)
+       (add-to-list 'completion-at-point-functions #'tern-ac-complete))
    #+end_src
 
 

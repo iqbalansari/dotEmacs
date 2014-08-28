@@ -46,12 +46,6 @@
      (define-key ac-menu-map [backtab] 'ac-previous)
    #+end_src
 
-** Trigger key
-
-   #+begin_src emacs-lisp
-     (ac-set-trigger-key "TAB")
-   #+end_src
-
 ** Display completion correctly
    #+begin_src emacs-lisp
      (setq popup-use-optimized-column-computation nil)
@@ -69,6 +63,11 @@
 ** Maximum width of auto-complete menu
    #+begin_src emacs-lisp
      (setq ac-max-width 0.5)
+   #+end_src
+
+** Try to complete, if line already indented on hitting tab
+   #+begin_src emacs-lisp
+     (setq tab-always-indent 'complete)
    #+end_src
 
 
