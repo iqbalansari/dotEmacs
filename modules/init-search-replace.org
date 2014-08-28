@@ -63,15 +63,13 @@
          (error "Mark is not active"))
        (let* ((isearch-bounds (list isearch-other-end (point)))
               (ismin (apply 'min isearch-bounds))
-              (ismax (apply 'max isearch-bounds))
-              )
+              (ismax (apply 'max isearch-bounds)))
          (if (< (mark) ismin)
              (kill-region (mark) ismin)
            (if (> (mark) ismax)
                (kill-region ismax (mark))
              (error "Internal error in isearch kill function.")))
-         (isearch-exit)
-         ))
+         (isearch-exit)))
    #+end_src
 
 ** Some addtional keybindings
