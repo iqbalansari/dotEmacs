@@ -257,6 +257,9 @@
 
 * Diminsh some minor modes
   #+begin_src emacs-lisp
+    ;; Apparently package.el fails to autoload this sometimes
+    (require 'diminish)
+
     (diminish 'visual-line-mode)
     (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
     (eval-after-load "smartparens" '(diminish 'smartparens-mode))
