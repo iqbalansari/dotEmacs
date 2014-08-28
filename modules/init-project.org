@@ -33,8 +33,16 @@
 
 
 * Custom project types
+** Function for treating dropbox directory as projects
   #+begin_src emacs-lisp
-    (add-to-list 'projectile-project-root-files ".dropbox")
+    (defun my-projectile-locate-dropbox-project (dir &optional list) 
+      (let ((candidate (projectile-locate-dominating-file dir ".dropbox")))
+        ;; The .dropbox directory in home folder should not be treated as
+        ;; project root
+        (when (not (file-directory-p (concat candidate ".dropbox")))
+          (expand-file-name candidate))))
+
+    (add-to-list 'projectile-project-root-files-functions #'my-projectile-locate-dropbox-project t)
   #+end_src
 
 
