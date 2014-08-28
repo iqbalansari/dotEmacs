@@ -26,7 +26,6 @@
 * Always use ido to read buffer name and file name
   #+begin_src emacs-lisp
     (setq read-buffer-function #'ido-read-buffer)
-    (setq read-file-name-function #'ido-read-file-name)
   #+end_src
 
 
