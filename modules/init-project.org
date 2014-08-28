@@ -25,6 +25,13 @@
   #+end_src
 
 
+* Use git grep for grepping in project
+  #+begin_src emacs-lisp
+    (require 'vc-git)
+    (setq projectile-use-git-grep t)
+  #+end_src
+
+
 * Custom project types
   #+begin_src emacs-lisp
     (add-to-list 'projectile-project-root-files ".dropbox")
