@@ -151,11 +151,8 @@
         (if (and my-cmake-version
                  (not (version< my-cmake-version "2.8.3"))
                  my-libclang-version)
-            (progn (my-install-packages '(irony company-irony))
-                   ;; Install irony server if not yet installed
-                   (eval-after-load "irony"
-                     '(unless (file-exists-p (concat irony-user-dir "/bin/irony-server"))
-                        (irony-install-server)))
+            (progn (my-install-package 'irony #'irony-install-server)
+                   (my-install-package 'company-irony)
                    (setq my-irony-available t))
           (warn (concat "irony requirements not satisfied, require\n"
                         "\t1. cmake >= 2.8.3"

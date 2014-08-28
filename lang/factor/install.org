@@ -1,4 +1,4 @@
 * Install fuel
   #+begin_src emacs-lisp
-    (my-install-package 'fuel t)
+    (my-install-package 'fuel)
   #+end_src
