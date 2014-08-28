@@ -216,16 +216,14 @@
          (when after-install
            (funcall after-install)))
 
-     (defun my-install-package (package &optional dont-load after-install)
+     (defun my-install-package (package &optional after-install)
        "Install package if not already installed, use el-get if 'local' recipe exists
      for the package. Otherwise install it using package"
        (if (file-exists-p (concat my-local-recipes 
                                   (symbol-name package)
                                   ".rcp"))
            (el-get 'sync package)
-         (my--install-package package after-install))
-       (unless dont-load
-         (require package)))
+         (my--install-package package after-install)))
 
      (defun my-install-packages (packages)
        (dolist (package packages)
@@ -235,6 +233,7 @@
 ** Install el-get for installing packages that have external dependencies
    #+begin_src emacs-lisp
      (my-install-package 'el-get)
+     (require 'el-get)
      (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
    #+end_src
 

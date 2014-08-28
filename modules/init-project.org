@@ -7,7 +7,7 @@
   #+end_src
 
 
-* Use C-z as prefix for preojectile commands
+* Use C-z as prefix for projectile commands
    #+begin_src emacs-lisp
      (setq projectile-keymap-prefix (kbd "C-z"))
    #+end_src
