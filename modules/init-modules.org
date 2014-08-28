@@ -31,7 +31,7 @@
 * Code to speed up the loading of modules
   Loading all of the config files at the startup is expensive since
   each file first converted from .org to .el files and then loaded
-  separately to overcome this we do the following
+  separately. To speed up the process, we do the following
   1) Convert the org mode files to el files
   2) Combine their code in one file and load it
 
@@ -115,9 +115,9 @@
 * List of modules to be loaded
   #+begin_src emacs-lisp
     (defvar my-modules-list '(display auto-complete backup files buffers dired editing
-                                         navigation search-replace ido parenthesis syntax-check
-                                         shell org utilities version-control yasnippet project
-                                         window-management))
+                                      navigation search-replace ido parenthesis syntax-check
+                                      shell org utilities version-control yasnippet project
+                                      windows session))
   #+end_src
 
 
