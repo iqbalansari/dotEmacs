@@ -8,8 +8,10 @@
       '(magit
         diff-hl
         git-timemachine
-        git-messenger
-        magit-gitflow))
+        git-messenger))
+
+    (when (zerop (call-process "git" nil nil nil "help" "flow"))
+      (add-to-list 'my-version-control-packages 'magit-gitflow))
 
     (my-install-packages my-version-control-packages)
   #+end_src
@@ -121,6 +123,7 @@
 
 * Enable magit-gitflow in magit mode
   #+begin_src emacs-lisp
-    (autoload 'turn-on-magit-gitflow "magit-gitflow")
-    (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+    (when (locate-library "magit-gitflow")
+      (autoload 'turn-on-magit-gitflow "magit-gitflow")
+      (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
   #+end_src
