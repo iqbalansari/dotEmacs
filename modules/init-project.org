@@ -27,7 +27,7 @@
 
 * Use git grep for grepping in project
   #+begin_src emacs-lisp
-    (require 'vc-git)
+    (load "vc-git")
     (setq projectile-use-git-grep t)
   #+end_src
 

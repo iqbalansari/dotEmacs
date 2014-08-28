@@ -149,8 +149,8 @@
 
 ** 8. Highlighting the line to reorient the user
    #+begin_src emacs-lisp
+     (load "pulse")
      (defun my-highlight-line ()
-       (require 'pulse)
        (pulse-momentary-highlight-one-line (point)))
 
      (defmacro my-highlight-line-after-func (func)
@@ -164,7 +164,7 @@
 
 ** 9. Require cl-lib, it defines a lot of useful functions
    #+begin_src emacs-lisp
-     (require 'cl)
+     (load "cl")
    #+end_src
 
 
@@ -177,7 +177,7 @@
 * Initialize package management
 ** Add some more repositories
    #+begin_src emacs-lisp
-     (require 'package)
+     (load "package")
      (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
      (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
      (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
@@ -233,7 +233,7 @@
 ** Install el-get for installing packages that have external dependencies
    #+begin_src emacs-lisp
      (my-install-package 'el-get)
-     (require 'el-get)
+     (load "el-get")
      (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
    #+end_src
 
