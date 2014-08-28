@@ -81,7 +81,6 @@
 
 
 * Wgrep allows modifying the grep buffer and apply the changes to the files
-
   #+begin_src emacs-lisp
     (setq wgrep-auto-save-buffer t)
     (setq wgrep-enable-key "e")
@@ -117,32 +116,6 @@
                                                  (cadr (assoc-string (match-string 0) ',alist
                                                                      case-fold-search)))))
         (query-replace-regexp matcher to-spec nil start end)))
-  #+end_src
-
-
-* Function to search all the buffers
-  #+begin_src emacs-lisp
-    ;; I know that string is in my Emacs somewhere!
-    (defvar search-all-buffers-ignored-files (list (rx-to-string '(and bos (or ".bash_history" "TAGS") eos)))
-      "Files to ignore when searching buffers via \\[search-all-buffers].")
-
-    (defun search-all-buffers (regexp prefix)
-      "Searches file-visiting buffers for occurence of REGEXP.  With
-    prefix > 1 (i.e., if you type C-u \\[search-all-buffers]),
-    searches all buffers."
-      (interactive (list (grep-read-regexp)
-                         current-prefix-arg))
-      (message "Regexp is %s; prefix is %s" regexp prefix)
-      (multi-occur
-       (if (member prefix '(4 (4)))
-           (buffer-list)
-         (cl-remove-if
-          (lambda (b) (cl-some (lambda (rx) (string-match rx  (file-name-nondirectory (buffer-file-name b)))) search-all-buffers-ignored-files))
-          (cl-remove-if-not 'buffer-file-name (buffer-list))))
-
-       regexp))
-
-    (global-set-key [f7] 'search-all-buffers)
   #+end_src
 
 
@@ -183,4 +156,16 @@
 
     (ad-activate 'isearch-repeat-forward)
     (ad-activate 'isearch-repeat-backward)
+  #+end_src
+
+
+* Keybindings for searching across buffers/files
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-s M-b") #'multi-isearch-buffers)
+    (global-set-key (kbd "M-s M-f") #'multi-isearch-files)
+
+    (global-set-key (kbd "M-o") #'occur)
+    (global-set-key (kbd "M-s o") #'multi-occur-in-this-mode)
+    (global-set-key (kbd "M-s M-o") #'multi-occur)
+    (global-set-key (kbd "M-s M-/") #'multi-occur-in-matching-buffers)
   #+end_src
