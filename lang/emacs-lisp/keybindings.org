@@ -22,9 +22,3 @@
   #+begin_src emacs-lisp
     (local-set-key my-expand-macro 'macrostep-expand)
   #+end_src
-
-
-* Keybinding for emacs-refactor
-  #+begin_src emacs-lisp
-    (local-set-key (kbd "C-c <C-return>") 'emr-show-refactor-menu)
-  #+end_src

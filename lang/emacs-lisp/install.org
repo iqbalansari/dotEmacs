@@ -1,8 +1,7 @@
 * Install required packages
   #+begin_src emacs-lisp
     (defvar my-elisp-packages '(elisp-slime-nav 
-                                macrostep 
-                                emr))
+                                macrostep))
 
     (my-install-packages my-elisp-packages)
   #+end_src
