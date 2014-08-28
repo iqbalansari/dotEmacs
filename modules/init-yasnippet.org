@@ -27,6 +27,19 @@
   #+end_src
 
 
+* Leave my tab alone
+** Disable snippet expansion on tab, it is annoying
+  #+begin_src emacs-lisp
+    (define-key yas-minor-mode-map (kbd "TAB") nil)
+    (define-key yas-minor-mode-map [(tab)] nil)
+  #+end_src
+
+** Use C-<enter> to expand snippets
+   #+begin_src emacs-lisp
+     (define-key yas-minor-mode-map (kbd "<C-return>") #'yas-expand)
+   #+end_src
+
+
 * Enable yasnippet global mode
   #+begin_src emacs-lisp
     (yas-global-mode)
