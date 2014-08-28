@@ -24,7 +24,8 @@
 
 * Enable flycheck mode
   #+begin_src emacs-lisp
-    (flycheck-mode)
+    (when (not (string= (buffer-name) "*scratch*"))
+      (flycheck-mode))
   #+end_src
 
 
