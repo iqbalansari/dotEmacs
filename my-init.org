@@ -191,10 +191,8 @@
 * Initialize package management
 ** Add some more repositories
    #+begin_src emacs-lisp
-     (load "package")
      (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-     (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+     (package-initialize)
    #+end_src
 
 ** Refresh package contents if needed
@@ -220,14 +218,9 @@
    #+begin_src emacs-lisp
      (defun my--install-package (package &optional after-install)
        (unless (package-installed-p package)
-         (condition-case err
-             (package-install package)
-           (error (when (string= (error-message-string err)
-                                 "Error during download request: Not Found")
-                    (progn (package-refresh-contents)
-                           (package-install package)))))
+             (package-install package))
          (when after-install
-           (funcall after-install))))
+           (funcall after-install)))
 
      (defun my-install-package (package &optional after-install)
        "Install package if not already installed, use el-get if 'local' recipe exists
