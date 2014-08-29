@@ -58,28 +58,39 @@
     (defvar my-rtags-project-indexed nil)
     (make-local-variable 'my-rtags-project-indexed)
 
+    (defun my-identify-malinka-project ()
+      ;; Malinka project whose root directory is same as current directory
+      (or (car (remove-if-not (lambda (project-map)
+                                (string= (f-canonical (cdr (assoc 'root-directory project-map)))
+                                         default-directory))
+                              malinka-projects-map))
+
+          ;; OR Malinka project whose root directory is ancestor of current directory
+          (car (remove-if-not (lambda (project-map)
+                                (f-ancestor-of? (cdr (assoc 'root-directory project-map))
+                                                default-directory))
+                              malinka-projects-map))))
+
     (defun my-may-be-index-c-project (buffer)
       (when my-rtags-available
         (with-current-buffer buffer
-          (let* ((project-root (ignore-errors (projectile-project-root)))
-                 (project-map (when project-root
-                                (car (loop for project-map in malinka-projects-map
-                                           when (string-equal (cdr (assoc 'root-directory project-map)) project-root)
-                                           collect project-map)))))
+          (let* ((project-map (my-identify-malinka-project)))
             (if (not project-map)
                 (warn (concat "Project not configured, please add malinka-define-project directive\n"
                               "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
               (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
                                                                               " --has-filemanager "
-                                                                              project-root))))
+                                                                              default-directory))))
                 (message (concat "Indexing project, this may take some time, this happens just once per project."
                                  " You can manually invoke indexing with malinka-configure-project."
                                  "\nThe result of indexing can be seen in *rdm* buffer"))
                 (malinka-project-configure (cdr (assoc 'name project-map))
-                                           project-root))
+                                           default-directory))
               (setq-local my-rtags-project-indexed t))))))
 
-    (run-at-time 0.1 nil #'my-may-be-index-c-project (current-buffer))
+    (when (and (buffer-file-name)
+               (file-writable-p (file-name-directory (buffer-file-name))))
+      (run-at-time 0.1 nil #'my-may-be-index-c-project (current-buffer)))
   #+end_src
 
 
