@@ -1,9 +1,3 @@
-* Load js2-mode
-  #+begin_src emacs-lisp
-    (js2-mode)
-  #+end_src
-
-
 * Configurations for js2-mode
 ** Underline errors
    #+begin_src emacs-lisp

@@ -1,9 +1,3 @@
-* Enable css mode
-  #+begin_src emacs-lisp
-    (css-mode)
-  #+end_src
-
-
 * Turn on el-doc mode
   #+begin_src emacs-lisp
     (load "css-eldoc")

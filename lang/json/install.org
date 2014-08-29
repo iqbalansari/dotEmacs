@@ -2,8 +2,7 @@
 
   #+begin_src emacs-lisp
     (defvar my-json-packages
-      '(json-mode
-        json-snatcher))
+      '(json-snatcher))
 
     (my-install-packages my-json-packages)
 

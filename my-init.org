@@ -45,17 +45,9 @@
    them in one compiled file and loads that file, the compiled file is regenerated
    if any of the org files change
    #+begin_src emacs-lisp
-     (defun my-install-lang (language)
-       (interactive
-        (list (ido-completing-read "Language: "
-                                   (directory-files my-langs-dir nil "[^.]+"))))
-
-       (let ((install-file (concat my-langs-dir
-                                   language "/install.org")))
-         (when (file-exists-p install-file)
-           (org-babel-load-file install-file))))
-
      (defun my-compile-lang-config (lang)
+       "Compile a languages configuration file, it simply tangles all the related
+     org files and combines them into one elisp file"
        (interactive
         (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
@@ -63,20 +55,23 @@
               (lang-path (concat my-langs-dir lang "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
-     
-         (unless (file-exists-p compiled-file-dest)
-           (make-directory compiled-file-dest))
-     
-         (my-write-to-file compiled-file
-                           (loop for file in files
-                                 when (file-exists-p (concat lang-path file ".org"))
-                                 concat (my-read-file (car (org-babel-tangle-file
-                                                            (concat lang-path file ".org")
-                                                            (concat compiled-file-dest file ".el")
-                                                            "emacs-lisp")))))
-         (byte-compile-file compiled-file)))
+
+         (when (file-exists-p lang-path)
+           (unless (file-exists-p compiled-file-dest)
+             (make-directory compiled-file-dest))
+
+           (my-write-to-file compiled-file
+                             (loop for file in files
+                                   when (file-exists-p (concat lang-path file ".org"))
+                                   concat (my-read-file (car (org-babel-tangle-file
+                                                              (concat lang-path file ".org")
+                                                              (concat compiled-file-dest file ".el")
+                                                              "emacs-lisp")))))
+           (byte-compile-file compiled-file))))
 
      (defun my-load-lang-config (language)
+       "Load a languages configuration, it compiles the config files
+     first (if needed)"
        (interactive
         (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
@@ -85,23 +80,42 @@
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
 
-         (when (apply #'my-is-file-stale compiled-file
-                      (loop for file in files
-                            when (file-exists-p (concat lang-path file ".org"))
-                            collect (concat lang-path file ".org")))
-           (my-compile-lang-config language))
+         (when (file-exists-p lang-path)
+           (when (apply #'my-is-file-stale compiled-file
+                        (loop for file in files
+                              when (file-exists-p (concat lang-path file ".org"))
+                              collect (concat lang-path file ".org")))
+             (my-compile-lang-config language))
 
-         (load-file compiled-file)))
+           (load-file compiled-file))))
 
      (defun my-compile-all-lang-config ()
+       "Compile all language configurations"
        (interactive)
        (dolist (lang (directory-files my-langs-dir nil "[^.]+"))
          (my-compile-lang-config lang)))
 
-     (defmacro my-associate-lang (extension language)
-       `(add-to-list 'auto-mode-alist (cons ,extension (lambda ()
-                                              (let (auto-mode-alist)
-                                                (my-load-lang-config ,language))))))
+     ;; Taken from prelude
+     (defmacro my-auto-install (extension package mode)
+       "When file with EXTENSION is opened triggers auto-install of PACKAGE.
+     PACKAGE is installed only if not already present. The file is opened in MODE."
+       `(add-to-list 'auto-mode-alist
+                     `(,extension . (lambda ()
+                                      (unless (package-installed-p ',package)
+                                        (package-install ',package))
+                                      (,mode)))))
+
+     (defun my-auto-install-lang (extension package mode)
+       "Setup installation of PACKAGE, if the package is not installed,
+     when a file with extension EXTENSION is opened, the files with the
+     EXTENSION are open in MODE"
+       (add-to-list 'auto-mode-alist (cons extension mode))
+       (unless (package-installed-p package)
+         (my-auto-install extension package mode)))
+
+     (defun my-setup-lang (hook language)
+       (add-hook hook (lexical-let ((language language))
+                        (lambda () (my-load-lang-config language)))))
    #+end_src
 
 ** 6. Function to declare one-shot keybindings
@@ -162,7 +176,7 @@
                (ad-activate ',func)))
    #+end_src
 
-** 9. Require cl-lib, it defines a lot of useful functions
+** 9. Load cl, it defines a lot of useful functions
    #+begin_src emacs-lisp
      (load "cl")
    #+end_src
@@ -377,93 +391,70 @@
    #+end_src
 
 
-* Configure loading of the major modes
-** Elisp
+* Setup language configurations
+** Emacs lisp is needs to be configured specially
    #+begin_src emacs-lisp
-     (my-associate-lang "\\.el\\'" "emacs-lisp")
+     (defvar my-elisp-packages '(elisp-slime-nav 
+                                 macrostep))       
+
+     (my-install-packages my-elisp-packages)
+
+     (defun my-emacs-lisp-config ()
+       ;; Setup
+       (elisp-slime-nav-mode +1)
+       (eldoc-mode +1)
+       (smartparens-strict-mode +1)
+
+       (when (not (string= (buffer-name) "*scratch*"))
+         (flycheck-mode))
+
+       (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
+       (add-hook 'ielm-mode-hook 'ac-emacs-lisp-mode-setup)
+       (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
+       ;; Keybindings
+       (local-set-key my-show-doc #'elisp-slime-nav-describe-elisp-thing-at-point)
+       (local-set-key my-run-shell #'ielm)
+       (local-set-key my-send-buffer #'eval-buffer)
+       (local-set-key my-send-file #'load-file)
+       (local-set-key my-send-region #'eval-region)
+       (local-set-key my-expand-macro 'macrostep-expand))
+
+     (add-hook 'emacs-lisp-mode-hook #'my-emacs-lisp-config)
    #+end_src
 
-** C
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.c\\'" "c")
-   #+end_src
-
-** Python
+** Setup installation of external language modes
   #+begin_src emacs-lisp
-    (my-associate-lang "\\.py\\'" "python")
+    (my-auto-install-lang "\\.\\(scala\\|sbt\\)\\'" 'scala-mode2 #'scala-mode)
+    (my-auto-install-lang "\\.ml[iylp]?" 'tuareg #'tuareg-mode)
+    (my-auto-install-lang "\\.erl$" 'erlang #'erlang-mode)
+    (my-auto-install-lang "\\.js\\'" 'js2-mode #'js2-mode)
+    (my-auto-install-lang "\\.factor$" 'fuel #'factor-mode)
+    (my-auto-install-lang "\\.json\\'" 'json-mode #'json-mode)
+    (my-auto-install-lang "\\.html\\'" 'web-mode #'web-mode)
+    (my-auto-install-lang "\\.\\(markdown\\|md\\)\\'" 'markdown-mode #'markdown-mode)
+    (my-auto-install-lang "\\.\\(sml\\|sig\\)\\'" 'sml-mode #'sml-mode)
+    (my-auto-install-lang "\\.\\(clj[sx]?\\|dtm\\|edn\\)\\'" 'clojure-mode #'clojure-mode)
+    (my-auto-install-lang "httpd\\.conf\\'\\|srm\\.conf\\'\\|access\\.conf\\'\\|sites-\\(available\\|enabled\\)/\\|\\.htaccess\\'"
+                   'apache-mode 'apache-mode)
   #+end_src
 
-** Javascript
+** Setup loading of language configuration when the language mode loads
    #+begin_src emacs-lisp
-     (my-associate-lang "\\.js\\'" "javascript")
+     (my-setup-lang 'lisp-mode-hook "lisp")
+     (my-setup-lang 'scheme-mode-hook "scheme")
+     (my-setup-lang 'python-mode-hook "python")
+     (my-setup-lang 'c-mode-hook "c")
+     (my-setup-lang 'css-mode-hook "css")
+     (my-setup-lang 'scala-mode-hook "scala")
+     (my-setup-lang 'tuareg-mode-hook "ocaml")
+     (my-setup-lang 'erlang-mode-hook "erlang")
+     (my-setup-lang 'js2-mode-hook "javascript")
+     (my-setup-lang 'factor-mode-hook "factor")
+     (my-setup-lang 'json-mode-hook "json")
+     (my-setup-lang 'markdown-mode-hook "markdown")
+     (my-setup-lang 'sml-mode-hook "sml")
+     (my-setup-lang 'clojure-mode-hook "clojure")
+     (my-setup-lang 'web-mode-hook "html")
    #+end_src
 
-** HTML mode
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.html\\'" "html")
-   #+end_src
-
-** CSS mode
-  #+begin_src emacs-lisp
-    (my-associate-lang "\\.css\\'" "css")
-    
-  #+end_src
-
-** Scheme mode
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.\\(rkt\\|scm\\)\\'" "scheme")
-   #+end_src
-
-** Common-lisp mode
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.li?sp\\'" "common-lisp")
-   #+end_src
-
-** Clojure
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.\\(clj[sx]?\\|dtm\\|edn\\)\\'" "clojure")
-   #+end_src
-
-** SML mode
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.\\(sml\\|sig\\)\\'" "sml")
-   #+end_src
-
-** OCaml mode
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.ml[iylp]?" "ocaml")
-   #+end_src
-
-** Better mode for working with JSON
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.json\\'" "json")
-   #+end_src
-
-** Markdown mode
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.\\(markdown\\|md\\)\\'" "markdown")
-   #+end_src
-
-** Apache
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.htaccess\\'" "apache")
-     (my-associate-lang "httpd\\.conf\\'" "apache")
-     (my-associate-lang "srm\\.conf\\'" "apache")
-     (my-associate-lang "access\\.conf\\'" "apache")
-     (my-associate-lang "sites-\\(available\\|enabled\\)/" "apache")
-   #+end_src
-
-** Scala
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.\\(scala\\|sbt\\)\\'" "scala")
-   #+end_src
-
-** Erlang
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.erl$" "erlang")
-   #+end_src
-
-** Factor
-   #+begin_src emacs-lisp
-     (my-associate-lang "\\.factor$" "factor")
-   #+end_src

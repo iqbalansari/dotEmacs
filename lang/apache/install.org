@@ -1,4 +1,0 @@
-* Install apache mode
-  #+begin_src emacs-lisp
-    (my-install-package 'apache-mode)
-  #+end_src

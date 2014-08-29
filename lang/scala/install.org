@@ -1,4 +1,4 @@
 * Install scala2, ensime and sbt-mode
   #+begin_src emacs-lisp
-    (my-install-packages '(scala-mode2 sbt-mode ensime))
+    (my-install-packages '(sbt-mode ensime))
   #+end_src

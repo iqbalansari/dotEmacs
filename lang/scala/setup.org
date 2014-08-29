@@ -1,16 +1,4 @@
-* Load scala-mode2
-** Load scala-mode if not already loaded
-   #+begin_src emacs-lisp
-     (unless (fboundp #'scala-mode)
-       (load "scala-mode2"))
-   #+end_src
-
-** Enable scala-mode2
-   #+begin_src emacs-lisp
-     (scala-mode)
-   #+end_src
-
-** Use eager mode for indenting code
+* Use eager mode for indenting code
    #+begin_src emacs-lisp
      (setq scala-indent:default-run-on-strategy scala-indent:eager-strategy)
    #+end_src

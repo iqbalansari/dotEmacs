@@ -1,9 +1,3 @@
-* Enable tuareg-mode
-  #+begin_src emacs-lisp
-    (tuareg-mode)
-  #+end_src
-
-
 * Instruct merlin to use autocomplete mode
   #+begin_src emacs-lisp
     (setq merlin-use-auto-complete-mode t)

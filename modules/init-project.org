@@ -39,7 +39,8 @@
       (let ((candidate (projectile-locate-dominating-file dir ".dropbox")))
         ;; The .dropbox directory in home folder should not be treated as
         ;; project root
-        (when (not (file-directory-p (concat candidate ".dropbox")))
+        (when (and candidate
+                   (not (file-directory-p (concat candidate ".dropbox"))))
           (expand-file-name candidate))))
 
     (add-to-list 'projectile-project-root-files-functions #'my-projectile-locate-dropbox-project t)

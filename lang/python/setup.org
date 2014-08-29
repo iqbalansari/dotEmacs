@@ -1,9 +1,3 @@
-* Enable python-mode
-  #+begin_src emacs-lisp
-    (python-mode)
-  #+end_src
-
-
 * Use ipython if available
   #+begin_src emacs-lisp
     (when (executable-find "ipython")
