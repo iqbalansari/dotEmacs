@@ -29,6 +29,7 @@
         hungry-delete-backward
         hungry-delete-forward
         increment-integer-at-point
+        indent-for-tab-command
         jedi:dot-complete
         kill-region
         kill-sentence

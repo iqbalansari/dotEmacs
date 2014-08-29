@@ -1,10 +1,11 @@
 * Install required packages
   #+begin_src emacs-lisp
     (my-install-packages '(rebox2
-                    mag-menu
-                    inf-mongo
-                    prodigy
-                    eldoc-eval))
+                           mag-menu
+                           inf-mongo
+                           prodigy
+                           eldoc-eval
+                           f))
   #+end_src
 
 
