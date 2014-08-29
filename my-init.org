@@ -192,6 +192,7 @@
 ** Add some more repositories
    #+begin_src emacs-lisp
      (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
      (package-initialize)
    #+end_src
 
@@ -218,9 +219,9 @@
    #+begin_src emacs-lisp
      (defun my--install-package (package &optional after-install)
        (unless (package-installed-p package)
-             (package-install package))
-         (when after-install
-           (funcall after-install)))
+             (package-install package)
+             (when after-install
+               (funcall after-install))))
 
      (defun my-install-package (package &optional after-install)
        "Install package if not already installed, use el-get if 'local' recipe exists
@@ -249,7 +250,7 @@
        (make-directory (locate-user-emacs-file "el-get")))
    #+end_src
 
-
+   
 * Unbind keys
 ** Unset C-z, I don't find it useful
    #+begin_src emacs-lisp
@@ -434,10 +435,10 @@
 
 ** Setup loading of language configuration when the language mode loads
    #+begin_src emacs-lisp
-     (my-setup-lang 'lisp-mode-hook "lisp")
+     (my-setup-lang 'lisp-mode-hook "common-lisp")
      (my-setup-lang 'scheme-mode-hook "scheme")
      (my-setup-lang 'python-mode-hook "python")
-     (my-setup-lang 'c-mode-hook "c")
+     (my-setup-lang 'c-mode-common-hook "c")
      (my-setup-lang 'css-mode-hook "css")
      (my-setup-lang 'scala-mode-hook "scala")
      (my-setup-lang 'tuareg-mode-hook "ocaml")
