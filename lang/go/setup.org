@@ -1,0 +1,48 @@
+* Gofmt configurations
+** Use goimports if installed
+   #+begin_src emacs-lisp
+     (when (executable-find "goimports")
+       (setq gofmt-command "goimports"))
+   #+end_src
+
+** Run gofmt on save
+  #+begin_src emacs-lisp
+    (make-variable-buffer-local 'before-save-hook)
+    (add-hook 'before-save-hook 'gofmt-before-save)
+  #+end_src
+
+
+* Enable eldoc
+  #+begin_src emacs-lisp
+    (when (locate-library "go-eldoc")
+      (go-eldoc-setup))
+  #+end_src
+
+
+* Setup auto-completion
+** Load go-autocomplete if it has been installed and not yet loaded
+  #+begin_src emacs-lisp
+    (unless (and my-gocode-available
+                 (not (boundp 'ac-source-go)))
+      (load "go-autocomplete"))
+  #+end_src
+
+** Enable auto-completion
+   #+begin_src emacs-lisp
+     (when my-gocode-available
+       (remove 'ac-source-go ac-sources)
+       (push 'ac-source-go ac-sources))
+   #+end_src
+
+
+* Setup syntax checking
+** Enable flycheck
+  #+begin_src emacs-lisp
+    (flycheck-mode)
+  #+end_src
+
+** Select appropriate checker
+   #+begin_src emacs-lisp
+     (flycheck-select-checker (cond ((executable-find "errcheck") 'go-errcheck)
+                                    (t 'go-vet)))
+   #+end_src
