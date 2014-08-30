@@ -79,6 +79,7 @@
         keyboard-escape-quit
         mouse-set-region
         org-ctrl-c-ctrl-c
+        org-edit-special
         smex
         sp-next-sexp
         sp-transpose-sexp

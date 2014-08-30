@@ -192,6 +192,7 @@
 ** Add some more repositories
    #+begin_src emacs-lisp
      (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+     (add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
      (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
      (package-initialize)
    #+end_src
@@ -438,7 +439,8 @@
      (my-setup-lang 'lisp-mode-hook "common-lisp")
      (my-setup-lang 'scheme-mode-hook "scheme")
      (my-setup-lang 'python-mode-hook "python")
-     (my-setup-lang 'c-mode-common-hook "c")
+     (my-setup-lang 'c-mode-hook "c")
+     (my-setup-lang 'c++-mode-hook "c")
      (my-setup-lang 'css-mode-hook "css")
      (my-setup-lang 'scala-mode-hook "scala")
      (my-setup-lang 'tuareg-mode-hook "ocaml")
