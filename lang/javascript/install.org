@@ -6,7 +6,7 @@
   #+begin_src emacs-lisp
     (defvar my-javascript-packages '(js2-refactor
                                      skewer-mode
-                                     auto-complete))
+                                     nodejs-repl))
   #+end_src
 
 

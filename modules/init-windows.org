@@ -22,19 +22,6 @@
   #+end_src
 
 
-* Keybindings to resize the windows
-  #+begin_src emacs-lisp
-    (global-set-key
-     (kbd "<C-S-up>") 'enlarge-window)
-    (global-set-key
-     (kbd "<C-S-down>") 'shrink-window)
-    (global-set-key
-     (kbd "<C-S-left>") 'enlarge-window-horizontally)
-    (global-set-key
-     (kbd "<C-S-right>") 'shrink-window-horizontally)
-  #+end_src
-
-
 * Open current buffer in new frame
   #+begin_src emacs-lisp
     (defun detach-window ()

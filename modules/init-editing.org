@@ -353,14 +353,14 @@
       (interactive)
       (end-of-line)
       (newline)
-      (function indent-line-function))
+      (funcall indent-line-function))
 
     (defun open-line-above ()
       (interactive)
       (beginning-of-line)
       (newline)
       (forward-line -1)
-      (function indent-line-function))
+      (funcall indent-line-function))
 
 
     (defun new-line-dwim ()
@@ -372,8 +372,8 @@
         (when break-open-pair
           (save-excursion
             (newline)
-            (function indent-line-function)))
-        (function indent-line-function)))
+            (funcall indent-line-function)))
+        (funcall indent-line-function)))
 
 
     (global-set-key (kbd "C-o") 'open-line-below)
