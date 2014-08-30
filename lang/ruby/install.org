@@ -1,7 +1,7 @@
 * Install required packages
+  These do not have external dependencies
   #+begin_src emacs-lisp
-    (defvar my-ruby-packages '(robe
-                               inf-ruby
+    (defvar my-ruby-packages '(inf-ruby
                                ac-inf-ruby
                                yari))
 
@@ -10,3 +10,19 @@
 
     (my-install-packages my-ruby-packages)
   #+end_src
+
+
+* Install robe
+  #+begin_src emacs-lisp
+    (defun my-ruby-install-pry ()
+      (if (executable-find "gem")
+          (progn (message "Installing pry ...")
+                 (unless (executable-find "pry")
+                   (if (zerop (shell-command "gem install pry pry-doc"))
+                       (message "Installing pry ... Done!")
+                     (message "pry installation failed"))))
+        (warn "gem executable not found! You will have to install pry and pry-doc for robe to work")))
+
+    (my-install-package 'robe #'my-ruby-install-pry)
+  #+end_src
+
