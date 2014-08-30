@@ -16,17 +16,15 @@
      (turn-on-haskell-decl-scan)
    #+end_src
 
+** Use presentation-mode instead of minibuffer for type info
+   #+begin_src emacs-lisp
+     (setq haskell-process-use-presentation-mode t)
+   #+end_src
+
 
 * Show documentation in minibuffer
    #+begin_src emacs-lisp
      (turn-on-haskell-doc)
-   #+end_src
-
-
-* Enable stylish haskell
-   #+begin_src emacs-lisp
-     (when (executable-find "stylish-haskell")
-       (setq haskell-stylish-on-save t))
    #+end_src
 
 
@@ -49,7 +47,7 @@
 
 ** Suggest importing required modules
    #+begin_src emacs-lisp
-     (setq haskell-process-suggest-hoogle-imports t)
+     (setq haskell-process-suggest-haskell-docs-imports t)
    #+end_src
 
 

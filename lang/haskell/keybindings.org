@@ -9,3 +9,9 @@
   #+begin_src emacs-lisp
     (local-set-key my-run-shell #'haskell-interactive-bring)
   #+end_src
+
+
+* Getting info at point
+  #+begin_src emacs-lisp
+    (local-set-key my-show-doc #'haskell-process-do-info)
+  #+end_src
