@@ -114,7 +114,7 @@
 
 * Temporarily highlight yanks and undos
   #+begin_src emacs-lisp
-    (require 'volatile-highlights)
+    (load "volatile-highlights")
     (volatile-highlights-mode 1)
   #+end_src
 
@@ -258,7 +258,7 @@
 * Diminsh some minor modes
   #+begin_src emacs-lisp
     ;; Apparently package.el fails to autoload this sometimes
-    (require 'diminish)
+    (load "diminish")
 
     (diminish 'visual-line-mode)
     (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))

@@ -23,6 +23,12 @@
   #+end_src
 
 
+* Always use ido to read buffer name and file name
+  #+begin_src emacs-lisp
+    (setq read-buffer-function #'ido-read-buffer)
+  #+end_src
+
+
 * Use flx for better flex matching
   #+begin_src emacs-lisp
     (flx-ido-mode t)

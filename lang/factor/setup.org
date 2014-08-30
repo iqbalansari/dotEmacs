@@ -1,9 +1,3 @@
-* Enable factor-mode
-  #+begin_src emacs-lisp
-    (factor-mode)
-  #+end_src
-
-
 * Enable fuel-mode
   #+begin_src emacs-lisp
     (fuel-mode)

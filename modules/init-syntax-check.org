@@ -41,7 +41,7 @@
    The following function displays the errors at a point
    in a popup
    #+begin_src emacs-lisp
-     (require 'pos-tip)
+     (load "pos-tip")
      (defun my-display-messages-in-popup (errors)
        ;; Do not interfere with autocomplete popups
        (unless (or (popup-live-p ac-menu) (popup-live-p ac-quick-help))

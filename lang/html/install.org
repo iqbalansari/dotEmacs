@@ -1,9 +1,7 @@
 * Install required packages
   #+begin_src emacs-lisp
-    (defvar my-html-packages
-      '(web-mode
-        emmet-mode
-        skewer-mode))
-    
+    (defvar my-html-packages '(emmet-mode
+                               skewer-mode))
+
     (my-install-packages my-html-packages)
   #+end_src

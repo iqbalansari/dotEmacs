@@ -1,4 +1,0 @@
-* Install required packages
-  #+begin_src emacs-lisp
-    (my-install-package 'sml-mode)
-  #+end_src

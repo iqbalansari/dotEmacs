@@ -6,7 +6,7 @@
 
 * Do not use '~/.emacs.d' in yas-snippets-dir
   #+begin_src emacs-lisp
-    (require 'yasnippet)
+    (load "yasnippet")
     (setq yas-snippet-dirs (append (list (locate-user-emacs-file "snippets/"))
                                    (remove "~/.emacs.d/snippets" yas-snippet-dirs)))
   #+end_src

@@ -529,7 +529,7 @@
    keymap property of the overlay
 
    #+begin_src emacs-lisp
-     (require 'pos-tip)
+     (load "pos-tip")
      (defun my--display-folded-content (window ov pos)
        (pos-tip-show (buffer-substring (overlay-start ov)
                                                 (overlay-end ov)))

@@ -1,9 +1,3 @@
-* Enable erlang mode
-  #+begin_src emacs-lisp
-    (erlang-mode)
-  #+end_src
-
-
 * Start edts
 ** Is edts available?
   #+begin_src emacs-lisp

@@ -1,9 +1,3 @@
-* Enable clojure mode and cider
-  #+begin_src emacs-lisp
-    (clojure-mode)
-  #+end_src
-
-
 * Enable cider
   #+begin_src emacs-lisp
     (cider-mode)

@@ -1,9 +1,3 @@
-* Use c-mode
-  #+begin_src emacs-lisp
-    (c-mode)
-  #+end_src
-
-
 * Enable gtags-mode
   #+begin_src emacs-lisp
     (when my-gtags-available

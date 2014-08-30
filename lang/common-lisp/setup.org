@@ -1,9 +1,3 @@
-* Enable lisp mode
-  #+begin_src emacs-lisp
-    (lisp-mode)
-  #+end_src
-
-
 * Choose lisp implementation
   #+begin_src emacs-lisp
     (setq inferior-lisp-program (or (executable-find "lisp")

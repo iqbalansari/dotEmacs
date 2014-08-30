@@ -1,4 +1,0 @@
-* Install markdown mode
-  #+begin_src emacs-lisp
-    (my-install-package 'markdown-mode)
-  #+end_src
