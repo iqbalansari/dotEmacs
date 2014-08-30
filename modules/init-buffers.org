@@ -1,3 +1,18 @@
+* Install buffer-move to quickly swapping windows
+  #+begin_src emacs-lisp
+    (my-install-package 'buffer-move)
+  #+end_src
+
+
+* Keybindings for buffer-move
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "<C-S-up>")     'buf-move-up)
+    (global-set-key (kbd "<C-S-down>")   'buf-move-down)
+    (global-set-key (kbd "<C-S-left>")   'buf-move-left)
+    (global-set-key (kbd "<C-S-right>")  'buf-move-right)
+  #+end_src
+
+
 * Prefer utf-8 encoding
   #+begin_src emacs-lisp
     (setq locale-coding-system 'utf-8)
@@ -10,6 +25,7 @@
 
 * Create unique names for same named buffers
   #+begin_src emacs-lisp
+    (load "uniquify")
     (setq uniquify-buffer-name-style 'forward)
   #+end_src
 

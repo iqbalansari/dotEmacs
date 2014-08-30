@@ -220,13 +220,13 @@
    #+begin_src emacs-lisp
      (defun my--install-package (package &optional after-install)
        (unless (package-installed-p package)
-             (package-install package)
-             (when after-install
-               (funcall after-install))))
+         (package-install package)
+         (when after-install
+           (funcall after-install))))
 
      (defun my-install-package (package &optional after-install)
        "Install package if not already installed, use el-get if 'local' recipe exists
-     for the package. Otherwise install it using package"
+          for the package. Otherwise install it using package"
        (if (file-exists-p (concat my-local-recipes 
                                   (symbol-name package)
                                   ".rcp"))
