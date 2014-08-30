@@ -218,9 +218,9 @@
    #+begin_src emacs-lisp
      (defun my--install-package (package &optional after-install)
        (unless (package-installed-p package)
-             (package-install package))
+         (package-install package)
          (when after-install
-           (funcall after-install)))
+           (funcall after-install))))
 
      (defun my-install-package (package &optional after-install)
        "Install package if not already installed, use el-get if 'local' recipe exists
