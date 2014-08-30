@@ -1,0 +1,81 @@
+* Enable inf-ruby
+** Enable inf-ruby minor mode
+  #+begin_src emacs-lisp
+    (inf-ruby-minor-mode)
+  #+end_src
+
+** Helper function to start ruby console for project if possible
+   #+begin_src emacs-lisp
+     (defun my-start-ruby-shell ()
+       (interactive)
+       (condition-case nil
+           (inf-ruby-console-auto)
+         (error (call-interactively #'inf-ruby))))
+   #+end_src
+
+** Prefer pry if installed
+   #+begin_src emacs-lisp
+     (when (executable-find "pry")
+       (setq inf-ruby-default-implementation "pry"))
+   #+end_src
+
+
+* Ensure correct ruby is enabled
+  #+begin_src emacs-lisp
+    (when (and (executable-find "rvm")
+               (file-exists-p default-directory))
+      (rvm-activate-corresponding-ruby))
+  #+end_src
+
+
+* Enable auto-completion in inf-ruby buffers
+  #+begin_src emacs-lisp
+    (add-to-list 'ac-modes 'inf-ruby-mode)
+    (add-hook 'inf-ruby-mode-hook 'ac-inf-ruby-enable)
+  #+end_src
+
+
+* Enable robe if pry is installed
+** Determine if robe can be run
+   #+begin_src emacs-lisp
+     (defvar-local my-robe-can-run nil)
+     (setq my-robe-can-run (if (and buffer-file-name
+                                    (locate-dominating-file buffer-file-name "Gemfile"))
+                               (and (executable-find "bundle")
+                                    (zerop (shell-command "bundle show pry")))
+                             (executable-find "pry")))
+   #+end_src
+
+** Helper function to start robe
+   #+begin_src emacs-lisp
+     (defun my-try-starting-robe (buffer)
+       (condition-case err
+           ;; Do not run for Gemfile et al.
+           (when (and buffer-file-name
+                      (string= (file-name-extension buffer-file-name) "rb"))
+             (robe-start))
+         (error (message (format "Failed to start robe because %s" (error-message-string err))))))
+   #+end_src
+
+** Enable robe if prerequisites are satisfied
+   #+begin_src emacs-lisp
+     (if my-robe-can-run
+         (progn (robe-mode)
+                (ac-robe-setup)
+                (run-at-time 0.1 nil #'my-try-starting-robe buffer-file-name))
+       (warn "`pry' not installed, robe won't start. See `http://github.com/dgutov/robe'"))
+   #+end_src
+
+
+* Enable syntax checking
+** Enable flycheck
+  #+begin_src emacs-lisp
+    (flycheck-mode)
+  #+end_src
+
+** Select checker
+   #+begin_src emacs-lisp
+     (flycheck-select-checker (cond ((executable-find "rubocop") 'ruby-rubocop)
+                                    ((executable-find "ruby-lint") 'ruby-rubylint)
+                                    ((executable-find "ruby") 'ruby)))
+   #+end_src

@@ -1,0 +1,67 @@
+* Configuration for haskell-mode
+** Enable interactive haskell mode
+   #+begin_src emacs-lisp
+     (setq haskell-process-suggest-remove-import-lines t)
+     (setq haskell-process-auto-import-loaded-modules t)
+     (interactive-haskell-mode)
+   #+end_src
+
+** Enable haskell-indentation-mode
+   #+begin_src emacs-lisp
+     (turn-on-haskell-indentation)
+   #+end_src
+
+** Enable declaration scan mode for better navigation
+   #+begin_src emacs-lisp
+     (turn-on-haskell-decl-scan)
+   #+end_src
+
+
+* Show documentation in minibuffer
+   #+begin_src emacs-lisp
+     (turn-on-haskell-doc)
+   #+end_src
+
+
+* Enable stylish haskell
+   #+begin_src emacs-lisp
+     (when (executable-find "stylish-haskell")
+       (setq haskell-stylish-on-save t))
+   #+end_src
+
+
+* Setup jump to definition
+** If hasktags is installed and not in home directory generate tags on save
+  #+begin_src emacs-lisp
+    (when (and (executable-find "hasktags")
+               (and buffer-file-name
+                    (not (string= (file-name-directory buffer-file-name)
+                                  (expand-file-name "~/")))))
+      (setq haskell-tags-on-save t))
+  #+end_src
+
+
+* Managing imports
+** Suggest removal of unused imports
+   #+begin_src emacs-lisp
+     (setq haskell-process-suggest-remove-import-lines t)
+   #+end_src
+
+** Suggest importing required modules
+   #+begin_src emacs-lisp
+     (setq haskell-process-suggest-hoogle-imports t)
+   #+end_src
+
+
+* Initialize ghc-mod
+  #+begin_src emacs-lisp
+    (when my-ghc-mod-available
+      (ghc-init))
+  #+end_src
+
+
+* Setup auto-completion
+  #+begin_src emacs-lisp
+    (when my-ghc-mod-available
+      (add-to-list 'ac-sources ac-source-ghc-mod))
+  #+end_src

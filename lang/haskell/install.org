@@ -1,0 +1,8 @@
+* Install ghc-mod frontend if ghc-mod is installed
+  #+begin_src emacs-lisp
+    (defvar my-ghc-mod-available nil)
+
+    (when (executable-find "ghc-mod")
+      (my-install-packages '(ghc ac-ghc-mod))
+      (setq my-ghc-mod-available t))
+  #+end_src

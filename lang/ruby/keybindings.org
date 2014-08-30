@@ -1,0 +1,21 @@
+* Unset some keybindings
+  #+begin_src emacs-lisp
+    (define-key inf-ruby-minor-mode-map my-run-shell nil)
+    (define-key inf-ruby-minor-mode-map my-send-buffer nil)
+    (define-key inf-ruby-minor-mode-map my-send-line nil)
+  #+end_src
+
+
+* Keybindings for interacting with the REPL
+  #+begin_src emacs-lisp
+    (local-set-key my-run-shell #'my-start-ruby-shell)
+    (local-set-key my-send-file #'ruby-load-file)
+    (local-set-key my-send-buffer (my-evaluate-buffer-in-repl my-ruby-send-buffer ruby-send-region))
+    (local-set-key my-send-line #'ruby-send-block)
+  #+end_src
+
+
+* Keybindings to get documentation
+  #+begin_src emacs-lisp
+    (local-set-key my-show-doc #'robe-doc)
+  #+end_src

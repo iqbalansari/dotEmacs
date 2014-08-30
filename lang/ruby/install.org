@@ -1,0 +1,12 @@
+* Install required packages
+  #+begin_src emacs-lisp
+    (defvar my-ruby-packages '(robe
+                               inf-ruby
+                               ac-inf-ruby
+                               yari))
+
+    (when (executable-find "rvm")
+      (add-to-list 'my-ruby-packages 'rvm))
+
+    (my-install-packages my-ruby-packages)
+  #+end_src

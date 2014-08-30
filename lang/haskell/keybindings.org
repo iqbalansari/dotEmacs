@@ -1,0 +1,11 @@
+* Managing imports
+  #+begin_src emacs-lisp
+    (local-set-key my-refactor-organize-imports #'haskell-mode-format-imports)
+    (local-set-key (kbd "SPC") #'haskell-mode-contextual-space)
+  #+end_src
+
+
+* Interacting with the repl
+  #+begin_src emacs-lisp
+    (local-set-key my-run-shell #'haskell-interactive-bring)
+  #+end_src

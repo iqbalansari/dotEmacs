@@ -420,16 +420,20 @@
 
 ** Setup installation of external language modes
   #+begin_src emacs-lisp
+    (my-auto-install-lang "\\.js\\'" 'js2-mode #'js2-mode)
     (my-auto-install-lang "\\.\\(scala\\|sbt\\)\\'" 'scala-mode2 #'scala-mode)
     (my-auto-install-lang "\\.ml[iylp]?" 'tuareg #'tuareg-mode)
+    (my-auto-install-lang "\\.hs\\'" 'haskell-mode #'haskell-mode)
+    (my-auto-install-lang "\\.\\(clj[sx]?\\|dtm\\|edn\\)\\'" 'clojure-mode #'clojure-mode)
     (my-auto-install-lang "\\.erl$" 'erlang #'erlang-mode)
-    (my-auto-install-lang "\\.js\\'" 'js2-mode #'js2-mode)
+    (my-auto-install-lang "\\.\\(sml\\|sig\\)\\'" 'sml-mode #'sml-mode)
+    (my-auto-install-lang "\\.jl\\'" 'ess (lambda ()
+                                            (require 'ess-site)
+                                            (julia-mode)))
+    (my-auto-install-lang "\\.html\\'" 'web-mode #'web-mode)
     (my-auto-install-lang "\\.factor$" 'fuel #'factor-mode)
     (my-auto-install-lang "\\.json\\'" 'json-mode #'json-mode)
-    (my-auto-install-lang "\\.html\\'" 'web-mode #'web-mode)
     (my-auto-install-lang "\\.\\(markdown\\|md\\)\\'" 'markdown-mode #'markdown-mode)
-    (my-auto-install-lang "\\.\\(sml\\|sig\\)\\'" 'sml-mode #'sml-mode)
-    (my-auto-install-lang "\\.\\(clj[sx]?\\|dtm\\|edn\\)\\'" 'clojure-mode #'clojure-mode)
     (my-auto-install-lang "httpd\\.conf\\'\\|srm\\.conf\\'\\|access\\.conf\\'\\|sites-\\(available\\|enabled\\)/\\|\\.htaccess\\'"
                    'apache-mode 'apache-mode)
   #+end_src
@@ -452,5 +456,7 @@
      (my-setup-lang 'sml-mode-hook "sml")
      (my-setup-lang 'clojure-mode-hook "clojure")
      (my-setup-lang 'web-mode-hook "html")
+     (my-setup-lang 'haskell-mode-hook "haskell")
+     (my-setup-lang 'ruby-mode-hook "ruby")
    #+end_src
 
