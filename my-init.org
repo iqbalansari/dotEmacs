@@ -311,6 +311,16 @@
    #+end_src
 
 
+* Setup the PATH and exec-path from shell
+  This is needed if emacs not started from a shell
+  #+begin_src emacs-lisp
+    (my-install-package 'exec-path-from-shell)
+
+    (when (not (equal system-type 'windows))
+      (exec-path-from-shell-initialize))
+  #+end_src
+
+
 * Replace yes-no questions with y-n questions
   #+begin_src emacs-lisp
     (fset 'yes-or-no-p 'y-or-n-p)
@@ -358,8 +368,8 @@
      (defvar my-run-shell (kbd "C-c C-z"))
      (defvar my-send-region (kbd "C-c C-r"))
      (defvar my-send-buffer (kbd "C-c C-b"))
-     (defvar my-send-line (kbd "C-c C-l"))
-     (defvar my-send-file (kbd "C-c C-f"))
+     (defvar my-send-line (kbd "C-c C-f"))
+     (defvar my-send-file (kbd "C-c C-l"))
      (defvar my-send-function (kbd "C-M-x"))
      (defvar my-send-phrase/sexp/block (kbd "C-x C-e"))
    #+end_src
