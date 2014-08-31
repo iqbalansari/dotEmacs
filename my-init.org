@@ -400,6 +400,8 @@
        (eldoc-mode +1)
        (smartparens-strict-mode +1)
 
+       (setq flycheck-emacs-lisp-load-path load-path)
+       
        (when (not (string= (buffer-name) "*scratch*"))
          (flycheck-mode))
 

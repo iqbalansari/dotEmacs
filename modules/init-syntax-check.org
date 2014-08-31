@@ -43,17 +43,13 @@
    #+begin_src emacs-lisp
      (load "pos-tip")
      (defun my-display-messages-in-popup (errors)
-       ;; Do not interfere with autocomplete popups
-       (unless (or (popup-live-p ac-menu) (popup-live-p ac-quick-help))
-         (let ((messages (remove-if-not 'identity (mapcar #'flycheck-error-message errors))))
-           (when messages
-             ;; Showing/hiding popups triggers a text change which in turn
-             ;; triggers syntax check
-             (setq inhibit-modification-hooks t)
-             (pos-tip-show (mapconcat (lambda (message) (concat "  " message "  "))
-                                                       messages
-                                                       "\n"))
-             (setq inhibit-modification-hooks nil)))))
+       (let ((messages (remove-if-not 'identity (mapcar #'flycheck-error-message errors))))
+         (when messages
+           (setq inhibit-modification-hooks t)
+           (pos-tip-show (mapconcat (lambda (message) (concat "  " message "  "))
+                                    messages
+                                    "\n"))
+           (setq inhibit-modification-hooks nil))))
 
      (setq flycheck-display-errors-function #'my-display-messages-in-popup)
    #+end_src

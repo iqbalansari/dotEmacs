@@ -25,6 +25,7 @@
 
 * Always use spaces to indent and use four space
   #+begin_src emacs-lisp
+    (setq-default tab-width 4)
     (setq-default indent-tabs-mode nil)
     (setq tab-stop-list (number-sequence 4 200 4))
   #+end_src
@@ -601,3 +602,20 @@
   #+begin_src emacs-lisp
       (global-set-key (kbd "C-x C-\\") 'my-fold-this-hs-hide)
   #+end_src
+
+
+* Enable flyspell prog mode in all programming buffers
+** Enable flyspell
+  #+begin_src emacs-lisp
+    (add-hook 'prog-mode-hook #'flyspell-prog-mode)
+  #+end_src
+
+** Disable spell checking inside strings
+   #+begin_src emacs-lisp
+     (setq flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face))
+   #+end_src
+
+** Disable the keybindings for auto-correcting word
+   #+begin_src emacs-lisp
+     (setq flyspell-use-meta-tab nil)
+   #+end_src

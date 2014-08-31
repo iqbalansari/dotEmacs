@@ -11,6 +11,11 @@
     (add-hook 'before-save-hook 'gofmt-before-save)
   #+end_src
 
+** Show errors in echo area
+   #+begin_src emacs-lisp
+     (setq gofmt-show-errors nil)
+   #+end_src
+
 
 * Enable eldoc
   #+begin_src emacs-lisp
@@ -22,8 +27,8 @@
 * Setup auto-completion
 ** Load go-autocomplete if it has been installed and not yet loaded
   #+begin_src emacs-lisp
-    (unless (and my-gocode-available
-                 (not (boundp 'ac-source-go)))
+    (when (and my-gocode-available
+               (not (boundp 'ac-source-go)))
       (load "go-autocomplete"))
   #+end_src
 
@@ -33,6 +38,13 @@
        (remove 'ac-source-go ac-sources)
        (push 'ac-source-go ac-sources))
    #+end_src
+
+
+* Highlight line after jumping to definition
+  #+begin_src emacs-lisp
+    (when my-godef-available
+      (my-highlight-line-after-func godef-jump))
+  #+end_src
 
 
 * Setup syntax checking

@@ -77,5 +77,7 @@
    #+begin_src emacs-lisp
      (flycheck-select-checker (cond ((executable-find "rubocop") 'ruby-rubocop)
                                     ((executable-find "ruby-lint") 'ruby-rubylint)
-                                    ((executable-find "ruby") 'ruby)))
+                                    ((executable-find "ruby") 'ruby)
+                                    (t (progn (warn "No syntax checker found, searched for `rubocop', `ruby-lint'")
+                                              nil))))
    #+end_src

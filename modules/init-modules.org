@@ -43,19 +43,19 @@
   #+begin_src emacs-lisp
     (defvar my-modules-dir (locate-user-emacs-file "modules/"))
     (defvar my-modules-compiled-dir (concat my-modules-dir ".compiled/"))
-    
+
     (defvar my-tangled-modules (concat my-modules-compiled-dir ".combined.el"))
     (defvar my-previous-modules-file (concat my-modules-compiled-dir ".previous-modules"))
-    
+
     (defvar my-previous-modules (when (file-exists-p my-previous-modules-file)
                                      (read (my-read-file my-previous-modules-file))))
-    
+
     (defun my-get-module-org-file (module)
       (concat my-modules-dir "init-" (symbol-name module) ".org"))
-    
+
     (defun my-get-module-el-file (module)
       (concat my-modules-compiled-dir "init-" (symbol-name module) ".el"))
-    
+
     (defun my-get-changed-module-files (modules)
       (if (file-exists-p my-tangled-modules)
           (remove-if-not (lambda (module)
@@ -63,7 +63,7 @@
                                                (my-get-module-el-file module)))
                      modules)
         modules))
-    
+
     (defun my-combine-modules (modules target)
       (my-write-to-file target
                            (reduce (lambda (code module)
@@ -71,26 +71,26 @@
                                              (my-read-file (my-get-module-el-file module))))
                                      modules :initial-value ""))
       (byte-compile-file target))
-    
+
     (defun my-compile-modules (modules)
       (dolist (module modules)
         (org-babel-tangle-file (my-get-module-org-file module)
                                (my-get-module-el-file module)
                                "emacs-lisp")))
-    
+
     (defun my-regenerate-compiled-file-maybe (current-modules previous-modules target)
       (let ((stale-modules (my-get-changed-module-files current-modules))
             (module-list-changed? (set-exclusive-or previous-modules current-modules)))
         (when (or stale-modules module-list-changed?)
           (my-compile-modules stale-modules)
           (my-combine-modules current-modules target))))
-    
+
     (defun my--compile-and-load-modules (current-modules)
       (my-regenerate-compiled-file-maybe current-modules my-previous-modules my-tangled-modules)
       (my-write-to-file my-previous-modules-file
                            (prin1-to-string current-modules))
       (load-file my-tangled-modules))
-    
+
     (defun my-remove-generated-files ()
       (interactive)
       (let ((compiled-folders (mapcar (lambda (folder)
@@ -98,17 +98,22 @@
                                       (append (remove-if-not #'file-directory-p
                                                              (directory-files my-langs-dir t "[^.]+"))
                                               (list my-modules-dir)))))
-    
+
         (dolist (folder compiled-folders)
           (when (file-exists-p folder)
             (delete-directory folder t nil)))))
-    
+
     (defun my-compile-and-load-modules ()
       (interactive)
+      (when (interactive-p)
+        (window-configuration-to-register 'w))
+
       (unless (file-exists-p my-modules-compiled-dir)
         (make-directory my-modules-compiled-dir))
-    
-      (my--compile-and-load-modules my-modules-list))
+      (my--compile-and-load-modules my-modules-list)
+
+      (when (interactive-p)
+        (jump-to-register 'w)))
   #+end_src
 
 
