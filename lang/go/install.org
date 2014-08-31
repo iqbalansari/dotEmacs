@@ -1,3 +1,15 @@
+* Copy GOPATH's value from the shell
+  #+begin_src emacs-lisp
+    (let ((cur-go-path (getenv "GOPATH")))
+      (when (or (not cur-go-path)
+                (zerop (length cur-go-path)))
+        (let ((go-path (cdar (exec-path-from-shell-getenvs '("GOPATH")))))
+          (setenv "GOPATH" go-path)
+          (when (zerop (length go-path))
+            (warn "`GOPATH' not set, godef et al will not work")))))
+  #+end_src
+
+
 * Install go-autocomplete and go-eldoc
 ** Is gocode available?
    #+begin_src emacs-lisp
