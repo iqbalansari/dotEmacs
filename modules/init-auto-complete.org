@@ -1,7 +1,7 @@
 * Ensure that autocomplete is installed
   #+begin_src emacs-lisp
     (defvar my-auto-complete-packages
-      '(auto-complete pos-tip))
+      '(auto-complete pos-tip company))
 
     (my-install-packages my-auto-complete-packages)
   #+end_src
@@ -104,4 +104,10 @@
                   (remove 'my-auto-complete-at-point completion-at-point-functions))))
 
     (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
+  #+end_src
+
+
+* Company mode configuration
+  #+begin_src emacs-lisp
+    (setq company-selection-wrap-around t)
   #+end_src

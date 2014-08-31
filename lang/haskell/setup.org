@@ -22,20 +22,21 @@
    #+end_src
 
 
-* Show documentation in minibuffer
+* Turn on eldoc
    #+begin_src emacs-lisp
      (turn-on-haskell-doc)
    #+end_src
 
 
 * Setup jump to definition
-** If hasktags is installed and not in home directory generate tags on save
+** If hasktags is installed and file is not in home directory generate tags on save
   #+begin_src emacs-lisp
-    (when (and (executable-find "hasktags")
+    (if (and (executable-find "hasktags")
                (and buffer-file-name
                     (not (string= (file-name-directory buffer-file-name)
                                   (expand-file-name "~/")))))
-      (setq haskell-tags-on-save t))
+        (setq haskell-tags-on-save t)
+      (warn "`hasktags' not installed, jump to definition MAY not work"))
   #+end_src
 
 
@@ -47,7 +48,10 @@
 
 ** Suggest importing required modules
    #+begin_src emacs-lisp
-     (setq haskell-process-suggest-haskell-docs-imports t)
+     (if (executable-find "hoogle")
+         (setq haskell-process-suggest-hoogle-imports t)
+       (when (executable-find "haskell-docs")
+         (setq haskell-process-suggest-haskell-docs-imports t)))
    #+end_src
 
 
@@ -59,7 +63,31 @@
 
 
 * Setup auto-completion
+** Enable company mode and company-ghc
   #+begin_src emacs-lisp
     (when my-ghc-mod-available
-      (add-to-list 'ac-sources ac-source-ghc-mod))
+      (auto-complete-mode -1)
+      (company-mode +1)
+
+      (add-to-list 'company-backends 'company-ghc))
   #+end_src
+
+** Show type info in the minibuffer
+   #+begin_src emacs-lisp
+     (setq company-ghc-show-info t)
+   #+end_src
+
+** Enable completion using tab
+   #+begin_src emacs-lisp
+     (when my-ghc-mod-available
+       (make-local-variable 'completion-at-point-functions)
+       (push (lambda () (call-interactively #'company-ghc)) completion-at-point-functions))
+   #+end_src
+
+** Warn if hoogle is not installed
+   #+begin_src emacs-lisp
+     (if (executable-find "hoogle")
+         (unless (zerop (shell-command "hoogle --info t"))
+           (warn "`hoogle' data not generated, do `hoogle data' in the shell to generate it"))
+       (warn "`hoogle' is not installed documentation popup would not work, install it using cabal"))
+   #+end_src
