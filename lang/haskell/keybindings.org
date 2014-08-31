@@ -13,5 +13,11 @@
 
 * Getting info at point
   #+begin_src emacs-lisp
-    (local-set-key my-show-doc #'haskell-process-do-info)
+    (local-set-key my-show-doc #'my-haskell-doc-at-point)
+  #+end_src
+
+
+* Keybinding for jumping back after jumping to definition
+  #+begin_src emacs-lisp
+    (local-set-key my-pop-jump-to-definition-marker #'pop-tag-mark)
   #+end_src

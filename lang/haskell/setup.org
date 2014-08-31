@@ -40,6 +40,25 @@
   #+end_src
 
 
+* Get documentation for symbol at point
+  #+begin_src emacs-lisp
+    (defun my-haskell-doc-at-point ()
+      (interactive)
+      (if (executable-find "hoogle")
+          (let* ((symbol (symbol-at-point))
+                 (result (if symbol
+                             (shell-command-to-string (concat "hoogle --info " (symbol-name symbol)))
+                           (error "No symbol at point"))))
+            (display-buffer (with-current-buffer (get-buffer-create "*hoogle-info*")
+                              (view-mode -1)
+                              (erase-buffer)
+                              (insert result)
+                              (view-mode +1)
+                              (current-buffer))))
+        (error "You need to install `hoogle' for this to work")))
+  #+end_src
+
+
 * Managing imports
 ** Suggest removal of unused imports
    #+begin_src emacs-lisp
