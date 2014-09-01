@@ -1,4 +1,0 @@
-(:name ac-ghc-mod
-       :description "auto-complete interface for ghc-mod"
-       :type github
-       :pkgname "wataruY/ac-ghc-mod")

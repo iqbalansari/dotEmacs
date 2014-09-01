@@ -62,6 +62,8 @@
         sp-up-sexp
         st2-like-beginning-of-line
         subword-right
+        sp-next-sexp
+        sp-transpose-sexp
         tern-ac-dot-complete
         tiny-expand
         transpose-words
@@ -81,8 +83,6 @@
         org-ctrl-c-ctrl-c
         org-edit-special
         smex
-        sp-next-sexp
-        sp-transpose-sexp
         tern-find-definition
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit
