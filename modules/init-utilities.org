@@ -157,3 +157,10 @@
         (insert-kbd-macro name)
         (insert "\n")))
   #+end_src
+
+
+* Install emacs-w3m if w3m is installed
+  #+begin_src emacs-lisp
+    (when (executable-find "w3m")
+      (my-install-package 'w3m))
+  #+end_src

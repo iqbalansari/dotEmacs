@@ -31,11 +31,11 @@
 * Setup jump to definition
 ** If hasktags is installed and file is not in home directory generate tags on save
   #+begin_src emacs-lisp
-    (if (and (executable-find "hasktags")
-               (and buffer-file-name
-                    (not (string= (file-name-directory buffer-file-name)
-                                  (expand-file-name "~/")))))
-        (setq haskell-tags-on-save t)
+    (if (executable-find "hasktags")
+        (when (and buffer-file-name
+                   (not (string= (file-name-directory buffer-file-name)
+                                 (expand-file-name "~/"))))
+          (setq haskell-tags-on-save t))
       (warn "`hasktags' not installed, jump to definition MAY not work"))
   #+end_src
 
@@ -110,3 +110,9 @@
            (warn "`hoogle' data not generated, do `hoogle data' in the shell to generate it"))
        (warn "`hoogle' is not installed documentation popup would not work, install it using cabal"))
    #+end_src
+
+
+* Flash line after jump
+  #+begin_src emacs-lisp
+    (my-highlight-line-after-func haskell-mode-jump-to-def-or-tag)
+  #+end_src
