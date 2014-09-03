@@ -162,6 +162,5 @@
 * Install emacs-w3m if w3m is installed
   #+begin_src emacs-lisp
     (when (executable-find "w3m")
-      (my-install-package 'w3m)
-      (setq browse-url-browser-function 'w3m-browse-url))
+      (my-install-package 'w3m))
   #+end_src
