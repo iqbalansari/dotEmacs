@@ -57,13 +57,13 @@
         sp-forward-sexp
         sp-forward-slurp-sexp
         sp-kill-sexp
+        sp-next-sexp
         sp-rewrap-sexp
+        sp-transpose-sexp
         sp-unwrap-sexp
         sp-up-sexp
         st2-like-beginning-of-line
         subword-right
-        sp-next-sexp
-        sp-transpose-sexp
         tern-ac-dot-complete
         tiny-expand
         transpose-words
@@ -73,9 +73,12 @@
 
 (setq mc/cmds-to-run-once
       '(
+        compile-goto-error
         describe-key
         help-for-help
         ido-switch-buffer
+        isearch-backward-regexp
+        isearch-forward-regexp
         keyboard-escape-quit
         mouse-set-region
         org-ctrl-c-ctrl-c
