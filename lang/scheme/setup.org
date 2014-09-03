@@ -11,6 +11,13 @@
 
 
 * Setup auto-completion
+** Do not use company for completion
+   #+begin_src emacs-lisp
+     (setq geiser-repl-company-p nil
+           geiser-mode-company-p nil)
+   #+end_src
+
+** Use auto-complete instead
   #+begin_src emacs-lisp
     (load "ac-geiser")
     (ac-geiser-setup)
