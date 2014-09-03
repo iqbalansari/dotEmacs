@@ -9,3 +9,10 @@
   #+begin_src emacs-lisp
     (skewer-css-mode)
   #+end_src
+
+
+* Enable flycheck if csslint is found
+  #+begin_src emacs-lisp
+    (when (executable-find "csslint")
+      (flycheck-mode))
+  #+end_src
