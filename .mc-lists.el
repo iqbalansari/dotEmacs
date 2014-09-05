@@ -20,6 +20,7 @@
         decrement-integer-at-point
         delete-horizontal-space
         down-list
+        electric-newline-and-maybe-indent
         end-of-visual-line
         eval-and-replace
         eval-last-sexp
@@ -57,9 +58,7 @@
         sp-forward-sexp
         sp-forward-slurp-sexp
         sp-kill-sexp
-        sp-next-sexp
         sp-rewrap-sexp
-        sp-transpose-sexp
         sp-unwrap-sexp
         sp-up-sexp
         st2-like-beginning-of-line
@@ -73,8 +72,9 @@
 
 (setq mc/cmds-to-run-once
       '(
-        compile-goto-error
+        anzu-query-replace
         describe-key
+        haskell-indentation-delete-backward-char
         help-for-help
         ido-switch-buffer
         isearch-backward-regexp
@@ -84,6 +84,8 @@
         org-ctrl-c-ctrl-c
         org-edit-special
         smex
+        sp-next-sexp
+        sp-transpose-sexp
         tern-find-definition
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit

@@ -88,7 +88,8 @@
     #+begin_src emacs-lisp
       (defun my-nodejs-send-region (start end)
         (interactive "r")
-        (nodejs-repl--send-string (buffer-substring-no-properties start end)))
+        (nodejs-repl--send-string (concat (buffer-substring-no-properties start end)
+                                          "\n")))
     #+end_src
 
 
