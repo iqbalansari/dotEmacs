@@ -16,6 +16,12 @@
   #+end_src
 
 
+* Keybinding to start org-agenda
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c a") #'org-agenda)
+  #+end_src
+
+
 * Display customizations for org-src
 ** Fontify code blocks in org-src
    #+begin_src emacs-lisp
