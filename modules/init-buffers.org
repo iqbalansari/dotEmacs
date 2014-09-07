@@ -33,6 +33,8 @@
 * Auto refresh buffers
   #+begin_src emacs-lisp
     (global-auto-revert-mode 1)
+    (setq global-auto-revert-non-file-buffers t)
+    (setq auto-revert-verbose nil)
   #+end_src
 
 
