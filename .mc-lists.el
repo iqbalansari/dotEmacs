@@ -49,6 +49,7 @@
         python-indent-electric-colon
         repeat
         sp--self-insert-command
+        sp-backward-delete-char
         sp-backward-down-sexp
         sp-backward-kill-sexp
         sp-backward-sexp
