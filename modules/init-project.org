@@ -46,6 +46,13 @@
     (add-to-list 'projectile-project-root-files-functions #'my-projectile-locate-dropbox-project t)
   #+end_src
 
+** Additional projectile project roots
+   #+begin_src emacs-lisp
+     (setq projectile-project-root-files
+           (append projectile-project-root-files
+                   '(".tern-project" "compile_commands.json" ".edts" ".ensime" ".merlin")))
+   #+end_src
+
 
 * Process buffers should not be considered part of project unless they are shells
   #+begin_src emacs-lisp

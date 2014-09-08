@@ -27,10 +27,3 @@
     (when my-edts-available
       (my-highlight-line-after-func edts-find-source-under-point))
   #+end_src
-
-
-* Use .edts files to identify project roots in projectile
-  #+begin_src emacs-lisp
-    (eval-after-load 'projectile
-      '(add-to-list 'projectile-project-root-files ".edts"))
-  #+end_src
