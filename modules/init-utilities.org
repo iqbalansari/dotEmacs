@@ -166,5 +166,9 @@
       (my-install-package 'w3m)
       (eval-after-load "w3m"
         '(progn (define-key w3m-mode-map (kbd "n") #'next-line)
-                (define-key w3m-mode-map (kbd "p") #'previous-line))))
+                (define-key w3m-mode-map (kbd "p") #'previous-line)))
+      (add-hook 'w3m-mode-hook 'w3m-lnum-mode)
+      (add-hook 'w3m-display-hook (lambda (url)
+                                    (let ((buffer-read-only nil))
+                                      (delete-trailing-whitespace)))))
   #+end_src
