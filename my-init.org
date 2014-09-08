@@ -408,7 +408,6 @@
        ;; Setup
        (elisp-slime-nav-mode +1)
        (eldoc-mode +1)
-       (smartparens-strict-mode +1)
 
        (setq flycheck-emacs-lisp-load-path load-path)
        
