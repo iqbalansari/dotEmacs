@@ -168,27 +168,3 @@
         '(progn (define-key w3m-mode-map (kbd "n") #'next-line)
                 (define-key w3m-mode-map (kbd "p") #'previous-line))))
   #+end_src
-
-
-* Deft for searching notes
-** Use org mode files for taking notes
-   #+begin_src emacs-lisp
-     (setq deft-extension "org")    
-     (setq deft-text-mode 'org-mode)
-   #+end_src
-
-** Use ~/.emacs.d/.deft/ to store notes
-  #+begin_src emacs-lisp
-    (setq deft-directory (locate-user-emacs-file ".deft/"))
-  #+end_src
-
-** Use filename as title
-   #+begin_src emacs-lisp
-     (setq deft-use-filename-as-title t)
-   #+end_src
-
-** Keybinding to start deft
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c n") #'deft)
-   #+end_src
-
