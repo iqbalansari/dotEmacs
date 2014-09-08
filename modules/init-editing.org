@@ -54,14 +54,16 @@
     (global-set-key (kbd "C-S-a") 'mc/mark-all-in-region)
   #+end_src
 
-** Enable search in multiple cursors
+** Extra keybindings in multiple cursors mode
    #+begin_src emacs-lisp
-     (autoload #'phi-search "phi-search")
-     (autoload #'phi-search-backward "phi-search")
+     (defun my-additional-mc-keybindings ()
+       (define-key mc/keymap (kbd "C-s") #'phi-search)
+       (define-key mc/keymap (kbd "C-r") #'phi-search-backward)
+       (define-key mc/keymap (kbd "M-i") #'mc/insert-numbers)
+       (define-key mc/keymap (kbd "M-s") #'mc/sort-regions)
+       (define-key mc/keymap (kbd "M-r") #'mc/reverse-regions))
 
-     (eval-after-load "multiple-cursors"
-       '(progn (define-key mc/keymap (kbd "C-s") #'phi-search)
-               (define-key mc/keymap (kbd "C-r") #'phi-search-backward)))
+     (add-hook 'multiple-cursors-mode-hook #'my-additional-mc-keybindings)
    #+end_src
 
 ** Location for mc/list-file

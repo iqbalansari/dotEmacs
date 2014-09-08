@@ -17,6 +17,7 @@
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
 
+(setq org-replace-disputed-keys t)
 (require 'org)
 
 ;; Create .compiled dir in modules

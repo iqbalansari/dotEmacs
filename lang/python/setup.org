@@ -242,6 +242,14 @@
   #+end_src
 
 
+* Create virtualenv directory if it does not already exist
+  #+begin_src emacs-lisp
+    (when (and (boundp 'venv-location)
+               (not (file-exists-p venv-location)))
+      (make-directory venv-location t))
+  #+end_src
+
+
 * Setup code folding
   Enable "hs-minor-mode"
   #+begin_src emacs-lisp

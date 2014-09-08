@@ -1,23 +1,12 @@
-* The org agenda files
-** Org agenda files will stored in ~/.emacs.d/org/
-   #+begin_src emacs-lisp
-     (defvar my-org-dir (locate-user-emacs-file "org/"))
-   #+end_src
-
-** Create the folder if it does not already exist
-   #+begin_src emacs-lisp
-     (unless (file-exists-p my-org-dir)
-       (make-directory my-org-dir))
-   #+end_src
-
-** Any files in org folder will be added to agenda files
+* Directory for org files
   #+begin_src emacs-lisp
-    (setq org-agenda-files (list my-org-dir))
+    (setq org-directory (locate-user-emacs-file "org/"))
+    (when (not (file-exists-p org-directory))
+      (make-directory org-directory))
   #+end_src
 
 
-* Display customizations for org-src
-** Fontify code blocks in org-src
+* Fontify code blocks in org-src
    #+begin_src emacs-lisp
      (setq org-src-fontify-natively t)
    #+end_src
@@ -26,4 +15,12 @@
 * Start flyspell in org mode buffers
   #+begin_src emacs-lisp
     (add-to-list 'org-mode-hook 'flyspell-mode)
+  #+end_src
+
+
+* Keybinding to save edits in org-src mode
+  #+begin_src emacs-lisp
+    (eval-after-load 'org-src
+      '(define-key org-src-mode-map
+         "\C-c\C-c" #'org-edit-src-exit))
   #+end_src

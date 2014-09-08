@@ -11,6 +11,12 @@
   #+end_src
 
 
+* Use windmove to select windows using shift + arrow keys
+  #+begin_src emacs-lisp
+    (windmove-default-keybindings)
+  #+end_src
+
+
 * Switch to bar cursor type before invoking switch-window
   Box cursor doesn't look good in switch-window
   #+begin_src emacs-lisp

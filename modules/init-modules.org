@@ -122,7 +122,7 @@
     (defvar my-modules-list '(display auto-complete backup files buffers dired editing
                                       navigation search-replace ido parenthesis syntax-check
                                       shell org utilities version-control yasnippet project
-                                      windows session))
+                                      workflow windows session))
   #+end_src
 
 

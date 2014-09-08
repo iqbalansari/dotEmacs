@@ -1,0 +1,127 @@
+* Install deft for managing notes
+  #+begin_src emacs-lisp
+    (my-install-package 'deft)
+  #+end_src
+
+
+* Path to notes directory
+  #+begin_src emacs-lisp
+    (defvar my-notes-dir (locate-user-emacs-file "org/notes/"))
+
+    (unless (file-exists-p my-notes-dir)
+      (make-directory my-notes-dir t))
+  #+end_src
+
+
+* Use org mode files for taking notes
+   #+begin_src emacs-lisp
+     (setq deft-extension "org")    
+     (setq deft-text-mode 'org-mode)
+   #+end_src
+
+
+* Directory for notes folder
+  #+begin_src emacs-lisp
+    (setq deft-directory my-notes-dir)
+  #+end_src
+
+
+* Use filename as title in deft
+   #+begin_src emacs-lisp
+     (setq deft-use-filename-as-title t)
+   #+end_src
+
+
+* Path to default org-captured file
+  #+begin_src emacs-lisp
+    (setq org-default-notes-file (concat my-notes-dir "/captured.org"))
+  #+end_src
+
+
+* The org agenda files
+** Org agenda files will stored in ~/.emacs.d/org/
+   #+begin_src emacs-lisp
+     (defvar my-org-agenda-dir (locate-user-emacs-file "org/agenda/"))
+   #+end_src
+
+** Create the folder if it does not already exist
+   #+begin_src emacs-lisp
+     (unless (file-exists-p my-org-agenda-dir)
+       (make-directory my-org-agenda-dir t))
+   #+end_src
+
+** Any files in org folder will be added to agenda files
+  #+begin_src emacs-lisp
+    (setq org-agenda-files (list my-org-agenda-dir my-notes-dir))
+  #+end_src
+
+
+* Org capture templates
+** Helper functions
+   #+begin_src emacs-lisp
+     (defun my-get-url-from-clipboard ()
+       (require 'thingatpt)
+       (with-temp-buffer
+         (insert (string-trim (current-kill 0)))
+         (goto-char 0)
+         (thing-at-point-url-at-point)))
+   #+end_src
+
+** The templates
+*** org-capture is not yet loaded
+    #+begin_src emacs-lisp
+      (defvar org-capture-templates nil)
+    #+end_src
+
+*** Template for capturing todos
+  #+begin_src emacs-lisp
+    (add-to-list 'org-capture-templates (list "t"
+                                              "TODO"
+                                              'entry
+                                              (list 'file
+                                                    (concat my-notes-dir "todos.org"))
+                                              "* TODO %?\n%U\n%a\n\n"))
+  #+end_src
+
+*** Template for capturing links
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "l"
+                                                "Interesting links"
+                                                'entry
+                                                (list 'file
+                                                      (concat my-notes-dir "links.org"))
+                                                "* %?\n  %(my-get-url-from-clipboard) - Found on %U\n\n"))
+    #+end_src
+
+*** Template for capturing notes
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "n"
+                                                "Note"
+                                                'entry
+                                                (list 'file
+                                                      (concat my-notes-dir "notes.org"))
+                                                "* %? :NOTE:\n%U\n\n"))
+    #+end_src
+
+*** Template for capturing code snippets
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "s"
+                                                "Code snippets"
+                                                'entry
+                                                (list 'file
+                                                      (concat my-notes-dir "snippets.org"))
+                                                "* %? \n  #+begin_src \n    \n  #+end_src\n\n"))
+    #+end_src
+
+
+* Global keybindings for org
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c a") #'org-agenda)
+    (global-set-key (kbd "C-c c") #'org-capture)
+  #+end_src
+
+
+* Keybinding to start deft
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c n") #'deft)
+   #+end_src

@@ -24,6 +24,12 @@
    #+end_src
 
 
+* Keybinding for finding references
+  #+begin_src emacs-lisp
+    (local-set-key my-find-references #'rope-find-occurrences)
+  #+end_src
+
+
 * Set keybindings for Jedi
   #+begin_src emacs-lisp
     (when my-jedi-available
