@@ -79,7 +79,7 @@
                                               "TODO"
                                               'entry
                                               (list 'file
-                                                    (concat my-notes-dir "todos.org"))
+                                                    (concat my-org-agenda-dir "/todos.org"))
                                               "* TODO %?\n%U\n%a\n\n"))
   #+end_src
 
