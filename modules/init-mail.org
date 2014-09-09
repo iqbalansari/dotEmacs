@@ -24,11 +24,11 @@
   #+end_src
 
 
-* Use html2text (if installed) to render html messages
+* Use w3m to render html messages
   #+begin_src emacs-lisp
-    (when (executable-find "html2text")
-      (setq mu4e-html2text-command "html2text -utf8 -width 72")
-      (setq mu4e-view-prefer-html t))
+    (when (executable-find "w3m")
+      (setq mu4e-view-prefer-html t)
+      (setq mu4e-html2text-command "w3m -T text/html"))
   #+end_src
 
 
@@ -68,6 +68,15 @@
   #+begin_src emacs-lisp
     (eval-after-load "mu4e"
       '(add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser)))
+  #+end_src
+
+
+* Integration with org-contacts
+  #+begin_src emacs-lisp
+    (setq mu4e-org-contacts-file (locate-user-emacs-file "org/contacts.org"))
+    (eval-after-load "mu4e"
+      '(add-to-list 'mu4e-headers-actions
+                    '("org-contact-add" . mu4e-action-add-org-contact) t))
   #+end_src
 
 
