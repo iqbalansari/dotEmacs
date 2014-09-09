@@ -18,6 +18,12 @@
   #+end_src
 
 
+* .offlineimaprc is a unix conf file
+  #+begin_src emacs-lisp
+    (add-to-list 'auto-mode-alist '("\\.offlineimaprc" . conf-mode))
+  #+end_src
+
+
 * Use html2text (if installed) to render html messages
   #+begin_src emacs-lisp
     (when (executable-find "html2text")
