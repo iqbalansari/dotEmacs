@@ -66,7 +66,8 @@
 
 * Add an action to view the current message in browser
   #+begin_src emacs-lisp
-    (add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser))
+    (eval-after-load "mu4e"
+      '(add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser)))
   #+end_src
 
 

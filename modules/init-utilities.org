@@ -167,8 +167,8 @@
       (eval-after-load "w3m"
         '(progn (define-key w3m-mode-map (kbd "n") #'next-line)
                 (define-key w3m-mode-map (kbd "p") #'previous-line)
-                (define-key w3m-mode-map (kbd "C-p") #'w3m-previous-buffer)
-                (define-key w3m-mode-map (kbd "C-n") #'w3m-next-buffer)
+                (define-key w3m-mode-map (kbd "<C-prior>") #'w3m-previous-buffer)
+                (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
                 (define-key w3m-mode-map (kbd "C-c b") #'w3m-close-window)))
       (add-hook 'w3m-mode-hook 'w3m-lnum-mode)
       (add-hook 'w3m-display-hook (lambda (url)

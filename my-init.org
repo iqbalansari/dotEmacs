@@ -404,6 +404,10 @@
 
      (my-install-packages my-elisp-packages)
 
+     ;; ielm replaces the current window, stop it from doing so
+     (defadvice ielm (before do-not-replace-this-window (&rest args))
+       (select-window (split-window)))
+
      (defun my-emacs-lisp-config ()
        ;; Setup
        (elisp-slime-nav-mode +1)

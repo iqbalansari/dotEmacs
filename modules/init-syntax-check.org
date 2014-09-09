@@ -3,6 +3,13 @@
     (my-install-package 'flycheck)
   #+end_src
 
+
+* Disable syntax checking on idle-change and new-line
+  #+begin_src emacs-lisp
+    (eval-after-load "flycheck"
+      '(setq flycheck-check-syntax-automatically (delq 'new-line (delq 'idle-change flycheck-check-syntax-automatically))))
+  #+end_src
+
   
 * Underline only errors in buffers
 ** Disable underlining provided by flycheck
