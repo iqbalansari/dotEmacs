@@ -21,12 +21,12 @@
 
 * Use sanityinc-tomorrow theme
   #+begin_src emacs-lisp
-    (let ((current-hour (third (decode-time)))
-          (current-minute (second (decode-time))))
-      (if (and (< current-hour 19)
-               (> current-hour 7))
-          (color-theme-sanityinc-tomorrow-day)
-        (color-theme-sanityinc-tomorrow-night)))
+    (add-hook 'after-init-hook (let ((current-hour (third (decode-time)))
+                                     (current-minute (second (decode-time))))
+                                 (if (and (< current-hour 19)
+                                          (> current-hour 7))
+                                     #'color-theme-sanityinc-tomorrow-day
+                                   #'color-theme-sanityinc-tomorrow-night)))
   #+end_src
 
 

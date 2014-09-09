@@ -10,8 +10,7 @@
     (defvar my-python-packages
      '(virtualenvwrapper
        flycheck
-       nose
-       projectile))
+       nose))
   #+end_src
 
 

@@ -3,19 +3,11 @@
     (when (eq system-type 'gnu/linux)
       ;; Install only if the prerequisites are satisfied
       (if (and (executable-find "xapian-config")
-                 (executable-find "libtool")
-                 (file-exists-p "/usr/include/gmime-2.6/gmime/gmime-certificate.h"))
-        (my-install-package 'mu4e)
+               (executable-find "libtool")
+               (file-exists-p "/usr/include/gmime-2.6/gmime/gmime-certificate.h"))
+          (my-install-package 'mu4e)
         (message "You need to install `autoreconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev'\
      for building mu4e, use apt-get to install them")))
-  #+end_src
-
-
-* Install emacs interface to offlineimap if `offlineimap` is installed on system
-  #+begin_src emacs-lisp
-    (when (and (eq system-type 'gnu/linux)
-               (executable-find "offlineimap"))
-      (my-install-package 'offlineimap))
   #+end_src
 
 
@@ -23,6 +15,12 @@
   #+begin_src emacs-lisp
     (when (executable-find "offlineimap")
       (setq mu4e-get-mail-command "offlineimap"))
+  #+end_src
+
+
+* .offlineimaprc is a unix conf file
+  #+begin_src emacs-lisp
+    (add-to-list 'auto-mode-alist '("\\.offlineimaprc" . conf-mode))
   #+end_src
 
 
@@ -43,7 +41,37 @@
   #+end_src
 
 
+* It is OK to use non-ascii characters
+  #+begin_src emacs-lisp
+    (setq mu4e-use-fancy-chars t)
+  #+end_src
+
+
 * Save attachments in ~/Downloads directory
   #+begin_src emacs-lisp
     (setq mu4e-attachment-dir "~/Downloads")
+  #+end_src
+
+
+* The information to displayed in the header line
+  #+begin_src emacs-lisp
+    (setq mu4e-headers-fields '((:human-date . 12)
+                                (:flags . 6)
+                                (:mailing-list . 10)
+                                (:from . 22)
+                                (:to . 22)
+                                (:subject)))
+  #+end_src
+
+
+* Add an action to view the current message in browser
+  #+begin_src emacs-lisp
+    (add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser))
+  #+end_src
+
+
+* Keybinding to switch to mu4e
+  #+begin_src emacs-lisp
+    (when (locate-library "mu4e")
+      (global-set-key (kbd "C-c m") #'mu4e))
   #+end_src

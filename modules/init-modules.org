@@ -119,10 +119,28 @@
 
 * List of modules to be loaded
   #+begin_src emacs-lisp
-    (defvar my-modules-list '(display auto-complete backup files buffers dired editing
-                                      navigation search-replace ido parenthesis syntax-check
-                                      shell org utilities version-control yasnippet project
-                                      workflow windows session))
+    (defvar my-modules-list '(display 
+                              auto-complete
+                              backup
+                              files
+                              buffers
+                              dired
+                              editing
+                              navigation
+                              search-replace
+                              ido
+                              parenthesis
+                              syntax-check
+                              shell
+                              org
+                              utilities
+                              version-control
+                              yasnippet
+                              project
+                              workflow
+                              windows
+                              session
+                              mail))
   #+end_src
 
 

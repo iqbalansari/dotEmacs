@@ -4,9 +4,7 @@
       '(slime
         ac-slime
         paredit
-        redshank
-        auto-complete
-        smartparens))
+        redshank))
 
     (my-install-packages my-clisp-packages)
   #+end_src

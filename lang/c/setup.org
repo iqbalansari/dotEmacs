@@ -170,9 +170,7 @@
                                     (my-clang-version 'c/c++-clang)))
    #+end_src
 
-
-* Use .compile_commands.json files to identify project roots in projectile
   #+begin_src emacs-lisp
     (eval-after-load 'projectile
-      '(add-to-list 'projectile-project-root-files ".compile_commands.json"))
+      '(add-to-list 'projectile-project-root-files "compile_commands.json"))
   #+end_src

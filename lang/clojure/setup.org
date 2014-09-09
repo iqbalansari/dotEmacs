@@ -29,9 +29,3 @@
   #+begin_src emacs-lisp
     (my-highlight-line-after-func cider-find-var)
   #+end_src
-
-
-* Enable smartparens strict mode
-  #+begin_src emacs-lisp
-    (smartparens-strict-mode)
-  #+end_src

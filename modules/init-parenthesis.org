@@ -49,25 +49,41 @@
   #+end_src
 
 
-* Do not autopair "`" and "'" in lisp buffer
-  #+begin_src emacs-lisp
-    (defvar my-lisp-modes '(emacs-lisp-mode
-                            lisp-mode
-                            scheme-mode 
-                            lisp-interaction-mode
-                            inferior-emacs-lisp-mode
-                            slime-repl-mode 
-                            cider-mode cider-repl-mode 
-                            geiser-repl-mode))
+* Configuration for lispy modes
+** Modes to be considered lispy
+   #+begin_src emacs-lisp
+     (defvar my-lispy-modes '(emacs-lisp-mode
+                              inferior-emacs-lisp-mode
+                              ielm-mode
+                              lisp-interaction-mode
 
-    (sp-local-pair my-lisp-modes
+                              lisp-mode
+                              slime-repl-mode
+                              
+                              scheme-mode
+                              geiser-repl-mode
+                              
+                              clojure-mode
+                              cider-repl-mode))
+   #+end_src
+
+** Do not autopair "`" and "'" in lisp buffer
+  #+begin_src emacs-lisp
+    (sp-local-pair my-lispy-modes
                    "`" "'"
                    :when '(sp-in-string-p sp-in-comment-p))
 
-    (sp-local-pair my-lisp-modes
+    (sp-local-pair my-lispy-modes
                    "'" nil
                    :actions nil)
   #+end_src
+
+** Enable strict mode in all lispy modes
+   #+begin_src emacs-lisp
+     (dolist (mode my-lispy-modes)
+       (add-hook (intern (concat (symbol-name mode) "-hook"))
+                 #'smartparens-strict-mode))
+   #+end_src
 
 
 * Do not autoescape string

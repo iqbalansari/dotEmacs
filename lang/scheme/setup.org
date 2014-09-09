@@ -28,12 +28,6 @@
   #+end_src
 
 
-* Enable smartparens strict mode
-  #+begin_src emacs-lisp
-    (smartparens-strict-mode)
-  #+end_src
-
-
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
     (my-highlight-line-after-func geiser-edit-symbol-at-point)
