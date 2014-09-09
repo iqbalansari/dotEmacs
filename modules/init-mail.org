@@ -28,7 +28,7 @@
   #+begin_src emacs-lisp
     (when (executable-find "w3m")
       (setq mu4e-view-prefer-html t)
-      (setq mu4e-html2text-command "w3m -T text/html"))
+      (setq mu4e-html2text-command "w3m -dump -T text/html"))
   #+end_src
 
 
@@ -68,6 +68,30 @@
   #+begin_src emacs-lisp
     (eval-after-load "mu4e"
       '(add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser)))
+  #+end_src
+
+
+* Action to view current message in w3m
+  #+begin_src emacs-lisp
+    (defun mu4e-action-view-in-w3m (msg)
+      "View the body of the message in a web browser.
+    You can influence the browser to use with the variable
+    `browse-url-generic-program'."
+      (let* ((html (mu4e-message-field msg :body-html))
+             (txt (mu4e-message-field msg :body-txt))
+             (tmpfile (format "%s%x.html" temporary-file-directory (random t))))
+        
+        (unless (or html txt)
+          (mu4e-error "No body part for this message"))
+        (with-temp-buffer
+          ;; simplistic -- but note that it's only an example...
+          (insert (or html (concat "<pre>" txt "</pre>")))
+          (write-file tmpfile)
+          (w3m-browse-url (concat "file://" tmpfile))
+          (setq html-test html))))
+
+    (eval-after-load "w3m"
+      '(add-to-list 'mu4e-view-actions '("Open in w3m" . mu4e-action-view-in-w3m)))
   #+end_src
 
 
