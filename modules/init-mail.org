@@ -90,8 +90,10 @@
           (w3m-browse-url (concat "file://" tmpfile))
           (setq html-test html))))
 
-    (eval-after-load "w3m"
-      '(add-to-list 'mu4e-view-actions '("Open in w3m" . mu4e-action-view-in-w3m)))
+    (eval-after-load "mu4e"
+      '(when (locate-library "w3m")
+         (load "w3m")
+         (add-to-list 'mu4e-view-actions '("Open in w3m" . mu4e-action-view-in-w3m))))
   #+end_src
 
 
