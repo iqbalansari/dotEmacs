@@ -71,7 +71,7 @@
 
 * Keybinding for idomenu
    #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c i") 'idomenu)
+     (global-set-key (kbd "C-c s") 'idomenu)
    #+end_src
 
 

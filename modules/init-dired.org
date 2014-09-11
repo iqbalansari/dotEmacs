@@ -31,6 +31,18 @@
   #+end_src
 
 
+* Let dired guess the target directory
+  #+begin_src emacs-lisp
+    (setq dired-dwim-target t)
+  #+end_src
+
+
+* Isearch in file names only, if when initial point position is on a file name
+  #+begin_src emacs-lisp
+    (setq dired-isearch-filenames 'dwim)
+  #+end_src
+
+
 * Display human-readable sizes in dired
   #+begin_src emacs-lisp
     (setq dired-listing-switches "-lah")
