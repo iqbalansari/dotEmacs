@@ -35,6 +35,7 @@
         kill-region
         kill-sentence
         kill-sexp
+        kill-visual-line
         mark-sexp
         open-line-below
         org-beginning-of-line
