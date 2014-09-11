@@ -35,6 +35,7 @@
         kill-region
         kill-sentence
         kill-sexp
+        kill-visual-line
         mark-sexp
         open-line-below
         org-beginning-of-line
@@ -42,6 +43,8 @@
         org-end-of-line
         org-force-self-insert
         org-kill-line
+        org-metaleft
+        org-metaright
         org-return-indent
         org-self-insert-command
         org-table-sum
@@ -55,9 +58,11 @@
         sp-backward-sexp
         sp-backward-unwrap-sexp
         sp-backward-up-sexp
+        sp-delete-char
         sp-down-sexp
         sp-forward-sexp
         sp-forward-slurp-sexp
+        sp-kill-hybrid-sexp
         sp-kill-sexp
         sp-rewrap-sexp
         sp-unwrap-sexp
