@@ -1,0 +1,11 @@
+* Unset emmet's default keybindings
+  #+begin_src emacs-lisp
+    (define-key emmet-mode-keymap (kbd "<C-return>") nil)
+    (define-key emmet-mode-keymap (kbd "C-j") nil)
+  #+end_src
+
+
+* Keybindings for emmet
+  #+begin_src emacs-lisp
+    (local-set-key (kbd "C-c RET") #'my-emmet-wrap-or-expand-snippet)
+  #+end_src
