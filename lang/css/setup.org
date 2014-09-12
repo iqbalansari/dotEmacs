@@ -5,6 +5,12 @@
   #+end_src
 
 
+* Enable emmet mode
+  #+begin_src emacs-lisp
+    (emmet-mode)
+  #+end_src
+
+
 * Enable skewer mode
   #+begin_src emacs-lisp
     (skewer-css-mode)
