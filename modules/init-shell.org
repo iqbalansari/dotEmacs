@@ -34,15 +34,29 @@
   #+end_src
 
 
-* Fix C-<right>, C-<left> in term, don't know why it was not working in the first place
+* Remap ctrl-arrow keys in term mode to move buffer if buffer-move is installed
   #+begin_src emacs-lisp
-    (eval-after-load 'term
-      '(progn (define-key term-raw-map (kbd "C-<left>") (lambda ()
-                                                          (interactive)
-                                                          (term-send-raw-string (kbd "\033[1;5D"))))
-              (define-key term-raw-map (kbd "C-<right>") (lambda ()
-                                                           (interactive)
-                                                           (term-send-raw-string (kbd "\033[1;5C"))))))
+    (defun my-enable-buf-move-term ()
+      (define-key term-raw-map (kbd "C-<left>") #'buf-move-left)
+      (define-key term-raw-map (kbd "C-<right>") #'buf-move-right)
+      (define-key term-raw-map (kbd "C-<up>") #'buf-move-up)
+      (define-key term-raw-map (kbd "C-<down>") #'buf-move-down))
+
+    (eval-after-load "buffer-move"
+      '(add-hook 'term-mode-hook #'my-enable-buf-move-term))
+  #+end_src
+
+
+* Remap shift-arrow keys in term mode to select window if windmove is being used
+  #+begin_src emacs-lisp
+    (defun my-enable-windmove-term ()
+      (define-key term-raw-map (kbd "<S-left>") #'windmove-left)
+      (define-key term-raw-map (kbd "<S-right>") #'windmove-right)
+      (define-key term-raw-map (kbd "<S-up>") #'windmove-up)
+      (define-key term-raw-map (kbd "<S-down>") #'windmove-down))
+
+    (eval-after-load "windmove"
+      '(add-hook 'term-mode-hook #'my-enable-windmove-term))
   #+end_src
 
 
