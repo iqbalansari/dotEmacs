@@ -80,7 +80,8 @@
                                               'entry
                                               (list 'file
                                                     (concat my-org-agenda-dir "/todos.org"))
-                                              "* TODO %?\n%U\n%a\n\n"))
+                                              "* TODO %?\n%U\n%a\n\n"
+                                              :empty-lines-after 2))
   #+end_src
 
 *** Template for capturing links
@@ -90,7 +91,8 @@
                                                 'entry
                                                 (list 'file
                                                       (concat my-notes-dir "links.org"))
-                                                "* %?\n  %(my-get-url-from-clipboard) - Found on %U\n\n"))
+                                                "* %?\n  %(my-get-url-from-clipboard) - Found on %U\n\n"
+                                                :empty-lines-after 2))
     #+end_src
 
 *** Template for capturing notes
@@ -100,7 +102,8 @@
                                                 'entry
                                                 (list 'file
                                                       (concat my-notes-dir "notes.org"))
-                                                "* %? :NOTE:\n%U\n\n"))
+                                                "* %? :NOTE:\n%U\n\n"
+                                                :empty-lines-after 2))
     #+end_src
 
 *** Template for capturing code snippets
@@ -110,7 +113,8 @@
                                                 'entry
                                                 (list 'file
                                                       (concat my-notes-dir "snippets.org"))
-                                                "* %? \n  #+begin_src \n    \n  #+end_src\n\n"))
+                                                "* %? \n  #+begin_src \n    \n  #+end_src\n\n"
+                                                :empty-lines-after 2))
     #+end_src
 
 
