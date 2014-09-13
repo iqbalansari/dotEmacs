@@ -160,6 +160,28 @@
   #+end_src
 
 
+* Additional keybinding for redo in calc
+  Just for consistency with regular redo keybinding
+  #+begin_src emacs-lisp
+    (eval-after-load "calc"
+      '(define-key calc-mode-map (kbd "C-?") #'calc-redo))
+  #+end_src
+
+
+
+* Keybinding to start calculator
+  By default start calc, but with prefix argument start simple calculator
+  #+begin_src emacs-lisp
+    (defun my-start-calculator ()
+      (interactive)
+      (if current-prefix-arg
+          (call-interactively #'calculator)
+        (call-interactively #'calc)))
+
+    (global-set-key (kbd "C-c c") #'my-start-calculator)
+  #+end_src
+
+
 * Install emacs-w3m if w3m is installed
   #+begin_src emacs-lisp
     (when (executable-find "w3m")

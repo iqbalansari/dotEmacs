@@ -121,7 +121,7 @@
 * Global keybindings for org
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c a") #'org-agenda)
-    (global-set-key (kbd "C-c c") #'org-capture)
+    (global-set-key (kbd "C-c C") #'org-capture)
   #+end_src
 
 
