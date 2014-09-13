@@ -106,8 +106,42 @@
   #+end_src
 
 
-* Keybinding to switch to mu4e
+* Convenient functions to start/hide mu4e
   #+begin_src emacs-lisp
-    (when (locate-library "mu4e")
-      (global-set-key (kbd "C-c m") #'mu4e))
+    (defvar my-pre-mu-win-config nil)
+    (defvar my-mu-win-config nil)
+
+    (defun my--start-mu4e ()
+      ;; If mu4e is running and a mu4e window configuration is
+      ;; stored
+      (if (and my-mu-win-config
+               (get-buffer " *mu4e-main*"))
+          (set-window-configuration my-mu-win-config)
+        (call-interactively #'mu4e)))
+
+    (defun my-start-mu4e ()
+      (interactive)
+      (setq my-pre-mu-win-config (current-window-configuration))
+      
+      (if (locate-library "mu4e")
+          (my--start-mu4e)
+        (message "mu4e not installed! You need to install `autoreconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev'
+    for installing mu4e")))
+
+    (defun my-quit-mu4e ()
+      (interactive)
+      (setq my-mu-win-config (current-window-configuration))
+      (when my-pre-mu-win-config
+        (set-window-configuration my-pre-mu-win-config)))
+  #+end_src
+
+
+* Keybindings to hide/show mu4e
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c m") #'my-start-mu4e)    
+
+    (eval-after-load "mu4e"
+      '(progn (define-key mu4e-main-mode-map (kbd "C-c m") #'my-quit-mu4e)
+              (define-key mu4e-view-mode-map (kbd "C-c m") #'my-quit-mu4e)
+              (define-key mu4e-headers-mode-map (kbd "C-c m") #'my-quit-mu4e)))
   #+end_src
