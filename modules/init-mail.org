@@ -146,5 +146,6 @@ and `libgmime-2.6-dev' for building mu4e")))
     (eval-after-load "mu4e"
       '(progn (define-key mu4e-main-mode-map (kbd "C-c m") #'my-quit-mu4e)
               (define-key mu4e-view-mode-map (kbd "C-c m") #'my-quit-mu4e)
-              (define-key mu4e-headers-mode-map (kbd "C-c m") #'my-quit-mu4e)))
+              (define-key mu4e-headers-mode-map (kbd "C-c m") #'my-quit-mu4e)'
+              (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'my-quit-mu4e)))
   #+end_src
