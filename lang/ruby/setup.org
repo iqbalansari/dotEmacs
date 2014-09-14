@@ -20,6 +20,21 @@
    #+end_src
 
 
+* Workarounds for 'uninitialized constant IRB' bug when using pry
+  Always load irb when running pry, using the -r argument
+   #+begin_src emacs-lisp
+     (add-to-list 'inf-ruby-implementations '("pry" . "pry -r irb"))
+
+     (defadvice run-ruby (before ensure-irb-is-loaded (&rest args))
+       (when args
+         (ad-set-arg 0 (replace-regexp-in-string "bundle exec pry"
+                                                 "bundle exec pry -r irb"
+                                                 (ad-get-arg 0)))))
+
+     (ad-activate #'run-ruby)
+   #+end_src
+
+
 * Ensure correct ruby is enabled
   #+begin_src emacs-lisp
     (when (and (executable-find "rvm")
