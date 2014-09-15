@@ -20,28 +20,6 @@
    #+end_src
 
 
-* Configure smartparens for html/xml
-** Use smartparens navigating around html/xml tags as well
-  #+begin_src emacs-lisp
-    (sp-with-modes '(web-mode sgml-mode nxml-mode apache-mode)
-      (sp-local-pair "<" ">"))
-
-    (add-to-list 'sp-navigate-consider-sgml-tags 'web-mode)
-    (add-to-list 'sp-navigate-consider-sgml-tags 'nxml-mode)
-    (add-to-list 'sp-navigate-consider-sgml-tags 'apache-mode)
-  #+end_src
-
-** Treat expression with same opening and closing delimiter as sexp
-  #+begin_src emacs-lisp
-    (add-to-list 'sp-navigate-consider-stringlike-sexp 'web-mode)
-  #+end_src
-
-** Wrapping with tags in web-mode
-  #+begin_src emacs-lisp
-    (sp-local-tag '(sgml-mode web-mode html-mode) "<" "<_>" "</_>" :transform 'sp-match-sgml-tags)
-  #+end_src
-
-
 * Do not add autopair "'" or """ if around a word
   #+begin_src emacs-lisp
     (sp-pair "'" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
@@ -49,38 +27,15 @@
   #+end_src
 
 
-* Configuration for lispy modes
-** Modes to be considered lispy
-   #+begin_src emacs-lisp
-     (defvar my-lispy-modes '(emacs-lisp-mode
-                              inferior-emacs-lisp-mode
-                              ielm-mode
-                              lisp-interaction-mode
-
-                              lisp-mode
-                              slime-repl-mode
-                              
-                              scheme-mode
-                              geiser-repl-mode
-                              
-                              clojure-mode
-                              cider-repl-mode))
-   #+end_src
-
-** Do not autopair "`" and "'" in lisp buffer
+* Extra configuration for some modes
+** Load smartparens config for extra configuration
   #+begin_src emacs-lisp
-    (sp-local-pair my-lispy-modes
-                   "`" "'"
-                   :when '(sp-in-string-p sp-in-comment-p))
-
-    (sp-local-pair my-lispy-modes
-                   "'" nil
-                   :actions nil)
+    (load "smartparens-config")
   #+end_src
 
 ** Enable strict mode in all lispy modes
    #+begin_src emacs-lisp
-     (dolist (mode my-lispy-modes)
+     (dolist (mode sp--lisp-modes)
        (add-hook (intern (concat (symbol-name mode) "-hook"))
                  #'smartparens-strict-mode))
    #+end_src

@@ -32,6 +32,13 @@
    #+end_src
 
 
+* Use C-c n to exit deft
+  #+begin_src emacs-lisp
+    (eval-after-load "deft"
+      '(define-key deft-mode-map (kbd "C-c n") #'quit-window))
+  #+end_src
+
+
 * Path to default org-captured file
   #+begin_src emacs-lisp
     (setq org-default-notes-file (concat my-notes-dir "/captured.org"))
@@ -121,7 +128,7 @@
 * Global keybindings for org
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c a") #'org-agenda)
-    (global-set-key (kbd "C-c c") #'org-capture)
+    (global-set-key (kbd "C-c C") #'org-capture)
   #+end_src
 
 

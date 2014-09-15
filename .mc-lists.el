@@ -65,6 +65,7 @@
         sp-forward-slurp-sexp
         sp-kill-hybrid-sexp
         sp-kill-sexp
+        sp-kill-word
         sp-rewrap-sexp
         sp-swap-enclosing-sexp
         sp-unwrap-sexp

@@ -109,6 +109,13 @@
   #+end_src
 
 
+* Keybinding to enable wdired mode
+  #+begin_src emacs-lisp
+    (add-hook 'dired-mode-hook (lambda ()
+                                 (define-key dired-mode-map "e" #'dired-toggle-read-only)))
+  #+end_src
+
+
 * Keybindings for starting dired
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-d") 'ido-dired)
