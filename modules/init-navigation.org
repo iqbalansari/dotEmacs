@@ -72,6 +72,21 @@
   #+end_src
 
 
+* Flash after jumping to definition using imenu
+  #+begin_src emacs-lisp
+    (add-hook 'imenu-after-jump-hook 'my-highlight-line)
+  #+end_src
+
+
+* Flash line after jumping to an error
+  #+begin_src emacs-lisp
+    (defadvice compile-goto-error (after hightlight-line-after-jump (&rest args))
+      (run-at-time 0.5 nil #'my-highlight-line))
+
+    (ad-activate #'compile-goto-error)
+  #+end_src
+
+
 * Always rescan buffers when using imenu
   #+begin_src emacs-lisp
     (setq imenu-auto-rescan t)

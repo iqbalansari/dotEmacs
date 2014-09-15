@@ -37,6 +37,7 @@
         kill-sexp
         kill-visual-line
         mark-sexp
+        new-line-dwim
         open-line-below
         org-beginning-of-line
         org-delete-char
