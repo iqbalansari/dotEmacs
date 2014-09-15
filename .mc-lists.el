@@ -49,6 +49,7 @@
         org-self-insert-command
         org-table-sum
         org-yank
+        orgtbl-self-insert-command
         python-indent-electric-colon
         repeat
         sp--self-insert-command
@@ -65,6 +66,7 @@
         sp-kill-hybrid-sexp
         sp-kill-sexp
         sp-rewrap-sexp
+        sp-swap-enclosing-sexp
         sp-unwrap-sexp
         sp-up-sexp
         st2-like-beginning-of-line
