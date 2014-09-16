@@ -4,13 +4,19 @@
   #+end_src
 
 
-* Disable syntax checking on idle-change and new-line
+* Disable syntax checking on new-line
   #+begin_src emacs-lisp
     (eval-after-load "flycheck"
-      '(setq flycheck-check-syntax-automatically (delq 'new-line (delq 'idle-change flycheck-check-syntax-automatically))))
+      '(setq flycheck-check-syntax-automatically (delq 'new-line flycheck-check-syntax-automatically)))
   #+end_src
 
-  
+
+* Check syntax automatically after a second of inactivity
+  #+begin_src emacs-lisp
+    (setq flycheck-idle-change-delay 1)
+  #+end_src
+
+
 * Underline only errors in buffers
 ** Disable underlining provided by flycheck
    We will add a custom function that will underline only errors

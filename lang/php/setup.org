@@ -37,6 +37,7 @@
 
 
 * Enable syntax checking
+** Enable flycheck mode
   #+begin_src emacs-lisp
     (flycheck-mode)
   #+end_src
