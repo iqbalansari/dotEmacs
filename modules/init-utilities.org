@@ -178,7 +178,7 @@
           (call-interactively #'calculator)
         (call-interactively #'calc)))
 
-    (global-set-key (kbd "C-c c") #'my-start-calculator)
+    (global-set-key (kbd "C-c C") #'my-start-calculator)
   #+end_src
 
 

@@ -202,12 +202,6 @@
   #+end_src
 
 
-* Flash after jumping to definition using imenu
-  #+begin_src emacs-lisp
-    (add-hook 'imenu-after-jump-hook 'my-highlight-line)
-  #+end_src
-
-
 * Indicate size in modeline
   #+begin_src emacs-lisp
     (size-indication-mode)

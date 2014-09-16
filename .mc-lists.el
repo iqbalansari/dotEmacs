@@ -37,6 +37,7 @@
         kill-sexp
         kill-visual-line
         mark-sexp
+        new-line-dwim
         open-line-below
         org-beginning-of-line
         org-delete-char
@@ -49,6 +50,7 @@
         org-self-insert-command
         org-table-sum
         org-yank
+        orgtbl-self-insert-command
         python-indent-electric-colon
         repeat
         sp--self-insert-command
@@ -66,6 +68,7 @@
         sp-kill-sexp
         sp-kill-word
         sp-rewrap-sexp
+        sp-swap-enclosing-sexp
         sp-unwrap-sexp
         sp-up-sexp
         st2-like-beginning-of-line

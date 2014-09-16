@@ -174,10 +174,9 @@
 
      (defmacro my-highlight-line-after-func (func)
        `(progn (defadvice ,func (after highlight-current-line
-                                            (&rest args))
+                                       (&rest args))
                  "Flash the current line after jump"
-                 (sit-for 0.1)
-                 (my-highlight-line))
+                 (run-at-time 0.1 nil #'my-highlight-line))
                (ad-activate ',func)))
    #+end_src
 
