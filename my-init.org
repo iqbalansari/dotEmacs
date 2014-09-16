@@ -113,9 +113,14 @@
        (unless (package-installed-p package)
          (my-auto-install extension package mode)))
 
-     (defun my-setup-lang (hook language)
-       (add-hook hook (lexical-let ((language language))
-                        (lambda () (my-load-lang-config language)))))
+     (defun my-setup-lang (hook language &rest extensions)
+       (add-hook hook (lexical-let ((language language)
+                                    (extensions extensions))
+                        (lambda ()
+                          (when (or (not extensions)
+                                    (and (member (file-name-extension (buffer-name))
+                                                 extensions)))
+                            (my-load-lang-config language))))))
    #+end_src
 
 ** 6. Function to declare one-shot keybindings
@@ -436,6 +441,7 @@
 ** Setup installation of external language modes
   #+begin_src emacs-lisp
     (my-auto-install-lang "\\.js\\'" 'js2-mode #'js2-mode)
+    (my-auto-install-lang "\\.php\\'" 'php-mode #'php-mode)
     (my-auto-install-lang "\\.\\(scala\\|sbt\\)\\'" 'scala-mode2 #'scala-mode)
     (my-auto-install-lang "\\.ml[iylp]?" 'tuareg #'tuareg-mode)
     (my-auto-install-lang "\\.hs\\'" 'haskell-mode #'haskell-mode)
@@ -456,17 +462,18 @@
 
 ** Setup loading of language configuration when the language mode loads
    #+begin_src emacs-lisp
+     (my-setup-lang 'python-mode-hook "python")
+     (my-setup-lang 'js2-mode-hook "javascript")
+     (my-setup-lang 'php-mode-hook "php")
      (my-setup-lang 'lisp-mode-hook "common-lisp")
      (my-setup-lang 'scheme-mode-hook "scheme")
-     (my-setup-lang 'python-mode-hook "python")
-     (my-setup-lang 'c-mode-hook "c")
-     (my-setup-lang 'c++-mode-hook "c")
+     (my-setup-lang 'c-mode-hook "c" "c" "h")
+     (my-setup-lang 'c++-mode-hook "c" "cpp" "hpp")
      (my-setup-lang 'css-mode-hook "css")
      (my-setup-lang 'scala-mode-hook "scala")
      (my-setup-lang 'tuareg-mode-hook "ocaml")
      (my-setup-lang 'go-mode-hook "go")
      (my-setup-lang 'erlang-mode-hook "erlang")
-     (my-setup-lang 'js2-mode-hook "javascript")
      (my-setup-lang 'factor-mode-hook "factor")
      (my-setup-lang 'json-mode-hook "json")
      (my-setup-lang 'markdown-mode-hook "markdown")

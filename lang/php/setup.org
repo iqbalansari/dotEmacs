@@ -1,0 +1,26 @@
+* Enable php-boris-mode
+  #+begin_src emacs-lisp
+    (when (locate-library "php-boris-minor-mode")
+      (php-boris-minor-mode))
+  #+end_src
+
+
+* Set the path to boris
+  #+begin_src emacs-lisp
+    (setq php-boris-command (or (executable-find "boris")
+                                (executable-find "boris.phar")))
+  #+end_src
+
+
+* Enable eldoc
+  #+begin_src emacs-lisp
+    (load "php-extras")
+    (eldoc-mode)
+    (php-extras-eldoc-setup)
+  #+end_src
+
+
+* Enable syntax checking
+  #+begin_src emacs-lisp
+    (flycheck-mode)
+  #+end_src

@@ -1,0 +1,12 @@
+* Install php-extras
+  #+begin_src emacs-lisp
+    (my-install-package 'php-extras)
+  #+end_src
+
+
+* Install php-boris-minor-mode if boris is installed
+  #+begin_src emacs-lisp
+    (when (or (executable-find "boris")
+              (executable-find "boris.phar"))
+      (my-install-package 'php-boris-minor-mode))
+  #+end_src
