@@ -12,6 +12,22 @@
   #+end_src
 
 
+* Get documentation at point
+  #+begin_src emacs-lisp
+    (require 'ehelp)
+
+    (defun my-php-doc-at-point ()
+      (interactive)
+      (let* ((symbol (symbol-at-point))
+             (result (if symbol
+                         (php-extras-function-documentation (symbol-name symbol))
+                       (error "No symbol at point"))))
+        (if result
+            (with-electric-help (lambda () (insert result)) "*php-help*")
+          (error (concat "No documentation found for `" (symbol-name symbol) "'")))))
+  #+end_src
+
+
 * Enable eldoc
   #+begin_src emacs-lisp
     (load "php-extras")

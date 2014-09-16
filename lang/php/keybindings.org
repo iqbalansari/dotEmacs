@@ -1,0 +1,4 @@
+* Keybinding for looking up doumentation
+  #+begin_src emacs-lisp
+    (local-set-key (kbd "C-c d") #'my-php-doc-at-point)
+  #+end_src
