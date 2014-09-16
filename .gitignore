@@ -40,3 +40,5 @@ edts
 abbrev_defs
 .emacs.desktop.lock
 /.deft/
+request/
+trello/

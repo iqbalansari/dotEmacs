@@ -478,7 +478,7 @@
      (my-setup-lang 'markdown-mode-hook "markdown")
      (my-setup-lang 'sml-mode-hook "sml")
      (my-setup-lang 'clojure-mode-hook "clojure")
-     (my-setup-lang 'web-mode-hook "html")
+     (my-setup-lang 'web-mode-hook "html" "html")
      (my-setup-lang 'haskell-mode-hook "haskell")
      (my-setup-lang 'ruby-mode-hook "ruby")
    #+end_src
