@@ -3,7 +3,7 @@
     (when my-ternjs-available
       (local-set-key my-jump-to-definition 'tern-find-definition)
       (local-set-key my-pop-jump-to-definition-marker 'tern-pop-find-definition)
-      (local-set-key my-show-doc 'tern-get-docs)
+      (local-set-key my-show-doc 'my-tern-get-docs)
       (local-set-key my-refactor-rename 'tern-rename-variable))
   #+end_src
 

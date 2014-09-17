@@ -49,7 +49,21 @@
      (push #'tern-ac-complete completion-at-point-functions)
    #+end_src
 
-   
+
+* Pop documentation for symbol at point in a window
+  #+begin_src emacs-lisp
+    (defun my-tern-get-docs ()
+      (interactive)
+      (tern-run-query (lambda (data)
+                        (let ((url (cdr (assq 'url data))) (doc (cdr (assq 'doc data))))
+                          (cond (doc (with-electric-help (lambda () (insert doc)) "*tern-help*"))
+                                (url (browse-url url))
+                                (t (message "Not found")))))
+                      "documentation"
+                      (point)))
+  #+end_src
+
+
 * REPL for javascript
 ** Should we use nodejs-repl
    nodejs-repl is better for node as it provides autocompletion, use it if inside
