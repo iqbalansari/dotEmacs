@@ -65,6 +65,7 @@
 
 * Org capture templates
 ** Helper functions
+*** Get the url from the clipboard
    #+begin_src emacs-lisp
      (defun my-get-url-from-clipboard ()
        (require 'thingatpt)
@@ -73,6 +74,16 @@
          (goto-char 0)
          (thing-at-point-url-at-point)))
    #+end_src
+
+*** Get name of major mode of buffer from which org-capture was called
+    The returned value can be uses as language in '#+begin_src' markup
+    #+begin_src emacs-lisp
+      (defun my-get-source-buffers-mode ()
+          (save-window-excursion
+            (switch-to-prev-buffer)
+            (substring (symbol-name major-mode) 0 -5)))
+    #+end_src
+
 
 ** The templates
 *** org-capture is not yet loaded
@@ -87,7 +98,7 @@
                                               'entry
                                               (list 'file
                                                     (concat my-org-agenda-dir "/todos.org"))
-                                              "* TODO %?\n%U\n%a\n\n"
+                                              "* TODO %?\n%U\n"
                                               :empty-lines-after 2))
   #+end_src
 
@@ -120,7 +131,7 @@
                                                 'entry
                                                 (list 'file
                                                       (concat my-notes-dir "snippets.org"))
-                                                "* %? \n  #+begin_src \n    \n  #+end_src\n\n"
+                                                "* %? \n  #+begin_src %(my-get-source-buffers-mode)\n    %i\n  #+end_src\n\n"
                                                 :empty-lines-after 2))
     #+end_src
 
