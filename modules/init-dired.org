@@ -7,9 +7,7 @@
 
 * Load dired-x for additional functionality
   #+begin_src emacs-lisp
-    (add-hook 'dired-mode-hook
-              (lambda ()
-                (load "dired-x")))
+    (load "dired-x")
   #+end_src
 
 

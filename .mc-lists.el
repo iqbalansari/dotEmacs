@@ -96,6 +96,7 @@
         smex
         sp-next-sexp
         sp-transpose-sexp
+        switch-window
         tern-find-definition
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit

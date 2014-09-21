@@ -3,7 +3,8 @@
     (defvar my-search-replace-packages
       '(visual-regexp
         wgrep
-        anzu))
+        anzu
+        discover))
 
     (my-install-packages my-search-replace-packages)
   #+end_src
@@ -159,13 +160,31 @@
   #+end_src
 
 
-* Keybindings for searching across buffers/files
+* Add a menu for easily selecting a search command
   #+begin_src emacs-lisp
-    (global-set-key (kbd "M-s M-b") #'multi-isearch-buffers)
-    (global-set-key (kbd "M-s M-f") #'multi-isearch-files)
-
-    (global-set-key (kbd "M-o") #'occur)
-    (global-set-key (kbd "M-s o") #'multi-occur-in-this-mode)
-    (global-set-key (kbd "M-s M-o") #'multi-occur)
-    (global-set-key (kbd "M-s M-/") #'multi-occur-in-matching-buffers)
+    (discover-add-context-menu
+     :context-menu '(isearch
+                     (description "Isearch, occur and highlighting")
+                     (lisp-switches
+                      ("-cf" "Case should fold search" case-fold-search t nil))
+                     (lisp-arguments
+                      ("=l" "context lines to show (occur)"
+                       "list-matching-lines-default-context-lines"
+                       (lambda (dummy) (interactive) (read-number "Number of context lines to show: "))))
+                     (actions
+                      ("Isearch"
+                       ("_" "Isearch forward symbol" isearch-forward-symbol)
+                       ("w" "Isearch forward word" isearch-forward-word)
+                       ("b" "Search in multiple buffers" multi-isearch-buffers))
+                      ("Occur"
+                       ("o" "Occur in current buffer" occur)
+                       ("O" "Occur in multiple buffers" multi-occur)
+                       ("m" "Occur in buffers of current major mode" multi-occur-in-this-mode)
+                       ("M" "Occur in buffers matching regexp" multi-occur-in-matching-buffers))
+                      ("Find"
+                       ("n" "Find files named" find-name-dired)
+                       ("g" "Find files containing" find-grep-dired))
+                      ("More"
+                       ("h" "Highlighters" makey-key-mode-popup-isearch-highlight))))
+     :bind "M-s")
   #+end_src
