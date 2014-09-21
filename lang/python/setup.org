@@ -250,6 +250,24 @@
   #+end_src
 
 
+* Add a discover menu for virtualenvwrapper
+  #+begin_src emacs-lisp
+    (when (locate-library "virtualenvwrapper")
+      (discover-add-context-menu
+       :context-menu '(venv
+                       (description "Virtualenv wrapper in emacs-lisp")
+                       (actions
+                        ("Managing virtualenvs"
+                         ("m" "Create a virtualenv" venv-mkvirtualenv)
+                         ("r" "Delete a virtualenv" venv-rmvirtualenv)
+                         ("c" "Copy virtualenv" venv-cpvirtualenv))
+                        ("Using virtualenvs"
+                         ("w" "Work on a virtualenv" venv-workon)
+                         ("d" "Deactivate virtualenv" venv-deactivate)
+                         ("C" "Change directory to virtualenv" venv-cpvirtualenv))))))
+  #+end_src
+
+
 * Setup code folding
   Enable "hs-minor-mode"
   #+begin_src emacs-lisp

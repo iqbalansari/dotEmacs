@@ -61,6 +61,13 @@
   #+end_src
 
 
+* Keybindings for virtualenvwrapper
+  #+begin_src emacs-lisp
+    (when (locate-library "virtualenvwrapper")
+      (local-set-key (kbd "C-c v") (lambda () (interactive) (discover-show-context-menu 'venv))))
+  #+end_src
+
+
 * Set keybindings for refactoring
   #+begin_src emacs-lisp
     (local-set-key my-refactor-rename 'rope-rename)
