@@ -270,17 +270,16 @@
    #+end_src
 
    
-* Unbind keys
-** Unset C-z, I don't find it useful
+* Unset C-z, I don't find it useful
    #+begin_src emacs-lisp
      (global-unset-key "\C-z")
    #+end_src
 
-** Unset C-x C-c to avoid killing emacs mistakenly
-   #+begin_src emacs-lisp
-     (global-unset-key (kbd "C-x C-c"))
-     (global-set-key (kbd "C-x r q") 'save-buffers-kill-emacs)
-   #+end_src
+
+* Confirm before killing emacs
+  #+begin_src emacs-lisp
+    (setq confirm-kill-emacs 'y-or-n-p)
+  #+end_src
 
 
 * Enable some disabled commands
