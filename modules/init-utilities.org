@@ -191,14 +191,32 @@
 
 * Install emacs-w3m if w3m is installed
   #+begin_src emacs-lisp
+    (defun my-set-w3m-keybindings ()
+      (define-key w3m-mode-map (kbd "M-n") #'w3m-next-anchor)
+      (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
+      (define-key w3m-mode-map (kbd "<down>") #'next-line)
+      (define-key w3m-mode-map (kbd "<up>") #'previous-line)
+      (define-key w3m-mode-map (kbd "<left>") nil)
+      (define-key w3m-mode-map (kbd "<right>") nil)
+      (define-key w3m-mode-map (kbd "<C-prior>") #'w3m-previous-buffer)
+      (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
+      (define-key w3m-mode-map (kbd "C-c b") #'w3m-close-window))
+
+    (defun my-w3m-set-mark-before-jump ()
+      (defadvice w3m-next-anchor (before my-w3m-set-mark-before-next-url (&rest args))
+        (push-mark))
+
+      (defadvice w3m-previous-anchor (before my-w3m-set-mark-before-previous-url (&rest args))
+        (push-mark))
+
+      (ad-activate 'w3m-next-anchor)
+      (ad-activate 'w3m-previous-anchor))
+
     (when (executable-find "w3m")
       (my-install-package 'w3m)
       (eval-after-load "w3m"
-        '(progn (define-key w3m-mode-map (kbd "n") #'next-line)
-                (define-key w3m-mode-map (kbd "p") #'previous-line)
-                (define-key w3m-mode-map (kbd "<C-prior>") #'w3m-previous-buffer)
-                (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
-                (define-key w3m-mode-map (kbd "C-c b") #'w3m-close-window)))
+        '(progn (my-set-w3m-keybindings)
+                (my-w3m-set-mark-before-jump)))
       (add-hook 'w3m-mode-hook 'w3m-lnum-mode)
       (add-hook 'w3m-display-hook (lambda (url)
                                     (let ((buffer-read-only nil))
