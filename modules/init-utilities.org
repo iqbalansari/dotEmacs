@@ -161,10 +161,20 @@
   #+end_src
 
 
-* Enable dired mode
+* Enable discover mode
+** Enable the mode
   #+begin_src emacs-lisp
     (global-discover-mode +1)
   #+end_src
+
+** For some reason 'C-x r' does not work with discover
+   #+begin_src emacs-lisp
+     (define-key undo-tree-map (kbd "C-x r U") nil)
+     (define-key undo-tree-map (kbd "C-x r u") nil)
+     (define-key undo-tree-map (kbd "C-x r") nil)
+     (global-unset-key (kbd "C-x r M-w"))
+   #+end_src
+
 
 
 * Additional keybinding for redo in calc
