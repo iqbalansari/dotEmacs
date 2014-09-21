@@ -6,7 +6,8 @@
                            prodigy
                            eldoc-eval
                            f
-                           deft))
+                           deft
+                           discover))
   #+end_src
 
 
@@ -157,6 +158,12 @@
         (insert "\n\n;; Saved macro\n")
         (insert-kbd-macro name)
         (insert "\n")))
+  #+end_src
+
+
+* Enable dired mode
+  #+begin_src emacs-lisp
+    (global-discover-mode +1)
   #+end_src
 
 
