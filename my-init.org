@@ -224,7 +224,21 @@
    #+begin_src emacs-lisp
      (defun my--install-package (package &optional after-install)
        (unless (package-installed-p package)
-         (package-install package)
+         (condition-case err
+             (package-install package)
+           
+           ;; File error most probably means, the contents are old
+           ;; refresh content and try again (emacs-version <= 24.4)
+           (file-error (progn (package-refresh-contents)
+                              (package-install package)))
+
+           ;; Older emacs
+           (error (if (string-match-p "Error during download request.*Not Found"
+                                      (error-message-string err))
+                      (progn (package-refresh-contents)
+                             (package-install package))
+                    (signal (car err) (cdr err)))))
+
          (when after-install
            (funcall after-install))))
 
@@ -267,7 +281,6 @@
      (global-unset-key (kbd "C-x C-c"))
      (global-set-key (kbd "C-x r q") 'save-buffers-kill-emacs)
    #+end_src
-
 
 
 * Enable some disabled commands
