@@ -332,7 +332,7 @@
   #+begin_src emacs-lisp
     (my-install-package 'exec-path-from-shell)
 
-    (when (not (equal system-type 'windows))
+    (when (not (equal system-type 'windows-nt))
       (exec-path-from-shell-initialize))
   #+end_src
 
