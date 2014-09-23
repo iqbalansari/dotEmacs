@@ -25,7 +25,8 @@
 
 * Start flyspell in org mode buffers
   #+begin_src emacs-lisp
-    (add-to-list 'org-mode-hook 'flyspell-mode)
+    (when ispell-program-name
+      (add-to-list 'org-mode-hook 'flyspell-mode))
   #+end_src
 
 
