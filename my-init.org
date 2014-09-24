@@ -482,6 +482,7 @@
     (my-auto-install-lang "\\.yaml\\'" 'yaml-mode #'yaml-mode)
     (my-auto-install-lang "httpd\\.conf\\'\\|srm\\.conf\\'\\|access\\.conf\\'\\|sites-\\(available\\|enabled\\)/\\|\\.htaccess\\'"
                    'apache-mode #'apache-mode)
+    (my-auto-install-lang "\\.dot\\'" 'graphviz-dot-mode #'graphviz-dot-mode)
   #+end_src
 
 ** Setup loading of language configuration when the language mode loads
