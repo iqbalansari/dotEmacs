@@ -275,6 +275,21 @@
      (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
    #+end_src
 
+** TODO Use ';' to prepend things to in environment on windows
+   ':' has a special meaning in windows. Report this to el-get
+   #+begin_src emacs-lisp
+     (defun my-el-get-envpath-prepend (envname head)
+       "Return \"HEAD:PATHS\" omitting duplicates in it."
+       (let* ((paths (getenv envname))
+              (sep (if (equal system-type 'windows-nt) ";" ":"))
+              (pplist (split-string (or paths "") sep 'omit-nulls)))
+         (setenv envname (mapconcat 'identity
+                                    (remove-duplicates (cons head pplist)
+                                                       :test #'string= :from-end t)
+                                    sep))))
+   #+end_src
+
+
 ** Create directory for el-get
    #+begin_src emacs-lisp
      (unless (file-exists-p (locate-user-emacs-file "el-get"))
