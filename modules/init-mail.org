@@ -129,7 +129,7 @@ and `libgmime-2.6-dev' for building mu4e")))
       (if (locate-library "mu4e")
           (my--start-mu4e)
         (message "mu4e not installed! You need to install `autoreconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev'
-    for installing mu4e")))
+for installing mu4e")))
 
     (defun my-quit-mu4e ()
       (interactive)
