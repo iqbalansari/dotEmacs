@@ -493,6 +493,7 @@
     (my-auto-install-lang "\\.factor$" 'fuel #'factor-mode)
     (my-auto-install-lang "\\.json\\'" 'json-mode #'json-mode)
     (my-auto-install-lang "\\.\\(markdown\\|md\\)\\'" 'markdown-mode #'markdown-mode)
+    (my-auto-install-lang "README" 'markdown-mode #'markdown-mode)
     (my-auto-install-lang "\\.yaml\\'" 'yaml-mode #'yaml-mode)
     (my-auto-install-lang "httpd\\.conf\\'\\|srm\\.conf\\'\\|access\\.conf\\'\\|sites-\\(available\\|enabled\\)/\\|\\.htaccess\\'"
                    'apache-mode #'apache-mode)
@@ -502,6 +503,7 @@
 ** Some extra auto-mode-alist entries
    #+begin_src emacs-lisp
      (add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
+     (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
    #+end_src
 
 ** Setup loading of language configuration when the language mode loads

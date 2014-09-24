@@ -1,5 +1,0 @@
-(:name edts
-       :description "Erlang Development Tool Suite."
-       :type elpa
-       :repo ("melpa" . "http://melpa.milkbox.net/packages/")
-       :build ("make"))
