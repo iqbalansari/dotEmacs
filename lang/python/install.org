@@ -24,7 +24,12 @@
 * Install jedi, virtualenvwrapper if virtualenv is present
   #+begin_src emacs-lisp
     (if (executable-find "virtualenv")
-        (progn (my-install-package 'jedi #'jedi:install-server-block)
+        (progn (my-install-package 'jedi (lambda ()
+                                           (jedi:install-server-block)
+                                           (when (equal system-type 'windows-nt)
+                                             (message "You might need to restart emacs for `jedi' to work")
+                                             (sit-for 5))))
+
                (my-install-package 'virtualenvwrapper))
       (warn "You need to install python `virtualenv' to install jedi"))
   #+end_src
