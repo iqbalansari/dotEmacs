@@ -5,6 +5,10 @@
                                     (executable-find "clisp")
                                     (progn (warn "No suitable lisp implementation found, slime may not work")
                                            nil)))
+
+    (when (string-match-p " " inferior-lisp-program)
+      (warn (format "Path to `inferior-lisp-program' contains spaces (%s), slime may fail!"
+                    inferior-lisp-program)))
   #+end_src
 
 
