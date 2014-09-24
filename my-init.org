@@ -101,8 +101,7 @@
      PACKAGE is installed only if not already present. The file is opened in MODE."
        `(add-to-list 'auto-mode-alist
                      `(,extension . (lambda ()
-                                      (unless (package-installed-p ',package)
-                                        (package-install ',package))
+                                      (my-install-package ',package)
                                       (,mode)))))
 
      (defun my-auto-install-lang (extension package mode)
