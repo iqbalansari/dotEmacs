@@ -13,7 +13,8 @@
 * Use findstr on windows
   Taken from [[https://github.com/npostavs/emacs.d]]
   #+begin_src emacs-lisp
-    (when (eq system-type 'windows-nt)
+    (when (and (eq system-type 'windows-nt)
+               (not (executable-find "grep")))
       (eval-after-load "grep"
         '(progn (grep-apply-setting 'grep-find-template
                                     "findstr /S /N /D:. /C:<R> <F>")
