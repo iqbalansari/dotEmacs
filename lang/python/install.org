@@ -30,7 +30,10 @@
   #+end_src
 
 
-* Install rope using el-get
+* Install ropemacs
   #+begin_src emacs-lisp
-    (el-get 'sync '(pymacs ropemacs))
+    (if (and (executable-find "make")
+             (executable-find "python"))
+        (my-install-package 'ropemacs)
+      (warn "Install `python' and `make' to install `ropemacs'"))
   #+end_src
