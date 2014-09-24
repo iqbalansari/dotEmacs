@@ -499,6 +499,11 @@
     (my-auto-install-lang "\\.dot\\'" 'graphviz-dot-mode #'graphviz-dot-mode)
   #+end_src
 
+** Some extra auto-mode-alist entries
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
+   #+end_src
+
 ** Setup loading of language configuration when the language mode loads
    #+begin_src emacs-lisp
      (my-setup-lang 'python-mode-hook "python")
