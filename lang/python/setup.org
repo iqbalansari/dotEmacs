@@ -208,14 +208,16 @@
 ** Start ropemacs
    Load pymacs and load rope, if not already loaded
    #+begin_src emacs-lisp
-     (unless (featurep 'pymacs)
+     (when (and (locate-library "pymacs")
+                (not (featurep 'pymacs)))
        (load "pymacs")
        (pymacs-load "ropemacs" "rope-"))
    #+end_src
 
 ** Generate auto-import cache if not generated already
    #+begin_src emacs-lisp
-     (my-generate-auto-import-cache nil)
+     (when (featurep 'ropemacs)
+       (my-generate-auto-import-cache nil))
    #+end_src
 
 
