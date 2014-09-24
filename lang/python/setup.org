@@ -11,7 +11,7 @@
                 "';'.join(module_completion('''%s'''))\n"
                 python-shell-completion-string-code
                 "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"))
-      (when (zerop (shell-command "python -c \"import pyreadline\""))
+      (unless (zerop (shell-command "python -c \"import readline\""))
         (warn "`pyreadline' not installed, completion in python shell would not work
     do `pip install pyreadline', to install pyreadline")))
   #+end_src
