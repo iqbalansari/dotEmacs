@@ -26,7 +26,8 @@
 
 * Keybinding for finding references
   #+begin_src emacs-lisp
-    (local-set-key my-find-references #'rope-find-occurrences)
+    (when (featurep 'ropemacs)
+      (local-set-key my-find-references #'rope-find-occurrences))
   #+end_src
 
 
@@ -70,7 +71,8 @@
 
 * Set keybindings for refactoring
   #+begin_src emacs-lisp
-    (local-set-key my-refactor-rename 'rope-rename)
-    (local-set-key my-refactor-auto-import 'rope-auto-import)
-    (local-set-key my-refactor-organize-imports 'rope-organize-imports)
+    (when (featurep 'ropemacs)
+      (local-set-key my-refactor-rename 'rope-rename)
+      (local-set-key my-refactor-auto-import 'rope-auto-import)
+      (local-set-key my-refactor-organize-imports 'rope-organize-imports))
   #+end_src

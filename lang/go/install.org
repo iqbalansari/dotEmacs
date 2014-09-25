@@ -3,10 +3,12 @@
     (let ((cur-go-path (getenv "GOPATH")))
       (when (or (not cur-go-path)
                 (zerop (length cur-go-path)))
-        (let ((go-path (cdar (exec-path-from-shell-getenvs '("GOPATH")))))
-          (setenv "GOPATH" go-path)
-          (when (zerop (length go-path))
-            (warn "`GOPATH' not set, godef et al will not work")))))
+        (if (equal system-type 'windows-nt) 
+            (warn "`GOPATH' not set, godef et al will not work")
+          (let ((go-path (cdar (exec-path-from-shell-getenvs '("GOPATH")))))
+            (setenv "GOPATH" go-path)
+            (when (zerop (length go-path))
+              (warn "`GOPATH' not set, godef et al will not work"))))))
   #+end_src
 
 

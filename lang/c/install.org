@@ -69,13 +69,13 @@
    Try retrieving the information only if we need
    to install any of the libraries
    #+begin_src emacs-lisp
-     (defvar my-gcc-version)
-     (defvar my-g++-version)
-     (defvar my-clang-version)
-     (defvar my-llvm-executable)
-     (defvar my-llvm-version)
-     (defvar my-libclang-version)
-     (defvar my-cmake-version)
+     (defvar my-gcc-version nil)
+     (defvar my-g++-version nil)
+     (defvar my-clang-version nil)
+     (defvar my-llvm-executable nil)
+     (defvar my-llvm-version nil)
+     (defvar my-libclang-version nil)
+     (defvar my-cmake-version nil)
 
      (when (or (and my-install-rtags
                     (not (locate-library "rtags")))

@@ -4,6 +4,13 @@
   #+end_src
 
 
+* Install powershell mode on windows
+  #+begin_src emacs-lisp
+    (when (equal system-type 'windows-nt)
+      (my-install-package 'powershell))
+  #+end_src
+
+
 * Faster keybinding to switch between line and character mode in term
   #+begin_src emacs-lisp
     (defun my-toggle-term-mode ()

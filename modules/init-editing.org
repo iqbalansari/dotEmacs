@@ -585,7 +585,8 @@
 * Enable flyspell prog mode in all programming buffers
 ** Enable flyspell
   #+begin_src emacs-lisp
-    (add-hook 'prog-mode-hook #'flyspell-prog-mode)
+    (when ispell-program-name
+      (add-hook 'prog-mode-hook #'flyspell-prog-mode))
   #+end_src
 
 ** Disable spell checking inside strings

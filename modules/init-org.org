@@ -6,6 +6,20 @@
   #+end_src
 
 
+* Fontify code blocks in org-src
+   #+begin_src emacs-lisp
+     (setq org-src-fontify-natively t)
+   #+end_src
+
+
+* Start flyspell in org mode buffers
+  The value of ispell-program name is set in my-init.org
+  #+begin_src emacs-lisp
+    (when ispell-program-name
+      (add-to-list 'org-mode-hook 'flyspell-mode))
+  #+end_src
+
+
 * Enable org-ditaa if ditaa is installed
   #+begin_src emacs-lisp
     (when (executable-find "ditaa")
@@ -17,15 +31,19 @@
   #+end_src
 
 
-* Fontify code blocks in org-src
-   #+begin_src emacs-lisp
-     (setq org-src-fontify-natively t)
-   #+end_src
-
-
-* Start flyspell in org mode buffers
+* Org mode integration for graphviz
+** Associate 'dot' extension with graphviz-dot-mode
   #+begin_src emacs-lisp
-    (add-to-list 'org-mode-hook 'flyspell-mode)
+    (when (locate-library "graphviz-dot-mode") 
+      (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot-mode)))
+  #+end_src
+
+** Enable org-babel for graphviz
+  #+begin_src emacs-lisp
+    (when (executable-find "graphviz") 
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((dot . t))))
   #+end_src
 
 

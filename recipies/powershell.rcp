@@ -1,0 +1,4 @@
+(:name powershell
+       :description "An Emacs mode for editing and running Microsoft PowerShell code."
+       :type github
+       :pkgname "jschaf/powershell.el")

@@ -1,4 +1,5 @@
 * Enable spell check
   #+begin_src emacs-lisp
-    (flyspell-mode 1)
+    (when ispell-program-name
+      (flyspell-mode 1))
   #+end_src
