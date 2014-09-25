@@ -81,10 +81,22 @@
 * Flash line after jumping to an error
   #+begin_src emacs-lisp
     (defadvice compile-goto-error (after hightlight-line-after-jump (&rest args))
+      (recenter)
       (run-at-time 0.5 nil #'my-highlight-line))
 
     (ad-activate #'compile-goto-error)
   #+end_src
+
+
+* Recenter and flash line after jumping to next error
+  #+begin_src emacs-lisp
+    (defadvice next-error (after hightlight-line-after-jump (&rest args))
+      (recenter)
+      (run-at-time 0.5 nil #'my-highlight-line))
+
+    (ad-activate #'next-error)
+  #+end_src
+
 
 
 * Always rescan buffers when using imenu
