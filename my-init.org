@@ -101,8 +101,7 @@
      PACKAGE is installed only if not already present. The file is opened in MODE."
        `(add-to-list 'auto-mode-alist
                      `(,extension . (lambda ()
-                                      (unless (package-installed-p ',package)
-                                        (package-install ',package))
+                                      (my-install-package ',package)
                                       (,mode)))))
 
      (defun my-auto-install-lang (extension package mode)
@@ -185,6 +184,18 @@
      (load "cl")
    #+end_src
 
+** 10. Select an application for spellchecking
+   #+begin_src emacs-lisp
+     (defvar ispell-program-name (or (executable-find "ispell")
+                                     (executable-find "aspell")
+                                     (executable-find "hunspell")))
+   #+end_src
+
+** 11. Set lang to en_US
+   #+begin_src emacs-lisp
+     (setenv "LANG" "en_US")
+   #+end_src
+
 
 * Increase gc threshhold
   #+begin_src emacs-lisp
@@ -263,6 +274,21 @@
      (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
    #+end_src
 
+** TODO Use ';' to prepend things to in environment on windows
+   ':' has a special meaning in windows. Report this to el-get
+   #+begin_src emacs-lisp
+     (defun my-el-get-envpath-prepend (envname head)
+       "Return \"HEAD:PATHS\" omitting duplicates in it."
+       (let* ((paths (getenv envname))
+              (sep (if (equal system-type 'windows-nt) ";" ":"))
+              (pplist (split-string (or paths "") sep 'omit-nulls)))
+         (setenv envname (mapconcat 'identity
+                                    (remove-duplicates (cons head pplist)
+                                                       :test #'string= :from-end t)
+                                    sep))))
+   #+end_src
+
+
 ** Create directory for el-get
    #+begin_src emacs-lisp
      (unless (file-exists-p (locate-user-emacs-file "el-get"))
@@ -332,7 +358,7 @@
   #+begin_src emacs-lisp
     (my-install-package 'exec-path-from-shell)
 
-    (when (not (equal system-type 'windows))
+    (when (not (equal system-type 'windows-nt))
       (exec-path-from-shell-initialize))
   #+end_src
 
@@ -467,11 +493,19 @@
     (my-auto-install-lang "\\.factor$" 'fuel #'factor-mode)
     (my-auto-install-lang "\\.json\\'" 'json-mode #'json-mode)
     (my-auto-install-lang "\\.\\(markdown\\|md\\)\\'" 'markdown-mode #'markdown-mode)
+    (my-auto-install-lang "README" 'markdown-mode #'markdown-mode)
     (my-auto-install-lang "\\.yaml\\'" 'yaml-mode #'yaml-mode)
     (my-auto-install-lang "httpd\\.conf\\'\\|srm\\.conf\\'\\|access\\.conf\\'\\|sites-\\(available\\|enabled\\)/\\|\\.htaccess\\'"
                    'apache-mode #'apache-mode)
     (my-auto-install-lang "\\.pip\\|requirements\\.txt\\'" 'pip-requirements #'pip-requirements-mode)
+    (my-auto-install-lang "\\.dot\\'" 'graphviz-dot-mode #'graphviz-dot-mode)
   #+end_src
+
+** Some extra auto-mode-alist entries
+   #+begin_src emacs-lisp
+     (add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
+     (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
+   #+end_src
 
 ** Setup loading of language configuration when the language mode loads
    #+begin_src emacs-lisp

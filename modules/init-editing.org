@@ -190,30 +190,6 @@
   #+end_src
 
 
-* Show all lines matching REGEXP in buffers with this major mode. Taken from
-  [[http://www.masteringemacs.org/articles/2011/07/20/searching-buffers-occur-mode/][mastering-emacs]]
-  #+begin_src emacs-lisp
-    ;; Get lines matching REGEXP in all buffers with this major mode
-    (defun get-buffers-matching-mode (mode)
-      "Returns a list of buffers where their major-mode is equal to MODE"
-      (let ((buffer-mode-matches '()))
-        (dolist (buf (buffer-list))
-          (with-current-buffer buf
-            (if (eq mode major-mode)
-                (add-to-list 'buffer-mode-matches buf))))
-        buffer-mode-matches))
-
-    (defun multi-occur-in-this-mode ()
-      "Show all lines matching REGEXP in buffers with this major mode."
-      (interactive)
-      (multi-occur
-       (get-buffers-matching-mode major-mode)
-       (car (occur-read-primary-args))))
-
-    (global-set-key (kbd "M-o") 'multi-occur-in-this-mode)
-  #+end_src
-
-
 * Keybindings to highlight text according to regexp
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c h l") 'highlight-lines-matching-regexp)
@@ -609,7 +585,8 @@
 * Enable flyspell prog mode in all programming buffers
 ** Enable flyspell
   #+begin_src emacs-lisp
-    (add-hook 'prog-mode-hook #'flyspell-prog-mode)
+    (when ispell-program-name
+      (add-hook 'prog-mode-hook #'flyspell-prog-mode))
   #+end_src
 
 ** Disable spell checking inside strings

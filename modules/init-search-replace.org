@@ -6,6 +6,9 @@
         anzu
         discover))
 
+    (when (executable-find "ack")
+      (add-to-list 'my-search-replace-packages 'ack-and-a-half))
+
     (my-install-packages my-search-replace-packages)
   #+end_src
 
@@ -13,10 +16,12 @@
 * Use findstr on windows
   Taken from [[https://github.com/npostavs/emacs.d]]
   #+begin_src emacs-lisp
-    (when (eq system-type 'windows-nt)
-      (grep-apply-setting 'grep-find-template
-                          "findstr /S /N /D:. /C:<R> <F>")
-      (setq find-name-arg nil))
+    (when (and (eq system-type 'windows-nt)
+               (not (executable-find "grep")))
+      (eval-after-load "grep"
+        '(progn (grep-apply-setting 'grep-find-template
+                                    "findstr /S /N /D:. /C:<R> <F>")
+                (setq find-name-arg nil))))
   #+end_src
 
 
@@ -85,6 +90,28 @@
   #+begin_src emacs-lisp
     (setq wgrep-auto-save-buffer t)
     (setq wgrep-enable-key "e")
+  #+end_src
+
+
+* Show all lines matching REGEXP in buffers with this major mode. Taken from
+  [[http://www.masteringemacs.org/articles/2011/07/20/searching-buffers-occur-mode/][mastering-emacs]]
+  #+begin_src emacs-lisp
+    ;; Get lines matching REGEXP in all buffers with this major mode
+    (defun get-buffers-matching-mode (mode)
+      "Returns a list of buffers where their major-mode is equal to MODE"
+      (let ((buffer-mode-matches '()))
+        (dolist (buf (buffer-list))
+          (with-current-buffer buf
+            (if (eq mode major-mode)
+                (add-to-list 'buffer-mode-matches buf))))
+        buffer-mode-matches))
+
+    (defun multi-occur-in-this-mode ()
+      "Show all lines matching REGEXP in buffers with this major mode."
+      (interactive)
+      (multi-occur
+       (get-buffers-matching-mode major-mode)
+       (car (occur-read-primary-args))))
   #+end_src
 
 
@@ -184,6 +211,14 @@
                       ("Find"
                        ("n" "Find files named" find-name-dired)
                        ("g" "Find files containing" find-grep-dired))
+                      ("Grep"
+                       ("f" "Run grep via find" find-grep)
+                       ("c" "Grep for pattern in directory" lgrep)
+                       ("r" "Recursively grep for pattern in directory" rgrep)                       
+                       ("z" "Recursively grep for pattern in gzipped files" zgrep))
+                      ("Projectile"
+                       ("p" "Grep using projectile" projectile-grep)
+                       ("a" "Ack using projectile" projectile-ack))
                       ("More"
                        ("h" "Highlighters" makey-key-mode-popup-isearch-highlight))))
      :bind "M-s")

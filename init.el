@@ -1,3 +1,14 @@
+;; Do not start on windows, if HOME environment is not equal to
+;; USERPROFILE. This leads unexpected behaviour such as applications started
+;; from emacs do not pick up correct HOME file.
+(when (and (equal system-type 'windows-nt)
+           (not (string= (getenv "HOME")
+                         (getenv "USERPROFILE"))))
+  (error "System variables `USERPROFILE' and `HOME' set to different values, 
+this may lead to unexpected behaviour, not proceeding. Please set `HOME' to
+value of `USERPROFILE', and move your .emacs.d directory there. Remember
+to restart any shell you are using to launch emacs after making the changes!"))
+
 ;; Use absolute file name of user-emacs-directory.
 (defvar my-home-dir (file-truename "~/.emacs.d/"))
 (setq user-emacs-directory my-home-dir)
@@ -11,13 +22,17 @@
 (require 'package)
 (package-initialize)
 
-;; Use org babel to load rest of the configuration
+;; Ensure we have the latest org mode installed
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (unless (package-installed-p 'org-plus-contrib)
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
 
+;; Do not let org overtake shift-arrow, ctrl-arrow keys windmove and buffermove
+;; use them. Unfortunately this needs to be set before loading org, hence
+;; setting it here
 (setq org-replace-disputed-keys t)
+
 (require 'org)
 
 ;; Create .compiled dir in modules

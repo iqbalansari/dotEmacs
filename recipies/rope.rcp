@@ -1,0 +1,7 @@
+(:name rope
+       :description "A python refactoring library"
+       :post-init
+       ;; Add to PYTHONPATH directly as it is used in ropemacs and traad
+       (my-el-get-envpath-prepend "PYTHONPATH" default-directory)
+       :type git
+       :url "https://github.com/python-rope/rope.git")

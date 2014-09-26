@@ -23,6 +23,7 @@
         electric-newline-and-maybe-indent
         end-of-visual-line
         eval-and-replace
+        eval-defun
         eval-last-sexp
         eval-print-last-sexp
         forward-sentence

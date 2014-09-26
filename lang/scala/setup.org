@@ -21,11 +21,15 @@
 ** Load ensime if not loaded already
   #+begin_src emacs-lisp
     (defun my-load-ensime ()
-      (when (and (executable-find "sbt")
-                 (version< (nth 3 (split-string (shell-command-to-string "sbt --version")))
-                           "0.13"))
-        (warn "Ensime requires sbt 0.13.x and upwards for sbt project"))
-      (load "ensime"))
+      (if (or (getenv "JDK_HOME")
+              (getenv "JAVA_HOME")
+              (executable-find "javac"))
+          (progn (when (and (executable-find "sbt")
+                            (version< (nth 3 (split-string (shell-command-to-string "sbt --version")))
+                                      "0.13"))
+                   (warn "Ensime requires sbt 0.13.x and upwards for sbt project"))
+                 (load "ensime"))
+        (warn "JDK_HOME and JAVA_HOME are not set, javac not found! Ensime will NOT work!")))
 
     (unless (fboundp #'ensime-mode)
       (my-load-ensime))
@@ -36,11 +40,11 @@
      (ignore-errors (if (and buffer-file-name
                              (equal (file-name-extension buffer-file-name) "scala")
                              (locate-dominating-file buffer-file-name ".ensime"))
-                        (ensime-mode +1)
+                        (when (fboundp #'ensime-mode)
+                          (ensime-mode +1))
                       (unless (locate-dominating-file buffer-file-name ".ensime")
                         (warn "Not in ensime project, do M-x ensime-config-gen"))))
    #+end_src
-
 
 
 * Enable flycheck
