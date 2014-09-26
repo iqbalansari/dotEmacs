@@ -70,6 +70,14 @@
    #+end_src
 
 
+* Enable syntax checking
+  Do not enable flycheck if edts is available
+  #+begin_src emacs-lisp
+    (unless my-edts-available
+      (flycheck-mode))
+  #+end_src
+
+
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
     (when my-edts-available
