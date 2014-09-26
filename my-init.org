@@ -529,5 +529,6 @@
      (my-setup-lang 'web-mode-hook "html" "html")
      (my-setup-lang 'haskell-mode-hook "haskell")
      (my-setup-lang 'ruby-mode-hook "ruby")
+     (my-setup-lang 'pip-requirements-mode-hook "pip")
    #+end_src
 
