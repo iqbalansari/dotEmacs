@@ -69,6 +69,12 @@
        (add-to-list 'company-backends 'company-distel))
    #+end_src
 
+** Enable extended-erlang-mode in erlang-shell-mode
+   #+begin_src emacs-lisp
+     (when (locate-library "distel")
+       (add-hook 'erlang-shell-mode-hook #'erlang-extended-mode))
+   #+end_src
+
 
 * Enable syntax checking
   Do not enable flycheck if edts is available
