@@ -1,0 +1,4 @@
+(:name company-distel
+       :description "Auto completion for distel"
+       :type github
+       :pkgname "sebastiw/company-distel")

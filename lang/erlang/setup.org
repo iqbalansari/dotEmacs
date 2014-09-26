@@ -22,6 +22,54 @@
   #+end_src
 
 
+* Setup distel, if edts is not available
+** Set inferior-erlang-machine-options
+   So that name of erlang shell started is emacs
+   #+begin_src emacs-lisp
+     (setq inferior-erlang-machine-options '("-sname" "emacs"))
+   #+end_src
+
+** Enable erlang extended mode
+   #+begin_src emacs-lisp
+     (when (locate-library "distel") 
+       (unless (fboundp 'erlang-extended-mode)
+         (load "distel"))
+
+       (erlang-extended-mode t))
+   #+end_src
+
+** Start erlang shell and connect to it
+   #+begin_src emacs-lisp
+     (defun my-start-distel ()
+       (unless (and inferior-erlang-buffer
+                    (buffer-live-p inferior-erlang-buffer))
+
+         (erlang-shell-display)
+
+         (message "Connecting to default node ...")
+         (sit-for 2)
+
+         (let* ((name-string (concat "emacs@" (erl-determine-hostname)))
+                (name (intern name-string)))
+           (setq erl-nodename-cache name)
+           (setq distel-modeline-node name-string)
+           (erl-ping name))))
+
+     (when (and (locate-library "distel")
+                (executable-find "erl"))
+       (run-at-time 0.2 nil #'my-start-distel))
+   #+end_src
+
+** Setup company auto-completion for distel using company mode
+   #+begin_src emacs-lisp
+     (when (locate-library "company-distel")
+       (auto-complete-mode -1)
+       (company-mode +1)
+       (load "company-distel")
+       (add-to-list 'company-backends 'company-distel))
+   #+end_src
+
+
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
     (when my-edts-available
