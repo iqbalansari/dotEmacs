@@ -20,6 +20,14 @@
   #+end_src
 
 
+* Swap keybindings for 'pop-tag-mark' and 'tags-loop-continue'
+  The find the current bindings inconvenient
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-*") 'tags-loop-continue)
+    (global-set-key (kbd "M-,") 'pop-tag-mark)
+  #+end_src
+
+
 * Jump to matching parenthesis
   #+begin_src emacs-lisp
       (defun goto-match-paren (arg)
