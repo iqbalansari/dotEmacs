@@ -10,7 +10,7 @@
         git-timemachine
         git-messenger))
 
-    (when (zerop (call-process "git" nil nil nil "help" "flow"))
+    (when (zerop (call-process "git" nil nil nil "flow" "init" "help"))
       (add-to-list 'my-version-control-packages 'magit-gitflow))
 
     (my-install-packages my-version-control-packages)
@@ -125,5 +125,8 @@
   #+begin_src emacs-lisp
     (when (locate-library "magit-gitflow")
       (autoload 'turn-on-magit-gitflow "magit-gitflow")
-      (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+      (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+      (eval-after-load "magit-gitflow"
+        '(progn (define-key magit-gitflow-mode-map (kbd "C-f") nil)
+                (define-key magit-gitflow-mode-map (kbd "C-c f") 'magit-key-mode-popup-gitflow))))
   #+end_src

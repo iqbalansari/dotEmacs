@@ -191,9 +191,9 @@
                                      (executable-find "hunspell")))
    #+end_src
 
-** 11. Set lang to en_US
+** 11. Set default flyspell dictionary to "en_US"
    #+begin_src emacs-lisp
-     (setenv "LANG" "en_US")
+     (setq flyspell-default-dictionary "en_US")
    #+end_src
 
 
