@@ -1,10 +1,11 @@
 * Choose lisp implementation
   #+begin_src emacs-lisp
-    (defvar inferior-lisp-program (or (executable-find "lisp")
+    (unless (boundp 'inferior-lisp-program)
+      (setq inferior-lisp-program (or (executable-find "lisp")
                                       (executable-find "sbcl")
                                       (executable-find "clisp")
                                       (progn (warn "No suitable lisp implementation found, slime may not work")
-                                             nil)))
+                                             nil))))
 
     (when (string-match-p " " inferior-lisp-program)
       (warn (format "Path to `inferior-lisp-program' contains spaces (%s), slime may fail!"

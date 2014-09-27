@@ -10,3 +10,11 @@
               (executable-find "boris.phar"))
       (my-install-package 'php-boris-minor-mode))
   #+end_src
+
+
+* Install geben if xdebug is installed
+  #+begin_src emacs-lisp
+    (when (and (executable-find "php")
+               (string-match-p "Xdebug" (shell-command-to-string "php -m -c")))
+      (my-install-package 'geben))
+  #+end_src

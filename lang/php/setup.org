@@ -1,14 +1,15 @@
+* Set the path to boris
+  #+begin_src emacs-lisp
+    (unless (boundp 'php-boris-command)
+      (setq php-boris-command (or (executable-find "boris")
+                                  (executable-find "boris.phar"))))
+  #+end_src
+
+
 * Enable php-boris-mode
   #+begin_src emacs-lisp
     (when (locate-library "php-boris-minor-mode")
       (php-boris-minor-mode))
-  #+end_src
-
-
-* Set the path to boris
-  #+begin_src emacs-lisp
-    (setq php-boris-command (or (executable-find "boris")
-                                (executable-find "boris.phar")))
   #+end_src
 
 
