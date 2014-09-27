@@ -1,9 +1,9 @@
 ;; Do not start on windows, if HOME environment is not equal to
 ;; USERPROFILE. This leads unexpected behaviour such as applications started
-;; from emacs do not pick up correct HOME file.
+;; from emacs do not pick up correct HOME folder
 (when (and (equal system-type 'windows-nt)
-           (not (string= (getenv "HOME")
-                         (getenv "USERPROFILE"))))
+           (not (string= (expand-file-name (getenv "HOME"))
+                         (expand-file-name (getenv "USERPROFILE")))))
   (error "System variables `USERPROFILE' and `HOME' set to different values, 
 this may lead to unexpected behaviour, not proceeding. Please set `HOME' to
 value of `USERPROFILE', and move your .emacs.d directory there. Remember
