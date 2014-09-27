@@ -15,14 +15,15 @@
 
 ** Prefer pry if installed
    #+begin_src emacs-lisp
-     (when (executable-find "pry")
-       (setq inf-ruby-default-implementation "pry"))
+     (unless (equal system-type 'windows-nt)
+       (when (executable-find "pry")
+         (setq inf-ruby-default-implementation "pry")))
    #+end_src
 
 
-* Workarounds for 'uninitialized constant IRB' bug when using pry
-  Always load irb when running pry, using the -r argument
-   #+begin_src emacs-lisp
+* Workarounds some bugs in inf-ruby pry interaction
+** Always load irb when running pry, using the -r argument
+  #+begin_src emacs-lisp
      (add-to-list 'inf-ruby-implementations '("pry" . "pry -r irb"))
 
      (defadvice run-ruby (before ensure-irb-is-loaded (&rest args))
@@ -32,6 +33,19 @@
                                                  (ad-get-arg 0)))))
 
      (ad-activate #'run-ruby)
+   #+end_src
+
+** Monkey patch 'inf-ruby-console-default' on windows 
+   Do not use bundle exec console/pry they do not work on windows
+   #+begin_src emacs-lisp
+     (when (equal system-type 'windows-nt)
+       (defun inf-ruby-console-default (dir)
+         "Do not use bundle exec console or bundle exec pry on windows"
+         (interactive "D")
+         (let ((default-directory (file-name-as-directory dir)))
+           (unless (file-exists-p "Gemfile")
+             (error "The directory must contain a Gemfile"))
+           (run-ruby "bundle exec irb --prompt default --noreadline -r irb/completion" "ruby"))))
    #+end_src
 
 
