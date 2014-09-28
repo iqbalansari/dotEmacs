@@ -189,6 +189,9 @@
      (defvar ispell-program-name (or (executable-find "ispell")
                                      (executable-find "aspell")
                                      (executable-find "hunspell")))
+
+     (when (equal system-type 'windows-nt)
+       (setenv "LANG" "en_US"))
    #+end_src
 
 
@@ -480,9 +483,10 @@
     (my-auto-install-lang "\\.\\(clj[sx]?\\|dtm\\|edn\\)\\'" 'clojure-mode #'clojure-mode)
     (my-auto-install-lang "\\.erl$" 'erlang #'erlang-mode)
     (my-auto-install-lang "\\.\\(sml\\|sig\\)\\'" 'sml-mode #'sml-mode)
-    (my-auto-install-lang "\\.jl\\'" 'ess (lambda ()
-                                            (require 'ess-site)
-                                            (julia-mode)))
+    (unless (equal system-type 'windows-nt)
+      (my-auto-install-lang "\\.jl\\'" 'ess (lambda ()
+                                              (require 'ess-site)
+                                              (julia-mode))))
     (my-auto-install-lang "\\.html\\'" 'web-mode #'web-mode)
     (my-auto-install-lang "\\.go\\'" 'go-mode #'go-mode)
     (my-auto-install-lang "\\.factor$" 'fuel #'factor-mode)
