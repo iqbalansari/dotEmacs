@@ -20,6 +20,7 @@ semanticdb/
 session*
 server/*
 projectile.cache
+org
 org/
 auto-save/*
 var/*

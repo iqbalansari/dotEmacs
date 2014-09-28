@@ -32,6 +32,19 @@
   #+end_src
 
 
+* Enable special behavior for Ctrl-a/e/k in headlines
+  #+begin_src emacs-lisp
+    (setq org-special-ctrl-a/e t)
+    (setq org-special-ctrl-k t)
+  #+end_src
+
+
+* Do not allow a parent to be marked DONE, if children are marked TODO
+  #+begin_src emacs-lisp
+    (setq org-enforce-todo-dependencies t)
+  #+end_src
+
+
 * Enable org-ditaa if ditaa is installed
   #+begin_src emacs-lisp
     (when (executable-find "ditaa")

@@ -8,6 +8,8 @@
                            f
                            deft
                            discover))
+
+    (load "mag-menu")
   #+end_src
 
 

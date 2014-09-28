@@ -63,6 +63,18 @@
   #+end_src
 
 
+* Include diary entries to org-agenda buffers
+  #+begin_src emacs-lisp
+    (setq org-agenda-include-diary t)
+  #+end_src
+
+
+* Log when task is marked as DONE
+  #+begin_src emacs-lisp
+    (setq org-log-done 'note)
+  #+end_src
+
+
 * Org capture templates
 ** Helper functions
 *** Get the url from the clipboard
@@ -83,7 +95,6 @@
             (switch-to-prev-buffer)
             (substring (symbol-name major-mode) 0 -5)))
     #+end_src
-
 
 ** The templates
 *** org-capture is not yet loaded
