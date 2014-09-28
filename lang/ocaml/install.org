@@ -6,22 +6,27 @@
       (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
         (setenv (car var) (cadr var)))
 
+      ;; Update load-path to include elisp files installed by opam
+      (add-to-list 'load-path (expand-file-name "../../share/emacs/site-lisp"
+                                                (getenv "OCAML_TOPLEVEL_PATH")))
+
       ;; Update the emacs path
       (setq exec-path (split-string (getenv "PATH") path-separator)))
   #+end_src
 
 
-* Install merlin if ocamlmerlin is installed
+* Load merlin if ocamlmerlin is installed
   #+begin_src emacs-lisp
     (if (executable-find "ocamlmerlin")
-        (my-install-packages '(auto-complete merlin))
+        (progn (my-install-package 'auto-complete)
+               (load "merlin"))
       (warn "`ocamlmerlin' not installed, use opam to install it"))
   #+end_src
 
 
-* Install utop package if utop is installed
+* Load utop package if utop is installed
   #+begin_src emacs-lisp
     (if (executable-find "utop")
-        (my-install-package 'utop)
+        (load "utop")
       (warn "`utop' not installed will use vanilla ocaml toplevel"))
   #+end_src
