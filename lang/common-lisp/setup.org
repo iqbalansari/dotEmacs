@@ -18,10 +18,11 @@
 
 * Setup slime
   #+begin_src emacs-lisp
-    (load "slime")
-    (setq slime-contribs '(slime-fancy))
+    (unless (featurep 'slime)
+      (load "slime")
+      (setq slime-contribs '(slime-fancy))
 
-    (slime-setup)
+      (slime-setup))
   #+end_src
 
 

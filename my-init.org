@@ -191,11 +191,6 @@
                                      (executable-find "hunspell")))
    #+end_src
 
-** 11. Set default flyspell dictionary to "en_US"
-   #+begin_src emacs-lisp
-     (setq ispell-dictionary "en_US")
-   #+end_src
-
 
 * Increase gc threshhold
   #+begin_src emacs-lisp
