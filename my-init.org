@@ -193,7 +193,7 @@
 
 ** 11. Set default flyspell dictionary to "en_US"
    #+begin_src emacs-lisp
-     (setq flyspell-default-dictionary "en_US")
+     (setq ispell-dictionary "en_US")
    #+end_src
 
 
