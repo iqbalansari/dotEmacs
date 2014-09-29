@@ -75,19 +75,20 @@
        (interactive
         (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
-       (let* ((files '("install" "setup" "keybindings"))
-              (lang-path (concat my-langs-dir language "/"))
-              (compiled-file-dest (concat lang-path ".compiled/"))
-              (compiled-file (concat compiled-file-dest ".combined.el")))
+       (unless (string-match-p "org-src-fontification:" (buffer-name))
+         (let* ((files '("install" "setup" "keybindings"))
+                (lang-path (concat my-langs-dir language "/"))
+                (compiled-file-dest (concat lang-path ".compiled/"))
+                (compiled-file (concat compiled-file-dest ".combined.el")))
 
-         (when (file-exists-p lang-path)
-           (when (apply #'my-is-file-stale compiled-file
-                        (loop for file in files
-                              when (file-exists-p (concat lang-path file ".org"))
-                              collect (concat lang-path file ".org")))
-             (my-compile-lang-config language))
+           (when (file-exists-p lang-path)
+             (when (apply #'my-is-file-stale compiled-file
+                          (loop for file in files
+                                when (file-exists-p (concat lang-path file ".org"))
+                                collect (concat lang-path file ".org")))
+               (my-compile-lang-config language))
 
-           (load-file compiled-file))))
+             (load-file compiled-file)))))
 
      (defun my-compile-all-lang-config ()
        "Compile all language configurations"
