@@ -13,6 +13,19 @@
   #+end_src
 
 
+* Diary mode config
+** Store diary file in org folder
+  #+begin_src emacs-lisp
+    (setq diary-file (locate-user-emacs-file "org/diary"))
+  #+end_src
+
+
+* Let diary entries be included in agenda buffer
+  #+begin_src emacs-lisp
+    (setq org-agenda-include-diary t)
+  #+end_src
+
+
 * Use org mode files for taking notes
    #+begin_src emacs-lisp
      (setq deft-extension "org")    
@@ -96,8 +109,19 @@
             (substring (symbol-name major-mode) 0 -5)))
     #+end_src
 
+*** Read date from user using calender widget and convert it to format diary can understand
+    #+begin_src emacs-lisp
+      (defun my-read-date-for-diary ()
+        (let ((date-components (split-string (org-read-date) "-")))
+          (concat (calendar-month-name (string-to-int (cadr date-components)))
+                  " "
+                  (caddr date-components)
+                  ", "
+                  (car date-components))))
+    #+end_src
+
 ** The templates
-*** org-capture is not yet loaded
+*** org-capture is not yet loaded, so initialize org-capture templates to empty list
     #+begin_src emacs-lisp
       (defvar org-capture-templates nil)
     #+end_src
@@ -144,6 +168,16 @@
                                                       (concat my-notes-dir "snippets.org"))
                                                 "* %? \n  #+begin_src %(my-get-source-buffers-mode)\n    %i\n  #+end_src\n\n"
                                                 :empty-lines-after 2))
+    #+end_src
+
+*** Template for capturing appointments to diary file
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "a"
+                                                "Appointment"
+                                                'plain
+                                                (list 'file
+                                                      (locate-user-emacs-file "org/diary"))
+                                                "%(my-read-date-for-diary) %^{Time} %?"))
     #+end_src
 
 
