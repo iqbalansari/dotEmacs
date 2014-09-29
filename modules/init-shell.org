@@ -11,6 +11,14 @@
   #+end_src
 
 
+* Use shift-enter to accumulate output in comint mode
+  #+begin_src emacs-lisp
+    (eval-after-load "comint"
+      '(progn (define-key comint-mode-map (kbd "C-c SPC") nil)
+             (define-key comint-mode-map (kbd "<S-return>") #'comint-accumulate)))
+  #+end_src
+
+
 * Faster keybinding to switch between line and character mode in term
   #+begin_src emacs-lisp
     (defun my-toggle-term-mode ()
