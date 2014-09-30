@@ -13,6 +13,7 @@
 
 * Keybinding for neotree
   #+begin_src emacs-lisp
+    (autoload 'neotree-toggle "neotree")
     (global-set-key (kbd "C-c z") 'neotree-toggle)
   #+end_src
 

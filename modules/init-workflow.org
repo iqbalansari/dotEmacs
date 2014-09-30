@@ -19,6 +19,11 @@
     (setq diary-file (locate-user-emacs-file "org/diary"))
   #+end_src
 
+** Keybinding to open diary file
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c D") #'diary)
+   #+end_src
+
 
 * Let diary entries be included in agenda buffer
   #+begin_src emacs-lisp

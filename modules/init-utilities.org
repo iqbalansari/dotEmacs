@@ -9,7 +9,7 @@
                            deft
                            discover))
 
-    (load "mag-menu")
+    (autoload 'mag-menu "mag-menu")
   #+end_src
 
 
