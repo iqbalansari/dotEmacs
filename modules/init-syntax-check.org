@@ -66,10 +66,3 @@
 
      (setq flycheck-display-errors-function #'my-display-messages-in-popup)
    #+end_src
-
-
-* Display errors with straight line
-  #+begin_src emacs-lisp
-    (eval-after-load 'flycheck
-      '(set-face-attribute 'flycheck-error nil :underline '(:style line :color "Red1")))
-  #+end_src

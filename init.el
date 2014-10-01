@@ -10,8 +10,7 @@ value of `USERPROFILE', and move your .emacs.d directory there. Remember
 to restart any shell you are using to launch emacs after making the changes!"))
 
 ;; Use absolute file name of user-emacs-directory.
-(defvar my-home-dir (file-truename "~/.emacs.d/"))
-(setq user-emacs-directory my-home-dir)
+(setq user-emacs-directory (file-truename "~/.emacs.d/"))
 
 ;; Save custom variables in separate file
 (setq custom-file (locate-user-emacs-file "custom.el"))
