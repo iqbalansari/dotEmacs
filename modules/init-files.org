@@ -1,3 +1,15 @@
+* Prompt user to create directory when visiting a non-existent directory
+  #+begin_src emacs-lisp
+    (defun my-create-non-existent-directory ()
+      (let ((parent-directory (file-name-directory buffer-file-name)))
+        (when (and (not (file-exists-p parent-directory))
+                   (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
+          (make-directory parent-directory t))))
+
+    (add-to-list 'find-file-not-found-functions #'my-create-non-existent-directory)
+  #+end_src
+
+
 * Open a file using sudo
   These were taken from [[https://github.com/fniessen/emacs-leuven][emacs-leuven]]
   #+begin_src emacs-lisp
