@@ -461,35 +461,36 @@
 
 ** Setup installation of external language modes
   #+begin_src emacs-lisp
-    (my-auto-install-lang "\\.js\\'" 'js2-mode #'js2-mode)
-    (my-auto-install-lang "\\.php\\'" 'php-mode #'php-mode)
-    (my-auto-install-lang "\\.\\(scala\\|sbt\\)\\'" 'scala-mode2 #'scala-mode)
-    (my-auto-install-lang "\\.ml[iylp]?" 'tuareg #'tuareg-mode)
-    (my-auto-install-lang "\\.hs\\'" 'haskell-mode #'haskell-mode)
-    (my-auto-install-lang "\\.\\(clj[sx]?\\|dtm\\|edn\\)\\'" 'clojure-mode #'clojure-mode)
-    (my-auto-install-lang "\\.erl$" 'erlang #'erlang-mode)
-    (my-auto-install-lang "\\.\\(sml\\|sig\\)\\'" 'sml-mode #'sml-mode)
+    (my-auto-install-lang (rx ".js" string-end) 'js2-mode 'js2-mode)
+    (my-auto-install-lang (rx ".php" string-end) 'php-mode 'php-mode)
+    (my-auto-install-lang (rx "." (or "scala" "sbt") string-end) 'scala-mode2 'scala-mode)
+    (my-auto-install-lang (rx ".ml" (zero-or-one ?i ?y ?l ?p) string-end) 'tuareg 'tuareg-mode)
+    (my-auto-install-lang (rx ".hs" string-end) 'haskell-mode 'haskell-mode)
+    (my-auto-install-lang (rx "." (or (seq "clj" (zero-or-one ?s ?x)) "dtm" "edn") string-end) 'clojure-mode 'clojure-mode)
+    (my-auto-install-lang (rx ".erl" string-end) 'erlang 'erlang-mode)
+    (my-auto-install-lang (rx "." (or "sml" "sig")) 'sml-mode 'sml-mode)
+    (my-auto-install-lang (rx ".html" string-end) 'web-mode 'web-mode)
+    (my-auto-install-lang (rx ".go" string-end) 'go-mode 'go-mode)
+    (my-auto-install-lang (rx ".factor" string-end) 'fuel 'factor-mode)
+    (my-auto-install-lang (rx ".json" string-end) 'json-mode 'json-mode)
+    (my-auto-install-lang (rx (or (seq "." (or "md" "markdown")) "README") string-end) 'markdown-mode 'markdown-mode)
+    (my-auto-install-lang (rx ".yaml" string-end) 'yaml-mode 'yaml-mode)
+    (my-auto-install-lang (rx (or "http.conf" "srm.conf" "access.conf" (seq "sites-" (or "available" "enabled")) ".htaccess") string-end)
+                          'apache-mode 
+                          'apache-mode)
+    (my-auto-install-lang (rx (or ".pip" "requirements.txt") string-end) 'pip-requirements 'pip-requirements-mode)
+    (my-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
     (unless (equal system-type 'windows-nt)
-      (my-auto-install-lang "\\.jl\\'" 'ess (lambda ()
-                                              (require 'ess-site)
-                                              (julia-mode))))
-    (my-auto-install-lang "\\.html\\'" 'web-mode #'web-mode)
-    (my-auto-install-lang "\\.go\\'" 'go-mode #'go-mode)
-    (my-auto-install-lang "\\.factor$" 'fuel #'factor-mode)
-    (my-auto-install-lang "\\.json\\'" 'json-mode #'json-mode)
-    (my-auto-install-lang "\\.\\(markdown\\|md\\)\\'" 'markdown-mode #'markdown-mode)
-    (my-auto-install-lang "README" 'markdown-mode #'markdown-mode)
-    (my-auto-install-lang "\\.yaml\\'" 'yaml-mode #'yaml-mode)
-    (my-auto-install-lang "httpd\\.conf\\'\\|srm\\.conf\\'\\|access\\.conf\\'\\|sites-\\(available\\|enabled\\)/\\|\\.htaccess\\'"
-                   'apache-mode #'apache-mode)
-    (my-auto-install-lang "\\.pip\\|requirements\\.txt\\'" 'pip-requirements #'pip-requirements-mode)
-    (my-auto-install-lang "\\.dot\\'" 'graphviz-dot-mode #'graphviz-dot-mode)
+      (my-auto-install-lang (rx ".jl" string-end) 'ess (lambda ()
+                              (require 'ess-site)
+                              (julia-mode))))
   #+end_src
 
 ** Some extra auto-mode-alist entries
    #+begin_src emacs-lisp
-     (add-to-list 'auto-mode-alist '("\\.rkt\\'" . scheme-mode))
-     (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
+     (add-to-list 'auto-mode-alist (cons (rx ".rkt" string-end) 'scheme-mode))
+     (add-to-list 'auto-mode-alist (cons (rx (or ".irbrc" ".pryrc" "Gemfile") string-end) 'ruby-mode))
+     (add-to-list 'auto-mode-alist (cons (rx (eval diary-file) string-end) 'diary-mode))
    #+end_src
 
 ** Setup loading of language configuration when the language mode loads
