@@ -482,8 +482,8 @@
     (my-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
     (unless (equal system-type 'windows-nt)
       (my-auto-install-lang (rx ".jl" string-end) 'ess (lambda ()
-                              (require 'ess-site)
-                              (julia-mode))))
+                                                         (require 'ess-site)
+                                                         (julia-mode))))
   #+end_src
 
 ** Some extra auto-mode-alist entries

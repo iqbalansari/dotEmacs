@@ -256,5 +256,6 @@
    #+begin_src emacs-lisp
      (when (executable-find "w3m")
        (my-install-package 'w3m)
-       (global-set-key (kbd "C-c b") #'w3m))
+       (global-set-key (kbd "C-c b") #'w3m)
+       (global-set-key (kbd "C-c l") #'w3m-browse-url))
    #+end_src
