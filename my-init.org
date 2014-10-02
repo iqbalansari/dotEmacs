@@ -75,7 +75,8 @@
        (interactive
         (list (ido-completing-read "Language: "
                                    (directory-files my-langs-dir nil "[^.]+"))))
-       (unless (string-match-p "org-src-fontification:" (buffer-name))
+       (unless (or (string-prefix-p "*" (buffer-name))
+                   (string-prefix-p " " (buffer-name)))
          (let* ((files '("install" "setup" "keybindings"))
                 (lang-path (concat my-langs-dir language "/"))
                 (compiled-file-dest (concat lang-path ".compiled/"))
@@ -503,7 +504,7 @@
      (my-setup-lang 'c-mode-hook "c" "c" "h")
      (my-setup-lang 'c++-mode-hook "c" "cpp" "hpp")
      (my-setup-lang 'css-mode-hook "css")
-     (my-setup-lang 'scala-mode-hook "scala")
+     (my-setup-lang 'scala-mode-hook "scala" "scala")
      (my-setup-lang 'tuareg-mode-hook "ocaml")
      (my-setup-lang 'go-mode-hook "go")
      (my-setup-lang 'erlang-mode-hook "erlang")
@@ -514,7 +515,7 @@
      (my-setup-lang 'clojure-mode-hook "clojure")
      (my-setup-lang 'web-mode-hook "html" "html")
      (my-setup-lang 'haskell-mode-hook "haskell")
-     (my-setup-lang 'ruby-mode-hook "ruby")
+     (my-setup-lang 'ruby-mode-hook "ruby" "rb")
      (my-setup-lang 'pip-requirements-mode-hook "pip")
    #+end_src
 

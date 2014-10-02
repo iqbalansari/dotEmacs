@@ -18,7 +18,7 @@
      (setq ensime-auto-connect 'ask)
    #+end_src
 
-** Load ensime if not loaded already
+** Load ensime if not loaded already and prerequisites are satisfied
   #+begin_src emacs-lisp
     (defun my-load-ensime ()
       (if (or (getenv "JDK_HOME")
@@ -37,20 +37,17 @@
 
 ** Enable ensime
    #+begin_src emacs-lisp
-     (ignore-errors (if (and buffer-file-name
-                             (equal (file-name-extension buffer-file-name) "scala")
-                             (locate-dominating-file buffer-file-name ".ensime"))
-                        (when (fboundp #'ensime-mode)
-                          (ensime-mode +1))
-                      (unless (locate-dominating-file buffer-file-name ".ensime")
-                        (warn "Not in ensime project, do M-x ensime-config-gen"))))
+     (when (and (fboundp 'ensime-mode)
+                buffer-file-name)
+       (if (locate-dominating-file buffer-file-name ".ensime")
+           (ensime-mode +1)
+         (warn "`.ensime' file not found, generate it [https://github.com/ensime/ensime-server/wiki/Quick-Start-Guide] and do M-x `ensime-mode'")))
    #+end_src
 
 
 * Enable flycheck
   #+begin_src emacs-lisp
-    (unless (or (not (buffer-file-name))
-                (string-equal (file-name-extension buffer-file-name) "sbt"))
+    (when buffer-file-name
       (flycheck-mode))
   #+end_src
 

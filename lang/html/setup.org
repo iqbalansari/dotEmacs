@@ -23,8 +23,7 @@
     (make-local-variable 'hl-line-range-function)
 
     (defun my-disable-hl-line-on-tags ()
-      (if (web-mode-element-boundaries)
-          nil
+      (unless (web-mode-element-boundaries)
         (cons (line-beginning-position) (line-end-position))))
 
     (setq hl-line-range-function #'my-disable-hl-line-on-tags)

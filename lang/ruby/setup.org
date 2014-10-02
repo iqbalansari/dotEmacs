@@ -79,11 +79,9 @@
    #+begin_src emacs-lisp
      (defun my-try-starting-robe (buffer)
        (condition-case err
-           ;; Do not run for Gemfile et al.
-           (when (and buffer-file-name
-                      (string= (file-name-extension buffer-file-name) "rb"))
-             (robe-start))
-         (error (message (format "Failed to start robe because %s" (error-message-string err))))))
+           (robe-start)
+         (error (message (format "Failed to start robe because %s" 
+                                 (error-message-string err))))))
    #+end_src
 
 ** Enable robe if prerequisites are satisfied

@@ -28,17 +28,9 @@
 * Setup auto-completion
 ** Load go-autocomplete if it has been installed and not yet loaded
   #+begin_src emacs-lisp
-    (when (and my-gocode-available
-               (not (boundp 'ac-source-go)))
-      (load "go-autocomplete"))
+    (when (load "go-autocomplete" t)
+      (add-to-list 'ac-sources 'ac-source-go))
   #+end_src
-
-** Enable auto-completion
-   #+begin_src emacs-lisp
-     (when my-gocode-available
-       (remove 'ac-source-go ac-sources)
-       (push 'ac-source-go ac-sources))
-   #+end_src
 
 
 * Highlight line after jumping to definition
