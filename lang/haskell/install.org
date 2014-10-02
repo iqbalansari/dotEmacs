@@ -2,7 +2,16 @@
   #+begin_src emacs-lisp
     (defvar my-ghc-mod-available nil)
 
-    (when (executable-find "ghc-mod")
-      (my-install-packages '(ghc company-ghc))
-      (setq my-ghc-mod-available t))
+    (if (executable-find "ghc-mod")
+        (progn (my-install-packages '(ghc company-ghc))
+               (setq my-ghc-mod-available t))
+      (warn "`ghc-mod' not installed, auto-completion will not work. Install `ghc-mod' using cabal"))
   #+end_src
+
+
+* Install `shm` if structured-haskell-mode is installed
+  #+begin_src emacs-lisp
+    (when (executable-find "structured-haskell-mode")
+      (my-install-package 'shm))
+  #+end_src
+

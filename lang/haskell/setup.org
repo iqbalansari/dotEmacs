@@ -22,6 +22,28 @@
    #+end_src
 
 
+* Enable structured-haskell-mode if installed
+  Otherwise fallback to haskell-mode's indentation also disable hl-line mode's
+  highlighting on nodes, if shm is installed otherwise it interferes with shm's
+  highlighting. Set some better colors for solarized light theme
+  #+begin_src emacs-lisp
+    (defun my-shm-do-not-highlight-line-on-nodes ()
+      (unless shm-current-node-overlay
+        (cons (line-beginning-position) (line-end-position))))
+
+    (when (executable-find "structured-haskell-mode")
+      (structured-haskell-mode)
+
+      ;; Do not highlight line if cursor is on node
+      (make-variable-buffer-local 'hl-line-range-function)
+      (setq hl-line-range-function #'my-shm-do-not-highlight-line-on-nodes)
+
+      (when (custom-theme-enabled-p 'solarized-light)
+        (set-face-background 'shm-current-face "#eee8d5")
+        (set-face-background 'shm-quarantine-face "lemonchiffon")))
+  #+end_src
+
+
 * Turn on eldoc
    #+begin_src emacs-lisp
      (turn-on-haskell-doc)
