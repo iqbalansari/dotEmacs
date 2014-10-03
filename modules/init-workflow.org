@@ -50,13 +50,6 @@
    #+end_src
 
 
-* Use C-c n to exit deft
-  #+begin_src emacs-lisp
-    (eval-after-load "deft"
-      '(define-key deft-mode-map (kbd "C-c n") #'quit-window))
-  #+end_src
-
-
 * Path to default org-captured file
   #+begin_src emacs-lisp
     (setq org-default-notes-file (concat my-notes-dir "/captured.org"))
@@ -186,6 +179,43 @@
     #+end_src
 
 
+* Enable notifications for appointments
+** Warn 15 min in advance
+  #+begin_src emacs-lisp
+    (setq appt-message-warning-time 15)
+  #+end_src
+
+** Show remaining time in the modeline
+   #+begin_src emacs-lisp
+     (setq appt-display-mode-line t)
+   #+end_src
+
+** Show notification in a separate window
+   #+begin_src emacs-lisp
+     (setq appt-display-format 'window)
+   #+end_src
+
+** Enable appt and activate appointments found in org-agenda files
+   #+begin_src emacs-lisp
+     (add-hook 'after-init-hook #'appt-activate)
+
+     (defadvice appt-activate (after my-add-org-agenda-to-appt (&rest args))
+       (org-agenda-to-appt))
+
+     (ad-activate 'appt-activate)
+
+     (display-time)
+   #+end_src
+
+** Refresh appt at midnights
+   #+begin_src emacs-lisp
+     (run-at-time "24:01" nil (lambda ()
+                                (setq appt-time-msg-list nil)
+                                (appt-activate 1)
+                                (org-agenda-to-appt)))
+   #+end_src
+
+
 * Global keybindings for org
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c a") #'org-agenda)
@@ -193,7 +223,9 @@
   #+end_src
 
 
-* Keybinding to start deft
+* Keybinding to open/exit deft
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-c n") #'deft)
+     (eval-after-load "deft"
+       '(define-key deft-mode-map (kbd "C-c n") #'quit-window))
    #+end_src
