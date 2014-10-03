@@ -1,16 +1,17 @@
 * Install mu when on Linux
   #+begin_src emacs-lisp
-    (when (eq system-type 'gnu/linux)
-      ;; Install only if the prerequisites are satisfied
-      (if (and (executable-find "autoreconf")
-               (executable-find "xapian-config")
-               (or (and (getenv "GMIME_CFLAGS")
-                        (getenv "GMIME_LIBS"))
-                   (when (executable-find "pkg-config")
-                     (zerop (shell-command "pkg-config --exists gmime-2.6")))))
-          (my-install-package 'mu4e)
-        (message "You need to install `autoreconf', `libxapian-dev' 
-and `libgmime-2.6-dev' for building mu4e")))
+        (when (eq system-type 'gnu/linux)
+          ;; Install only if the prerequisites are satisfied
+          (if (and (executable-find "autoreconf")
+                   (executable-find "xapian-config")
+                   (executable-find "libtool")
+                   (or (and (getenv "GMIME_CFLAGS")
+                            (getenv "GMIME_LIBS"))
+                       (when (executable-find "pkg-config")
+                         (zerop (shell-command "pkg-config --exists gmime-2.6")))))
+              (my-install-package 'mu4e)
+            (message "You need to install `autoreconf', `libxapian-dev', `libtool'
+    and `libgmime-2.6-dev' for building mu4e")))
   #+end_src
 
 
@@ -109,8 +110,32 @@ and `libgmime-2.6-dev' for building mu4e")))
   #+end_src
 
 
-* Convenient functions to start/hide mu4e
-  #+begin_src emacs-lisp
+* Convenience functions
+** Advice mu4e~proc-sentinel so that path to mu binary is copied to clipboard
+   This is needed since in case mu is installed using el-get (which it is), it
+   is buried deep in .emacs.d folder and might not be in PATH, as such it cannot
+   be run directly from shell. The following advice copies the path to mu to clipboard, so that
+   it can be directly run from shell
+   #+begin_src emacs-lisp
+     (defun my-advise-mu4e~proc-sentinel ()
+       (defadvice mu4e~proc-sentinel (around show-path-to-mu-binary (&rest args))
+         (condition-case err
+             ad-do-it
+           (error (progn (kill-new mu4e-mu-binary)
+                         (error "Failed to start mu. %s. Path to mu binary (%s) copied to clipboard."
+                                (error-message-string err)
+                                mu4e-mu-binary)))))
+
+       (ad-activate 'mu4e~proc-sentinel))
+
+     (eval-after-load "mu4e"
+       '(my-advise-mu4e~proc-sentinel))
+   #+end_src
+
+** Functions to start/hide mu4e
+   Store the window configuration before starting mu4e and restore it when
+   exiting mu4e
+   #+begin_src emacs-lisp
     (defvar my-pre-mu-win-config nil)
     (defvar my-mu-win-config nil)
 
@@ -135,7 +160,7 @@ and `libgmime-2.6-dev' for building mu4e")))
       (setq my-mu-win-config (current-window-configuration))
       (when my-pre-mu-win-config
         (set-window-configuration my-pre-mu-win-config)))
-  #+end_src
+   #+end_src
 
 
 * Keybindings to hide/show mu4e
