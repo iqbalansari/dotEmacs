@@ -66,6 +66,13 @@
      (add-hook 'multiple-cursors-mode-hook #'my-additional-mc-keybindings)
    #+end_src
 
+** Load mc-cycle-cursors and mc-hide-unmatched-lines-mode for extra functionality
+   #+begin_src emacs-lisp
+     (eval-after-load "multiple-cursors-core"
+       '(progn (load "mc-hide-unmatched-lines-mode")
+               (load "mc-cycle-cursors")))
+   #+end_src
+
 ** Location for mc/list-file
    #+begin_src emacs-lisp
      (setq mc/list-file (locate-user-emacs-file ".mc-lists.el"))
