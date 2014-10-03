@@ -261,6 +261,15 @@
   #+end_src
 
 
+* Display buffer name in frame title
+  #+begin_src emacs-lisp
+    (setq frame-title-format
+          '(:eval (if (buffer-file-name)
+                      (abbreviate-file-name (buffer-file-name))
+                    "%b")))
+  #+end_src
+
+
 * Diminsh some minor modes
   #+begin_src emacs-lisp
     ;; Apparently package.el fails to autoload this sometimes
