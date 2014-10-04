@@ -66,7 +66,9 @@
    #+begin_src emacs-lisp
      (add-hook 'after-init-hook #'appt-activate)
 
-     (defadvice appt-activate (after my-add-org-agenda-to-appt (&rest args))
+     (defadvice appt-activate (around my-add-org-agenda-to-appt (&rest args))
+       (setq appt-time-msg-list nil)
+       ad-do-it
        (org-agenda-to-appt))
 
      (ad-activate 'appt-activate)
@@ -83,6 +85,11 @@
 
 
 * Configurations for org-agenda
+** Enable org-habits
+   #+begin_src emacs-lisp
+     (load "org-habit")
+   #+end_src
+
 ** Path to default org-captured file
   #+begin_src emacs-lisp
     (setq org-default-notes-file (concat my-notes-dir "/captured.org"))
@@ -106,6 +113,11 @@
   #+begin_src emacs-lisp
     (setq org-log-done 'note)
   #+end_src
+
+** `q` should bury agenda rather then killing it
+   #+begin_src emacs-lisp
+     (setq org-agenda-sticky t)
+   #+end_src
 
 
 * Org capture templates
@@ -131,11 +143,22 @@
          (thing-at-point-url-at-point)))
    #+end_src
 
+*** Get current url of w3m-buffer
+    #+begin_src emacs-lisp
+      (defun my-get-w3m-url ()
+        (save-window-excursion
+          (switch-to-prev-buffer)
+          (when (equal major-mode 'w3m-mode)
+            (or (w3m-anchor)
+                w3m-current-url))))
+    #+end_src
+
 *** Get url from point or clipboard
     #+begin_src emacs-lisp
       (defun my-get-url-at-point-or-from-clipboard ()
         (require 'thingatpt)
-        (or (my-get-url-at-point)
+        (or (my-get-w3m-url)
+            (my-get-url-at-point)
             (my-get-url-from-clipboard)))
     #+end_src
 
@@ -152,9 +175,16 @@
 
 *** Read date from user using calender widget and convert it to format diary can understand
     #+begin_src emacs-lisp
-      (defun my-time-to-am/pm (hours minutes)
+      (defun my--time-to-am/pm (hours minutes)
         (when (and hours minutes)
-          (concat hours ":" minutes (if (< (string-to-int hours) 12) "am" "pm"))))
+          (let* ((hours-int (string-to-int hours))
+                 (hours-string (int-to-string (if (<= hours-int 12) 
+                                                  hours-int
+                                                (- hours-int 12))))
+                 (suffix (if (< hours-int 12) 
+                             "am"
+                           "pm")))
+            (concat hours-string ":" minutes suffix))))
 
       (defun my-read-date-for-diary ()
         (let* ((date-read (org-read-date))
@@ -170,7 +200,7 @@
                   ", "
                   (car date-string)
                   " "
-                  (my-time-to-am/pm hours minutes))))
+                  (my--time-to-am/pm hours minutes))))
     #+end_src
 
 ** The templates
@@ -233,7 +263,17 @@
                                                 "%(my-read-date-for-diary) %?\n\n"))
     #+end_src
 
+*** Template for capturing habit
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "h" 
+                                                "Habit" 
+                                                'entry 
+                                                (list 'file 
+                                                      (locate-user-emacs-file "org/agenda/habits.org"))
+                                                "* TODO %?\nSCHEDULED: <%<%Y-%m-%d .+1d/2d>>\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))
+    #+end_src
 
+    
 * Configurations for org clocking
 ** Store persistence info inside org directory
    #+begin_src emacs-lisp
