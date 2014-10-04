@@ -64,23 +64,27 @@
 
 ** Enable appt and activate appointments found in org-agenda files
    #+begin_src emacs-lisp
-     (add-hook 'after-init-hook #'appt-activate)
-
-     (defadvice appt-activate (around my-add-org-agenda-to-appt (&rest args))
+     (defun my-appt-activate ()
+       "(Re)initialize appt, also add agenda items to appt"
+       (interactive)
        (setq appt-time-msg-list nil)
-       ad-do-it
+       (appt-activate +1)
        (org-agenda-to-appt))
 
-     (ad-activate 'appt-activate)
+     (add-hook 'after-init-hook #'my-appt-activate)
 
      (display-time)
    #+end_src
 
+** Reinitialize appt on finishing capture and displaying agenda
+   #+begin_src emacs-lisp
+     (add-hook 'org-capture-after-finalize-hook #'my-appt-activate)
+     (add-hook 'org-agenda-finalize-hook #'my-appt-activate)
+   #+end_src
+
 ** Refresh appt at midnights
    #+begin_src emacs-lisp
-     (run-at-time "24:01" nil (lambda ()
-                                (setq appt-time-msg-list nil)
-                                (appt-activate 1)))
+     (run-at-time "24:01" nil #'my-appt-activate)
    #+end_src
 
 
@@ -106,7 +110,7 @@
 
 *** Any files in org folder will be added to agenda files
   #+begin_src emacs-lisp
-    (setq org-agenda-files (list my-org-agenda-dir my-notes-dir))
+    (setq org-agenda-files (list my-org-agenda-dir))
   #+end_src
 
 ** Add a note when task is marked as DONE
