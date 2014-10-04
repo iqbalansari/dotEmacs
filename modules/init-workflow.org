@@ -95,6 +95,17 @@
 
 * Org capture templates
 ** Helper functions
+*** Get url at point where org capture was called
+    We need to switch to previous buffer since, the function is executed in
+    context of org-capture buffer, not the buffer where org-capture was invoked
+    #+begin_src emacs-lisp
+      (defun my-get-url-at-point ()
+        (require 'thingatpt)
+        (save-window-excursion
+          (switch-to-prev-buffer)
+          (thing-at-point-url-at-point)))
+    #+end_src
+
 *** Get the url from the clipboard
    #+begin_src emacs-lisp
      (defun my-get-url-from-clipboard ()
@@ -105,8 +116,18 @@
          (thing-at-point-url-at-point)))
    #+end_src
 
+*** Get url from point or clipboard
+    #+begin_src emacs-lisp
+      (defun my-get-url-at-point-or-from-clipboard ()
+        (require 'thingatpt)
+        (or (my-get-url-at-point)
+            (my-get-url-from-clipboard)))
+    #+end_src
+
 *** Get name of major mode of buffer from which org-capture was called
-    The returned value can be uses as language in '#+begin_src' markup
+    The returned value can be uses as language in '#+begin_src' markup. We need
+    to switch to previous buffer since, the function is executed in context of
+    org-capture buffer, not the buffer where org-capture was invoked
     #+begin_src emacs-lisp
       (defun my-get-source-buffers-mode ()
           (save-window-excursion
@@ -149,7 +170,7 @@
                                                 'entry
                                                 (list 'file
                                                       (concat my-notes-dir "links.org"))
-                                                "* %?\n  %(my-get-url-from-clipboard) - Found on %U\n\n"
+                                                "* %?\n  %(my-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
 
