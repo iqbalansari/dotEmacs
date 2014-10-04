@@ -87,10 +87,23 @@
 
 
 * Persist org mode's clock history across emacs sessions
+** Store persistence info inside org directory
+   #+begin_src emacs-lisp
+     (setq org-clock-persist-file (locate-user-emacs-file "org/misc/org-clock-save.el"))
+
+     (unless (file-exists-p (locate-user-emacs-file "org/misc"))
+       (make-directory (locate-user-emacs-file "org/misc") t))
+   #+end_src
+
+** Save both the running clock, and the entire clock on exiting emacs
   #+begin_src emacs-lisp
-    (setq org-clock-persist 'history)
-    (org-clock-persistence-insinuate)
+    (setq org-clock-persist t)
   #+end_src
+
+** Setup clock persistence
+   #+begin_src emacs-lisp
+     (org-clock-persistence-insinuate)
+   #+end_src
 
 
 * Org capture templates
