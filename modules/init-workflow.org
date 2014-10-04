@@ -187,6 +187,11 @@
 
 
 * Enable notifications for appointments
+** Do not show diary on initial appt setup
+   #+begin_src emacs-lisp
+     (setq appt-display-diary nil)
+   #+end_src
+
 ** Warn 15 min in advance
   #+begin_src emacs-lisp
     (setq appt-message-warning-time 15)
