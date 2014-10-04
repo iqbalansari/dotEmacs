@@ -152,13 +152,25 @@
 
 *** Read date from user using calender widget and convert it to format diary can understand
     #+begin_src emacs-lisp
+      (defun my-time-to-am/pm (hours minutes)
+        (when (and hours minutes)
+          (concat hours ":" minutes (if (< (string-to-int hours) 12) "am" "pm"))))
+
       (defun my-read-date-for-diary ()
-        (let ((date-components (split-string (org-read-date) "-")))
-          (concat (calendar-month-name (string-to-int (cadr date-components)))
+        (let* ((date-read (org-read-date))
+               (date-components (split-string date-read))
+               (date-string (split-string (car date-components) "-"))
+               (time-components (when (cadr date-components)
+                                  (split-string (cadr date-components) ":")))
+               (hours (car time-components))
+               (minutes (cadr time-components)))
+          (concat (calendar-month-name (string-to-int (cadr date-string)))
                   " "
-                  (caddr date-components)
+                  (caddr date-string)
                   ", "
-                  (car date-components))))
+                  (car date-string)
+                  " "
+                  (my-time-to-am/pm hours minutes))))
     #+end_src
 
 ** The templates
@@ -218,7 +230,7 @@
                                                 'plain
                                                 (list 'file
                                                       (locate-user-emacs-file "org/diary"))
-                                                "%(my-read-date-for-diary) %^{Time} %?\n\n"))
+                                                "%(my-read-date-for-diary) %?\n\n"))
     #+end_src
 
 
