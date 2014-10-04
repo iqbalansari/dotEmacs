@@ -128,9 +128,8 @@
     
     (defadvice hack-local-variables-confirm (around my-cache-local-vars-resp
                                                     (all-vars unsafe-vars risky-vars dir-name))
-      "If the user reply in negative to applying local vars remember it and do not
-    prompt the user the next time, otherwise ask the user for confirmation and
-    remember the response if it is negative"
+      "If the user replies in negative to applying local vars remember it and do not
+    prompt the user the next time"
       (unless (member dir-name my-ignored-local-vars)
         ad-do-it
         (unless ad-return-value
