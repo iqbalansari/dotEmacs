@@ -80,9 +80,16 @@
   #+end_src
 
 
-* Log when task is marked as DONE
+* Add a note when task is marked as DONE
   #+begin_src emacs-lisp
     (setq org-log-done 'note)
+  #+end_src
+
+
+* Persist org mode's clock history across emacs sessions
+  #+begin_src emacs-lisp
+    (setq org-clock-persist 'history)
+    (org-clock-persistence-insinuate)
   #+end_src
 
 
