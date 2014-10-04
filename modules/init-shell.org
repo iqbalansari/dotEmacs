@@ -6,7 +6,8 @@
 
 * Install powershell mode on windows
   #+begin_src emacs-lisp
-    (when (equal system-type 'windows-nt)
+    (when (and (equal system-type 'windows-nt)
+               (executable-find "powershell"))
       (my-install-package 'powershell))
   #+end_src
 
@@ -141,7 +142,6 @@
   #+end_src
 
 
-
 * Better colors for term mode
   #+begin_src emacs-lisp
     (eval-after-load 'term
@@ -157,11 +157,15 @@
    #+begin_src emacs-lisp
      (defvar my-preferred-shell (or (executable-find "zsh")
                                     (executable-find "bash")
-                                    "eshell"))
+                                    #'eshell))
+
+     (when (equal system-type 'windows-nt)
+       (setq my-preferred-shell (if (locate-library "powershell") #'powershell #'eshell)))
 
      (defun my-is-shell-mode (mode)
        (or (eq mode 'term-mode)
-           (eq mode 'eshell-mode)))
+           (eq mode 'eshell-mode)
+           (eq mode 'shell-mode)))
    #+end_src
 
 ** Mapping shells to project folders
@@ -203,6 +207,11 @@
 
 ** Functions for starting shells
   #+begin_src emacs-lisp
+    (defun my-start-non-term-shell (launcher shell-name)
+      (funcall launcher)
+      (rename-buffer shell-name t)
+      (current-buffer))
+
     (defun my-create-shell-buffer (&optional name)
       "Create a new shell, if my prefered shell is set
       start that shell otherwise start eshell, rename
@@ -211,12 +220,11 @@
       (let ((shell-name (concat (user-real-login-name) "@" (system-name)
                                 (when name
                                   (concat " - " name)))))
-        (if (and my-preferred-shell
-                 (not (string= my-preferred-shell "eshell")))
+
+        ;; If it is a string then it should point to the shell to start using ansi-term
+        (if (stringp my-preferred-shell)
             (ansi-term my-preferred-shell shell-name)
-          (eshell)
-          (rename-buffer shell-name t)
-          (current-buffer))))
+          (my-start-non-term-shell my-preferred-shell shell-name))))
 
     (defun my-open-shell-for-project (project-root &optional force?)
       "Open a shell for the project, switches to existing shell if
@@ -278,8 +286,7 @@
 
      (defun my-kill-term-delete-window ()
        (interactive)
-       (if (or (eq major-mode 'term-mode)
-               (eq major-mode 'eshell-mode))
+       (if (my-is-shell-mode major-mode)
            (my-kill-term-buffer)
          (message "Not in a shell")))
    #+end_src

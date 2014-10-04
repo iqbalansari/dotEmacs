@@ -481,6 +481,7 @@
                           'apache-mode)
     (my-auto-install-lang (rx (or ".pip" "requirements.txt") string-end) 'pip-requirements 'pip-requirements-mode)
     (my-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
+    (my-auto-install-lang (rx ".ps1" string-end) 'powershell 'powershell-mode)
     (unless (equal system-type 'windows-nt)
       (my-auto-install-lang (rx ".jl" string-end) 'ess (lambda ()
                                                          (require 'ess-site)
