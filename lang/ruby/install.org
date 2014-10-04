@@ -1,16 +1,3 @@
-* Copy over environment variable introduced by rvm
-  #+begin_src emacs-lisp
-    (when (and (executable-find "rvm")
-               (not (getenv "MY_RUBY_HOME")))
-      (dolist (env-var (exec-path-from-shell-getenvs '("IRBRC"
-                                                       "RUBY_VERSION"
-                                                       "MY_RUBY_HOME"
-                                                       "GEM_PATH"
-                                                       "GEM_HOME")))
-        (setenv (car env-var) (cdr env-var))))
-  #+end_src
-
-
 * Install required packages
   These do not have external dependencies
   #+begin_src emacs-lisp

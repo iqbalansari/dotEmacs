@@ -340,6 +340,14 @@
 
 * Setup the PATH and exec-path from shell
   This is needed if emacs not started from a shell
+** The variables to copy from shell
+   #+begin_src emacs-lisp
+     (setq exec-path-from-shell-variables (list "PATH" "MANPATH" "IRBRC"
+                                                "RUBY_VERSION" "MY_RUBY_HOME" 
+                                                "GEM_PATH" "GEM_HOME"))
+   #+end_src
+
+** Initialize the environment from shell
   #+begin_src emacs-lisp
     (my-install-package 'exec-path-from-shell)
 

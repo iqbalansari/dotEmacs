@@ -215,7 +215,7 @@
                        ("f" "Run grep via find" find-grep)
                        ("c" "Grep for pattern in directory" lgrep)
                        ("r" "Recursively grep for pattern in directory" rgrep)                       
-                       ("z" "Recursively grep for pattern in gzipped files" zgrep))
+                       ("z" "Recursively grep for pattern in gzipped files" zrgrep))
                       ("Projectile"
                        ("p" "Grep using projectile" projectile-grep)
                        ("a" "Ack using projectile" projectile-ack))
