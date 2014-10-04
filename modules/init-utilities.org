@@ -13,7 +13,25 @@
   #+end_src
 
 
-* Replace the current expression with the result of its evaluation
+* Enable flyspell prog mode in all programming buffers
+** Enable flyspell
+  #+begin_src emacs-lisp
+    (when ispell-program-name
+      (add-hook 'prog-mode-hook #'flyspell-prog-mode))
+  #+end_src
+
+** Disable spell checking inside strings
+   #+begin_src emacs-lisp
+     (setq flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face))
+   #+end_src
+
+** Disable the keybindings for auto-correcting word
+   #+begin_src emacs-lisp
+     (setq flyspell-use-meta-tab nil)
+   #+end_src
+
+
+* Command to replace the current expression with the result of its evaluation
   #+begin_src emacs-lisp
     (defun eval-and-replace ()
       "Replace the preceding sexp with its value."
@@ -178,14 +196,12 @@
    #+end_src
 
 
-
 * Additional keybinding for redo in calc
   Just for consistency with regular redo keybinding
   #+begin_src emacs-lisp
     (eval-after-load "calc"
       '(define-key calc-mode-map (kbd "C-?") #'calc-redo))
   #+end_src
-
 
 
 * Keybinding to start calculator

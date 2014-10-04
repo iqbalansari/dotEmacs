@@ -4,15 +4,6 @@
   #+end_src
 
 
-* Keybindings for buffer-move
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "<C-up>")     'buf-move-up)
-    (global-set-key (kbd "<C-down>")   'buf-move-down)
-    (global-set-key (kbd "<C-left>")   'buf-move-left)
-    (global-set-key (kbd "<C-right>")  'buf-move-right)
-  #+end_src
-
-
 * Prefer utf-8 encoding
   #+begin_src emacs-lisp
     (setq locale-coding-system 'utf-8)
@@ -79,7 +70,8 @@
               (mode . dired-mode))
              ("Shell"
               (mode . shell-mode)
-              (mode . eshell-mode))
+              (mode . eshell-mode)
+              (mode . term-mode))
              ("Version Control"
               (or
                (mode . svn-status-mode)
@@ -154,4 +146,13 @@
             (t (narrow-to-defun))))
 
     (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
+  #+end_src
+
+
+* Keybindings for buffer-move
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "<C-up>")     'buf-move-up)
+    (global-set-key (kbd "<C-down>")   'buf-move-down)
+    (global-set-key (kbd "<C-left>")   'buf-move-left)
+    (global-set-key (kbd "<C-right>")  'buf-move-right)
   #+end_src

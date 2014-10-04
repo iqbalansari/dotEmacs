@@ -1,10 +1,10 @@
-* Install deft for managing notes
+* Configuration for taking notes
+** Install deft for managing notes
   #+begin_src emacs-lisp
     (my-install-package 'deft)
   #+end_src
 
-
-* Path to notes directory
+** Path to notes directory
   #+begin_src emacs-lisp
     (defvar my-notes-dir (locate-user-emacs-file "org/notes/"))
 
@@ -12,98 +12,100 @@
       (make-directory my-notes-dir t))
   #+end_src
 
-
-* Diary mode config
-** Store diary file in org folder
-  #+begin_src emacs-lisp
-    (setq diary-file (locate-user-emacs-file "org/diary"))
-  #+end_src
-
-** Keybinding to open diary file
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c D") #'diary)
-   #+end_src
-
-
-* Let diary entries be included in agenda buffer
-  #+begin_src emacs-lisp
-    (setq org-agenda-include-diary t)
-  #+end_src
-
-
-* Use org mode files for taking notes
+** Use org mode files for taking notes
    #+begin_src emacs-lisp
      (setq deft-extension "org")    
      (setq deft-text-mode 'org-mode)
    #+end_src
 
-
-* Directory for notes folder
+** Directory for notes folder
   #+begin_src emacs-lisp
     (setq deft-directory my-notes-dir)
   #+end_src
 
-
-* Use filename as title in deft
+** Use filename as title in deft
    #+begin_src emacs-lisp
      (setq deft-use-filename-as-title t)
    #+end_src
 
 
-* Path to default org-captured file
+* Configurations for emacs diary
+** Store diary file in org folder
   #+begin_src emacs-lisp
-    (setq org-default-notes-file (concat my-notes-dir "/captured.org"))
+    (setq diary-file (locate-user-emacs-file "org/diary"))
   #+end_src
 
-
-* The org agenda files
-** Org agenda files will stored in ~/.emacs.d/org/
-   #+begin_src emacs-lisp
-     (defvar my-org-agenda-dir (locate-user-emacs-file "org/agenda/"))
-   #+end_src
-
-** Create the folder if it does not already exist
-   #+begin_src emacs-lisp
-     (unless (file-exists-p my-org-agenda-dir)
-       (make-directory my-org-agenda-dir t))
-   #+end_src
-
-** Any files in org folder will be added to agenda files
-  #+begin_src emacs-lisp
-    (setq org-agenda-files (list my-org-agenda-dir my-notes-dir))
-  #+end_src
-
-
-* Include diary entries to org-agenda buffers
+** Let diary entries be included in agenda buffer
   #+begin_src emacs-lisp
     (setq org-agenda-include-diary t)
   #+end_src
 
 
-* Add a note when task is marked as DONE
+* Enable notifications for appointments
+** Do not show diary on initial appt setup
+   #+begin_src emacs-lisp
+     (setq appt-display-diary nil)
+   #+end_src
+
+** Warn 15 min in advance
+  #+begin_src emacs-lisp
+    (setq appt-message-warning-time 15)
+  #+end_src
+
+** Show remaining time in the modeline
+   #+begin_src emacs-lisp
+     (setq appt-display-mode-line t)
+   #+end_src
+
+** Show notification in a separate window
+   #+begin_src emacs-lisp
+     (setq appt-display-format 'window)
+   #+end_src
+
+** Enable appt and activate appointments found in org-agenda files
+   #+begin_src emacs-lisp
+     (add-hook 'after-init-hook #'appt-activate)
+
+     (defadvice appt-activate (after my-add-org-agenda-to-appt (&rest args))
+       (org-agenda-to-appt))
+
+     (ad-activate 'appt-activate)
+
+     (display-time)
+   #+end_src
+
+** Refresh appt at midnights
+   #+begin_src emacs-lisp
+     (run-at-time "24:01" nil (lambda ()
+                                (setq appt-time-msg-list nil)
+                                (appt-activate 1)))
+   #+end_src
+
+
+* Configurations for org-agenda
+** Path to default org-captured file
+  #+begin_src emacs-lisp
+    (setq org-default-notes-file (concat my-notes-dir "/captured.org"))
+  #+end_src
+
+** The org agenda files
+*** Org agenda files will stored in ~/.emacs.d/org/agenda/
+   #+begin_src emacs-lisp
+     (defvar my-org-agenda-dir (locate-user-emacs-file "org/agenda/"))
+
+     (unless (file-exists-p my-org-agenda-dir)
+       (make-directory my-org-agenda-dir t))
+   #+end_src
+
+*** Any files in org folder will be added to agenda files
+  #+begin_src emacs-lisp
+    (setq org-agenda-files (list my-org-agenda-dir my-notes-dir))
+  #+end_src
+
+** Add a note when task is marked as DONE
   #+begin_src emacs-lisp
     (setq org-log-done 'note)
   #+end_src
-
-
-* Persist org mode's clock history across emacs sessions
-** Store persistence info inside org directory
-   #+begin_src emacs-lisp
-     (setq org-clock-persist-file (locate-user-emacs-file "org/misc/org-clock-save.el"))
-
-     (unless (file-exists-p (locate-user-emacs-file "org/misc"))
-       (make-directory (locate-user-emacs-file "org/misc") t))
-   #+end_src
-
-** Save both the running clock, and the entire clock on exiting emacs
-  #+begin_src emacs-lisp
-    (setq org-clock-persist t)
-  #+end_src
-
-** Setup clock persistence
-   #+begin_src emacs-lisp
-     (org-clock-persistence-insinuate)
-   #+end_src
 
 
 * Org capture templates
@@ -220,58 +222,41 @@
     #+end_src
 
 
-* Enable notifications for appointments
-** Do not show diary on initial appt setup
+* Configurations for org clocking
+** Store persistence info inside org directory
    #+begin_src emacs-lisp
-     (setq appt-display-diary nil)
+     (setq org-clock-persist-file (locate-user-emacs-file "org/misc/org-clock-save.el"))
+
+     (unless (file-exists-p (locate-user-emacs-file "org/misc"))
+       (make-directory (locate-user-emacs-file "org/misc") t))
    #+end_src
 
-** Warn 15 min in advance
+** Save both the running clock, and the entire clock on exiting emacs
   #+begin_src emacs-lisp
-    (setq appt-message-warning-time 15)
+    (setq org-clock-persist t)
   #+end_src
 
-** Show remaining time in the modeline
+** Setup clock persistence
    #+begin_src emacs-lisp
-     (setq appt-display-mode-line t)
-   #+end_src
-
-** Show notification in a separate window
-   #+begin_src emacs-lisp
-     (setq appt-display-format 'window)
-   #+end_src
-
-** Enable appt and activate appointments found in org-agenda files
-   #+begin_src emacs-lisp
-     (add-hook 'after-init-hook #'appt-activate)
-
-     (defadvice appt-activate (after my-add-org-agenda-to-appt (&rest args))
-       (org-agenda-to-appt))
-
-     (ad-activate 'appt-activate)
-
-     (display-time)
-   #+end_src
-
-** Refresh appt at midnights
-   #+begin_src emacs-lisp
-     (run-at-time "24:01" nil (lambda ()
-                                (setq appt-time-msg-list nil)
-                                (appt-activate 1)
-                                (org-agenda-to-appt)))
+     (org-clock-persistence-insinuate)
    #+end_src
 
 
-* Global keybindings for org
+* Keybindings
+** Global keybindings for org-mode
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c a") #'org-agenda)
     (global-set-key (kbd "C-c c") #'org-capture)
   #+end_src
 
-
-* Keybinding to open/exit deft
+** Keybinding to open/exit deft
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-c n") #'deft)
      (eval-after-load "deft"
        '(define-key deft-mode-map (kbd "C-c n") #'quit-window))
+   #+end_src
+
+** Keybinding to view diary
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c D") #'diary)
    #+end_src

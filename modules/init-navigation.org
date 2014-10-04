@@ -43,13 +43,6 @@
   #+end_src
 
 
-* Keybinding for jumping to last change
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x C-/") 'goto-last-change)
-    (global-set-key (kbd "C-x C-?") 'goto-last-change-reverse)
-  #+end_src
-
-
 * Preserve point position when scrolling the window
   #+begin_src emacs-lisp
     (setq scroll-preserve-screen-position t)
@@ -100,4 +93,18 @@
           ad-do-it)
         (dotimes (i 10)
           (when (= p (point)) ad-do-it))))
+  #+end_src
+
+
+* Keybindings for navigating between errors
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-n") 'next-error)
+    (global-set-key (kbd "M-p") 'previous-error)
+  #+end_src
+
+
+* Keybinding for jumping to last change
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-x C-/") 'goto-last-change)
+    (global-set-key (kbd "C-x C-?") 'goto-last-change-reverse)
   #+end_src

@@ -23,166 +23,30 @@
 #+end_src
 
 
-* Always use spaces to indent and use four space
+* General configurations for editing
+** Always use spaces to indent and use four space
   #+begin_src emacs-lisp
     (setq-default tab-width 4)
     (setq-default indent-tabs-mode nil)
     (setq tab-stop-list (number-sequence 4 200 4))
   #+end_src
 
-
-* Enable subword mode globally
+** Enable subword mode globally
   #+begin_src emacs-lisp
     (global-subword-mode 1)
   #+end_src
 
-
-* Replace selected region with typed text
+** Replace selected region with typed text
   #+begin_src emacs-lisp
     (delete-selection-mode)
   #+end_src
-
-
-* Multiple cursors setup
-** Keybindings for multiple cursors
+** Set fill-column to 80
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-S-m") 'mc/mark-more-like-this-extended)
-    (global-set-key (kbd "C-S-l") 'mc/edit-lines)
-    (global-set-key (kbd "C-S-c") 'mc/mark-all-like-this-dwim)
-    (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-    (global-set-key (kbd "C-S-r") 'set-rectangular-region-anchor)
-    (global-set-key (kbd "C-S-a") 'mc/mark-all-in-region)
-  #+end_src
-
-** Extra keybindings in multiple cursors mode
-   #+begin_src emacs-lisp
-     (defun my-additional-mc-keybindings ()
-       (define-key mc/keymap (kbd "C-s") #'phi-search)
-       (define-key mc/keymap (kbd "C-r") #'phi-search-backward)
-       (define-key mc/keymap (kbd "M-i") #'mc/insert-numbers)
-       (define-key mc/keymap (kbd "M-s") #'mc/sort-regions)
-       (define-key mc/keymap (kbd "M-r") #'mc/reverse-regions))
-
-     (add-hook 'multiple-cursors-mode-hook #'my-additional-mc-keybindings)
-   #+end_src
-
-** Load mc-cycle-cursors and mc-hide-unmatched-lines-mode for extra functionality
-   #+begin_src emacs-lisp
-     (eval-after-load "multiple-cursors-core"
-       '(progn (load "mc-hide-unmatched-lines-mode")
-               (load "mc-cycle-cursors")))
-   #+end_src
-
-** Location for mc/list-file
-   #+begin_src emacs-lisp
-     (setq mc/list-file (locate-user-emacs-file ".mc-lists.el"))
-   #+end_src
-
-
-* Tiny setup
-  Keybindings for expanding tiny expressions
-  #+begin_src emacs-lisp
-    (autoload 'tiny-expand "tiny")
-    (global-set-key (kbd "C-:") 'tiny-expand)
+    (setq-default fill-column 80)
   #+end_src
 
 
-* Expand region setup
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-=") 'er/expand-region)
-    (global-set-key (kbd "C--") 'er/contract-region)
-  #+end_src
-
-
-* Prompt for user input during macro execution
-  Following was borrowed from [[http://www.emacswiki.org/emacs/KeyboardMacros#toc5][emacswiki]], Pressing ‘C-x Q’ during macro
-  definition will present you with a minibuffer prompt (using
-  recursive edit). Inserting some text and pressing RET will end
-  recursive edit and continue the definition of the macro in the
-  minibuffer. Pressing RET again will insert the entered text at
-  point. If you don’t want to insert the text right away you can
-  instead kill the input at this point (using ‘C-a C-k RET’) and use
-  it later in the macro definition.
-  #+begin_src emacs-lisp
-    (defun my-macro-query (arg)
-      "Prompt for input using minibuffer during kbd macro execution.
-        With prefix argument, allows you to select what prompt string to use.
-        If the input is non-empty, it is inserted at point."
-      (interactive "P")
-      (let* ((prompt (if arg (read-from-minibuffer "PROMPT: ") "Input: "))
-             (input (minibuffer-with-setup-hook (lambda () (kbd-macro-query t))
-                      (read-from-minibuffer prompt))))
-        (unless (string= "" input) (insert input))))
-    (global-set-key "\C-xQ" 'my-macro-query)
-  #+end_src
-
-
-* Undo tree setup
-** Keep the region active when undoing in a region
-   #+begin_src emacs-lisp
-     (defadvice undo-tree-undo (around keep-region activate)
-       (if (use-region-p)
-           (let ((m (set-marker (make-marker) (mark)))
-                 (p (set-marker (make-marker) (point))))
-             ad-do-it
-             (goto-char p)
-             (set-mark m)
-             (set-marker p nil)
-             (set-marker m nil))
-         ad-do-it))
-   #+end_src
-
-** Enable undo-tree globally
-  #+begin_src emacs-lisp
-    (global-undo-tree-mode)
-  #+end_src
-
-
-* Browse kill ring setup
-** Keybindings for browse kill ring
-  #+begin_src emacs-lisp
-    (autoload 'browse-kill-ring "browse-kill-ring")
-    (global-set-key (kbd "C-c M-y") 'browse-kill-ring)
-  #+end_src
-
-** Do not show duplicates in kill-ring
-   #+begin_src emacs-lisp
-     (setq browse-kill-ring-display-duplicates nil)
-   #+end_src
-
-** Don't highlight current candidate in kill-ring
-   #+begin_src emacs-lisp
-     (setq browse-kill-ring-highlight-inserted-item nil)
-   #+end_src
-
-** Display maximum of 100 characters per entry in kill-ring
-   #+begin_src emacs-lisp
-     (setq browse-kill-ring-maximum-display-length 100)
-   #+end_src
-
-** Do not add duplicates to kill-ring
-   #+begin_src emacs-lisp
-     (setq browse-kill-ring-no-duplicates t)
-     (eval-after-load "browse-kill-ring"
-       '(progn (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
-              (ad-activate 'kill-new)))
-   #+end_src
-
-** Always keep the current entry in kill ring at the top
-   #+begin_src emacs-lisp
-     (setq browse-kill-ring-recenter t)
-   #+end_src
-
-
-
-* Set fill-column to 80
-#+begin_src emacs-lisp
-  (setq-default fill-column 80)
-#+end_src
-
-
-
-* Toggle comment region or line if no region is selected
+* Command to toggle comment on region or line if no region is selected
   #+begin_src emacs-lisp
     (defun comment-or-uncomment-region-or-line ()
         "Comments or uncomments the region or the current line if there's no active region."
@@ -193,19 +57,10 @@
                 (setq beg (line-beginning-position) end (line-end-position)))
             (comment-or-uncomment-region beg end)
             (forward-line)))
-    (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
   #+end_src
 
 
-* Keybindings to highlight text according to regexp
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c h l") 'highlight-lines-matching-regexp)
-    (global-set-key (kbd "C-c h w") 'highlight-regexp)
-    (global-set-key (kbd "C-c h r") 'unhighlight-regexp)
-  #+end_src
-
-
-* Copy/cut current line if no region is selected, if rectangle is selected use it
+* Command to copy/cut current line if no region is selected, if rectangle is selected use it
   #+begin_src emacs-lisp
     (defun my-mark-lines(arg)
       (back-to-indentation)
@@ -240,49 +95,10 @@
             (t  (progn (my-mark-lines arg)
                        (call-interactively 'kill-region)
                        (message (concat "Killed " (number-to-string arg) " line(s)"))))))
-
-    (global-set-key (kbd "M-w") 'copy-line-or-region)
-    (global-set-key (kbd "C-w") 'cut-line-or-region)
   #+end_src
 
 
-* Keybinding to join lines
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "M-j")
-            (lambda ()
-                  (interactive)
-                  (join-line -1)))
-  #+end_src
-
-
-* Keybindings to move quickly
-  Move by then units by using ctrl + shift + [npfb]
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-S-n")
-                    (lambda ()
-                      (interactive)
-                      (ignore-errors (forward-line 10))))
-
-    (global-set-key (kbd "C-S-p")
-                    (lambda ()
-                      (interactive)
-                      (ignore-errors (forward-line -10))))
-
-    (global-set-key (kbd "C-S-f")
-                    (lambda ()
-                      (interactive)
-                      (ignore-errors (forward-char 10))))
-
-    (global-set-key (kbd "C-S-b")
-                    (lambda ()
-                      (interactive)
-                      (ignore-errors (backward-char 10))))
-
-  #+end_src
-
-
-
-* Keybinding for duplicate current line or region
+* Commands to duplicate current line or region
   Duplicate current line if region is not selected else duplicate the region
   pressing 'd' immediately after duplicating a line will duplicate the line
   again.
@@ -323,12 +139,10 @@
           (newline)
           (forward-char -1))
         (duplicate-region num (point-at-bol) (1+ (point-at-eol)))))
-
-    (global-set-key (kbd "C-x d") 'duplicate-current-line-or-region)
   #+end_src
 
 
-* Convenient functions for opening newlines
+* Commands for opening newlines
   Typing shift + return anywhere on a line will create a new line
   below the current line, ctrl + shift + return will open a line above
   M-RET between parenthesis will insert an newline between the parenthesis
@@ -360,32 +174,10 @@
             (newline)
             (funcall indent-line-function)))
         (funcall indent-line-function)))
-
-
-    (global-set-key (kbd "C-o") 'open-line-below)
-    (global-set-key (kbd "C-S-o") 'open-line-above)
-    (global-set-key (kbd "<M-return>") 'new-line-dwim)
   #+end_src
 
 
-* Keybindings for killing backwards
-  Pressing shift with usual keys will reverse the operations
-  #+begin_src emacs-lisp
-    (defun backward-kill-line (arg)
-      "Kill ARG lines backward."
-      (interactive "p")
-      (kill-line (- 1 arg)))
-
-    (global-set-key (kbd "C-S-k") 'backward-kill-line)
-
-    (global-set-key (kbd "M-D") 'backward-kill-word)
-
-    (global-set-key (kbd "C-S-d") 'backward-delete-char-untabify)
-
-  #+end_src
-
-
-* Functions to increment and decrement integers at point
+* Commands to increment and decrement integers at point
   These were borrowed from prelude
   #+begin_src emacs-lisp
     (defun thing-at-point-goto-end-of-integer ()
@@ -448,16 +240,28 @@
     With numeric prefix arg DEC, decrement the integer by DEC amount."
       (interactive "p")
       (increment-integer-at-point (- (or dec 1))))
-
-    (global-set-key (kbd "C-c +") 'increment-integer-at-point)
-    (global-set-key (kbd "C-c -") 'decrement-integer-at-point)
   #+end_src
 
 
-* Keybindings for navigating between errors
+* Command to prompt for user input during macro execution
+  Following was borrowed from [[http://www.emacswiki.org/emacs/KeyboardMacros#toc5][emacswiki]], Pressing ‘C-x Q’ during macro
+  definition will present you with a minibuffer prompt (using
+  recursive edit). Inserting some text and pressing RET will end
+  recursive edit and continue the definition of the macro in the
+  minibuffer. Pressing RET again will insert the entered text at
+  point. If you don’t want to insert the text right away you can
+  instead kill the input at this point (using ‘C-a C-k RET’) and use
+  it later in the macro definition.
   #+begin_src emacs-lisp
-    (global-set-key (kbd "M-n") 'next-error)
-    (global-set-key (kbd "M-p") 'previous-error)
+    (defun my-macro-query (arg)
+      "Prompt for input using minibuffer during kbd macro execution.  With prefix
+       argument, allows you to select what prompt string to use.  If the input is
+       non-empty, it is inserted at point."
+      (interactive "P")
+      (let* ((prompt (if arg (read-from-minibuffer "PROMPT: ") "Input: "))
+             (input (minibuffer-with-setup-hook (lambda () (kbd-macro-query t))
+                      (read-from-minibuffer prompt))))
+        (unless (string= "" input) (insert input))))
   #+end_src
 
 
@@ -475,15 +279,6 @@
                                                           plain-tex-mode))
                      (let ((mark-even-if-inactive transient-mark-mode))
                        (indent-region (region-beginning) (region-end) nil))))))
-  #+end_src
-
-
-* Keybindings for hungry deletion
-  #+begin_src emacs-lisp
-    (autoload 'hungry-delete-forward "hungry-delete")
-    (autoload 'hungry-delete-backward "hungry-delete")
-    (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
-    (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
   #+end_src
 
 
@@ -583,25 +378,178 @@
    #+end_src
 
 
-* Global keys for code folding
+
+* Multiple cursors setup
+** Load mc-cycle-cursors and mc-hide-unmatched-lines-mode for extra functionality
+   #+begin_src emacs-lisp
+     (eval-after-load "multiple-cursors-core"
+       '(progn (load "mc-hide-unmatched-lines-mode")
+               (load "mc-cycle-cursors")))
+   #+end_src
+
+** Location for mc/list-file
+   #+begin_src emacs-lisp
+     (setq mc/list-file (locate-user-emacs-file ".mc-lists.el"))
+   #+end_src
+
+
+* Undo tree setup
+** Keep the region active when undoing in a region
+   #+begin_src emacs-lisp
+     (defadvice undo-tree-undo (around keep-region activate)
+       (if (use-region-p)
+           (let ((m (set-marker (make-marker) (mark)))
+                 (p (set-marker (make-marker) (point))))
+             ad-do-it
+             (goto-char p)
+             (set-mark m)
+             (set-marker p nil)
+             (set-marker m nil))
+         ad-do-it))
+   #+end_src
+
+** Enable undo-tree globally
+  #+begin_src emacs-lisp
+    (global-undo-tree-mode)
+  #+end_src
+
+
+* Browse kill ring setup
+** Do not show duplicates in kill-ring
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-display-duplicates nil)
+   #+end_src
+
+** Don't highlight current candidate in kill-ring
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-highlight-inserted-item nil)
+   #+end_src
+
+** Display maximum of 100 characters per entry in kill-ring
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-maximum-display-length 100)
+   #+end_src
+
+** Do not add duplicates to kill-ring
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-no-duplicates t)
+     (eval-after-load "browse-kill-ring"
+       '(progn (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
+              (ad-activate 'kill-new)))
+   #+end_src
+
+** Always keep the current entry in kill ring at the top
+   #+begin_src emacs-lisp
+     (setq browse-kill-ring-recenter t)
+   #+end_src
+
+
+* Keybindings
+** Keybinding to prompt user for value during recording macro
+   #+begin_src emacs-lisp
+     (global-set-key "\C-xQ" 'my-macro-query)
+   #+end_src
+
+** Keybindings for DWIM versions of copy/cut versions
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "M-w") 'copy-line-or-region)
+     (global-set-key (kbd "C-w") 'cut-line-or-region)
+   #+end_src
+
+** Keybinding to duplicate current line or region
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-x d") 'duplicate-current-line-or-region)
+   #+end_src
+
+** Keybindings to open newlines
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-o") 'open-line-below)
+     (global-set-key (kbd "C-S-o") 'open-line-above)
+     (global-set-key (kbd "<M-return>") 'new-line-dwim)
+   #+end_src
+
+** Keybindings to increment/decrement integers at point
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c +") 'increment-integer-at-point)
+     (global-set-key (kbd "C-c -") 'decrement-integer-at-point)
+   #+end_src
+
+** Keybinding to toggle comment on line or region
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
+   #+end_src
+
+** Keybindings for multiple cursors
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-S-m") 'mc/mark-more-like-this-extended)
+    (global-set-key (kbd "C-S-l") 'mc/edit-lines)
+    (global-set-key (kbd "C-S-c") 'mc/mark-all-like-this-dwim)
+    (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+    (global-set-key (kbd "C-S-r") 'set-rectangular-region-anchor)
+    (global-set-key (kbd "C-S-a") 'mc/mark-all-in-region)
+  #+end_src
+
+** Extra keybindings enabled in multiple cursors mode
+   #+begin_src emacs-lisp
+     (defun my-additional-mc-keybindings ()
+       (define-key mc/keymap (kbd "C-s") #'phi-search)
+       (define-key mc/keymap (kbd "C-r") #'phi-search-backward)
+       (define-key mc/keymap (kbd "M-i") #'mc/insert-numbers)
+       (define-key mc/keymap (kbd "M-s") #'mc/sort-regions)
+       (define-key mc/keymap (kbd "M-r") #'mc/reverse-regions))
+
+     (add-hook 'multiple-cursors-mode-hook #'my-additional-mc-keybindings)
+   #+end_src
+
+** Keybindings for expanding tiny expressions
+  #+begin_src emacs-lisp
+    (autoload 'tiny-expand "tiny")
+    (global-set-key (kbd "C-:") 'tiny-expand)
+  #+end_src
+
+** Keybindings for browse kill ring
+  #+begin_src emacs-lisp
+    (autoload 'browse-kill-ring "browse-kill-ring")
+    (global-set-key (kbd "C-c M-y") 'browse-kill-ring)
+  #+end_src
+
+** Keybindings for expand region
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-=") 'er/expand-region)
+    (global-set-key (kbd "C--") 'er/contract-region)
+  #+end_src
+
+** Keybindings to highlight text according to regexp
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c h l") 'highlight-lines-matching-regexp)
+    (global-set-key (kbd "C-c h w") 'highlight-regexp)
+    (global-set-key (kbd "C-c h r") 'unhighlight-regexp)
+  #+end_src
+
+** Keybindings for killing backwards
+  Pressing shift with usual keys will reverse the operations
+  #+begin_src emacs-lisp
+    (defun backward-kill-line (arg)
+      "Kill ARG lines backward."
+      (interactive "p")
+      (kill-line (- 1 arg)))
+
+    (global-set-key (kbd "C-S-k") 'backward-kill-line)
+
+    (global-set-key (kbd "M-D") 'backward-kill-word)
+
+    (global-set-key (kbd "C-S-d") 'backward-delete-char-untabify)
+  #+end_src
+
+** Keybindings for code folding
   #+begin_src emacs-lisp
       (global-set-key (kbd "C-x C-\\") 'my-fold-this-hs-hide)
   #+end_src
 
-
-* Enable flyspell prog mode in all programming buffers
-** Enable flyspell
+** Keybindings for hungry deletion
   #+begin_src emacs-lisp
-    (when ispell-program-name
-      (add-hook 'prog-mode-hook #'flyspell-prog-mode))
+    (autoload 'hungry-delete-forward "hungry-delete")
+    (autoload 'hungry-delete-backward "hungry-delete")
+    (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
+    (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
   #+end_src
-
-** Disable spell checking inside strings
-   #+begin_src emacs-lisp
-     (setq flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face))
-   #+end_src
-
-** Disable the keybindings for auto-correcting word
-   #+begin_src emacs-lisp
-     (setq flyspell-use-meta-tab nil)
-   #+end_src
