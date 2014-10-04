@@ -72,6 +72,9 @@
         sp-swap-enclosing-sexp
         sp-unwrap-sexp
         sp-up-sexp
+        sp-backward-kill-word
+        sp-next-sexp
+        sp-transpose-sexp
         st2-like-beginning-of-line
         subword-right
         tern-ac-dot-complete
@@ -91,12 +94,11 @@
         isearch-backward-regexp
         isearch-forward-regexp
         keyboard-escape-quit
+        magit-status
         mouse-set-region
         org-ctrl-c-ctrl-c
         org-edit-special
         smex
-        sp-next-sexp
-        sp-transpose-sexp
         switch-window
         tern-find-definition
         wgrep-change-to-wgrep-mode

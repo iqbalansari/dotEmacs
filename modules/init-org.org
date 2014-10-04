@@ -81,6 +81,5 @@
 * Keybinding to save edits in org-src mode
   #+begin_src emacs-lisp
     (eval-after-load 'org-src
-      '(define-key org-src-mode-map
-         "\C-c\C-c" #'org-edit-src-exit))
+      '(define-key org-src-mode-map "\C-c\C-c" #'org-edit-src-exit))
   #+end_src
