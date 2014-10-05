@@ -21,21 +21,7 @@
    #+end_src
 
 
-* Workarounds some bugs in inf-ruby pry interaction
-** Always load irb when running pry, using the -r argument
-  #+begin_src emacs-lisp
-     (add-to-list 'inf-ruby-implementations '("pry" . "pry -r irb"))
-
-     (defadvice run-ruby (before ensure-irb-is-loaded (&rest args))
-       (when args
-         (ad-set-arg 0 (replace-regexp-in-string "bundle exec pry"
-                                                 "bundle exec pry -r irb"
-                                                 (ad-get-arg 0)))))
-
-     (ad-activate #'run-ruby)
-   #+end_src
-
-** Monkey patch 'inf-ruby-console-default' on windows 
+* Monkey patch 'inf-ruby-console-default' on windows 
    Do not use bundle exec console/pry they do not work on windows
    #+begin_src emacs-lisp
      (when (equal system-type 'windows-nt)
