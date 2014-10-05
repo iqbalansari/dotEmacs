@@ -10,6 +10,33 @@
   #+end_src
 
 
+* Custom TODO keywords and priority levels
+  Copied from [[http://doc.norang.ca/org-mode.html#TodoKeywords]]
+** Define some extra keywords
+  #+begin_src emacs-lisp
+    (setq org-todo-keywords
+          (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
+  #+end_src
+
+** Colors for TODO keywords
+   #+begin_src emacs-lisp
+     (setq org-todo-keyword-faces
+           (quote (("TODO" :foreground "red" :weight bold)
+                   ("NEXT" :foreground "blue" :weight bold)
+                   ("DONE" :foreground "forest green" :weight bold)
+                   ("WAITING" :foreground "orange" :weight bold)
+                   ("HOLD" :foreground "magenta" :weight bold)
+                   ("CANCELLED" :foreground "forest green" :weight bold))))
+   #+end_src
+
+** Custom task priorities
+   #+begin_src emacs-lisp
+     (setq org-default-priority ?E)
+     (setq org-lowest-priority ?E)
+   #+end_src
+
+
 * Directory for org files
   #+begin_src emacs-lisp
     (setq org-directory (locate-user-emacs-file "org/"))

@@ -123,6 +123,12 @@
      (setq org-agenda-sticky t)
    #+end_src
 
+** Ignore scheduled items or deadlines if they have been marked 'DONE'
+   #+begin_src emacs-lisp
+     (setq org-agenda-skip-deadline-if-done t)
+     (setq org-agenda-skip-scheduled-if-done t)
+   #+end_src
+
 
 * Org capture templates
 ** Helper functions
