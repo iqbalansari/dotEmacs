@@ -58,6 +58,7 @@
         sp-backward-delete-char
         sp-backward-down-sexp
         sp-backward-kill-sexp
+        sp-backward-kill-word
         sp-backward-sexp
         sp-backward-unwrap-sexp
         sp-backward-up-sexp
@@ -68,13 +69,12 @@
         sp-kill-hybrid-sexp
         sp-kill-sexp
         sp-kill-word
+        sp-next-sexp
         sp-rewrap-sexp
         sp-swap-enclosing-sexp
+        sp-transpose-sexp
         sp-unwrap-sexp
         sp-up-sexp
-        sp-backward-kill-word
-        sp-next-sexp
-        sp-transpose-sexp
         st2-like-beginning-of-line
         subword-right
         tern-ac-dot-complete
@@ -98,6 +98,8 @@
         mouse-set-region
         org-ctrl-c-ctrl-c
         org-edit-special
+        orgtbl-ctrl-c-ctrl-c
+        orgtbl-hijacker-command-100
         smex
         switch-window
         tern-find-definition

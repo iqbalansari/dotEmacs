@@ -271,7 +271,16 @@
    #+begin_src emacs-lisp
      (my-install-package 'el-get)
      (load "el-get")
+   #+end_src
+
+** Path to custom el-get recipes
+   #+begin_src emacs-lisp
      (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
+   #+end_src
+
+** Use shallow clones
+   #+begin_src emacs-lisp
+     (setq el-get-git-shallow-clone t)
    #+end_src
 
 ** Create directory for el-get
