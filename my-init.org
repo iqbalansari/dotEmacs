@@ -280,6 +280,11 @@
        (make-directory (locate-user-emacs-file "el-get")))
    #+end_src
 
+** Use shallow clones for git repositories
+   #+begin_src emacs-lisp
+     (setq el-get-git-shallow-clone t)
+   #+end_src
+
 
 * Unset C-z, I don't find it useful
    #+begin_src emacs-lisp

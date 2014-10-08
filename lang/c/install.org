@@ -123,7 +123,7 @@
           (warn (concat "rtags requirements not satisfied"
                         "\n\t1. cmake " (if my-cmake-version (concat "[found " my-cmake-version "]") "[not found]")
                         "\n\t2. llvm >= 3.2 " (if my-llvm-executable (concat "[found " my-llvm-version "]") "[not found]")
-                        "\n\t3. libclang-dev >= 3.2 "
+                        "\n\t3. libclang-dev >= 3.2 (same version as llvm)"
                         (if (not (version< (or my-libclang-version "0") "3.2"))
                             " [found]"
                           " [not found]")

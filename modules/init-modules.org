@@ -44,7 +44,7 @@
     (defvar my-modules-dir (locate-user-emacs-file "modules/"))
     (defvar my-modules-compiled-dir (concat my-modules-dir ".compiled/"))
 
-    (defvar my-tangled-modules (concat my-modules-compiled-dir ".combined.el"))
+    (defvar my-tangled-modules (concat my-modules-compiled-dir ".combined.elc"))
     (defvar my-previous-modules-file (concat my-modules-compiled-dir ".previous-modules"))
 
     (defvar my-previous-modules (when (file-exists-p my-previous-modules-file)
