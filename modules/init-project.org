@@ -14,6 +14,12 @@
 
 
 * Enable projectile
+** Projectile requires 'vc-git' for 'git-grep'
+   #+begin_src emacs-lisp
+     (load "vc-git")
+   #+end_src
+
+** Enable projectile mode
   #+begin_src emacs-lisp
     (projectile-global-mode)
   #+end_src
