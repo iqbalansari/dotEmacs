@@ -1,9 +1,9 @@
 * Variables controlling installation of libraries
   Do not try installing libraries on windows
   #+begin_src emacs-lisp
-    (defvar my-install-rtags (not (eq system-type 'windows-nt)))
-    (defvar my-install-irony (not (eq system-type 'windows-nt)))
-    (defvar my-install-gtags (not (eq system-type 'windows-nt)))
+    (defvar my-install-rtags (eq system-type 'gnu/linux))
+    (defvar my-install-irony (eq system-type 'gnu/linux))
+    (defvar my-install-gtags (eq system-type 'gnu/linux))
   #+end_src
 
 
