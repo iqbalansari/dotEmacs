@@ -1,16 +1,16 @@
 * Install mu when on Linux
   #+begin_src emacs-lisp
-        (when (eq system-type 'gnu/linux)
-          ;; Install only if the prerequisites are satisfied
-          (if (and (executable-find "autoreconf")
-                   (executable-find "xapian-config")
-                   (executable-find "libtool")
-                   (or (and (getenv "GMIME_CFLAGS")
-                            (getenv "GMIME_LIBS"))
-                       (when (executable-find "pkg-config")
-                         (zerop (shell-command "pkg-config --exists gmime-2.6")))))
-              (my-install-package 'mu4e)
-            (message "You need to install `autoreconf', `libxapian-dev', `libtool'
+    (when (eq system-type 'gnu/linux)
+      ;; Install only if the prerequisites are satisfied
+      (if (and (executable-find "autoreconf")
+               (executable-find "xapian-config")
+               (executable-find "libtool")
+               (or (and (getenv "GMIME_CFLAGS")
+                        (getenv "GMIME_LIBS"))
+                   (when (executable-find "pkg-config")
+                     (zerop (shell-command "pkg-config --exists gmime-2.6")))))
+          (my-install-package 'mu4e)
+        (message "You need to install `autoreconf', `libxapian-dev', `libtool'
     and `libgmime-2.6-dev' for building mu4e")))
   #+end_src
 

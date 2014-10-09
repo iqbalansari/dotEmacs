@@ -31,7 +31,8 @@
 
 ** Enable erlang extended mode
    #+begin_src emacs-lisp
-     (when (locate-library "distel") 
+     (when (and (not my-edts-available)
+                (locate-library "distel"))
        (unless (fboundp 'erlang-extended-mode)
          (load "distel"))
 
@@ -55,24 +56,20 @@
            (setq distel-modeline-node name-string)
            (erl-ping name))))
 
-     (when (and (locate-library "distel")
+     (when (and (not my-edts-available)
+                (locate-library "distel")
                 (executable-find "erl"))
        (run-at-time 0.2 nil #'my-start-distel))
    #+end_src
 
 ** Setup company auto-completion for distel using company mode
    #+begin_src emacs-lisp
-     (when (locate-library "company-distel")
-       (auto-complete-mode -1)
-       (company-mode +1)
-       (load "company-distel")
-       (add-to-list 'company-backends 'company-distel))
-   #+end_src
-
-** Enable extended-erlang-mode in erlang-shell-mode
-   #+begin_src emacs-lisp
-     (when (locate-library "distel")
-       (add-hook 'erlang-shell-mode-hook #'erlang-extended-mode))
+          (when (and (not my-edts-available)
+                     (locate-library "company-distel"))
+            (auto-complete-mode -1)
+            (company-mode +1)
+            (load "company-distel")
+            (add-to-list 'company-backends 'company-distel))
    #+end_src
 
 
