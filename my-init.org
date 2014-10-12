@@ -517,6 +517,16 @@
      (add-to-list 'auto-mode-alist (cons (rx word-start "diary" string-end) 'diary-mode))
    #+end_src
 
+** Distinguishing between objc-headers and c-headers
+   #+begin_src emacs-lisp
+     (add-to-list 'magic-mode-alist
+                  `(,(lambda ()
+                       (and (string= (file-name-extension buffer-file-name) "h")
+                            (re-search-forward "@\\<interface\\>" 
+                                               magic-mode-regexp-match-limit t)))
+                    . objc-mode))
+   #+end_src
+
 ** Setup loading of language configuration when the language mode loads
    #+begin_src emacs-lisp
      (my-setup-lang 'python-mode-hook "python")

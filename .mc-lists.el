@@ -54,6 +54,7 @@
         orgtbl-self-insert-command
         python-indent-electric-colon
         repeat
+        shm/del
         sp--self-insert-command
         sp-backward-delete-char
         sp-backward-down-sexp
