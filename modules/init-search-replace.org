@@ -4,10 +4,14 @@
       '(visual-regexp
         wgrep
         anzu
-        discover))
+        discover
+        swoop))
 
     (when (executable-find "ack")
       (add-to-list 'my-search-replace-packages 'ack-and-a-half))
+
+    (when (executable-find "ag")
+      (add-to-list 'my-search-replace-packages 'ag))
 
     (my-install-packages my-search-replace-packages)
   #+end_src
@@ -189,8 +193,58 @@
 
 * Add a menu for easily selecting a search command
   #+begin_src emacs-lisp
+    (defvar my-discover-search-actions '(actions
+                                         ("Isearch"
+                                          ("_" "Isearch forward symbol" isearch-forward-symbol)
+                                          ("w" "Isearch forward word" isearch-forward-word)
+                                          ("b" "Search in multiple buffers" multi-isearch-buffers))
+                                         ("Occur"
+                                          ("o" "Occur in current buffer" occur)
+                                          ("O" "Occur in multiple buffers" multi-occur)
+                                          ("m" "Occur in buffers of current major mode" multi-occur-in-this-mode)
+                                          ("M" "Occur in buffers matching regexp" multi-occur-in-matching-buffers))
+                                         ("Swoop"
+                                          ("s" "Swoop in current buffer" swoop)
+                                          ("S" "Swoop in multiple buffers" swoop-multi))
+                                         ("Find"
+                                          ("n" "Find files named" find-name-dired)
+                                          ("g" "Find files containing" find-grep-dired))
+                                         ("Grep"
+                                          ("f" "Run grep via find" find-grep)
+                                          ("c" "Grep for pattern in directory" lgrep)
+                                          ("r" "Recursively grep for pattern in directory" rgrep)                       
+                                          ("z" "Recursively grep for pattern in gzipped files" zrgrep))
+                                         ("Projectile"
+                                          ("pg" "Grep using projectile" projectile-grep)
+                                          ("pa" "Ack using projectile" projectile-ack)
+                                          ("ps" "Ack using projectile" projectile-ack))
+                                         ("More"
+                                          ("h" "Highlighters" makey-key-mode-popup-isearch-highlight))))
+
+    (when (executable-find "ack")
+      (add-to-list 'my-discover-search-actions '("Ack"
+                                                 ("aa" "Ack pattern in directory" ack-and-a-half)
+                                                 ("af" "Find file using ack" ack-and-a-half-find-file)) t))
+
+    (when (executable-find "ag")
+      (add-to-list 'my-discover-search-actions '("Ag"
+                                                 ("As" "Search string in directory" ag)
+                                                 ("Af" "Search string in files" ag-files)
+                                                 ("Ad" "Recursively find file names matching pattern" ag-dired)
+                                                 ("Ap" "Find string in project" ag-dired)) t))
+
+    '(defvar my-discover-search-menu `(isearch
+                                      (description "Isearch, occur and highlighting")
+                                      (lisp-switches
+                                       ("-cf" "Case should fold search" case-fold-search t nil))
+                                      (lisp-arguments
+                                       ("=l" "context lines to show (occur)"
+                                        "list-matching-lines-default-context-lines"
+                                        (lambda (dummy) (interactive) (read-number "Number of context lines to show: "))))
+                                      ,my-discover-search-actions))
+
     (discover-add-context-menu
-     :context-menu '(isearch
+     :context-menu `(isearch
                      (description "Isearch, occur and highlighting")
                      (lisp-switches
                       ("-cf" "Case should fold search" case-fold-search t nil))
@@ -198,28 +252,6 @@
                       ("=l" "context lines to show (occur)"
                        "list-matching-lines-default-context-lines"
                        (lambda (dummy) (interactive) (read-number "Number of context lines to show: "))))
-                     (actions
-                      ("Isearch"
-                       ("_" "Isearch forward symbol" isearch-forward-symbol)
-                       ("w" "Isearch forward word" isearch-forward-word)
-                       ("b" "Search in multiple buffers" multi-isearch-buffers))
-                      ("Occur"
-                       ("o" "Occur in current buffer" occur)
-                       ("O" "Occur in multiple buffers" multi-occur)
-                       ("m" "Occur in buffers of current major mode" multi-occur-in-this-mode)
-                       ("M" "Occur in buffers matching regexp" multi-occur-in-matching-buffers))
-                      ("Find"
-                       ("n" "Find files named" find-name-dired)
-                       ("g" "Find files containing" find-grep-dired))
-                      ("Grep"
-                       ("f" "Run grep via find" find-grep)
-                       ("c" "Grep for pattern in directory" lgrep)
-                       ("r" "Recursively grep for pattern in directory" rgrep)                       
-                       ("z" "Recursively grep for pattern in gzipped files" zrgrep))
-                      ("Projectile"
-                       ("p" "Grep using projectile" projectile-grep)
-                       ("a" "Ack using projectile" projectile-ack))
-                      ("More"
-                       ("h" "Highlighters" makey-key-mode-popup-isearch-highlight))))
+                     ,my-discover-search-actions)
      :bind "M-s")
   #+end_src

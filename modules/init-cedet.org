@@ -22,9 +22,9 @@
 
 
 * Enable Semantic
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (semantic-mode 1)
-  #+END_SRC
+  #+end_src
 
 
 * Disable setup by semantic for python, javascript and scheme buffers
