@@ -37,6 +37,55 @@
   #+end_src
 
 
+* Configuration for jump to definition
+** Enable gtags mode
+   #+begin_src emacs-lisp
+     (gtags-mode +1)
+   #+end_src
+
+** Generate tags file for project if not already generated 
+  #+begin_src emacs-lisp
+    (when my-gtags-available
+      (let ((project-root (or (ignore-errors (projectile-project-root))
+                              (locate-dominating-file (or buffer-file-name default-directory)
+                                                      "GTAGS"))))
+        
+        (make-variable-buffer-local 'my-project-root)
+        (setq my-project-root project-root)
+
+        (if (and project-root
+                 (not (string-equal (expand-file-name project-root)
+                                    (expand-file-name "~/"))))
+            (unless (file-exists-p (concat project-root "/GTAGS"))
+              (message "Generating TAGS for project")
+              (shell-command (format "cd %s && gtags" project-root)))
+          (warn "Could not locate project root! Skipping generation of TAGS!"))))
+
+  #+end_src
+
+** Regenerate tags for project on saving buffer
+   #+begin_src emacs-lisp
+     (defun my-php-regenerate-tags ()
+       (when my-project-root
+         (shell-command (format "cd %s && global -u" my-project-root))
+         (message "TAGS regenerated!")))
+
+     (add-hook (make-variable-buffer-local 'after-save-hook) #'my-php-regenerate-tags)
+   #+end_src
+
+** Use a single buffer for gtags select
+   #+begin_src emacs-lisp
+     (setq gtags-select-buffer-single t)
+   #+end_src
+
+** Flash line after jumping to definition
+   #+begin_src emacs-lisp
+     (when my-gtags-available
+       (my-highlight-line-after-func gtags-find-tag-from-here)
+       (my-highlight-line-after-func gtags-select-tag))
+   #+end_src
+
+   
 * Enable syntax checking
 ** Enable flycheck mode
   #+begin_src emacs-lisp

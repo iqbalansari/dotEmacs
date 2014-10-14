@@ -25,10 +25,11 @@
   #+begin_src emacs-lisp
     (let ((project-root (ignore-errors (projectile-project-root))))
       (when project-root
-        (cond (my-gtags-available (unless (file-exists-p (concat project-root "GTAGS"))
+        (cond (my-gtags-available (progn
+                                    (unless (file-exists-p (concat project-root "GTAGS"))
                                     (shell-command (concat "cd "
                                                            project-root
-                                                           " && gtags"))))
+                                                           " && gtags")))))
               ((executable-find "etags") (unless  (file-exists-p (concat project-root "TAGS"))
                                            (shell-command (concat "cd "
                                                                   project-root

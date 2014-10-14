@@ -18,3 +18,31 @@
                (string-match-p "Xdebug" (shell-command-to-string "php -m -c")))
       (my-install-package 'geben))
   #+end_src
+
+
+* Install gtags if GNU Global is installed
+** Function to find GNU global's version
+  #+begin_src emacs-lisp
+    (defun my--get-gnu-global-version ()
+      (when (executable-find "global")
+        (car (last (split-string (car (split-string (shell-command-to-string "global --version") "\n"))
+                                 " ")))))
+  #+end_src
+
+** Find GNU Global's version
+   #+begin_src emacs-lisp
+     (defvar my-gnu-global-version "0")
+     (setq my-gnu-global-version (my--get-gnu-global-version))
+   #+end_src
+
+** Install gtags if latest GNU global version is installed
+   #+begin_src emacs-lisp
+     (unless (locate-library "gtags")
+       (if (and my-gnu-global-version
+                (not (version< my-gnu-global-version "5.9.7")))
+           (progn (my-install-package 'gtags)
+                  (setq my-gtags-available t))
+         (cond ((not my-gnu-global-version) (warn "GNU Global not installed, not installing gtags"))
+               (t (warn (concat "GNU Global version is " my-gnu-global-version
+                                " gtags requires atleast version 5.9.7 of GNU global to work"))))))
+   #+end_src
