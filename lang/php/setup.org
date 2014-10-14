@@ -56,7 +56,9 @@
         (if (and project-root
                  (not (string-equal (expand-file-name project-root)
                                     (expand-file-name "~/"))))
-            (unless (file-exists-p (concat project-root "/GTAGS"))
+            (when (and (not (file-exists-p (concat project-root "/GTAGS")))
+                       (y-or-n-p (format "GTAG files not present for project [%s], generate them?"
+                                         project-root)))
               (message "Generating TAGS for project")
               (shell-command (format "cd %s && gtags" project-root)))
           (warn "Could not locate project root! Skipping generation of TAGS!"))))
