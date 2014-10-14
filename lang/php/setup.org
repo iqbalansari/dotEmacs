@@ -85,7 +85,13 @@
        (my-highlight-line-after-func gtags-select-tag))
    #+end_src
 
-   
+
+* Setup auto-complete to use php-auto-yasnippets
+  #+begin_src emacs-lisp
+    (payas/ac-setup)
+  #+end_src
+
+
 * Enable syntax checking
 ** Enable flycheck mode
   #+begin_src emacs-lisp
