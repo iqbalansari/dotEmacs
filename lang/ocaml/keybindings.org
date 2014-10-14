@@ -9,20 +9,20 @@
 * Keybindings for interaction with OCaml REPL
   #+begin_src emacs-lisp
     (defun my-set-bindings-for-utop ()
-      (local-set-key my-run-shell #'utop)
-      (local-set-key my-send-region #'utop-eval-region)
-      (local-set-key my-send-buffer #'utop-eval-buffer)
-      (local-set-key my-send-phrase/sexp/block #'utop-eval-phrase)
-      (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line utop-eval-region))
-      (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file utop-eval-region)))
+      (define-key tuareg-mode-map my-run-shell #'utop)
+      (define-key tuareg-mode-map my-send-region #'utop-eval-region)
+      (define-key tuareg-mode-map my-send-buffer #'utop-eval-buffer)
+      (define-key tuareg-mode-map my-send-phrase/sexp/block #'utop-eval-phrase)
+      (define-key tuareg-mode-map my-send-line (my-evaluate-line-in-repl my-ocaml-send-line utop-eval-region))
+      (define-key tuareg-mode-map my-send-file (my-evaluate-file-in-repl my-ocaml-send-file utop-eval-region)))
     
     (defun my-set-bindings-for-ocaml-repl ()
-      (local-set-key my-run-shell #'run-ocaml)
-      (local-set-key my-send-region #'tuareg-eval-region)
-      (local-set-key my-send-buffer #'tuareg-eval-buffer)
-      (local-set-key my-send-phrase/sexp/block #'utop-eval-phrase)
-      (local-set-key my-send-line (my-evaluate-line-in-repl my-ocaml-send-line tuareg-eval-region))
-      (local-set-key my-send-file (my-evaluate-file-in-repl my-ocaml-send-file tuareg-eval-region)))
+      (define-key tuareg-mode-map my-run-shell #'run-ocaml)
+      (define-key tuareg-mode-map my-send-region #'tuareg-eval-region)
+      (define-key tuareg-mode-map my-send-buffer #'tuareg-eval-buffer)
+      (define-key tuareg-mode-map my-send-phrase/sexp/block #'utop-eval-phrase)
+      (define-key tuareg-mode-map my-send-line (my-evaluate-line-in-repl my-ocaml-send-line tuareg-eval-region))
+      (define-key tuareg-mode-map my-send-file (my-evaluate-file-in-repl my-ocaml-send-file tuareg-eval-region)))
     
     (if (featurep 'utop)
         (my-set-bindings-for-utop)
@@ -33,6 +33,6 @@
 * Keybindings to jump to definition
   #+begin_src emacs-lisp
     (when (fboundp 'merlin-mode)
-      (local-set-key my-jump-to-definition #'merlin-locate)
-      (local-set-key my-pop-jump-to-definition-marker #'merlin-pop-stack))
+      (define-key tuareg-mode-map my-jump-to-definition #'merlin-locate)
+      (define-key tuareg-mode-map my-pop-jump-to-definition-marker #'merlin-pop-stack))
   #+end_src

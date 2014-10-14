@@ -7,5 +7,5 @@
 
 * Keybindings for emmet
   #+begin_src emacs-lisp
-    (local-set-key (kbd "C-c RET") #'my-emmet-wrap-or-expand-snippet)
+    (define-key css-mode-map (kbd "C-c RET") #'my-emmet-wrap-or-expand-snippet)
   #+end_src

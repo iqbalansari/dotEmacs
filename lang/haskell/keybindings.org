@@ -1,17 +1,17 @@
 * Managing imports
   #+begin_src emacs-lisp
-    (local-set-key my-refactor-organize-imports #'haskell-mode-format-imports)
-    (local-set-key (kbd "SPC") #'haskell-mode-contextual-space)
+    (define-key haskell-mode-map my-refactor-organize-imports #'haskell-mode-format-imports)
+    (define-key haskell-mode-map (kbd "SPC") #'haskell-mode-contextual-space)
   #+end_src
 
 
 * Interacting with the repl
   #+begin_src emacs-lisp
-    (local-set-key my-run-shell #'haskell-interactive-bring)
+    (define-key haskell-mode-map my-run-shell #'haskell-interactive-bring)
   #+end_src
 
 
 * Getting info at point
   #+begin_src emacs-lisp
-    (local-set-key my-show-doc #'my-haskell-doc-at-point)
+    (define-key haskell-mode-map my-show-doc #'my-haskell-doc-at-point)
   #+end_src

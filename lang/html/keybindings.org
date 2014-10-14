@@ -8,23 +8,23 @@
 * Keybindings for emmet
   #+begin_src emacs-lisp
     (define-key web-mode-map (kbd "C-c RET") nil)
-    (local-set-key (kbd "C-c RET") #'my-emmet-wrap-or-expand-snippet)
+    (define-key web-mode-map (kbd "C-c RET") #'my-emmet-wrap-or-expand-snippet)
   #+end_src
 
 
 * Keybinding for jumping to matching tag
   #+begin_src emacs-lisp
-    (local-set-key (kbd "C-'") 'web-mode-tag-match)
+    (define-key web-mode-map (kbd "C-'") 'web-mode-tag-match)
   #+end_src
 
 
 * Keybinding to rename current tag
   #+begin_src emacs-lisp
-    (local-set-key my-refactor-rename 'web-mode-element-rename)
+    (define-key web-mode-map my-refactor-rename 'web-mode-element-rename)
   #+end_src
 
 
 * Keybinding to fold html entities
   #+begin_src emacs-lisp
-    (local-set-key (kbd "C-x C-\\") 'web-mode-fold-or-unfold)
+    (define-key web-mode-map (kbd "C-x C-\\") 'web-mode-fold-or-unfold)
   #+end_src

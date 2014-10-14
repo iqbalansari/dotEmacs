@@ -1,7 +1,7 @@
 * Interacting with the REPL
   #+begin_src emacs-lisp
-    (local-set-key my-run-shell #'sml-prog-proc-switch-to)
-    (local-set-key my-send-function #'sml-send-function)
-    (local-set-key my-send-line (my-evaluate-line-in-repl my-sml-eval-line sml-send-region))
-    (local-set-key my-send-file #'sml-load-file)
+    (define-key sml-mode-map my-run-shell #'sml-prog-proc-switch-to)
+    (define-key sml-mode-map my-send-function #'sml-send-function)
+    (define-key sml-mode-map my-send-line (my-evaluate-line-in-repl my-sml-eval-line sml-send-region))
+    (define-key sml-mode-map my-send-file #'sml-load-file)
   #+end_src

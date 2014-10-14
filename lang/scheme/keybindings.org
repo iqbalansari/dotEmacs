@@ -1,23 +1,23 @@
 * Keybinding for getting documentation
   #+begin_src emacs-lisp
-    (local-set-key my-show-doc #'geiser-doc-symbol-at-point)
+    (define-key scheme-mode-map my-show-doc #'geiser-doc-symbol-at-point)
   #+end_src
 
 
 * Interacting with the REPL
   #+begin_src emacs-lisp
-    (local-set-key my-send-file #'geiser-load-file)
-    (local-set-key my-send-phrase/sexp/block #'geiser-eval-last-sexp)
+    (define-key scheme-mode-map my-send-file #'geiser-load-file)
+    (define-key scheme-mode-map my-send-phrase/sexp/block #'geiser-eval-last-sexp)
   #+end_src
 
 
 * Listing callers
   #+begin_src emacs-lisp
-    (local-set-key my-find-references #'geiser-xref-callers)
+    (define-key scheme-mode-map my-find-references #'geiser-xref-callers)
   #+end_src
 
 
 * Keybinding for (un)squarifying forms
   #+begin_src emacs-lisp
-    (local-set-key (kbd "M-[") #'geiser-squarify)
+    (define-key scheme-mode-map (kbd "M-[") #'geiser-squarify)
   #+end_src

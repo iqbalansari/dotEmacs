@@ -1,10 +1,10 @@
 * Set keybindings for ternjs
   #+begin_src emacs-lisp
     (when my-ternjs-available
-      (local-set-key my-jump-to-definition 'tern-find-definition)
-      (local-set-key my-pop-jump-to-definition-marker 'tern-pop-find-definition)
-      (local-set-key my-show-doc 'my-tern-get-docs)
-      (local-set-key my-refactor-rename 'tern-rename-variable))
+      (define-key js2-mode-map my-jump-to-definition 'tern-find-definition)
+      (define-key js2-mode-map my-pop-jump-to-definition-marker 'tern-pop-find-definition)
+      (define-key js2-mode-map my-show-doc 'my-tern-get-docs)
+      (define-key js2-mode-map my-refactor-rename 'tern-rename-variable))
   #+end_src
 
 
@@ -23,23 +23,23 @@
 ** Keybindings for nodejs-repl
    #+begin_src emacs-lisp
      (defun my-setup-nodejs-repl-keys ()
-       (local-set-key my-run-shell #'nodejs-repl)
-       (local-set-key my-send-buffer (my-evaluate-buffer-in-repl my-nodejs-eval-buffer my-nodejs-send-region))
-       (local-set-key my-send-function (my-evaluate-defun-in-repl my-nodejs-eval-defun my-nodejs-send-region))
-       (local-set-key my-send-region #'my-nodejs-send-region)
-       (local-set-key my-send-line (my-evaluate-line-in-repl my-nodejs-eval-line my-nodejs-send-region))
-       (local-set-key my-send-file (my-evaluate-file-in-repl my-nodejs-eval-file my-nodejs-send-region)))
+       (define-key js2-mode-map my-run-shell #'nodejs-repl)
+       (define-key js2-mode-map my-send-buffer (my-evaluate-buffer-in-repl my-nodejs-eval-buffer my-nodejs-send-region))
+       (define-key js2-mode-map my-send-function (my-evaluate-defun-in-repl my-nodejs-eval-defun my-nodejs-send-region))
+       (define-key js2-mode-map my-send-region #'my-nodejs-send-region)
+       (define-key js2-mode-map my-send-line (my-evaluate-line-in-repl my-nodejs-eval-line my-nodejs-send-region))
+       (define-key js2-mode-map my-send-file (my-evaluate-file-in-repl my-nodejs-eval-file my-nodejs-send-region)))
    #+end_src
 
 ** Keybindings for skewer-repl
    #+begin_src emacs-lisp
      (defun my-setup-skewer-repl-keys ()
-       (local-set-key my-send-buffer #'skewer-load-buffer)
-       (local-set-key my-send-function #'skewer-eval-defun)
-       (local-set-key my-send-region #'my-js-eval-region)
-       (local-set-key my-send-phrase/sexp/block #'skewer-eval-last-expression)
-       (local-set-key my-send-line (my-evaluate-line-in-repl my-js-eval-line my-js-eval-region))
-       (local-set-key my-send-file (my-evaluate-file-in-repl my-js-eval-file my-js-eval-region)))
+       (define-key js2-mode-map my-send-buffer #'skewer-load-buffer)
+       (define-key js2-mode-map my-send-function #'skewer-eval-defun)
+       (define-key js2-mode-map my-send-region #'my-js-eval-region)
+       (define-key js2-mode-map my-send-phrase/sexp/block #'skewer-eval-last-expression)
+       (define-key js2-mode-map my-send-line (my-evaluate-line-in-repl my-js-eval-line my-js-eval-region))
+       (define-key js2-mode-map my-send-file (my-evaluate-file-in-repl my-js-eval-file my-js-eval-region)))
    #+end_src
 
 ** Enable appropriate keybindings

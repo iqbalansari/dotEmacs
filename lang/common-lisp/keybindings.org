@@ -7,14 +7,14 @@
 
 * Keybindings for interacting with the REPL
   #+begin_src emacs-lisp
-    (local-set-key my-run-shell #'slime-switch-to-output-buffer)
-    (local-set-key my-send-buffer #'slime-eval-buffer)
-    (local-set-key my-send-file #'slime-load-file)
-    (local-set-key my-send-phrase/sexp/block #'slime-eval-last-expression)
+    (define-key lisp-mode-map my-run-shell #'slime-switch-to-output-buffer)
+    (define-key lisp-mode-map my-send-buffer #'slime-eval-buffer)
+    (define-key lisp-mode-map my-send-file #'slime-load-file)
+    (define-key lisp-mode-map my-send-phrase/sexp/block #'slime-eval-last-expression)
   #+end_src
 
 
 * Describe the current symbol
   #+begin_src emacs-lisp
-    (local-set-key my-show-doc #'slime-describe-symbol)
+    (define-key lisp-mode-map my-show-doc #'slime-describe-symbol)
   #+end_src

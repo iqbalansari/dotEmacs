@@ -1,19 +1,19 @@
 * Keybinding for managing imports
   #+begin_src emacs-lisp
-    (local-set-key my-refactor-organize-imports #'go-remove-unused-imports)
+    (define-key go-mode-map my-refactor-organize-imports #'go-remove-unused-imports)
   #+end_src
 
 
 * Keybinding for jumping to definition
   #+begin_src emacs-lisp
     (when my-godef-available
-      (local-set-key my-jump-to-definition #'godef-jump)
-      (local-set-key my-pop-jump-to-definition-marker #'pop-tag-mark))
+      (define-key go-mode-map my-jump-to-definition #'godef-jump)
+      (define-key go-mode-map my-pop-jump-to-definition-marker #'pop-tag-mark))
   #+end_src
 
 
 * Keybinding for getting documentation of symbol at point
   #+begin_src emacs-lisp
     (when my-godef-available
-      (local-set-key my-show-doc #'godoc-at-point))
+      (define-key go-mode-map my-show-doc #'godoc-at-point))
   #+end_src

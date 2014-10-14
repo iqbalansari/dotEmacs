@@ -1,12 +1,26 @@
 * Keybindings for navigation
 ** Jump to definition
    #+begin_src emacs-lisp
-     (local-set-key my-jump-to-definition #'my-c-find-definition)
+     (define-key c-mode-map my-jump-to-definition #'my-c-find-definition)
    #+end_src
 
 ** And back
   #+begin_src emacs-lisp
-    (local-set-key my-pop-jump-to-definition-marker #'my-c-pop-mark)
+    (define-key c-mode-map my-pop-jump-to-definition-marker #'my-c-pop-mark)
+  #+end_src
+
+** Keybindings for gtags select buffer
+   #+begin_src emacs-lisp
+     (when my-gtags-available
+       (define-key gtags-select-mode-map (kbd "<return>") #'gtags-select-tag)
+       (define-key gtags-select-mode-map (kbd "q") #'bury-buffer))
+   #+end_src
+
+
+* Keybinding to get summary for symbol
+  #+begin_src emacs-lisp
+    (when my-rtags-available
+      (define-key c-mode-map my-show-doc #'rtags-display-summary))
   #+end_src
 
 
@@ -14,25 +28,25 @@
   Bound only if rtags is available
   #+begin_src emacs-lisp
     (when my-rtags-available
-      (local-set-key my-refactor-rename #'rtags-rename-symbol))
+      (define-key c-mode-map my-refactor-rename #'rtags-rename-symbol))
   #+end_src
 
 
 * Keybinding for finding references
   #+begin_src emacs-lisp
-    (local-set-key my-find-references #'my-c-find-references)
+    (define-key c-mode-map my-find-references #'my-c-find-references)
   #+end_src
 
 
 * Use rtags imenu if rtags is available
   #+begin_src emacs-lisp
     (when my-rtags-available
-      (local-set-key (kbd "C-c m") 'rtags-imenu))
+      (define-key c-mode-map (kbd "C-c m") 'rtags-imenu))
   #+end_src
 
 
 * Keybinding to add current file to current project and index it
   #+begin_src emacs-lisp
     (when my-rtags-available
-      (local-set-key (kbd "C-c C-k") #'malinka-project-add-file))
+      (define-key c-mode-map (kbd "C-c C-k") #'malinka-project-add-file))
   #+end_src

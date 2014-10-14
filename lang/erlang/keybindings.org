@@ -1,5 +1,5 @@
 * Keybindings for REPL interaction
   #+begin_src emacs-lisp
     (when my-edts-available
-      (local-set-key my-run-shell #'edts-shell))
+      (define-key erlang-mode-map my-run-shell #'edts-shell))
   #+end_src
