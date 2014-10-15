@@ -3,7 +3,7 @@
   #+begin_src emacs-lisp
     (defvar my-install-rtags (eq system-type 'gnu/linux))
     (defvar my-install-irony (eq system-type 'gnu/linux))
-    (defvar my-install-gtags (eq system-type 'gnu/linux))
+    (defvar my-c-install-gtags t)
   #+end_src
 
 
@@ -174,7 +174,7 @@
   #+begin_src emacs-lisp
     (defvar my-gtags-available nil)
 
-    (when my-install-gtags
+    (when my-c-install-gtags
       (if (and my-gnu-global-version
                (not (version< my-gnu-global-version "5.9.7")))
           (progn (my-install-package 'gtags)
