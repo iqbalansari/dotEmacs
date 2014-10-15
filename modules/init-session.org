@@ -32,6 +32,12 @@
          (setq ad-return-value nil)))
    #+end_src
 
+** Do not save encrypted files, message mode files
+   #+begin_src emacs-lisp
+     (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\|\.gpg$\\|,S$\\|,DS\\)")
+     (add-to-list 'desktop-modes-not-to-save 'message-mode)
+   #+end_src
+
 
 * Save minibuffer history across sessions
   #+begin_src emacs-lisp
@@ -46,3 +52,12 @@
   #+begin_src emacs-lisp
     (setq ido-use-virtual-buffers t)
   #+end_src
+
+** Do not remember 'sent email' files
+   #+begin_src emacs-lisp
+     (eval-after-load "recentf"
+       '(progn (add-to-list 'recentf-exclude ".+,DS")
+               (add-to-list 'recentf-exclude ".+,S")
+               (add-to-list 'recentf-exclude ".*\.git/.*")))
+   #+end_src
+
