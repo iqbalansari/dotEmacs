@@ -496,7 +496,8 @@
        (define-key mc/keymap (kbd "C-r") #'phi-search-backward)
        (define-key mc/keymap (kbd "M-i") #'mc/insert-numbers)
        (define-key mc/keymap (kbd "M-s") #'mc/sort-regions)
-       (define-key mc/keymap (kbd "M-r") #'mc/reverse-regions))
+       (define-key mc/keymap (kbd "M-r") #'mc/reverse-regions)
+       (define-key mc/keymap (kbd "C-j") #'newline))
 
      (add-hook 'multiple-cursors-mode-hook #'my-additional-mc-keybindings)
    #+end_src
