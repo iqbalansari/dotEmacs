@@ -58,7 +58,7 @@
 
 * Use Source Code Pro / Consolas font if available
   #+begin_src emacs-lisp
-    (cond ((member "Source Code Pro" (font-family-list)) (set-frame-font "Source Code Pro-10.60"))
+    (cond ((member "Source Code Pro" (font-family-list)) (set-frame-font "Source Code Pro-10.90"))
           ((member "Consolas" (font-family-list)) (set-frame-font "Consolas-11.7:light")))
   #+end_src
 

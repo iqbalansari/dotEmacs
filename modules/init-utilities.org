@@ -5,6 +5,7 @@
                            inf-mongo
                            prodigy
                            eldoc-eval
+                           edit-server
                            f
                            deft
                            discover))
@@ -279,3 +280,10 @@
        (global-set-key (kbd "C-c b") #'w3m)
        (global-set-key (kbd "C-c l") #'w3m-browse-url))
    #+end_src
+
+
+* Start edit-server
+  #+begin_src emacs-lisp
+    (edit-server-start)
+  #+end_src
+
