@@ -40,11 +40,12 @@
 * Configuration for jump to definition
 ** Enable gtags mode
    #+begin_src emacs-lisp
-     (gtags-mode +1)
+     (when my-gtags-available (gtags-mode +1))
    #+end_src
 
 ** Generate tags file for project if not already generated 
   #+begin_src emacs-lisp
+    (defvar my-project-root nil)
     (when my-gtags-available
       (let ((project-root (or (ignore-errors (projectile-project-root))
                               (locate-dominating-file (or buffer-file-name default-directory)
