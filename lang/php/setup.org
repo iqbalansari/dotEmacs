@@ -15,8 +15,6 @@
 
 * Get documentation at point
   #+begin_src emacs-lisp
-    (require 'ehelp)
-
     (defun my-php-doc-at-point ()
       (interactive)
       (let* ((symbol (symbol-at-point))

@@ -64,8 +64,6 @@
 
 * Get documentation for symbol at point
   #+begin_src emacs-lisp
-    (require 'ehelp)
-
     (defun my-haskell-doc-at-point ()
       (interactive)
       (if (executable-find "hoogle")
