@@ -54,7 +54,8 @@
   #+end_src
 
 
-* Index files if not already indexed
+* Indexing file/projects
+** Index the project
   #+begin_src emacs-lisp
     (defvar my-rtags-project-indexed nil)
     (make-local-variable 'my-rtags-project-indexed)
@@ -92,6 +93,51 @@
     (when (and (buffer-file-name)
                (file-writable-p (file-name-directory (buffer-file-name))))
       (run-at-time 0.1 nil #'my-may-be-index-c-project (current-buffer)))
+  #+end_src
+
+** Helper function to quickly add current file to project and index it
+   #+begin_src emacs-lisp
+     (defun my-rtags-index-this-file ()
+       (interactive)
+       (if my-rtags-available
+           (let ((project-root (car (my-identify-malinka-project))))
+             (if (and project-root buffer-file-name)
+                 (progn (malinka-project-add-file buffer-file-name project-root)
+                        (message (format "Added `%s' to `%s'" 
+                                         (file-name-nondirectory buffer-file-name)
+                                         project-root)))
+               (call-interactively #'malinka-project-add-file)))
+         (error "RTags not installed")))
+   #+end_src
+
+
+* Eldoc setup
+** Use rtags to get symbol info, if is available
+   #+begin_src emacs-lisp
+     (defun my-rtags-get-eldoc ()
+       (when (and buffer-file-name
+                  (string-match-p "indexed"
+                                  (shell-command-to-string (format "%s --is-indexed %s"
+                                                                   (rtags-executable-find "rc")
+                                                                   buffer-file-name))))
+         (rtags-get-summary-text)))
+   #+end_src
+
+** Setup eldoc
+  #+begin_src emacs-lisp
+    (when my-rtags-available
+      (eldoc-mode)
+      (make-variable-buffer-local 'eldoc-documentation-function)
+      (setq eldoc-documentation-function 'my-rtags-get-eldoc))
+  #+end_src
+
+
+* Open man page for symbol at point
+  #+begin_src emacs-lisp
+    (defun my-get-man-page-at-pt ()
+      (interactive)
+      (let ((symbol (thing-at-point 'symbol)))
+        (with-electric-help (lambda () (woman symbol)) "*c-help*")))
   #+end_src
 
 
@@ -153,6 +199,7 @@
        (auto-complete-mode -1)
        (company-mode)
        (irony-mode)
+       (add-to-list 'company-backends 'company-keywords)
        (add-to-list 'company-backends 'company-irony)
        (company-irony-setup-begin-commands)
        (add-to-list 'company-backends 'company-c-headers))
