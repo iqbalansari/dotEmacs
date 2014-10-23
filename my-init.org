@@ -411,7 +411,8 @@
 ** Emacs lisp is needs to be configured specially
    #+begin_src emacs-lisp
      (defvar my-elisp-packages '(elisp-slime-nav 
-                                 macrostep))       
+                                 macrostep
+                                 cl-lib-highlight))
 
      (my-install-packages my-elisp-packages)
 
@@ -423,6 +424,8 @@
        ;; Setup
        (elisp-slime-nav-mode +1)
        (eldoc-mode +1)
+
+       (cl-lib-highlight-initialize)
 
        (setq flycheck-emacs-lisp-load-path load-path)
        

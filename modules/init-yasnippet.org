@@ -45,25 +45,3 @@
   #+begin_src emacs-lisp
     (yas-global-mode)
   #+end_src
-
-
-* Make yasnippet play well with company and auto-complete mode when expanding snippets
-  #+begin_src emacs-lisp
-    (defun my-complete-with-tab-or-yas ()
-      (interactive)
-      (yas--inhibit-overlay-hooks 
-        (call-interactively (cond ((bound-and-true-p company-pseudo-tooltip-overlay) 'company-complete-common)
-                                  ((bound-and-true-p ac-menu) 'ac-expand)
-                                  (t 'yas-next-field-or-maybe-expand)))))
-
-    (define-key yas-keymap [tab] 'my-complete-with-tab-or-yas)
-
-    (defun my-complete-with-enter-or-yas ()
-      (interactive)
-      (yas--inhibit-overlay-hooks 
-        (call-interactively (cond ((bound-and-true-p company-pseudo-tooltip-overlay) 'company-complete-selection)
-                                  ((bound-and-true-p ac-menu) 'ac-complete)
-                                  (t 'newline)))))
-
-    (define-key yas-keymap [return] 'my-complete-with-enter-or-yas)
-  #+end_src
