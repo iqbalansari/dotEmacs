@@ -110,6 +110,13 @@
    #+end_src
 
 
+* Delete the window when shell is killed
+  #+begin_src emacs-lisp
+    (defadvice term-handle-exit (after term-kill-buffer-on-exit activate)
+      (my-kill-term-delete-window))
+  #+end_src
+
+
 * Making shift-tab work with term-mode
   #+begin_src emacs-lisp
     (defun my-term-send-backtab ()
