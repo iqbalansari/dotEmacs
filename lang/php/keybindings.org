@@ -11,3 +11,9 @@
       (define-key php-mode-map my-pop-jump-to-definition-marker #'pop-tag-mark)
       (define-key php-mode-map my-find-references #'ggtags-find-reference))
   #+end_src
+
+
+* Do not enable ggtags navigation bindings
+  #+begin_src emacs-lisp
+    (setq ggtags-enable-navigation-keys nil)
+  #+end_src

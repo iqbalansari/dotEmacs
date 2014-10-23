@@ -37,9 +37,12 @@
    Try getting eldoc string using ggtags falling back to php-extras eldoc function
    #+begin_src emacs-lisp
      (defun my-php-eldoc-function ()
-       (or (when my-gtags-available
-             (ggtags-eldoc-function))
-           (php-extras-eldoc-documentation-function)))
+       (let* ((gtags-doc (when my-gtags-available
+                           (ggtags-eldoc-function)))
+              (doc (when gtags-doc
+                     (replace-regexp-in-string (rx (: bos (zero-or-more (any " \t\n")))) "" gtags-doc))))
+         (or doc
+             (php-extras-eldoc-documentation-function))))
    #+end_src
 
 ** Enable eldoc
