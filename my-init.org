@@ -206,8 +206,8 @@
 * Initialize package management
 ** Add some more repositories
    #+begin_src emacs-lisp
-     (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-     (add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+     (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
      (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
      (package-initialize)
    #+end_src
