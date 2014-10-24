@@ -427,6 +427,19 @@
    #+end_src
 
 
+* Ace jump mode configuration
+  Omit docview buffers in ace-jump-mode searches, ace-jump searches are very expensive
+  for docview buffers (and hangs emacs)
+  #+begin_src emacs-lisp
+    (defadvice ace-jump-list-visual-area (after my-no-ace-mode-in-docview (&rest args))
+      (setq ad-return-value (remove-if (lambda (entry)
+                                         (with-current-buffer (aj-visual-area-buffer entry)
+                                           (eq major-mode 'doc-view-mode)))
+                                       ad-return-value)))
+
+    (ad-activate 'ace-jump-list-visual-area)
+  #+end_src
+
 
 * Multiple cursors setup
 ** Load mc-cycle-cursors and mc-hide-unmatched-lines-mode for extra functionality
