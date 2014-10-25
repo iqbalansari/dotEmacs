@@ -40,7 +40,7 @@
    #+begin_src emacs-lisp
      (if (and my-gnu-global-version
               (not (version< my-gnu-global-version "5.9.7")))
-         (progn (my-install-package 'ggtags)
+         (progn (my-install-package 'gtags)
                 (setq my-gtags-available t))
        (cond ((not my-gnu-global-version) (warn "GNU Global not installed, not installing gtags"))
              (t (warn (concat "GNU Global version is " my-gnu-global-version

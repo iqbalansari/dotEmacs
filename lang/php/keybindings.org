@@ -7,9 +7,12 @@
 * Keybindings to jumping to definition
   #+begin_src emacs-lisp
     (when my-gtags-available
-      (define-key php-mode-map my-jump-to-definition #'ggtags-find-tag-dwim)
-      (define-key php-mode-map my-pop-jump-to-definition-marker #'pop-tag-mark)
-      (define-key php-mode-map my-find-references #'ggtags-find-reference))
+      (define-key php-mode-map my-jump-to-definition #'gtags-find-tag-from-here)
+      (define-key php-mode-map my-pop-jump-to-definition-marker #'gtags-pop-stack)
+      (define-key php-mode-map my-find-references #'gtags-find-rtag)
+      
+      (define-key gtags-select-mode-map (kbd "<return>") #'gtags-select-tag)
+      (define-key gtags-select-mode-map (kbd "q") #'bury-buffer))
   #+end_src
 
 
