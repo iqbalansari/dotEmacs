@@ -8,10 +8,12 @@
         swoop))
 
     (when (executable-find "ack")
-      (add-to-list 'my-search-replace-packages 'ack-and-a-half))
+      (add-to-list 'my-search-replace-packages 'ack-and-a-half)
+      (add-to-list 'my-search-replace-packages 'wgrep-ack))
 
     (when (executable-find "ag")
-      (add-to-list 'my-search-replace-packages 'ag))
+      (add-to-list 'my-search-replace-packages 'ag)
+      (add-to-list 'my-search-replace-packages 'wgrep-ag))
 
     (my-install-packages my-search-replace-packages)
   #+end_src
@@ -91,10 +93,16 @@
 
 
 * Wgrep allows modifying the grep buffer and apply the changes to the files
+** General setting
   #+begin_src emacs-lisp
     (setq wgrep-auto-save-buffer t)
     (setq wgrep-enable-key "e")
   #+end_src
+
+** Enable wgrep for ag
+   #+begin_src emacs-lisp
+     (add-hook 'ag-mode-hook 'wgrep-ag-setup)
+   #+end_src
 
 
 * Show all lines matching REGEXP in buffers with this major mode. Taken from
@@ -232,16 +240,6 @@
                                                  ("Af" "Search string in files" ag-files)
                                                  ("Ad" "Recursively find file names matching pattern" ag-dired)
                                                  ("Ap" "Find string in project" ag-dired)) t))
-
-    '(defvar my-discover-search-menu `(isearch
-                                      (description "Isearch, occur and highlighting")
-                                      (lisp-switches
-                                       ("-cf" "Case should fold search" case-fold-search t nil))
-                                      (lisp-arguments
-                                       ("=l" "context lines to show (occur)"
-                                        "list-matching-lines-default-context-lines"
-                                        (lambda (dummy) (interactive) (read-number "Number of context lines to show: "))))
-                                      ,my-discover-search-actions))
 
     (discover-add-context-menu
      :context-menu `(isearch
