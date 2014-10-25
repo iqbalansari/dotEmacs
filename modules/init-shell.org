@@ -20,6 +20,23 @@
   #+end_src
 
 
+* Use C-S-w to quickly kill comint/compilation mode buffers
+  #+begin_src emacs-lisp
+    (defun my-kill-buffer-delete-window ()
+      (interactive)
+      (let ((kill-buffer-query-functions nil))
+        (kill-buffer)
+        (ignore-errors (delete-window))))
+
+    (eval-after-load "comint"
+      '(define-key comint-mode-map (kbd "C-S-w") #'my-kill-buffer-delete-window))
+
+    (eval-after-load "compile"
+      '(progn (define-key compilation-mode-map (kbd "C-S-w") #'my-kill-buffer-delete-window)
+              (define-key compilation-minor-mode-map (kbd "C-S-w") #'my-kill-buffer-delete-window)))
+  #+end_src
+
+
 * Faster keybinding to switch between line and character mode in term
   #+begin_src emacs-lisp
     (defun my-toggle-term-mode ()
