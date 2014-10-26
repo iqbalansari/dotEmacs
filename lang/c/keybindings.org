@@ -30,13 +30,6 @@
   #+end_src
 
 
-* Use rtags imenu if rtags is available
-  #+begin_src emacs-lisp
-    (when my-rtags-available
-      (define-key c-mode-map (kbd "C-c s") 'rtags-imenu))
-  #+end_src
-
-
 * Keybinding to add current file to current project and index it
   #+begin_src emacs-lisp
     (when my-rtags-available

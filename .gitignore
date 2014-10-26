@@ -44,3 +44,4 @@ abbrev_defs
 request/
 trello/
 /org-clock-save.el
+/.org-id-locations

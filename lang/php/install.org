@@ -1,3 +1,9 @@
+* Path to php-executable
+  #+begin_src emacs-lisp
+    (setq php-executable (executable-find "php"))
+  #+end_src
+
+
 * Install php-extras and php-auto-yasnippets
   #+begin_src emacs-lisp
     (my-install-packages '(php-extras php-auto-yasnippets))

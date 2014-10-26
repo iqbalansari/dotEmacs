@@ -73,13 +73,18 @@
                                                 default-directory))
                               malinka-projects-map))))
 
-    (defun my-may-be-index-c-project (buffer)
-      (when my-rtags-available
-        (with-current-buffer buffer
+    (defun my-maybe-enable-rtags (buffer)
+      ;; Index the file only if the directory is writable, since indexing
+      ;; requires write permission (to create the compile_commands.json file)
+      ;; We usually do not have it in directories contains system headers
+      (with-current-buffer buffer
+        ;; Identify the malinka project the current directory belongs
+        (when (file-writable-p (file-name-directory buffer-file-name))
           (let* ((project-map (my-identify-malinka-project)))
             (if (not project-map)
                 (warn (concat "Project not configured, please add malinka-define-project directive\n"
                               "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
+              ;; If the project is not indexed yet run `malinka-project-configure'
               (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
                                                                               " --has-filemanager "
                                                                               default-directory))))
@@ -87,12 +92,16 @@
                                  " You can manually invoke indexing with malinka-configure-project."
                                  "\nThe result of indexing can be seen in *rdm* buffer"))
                 (malinka-project-configure (cdr (assoc 'name project-map))
-                                           default-directory))
-              (setq-local my-rtags-project-indexed t))))))
+                                           default-directory))))))
+      
+      ;; Update flag indicating whether the file is indexed by rtags
+      (let ((rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
+                                                           " --is-indexed "
+                                                           buffer-file-name))))
+        (setq-local my-rtags-project-indexed (string= rtags-status "indexed\n"))))
 
-    (when (and (buffer-file-name)
-               (file-writable-p (file-name-directory (buffer-file-name))))
-      (run-at-time 0.1 nil #'my-may-be-index-c-project (current-buffer)))
+    (when (and (buffer-file-name) my-rtags-available)
+      (run-at-time 0.1 nil #'my-maybe-enable-rtags (current-buffer)))
   #+end_src
 
 ** Helper function to quickly add current file to project and index it
@@ -106,7 +115,8 @@
                         (message (format "Added `%s' to `%s'" 
                                          (file-name-nondirectory buffer-file-name)
                                          project-root)))
-               (call-interactively #'malinka-project-add-file)))
+               (call-interactively #'malinka-project-add-file))
+             (setq-local my-rtags-project-indexed t))
          (error "RTags not installed")))
    #+end_src
 
@@ -115,12 +125,12 @@
 ** Use rtags to get symbol info, if is available
    #+begin_src emacs-lisp
      (defun my-rtags-get-eldoc ()
-       (when (and buffer-file-name
-                  (string-match-p "indexed"
-                                  (shell-command-to-string (format "%s --is-indexed %s"
-                                                                   (rtags-executable-find "rc")
-                                                                   buffer-file-name))))
-         (rtags-get-summary-text)))
+       (let ((rtags-status (when buffer-file-name
+                             (shell-command-to-string (format "%s --is-indexed %s"
+                                                              (rtags-executable-find "rc")
+                                                              buffer-file-name)))))
+         (when (string= rtags-status "indexed\n")
+           (rtags-get-summary-text))))
    #+end_src
 
 ** Setup eldoc

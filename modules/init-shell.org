@@ -324,7 +324,11 @@
      (global-set-key (kbd "C-S-w") #'my-kill-term-delete-window)
      (eval-after-load "term"
        '(progn (define-key term-raw-map (kbd "C-|") #'my-split-window-right-start-terminal)
-               (define-key term-raw-map (kbd "C-\\") #'my-split-window-below-start-terminal)))
+               (define-key term-raw-map (kbd "C-\\") #'my-split-window-below-start-terminal)
+               (define-key term-raw-map (kbd "C-S-q") #'delete-window)))
+
+     (eval-after-load "shell"
+       '(define-key shell-mode-map (kbd "C-S-q") #'delete-window))
    #+end_src
 
 

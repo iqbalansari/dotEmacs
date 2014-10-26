@@ -29,9 +29,9 @@
     (defun my-message-mode-enable-company ()
       (auto-complete-mode -1)
       (company-mode)
-      (save-excursion
-        (search-forward-regexp (concat "^" mail-header-separator) nil t)
-        (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky))))
+      (ignore-errors (save-excursion
+                       (search-forward-regexp (concat "^" mail-header-separator) nil t)
+                       (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky)))))
 
     (add-hook 'message-mode-hook 'my-message-mode-enable-company)
   #+end_src
