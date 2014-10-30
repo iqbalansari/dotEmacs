@@ -96,7 +96,6 @@
 * Wdired configuration
   #+begin_src emacs-lisp
     (autoload 'wdired-change-to-wdired-mode "wdired")
-    (setq wdired-use-interactive-rename t)
     (setq wdired-confirm-overwrite t)
     (setq wdired-use-dired-vertical-movement t)
   #+end_src
