@@ -104,6 +104,7 @@
         org-edit-special
         orgtbl-ctrl-c-ctrl-c
         orgtbl-hijacker-command-100
+        phi-search
         smex
         switch-window
         tern-find-definition

@@ -445,7 +445,8 @@
 ** Load mc-cycle-cursors and mc-hide-unmatched-lines-mode for extra functionality
    #+begin_src emacs-lisp
      (eval-after-load "multiple-cursors-core"
-       '(progn (load "mc-hide-unmatched-lines-mode")
+       '(progn (load "mc-mark-more")
+               (load "mc-hide-unmatched-lines-mode")
                (load "mc-cycle-cursors")))
    #+end_src
 
@@ -559,6 +560,7 @@
        (define-key mc/keymap (kbd "M-i") #'mc/insert-numbers)
        (define-key mc/keymap (kbd "M-s") #'mc/sort-regions)
        (define-key mc/keymap (kbd "M-r") #'mc/reverse-regions)
+       ;; Explicitly setting in mc/keymap so that is not overridden by lisp-interaction-mode-map
        (define-key mc/keymap (kbd "C-j") #'newline))
 
      (add-hook 'multiple-cursors-mode-hook #'my-additional-mc-keybindings)
