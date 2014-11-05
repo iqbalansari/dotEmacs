@@ -13,6 +13,18 @@
   #+end_src
 
 
+* Some extra configurations for boris repl
+  #+begin_src emacs-lisp
+    (defun my-boris-enable-extra-settings ()
+      (auto-complete-mode +1)
+      (php-extras-autocomplete-setup)
+      (eldoc-mode +1)
+      (php-extras-eldoc-setup))
+
+    (add-hook 'php-boris-mode-hook #'my-boris-enable-extra-settings)
+  #+end_src
+
+
 * Get documentation at point
   #+begin_src emacs-lisp
     (defun my-php-doc-at-point ()
