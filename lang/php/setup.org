@@ -105,6 +105,15 @@
   #+end_src
 
 
+* Remove yasnippets from ac-sources
+  auto-complete becomes unbearably slow since there are large
+  number of snippets for php
+  #+begin_src emacs-lisp
+    (make-variable-buffer-local 'ac-sources)
+    (setq ac-sources (remove 'ac-source-yasnippet ac-sources))
+  #+end_src
+
+
 * Enable syntax checking
 ** Enable flycheck mode
   #+begin_src emacs-lisp
