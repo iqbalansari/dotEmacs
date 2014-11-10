@@ -59,6 +59,7 @@
         shm/del
         shm/forward-node
         sp--self-insert-command
+        sp-add-to-previous-sexp
         sp-backward-delete-char
         sp-backward-down-sexp
         sp-backward-kill-sexp
@@ -91,6 +92,7 @@
 (setq mc/cmds-to-run-once
       '(
         anzu-query-replace
+        c-electric-pound
         describe-key
         haskell-indentation-delete-backward-char
         help-for-help
@@ -99,6 +101,7 @@
         isearch-forward-regexp
         keyboard-escape-quit
         magit-status
+        makey-key-mode-popup-rectangles
         mouse-set-region
         org-ctrl-c-ctrl-c
         org-edit-special
