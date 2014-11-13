@@ -55,13 +55,19 @@
   #+end_src
 
 
-* Flash line after jumping to an error
+* Flash line after jumping to an error/occurrence of string
   #+begin_src emacs-lisp
     (defadvice compile-goto-error (after hightlight-line-after-jump (&rest args))
       (recenter)
       (run-at-time 0.5 nil #'my-highlight-line))
 
     (ad-activate #'compile-goto-error)
+
+    (defadvice occur-mode-goto-occurrence (after hightlight-line-after-jump (&rest args))
+      (recenter)
+      (run-at-time 0.5 nil #'my-highlight-line))
+
+    (ad-activate #'occur-mode-goto-occurrence)
   #+end_src
 
 
