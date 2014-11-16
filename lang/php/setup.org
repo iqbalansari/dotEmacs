@@ -79,8 +79,8 @@
 ** Regenerate tags for project on saving buffer
    #+begin_src emacs-lisp
      (defun my-php-regenerate-tags ()
-       (when my-project-root
-         (shell-command (format "cd %s && global -u" my-project-root))
+       (when (and my-project-root buffer-file-name)
+         (shell-command (format "cd %s && global --single-update %s" my-project-root buffer-file-name))
          (message "TAGS regenerated!")))
 
      (add-hook (make-variable-buffer-local 'after-save-hook) #'my-php-regenerate-tags)
