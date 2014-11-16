@@ -8,9 +8,17 @@
                            edit-server
                            f
                            deft
-                           discover))
+                           discover
+                           realgud
+                           pcre2el))
 
     (autoload 'mag-menu "mag-menu")
+  #+end_src
+
+
+* Enable global rxt mode
+  #+begin_src emacs-lisp
+    (rxt-global-mode)
   #+end_src
 
 
