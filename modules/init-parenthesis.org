@@ -20,6 +20,12 @@
    #+end_src
 
 
+* Enable smartparens in minibuffer
+  #+begin_src emacs-lisp
+    (add-hook 'minibuffer-setup-hook (lambda () (ignore-errors (smartparens-mode))))
+  #+end_src
+
+
 * Do not add autopair "'" or """ if around a word
   #+begin_src emacs-lisp
     (sp-pair "'" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
