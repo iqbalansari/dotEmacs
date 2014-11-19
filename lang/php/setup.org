@@ -63,10 +63,11 @@
         
         (make-variable-buffer-local 'my-project-root)
         (setq my-project-root project-root)
-
         (if (and project-root
-                 (not (string-equal (expand-file-name project-root)
-                                    (expand-file-name "~/"))))
+                 (not (or (string-equal (expand-file-name project-root)
+                                        (expand-file-name "~/"))
+                          (string-equal (file-truename project-root)
+                                        (file-truename "~/.emacs.d/")))))
             (when (and (not (file-exists-p (concat project-root "/GTAGS")))
                        (y-or-n-p (format "GTAG files not present for project [%s], generate them?"
                                          project-root)))
@@ -97,6 +98,23 @@
        (my-highlight-line-after-func gtags-find-tag-from-here)
        (my-highlight-line-after-func gtags-select-tag))
    #+end_src
+
+
+
+* Function to quickly start debugging a script
+  Copied from [[https://blogs.oracle.com/opal/entry/quick_debugging_of_php_scripts]]
+  #+begin_src emacs-lisp
+    (defun my-php-debug ()
+      "Run current PHP script for debugging with geben"
+      (interactive)
+      (if (locate-library "geben")
+          (progn (call-interactively 'geben)
+                 (async-shell-command
+                  (format "XDEBUG_CONFIG='idekey=emacs-geben' %s -d xdebug.remote_enable=on -d xdebug.remote_host=127.0.0.1 -d xdebug.remote_port=9000  %s"
+                          (executable-find "php")
+                          (buffer-file-name))))
+        (message "`geben' is not installed")))
+  #+end_src
 
 
 * Setup auto-complete to use php-auto-yasnippets

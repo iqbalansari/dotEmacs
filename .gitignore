@@ -46,3 +46,5 @@ trello/
 /org-clock-save.el
 /.org-id-locations
 .yas-compiled-snippets.el
+/geben/
+/tutorial/

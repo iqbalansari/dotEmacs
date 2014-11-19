@@ -16,7 +16,8 @@
   #+end_src
 
 
-* Do not enable ggtags navigation bindings
+* Keybinding to start debugging current script
   #+begin_src emacs-lisp
-    (setq ggtags-enable-navigation-keys nil)
+    (define-key php-mode-map [f5] #'my-php-debug)
   #+end_src
+
