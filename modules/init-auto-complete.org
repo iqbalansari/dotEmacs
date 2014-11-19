@@ -110,6 +110,12 @@
 
 
 * Company mode configuration
+** Align annotations
+   #+begin_src emacs-lisp
+     (setq company-tooltip-align-annotations t)
+   #+end_src
+
+** Wrap around popup menu on reaching end
   #+begin_src emacs-lisp
     (setq company-selection-wrap-around t)
   #+end_src

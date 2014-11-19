@@ -1,6 +1,6 @@
 * Install org-bullets
   #+begin_src emacs-lisp
-    (my-install-package 'org-bullets)
+    (my-install-packages '(org-bullets company-math))
   #+end_src
 
 
@@ -74,12 +74,12 @@
 
 * Enable org-ditaa if ditaa is installed
   #+begin_src emacs-lisp
-    (when (executable-find "ditaa")
+    (setq org-ditaa-jar-path (executable-find "ditaa"))
+
+    (when org-ditaa-jar-path
       (org-babel-do-load-languages
        'org-babel-load-languages
-       '((ditaa . t)))
-
-      (setq org-ditaa-jar-path (executable-find "ditaa")))
+       '((ditaa . t))))
   #+end_src
 
 
@@ -102,6 +102,15 @@
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((dot . t))))
+  #+end_src
+
+
+* Enable company mode and company-math in org-mode files
+  #+begin_src emacs-lisp
+    (add-hook 'org-mode-hook (lambda ()
+                               (company-mode +1)
+                               (make-variable-buffer-local 'company-backends)
+                               (add-to-list 'company-backends 'company-math-symbols-unicode)))
   #+end_src
 
 
