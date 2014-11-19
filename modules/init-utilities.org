@@ -10,7 +10,8 @@
                            deft
                            discover
                            realgud
-                           pcre2el))
+                           pcre2el
+                           bongo))
 
     (autoload 'mag-menu "mag-menu")
   #+end_src
@@ -295,3 +296,14 @@
     (edit-server-start)
   #+end_src
 
+
+* Bongo configuration
+** Keybinding to start bongo
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c M") #'bongo)
+  #+end_src
+
+** Autoload bongo-library-mode
+   #+begin_src emacs-lisp
+     (autoload #'bongo-library-mode "bongo")
+   #+end_src
