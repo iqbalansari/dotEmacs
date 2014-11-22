@@ -45,16 +45,71 @@
      (load "php-extras")
    #+end_src
 
-** Function to fetch eldoc string
-   Try getting eldoc string using ggtags falling back to php-extras eldoc function
+** Custom function to combine eldoc from ggtags and php-extra eldoc
    #+begin_src emacs-lisp
+     (defun my-php-count-args (arglist)
+       ;; Count the number of arguments in given argument list
+       (with-current-buffer (get-buffer-create " *php-eldoc*")
+         (erase-buffer)
+         (setq count 1)
+         (insert arglist)
+         (goto-char 0)
+         ;; Count the number of (toplevel) , except for commas
+         ;; not inside nested function calls or strings
+         (while (search-forward "," nil t)
+           (let ((context (syntax-ppss)))
+             ;; We are not inside possibly other function call
+             (when (and (zerop (car context))
+                        ;; we are not in  a string
+                        (not (cadddr context)))
+               (setq count (+ 1 count)))))
+         count))
+
+     (defun my-php-format-eldoc-string (doc arg-number)
+       (with-current-buffer (get-buffer-create " *php-eldoc*")
+         (erase-buffer)
+         (insert doc)
+         ;; Fontify the doc
+         (delay-mode-hooks (php-mode))
+         (font-lock-default-function 'php-mode)
+         (font-lock-default-fontify-region (point-min) (point-max) nil)
+
+         ;; Highlight the arg-numberth argument
+         (goto-char 0)
+         (when (and (> arg-number 0)
+                    ;; Search successive arg-number , or (
+                    (search-forward-regexp ",\\|(" nil t arg-number))
+           (skip-chars-forward " ")
+           (add-face-text-property (point) (- (search-forward-regexp ",\\|)\\|\\[") 1) '(:weight bold :inherit highlight)))
+         (string-trim (buffer-string))))
+
      (defun my-php-eldoc-function ()
-       (let* ((gtags-doc (when my-gtags-available
-                           (ggtags-eldoc-function)))
-              (doc (when gtags-doc
-                     (replace-regexp-in-string (rx (: bos (zero-or-more (any " \t\n")))) "" gtags-doc))))
-         (or doc
-             (php-extras-eldoc-documentation-function))))
+       (interactive)
+       ;; Find the position of opening bracket for current expression
+       (let* ((open-paren (cadr (syntax-ppss)))
+              ;; If the opening paren is a ( then we are probably in a function
+              ;; call
+              (in-function-call-maybe (and open-paren (equal (char-after open-paren) ?\()))
+              ;; Get the doc current function call
+              (doc (save-excursion
+                     (when in-function-call-maybe
+                       (goto-char open-paren))
+                     (or (my-php-extras-eldoc-at-pt) (when my-gtags-available
+                                                       (ignore-errors (ggtags-eldoc-function))))))
+              ;; If we have documentation for the function try finding the argument
+              ;; at point
+              (arg-number (if (and in-function-call-maybe doc)
+                              (my-php-count-args (buffer-substring (+ open-paren 1) (point)))
+                            0)))
+         (when doc
+           ;; Format the doc and return
+           (ignore-errors (my-php-format-eldoc-string doc arg-number)))))
+
+     (defun my-php-extras-eldoc-at-pt ()
+       (when (eq php-extras-function-arguments 'not-loaded)
+         (php-extras-load-eldoc))
+       (when (hash-table-p php-extras-function-arguments)
+         (php-extras-get-function-property (php-get-pattern) 'prototype)))
    #+end_src
 
 ** Enable eldoc
@@ -68,7 +123,8 @@
 * Configuration for jump to definition
 ** Enable gtags mode
    #+begin_src emacs-lisp
-     (when my-gtags-available (ggtags-mode +1))
+     (when my-gtags-available
+       (ggtags-mode +1))
    #+end_src
 
 ** Generate tags file for project if not already generated 
@@ -97,10 +153,13 @@
 
 ** Regenerate tags for project on saving buffer
    #+begin_src emacs-lisp
-     (when my-gtags-available
-       (add-hook (make-variable-buffer-local 'after-save-hook) #'ggtags-update-tags))
-   #+end_src
+     (defun my-php-regenerate-tags ()
+       (when (and my-project-root buffer-file-name)
+         (shell-command (format "cd %s && global --single-update %s" my-project-root buffer-file-name))
+         (message "TAGS regenerated!")))
 
+     (add-hook (make-variable-buffer-local 'after-save-hook) #'my-php-regenerate-tags)
+   #+end_src
 
 
 * Function to quickly start debugging a script
