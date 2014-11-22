@@ -40,17 +40,35 @@
 
 
 * Enable eldoc
+** Load php-extra for documentation of builtin php functions
+   #+begin_src emacs-lisp
+     (load "php-extras")
+   #+end_src
+
+** Function to fetch eldoc string
+   Try getting eldoc string using ggtags falling back to php-extras eldoc function
+   #+begin_src emacs-lisp
+     (defun my-php-eldoc-function ()
+       (let* ((gtags-doc (when my-gtags-available
+                           (ggtags-eldoc-function)))
+              (doc (when gtags-doc
+                     (replace-regexp-in-string (rx (: bos (zero-or-more (any " \t\n")))) "" gtags-doc))))
+         (or doc
+             (php-extras-eldoc-documentation-function))))
+   #+end_src
+
+** Enable eldoc
   #+begin_src emacs-lisp
-    (load "php-extras")
     (eldoc-mode)
-    (php-extras-eldoc-setup)
+    (make-local-variable 'eldoc-documentation-function)
+    (setq eldoc-documentation-function #'my-php-eldoc-function)
   #+end_src
 
 
 * Configuration for jump to definition
 ** Enable gtags mode
    #+begin_src emacs-lisp
-     (when my-gtags-available (gtags-mode +1))
+     (when my-gtags-available (ggtags-mode +1))
    #+end_src
 
 ** Generate tags file for project if not already generated 
@@ -79,24 +97,8 @@
 
 ** Regenerate tags for project on saving buffer
    #+begin_src emacs-lisp
-     (defun my-php-regenerate-tags ()
-       (when (and my-project-root buffer-file-name)
-         (shell-command (format "cd %s && global --single-update %s" my-project-root buffer-file-name))
-         (message "TAGS regenerated!")))
-
-     (add-hook (make-variable-buffer-local 'after-save-hook) #'my-php-regenerate-tags)
-   #+end_src
-
-** Use a single buffer for gtags select
-   #+begin_src emacs-lisp
-     (setq gtags-select-buffer-single t)
-   #+end_src
-
-** Flash line after jumping to definition
-   #+begin_src emacs-lisp
      (when my-gtags-available
-       (my-highlight-line-after-func gtags-find-tag-from-here)
-       (my-highlight-line-after-func gtags-select-tag))
+       (add-hook (make-variable-buffer-local 'after-save-hook) #'ggtags-update-tags))
    #+end_src
 
 
