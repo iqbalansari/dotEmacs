@@ -44,6 +44,8 @@
          (while (re-search-forward "^\\s-*\\(?:\\*/\\|/\\*\\|\\*\\|//\\)\\s-*" nil t)
            (replace-match "" nil nil))
 
+         (delay-mode-hooks (php-mode))
+         (font-lock-default-function 'php-mode)
          (goto-char (point-min))
          (let ((font-lock-keywords '(("@[a-z]+" 0 'php-annotations-annotation-face)))
                (font-lock-string-face nil))
@@ -51,6 +53,7 @@
            (font-lock-default-fontify-region (point-min) (point-max) nil))
          
          (string-trim (buffer-string))))
+
 
      (defun my-php-grab-comments (location)
        "Get the comments for the function starting at location"
@@ -168,13 +171,24 @@
            (add-face-text-property (point) (- (search-forward-regexp ",\\|)$") 1) '(:weight bold :inherit highlight)))
          (string-trim (buffer-string))))
 
+     (defun my-php-extras-eldoc-at-pt ()
+       (when (eq php-extras-function-arguments 'not-loaded)
+         (php-extras-load-eldoc))
+       (when (hash-table-p php-extras-function-arguments)
+         (php-extras-get-function-property (php-get-pattern) 'prototype)))
+
      (defun my-php-eldoc-function ()
        (interactive)
        ;; Find the position of opening bracket for current expression
        (let* ((open-paren (cadr (syntax-ppss)))
               ;; If the opening paren is a ( then we are probably in a function
               ;; call
-              (in-function-call-maybe (and open-paren (equal (char-after open-paren) ?\()))
+              (in-function-call-maybe (and
+                                       open-paren
+                                       (equal (char-after open-paren) ?\()
+                                       (save-excursion
+                                         (goto-char (- open-paren 1))
+                                         (not (equal (get-text-property (point) 'face) 'font-lock-keyword-face)))))
               ;; Get the doc current function call
               (doc (save-excursion
                      (when in-function-call-maybe
@@ -189,12 +203,6 @@
          (when doc
            ;; Format the doc and return
            (ignore-errors (my-php-format-eldoc-string doc arg-number)))))
-
-     (defun my-php-extras-eldoc-at-pt ()
-       (when (eq php-extras-function-arguments 'not-loaded)
-         (php-extras-load-eldoc))
-       (when (hash-table-p php-extras-function-arguments)
-         (php-extras-get-function-property (php-get-pattern) 'prototype)))
    #+end_src
 
 ** Enable eldoc
