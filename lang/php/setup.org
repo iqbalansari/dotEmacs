@@ -26,25 +26,106 @@
 
 
 * Get documentation at point
-  #+begin_src emacs-lisp
-    (defun my-php-doc-at-point ()
-      (interactive)
-      (let* ((symbol (symbol-at-point))
-             (result (if symbol
-                         (php-extras-function-documentation (symbol-name symbol))
-                       (error "No symbol at point"))))
-        (if result
-            (with-electric-help (lambda () (insert result)) "*php-help*")
-          (error (concat "No documentation found for `" (symbol-name symbol) "'")))))
-  #+end_src
-
-
-* Enable eldoc
 ** Load php-extra for documentation of builtin php functions
    #+begin_src emacs-lisp
      (load "php-extras")
    #+end_src
 
+** Helper functions to retrieve and format documentation for function using gtags output
+   #+begin_src emacs-lisp
+     (defun my-php-format-doc-string (docstring)
+       "Strip comments from php DOCSTRING"
+       (with-current-buffer (get-buffer-create " *php-ggtags-doc-format*")
+         (erase-buffer)
+         (insert docstring)
+         (goto-char (point-min))
+         
+         (html2text)
+         (while (re-search-forward "^\\s-*\\(?:\\*/\\|/\\*\\|\\*\\|//\\)\\s-*" nil t)
+           (replace-match "" nil nil))
+
+         (goto-char (point-min))
+         (let ((font-lock-keywords '(("@[a-z]+" 0 'php-annotations-annotation-face)))
+               (font-lock-string-face nil))
+           (font-lock-mode)
+           (font-lock-default-fontify-region (point-min) (point-max) nil))
+         
+         (string-trim (buffer-string))))
+
+     (defun my-php-grab-comments (location)
+       "Get the comments for the function starting at location"
+       (let (comments)
+         (goto-char location)
+         (while (and (zerop (forward-line -1))
+                     (string-match-p "^\\s-*\\(?:/\\*\\|\\*\\|//\\|\\*/\\).*"
+                                     (buffer-substring (line-beginning-position)
+                                                       (line-end-position))))
+           (push (buffer-substring-no-properties (line-beginning-position) (line-end-position))
+                 comments))
+         (mapconcat 'identity comments "\n")))
+
+     (defun my-php-retrieve-and-format-docstring (location)
+       "Retrieve the docstring for the function at LOCATION and return formatted docstring
+     LOCATION is assumed to be a list having file location, symbol name, line number and function
+     signature in same order"
+       (with-current-buffer (get-buffer-create " *php-ggtags-doc*")
+         (erase-buffer)
+         (insert-file-contents-literally (car location))
+         (goto-line (string-to-int (caddr location)))
+         (string-trim (format "%s\n\n%s\n\nUser defined function in %s"
+                              (my-php-format-doc-string (my-php-grab-comments (point)))
+                              (my-php-format-eldoc-string (apply #'mapconcat (list 'identity (cdddr location) " ")) 0)
+                              (abbreviate-file-name (car location))))))
+   #+end_src
+
+** Helper function to format the documentation retrieved using php-extras
+   #+begin_src emacs-lisp
+     (defun my-php-format-php-extras-doc (doc)
+       "Format the doc returned by php-extras this fontifies the function signature in the doc"
+       (with-current-buffer (get-buffer-create " *php-doc-format")
+         (erase-buffer)
+         (insert doc)
+         (goto-char (point-min))
+         (delay-mode-hooks (php-mode))
+         (font-lock-default-function 'php-mode)
+         (forward-paragraph)
+         (forward-line)
+         (font-lock-default-fontify-region (line-beginning-position)
+                                           (line-end-position)
+                                           nil)
+         (buffer-string)))
+   #+end_src
+
+** Function to retrieve documentation for symbol using gtags or php-extras
+   #+begin_src emacs-lisp
+     (defun my-php-get-doc (symbol)
+       "Try fetching documentation for symbol using gtags otherwise fallback to php-extras"
+       (let ((location (when my-gtags-available
+                         (shell-command-to-string (format "global -a -d %s --result cscope"
+                                                          (shell-quote-argument symbol))))))
+         (if (or (not location)
+                 (string= location "global: GTAGS not found.\n")
+                 (string= location ""))
+             (let ((doc (php-extras-function-documentation symbol)))
+               (when doc (my-php-format-php-extras-doc doc)))
+           (my-php-retrieve-and-format-docstring (split-string location " ")))))
+   #+end_src
+
+** Function to show documentation for symbol at point
+  #+begin_src emacs-lisp
+    (defun my-php-doc-at-point (symbol)
+      "Show documentation for symbol at point"
+      (interactive (list (symbol-at-point)))
+      (if (not symbol)
+          (error "No symbol at point")
+        (let ((doc (my-php-get-doc (symbol-name symbol))))
+          (if doc
+              (with-electric-help (lambda () (insert doc)) "*php-doc*")
+            (error (format "No doc found for %s" (symbol-name symbol)))))))
+  #+end_src
+
+
+* Enable eldoc
 ** Custom function to combine eldoc from ggtags and php-extra eldoc
    #+begin_src emacs-lisp
      (defun my-php-count-args (arglist)
@@ -75,7 +156,7 @@
          (font-lock-default-fontify-region (point-min) (point-max) nil)
          (goto-char 0)
          ;; Delete trailing braces
-         (when (re-search-forward "\\s-*{\\s-*$" nil t)
+         (when (re-search-forward "\\s-*{?\\s-*$" nil t)
            (replace-match "" nil nil))
 
          (goto-char 0)
@@ -84,7 +165,7 @@
                     ;; Search successive arg-number , or (
                     (search-forward-regexp ",\\|(" nil t arg-number))
            (skip-chars-forward " ")
-           (add-face-text-property (point) (- (search-forward-regexp ",\\|)\\|\\[") 1) '(:weight bold :inherit highlight)))
+           (add-face-text-property (point) (- (search-forward-regexp ",\\|)$") 1) '(:weight bold :inherit highlight)))
          (string-trim (buffer-string))))
 
      (defun my-php-eldoc-function ()
