@@ -73,9 +73,13 @@
          (delay-mode-hooks (php-mode))
          (font-lock-default-function 'php-mode)
          (font-lock-default-fontify-region (point-min) (point-max) nil)
-
-         ;; Highlight the arg-numberth argument
          (goto-char 0)
+         ;; Delete trailing braces
+         (when (re-search-forward "\\s-*{\\s-*$" nil t)
+           (replace-match "" nil nil))
+
+         (goto-char 0)
+         ;; Highlight the arg-numberth argument
          (when (and (> arg-number 0)
                     ;; Search successive arg-number , or (
                     (search-forward-regexp ",\\|(" nil t arg-number))
