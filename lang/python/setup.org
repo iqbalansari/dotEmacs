@@ -247,6 +247,13 @@
   #+end_src
 
 
+* Use flat imenu index
+  #+begin_src emacs-lisp
+    (set (make-local-variable 'imenu-create-index-function)
+         #'python-imenu-create-flat-index)
+  #+end_src
+
+
 * Create virtualenv directory if it does not already exist
   #+begin_src emacs-lisp
     (when (and (boundp 'venv-location)
