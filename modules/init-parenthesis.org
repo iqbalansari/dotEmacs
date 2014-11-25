@@ -22,7 +22,8 @@
 
 * Enable smartparens in minibuffer
   #+begin_src emacs-lisp
-    (add-hook 'minibuffer-setup-hook (lambda () (ignore-errors (smartparens-mode))))
+    (add-hook 'minibuffer-setup-hook (lambda () (when (eq this-command 'eldoc-eval-expression)
+                                                  (smartparens-mode +1))))
   #+end_src
 
 
