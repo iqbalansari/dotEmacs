@@ -528,7 +528,7 @@
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-o") 'open-line-below)
      (global-set-key (kbd "C-S-o") 'open-line-above)
-     (global-set-key (kbd "<M-return>") 'new-line-dwim)
+     (define-key prog-mode-map (kbd "<M-return>") 'new-line-dwim)
    #+end_src
 
 ** Keybindings to increment/decrement integers at point

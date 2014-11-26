@@ -94,14 +94,14 @@
       "Kill the current buffer and deletes the file it is visiting."
       (interactive)
       (let* ((filename (buffer-file-name))
-             (delete-confirmed? (y-or-n-p (format "Are you sure you want to delete %s?" filename))))
-        (when (and filename delete-confirmed?)
+             (delete-confirmed-p (y-or-n-p (format "Are you sure you want to delete %s?" filename))))
+        (when (and filename delete-confirmed-p)
           (if (vc-backend filename)
               (vc-delete-file filename)
-            (progn
+            (when (file-exists-p filename)
               (delete-file filename)
-              (message "Deleted file %s" filename)
-              (kill-buffer))))))
+              (message "Deleted file %s" filename))
+            (kill-buffer)))))
   #+end_src
 
 
