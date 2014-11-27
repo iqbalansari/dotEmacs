@@ -81,6 +81,7 @@
 
      (defun my-flat-ido-imenu ()
        (interactive)
+       (require 'imenu)
        (imenu--cleanup)
        (setq imenu--index-alist nil)
        (let ((imenu-list (my-flatten-imenu-list (cdr (imenu--make-index-alist)))))
