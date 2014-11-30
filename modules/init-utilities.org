@@ -160,7 +160,7 @@
    #+end_src
 
 
-* Save macros as functions, credit [[draketo.de/light/english/emacs/babcore]]
+* Save macros as functions, credit [[http://draketo.de/light/english/emacs/babcore]]
   #+begin_src emacs-lisp
     (defun my-save-current-kbd-macro-to-dot-emacs (name)
       "Save the current macro as named function definition inside

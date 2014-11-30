@@ -5,7 +5,8 @@
 #+begin_src emacs-lisp
   (defvar my-navigation-packages
     '(goto-chg
-      ace-jump-mode))
+      ace-jump-mode
+      helm))
 
   (my-install-packages my-navigation-packages)
 #+end_src
@@ -113,4 +114,10 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-/") 'goto-last-change)
     (global-set-key (kbd "C-x C-?") 'goto-last-change-reverse)
+  #+end_src
+
+
+* Keybinding to quickly jump to a symbol in buffer
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c s") 'helm-imenu)
   #+end_src

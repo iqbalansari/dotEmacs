@@ -69,35 +69,6 @@
    #+end_src
 
 
-* Quickly jump to a symbol in file using imenu and ido
-   #+begin_src emacs-lisp
-     (require 'imenu)
-
-     (defun my-flatten-imenu-list (imenu-list)
-       (when imenu-list
-         (concatenate 'list
-                      (if (imenu--subalist-p (car imenu-list))
-                          (my-flatten-imenu-list (cdr (car imenu-list)))
-                        (list (car imenu-list)))
-                      (my-flatten-imenu-list (cdr imenu-list)))))
-
-     (defun my-flat-ido-imenu ()
-       (interactive)
-       (imenu--cleanup)
-       (setq imenu--index-alist nil)
-       (let ((imenu-list (my-flatten-imenu-list (cdr (imenu--make-index-alist)))))
-         (imenu (assoc (ido-completing-read "Goto to symbol: " (mapcar 'car imenu-list)) imenu-list))))
-
-     (defun my-imenu-jump-to-symbol (arg)
-       (interactive "P")
-       (if current-prefix-arg
-           (call-interactively 'idomenu)
-         (call-interactively 'my-flat-ido-imenu)))
-
-     (global-set-key (kbd "C-c s") 'my-imenu-jump-to-symbol)
-   #+end_src
-
-
 * Keybindings for smex
    #+begin_src emacs-lisp
      (global-set-key (kbd "M-x") 'smex)
