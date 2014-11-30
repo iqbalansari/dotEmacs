@@ -218,6 +218,8 @@
    #+begin_src emacs-lisp
      (when my-gtags-available
        (ggtags-mode +1))
+
+     (setq ggtags-enable-navigation-keys nil)
    #+end_src
 
 ** Generate tags file for project if not already generated 
