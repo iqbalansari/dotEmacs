@@ -1,7 +1,13 @@
 * Some additional packages for working with dired
   #+begin_src emacs-lisp
-    (defvar my-dired-packages '(dired-details dired-single neotree))
+    (defvar my-dired-packages '(dired-details dired-single neotree dircmp))
     (my-install-packages my-dired-packages)
+  #+end_src
+
+
+* Autoload for dircmp (since the package does not have it)
+  #+begin_src emacs-lisp
+    (autoload 'compare-directories "dircmp" nil t)
   #+end_src
 
 
