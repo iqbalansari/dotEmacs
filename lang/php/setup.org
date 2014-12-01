@@ -103,15 +103,16 @@
    #+begin_src emacs-lisp
      (defun my-php-get-doc (symbol)
        "Try fetching documentation for symbol using gtags otherwise fallback to php-extras"
-       (let ((location (when my-gtags-available
-                         (shell-command-to-string (format "global -a -d %s --result cscope"
-                                                          (shell-quote-argument symbol))))))
-         (if (or (not location)
-                 (string= location "global: GTAGS not found.\n")
-                 (string= location ""))
-             (let ((doc (php-extras-function-documentation symbol)))
-               (when doc (my-php-format-php-extras-doc doc)))
-           (my-php-retrieve-and-format-docstring (split-string location " ")))))
+       (let* ((doc (php-extras-function-documentation symbol))
+              (location (when (and (not doc) my-gtags-available)
+                          (shell-command-to-string (format "global -a -d %s --result cscope"
+                                                           (shell-quote-argument symbol))))))
+         (if doc
+             (my-php-format-php-extras-doc doc)
+           (when (and location
+                      (not (string= location "global: GTAGS not found.\n"))
+                      (not (string= location "")))
+             (my-php-retrieve-and-format-docstring (split-string location " "))))))
    #+end_src
 
 ** Function to show documentation for symbol at point
