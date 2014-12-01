@@ -71,6 +71,8 @@
 
 * Quickly jump to a symbol in file using imenu and ido
    #+begin_src emacs-lisp
+     (require 'imenu)
+
      (defun my-flatten-imenu-list (imenu-list)
        (when imenu-list
          (concatenate 'list

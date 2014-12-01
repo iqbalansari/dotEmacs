@@ -1,7 +1,6 @@
 * Install required packages
   #+begin_src emacs-lisp
-    (my-install-packages '(rebox2
-                           mag-menu
+    (my-install-packages '(mag-menu
                            inf-mongo
                            prodigy
                            eldoc-eval
@@ -92,19 +91,6 @@
         (goto-char (point-min))
         (while (search-forward "\n" nil t)
           (replace-match "\r\n"))))
-  #+end_src
-
-
-* Backup walker traverses versioned backups, showing incremental diffs
-  #+begin_src emacs-lisp
-    (autoload 'backup-walker-start "backup-walker")
-  #+end_src
-
-
-* Seamlessly create, edit, remove boxes
-  #+begin_src emacs-lisp
-    (autoload 'rebox-cycle "rebox2")
-    (global-set-key (kbd "C-c q") 'rebox-cycle)
   #+end_src
 
 
