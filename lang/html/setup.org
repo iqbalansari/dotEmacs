@@ -6,6 +6,33 @@
   #+end_src
 
 
+* Enable autocompletion
+  #+begin_src emacs-lisp
+    (load "ac-html")
+    (add-to-list 'ac-sources 'ac-source-html-tag)
+    (add-to-list 'ac-sources 'ac-source-html-attribute)
+
+    (add-to-list 'web-mode-ac-sources-alist
+                 '("html" . (ac-source-html-tag
+                             ac-source-html-attribute)))
+
+    (add-to-list 'web-mode-ac-sources-alist
+                 '("css" . (ac-source-css-property)))
+  #+end_src
+
+
+* Enable auto-expansion
+  #+begin_src emacs-lisp
+    (setq web-mode-enable-auto-expanding t)
+  #+end_src
+
+
+* Highlight column for current tag
+  #+begin_src emacs-lisp
+    (setq web-mode-enable-current-column-highlight t)
+  #+end_src
+
+
 * Disable web-mode's autopairing
   #+begin_src emacs-lisp
     (setq web-mode-enable-auto-pairing nil)
