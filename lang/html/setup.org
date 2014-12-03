@@ -6,7 +6,7 @@
   #+end_src
 
 
-* Enable autocompletion
+* Enable auto-completion
   #+begin_src emacs-lisp
     (load "ac-html")
     (add-to-list 'ac-sources 'ac-source-html-tag)
@@ -101,7 +101,7 @@
 
 * Function for cleaning up messy markup :IMPROVE:
   #+begin_src emacs-lisp
-    (defun sgml-inspect ()
+    4(defun sgml-inspect ()
       "Convert a messy chunk of sgml tags into one you can easily inspect"
       (interactive)
       (let ((beginning (point-min))

@@ -6,8 +6,7 @@
         smooth-scrolling
         volatile-highlights
         solarized-theme
-        page-break-lines
-        nyan-mode))
+        page-break-lines))
 
     (my-install-packages my-display-packages)
   #+end_src
@@ -230,13 +229,6 @@
    #+begin_src emacs-lisp
      (set-face-attribute 'eval-sexp-fu-flash nil :background "#38B4D2" :foreground nil)
    #+end_src
-
-
-* Use nyan-cat for indicating position in the buffer
-  #+begin_src emacs-lisp
-    (when (window-system)
-      (nyan-mode))
-  #+end_src
 
 
 * Not ringing and dinging please!
