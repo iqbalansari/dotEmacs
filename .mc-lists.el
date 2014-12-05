@@ -111,6 +111,7 @@
         smex
         switch-window
         tern-find-definition
+        undo-tree-visualizer-quit
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit
         where-is

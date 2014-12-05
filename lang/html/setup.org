@@ -27,12 +27,6 @@
   #+end_src
 
 
-* Highlight column for current tag
-  #+begin_src emacs-lisp
-    (setq web-mode-enable-current-column-highlight t)
-  #+end_src
-
-
 * Disable web-mode's autopairing
   #+begin_src emacs-lisp
     (setq web-mode-enable-auto-pairing nil)
