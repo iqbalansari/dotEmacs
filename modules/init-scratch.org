@@ -1,0 +1,37 @@
+* Create scratch buffer for a given major mode
+  #+begin_src emacs-lisp
+    (defun my-create-scratch-buffer (&optional read-major-mode-p)
+      (interactive "P")
+      (let* ((major-mode-function (if read-major-mode-p
+                                      (intern (ido-completing-read "Major mode: " (my-get-all-major-modes-names)))
+                                    major-mode))
+             (scratch-buffer-name (concat "*scratch ["
+                                          (replace-regexp-in-string "-mode$" ""
+                                                                    (symbol-name major-mode-function))
+                                          "]*")))
+        (switch-to-buffer (if (get-buffer scratch-buffer-name)
+                              scratch-buffer-name
+                            (with-current-buffer (generate-new-buffer scratch-buffer-name)
+                              (funcall major-mode-function)
+                              (insert (concat (when (and (executable-find "fortune")
+                                                         (executable-find "cowsay"))
+                                                (concat (shell-command-to-string "fortune | cowsay") "\n"))
+                                              "Here is buffer for you to scratch :)"))
+                              (comment-region (point-min) (point-max))
+                              (goto-char (point-max))
+                              (insert "\n")
+                              (current-buffer))))))
+
+
+    (defun my-get-all-major-modes-names ()
+      (remove-duplicates (mapcar #'symbol-name
+                                 (remove-if-not #'symbolp
+                                                (mapcar #'cdr auto-mode-alist)))
+                         :test #'string=))
+  #+end_src
+
+
+* Keybinding to create scratch buffer
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c j") #'my-create-scratch-buffer)
+  #+end_src

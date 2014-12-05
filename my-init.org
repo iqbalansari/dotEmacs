@@ -70,26 +70,31 @@
            (byte-compile-file compiled-file))))
 
      (defun my-load-lang-config (language)
+       (let* ((files '("install" "setup" "keybindings"))
+              (lang-path (concat my-langs-dir language "/"))
+              (compiled-file-dest (concat lang-path ".compiled/"))
+              (compiled-file (concat compiled-file-dest ".combined.el")))
+
+         (when (file-exists-p lang-path)
+           (when (apply #'my-is-file-stale compiled-file
+                        (loop for file in files
+                              when (file-exists-p (concat lang-path file ".org"))
+                              collect (concat lang-path file ".org")))
+             (my-compile-lang-config language))
+
+           (load-file compiled-file))))
+
+     (defun my-load-lang-config-for-buffer (language)
        "Load a languages configuration, it compiles the config files
-     first (if needed)"
+          first (if needed)"
        (interactive
         (list (ido-completing-read "Language: "
-                                   (directory-files my-langs-dir nil "[^.]+"))))
-       (unless (or (string-prefix-p "*" (buffer-name))
+                                   (direcUtory-files my-langs-dir nil "[^.]+"))))
+       (unless (or (and (string-prefix-p "*" (buffer-name))
+                        (not (numberp (string-match-p "*scratch [\\[a-z0-9A-Z]+\\]"
+                                                      (buffer-name)))))
                    (string-prefix-p " " (buffer-name)))
-         (let* ((files '("install" "setup" "keybindings"))
-                (lang-path (concat my-langs-dir language "/"))
-                (compiled-file-dest (concat lang-path ".compiled/"))
-                (compiled-file (concat compiled-file-dest ".combined.el")))
-
-           (when (file-exists-p lang-path)
-             (when (apply #'my-is-file-stale compiled-file
-                          (loop for file in files
-                                when (file-exists-p (concat lang-path file ".org"))
-                                collect (concat lang-path file ".org")))
-               (my-compile-lang-config language))
-
-             (load-file compiled-file)))))
+         (my-load-lang-config language)))
 
      (defun my-compile-all-lang-config ()
        "Compile all language configurations"
@@ -121,7 +126,7 @@
                           (when (or (not extensions)
                                     (and (member (file-name-extension (buffer-name))
                                                  extensions)))
-                            (my-load-lang-config language))))))
+                            (my-load-lang-config-for-buffer language))))))
    #+end_src
 
 ** 6. Function to declare one-shot keybindings

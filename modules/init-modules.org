@@ -137,6 +137,7 @@
                               version-control
                               yasnippet
                               project
+                              scratch
                               workflow
                               windows
                               session
