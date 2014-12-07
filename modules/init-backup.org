@@ -1,3 +1,15 @@
+* Install backup each save
+  #+begin_src emacs-lisp
+    (my-install-package 'backup-each-save)
+  #+end_src
+
+
+* Take a backup on each save
+  #+begin_src emacs-lisp
+    (add-hook 'after-save-hook 'backup-each-save)
+  #+end_src
+
+
 * Write backup files to own directory
   #+begin_src emacs-lisp
     (setq backup-directory-alist
