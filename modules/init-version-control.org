@@ -23,6 +23,12 @@
   #+end_src
 
 
+* Enable revert backup
+  #+begin_src emacs-lisp
+    (setq magit-revert-backup t)
+  #+end_src
+
+
 * Ignore whitespace in magit
   The following function enable hiding of whitespace changes in
   magit status buffer. Copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
