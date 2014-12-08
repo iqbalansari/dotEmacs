@@ -1,12 +1,20 @@
-* Install backup each save
+* Force backup on each save
   #+begin_src emacs-lisp
-    (my-install-package 'backup-each-save)
-  #+end_src
+    (defun force-backup-of-buffer ()
+      ;; Make a special "per session" backup at the first save of each
+      ;; emacs session.
+      (when (not buffer-backed-up)
+        ;; Override the default parameters for per-session backups.
+        (let ((backup-directory-alist '(("" . "~/.emacs.d/backups/per-session")))
+              (kept-new-versions 3))
+          (backup-buffer)))
+      ;; Make a "per save" backup on each save.  The first save results in
+      ;; both a per-session and a per-save backup, to keep the numbering
+      ;; of per-save backups consistent.
+      (let ((buffer-backed-up nil))
+        (backup-buffer)))
 
-
-* Take a backup on each save
-  #+begin_src emacs-lisp
-    (add-hook 'after-save-hook 'backup-each-save)
+    (add-hook 'before-save-hook  'force-backup-of-buffer)
   #+end_src
 
 
