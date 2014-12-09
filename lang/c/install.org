@@ -196,7 +196,7 @@
   #+end_src
 
 
-* Install prepaint for highlighting preprocessor directives
+* Install preproc-font-lock for highlighting preprocessor directives
   #+begin_src emacs-lisp
-    (my-install-package 'prepaint)
+    (my-install-package 'preproc-font-lock)
   #+end_src

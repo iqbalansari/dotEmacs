@@ -7,7 +7,7 @@
 
 * Enable prepaint mode
   #+begin_src emacs-lisp
-    (prepaint-mode)
+    (preproc-font-lock-global-mode 1)
   #+end_src
 
 
