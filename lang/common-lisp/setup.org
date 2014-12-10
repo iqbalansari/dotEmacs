@@ -36,7 +36,8 @@
   #+begin_src emacs-lisp
     ;; Ensures slime is loaded after entire config has loaded
     (run-at-time 0.1 nil (lambda ()
-                           (unless (slime-connected-p)
+                           (when (and inferior-lisp-program
+                                      (not (slime-connected-p)))
                              (slime))))
   #+end_src
 
