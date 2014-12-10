@@ -9,7 +9,9 @@
                         (getenv "GMIME_LIBS"))
                    (when (executable-find "pkg-config")
                      (zerop (shell-command "pkg-config --exists gmime-2.6")))))
-          (my-install-package 'mu4e)
+          (progn (my-install-package 'mu4e)
+                 (unless (and mu4e-maildir (file-exists-p mu4e-maildir))
+                   (warn "Please set `mu4e-maildir' to your maildir")))
         (message "You need to install `autoreconf', `libxapian-dev', `libtool'
     and `libgmime-2.6-dev' for building mu4e")))
   #+end_src
