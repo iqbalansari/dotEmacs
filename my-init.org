@@ -89,7 +89,7 @@
           first (if needed)"
        (interactive
         (list (ido-completing-read "Language: "
-                                   (direcUtory-files my-langs-dir nil "[^.]+"))))
+                                   (directory-files my-langs-dir nil "[^.]+"))))
        (unless (or (and (string-prefix-p "*" (buffer-name))
                         (not (numberp (string-match-p "*scratch [\\[a-z0-9A-Z]+\\]"
                                                       (buffer-name)))))

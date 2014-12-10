@@ -6,3 +6,11 @@
 
     (my-install-packages my-html-packages)
   #+end_src
+
+
+* Install tern for javascript completion
+  #+begin_src emacs-lisp
+    (if (executable-find "npm")
+        (my-install-package 'tern)
+      (warn "Install npm to install ternjs"))
+  #+end_src
