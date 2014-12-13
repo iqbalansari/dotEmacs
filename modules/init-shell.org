@@ -1,3 +1,9 @@
+* Install shelldoc
+  #+begin_src emacs-lisp
+    (my-install-package 'shelldoc)
+  #+end_src
+
+
 * Install projectile if not installed yet
   #+begin_src emacs-lisp
     (my-install-package 'projectile)
