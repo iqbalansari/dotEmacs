@@ -102,6 +102,7 @@
         keyboard-escape-quit
         magit-status
         makey-key-mode-popup-rectangles
+        mouse-buffer-menu
         mouse-set-region
         org-ctrl-c-ctrl-c
         org-edit-special
