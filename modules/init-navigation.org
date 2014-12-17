@@ -21,6 +21,35 @@
   #+end_src
 
 
+* Quickly jump to a symbol in file using imenu and ido
+   #+begin_src emacs-lisp
+     (require 'imenu)
+
+     (defun my-flatten-imenu-list (imenu-list)
+       (when imenu-list
+         (concatenate 'list
+                      (if (imenu--subalist-p (car imenu-list))
+                          (my-flatten-imenu-list (cdr (car imenu-list)))
+                        (list (car imenu-list)))
+                      (my-flatten-imenu-list (cdr imenu-list)))))
+
+     (defun my-flat-ido-imenu ()
+       (interactive)
+       (imenu--cleanup)
+       (setq imenu--index-alist nil)
+       (let ((imenu-list (my-flatten-imenu-list (cdr (imenu--make-index-alist)))))
+         (imenu (assoc (ido-completing-read "Goto to symbol: " (mapcar 'car imenu-list)) imenu-list))))
+
+     (defun my-imenu-jump-to-symbol (arg)
+       (interactive "P")
+       (if current-prefix-arg
+           (call-interactively 'idomenu)
+         (call-interactively 'my-flat-ido-imenu)))
+
+     (global-set-key (kbd "C-c s") 'my-imenu-jump-to-symbol)
+   #+end_src
+
+
 * Swap keybindings for 'pop-tag-mark' and 'tags-loop-continue'
   The find the current bindings inconvenient
   #+begin_src emacs-lisp
@@ -32,15 +61,15 @@
 * Goto beginning of the line or indentation
   If we are the begining of the line goto to indentation and vice versa
   #+begin_src emacs-lisp
-    (defun st2-like-beginning-of-line ()
+    (defun my-beginning-of-line-or-indent ()
       "Go to the position of the first non-whitespace character.
     If already there, go to actual beginning of line."
       (interactive "^")
-      (let ((col (current-column)))
-        (back-to-indentation)
-        (if (= col (current-column)) (move-beginning-of-line nil))))
+      (if (bolp)
+          (back-to-indentation)
+        (move-beginning-of-line nil)))
 
-    (global-set-key (kbd "C-a") 'st2-like-beginning-of-line)
+    (global-set-key (kbd "C-a") 'my-beginning-of-line-or-indent)
   #+end_src
 
 
@@ -119,5 +148,5 @@
 
 * Keybinding to quickly jump to a symbol in buffer
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c s") 'helm-imenu)
+    (global-set-key (kbd "C-c C-s") 'helm-imenu)
   #+end_src
