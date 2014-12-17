@@ -114,6 +114,14 @@
   #+end_src
 
 
+* Export backends that should always be available
+  #+begin_src emacs-lisp
+    (eval-after-load "org"
+      '(progn (add-to-list 'org-export-backends 'md)
+              (add-to-list 'org-export-backends 'odt)))
+  #+end_src
+
+
 * Keybinding to save edits in org-src mode
   #+begin_src emacs-lisp
     (eval-after-load 'org-src
