@@ -1,3 +1,10 @@
+* Install org-projectile
+  Useful for capturing project specific TODOs
+  #+begin_src emacs-lisp
+    (my-install-package 'org-projectile)
+  #+end_src
+
+
 * Configuration for taking notes
 ** Install deft for managing notes
   #+begin_src emacs-lisp
@@ -108,6 +115,12 @@
        (make-directory my-org-agenda-dir t))
    #+end_src
 
+*** Path to org-projectile todo file
+   #+begin_src emacs-lisp
+     (setq org-projectile:projects-file
+           (concat my-org-agenda-dir "projects.org"))
+   #+end_src
+
 *** Any files in org folder will be added to agenda files
   #+begin_src emacs-lisp
     (setq org-agenda-files (list my-org-agenda-dir))
@@ -213,6 +226,14 @@
                   (my--time-to-am/pm hours minutes))))
     #+end_src
 
+*** Get the projectile project of the buffer from which capture was invoked
+    #+begin_src emacs-lisp
+      (defun my-get-source-buffers-project ()
+        (save-window-excursion
+          (switch-to-prev-buffer)
+          (projectile-project-name)))
+    #+end_src
+
 ** The templates
 *** org-capture is not yet loaded, so initialize org-capture templates to empty list
     #+begin_src emacs-lisp
@@ -283,7 +304,14 @@
                                                 "* TODO %?\nSCHEDULED: <%<%Y-%m-%d .+1d/2d>>\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))
     #+end_src
 
-    
+*** Template for project specific TODOs
+    #+begin_src emacs-lisp
+      (require 'org-projectile)
+      (add-to-list 'org-capture-templates 
+        (org-projectile:project-todo-entry "p" "* TODO %? :%(my-get-source-buffers-project):\n%a\n"))
+    #+end_src
+
+
 * Configurations for org clocking
 ** Store persistence info inside org directory
    #+begin_src emacs-lisp
@@ -308,7 +336,9 @@
 ** Global keybindings for org-mode
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c a") #'org-agenda)
+    (global-set-key (kbd "<f9>") #'org-agenda)
     (global-set-key (kbd "C-c c") #'org-capture)
+    (global-set-key (kbd "<f10>") #'org-capture)
   #+end_src
 
 ** Keybinding to open/exit deft
