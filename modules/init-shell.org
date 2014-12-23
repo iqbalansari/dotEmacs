@@ -22,7 +22,7 @@
   #+begin_src emacs-lisp
     (eval-after-load "comint"
       '(progn (define-key comint-mode-map (kbd "C-c SPC") nil)
-             (define-key comint-mode-map (kbd "<S-return>") #'comint-accumulate)))
+              (define-key comint-mode-map (kbd "<S-return>") #'comint-accumulate)))
   #+end_src
 
 
@@ -176,9 +176,9 @@
   #+begin_src emacs-lisp
     (eval-after-load 'term
       '(progn (set-face-attribute 'term-color-blue nil :foreground "#1e90ff")
-             (set-face-attribute 'term-color-red nil :foreground "#ee5c42")
-             (set-face-attribute 'term-color-cyan nil :foreground "#8cd0d3")
-             (set-face-attribute 'term-color-green nil :foreground "#00ff00")))
+              (set-face-attribute 'term-color-red nil :foreground "#ee5c42")
+              (set-face-attribute 'term-color-cyan nil :foreground "#8cd0d3")
+              (set-face-attribute 'term-color-green nil :foreground "#00ff00")))
   #+end_src
 
 

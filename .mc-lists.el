@@ -38,6 +38,7 @@
         kill-sexp
         kill-visual-line
         mark-sexp
+        my-beginning-of-line-or-indent
         new-line-dwim
         open-line-below
         org-beginning-of-line

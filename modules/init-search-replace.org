@@ -5,7 +5,8 @@
         wgrep
         anzu
         discover
-        swoop))
+        swoop
+        isearch-dabbrev))
 
     (when (executable-find "ack")
       (add-to-list 'my-search-replace-packages 'ack-and-a-half)
@@ -253,3 +254,11 @@
                      ,my-discover-search-actions)
      :bind "M-s")
   #+end_src
+
+
+* Use <tab> to complete word using dabbrev during isearch
+  #+begin_src emacs-lisp
+    (define-key isearch-mode-map (kbd "<tab>") 'isearch-dabbrev-expand)
+  #+end_src
+
+  
