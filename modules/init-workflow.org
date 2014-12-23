@@ -258,7 +258,7 @@
                                                 'entry
                                                 (list 'file
                                                       (concat my-notes-dir "links.org"))
-                                                "* %?\n  %(my-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
+                                                "* UNREAD %?\n  %(my-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
 
@@ -310,6 +310,15 @@
       (add-to-list 'org-capture-templates 
         (org-projectile:project-todo-entry "p" "* TODO %? :%(my-get-source-buffers-project):\n%a\n"))
     #+end_src
+
+
+* Custom agenda commands
+  Command to view link log
+  #+begin_src emacs-lisp
+    (setq org-agenda-custom-commands
+          `(("l" "View link log" todo "UNREAD"
+             ((org-agenda-files '(,(concat my-notes-dir "links.org")))))))
+  #+end_src
 
 
 * Configurations for org clocking

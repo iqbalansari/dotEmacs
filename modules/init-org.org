@@ -16,7 +16,8 @@
   #+begin_src emacs-lisp
     (setq org-todo-keywords
           (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
+                  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")
+                  (sequence "UNREAD(u!)" "READING(r!)" "COMPLETED(f!)"))))
   #+end_src
 
 ** Colors for TODO keywords
@@ -27,7 +28,10 @@
                    ("DONE" :foreground "forest green" :weight bold)
                    ("WAITING" :foreground "orange" :weight bold)
                    ("HOLD" :foreground "magenta" :weight bold)
-                   ("CANCELLED" :foreground "forest green" :weight bold))))
+                   ("CANCELLED" :foreground "forest green" :weight bold)
+                   ("UNREAD" :foreground "red" :weight bold)
+                   ("READING" :foreground "blue" :weight bold)
+                   ("COMPLETED" :foreground "forest green" :weight bold))))
    #+end_src
 
 ** Custom task priorities
