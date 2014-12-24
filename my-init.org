@@ -249,8 +249,10 @@
                               (package-install package)))
 
            ;; Older emacs
-           (error (if (string-match-p "Error during download request.*Not Found"
-                                      (error-message-string err))
+           (error (if (or (string-match-p "Error during download request.*Not Found"
+                                          (error-message-string err))
+                          (string-match-p "Package `.*' is unavailable"
+                                          (error-message-string err)))
                       (progn (package-refresh-contents)
                              (package-install package))
                     (signal (car err) (cdr err)))))
