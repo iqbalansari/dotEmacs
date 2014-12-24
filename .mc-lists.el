@@ -95,6 +95,7 @@
         anzu-query-replace
         c-electric-pound
         describe-key
+        ggtags-find-tag-dwim
         haskell-indentation-delete-backward-char
         help-for-help
         ido-switch-buffer

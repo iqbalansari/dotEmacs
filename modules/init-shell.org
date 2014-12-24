@@ -231,8 +231,8 @@
      (defun my-create-new-shell-and-store (project-root)
        "Create a new shell for the project and store it in the global hash"
        (puthash project-root
-                (cons (my-create-shell-buffer project-root)
-                      (gethash project-root my-shell-to-project-map))
+                (append (gethash project-root my-shell-to-project-map)
+                        (list (my-create-shell-buffer project-root)))
                 my-shell-to-project-map))
    #+end_src
 

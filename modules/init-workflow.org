@@ -345,9 +345,9 @@
 ** Global keybindings for org-mode
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c a") #'org-agenda)
-    (global-set-key (kbd "<f9>") #'org-agenda)
+    (global-set-key (kbd "<f10>") #'org-agenda)
     (global-set-key (kbd "C-c c") #'org-capture)
-    (global-set-key (kbd "<f10>") #'org-capture)
+    (global-set-key (kbd "<f9>") #'org-capture)
   #+end_src
 
 ** Keybinding to open/exit deft
