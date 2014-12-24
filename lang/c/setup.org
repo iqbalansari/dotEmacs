@@ -61,17 +61,13 @@
     (make-local-variable 'my-rtags-project-indexed)
 
     (defun my-identify-malinka-project ()
-      ;; Malinka project whose root directory is same as current directory
-      (or (car (remove-if-not (lambda (project-map)
-                                (string= (f-canonical (cdr (assoc 'root-directory project-map)))
-                                         default-directory))
-                              malinka-projects-map))
-
-          ;; OR Malinka project whose root directory is ancestor of current directory
-          (car (remove-if-not (lambda (project-map)
-                                (f-ancestor-of? (cdr (assoc 'root-directory project-map))
-                                                default-directory))
-                              malinka-projects-map))))
+      (car (remove-if-not (lambda (project)
+                            (let ((root-directory (malinka--project-name-get root-directory project)))
+                              ;; Malinka project whose root directory is same as current directory
+                              (or (string= root-directory default-directory)
+                                  ;; OR Malinka project whose root directory is ancestor of current directory
+                                  (f-ancestor-of? root-directory default-directory))))
+                          (hash-table-keys malinka--projects-map))))
 
     (defun my-maybe-enable-rtags (buffer)
       ;; Index the file only if the directory is writable, since indexing
@@ -80,19 +76,16 @@
       (with-current-buffer buffer
         ;; Identify the malinka project the current directory belongs
         (when (file-writable-p (file-name-directory buffer-file-name))
-          (let* ((project-map (my-identify-malinka-project)))
-            (if (not project-map)
+          (let* ((project (my-identify-malinka-project)))
+            (if (not project)
                 (warn (concat "Project not configured, please add malinka-define-project directive\n"
                               "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
               ;; If the project is not indexed yet run `malinka-project-configure'
               (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
                                                                               " --has-filemanager "
                                                                               default-directory))))
-                (message (concat "Indexing project, this may take some time, this happens just once per project."
-                                 " You can manually invoke indexing with malinka-configure-project."
-                                 "\nThe result of indexing can be seen in *rdm* buffer"))
-                (malinka-project-configure (cdr (assoc 'name project-map))
-                                           default-directory))))))
+                (warn (concat "Project not indexed index it using `malinka-configure-project.' 
+or index manually from commandline using " (rtags-executable-find "rc"))))))))
       
       ;; Update flag indicating whether the file is indexed by rtags
       (let ((rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
