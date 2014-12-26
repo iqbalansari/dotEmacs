@@ -198,7 +198,7 @@
                                      (executable-find "hunspell")))
 
      (when (equal system-type 'windows-nt)
-       (setenv "LANG" "en_US"))
+       (setenv "LANG" "en_US.utf8"))
    #+end_src
 
 
