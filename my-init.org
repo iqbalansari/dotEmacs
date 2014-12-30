@@ -53,13 +53,14 @@
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest "init.el")))
          (when (and (file-exists-p init-file)
-                    (or (not (member lang my-initialized-langs))
-                        (my-is-file-stale compiled-file init-file)))
+                    (not (member lang my-initialized-langs)))
 
            (unless (file-exists-p compiled-file-dest)
              (make-directory compiled-file-dest))
 
-           (org-babel-tangle-file init-file compiled-file "emacs-lisp")
+           (when (my-is-file-stale compiled-file init-file)
+             (org-babel-tangle-file init-file compiled-file "emacs-lisp"))
+
            (load compiled-file))
 
          (add-to-list 'my-initialized-langs lang)))
