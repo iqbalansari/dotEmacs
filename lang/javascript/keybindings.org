@@ -20,29 +20,6 @@
 
 
 * Keybindings for REPL interaction
-** Keybindings for nodejs-repl
-   #+begin_src emacs-lisp
-     (defun my-setup-nodejs-repl-keys ()
-       (define-key js2-mode-map my-run-shell #'nodejs-repl)
-       (define-key js2-mode-map my-send-buffer (my-evaluate-buffer-in-repl my-nodejs-eval-buffer my-nodejs-send-region))
-       (define-key js2-mode-map my-send-function (my-evaluate-defun-in-repl my-nodejs-eval-defun my-nodejs-send-region))
-       (define-key js2-mode-map my-send-region #'my-nodejs-send-region)
-       (define-key js2-mode-map my-send-line (my-evaluate-line-in-repl my-nodejs-eval-line my-nodejs-send-region))
-       (define-key js2-mode-map my-send-file (my-evaluate-file-in-repl my-nodejs-eval-file my-nodejs-send-region)))
-   #+end_src
-
-** Keybindings for skewer-repl
-   #+begin_src emacs-lisp
-     (defun my-setup-skewer-repl-keys ()
-       (define-key js2-mode-map my-send-buffer #'skewer-load-buffer)
-       (define-key js2-mode-map my-send-function #'skewer-eval-defun)
-       (define-key js2-mode-map my-send-region #'my-js-eval-region)
-       (define-key js2-mode-map my-send-phrase/sexp/block #'skewer-eval-last-expression)
-       (define-key js2-mode-map my-send-line (my-evaluate-line-in-repl my-js-eval-line my-js-eval-region))
-       (define-key js2-mode-map my-send-file (my-evaluate-file-in-repl my-js-eval-file my-js-eval-region)))
-   #+end_src
-
-** Enable appropriate keybindings
   #+begin_src emacs-lisp
     (if my-js-use-nodejs-repl
         (my-setup-nodejs-repl-keys)

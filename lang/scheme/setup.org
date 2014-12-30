@@ -18,8 +18,8 @@
 * Geiser startup
 ** Check scheme implementation is available
    #+begin_src emacs-lisp
-     (defvar my-available-scheme (or (executable-find "guile")
-                                     (executable-find "racket")))
+     (setq my-available-scheme (or (executable-find "guile")
+                                   (executable-find "racket")))
 
      (unless my-available-scheme
        (warn "No scheme implementation found! Geiser requires either `guile' (for scheme files) or `racket' (for racket files) installed"))

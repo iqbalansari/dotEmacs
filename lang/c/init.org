@@ -1,0 +1,142 @@
+* Variables controlling installation of libraries
+  Do not try installing libraries on windows
+  #+begin_src emacs-lisp
+    (defvar my-install-rtags (eq system-type 'gnu/linux))
+    (defvar my-install-irony (eq system-type 'gnu/linux))
+    (defvar my-c-install-gtags t)
+  #+end_src
+
+
+* Variables to record versions of needed programs
+  #+begin_src emacs-lisp
+    (defvar my-gcc-version nil)
+    (defvar my-g++-version nil)
+    (defvar my-clang-version nil)
+    (defvar my-llvm-executable nil)
+    (defvar my-llvm-version nil)
+    (defvar my-libclang-version nil)
+    (defvar my-cmake-version nil)
+    (defvar my-gnu-global-version "0")
+  #+end_src
+
+
+* Helper functions to retrieve the information
+   #+begin_src emacs-lisp
+     (defun my--find-llvm-config-executable()
+       "Try finding llvm-config executable"
+       (or (executable-find "llvm-config")
+           (car (sort (remove-if-not #'file-executable-p (loop for path in exec-path when (file-exists-p path)
+                                                               append (directory-files path t "^llvm-config")))
+                      (lambda (file1 file2)
+                        (version< (or (nth 2 (split-string file2 "-")) "0")
+                                  (or (nth 2 (split-string file1 "-")) "0")))))))
+
+     (defun my--get-gcc-version()
+       "Get gcc version"
+       (when (executable-find "gcc")
+         (nth 3
+              (split-string (car (split-string (shell-command-to-string "gcc --version")
+                                               "\n"))))))
+
+     (defun my--get-g++-version()
+       "Get g++ version"
+       (when (executable-find "g++")
+         (nth 3
+              (split-string (car (split-string (shell-command-to-string "g++ --version")
+                                               "\n"))))))
+
+     (defun my--get-clang-version()
+       "Get clang compiler version"
+       (when (executable-find "clang")
+         (car (split-string (nth 3
+                                 (split-string (car (split-string (shell-command-to-string "clang --version") "\n"))))
+                            "-"))))
+
+     (defun my--extract-libclang-version-from-file (file)
+       "Extract libclang version from header file"
+       (let* ((declarations (split-string (my-read-file file) "\n"))
+              (clang-version-dec (car (remove-if-not (lambda (dec)
+                                                       (string-match-p "#define[\s]+CLANG_VERSION[\s]+" dec))
+                                                     declarations))))
+         (when clang-version-dec
+           (car (last (split-string clang-version-dec " "))))))
+
+     (defun my--get-libclang-version (llvm-config-executable)
+       "Get version of libclang version associated with given llvm installation"
+       (let* ((llvm-include-dir (substring (shell-command-to-string (concat llvm-config-executable
+                                                                            " --includedir"))
+                                           0
+                                           -1))
+              (clang-version-file (concat llvm-include-dir "/clang/Basic/Version.inc")))
+         (when (file-exists-p clang-version-file)
+           (my--extract-libclang-version-from-file clang-version-file))))
+
+     (defun my--get-gnu-global-version ()
+       (when (executable-find "global")
+         (car (last (split-string (car (split-string (shell-command-to-string "global --version") "\n"))
+                                  " ")))))
+   #+end_src
+
+
+* Variables to record availability of packages
+  #+begin_src emacs-lisp
+    (defvar my-rtags-available nil)
+    (defvar my-irony-available nil)
+    (defvar my-gtags-available nil)
+  #+end_src
+
+
+* Is the current project indexed?
+  #+begin_src emacs-lisp
+    (defvar my-rtags-project-indexed nil)
+  #+end_src
+
+
+* Open man page for symbol at point
+  #+begin_src emacs-lisp
+    (defun my-get-man-page-at-pt ()
+      (interactive)
+      (let ((symbol (thing-at-point 'symbol)))
+        (with-electric-help (lambda () (woman symbol)) "*c-help*")))
+  #+end_src
+
+
+* Function to identify rtags project the current file is associated with
+  #+begin_src emacs-lisp
+    (defun my-identify-malinka-project ()
+      (car (remove-if-not (lambda (project)
+                            (let ((root-directory (malinka--project-name-get root-directory project)))
+                              ;; Malinka project whose root directory is same as current directory
+                              (or (string= root-directory default-directory)
+                                  ;; OR Malinka project whose root directory is ancestor of current directory
+                                  (f-ancestor-of? root-directory default-directory))))
+                          (hash-table-keys malinka--projects-map))))
+  #+end_src
+
+
+* Enable rtags for current buffer
+  #+begin_src emacs-lisp
+    (defun my-maybe-enable-rtags (buffer)
+      ;; Index the file only if the directory is writable, since indexing
+      ;; requires write permission (to create the compile_commands.json file)
+      ;; We usually do not have it in directories contains system headers
+      (with-current-buffer buffer
+        ;; Identify the malinka project the current directory belongs
+        (when (file-writable-p (file-name-directory buffer-file-name))
+          (let* ((project (my-identify-malinka-project)))
+            (if (not project)
+                (warn (concat "Project not configured, please add malinka-define-project directive\n"
+                              "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
+              ;; If the project is not indexed yet run `malinka-project-configure'
+              (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
+                                                                              " --has-filemanager "
+                                                                              default-directory))))
+                (warn (concat "Project not indexed index it using `malinka-configure-project' or index manually from commandline using " 
+                              (rtags-executable-find "rc"))))))))
+
+      ;; Update flag indicating whether the file is indexed by rtags
+      (let ((rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
+                                                           " --is-indexed "
+                                                           buffer-file-name))))
+        (setq-local my-rtags-project-indexed (string= rtags-status "indexed\n"))))
+  #+end_src

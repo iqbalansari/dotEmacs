@@ -1,7 +1,6 @@
 * Start edts
 ** Is edts available?
   #+begin_src emacs-lisp
-    (defvar my-edts-available)
     (setq my-edts-available (locate-library "edts-mode"))
   #+end_src
 
@@ -41,21 +40,6 @@
 
 ** Start erlang shell and connect to it
    #+begin_src emacs-lisp
-     (defun my-start-distel ()
-       (unless (and inferior-erlang-buffer
-                    (buffer-live-p inferior-erlang-buffer))
-
-         (erlang-shell-display)
-
-         (message "Connecting to default node ...")
-         (sit-for 2)
-
-         (let* ((name-string (concat "emacs@" (erl-determine-hostname)))
-                (name (intern name-string)))
-           (setq erl-nodename-cache name)
-           (setq distel-modeline-node name-string)
-           (erl-ping name))))
-
      (when (and (not my-edts-available)
                 (locate-library "distel")
                 (executable-find "erl"))

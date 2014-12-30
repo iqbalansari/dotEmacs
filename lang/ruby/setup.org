@@ -4,34 +4,11 @@
     (inf-ruby-minor-mode)
   #+end_src
 
-** Helper function to start ruby console for project if possible
-   #+begin_src emacs-lisp
-     (defun my-start-ruby-shell ()
-       (interactive)
-       (condition-case nil
-           (inf-ruby-console-auto)
-         (error (call-interactively #'inf-ruby))))
-   #+end_src
-
 ** Prefer pry if installed
    #+begin_src emacs-lisp
      (unless (equal system-type 'windows-nt)
        (when (executable-find "pry")
          (setq inf-ruby-default-implementation "pry")))
-   #+end_src
-
-
-* Monkey patch 'inf-ruby-console-default' on windows 
-   Do not use bundle exec console/pry they do not work on windows
-   #+begin_src emacs-lisp
-     (when (equal system-type 'windows-nt)
-       (defun inf-ruby-console-default (dir)
-         "Do not use bundle exec console or bundle exec pry on windows"
-         (interactive "D")
-         (let ((default-directory (file-name-as-directory dir)))
-           (unless (file-exists-p "Gemfile")
-             (error "The directory must contain a Gemfile"))
-           (run-ruby "bundle exec irb --prompt default --noreadline -r irb/completion" "ruby"))))
    #+end_src
 
 
@@ -53,21 +30,12 @@
 * Enable robe if pry is installed
 ** Determine if robe can be run
    #+begin_src emacs-lisp
-     (defvar-local my-robe-can-run nil)
+     (make-variable-buffer-local 'my-robe-can-run)
      (setq my-robe-can-run (if (and buffer-file-name
                                     (locate-dominating-file buffer-file-name "Gemfile"))
                                (and (executable-find "bundle")
                                     (zerop (shell-command "bundle show pry")))
                              (executable-find "pry")))
-   #+end_src
-
-** Helper function to start robe
-   #+begin_src emacs-lisp
-     (defun my-try-starting-robe (buffer)
-       (condition-case err
-           (robe-start)
-         (error (message (format "Failed to start robe because %s" 
-                                 (error-message-string err))))))
    #+end_src
 
 ** Enable robe if prerequisites are satisfied

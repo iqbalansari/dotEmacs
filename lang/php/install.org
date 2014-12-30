@@ -27,18 +27,8 @@
 
 
 * Install gtags if GNU Global is installed
-** Function to find GNU global's version
-  #+begin_src emacs-lisp
-    (defun my--get-gnu-global-version ()
-      (when (executable-find "global")
-        (car (last (split-string (car (split-string (shell-command-to-string "global --version") "\n"))
-                                 " ")))))
-  #+end_src
-
 ** Find GNU Global's version
    #+begin_src emacs-lisp
-     (defvar my-gnu-global-version "0")
-     (defvar my-gtags-available nil)
      (setq my-gnu-global-version (my--get-gnu-global-version))
    #+end_src
 

@@ -1,5 +1,4 @@
 * Ensure that the required packages are installed
-
   #+begin_src emacs-lisp
     (defvar my-json-packages
       '(json-snatcher))

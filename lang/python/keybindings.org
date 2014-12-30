@@ -54,11 +54,7 @@
                                             ("b" "Run nosetests on current buffer"
                                              (lambda (options) (my-execute-nose-tests options #'nosetests-module)))
                                             ("p" "Run nosetests on testable thing at point in current buffer"
-                                             (lambda (options) (my-execute-nose-tests options #'nosetests-one))))))))
-
-      (defun my-execute-nose-tests (options nose-fn)
-        (let ((debug (assoc "--pdb" options)))
-          (funcall nose-fn debug))))
+                                             (lambda (options) (my-execute-nose-tests options #'nosetests-one)))))))))
   #+end_src
 
 

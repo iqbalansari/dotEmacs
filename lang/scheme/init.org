@@ -1,0 +1,4 @@
+* Scheme implementation available
+  #+begin_src emacs-lisp
+    (defvar my-available-scheme)
+  #+end_src

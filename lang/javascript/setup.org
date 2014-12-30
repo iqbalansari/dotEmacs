@@ -25,7 +25,6 @@
 * Setup Tern for autocompletion and some refactoring
 ** Check ternjs availability
    #+begin_src emacs-lisp
-     (defvar my-ternjs-available)
      (setq my-ternjs-available (locate-library "tern"))
    #+end_src
 
@@ -50,26 +49,11 @@
    #+end_src
 
 
-* Pop documentation for symbol at point in a window
-  #+begin_src emacs-lisp
-    (defun my-tern-get-docs ()
-      (interactive)
-      (tern-run-query (lambda (data)
-                        (let ((url (cdr (assq 'url data))) (doc (cdr (assq 'doc data))))
-                          (cond (doc (with-electric-help (lambda () (insert doc)) "*tern-help*"))
-                                (url (browse-url url))
-                                (t (message "Not found")))))
-                      "documentation"
-                      (point)))
-  #+end_src
-
-
 * REPL for javascript
 ** Should we use nodejs-repl
    nodejs-repl is better for node as it provides autocompletion, use it if inside
    a node project
    #+begin_src emacs-lisp
-     (defvar-local my-js-use-nodejs-repl nil)
      (setq my-js-use-nodejs-repl (when buffer-file-name 
                                    (locate-dominating-file buffer-file-name "package.json")))
    #+end_src
@@ -81,41 +65,9 @@
       (skewer-mode))
   #+end_src
 
-*** Function for sending region to js repl
-   #+begin_src emacs-lisp
-     (defun my-js-eval-region (start end)
-       (interactive "r")
-       (skewer-eval (buffer-substring-no-properties start end)))
-   #+end_src
-
-*** Advice skewer-repl so that run-skewer is executed before switching to repl
-   #+begin_src emacs-lisp
-     (defadvice skewer-repl (before ensure-skewer-clients (&rest args))
-       (unless skewer-clients
-         (run-skewer)))
-
-     (ad-activate #'skewer-repl)
-   #+end_src
-
-** nodejs-repl configuration
-*** Function for sending region to node-js repl
-    #+begin_src emacs-lisp
-      (defun my-nodejs-send-region (start end)
-        (interactive "r")
-        (nodejs-repl--send-string (concat (buffer-substring-no-properties start end)
-                                          "\n")))
-    #+end_src
-
 
 * Setup code folding
   Enable "hs-minor-mode"
   #+begin_src emacs-lisp
     (hs-minor-mode)
-  #+end_src
-
-
-* Flash the current line after jump to definition
-  #+begin_src emacs-lisp
-    (when my-ternjs-available
-      (my-highlight-line-after-func tern-find-definition))
   #+end_src

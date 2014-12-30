@@ -1,0 +1,79 @@
+* Pop documentation for symbol at point in a window
+  #+begin_src emacs-lisp
+    (defun my-tern-get-docs ()
+      (interactive)
+      (tern-run-query (lambda (data)
+                        (let ((url (cdr (assq 'url data))) (doc (cdr (assq 'doc data))))
+                          (cond (doc (with-electric-help (lambda () (insert doc)) "*tern-help*"))
+                                (url (browse-url url))
+                                (t (message "Not found")))))
+                      "documentation"
+                      (point)))
+  #+end_src
+
+
+* Eval region in skewer mode
+  #+begin_src emacs-lisp
+    (defun my-js-eval-region (start end)
+      (interactive "r")
+      (skewer-eval (buffer-substring-no-properties start end)))
+  #+end_src
+
+
+* Eval region in nodejs repl
+  #+begin_src emacs-lisp
+    (defun my-nodejs-send-region (start end)
+      (interactive "r")
+      (nodejs-repl--send-string (concat (buffer-substring-no-properties start end)
+                                        "\n")))
+  #+end_src
+
+
+* Advice skewer-repl so that run-skewer is executed before switching to repl
+   #+begin_src emacs-lisp
+     (eval-after-load "skewer"
+       (progn (defadvice skewer-repl (before ensure-skewer-clients (&rest args))
+                (unless skewer-clients
+                  (run-skewer)))
+
+              (ad-activate #'skewer-repl)))
+   #+end_src
+
+
+* Flash the current line after jump to definition
+  #+begin_src emacs-lisp
+    (eval-after-load "tern"
+      '(my-highlight-line-after-func tern-find-definition))
+  #+end_src
+
+
+* Keybindings for nodejs-repl
+   #+begin_src emacs-lisp
+     (defun my-setup-nodejs-repl-keys ()
+       (define-key js2-mode-map my-run-shell #'nodejs-repl)
+       (define-key js2-mode-map my-send-buffer (my-evaluate-buffer-in-repl my-nodejs-eval-buffer my-nodejs-send-region))
+       (define-key js2-mode-map my-send-function (my-evaluate-defun-in-repl my-nodejs-eval-defun my-nodejs-send-region))
+       (define-key js2-mode-map my-send-region #'my-nodejs-send-region)
+       (define-key js2-mode-map my-send-line (my-evaluate-line-in-repl my-nodejs-eval-line my-nodejs-send-region))
+       (define-key js2-mode-map my-send-file (my-evaluate-file-in-repl my-nodejs-eval-file my-nodejs-send-region)))
+   #+end_src
+
+
+* Keybindings for skewer-repl
+   #+begin_src emacs-lisp
+     (defun my-setup-skewer-repl-keys ()
+       (define-key js2-mode-map my-send-buffer #'skewer-load-buffer)
+       (define-key js2-mode-map my-send-function #'skewer-eval-defun)
+       (define-key js2-mode-map my-send-region #'my-js-eval-region)
+       (define-key js2-mode-map my-send-phrase/sexp/block #'skewer-eval-last-expression)
+       (define-key js2-mode-map my-send-line (my-evaluate-line-in-repl my-js-eval-line my-js-eval-region))
+       (define-key js2-mode-map my-send-file (my-evaluate-file-in-repl my-js-eval-file my-js-eval-region)))
+   #+end_src
+
+
+* Misc variables
+  #+begin_src emacs-lisp
+    (defvar my-ternjs-available)
+    (defvar my-js-use-nodejs-repl nil)
+    (make-variable-buffer-local 'my-js-use-nodejs-repl)
+  #+end_src

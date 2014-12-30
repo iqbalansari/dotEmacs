@@ -20,17 +20,6 @@
 
 ** Load ensime if not loaded already and prerequisites are satisfied
   #+begin_src emacs-lisp
-    (defun my-load-ensime ()
-      (if (or (getenv "JDK_HOME")
-              (getenv "JAVA_HOME")
-              (executable-find "javac"))
-          (progn (when (and (executable-find "sbt")
-                            (version< (nth 3 (split-string (shell-command-to-string "sbt --version")))
-                                      "0.13"))
-                   (warn "Ensime requires sbt 0.13.x and upwards for sbt project"))
-                 (load "ensime"))
-        (warn "JDK_HOME and JAVA_HOME are not set, javac not found! Ensime will NOT work!")))
-
     (unless (fboundp #'ensime-mode)
       (my-load-ensime))
   #+end_src

@@ -45,6 +45,25 @@
    them in one compiled file and loads that file, the compiled file is regenerated
    if any of the org files change
    #+begin_src emacs-lisp
+     (defvar my-initialized-langs nil)
+
+     (defun my-initialize-lang (lang)
+       (let* ((lang-path (concat my-langs-dir lang "/"))
+              (init-file (concat lang-path "init.org"))
+              (compiled-file-dest (concat lang-path ".compiled/"))
+              (compiled-file (concat compiled-file-dest "init.el")))
+         (when (and (file-exists-p init-file)
+                    (or (not (member lang my-initialized-langs))
+                        (my-is-file-stale compiled-file init-file)))
+
+           (unless (file-exists-p compiled-file-dest)
+             (make-directory compiled-file-dest))
+
+           (org-babel-tangle-file init-file compiled-file "emacs-lisp")
+           (load compiled-file))
+
+         (add-to-list 'my-initialized-langs lang)))
+
      (defun my-compile-lang-config (lang)
        "Compile a languages configuration file, it simply tangles all the related
      org files and combines them into one elisp file"
@@ -76,6 +95,8 @@
               (compiled-file (concat compiled-file-dest ".combined.el")))
 
          (when (file-exists-p lang-path)
+           (my-initialize-lang language)
+           
            (when (apply #'my-is-file-stale compiled-file
                         (loop for file in files
                               when (file-exists-p (concat lang-path file ".org"))

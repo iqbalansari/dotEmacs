@@ -57,41 +57,7 @@
 * Indexing file/projects
 ** Index the project
   #+begin_src emacs-lisp
-    (defvar my-rtags-project-indexed nil)
     (make-local-variable 'my-rtags-project-indexed)
-
-    (defun my-identify-malinka-project ()
-      (car (remove-if-not (lambda (project)
-                            (let ((root-directory (malinka--project-name-get root-directory project)))
-                              ;; Malinka project whose root directory is same as current directory
-                              (or (string= root-directory default-directory)
-                                  ;; OR Malinka project whose root directory is ancestor of current directory
-                                  (f-ancestor-of? root-directory default-directory))))
-                          (hash-table-keys malinka--projects-map))))
-
-    (defun my-maybe-enable-rtags (buffer)
-      ;; Index the file only if the directory is writable, since indexing
-      ;; requires write permission (to create the compile_commands.json file)
-      ;; We usually do not have it in directories contains system headers
-      (with-current-buffer buffer
-        ;; Identify the malinka project the current directory belongs
-        (when (file-writable-p (file-name-directory buffer-file-name))
-          (let* ((project (my-identify-malinka-project)))
-            (if (not project)
-                (warn (concat "Project not configured, please add malinka-define-project directive\n"
-                              "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
-              ;; If the project is not indexed yet run `malinka-project-configure'
-              (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
-                                                                              " --has-filemanager "
-                                                                              default-directory))))
-                (warn (concat "Project not indexed index it using `malinka-configure-project.' 
-or index manually from commandline using " (rtags-executable-find "rc"))))))))
-      
-      ;; Update flag indicating whether the file is indexed by rtags
-      (let ((rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
-                                                           " --is-indexed "
-                                                           buffer-file-name))))
-        (setq-local my-rtags-project-indexed (string= rtags-status "indexed\n"))))
 
     (when (and (buffer-file-name) my-rtags-available)
       (run-at-time 0.1 nil #'my-maybe-enable-rtags (current-buffer)))
@@ -132,15 +98,6 @@ or index manually from commandline using " (rtags-executable-find "rc"))))))))
       (eldoc-mode)
       (make-variable-buffer-local 'eldoc-documentation-function)
       (setq eldoc-documentation-function 'my-rtags-get-eldoc))
-  #+end_src
-
-
-* Open man page for symbol at point
-  #+begin_src emacs-lisp
-    (defun my-get-man-page-at-pt ()
-      (interactive)
-      (let ((symbol (thing-at-point 'symbol)))
-        (with-electric-help (lambda () (woman symbol)) "*c-help*")))
   #+end_src
 
 

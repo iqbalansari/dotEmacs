@@ -1,0 +1,24 @@
+* Misc variables
+  #+begin_src emacs-lisp
+    (defvar my-edts-available)
+  #+end_src
+
+
+* Helper function to start distel
+  This is used only on windows where edts is not available
+  #+begin_src emacs-lisp
+     (defun my-start-distel ()
+       (unless (and inferior-erlang-buffer
+                    (buffer-live-p inferior-erlang-buffer))
+
+         (erlang-shell-display)
+
+         (message "Connecting to default node ...")
+         (sit-for 2)
+
+         (let* ((name-string (concat "emacs@" (erl-determine-hostname)))
+                (name (intern name-string)))
+           (setq erl-nodename-cache name)
+           (setq distel-modeline-node name-string)
+           (erl-ping name))))
+   #+end_src

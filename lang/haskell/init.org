@@ -1,0 +1,29 @@
+* Line range function to be used with hl-line mode
+  This disables highlighting of current line if the point is on a
+  haskell node
+  #+begin_src emacs-lisp
+    (defun my-shm-do-not-highlight-line-on-nodes ()
+      (unless shm-current-node-overlay
+        (cons (line-beginning-position) (line-end-position))))
+  #+end_src
+
+
+* Function to get documentation for symbol at point
+  #+begin_src emacs-lisp
+    (defun my-haskell-doc-at-point ()
+      (interactive)
+      (if (executable-find "hoogle")
+          (let* ((symbol (symbol-at-point))
+                 (result (if symbol
+                             (shell-command-to-string (concat "hoogle --info " (symbol-name symbol)))
+                           (error "No symbol at point"))))
+            (with-electric-help (lambda () (insert result)) "*hoogle-info*"))
+        (error "You need to install `hoogle' for this to work")))
+  #+end_src
+
+
+* Variable to record availability of ghc-mod
+  #+begin_src emacs-lisp
+    (defvar my-ghc-mod-available nil)
+  #+end_src
+

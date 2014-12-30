@@ -1,0 +1,5 @@
+* Variables recording the availability of external programs
+  #+begin_src emacs-lisp
+    (defvar my-gocode-available nil)
+    (defvar my-godef-available nil)
+  #+end_src

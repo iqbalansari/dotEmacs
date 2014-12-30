@@ -27,10 +27,6 @@
   highlighting on nodes, if shm is installed otherwise it interferes with shm's
   highlighting. Set some better colors for solarized light theme
   #+begin_src emacs-lisp
-    (defun my-shm-do-not-highlight-line-on-nodes ()
-      (unless shm-current-node-overlay
-        (cons (line-beginning-position) (line-end-position))))
-
     (when (executable-find "structured-haskell-mode")
       (structured-haskell-mode)
 
@@ -59,20 +55,6 @@
                                  (expand-file-name "~/"))))
           (setq haskell-tags-on-save t))
       (warn "`hasktags' not installed, jump to definition MAY not work"))
-  #+end_src
-
-
-* Get documentation for symbol at point
-  #+begin_src emacs-lisp
-    (defun my-haskell-doc-at-point ()
-      (interactive)
-      (if (executable-find "hoogle")
-          (let* ((symbol (symbol-at-point))
-                 (result (if symbol
-                             (shell-command-to-string (concat "hoogle --info " (symbol-name symbol)))
-                           (error "No symbol at point"))))
-            (with-electric-help (lambda () (insert result)) "*hoogle-info*"))
-        (error "You need to install `hoogle' for this to work")))
   #+end_src
 
 
