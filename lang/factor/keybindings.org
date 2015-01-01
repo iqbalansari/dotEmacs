@@ -14,3 +14,9 @@
   #+begin_src emacs-lisp
     (define-key factor-mode-map my-show-doc #'fuel-help)
   #+end_src
+
+
+* Keybinding to update `USING:`
+  #+begin_src emacs-lisp
+    (define-key factor-mode-map my-refactor-organize-imports #'fuel-update-usings)
+  #+end_src

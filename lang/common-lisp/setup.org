@@ -38,7 +38,7 @@
     (run-at-time 0.1 nil (lambda ()
                            (when (and inferior-lisp-program
                                       (not (slime-connected-p)))
-                             (slime))))
+                             (save-window-excursion (slime)))))
   #+end_src
 
 

@@ -13,6 +13,6 @@
 * Run factor
   #+begin_src emacs-lisp
     (if fuel-factor-root-dir
-        (run-at-time 0.1 nil #'run-factor)
+        (run-at-time 0.1 nil (lambda () (save-window-excursion (run-factor))))
     (warn "`fuel-factor-root-dir' not set, please set it directory containing factor"))
   #+end_src

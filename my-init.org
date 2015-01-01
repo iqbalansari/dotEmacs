@@ -53,7 +53,8 @@
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest "init.el")))
          (when (and (file-exists-p init-file)
-                    (not (member lang my-initialized-langs)))
+                    (or (not (member lang my-initialized-langs))
+                        (my-is-file-stale compiled-file init-file)))
 
            (unless (file-exists-p compiled-file-dest)
              (make-directory compiled-file-dest))
