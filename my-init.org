@@ -457,11 +457,13 @@
 
        (setq flycheck-emacs-lisp-load-path load-path)
        
-       (when (not (string= (buffer-name) "*scratch*"))
+       (unless (string= (buffer-name) "*scratch*")
          (flycheck-mode))
 
-       (add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
-       (add-hook 'ielm-mode-hook 'ac-emacs-lisp-mode-setup)
+       (company-mode +1)
+       (auto-complete-mode -1)
+
+       (add-hook 'ielm-mode-hook 'company-mode)
        (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
        ;; Keybindings
