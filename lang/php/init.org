@@ -66,6 +66,7 @@
                               (abbreviate-file-name (car location))))))
    #+end_src
 
+
 * Helper function to format the documentation retrieved using php-extras
    #+begin_src emacs-lisp
      (defun my-php-format-php-extras-doc (doc)
@@ -84,6 +85,7 @@
          (buffer-string)))
    #+end_src
 
+
 * Function to retrieve documentation for symbol using gtags or php-extras
    #+begin_src emacs-lisp
      (defun my-php-get-doc (symbol)
@@ -99,6 +101,7 @@
                       (not (string= location "")))
              (my-php-retrieve-and-format-docstring (split-string location " "))))))
    #+end_src
+
 
 * Function to show documentation for symbol at point
   #+begin_src emacs-lisp

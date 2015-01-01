@@ -1,13 +1,14 @@
-* Instruct merlin to use autocomplete mode
-  #+begin_src emacs-lisp
-    (setq merlin-use-auto-complete-mode t)
-  #+end_src
-
-
 * Enable merlin if present
   #+begin_src emacs-lisp
     (when (locate-library "merlin")
       (merlin-mode))
+  #+end_src
+
+
+* Use company-mode for auto-completion
+  #+begin_src emacs-lisp
+    (auto-complete-mode -1)
+    (company-mode +1)
   #+end_src
 
 

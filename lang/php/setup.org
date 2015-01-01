@@ -59,6 +59,7 @@
 
 * Get documentation at point
 ** Load php-extra for documentation of builtin php functions
+   This is needed by [[file:init.org::*Function%20to%20retrieve%20documentation%20for%20symbol%20using%20gtags%20or%20php-extras][function to retrieve documentation for symbol using gtags or php-extras]]
    #+begin_src emacs-lisp
      (load "php-extras")
    #+end_src
@@ -75,18 +76,15 @@
   #+end_src
 
 
-* Setup auto-complete to use php-auto-yasnippets
+* Configuration for auto-completion
   #+begin_src emacs-lisp
-    (payas/ac-setup)
-  #+end_src
-
-
-* Remove yasnippets from ac-sources
-  auto-complete becomes unbearably slow since there are large
-  number of snippets for php
-  #+begin_src emacs-lisp
-    (make-variable-buffer-local 'ac-sources)
-    (setq ac-sources (remove 'ac-source-yasnippet ac-sources))
+    (auto-complete-mode -1)
+    (company-mode +1)
+    (add-to-list 'company-backends '(company-gtags
+                                     php-extras-company
+                                     company-dabbrev-code
+                                     company-keywords
+                                     :with company-yasnippet))
   #+end_src
 
 

@@ -87,7 +87,7 @@
       (auto-complete-mode -1)
       (company-mode +1)
 
-      (add-to-list 'company-backends '(company-ghc :with company-dabbrev-code)))
+      (add-to-list 'company-backends '(company-ghc company-dabbrev-code)))
   #+end_src
 
 ** Show type info in the minibuffer

@@ -6,7 +6,7 @@
 
 * Install php-extras and php-auto-yasnippets
   #+begin_src emacs-lisp
-    (my-install-packages '(php-extras php-auto-yasnippets))
+    (my-install-package 'php-extras)
   #+end_src
 
 
