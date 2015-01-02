@@ -99,10 +99,20 @@
   #+end_src
 
 
-* Keybindings
-
+* Function to launch magit UI
+  This simply checks if the magit status mode is active now, in which case it prompts
+  for the git repository to switch to
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x g") 'magit-status)
+    (defun my-magit-status ()
+      (interactive)
+      (let ((current-prefix-arg (or current-prefix-arg (equal major-mode 'magit-status-mode))))
+        (call-interactively 'magit-status)))
+  #+end_src
+
+
+* Keybindings
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-x g") 'my-magit-status)
 
     (eval-after-load "magit"
       '(progn (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
