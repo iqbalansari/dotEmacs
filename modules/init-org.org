@@ -131,3 +131,20 @@
     (eval-after-load 'org-src
       '(define-key org-src-mode-map "\C-c\C-c" #'org-edit-src-exit))
   #+end_src
+
+
+* Compatibility with ace-jump-mode
+  Since org-mode binds `C-c SPC` to the command `org-table-blank-field` (which
+  is useful only if point is in a table) the ace-jump-mode's binding is
+  overshadowed, the following sets the keybinding to a DWIM version which calls
+  ace-jump-mode unless the point is inside a table
+  #+begin_src emacs-lisp
+    (defun my-dwim-org-table-blank-field ()
+      (interactive)
+      (if (org-at-table-p)
+          (call-interactively #'org-table-blank-field)
+        (call-interactively #'ace-jump-mode)))
+
+    (eval-after-load "ace-jump-mode"
+      '(org-defkey org-mode-map (kbd "C-c SPC") #'my-dwim-org-table-blank-field))
+  #+end_src

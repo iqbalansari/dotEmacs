@@ -13,12 +13,17 @@
 
 
 * Ace Jump mode setup
-  Binding for jumping to character and line, 'jumping to word'
-  is bound to a 'key-chord' in later section
+** Use line-mode if called with single prefix arg
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c SPC") 'ace-jump-word-mode)
-    (global-set-key (kbd "C-c C-SPC") 'ace-jump-line-mode)
+    (setq ace-jump-mode-submode-list '(ace-jump-word-mode
+                                       ace-jump-line-mode
+                                       ace-jump-char-mode))
   #+end_src
+
+** Keybinding for ace-jump-mode
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+   #+end_src
 
 
 * Quickly jump to a symbol in file using imenu and ido
