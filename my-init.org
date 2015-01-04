@@ -513,6 +513,7 @@
      (add-to-list 'auto-mode-alist (cons (rx (or ".irbrc" ".pryrc" "Gemfile") string-end) 'ruby-mode))
      (add-to-list 'auto-mode-alist (cons (rx word-start "composer.lock" string-end) 'json-mode))
      (add-to-list 'auto-mode-alist (cons (rx word-start "diary" string-end) 'diary-mode))
+     (add-to-list 'auto-mode-alist (cons (rx ".zsh" string-end) 'shell-mode))
    #+end_src
 
 ** Distinguishing between objc-headers and c-headers
