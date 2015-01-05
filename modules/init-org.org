@@ -141,7 +141,8 @@
   #+begin_src emacs-lisp
     (defun my-dwim-org-table-blank-field ()
       (interactive)
-      (if (org-at-table-p)
+      (if (or current-prefix-arg
+              (org-at-table-p))
           (call-interactively #'org-table-blank-field)
         (call-interactively #'ace-jump-mode)))
 
