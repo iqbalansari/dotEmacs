@@ -21,6 +21,13 @@
   #+end_src
 
 
+* Push mark before jumping to last change
+  #+begin_src emacs-lisp
+    (defadvice goto-last-change (before my-push-mark-before-jumping-to-chg (&rest ignored))
+      (push-mark))
+  #+end_src
+
+
 * Quickly jump to a symbol in file using imenu and ido
    #+begin_src emacs-lisp
      (require 'imenu)
