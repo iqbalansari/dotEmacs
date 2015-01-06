@@ -2,3 +2,10 @@
   #+begin_src emacs-lisp
     (load "json-snatcher")
   #+end_src
+
+
+* Syntax checking
+  #+begin_src emacs-lisp
+    (when (executable-find "jsonlint")
+      (flycheck-mode))
+  #+end_src
