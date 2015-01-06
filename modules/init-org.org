@@ -114,7 +114,7 @@
     (add-hook 'org-mode-hook (lambda ()
                                (company-mode +1)
                                (make-variable-buffer-local 'company-backends)
-                               (add-to-list 'company-backends 'company-math-symbols-unicode)))
+                               (add-to-list 'company-backends '(company-math-symbols-unicode company-ispell company-dabbrev))))
   #+end_src
 
 

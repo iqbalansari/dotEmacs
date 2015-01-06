@@ -3,3 +3,12 @@
     (when ispell-program-name
       (flyspell-mode 1))
   #+end_src
+
+
+* Enable auto-completion
+  #+begin_src emacs-lisp
+    (auto-complete-mode -1)
+    (company-mode +1)
+    (add-to-list (make-variable-buffer-local 'company-backends)
+                 '(company-ispell company-dabbrev))
+  #+end_src
