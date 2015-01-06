@@ -94,11 +94,10 @@
   #+begin_src emacs-lisp
     (defun my-auto-complete-at-point ()
       (when (and (not (minibufferp))
-                 (fboundp 'auto-complete-mode)
-                 auto-complete-mode
+                 (or auto-complete-mode company-mode)
                  (looking-back "\\(\\sw\\|\\s_\\)")
                  (not (looking-at "\\sw\\|\\s_")))
-        (auto-complete)))
+        (funcall (if auto-complete-mode #'auto-complete #'company-complete))))
 
     (defun set-auto-complete-as-completion-at-point-function ()
       (setq completion-at-point-functions
@@ -119,3 +118,8 @@
   #+begin_src emacs-lisp
     (setq company-selection-wrap-around t)
   #+end_src
+
+** Allow non-matching input when company-mode is active
+   #+begin_src emacs-lisp
+     (setq company-require-match nil)
+   #+end_src
