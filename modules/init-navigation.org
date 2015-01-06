@@ -2,14 +2,14 @@
 + [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
 + [[http://www.emacswiki.org/emacs/goto-chg.el][goto-chg]] - Move point through buffer-undo-list positions
 
-#+begin_src emacs-lisp
-  (defvar my-navigation-packages
-    '(goto-chg
-      ace-jump-mode
-      helm))
-
-  (my-install-packages my-navigation-packages)
-#+end_src
+  #+begin_src emacs-lisp
+    (defvar my-navigation-packages
+      '(goto-chg
+        ace-jump-mode
+        helm))
+  
+    (my-install-packages my-navigation-packages)
+  #+end_src
 
 
 * Ace Jump mode setup

@@ -94,10 +94,10 @@
   #+begin_src emacs-lisp
     (defun my-auto-complete-at-point ()
       (when (and (not (minibufferp))
-                 (or auto-complete-mode company-mode)
+                 auto-complete-mode
                  (looking-back "\\(\\sw\\|\\s_\\)")
                  (not (looking-at "\\sw\\|\\s_")))
-        (funcall (if auto-complete-mode #'auto-complete #'company-complete))))
+        (auto-complete)))
 
     (defun set-auto-complete-as-completion-at-point-function ()
       (setq completion-at-point-functions
