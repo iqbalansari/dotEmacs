@@ -102,55 +102,6 @@
    #+end_src
 
 
-* Functions for finding current python modules and generating auto-import cache
-   #+begin_src emacs-lisp
-     (defvar my-python-modules-code "python -c 'import pkgutil; print tuple([i[1] for i in pkgutil.iter_modules()])'")
-
-     (defun my-parse-and-store-python-modules (buffer file)
-       (with-current-buffer buffer
-         ;; Replace all ' with " to make them lisp strings
-         (goto-char (point-min))
-         (while (search-forward "'" nil t)
-           (replace-match "\"" nil t))
-
-         (goto-char (point-min))
-         (while (search-forward "," nil t)
-           (replace-match "" nil t))
-
-         (my-write-to-file file (buffer-string))))
-
-     (defun my-read-existing-python-modules (callback)
-       (with-current-buffer (get-buffer-create "python-modules")
-         (erase-buffer))
-       (set-process-sentinel (start-process-shell-command "python-modules"
-                                                          "python-modules"
-                                                          my-python-modules-code)
-                             callback))
-
-     (defun my--generate-auto-import-cache (project-dir &optional force)
-       (lexical-let ((modules-file (when project-dir
-                                     (concat project-dir "/.modules"))))
-         (when (and modules-file
-                    (or force
-                        (not (file-exists-p modules-file))))
-
-           (my-read-existing-python-modules (lambda (proc state)
-                                                 (when (equal state "finished\n")
-                                                   (my-parse-and-store-python-modules (process-buffer proc) modules-file)
-                                                   (setq ropemacs-autoimport-modules (read (my-read-file modules-file)))
-                                                   (rope-generate-autoimport-cache)))))))
-
-     (defun my-generate-auto-import-cache (force)
-       (interactive (list t))
-       (let ((project-dir (when (buffer-file-name)
-                            (or (locate-dominating-file (buffer-file-name) ".ropeproject")
-                                (ignore-errors (projectile-project-root))))))
-         (if project-dir
-             (my--generate-auto-import-cache project-dir force)
-           (message "Not in a project"))))
-   #+end_src
-
-
 * Function to execute nose tests using the nose library 
   #+begin_src emacs-lisp
     (defun my-execute-nose-tests (options nose-fn)
