@@ -25,12 +25,6 @@
   #+end_src
 
 
-* Remember project's window config when switching
-  #+begin_src emacs-lisp
-    (setq projectile-remember-window-configs t)
-  #+end_src
-
-
 * Use git grep for grepping in project
   #+begin_src emacs-lisp
     (setq projectile-use-git-grep t)
