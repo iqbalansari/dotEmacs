@@ -1,6 +1,6 @@
 * Install buffer-move to quickly swapping windows
   #+begin_src emacs-lisp
-    (my-install-package 'buffer-move)
+    (my-install-packages '(buffer-move ibuffer-vc))
   #+end_src
 
 
@@ -33,6 +33,28 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-b") 'ibuffer)
   #+end_src
+
+
+* Use ibuffer-vc to group buffers by vc root
+** Group buffers by vc in ibuffer
+  #+begin_src emacs-lisp
+    (add-hook 'ibuffer-hook #'ibuffer-vc-set-filter-groups-by-vc-root)
+  #+end_src
+
+** Include vc status in ibuffer-list
+   #+begin_src emacs-lisp
+     (setq ibuffer-formats
+           '((mark modified read-only vc-status-mini " "
+                   (name 18 18 :left :elide)
+                   " "
+                   (size 9 -1 :right)
+                   " "
+                   (mode 16 16 :left :elide)
+                   " "
+                   (vc-status 16 16 :left)
+                   " "
+                   filename-and-process)))
+   #+end_src
 
 
 * Filter groups for ibuffer
