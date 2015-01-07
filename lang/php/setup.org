@@ -66,13 +66,14 @@
 
 
 * Enable eldoc
-** Enable eldoc
   #+begin_src emacs-lisp
     (eldoc-mode)
     (make-local-variable 'eldoc-documentation-function)
     (setq eldoc-documentation-function #'my-php-eldoc-function)
+
+    ;; Remove ggtags' advice
     (when (fboundp 'remove-function)
-      (remove-function :after-until #'my-php-eldoc-function))
+      (remove-function (local 'eldoc-documentation-function) 'ggtags-eldoc-function))
   #+end_src
 
 
@@ -80,11 +81,11 @@
   #+begin_src emacs-lisp
     (auto-complete-mode -1)
     (company-mode +1)
+    (make-variable-buffer-local 'company-backends)
     (add-to-list 'company-backends '(company-gtags
                                      php-extras-company
                                      company-dabbrev-code
-                                     company-keywords
-                                     :with company-yasnippet))
+                                     company-keywords))
   #+end_src
 
 

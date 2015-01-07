@@ -138,8 +138,6 @@
             ((region-active-p)
              (narrow-to-region (region-beginning) (region-end)))
             ((derived-mode-p 'org-mode)
-             ;; `org-edit-src-code' is not a real narrowing command.
-             ;; Remove this first conditional if you don't want it.
              (cond ((org-at-block-p)
                     (org-narrow-to-block))
                    (t (org-narrow-to-subtree))))

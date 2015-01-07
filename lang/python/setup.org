@@ -64,12 +64,6 @@
        (pymacs-load "ropemacs" "rope-"))
    #+end_src
 
-** Generate auto-import cache if not generated already
-   #+begin_src emacs-lisp
-     (when (featurep 'ropemacs)
-       (my-generate-auto-import-cache nil))
-   #+end_src
-
 
 * Setup flycheck for error checking
 ** Enable flycheck-mode (except if the file is in non-writable folder)
