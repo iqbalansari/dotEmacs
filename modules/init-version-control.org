@@ -131,12 +131,6 @@
   #+end_src
 
 
-* Disable vc for git repositories
-  #+begin_src emacs-lisp
-    (delete 'Git vc-handled-backends)
-  #+end_src
-
-
 * Enable magit-gitflow in magit mode
   #+begin_src emacs-lisp
     (when (locate-library "magit-gitflow")
