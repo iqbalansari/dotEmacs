@@ -11,7 +11,8 @@
         flx-ido
         ido-ubiquitous
         idomenu
-        smex))
+        smex
+        ido-vertical-mode))
 
     (my-install-packages my-ido-packages)
   #+end_src
@@ -76,13 +77,33 @@
    #+end_src
 
 
-* Map Alt-backspace to 'ido-delete-backward-updir
-   I often mistakenly type these when in ido-find-file leading to
-   'buffer-read-only' error
-   #+begin_src emacs-lisp
-     (add-hook 'ido-setup-hook 'ido-my-keys)
+* Enable ido-vertical-mode
+  #+begin_src emacs-lisp
+    (ido-vertical-mode +1)
+  #+end_src
 
-     (defun ido-my-keys ()
+
+* Map Alt-backspace to 'ido-delete-backward-updir
+   I often mistakenly type these when in ido-find-file leading to 'buffer-read-only' error
+   #+begin_src emacs-lisp
+     (defun my-ido-keys ()
        "Add my keybindings for ido."
        (define-key ido-file-dir-completion-map (kbd "<M-backspace>") 'ido-delete-backward-updir))
+
+     (add-hook 'ido-setup-hook 'my-ido-keys)
+   #+end_src
+
+
+* Map up and down keys to more intuitive commands in ido-vertical mode
+  By default they are bound `next-history-element` and `previous-history-element` 
+  which is terribly confusing since it seems they would cycle the candidates
+   #+begin_src emacs-lisp
+     (defun my-ido-vertical-keys ()
+       "Add my keybindings for ido."
+       (define-key ido-common-completion-map [up] 'ido-prev-match)
+       (define-key ido-common-completion-map [down] 'ido-next-match)
+       (define-key ido-file-dir-completion-map [up] 'ido-prev-match)
+       (define-key ido-file-dir-completion-map [down] 'ido-next-match))
+
+     (add-hook 'ido-setup-hook 'my-ido-vertical-keys)
    #+end_src
