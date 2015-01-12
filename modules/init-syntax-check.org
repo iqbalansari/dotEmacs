@@ -58,11 +58,11 @@
      (defun my-display-messages-in-popup (errors)
        (let ((messages (remove-if-not 'identity (mapcar #'flycheck-error-message errors))))
          (when messages
-           (setq inhibit-modification-hooks t)
-           (pos-tip-show (mapconcat (lambda (message) (concat "  " message "  "))
-                                    messages
-                                    "\n"))
-           (setq inhibit-modification-hooks nil))))
+           (let ((inhibit-modification-hooks t))
+             (pos-tip-show (mapconcat (lambda (message) (concat "  " message "  "))
+                                      messages
+                                      "\n"))))))
 
-     (setq flycheck-display-errors-function #'my-display-messages-in-popup)
+     (when (display-graphic-p)
+       (setq flycheck-display-errors-function #'my-display-messages-in-popup))
    #+end_src
