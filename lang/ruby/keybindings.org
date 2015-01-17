@@ -1,17 +1,10 @@
-* Unset some keybindings
-  #+begin_src emacs-lisp
-    (define-key inf-ruby-minor-mode-map my-run-shell nil)
-    (define-key inf-ruby-minor-mode-map my-send-buffer nil)
-    (define-key inf-ruby-minor-mode-map my-send-line nil)
-  #+end_src
-
-
 * Keybindings for interacting with the REPL
   #+begin_src emacs-lisp
-    (define-key ruby-mode-map my-run-shell #'my-start-ruby-shell)
-    (define-key ruby-mode-map my-send-file #'ruby-load-file)
-    (define-key ruby-mode-map my-send-buffer (my-evaluate-buffer-in-repl my-ruby-send-buffer ruby-send-region))
-    (define-key ruby-mode-map my-send-line #'ruby-send-block)
+    (define-key inf-ruby-minor-mode-map my-run-shell #'my-start-ruby-shell)
+    (define-key inf-ruby-minor-mode-map my-send-function #'my-ruby-send-definition)
+    (define-key inf-ruby-minor-mode-map my-send-file #'ruby-load-file)
+    (define-key inf-ruby-minor-mode-map my-send-buffer (my-evaluate-buffer-in-repl my-ruby-send-buffer ruby-send-region))
+    (define-key inf-ruby-minor-mode-map my-send-line #'ruby-send-block)
   #+end_src
 
 

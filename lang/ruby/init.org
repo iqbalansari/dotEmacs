@@ -32,6 +32,16 @@
    #+end_src
 
 
+* Function to send current definition to inferior Ruby process.
+  #+begin_src emacs-lisp
+    (defun my-ruby-send-definition ()
+      (interactive)
+      (save-excursion
+        (beginning-of-defun)
+        (ruby-send-definition)))
+  #+end_src
+
+
 * Misc variables
   #+begin_src emacs-lisp
     (defvar my-robe-can-run nil)
