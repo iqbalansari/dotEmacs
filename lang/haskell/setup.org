@@ -40,6 +40,12 @@
   #+end_src
 
 
+* Enable auto-completion in the REPL
+  #+begin_src emacs-lisp
+    (add-hook 'haskell-interactive-mode-hook #'company-mode)
+  #+end_src
+
+
 * Turn on eldoc
    #+begin_src emacs-lisp
      (turn-on-haskell-doc)
