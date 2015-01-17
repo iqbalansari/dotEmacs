@@ -120,7 +120,7 @@
 * List of modules to be loaded
   #+begin_src emacs-lisp
     (defvar my-modules-list '(display 
-                              auto-complete
+                              completion
                               backup
                               files
                               buffers
