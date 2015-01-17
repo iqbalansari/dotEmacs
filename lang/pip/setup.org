@@ -1,4 +1,0 @@
-* Setup autocompletion
-  #+begin_src emacs-lisp
-    (pip-requirements-auto-complete-setup)
-  #+end_src

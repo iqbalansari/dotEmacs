@@ -20,10 +20,18 @@
   #+end_src
 
 
+* Enable auto-completion
+  #+begin_src emacs-lisp
+    (auto-complete-mode -1)
+    (company-mode +1)
+
+    (add-to-list (make-variable-buffer-local 'company-backends) 'company-robe)
+  #+end_src
+
+
 * Enable auto-completion in inf-ruby buffers
   #+begin_src emacs-lisp
-    (add-to-list 'ac-modes 'inf-ruby-mode)
-    (add-hook 'inf-ruby-mode-hook 'ac-inf-ruby-enable)
+    (add-hook 'inf-ruby-mode-hook 'company-mode)
   #+end_src
 
 

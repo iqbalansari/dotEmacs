@@ -6,7 +6,8 @@
   #+begin_src emacs-lisp
     (defvar my-javascript-packages '(js2-refactor
                                      skewer-mode
-                                     nodejs-repl))
+                                     nodejs-repl
+                                     company-tern))
   #+end_src
 
 

@@ -37,15 +37,9 @@
 ** Enable auto-completion if ternjs is available
    #+begin_src emacs-lisp
      (when my-ternjs-available
-       (load "tern-auto-complete")
-       (setq tern-ac-dot-complete t)
-       (tern-ac-setup))
-   #+end_src
-
-** Enable tab completion using tern-ac-complete
-   #+begin_src emacs-lisp
-     (make-local-variable 'completion-at-point-functions)
-     (push #'tern-ac-complete completion-at-point-functions)
+       (auto-complete-mode -1)
+       (company-mode +1)
+       (add-to-list (make-variable-buffer-local 'company-backends) 'company-tern))
    #+end_src
 
 

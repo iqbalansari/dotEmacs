@@ -1,21 +1,9 @@
-* Setup auto-completion
-** Do not use company for completion
+* Geiser startup
+** Disable auto-complete mode
    #+begin_src emacs-lisp
-     (setq geiser-repl-company-p nil
-           geiser-mode-company-p nil)
+     (auto-complete-mode -1)
    #+end_src
 
-** Use auto-complete instead
-  #+begin_src emacs-lisp
-    (load "ac-geiser")
-    (ac-geiser-setup)
-
-    (add-hook 'geiser-repl-mode-hook 'ac-geiser-setup)
-    (add-to-list 'ac-modes 'geiser-repl-mode)
-  #+end_src
-
-
-* Geiser startup
 ** Check scheme implementation is available
    #+begin_src emacs-lisp
      (setq my-available-scheme (or (executable-find "guile")

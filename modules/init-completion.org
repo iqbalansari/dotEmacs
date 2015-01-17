@@ -125,14 +125,15 @@
    #+end_src
 
 
-* Enable company mode in all text buffers
+* Enable company mode in all text/fundamental mode buffers
   #+begin_src emacs-lisp
     (defun my-text-mode-enable-completion ()
       (auto-complete-mode -1)
       (company-mode +1)
 
       (add-to-list (make-variable-buffer-local 'company-backends)
-                   '(company-ispell company-dabbrev)))
+                   '(company-capf company-ispell company-dabbrev)))
 
     (add-hook 'text-mode-hook #'my-text-mode-enable-completion)
+    (add-hook 'fundamental-mode #'my-text-mode-enable-completion)
   #+end_src
