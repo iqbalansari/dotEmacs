@@ -1,0 +1,11 @@
+* Compile project if needed
+  #+begin_src emacs-lisp
+    (setq alchemist-project-compile-when-needed t)
+  #+end_src
+
+
+* Setup autocompletion
+  #+begin_src emacs-lisp
+    (my-elixir-enable-completion)
+    (add-hook 'alchemist-iex-mode-hook #'my-elixir-enable-completion)
+  #+end_src

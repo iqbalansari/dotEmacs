@@ -1,0 +1,20 @@
+* Function to enable completion in elxir REPL and buffer
+  #+begin_src emacs-lisp
+    (defun my-elixir-enable-completion ()
+      (auto-complete-mode -1)
+      (company-mode +1)
+
+      (add-to-list (make-variable-buffer-local 'company-backends) 'alchemist-company))
+  #+end_src
+
+
+* Try starting iex for given project if possible
+  #+begin_src emacs-lisp
+    (defun my-start-iex ()
+      (interactive)
+      (if (alchemist-project-p)
+          (progn (message "Starting iex for the project")
+                 (alchemist-iex-project-run))
+        (message "Not in mix project, falling back to non-project REPL")
+        (alchemist-iex-run)))
+  #+end_src

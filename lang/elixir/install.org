@@ -1,0 +1,4 @@
+* Install alchemist
+  #+begin_src emacs-lisp
+    (my-install-package 'alchemist)
+  #+end_src
