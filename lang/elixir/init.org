@@ -1,10 +1,7 @@
 * Function to enable completion in elxir REPL and buffer
   #+begin_src emacs-lisp
     (defun my-elixir-enable-completion ()
-      (auto-complete-mode -1)
-      (company-mode +1)
-
-      (add-to-list (make-variable-buffer-local 'company-backends) 'alchemist-company))
+      (add-to-list 'company-backends 'alchemist-company))
   #+end_src
 
 

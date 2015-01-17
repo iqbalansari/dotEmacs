@@ -40,12 +40,6 @@
   #+end_src
 
 
-* Enable auto-completion in the REPL
-  #+begin_src emacs-lisp
-    (add-hook 'haskell-interactive-mode-hook #'company-mode)
-  #+end_src
-
-
 * Turn on eldoc
    #+begin_src emacs-lisp
      (turn-on-haskell-doc)
@@ -90,22 +84,12 @@
 ** Enable company mode and company-ghc
   #+begin_src emacs-lisp
     (when my-ghc-mod-available
-      (auto-complete-mode -1)
-      (company-mode +1)
-
-      (add-to-list 'company-backends '(company-ghc company-dabbrev-code)))
+      (add-to-list 'company-backends '(company-ghc :with company-dabbrev-code)))
   #+end_src
 
 ** Show type info in the minibuffer
    #+begin_src emacs-lisp
      (setq company-ghc-show-info t)
-   #+end_src
-
-** Enable completion using tab
-   #+begin_src emacs-lisp
-     (when my-ghc-mod-available
-       (make-local-variable 'completion-at-point-functions)
-       (push (lambda () (call-interactively #'company-ghc)) completion-at-point-functions))
    #+end_src
 
 ** Warn if hoogle is not installed

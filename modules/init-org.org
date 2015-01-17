@@ -112,9 +112,7 @@
 * Enable company mode and company-math in org-mode files
   #+begin_src emacs-lisp
     (defun my-org-enable-company-mode ()
-      (company-mode +1)
       (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
-      (make-variable-buffer-local 'company-backends)
       (add-to-list 'company-backends
                    '(company-capf
                      company-math-symbols-unicode

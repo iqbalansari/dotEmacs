@@ -5,13 +5,6 @@
   #+end_src
 
 
-* Use company-mode for auto-completion
-  #+begin_src emacs-lisp
-    (auto-complete-mode -1)
-    (company-mode +1)
-  #+end_src
-
-
 * UTOP configuration
 ** Load utop
    #+begin_src emacs-lisp

@@ -7,28 +7,7 @@
   #+end_src
 
 
-* Require auto-complete
-  #+begin_src emacs-lisp
-    (load "auto-complete-config")
-  #+end_src
-
-
 * Auto-complete configurations
-** Load default configuration
-   #+begin_src emacs-lisp
-     (ac-config-default)
-   #+end_src
-
-** Set default sources for autocomplete
-  #+begin_src emacs-lisp
-    (setq-default ac-sources (append ac-sources '(ac-source-yasnippet
-                                                  ac-source-imenu
-                                                  ac-source-dictionary
-                                                  ac-source-abbrev
-                                                  ac-source-words-in-same-mode-buffers
-                                                  ac-source-filename)))
-  #+end_src
-
 ** How sensitive is autocompletion
    #+begin_src emacs-lisp
      (setq ac-auto-start 3)
@@ -43,7 +22,6 @@
 ** Enable menu mode-map when autocomplete menu is displayed
    #+begin_src emacs-lisp
      (setq ac-use-menu-map t)
-     (define-key ac-menu-map [backtab] 'ac-previous)
    #+end_src
 
 ** Display completion correctly
@@ -53,13 +31,16 @@
 
 ** Use auto-complete with flyspell
    #+begin_src emacs-lisp
-     (ac-flyspell-workaround)
+     (eval-after-load "auto-complete"
+       '(progn (define-key ac-menu-map [backtab] 'ac-previous)
+               (ac-flyspell-workaround)))
    #+end_src
 
 ** To get pop-ups with docs even if a word is uniquely completed from Steve Purcell's config
    #+begin_src emacs-lisp
      (setq-default ac-dwim nil)
    #+end_src
+
 ** Maximum width of auto-complete menu
    #+begin_src emacs-lisp
      (setq ac-max-width 0.5)
@@ -125,15 +106,18 @@
    #+end_src
 
 
-* Enable company mode in all text/fundamental mode buffers
+* Enable company-ispell in all text/fundamental mode buffers
   #+begin_src emacs-lisp
     (defun my-text-mode-enable-completion ()
-      (auto-complete-mode -1)
-      (company-mode +1)
-
-      (add-to-list (make-variable-buffer-local 'company-backends)
-                   '(company-capf company-ispell company-dabbrev)))
+      (add-to-list 'company-backends '(company-capf company-ispell company-dabbrev)))
 
     (add-hook 'text-mode-hook #'my-text-mode-enable-completion)
     (add-hook 'fundamental-mode #'my-text-mode-enable-completion)
+  #+end_src
+
+
+* Enable company-mode globally
+  #+begin_src emacs-lisp
+    (setq company-global-modes '(not erlang-mode python-mode web-mode))
+    (add-hook 'after-init-hook 'global-company-mode)
   #+end_src

@@ -19,11 +19,6 @@
 * Setup slime
   #+begin_src emacs-lisp
     (load "slime")
-    (auto-complete-mode -1)
-    (company-mode +1)
-
-    (add-hook 'slime-repl-mode-hook (lambda () (auto-complete-mode -1)))
-
     (slime-setup '(slime-fancy slime-company))
   #+end_src
 

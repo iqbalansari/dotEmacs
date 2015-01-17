@@ -77,15 +77,10 @@
   #+end_src
 
 
-* Configuration for auto-completion
+* Setup auto-completion
   #+begin_src emacs-lisp
-    (auto-complete-mode -1)
-    (company-mode +1)
-    (make-variable-buffer-local 'company-backends)
-    (add-to-list 'company-backends '(company-gtags
-                                     php-extras-company
-                                     company-dabbrev-code
-                                     company-keywords))
+    (add-to-list 'company-backends
+                 '(company-gtags php-extras-company company-dabbrev-code company-keywords))
   #+end_src
 
 

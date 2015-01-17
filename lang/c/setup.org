@@ -152,17 +152,12 @@
 
 
 * Setup auto-completion
-** Disable auto-complete and enable company mode
    Also add company-c-headers to company-backends
    #+begin_src emacs-lisp
      (when my-irony-available
-       (auto-complete-mode -1)
-       (company-mode)
        (irony-mode)
-       (add-to-list 'company-backends 'company-keywords)
-       (add-to-list 'company-backends 'company-irony)
-       (company-irony-setup-begin-commands)
-       (add-to-list 'company-backends 'company-c-headers))
+       (add-to-list 'company-backends '(company-irony company-c-headers company-keywords))
+       (company-irony-setup-begin-commands))
    #+end_src
 
 

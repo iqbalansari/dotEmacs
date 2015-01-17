@@ -9,6 +9,7 @@
 * Enable auto-completion
 ** Completion in for html parts of the file
   #+begin_src emacs-lisp
+    (auto-complete-mode +1)
     (load "ac-html")
 
     (add-to-list 'web-mode-ac-sources-alist

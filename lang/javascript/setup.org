@@ -34,12 +34,10 @@
        (tern-mode t))
    #+end_src
 
-** Enable auto-completion if ternjs is available
+** Setup tern backend for auto-completion if ternjs is available
    #+begin_src emacs-lisp
      (when my-ternjs-available
-       (auto-complete-mode -1)
-       (company-mode +1)
-       (add-to-list (make-variable-buffer-local 'company-backends) 'company-tern))
+       (add-to-list 'company-backends 'company-tern))
    #+end_src
 
 

@@ -19,10 +19,7 @@
 
 * Use company-mode for auto-completion
   #+begin_src emacs-lisp
-    (auto-complete-mode -1)
-    (company-mode +1)
-
-    (add-to-list (make-variable-buffer-local 'company-backends) '(company-css company-dabbrev))
+    (add-to-list 'company-backends '(company-css company-dabbrev))
   #+end_src
 
 

@@ -30,6 +30,7 @@
 
 ** Setup jedi for current buffer
    #+begin_src emacs-lisp
+     (auto-complete-mode +1)
      (when my-jedi-available
        (jedi:setup))
    #+end_src

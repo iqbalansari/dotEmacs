@@ -461,9 +461,6 @@
        (unless (string= (buffer-name) "*scratch*")
          (flycheck-mode))
 
-       (company-mode +1)
-       (auto-complete-mode -1)
-
        (add-hook 'ielm-mode-hook 'company-mode)
        (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 

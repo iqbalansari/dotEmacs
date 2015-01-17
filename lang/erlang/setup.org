@@ -17,6 +17,7 @@
 * Enable edts mode
   #+begin_src emacs-lisp
     (when my-edts-available
+      (auto-complete-mode +1)
       (edts-mode))
   #+end_src
 
@@ -48,12 +49,11 @@
 
 ** Setup company auto-completion for distel using company mode
    #+begin_src emacs-lisp
-          (when (and (not my-edts-available)
-                     (locate-library "company-distel"))
-            (auto-complete-mode -1)
-            (company-mode +1)
-            (load "company-distel")
-            (add-to-list 'company-backends 'company-distel))
+     (when (and (not my-edts-available)
+                (locate-library "company-distel"))
+       (company-mode +1)
+       (load "company-distel")
+       (add-to-list 'company-backends 'company-distel))
    #+end_src
 
 
