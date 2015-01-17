@@ -502,10 +502,6 @@
     (my-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
     (my-auto-install-lang (rx ".ps1" string-end) 'powershell 'powershell-mode)
     (my-auto-install-lang (rx ".bongo-library" string-end) 'bongo 'bongo-library-mode)
-    (unless (equal system-type 'windows-nt)
-      (my-auto-install-lang (rx ".jl" string-end) 'ess (lambda ()
-                                                         (require 'ess-site)
-                                                         (julia-mode))))
   #+end_src
 
 ** Some extra auto-mode-alist entries
