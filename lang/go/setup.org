@@ -26,11 +26,15 @@
 
 
 * Setup auto-completion
-** Load go-autocomplete if it has been installed and not yet loaded
+** Use company-go for completion
   #+begin_src emacs-lisp
-    (when (load "go-autocomplete" t)
-      (add-to-list 'ac-sources 'ac-source-go))
+    (add-to-list 'company-backends 'company-go)
   #+end_src
+
+** Display annotation for completion candidates
+   #+begin_src emacs-lisp
+     (setq company-go-show-annotation t)
+   #+end_src
 
 
 * Highlight line after jumping to definition

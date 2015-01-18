@@ -1,7 +1,7 @@
-* Ensure that autocomplete is installed
+* Ensure that autocomplete packages are installed
   #+begin_src emacs-lisp
     (defvar my-auto-complete-packages
-      '(auto-complete pos-tip company))
+      '(company auto-complete pos-tip))
 
     (my-install-packages my-auto-complete-packages)
   #+end_src
@@ -64,6 +64,9 @@
     (setq hippie-expand-try-functions-list
           '(try-complete-file-name-partially
             try-complete-file-name
+            try-expand-all-abbrevs
+            try-expand-list
+            try-expand-line
             try-expand-dabbrev
             try-expand-dabbrev-all-buffers
             try-expand-dabbrev-from-kill))
@@ -105,6 +108,27 @@
      (setq company-require-match nil)
    #+end_src
 
+** More aggressive auto-completion
+   #+begin_src emacs-lisp
+     (setq company-idle-delay .3)
+   #+end_src
+
+** Keybindings
+   Remap company-complete-common to company-complete-common-or-cycle
+   #+begin_src emacs-lisp
+     (eval-after-load "company"
+       '(define-key company-active-map [remap company-complete-common] #'company-complete-common-or-cycle))
+   #+end_src
+
+
+* Enable company-mode globally
+  #+begin_src emacs-lisp
+    (setq company-global-modes '(not erlang-mode python-mode web-mode))
+    (setq-default company-backends '(company-capf company-dabbrev))
+    (make-variable-buffer-local 'company-backends)
+    (global-company-mode)
+  #+end_src
+
 
 * Enable company-ispell in all text/fundamental mode buffers
   #+begin_src emacs-lisp
@@ -113,11 +137,4 @@
 
     (add-hook 'text-mode-hook #'my-text-mode-enable-completion)
     (add-hook 'fundamental-mode #'my-text-mode-enable-completion)
-  #+end_src
-
-
-* Enable company-mode globally
-  #+begin_src emacs-lisp
-    (setq company-global-modes '(not erlang-mode python-mode web-mode))
-    (add-hook 'after-init-hook 'global-company-mode)
   #+end_src

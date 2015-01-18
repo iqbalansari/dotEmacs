@@ -21,8 +21,7 @@
 ** Install the packages only if gocode is available
    #+begin_src emacs-lisp
      (if my-gocode-available
-         (my-install-packages '(go-autocomplete
-                                go-eldoc))
+         (my-install-packages '(company-go go-eldoc))
        (warn "`gocode' not installed autocompletion will not work"))
    #+end_src
 
