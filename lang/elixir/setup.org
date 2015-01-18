@@ -1,3 +1,9 @@
+* Enable alchemist mode
+  #+begin_src emacs-lisp
+    (alchemist-mode +1)
+  #+end_src
+
+
 * Compile project if needed
   #+begin_src emacs-lisp
     (setq alchemist-project-compile-when-needed t)
@@ -8,4 +14,10 @@
   #+begin_src emacs-lisp
     (my-elixir-enable-completion)
     (add-hook 'alchemist-iex-mode-hook #'my-elixir-enable-completion)
+  #+end_src
+
+
+* Enable syntax checking
+  #+begin_src emacs-lisp
+    (flycheck-mode +1)
   #+end_src
