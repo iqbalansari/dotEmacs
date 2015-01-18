@@ -108,11 +108,6 @@
      (setq company-require-match nil)
    #+end_src
 
-** More aggressive auto-completion
-   #+begin_src emacs-lisp
-     (setq company-idle-delay .3)
-   #+end_src
-
 ** Keybindings
    Remap company-complete-common to company-complete-common-or-cycle
    #+begin_src emacs-lisp
