@@ -38,6 +38,8 @@
 ** Use C-<enter> to expand snippets
    #+begin_src emacs-lisp
      (define-key yas-minor-mode-map (kbd "<C-return>") #'yas-expand)
+     (eval-after-load "company"
+       '(define-key yas-minor-mode-map (kbd "<C-return>") #'company-yasnippet))
    #+end_src
 
 
