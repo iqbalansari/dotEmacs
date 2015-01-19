@@ -375,3 +375,15 @@
      (add-hook 'shell-mode-hook 'goto-address-mode)
      (add-hook 'term-mode-hook 'goto-address-mode)
    #+end_src
+
+
+* Command Clear comint based REPL
+  Taken from [[http://emacsredux.com/blog/2015/01/18/clear-comint-buffers/]]
+  #+begin_src emacs-lisp
+    (defun my-comint-clear-buffer ()
+      (interactive)
+      (let ((comint-buffer-maximum-size 0))
+        (comint-truncate-buffer)))
+
+    (eval-after-load "comint" '(define-key comint-mode-map "\C-c\M-o" #'my-comint-clear-buffer))
+  #+end_src

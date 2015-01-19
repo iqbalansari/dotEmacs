@@ -507,6 +507,12 @@
    #+end_src
 
 
+* Require final newlines
+  #+begin_src emacs-lisp
+    (setq require-final-newline 'ask)
+  #+end_src
+
+
 * Keybindings
 ** Keybinding to prompt user for value during recording macro
    #+begin_src emacs-lisp

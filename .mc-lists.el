@@ -12,6 +12,8 @@
         c-electric-colon
         c-electric-delete-forward
         c-electric-semi&comma
+        c-hungry-delete-backwards
+        c-hungry-delete-forward
         complete-symbol
         completion-at-point
         copy-line-or-region

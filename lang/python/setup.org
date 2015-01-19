@@ -17,6 +17,12 @@
   #+end_src
 
 
+* Disable electric indent mode
+  #+begin_src emacs-lisp
+    (electric-indent-local-mode -1)
+  #+end_src
+
+
 * Setup Jedi for autocompletion
 ** Check if jedi is installed
    #+begin_src emacs-lisp
