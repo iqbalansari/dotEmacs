@@ -55,7 +55,10 @@
                                    :bold t)
 
                (set-face-attribute 'company-preview-common nil
-                                   :underline nil)))
+                                   :underline nil)
+
+               (set-face-attribute 'company-tooltip-annotation nil
+                                   :foreground "DarkSlateGray4")))
    #+end_src
 
 
