@@ -35,11 +35,16 @@
     (define-key yas-minor-mode-map [(tab)] nil)
   #+end_src
 
-** Use C-<enter> to expand snippets
+** Use company-mode to expand snippet otherwise use ido
    #+begin_src emacs-lisp
-     (define-key yas-minor-mode-map (kbd "<C-return>") #'yas-expand)
+     (defun my-expand-yas ()
+       (interactive)
+       (call-interactively (if (bound-and-true-p company-mode)
+                               #'company-yasnippet
+                             #'yas-insert-snippet)))
+
      (eval-after-load "company"
-       '(define-key yas-minor-mode-map (kbd "<C-return>") #'company-yasnippet))
+       '(define-key yas-minor-mode-map (kbd "<C-return>") #'my-expand-yas))
    #+end_src
 
 
