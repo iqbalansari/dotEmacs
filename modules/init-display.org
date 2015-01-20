@@ -31,35 +31,35 @@
 
 ** Use dark or light theme according time
   #+begin_src emacs-lisp
-    (let ((current-hour (third (decode-time)))
-          (current-minute (second (decode-time))))
-      (if (and (< current-hour 19)
-               (> current-hour 7))
-          (load-theme 'solarized-light t)
-        (load-theme 'solarized-dark t)))
+    (defun my-load-solarized-theme ()
+      (interactive)
+      (let ((current-hour (third (decode-time)))
+            (current-minute (second (decode-time))))
+        (if (and (< current-hour 19)
+                 (> current-hour 7))
+            (load-theme 'solarized-light t)
+          (load-theme 'solarized-dark t))
+
+        (set-face-attribute 'company-tooltip-common nil
+                            :underline nil
+                            :background (face-background 'company-tooltip)
+                            :foreground (face-foreground 'company-tooltip)
+                            :bold t)
+
+        (set-face-attribute 'company-tooltip-common-selection nil
+                            :underline nil
+                            :background (face-background 'company-tooltip-selection)
+                            :foreground (face-foreground 'company-tooltip-selection)
+                            :bold t)
+
+        (set-face-attribute 'company-preview-common nil
+                            :underline nil)
+
+        (set-face-attribute 'company-tooltip-annotation nil
+                            :foreground "DarkSlateGray4")))
+
+    (add-hook 'after-init-hook #'my-load-solarized-theme)
   #+end_src
-
-** Better display of common parts in company menu
-   #+begin_src emacs-lisp
-     (eval-after-load "company"
-       '(progn (set-face-attribute 'company-tooltip-common nil
-                                   :underline nil
-                                   :background (face-background 'company-tooltip)
-                                   :foreground (face-foreground 'company-tooltip)
-                                   :bold t)
-
-               (set-face-attribute 'company-tooltip-common-selection nil
-                                   :underline nil
-                                   :background (face-background 'company-tooltip-selection)
-                                   :foreground (face-foreground 'company-tooltip-selection)
-                                   :bold t)
-
-               (set-face-attribute 'company-preview-common nil
-                                   :underline nil)
-
-               (set-face-attribute 'company-tooltip-annotation nil
-                                   :foreground "DarkSlateGray4")))
-   #+end_src
 
 
 * Don't show menubar, scrollbar and toolbar
