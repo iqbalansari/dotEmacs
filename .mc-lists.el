@@ -42,8 +42,10 @@
         mark-sexp
         my-beginning-of-line-or-indent
         new-line-dwim
+        open-line-above
         open-line-below
         org-beginning-of-line
+        org-cycle
         org-delete-char
         org-end-of-line
         org-force-self-insert
