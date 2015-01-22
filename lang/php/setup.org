@@ -70,10 +70,6 @@
     (eldoc-mode)
     (make-local-variable 'eldoc-documentation-function)
     (setq eldoc-documentation-function #'my-php-eldoc-function)
-
-    ;; Remove ggtags' advice
-    (when (fboundp 'remove-function)
-      (remove-function (local 'eldoc-documentation-function) 'ggtags-eldoc-function))
   #+end_src
 
 

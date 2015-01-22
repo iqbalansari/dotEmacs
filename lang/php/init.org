@@ -229,3 +229,12 @@
 
     (add-hook 'php-boris-mode-hook #'my-boris-enable-extra-settings)
   #+end_src
+
+
+* Remove ggtags around local eldoc function
+  #+begin_src emacs-lisp
+    (add-hook 'ggtags-mode-hook (lambda ()
+                                         (when (fboundp 'remove-function)
+                                           (remove-function (local 'eldoc-documentation-function) 'ggtags-eldoc-function))))
+  #+end_src
+
