@@ -7,12 +7,6 @@
   #+end_src
 
 
-* Use C-z as prefix for projectile commands
-   #+begin_src emacs-lisp
-     (setq projectile-keymap-prefix (kbd "C-z"))
-   #+end_src
-
-
 * Enable projectile
 ** Projectile requires 'vc-git' for 'git-grep'
    #+begin_src emacs-lisp
