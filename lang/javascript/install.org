@@ -6,15 +6,15 @@
   #+begin_src emacs-lisp
     (defvar my-javascript-packages '(js2-refactor
                                      skewer-mode
-                                     nodejs-repl
-                                     company-tern))
+                                     nodejs-repl))
   #+end_src
 
 
 * Install ternjs if npm is installed
   #+begin_src emacs-lisp
     (if (executable-find "npm")
-        (add-to-list 'my-javascript-packages 'tern)
+        (progn (add-to-list 'my-javascript-packages 'tern)
+               (add-to-list 'my-javascript-packages 'company-tern))
       (warn "Install npm to install ternjs"))
   #+end_src
 

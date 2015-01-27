@@ -17,6 +17,7 @@
         complete-symbol
         completion-at-point
         copy-line-or-region
+        count-words-region
         cut-line-or-region
         dabbrev-expand
         decrement-integer-at-point

@@ -12,6 +12,9 @@
                            pcre2el
                            bongo))
 
+    (when (eq system-type 'gnu/linux)
+      (my-install-package 'pdf-tools))
+
     (autoload 'mag-menu "mag-menu")
   #+end_src
 
@@ -293,3 +296,9 @@
    #+begin_src emacs-lisp
      (autoload #'bongo-library-mode "bongo")
    #+end_src
+
+
+* Initialize pdf tools
+  #+begin_src emacs-lisp
+    (pdf-tools-install)
+  #+end_src
