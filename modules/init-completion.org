@@ -1,7 +1,7 @@
 * Ensure that autocomplete packages are installed
   #+begin_src emacs-lisp
     (defvar my-auto-complete-packages
-      '(company auto-complete pos-tip))
+      '(company company-quickhelp auto-complete pos-tip))
 
     (my-install-packages my-auto-complete-packages)
   #+end_src
@@ -122,6 +122,12 @@
     (setq-default company-backends '(company-capf company-dabbrev))
     (make-variable-buffer-local 'company-backends)
     (global-company-mode)
+  #+end_src
+
+
+* Enable quick help for company-mode
+  #+begin_src emacs-lisp
+    (company-quickhelp-mode +1)
   #+end_src
 
 
