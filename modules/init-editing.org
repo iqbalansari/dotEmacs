@@ -434,7 +434,8 @@
     (defadvice ace-jump-list-visual-area (after my-no-ace-mode-in-docview (&rest args))
       (setq ad-return-value (remove-if (lambda (entry)
                                          (with-current-buffer (aj-visual-area-buffer entry)
-                                           (eq major-mode 'doc-view-mode)))
+                                           (or (eq major-mode 'doc-view-mode)
+                                               (eq major-mode 'pdf-view-mode))))
                                        ad-return-value)))
 
     (ad-activate 'ace-jump-list-visual-area)

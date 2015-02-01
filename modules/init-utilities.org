@@ -300,5 +300,5 @@
 
 * Initialize pdf tools
   #+begin_src emacs-lisp
-    ;(pdf-tools-install)
+    (add-hook 'after-init-hook 'pdf-tools-install)
   #+end_src
