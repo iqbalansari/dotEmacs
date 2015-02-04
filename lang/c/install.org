@@ -47,16 +47,15 @@
                       (if (not (version< (or my-libclang-version "0") "3.2"))
                           " [found]"
                         " [not found]")
-                      "\n\t4. g++ >= 4.8 or clang >= 3.2 "
-                      (if (or (not (version< (or my-g++-version "0") "4.7"))
-                              (not (version< (or my-clang-version "0") "3.2")))
+                      "\n\t4. g++ >= 4.8  "
+                      (if (not (version< (or my-g++-version "0") "4.7"))
                           "[found]"
                         "[not found]") "\n"
                         "skipping installation"))))
   #+end_src
 
 
-* Install irony-mode and company-irony for completion
+* Install irony-mode, company-irony and irony-eldoc
   Install irony-mode for context sensitive completion, if requirements are
   satisfied otherwise display the missing requirements
   #+begin_src emacs-lisp
@@ -64,8 +63,8 @@
       (if (and my-cmake-version
                (not (version< my-cmake-version "2.8.3"))
                my-libclang-version)
-          (progn (my-install-package 'irony #'irony-install-server)
-                 (my-install-package 'company-irony)
+          (progn (my-install-package 'irony (lambda () (call-interactively 'irony-install-server)))
+                 (my-install-packages '(company-irony irony-eldoc))
                  (setq my-irony-available t))
         (warn (concat "irony requirements not satisfied, require\n"
                       "\t1. cmake >= 2.8.3"
@@ -91,16 +90,6 @@
         (cond ((not my-gnu-global-version) (warn "GNU Global not installed, not installing gtags"))
               (t (warn (concat "GNU Global version is " my-gnu-global-version
                                " install latest version to install gtags"))))))
-  #+end_src
-
-
-* Install malinka for creating C/C++ projects
-   The main functionality that malinka provides is to properly populate and
-   communicate the compiler commands to the rtags daemons depending on the
-   project
-  #+begin_src emacs-lisp
-    (when (locate-library "rtags")
-        (my-install-package 'malinka))
   #+end_src
 
 

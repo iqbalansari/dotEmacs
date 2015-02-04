@@ -21,10 +21,22 @@
   #+end_src
 
 
-* Create GTAGS/TAGS if not created yet
+* Check if project is indexed
+  #+begin_src emacs-lisp
+    (make-local-variable 'my-rtags-project-indexed)
+
+    (when my-rtags-available
+      (let ((rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
+                                                           " --is-indexed "
+                                                           buffer-file-name))))
+        (setq my-rtags-project-indexed (string= rtags-status "indexed\n"))))
+  #+end_src
+
+
+* Create GTAGS/TAGS if not created yet and RTags is not available for the project
   #+begin_src emacs-lisp
     (let ((project-root (ignore-errors (projectile-project-root))))
-      (when project-root
+      (when (and project-root (not my-rtags-project-indexed))
         (cond (my-gtags-available (progn
                                     (unless (file-exists-p (concat project-root "GTAGS"))
                                     (shell-command (concat "cd "
@@ -44,111 +56,13 @@
   #+end_src
 
 
-* Load malinka
-  #+begin_src emacs-lisp
-    (when (and (not (boundp 'malinka-projects-map))
-               (locate-library "malinka"))
-      (load "malinka")
-      (when (file-exists-p (locate-user-emacs-file "malinka-projects.el"))
-        (load (locate-user-emacs-file "malinka-projects.el"))))
-  #+end_src
-
-
-* Indexing file/projects
-** Index the project
-  #+begin_src emacs-lisp
-    (make-local-variable 'my-rtags-project-indexed)
-
-    (when (and (buffer-file-name) my-rtags-available)
-      (run-at-time 0.1 nil #'my-maybe-enable-rtags (current-buffer)))
-  #+end_src
-
-** Helper function to quickly add current file to project and index it
-   #+begin_src emacs-lisp
-     (defun my-rtags-index-this-file ()
-       (interactive)
-       (if my-rtags-available
-           (let ((project-root (car (my-identify-malinka-project))))
-             (if (and project-root buffer-file-name)
-                 (progn (malinka-project-add-file buffer-file-name project-root)
-                        (message (format "Added `%s' to `%s'" 
-                                         (file-name-nondirectory buffer-file-name)
-                                         project-root)))
-               (call-interactively #'malinka-project-add-file))
-             (setq-local my-rtags-project-indexed t))
-         (error "RTags not installed")))
-   #+end_src
-
-
-* Eldoc setup
-** Use rtags to get symbol info, if is available
-   #+begin_src emacs-lisp
-     (defun my-rtags-get-eldoc ()
-       (let ((rtags-status (when buffer-file-name
-                             (shell-command-to-string (format "%s --is-indexed %s"
-                                                              (rtags-executable-find "rc")
-                                                              buffer-file-name)))))
-         (when (string= rtags-status "indexed\n")
-           (rtags-get-summary-text))))
-   #+end_src
-
-** Setup eldoc
-  #+begin_src emacs-lisp
-    (when my-rtags-available
-      (eldoc-mode)
-      (make-variable-buffer-local 'eldoc-documentation-function)
-      (setq eldoc-documentation-function 'my-rtags-get-eldoc))
-  #+end_src
-
-
-* Setup jump to definition
-** Custom jump to definition function using rtags
-  Try to use rtags, if it fails fallback to gtags, if gtags is not available use
-  etags TODO: Does not work properly yet
-  #+begin_src emacs-lisp
-    (defun my-find-definition-rtags-fallback ()
-      (with-current-buffer rtags-buffer-name
-        (when (= (point-min) (point-max))
-          (if rtags-last-request-not-indexed
-              (if my-gtags-available (gtags-find-tag) (call-interactively #'find-tag))
-            (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol"
-                                                 "-F")))))
-    
-    (defun my-c-find-definition-rtags (&optional prefix)
-      (interactive "P")
-      (rtags-find-symbol-at-point prefix)
-      (my-find-definition-rtags-fallback))
-    
-    (defun my-c-find-definition (&optional prefix)
-      (interactive "P")
-      (cond (my-rtags-project-indexed (call-interactively #'my-c-find-definition-rtags))
-            (my-gtags-available (call-interactively  #'gtags-find-tag))
-            (t (call-interactively  #'find-tag))))
-    
-    (defun my-c-pop-mark ()
-      (interactive)
-      (cond (my-rtags-project-indexed (call-interactively #'rtags-location-stack-back))
-            (my-gtags-available (call-interactively #'gtags-pop-stack))
-            (t (call-interactively #'pop-tag-mark))))
-  #+end_src
-
-** Highlight line after jump
+* Highlight line after jump to definition
    #+begin_src emacs-lisp
      (my-highlight-line-after-func my-c-find-definition-rtags)
      (my-highlight-line-after-func my-find-definition-rtags-fallback)
      (my-highlight-line-after-func gtags-find-tag)
      (my-highlight-line-after-func find-tag)
    #+end_src
-
-
-* Find references
-  #+begin_src emacs-lisp
-    (defun my-c-find-references ()
-      (interactive)
-      (cond (my-rtags-project-indexed (call-interactively #'rtags-find-references))
-            (my-gtags-available (call-interactively #'gtags-find-rtag))
-            (t (call-interactively #'rgrep))))
-  #+end_src
 
 
 * Setup auto-completion
@@ -159,6 +73,13 @@
        (add-to-list 'company-backends '(company-irony company-c-headers company-keywords))
        (company-irony-setup-begin-commands))
    #+end_src
+
+
+* Setup eldoc
+  #+begin_src emacs-lisp
+    (when my-irony-available
+      (irony-eldoc))
+  #+end_src
 
 
 * Setup syntax checking

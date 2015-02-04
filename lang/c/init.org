@@ -101,42 +101,43 @@
   #+end_src
 
 
-* Function to identify rtags project the current file is associated with
+* Custom jump to definition functions using rtags
+  Try to use rtags, if it fails fallback to gtags, if gtags is not available use
+  etags
   #+begin_src emacs-lisp
-    (defun my-identify-malinka-project ()
-      (car (remove-if-not (lambda (project)
-                            (let ((root-directory (malinka--project-name-get root-directory project)))
-                              ;; Malinka project whose root directory is same as current directory
-                              (or (string= root-directory default-directory)
-                                  ;; OR Malinka project whose root directory is ancestor of current directory
-                                  (f-ancestor-of? root-directory default-directory))))
-                          (hash-table-keys malinka--projects-map))))
+    (defun my-find-definition-rtags-fallback ()
+      (with-current-buffer rtags-buffer-name
+        (when (= (point-min) (point-max))
+          (if rtags-last-request-not-indexed
+              (if my-gtags-available (gtags-find-tag) (call-interactively #'find-tag))
+            (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol"
+                                                 "-F")))))
+    
+    (defun my-c-find-definition-rtags (&optional prefix)
+      (interactive "P")
+      (rtags-find-symbol-at-point prefix)
+      (my-find-definition-rtags-fallback))
+    
+    (defun my-c-find-definition (&optional prefix)
+      (interactive "P")
+      (cond (my-rtags-project-indexed (call-interactively #'my-c-find-definition-rtags))
+            (my-gtags-available (call-interactively  #'gtags-find-tag))
+            (t (call-interactively  #'find-tag))))
+    
+    (defun my-c-pop-mark ()
+      (interactive)
+      (cond (my-rtags-project-indexed (call-interactively #'rtags-location-stack-back))
+            (my-gtags-available (call-interactively #'gtags-pop-stack))
+            (t (call-interactively #'pop-tag-mark))))
   #+end_src
 
 
-* Enable rtags for current buffer
+* Function to find references
+  Fallback to gtags, if rtags is not present
   #+begin_src emacs-lisp
-    (defun my-maybe-enable-rtags (buffer)
-      ;; Index the file only if the directory is writable, since indexing
-      ;; requires write permission (to create the compile_commands.json file)
-      ;; We usually do not have it in directories contains system headers
-      (with-current-buffer buffer
-        ;; Identify the malinka project the current directory belongs
-        (when (file-writable-p (file-name-directory buffer-file-name))
-          (let* ((project (my-identify-malinka-project)))
-            (if (not project)
-                (warn (concat "Project not configured, please add malinka-define-project directive\n"
-                              "to ~/.emacs.d/malinka-projects.el see http://github.com/LefterisJP/malinka for syntax"))
-              ;; If the project is not indexed yet run `malinka-project-configure'
-              (when (zerop (string-to-number (shell-command-to-string (concat (rtags-executable-find "rc")
-                                                                              " --has-filemanager "
-                                                                              default-directory))))
-                (warn (concat "Project not indexed index it using `malinka-configure-project' or index manually from commandline using " 
-                              (rtags-executable-find "rc"))))))))
-
-      ;; Update flag indicating whether the file is indexed by rtags
-      (let ((rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
-                                                           " --is-indexed "
-                                                           buffer-file-name))))
-        (setq-local my-rtags-project-indexed (string= rtags-status "indexed\n"))))
+    (defun my-c-find-references ()
+      (interactive)
+      (cond (my-rtags-project-indexed (call-interactively #'rtags-find-references))
+            (my-gtags-available (call-interactively #'gtags-find-rtag))
+            (t (call-interactively #'rgrep))))
   #+end_src
