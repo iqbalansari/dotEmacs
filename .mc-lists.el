@@ -112,6 +112,7 @@
         makey-key-mode-popup-rectangles
         mouse-buffer-menu
         mouse-set-region
+        narrow-or-widen-dwim
         org-ctrl-c-ctrl-c
         org-edit-special
         orgtbl-ctrl-c-ctrl-c
