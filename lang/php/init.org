@@ -222,6 +222,7 @@
 * Some extra configurations for boris repl
   #+begin_src emacs-lisp
     (defun my-boris-enable-extra-settings ()
+      (company-mode -1)
       (auto-complete-mode +1)
       (php-extras-autocomplete-setup)
       (eldoc-mode +1)
