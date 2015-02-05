@@ -89,7 +89,7 @@
       (my-regenerate-compiled-file-maybe current-modules my-previous-modules my-tangled-modules)
       (my-write-to-file my-previous-modules-file
                            (prin1-to-string current-modules))
-      (load-file my-tangled-modules))
+      (load (file-name-sans-extension my-tangled-modules)))
 
     (defun my-remove-generated-files ()
       (interactive)

@@ -62,7 +62,7 @@
            (when (my-is-file-stale compiled-file init-file)
              (org-babel-tangle-file init-file compiled-file "emacs-lisp"))
 
-           (load compiled-file))
+           (load (file-name-sans-extension compiled-file)))
 
          (add-to-list 'my-initialized-langs lang)))
 
@@ -105,7 +105,7 @@
                               collect (concat lang-path file ".org")))
              (my-compile-lang-config language))
 
-           (load-file compiled-file))))
+           (load (file-name-sans-extension compiled-file)))))
 
      (defun my-load-lang-config-for-buffer (language)
        "Load a languages configuration, it compiles the config files

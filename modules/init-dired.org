@@ -65,7 +65,8 @@
 
 * Load dired-x for additional functionality
   #+begin_src emacs-lisp
-    (load "dired-x")
+    (unless (fboundp 'dired-jump)
+      (load "dired-x"))
   #+end_src
 
 
