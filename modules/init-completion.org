@@ -112,7 +112,8 @@
    Remap company-complete-common to company-complete-common-or-cycle
    #+begin_src emacs-lisp
      (eval-after-load "company"
-       '(define-key company-active-map [remap company-complete-common] #'company-complete-common-or-cycle))
+       '(progn (define-key company-active-map [remap company-complete-common] #'company-complete-common-or-cycle)
+               (define-key company-active-map (kbd "<backtab>") #'company-select-previous)))
    #+end_src
 
 
