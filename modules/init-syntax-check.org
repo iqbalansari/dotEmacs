@@ -26,6 +26,8 @@
 
 ** Add a custom function for underlining errors
    #+begin_src emacs-lisp
+     (require 'flycheck)
+
      (defun my-add-lines-for-errors (err)
        (flycheck-error-with-buffer err
          (when (equal (flycheck-error-level err) 'error)
@@ -43,7 +45,7 @@
                              level flycheck-indication-mode)))
              (overlay-put overlay 'help-echo (flycheck-error-message err))
              overlay))))
-     
+
      (eval-after-load 'flycheck
        '(add-to-list 'flycheck-process-error-functions #'my-add-lines-for-errors))
    #+end_src
