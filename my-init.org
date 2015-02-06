@@ -512,14 +512,16 @@
 
 ** Distinguishing between objc-headers and c-headers
    #+begin_src emacs-lisp
+     (defun my-file-objective-c-header-p ()
+       (and buffer-file-name
+            (string= (file-name-extension buffer-file-name) "h")
+            (or (>= (length (file-expand-wildcards "*.m"))
+                    (length (file-expand-wildcards "*.c")))
+                (re-search-forward "@\\<interface\\>" 
+                                   magic-mode-regexp-match-limit t))))
+
      (add-to-list 'magic-mode-alist
-                  (cons (lambda ()
-                          (and buffer-file-name
-                               (string= (file-name-extension buffer-file-name) "h")
-                               (or (re-search-forward "@\\<interface\\>" 
-                                                      magic-mode-regexp-match-limit t)
-                                   (file-expand-wildcards "*.m"))))
-                        #'objc-mode))
+                  (cons #'my-file-objective-c-header-p #'objc-mode))
    #+end_src
 
 ** Setup loading of language configuration when the language mode loads
