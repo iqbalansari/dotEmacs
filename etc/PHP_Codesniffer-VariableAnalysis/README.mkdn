@@ -1,0 +1,31 @@
+PHP_CodeSniffer VariableAnalysis
+================================
+
+Plugin for PHP_CodeSniffer static analysis tool that adds analysis of problematic
+variable use.
+
+ * Performs static analysis of variable use.
+ * Warns on use of undefined variables.
+ * Warns if variables are set or declared but never used within that scope.
+ * Warns if variables are redeclared within same scope.
+ * Warns if $this, self::$static_member, static::$static_member is used outside class scope.
+
+INSTALLATION
+------------
+
+Run ./install.sh -h to get install help.
+
+For a default install of PHP_Codesniffer via PEAR with PEAR in ~/pear you should be
+safe to just run ./install.sh to use the default options, then copy the rules from
+ruleset.xml into your own ruleset.xml.
+
+CUSTOMIZATION
+-------------
+
+There's a variety of options to customize the behaviour of VariableAnalysis, take
+a look at the included ruleset.xml for commented examples of a configuration.
+
+KNOWN ISSUES & BUGS
+-------------------
+
+ * File scope isn't currently analysed.

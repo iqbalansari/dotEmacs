@@ -235,7 +235,32 @@
 * Remove ggtags around local eldoc function
   #+begin_src emacs-lisp
     (add-hook 'ggtags-mode-hook (lambda ()
-                                         (when (fboundp 'remove-function)
-                                           (remove-function (local 'eldoc-documentation-function) 'ggtags-eldoc-function))))
+                                  (when (fboundp 'remove-function)
+                                    (remove-function (local 'eldoc-documentation-function) 'ggtags-eldoc-function))))
   #+end_src
 
+
+* Function to install variable analysis plugin for PHP Code Sniffer
+  #+begin_src emacs-lisp
+    (defvar my-phpcs-variable-analysis-path (concat (locate-user-emacs-file "etc/PHP_Codesniffer-VariableAnalysis/")))
+
+    (defun my-get-codesniffer-path ()
+      (let* ((phpcs (executable-find "phpcs"))
+             (vendor-path (when phpcs (locate-dominating-file phpcs "vendor")))
+             (codesniffer-path (concat vendor-path "vendor/squizlabs/php_codesniffer/CodeSniffer/")))
+        (when (file-exists-p codesniffer-path)
+          codesniffer-path)))
+
+
+    (defun my-install-variable-analysis-sniffs ()
+      (let* ((codesniffer-path (my-get-codesniffer-path))
+             (variable-analysis-sniff (concat my-phpcs-variable-analysis-path "Sniffs/CodeAnalysis/VariableAnalysisSniff.php"))
+             (destination-sniff-file (when codesniffer-path
+                                       (concat codesniffer-path
+                                               "Standards/Generic/Sniffs/CodeAnalysis/VariableAnalysisSniff.php"))))
+        (when codesniffer-path
+          (unless (file-exists-p destination-sniff-file)
+            (copy-file variable-analysis-sniff
+                       destination-sniff-file))
+          t)))
+  #+end_src
