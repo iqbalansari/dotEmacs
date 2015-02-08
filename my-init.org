@@ -490,7 +490,7 @@
     (my-auto-install-lang (rx ".go" string-end) 'go-mode 'go-mode)
     (my-auto-install-lang (rx ".factor" string-end) 'fuel 'factor-mode)
     (my-auto-install-lang (rx ".json" string-end) 'json-mode 'json-mode)
-    (my-auto-install-lang (rx (or (seq "." (or "md" "markdown")) "README") string-end) 'markdown-mode 'markdown-mode)
+    (my-auto-install-lang (rx (or (seq "." (or "md" "markdown" "mkdn")) "README") string-end) 'markdown-mode 'markdown-mode)
     (my-auto-install-lang (rx ".yaml" string-end) 'yaml-mode 'yaml-mode)
     (my-auto-install-lang (rx (or "http.conf" "srm.conf" "access.conf" (seq "sites-" (or "available" "enabled")) ".htaccess") string-end)
                           'apache-mode 
