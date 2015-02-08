@@ -4,10 +4,10 @@
                            inf-mongo
                            prodigy
                            eldoc-eval
+                           guide-key
                            edit-server
                            f
                            deft
-                           discover
                            realgud
                            pcre2el
                            bongo))
@@ -180,18 +180,20 @@
   #+end_src
 
 
-* Enable discover mode
-** Enable the mode
-  #+begin_src emacs-lisp
-    (global-discover-mode +1)
-  #+end_src
-
-** For some reason 'C-x r' does not work with discover
+* guide-key configuration
+** Key prefixes to guide for
    #+begin_src emacs-lisp
-     (define-key undo-tree-map (kbd "C-x r U") nil)
-     (define-key undo-tree-map (kbd "C-x r u") nil)
-     (define-key undo-tree-map (kbd "C-x r") nil)
-     (global-unset-key (kbd "C-x r M-w"))
+     (setq guide-key/guide-key-sequence '("M-s" "M-s A" "M-s p" "M-s h" "C-x r" "C-x 4" (dired-mode "*" "%" "/" "r")))
+   #+end_src
+
+** Delay before displaying the guide
+   #+begin_src emacs-lisp
+     (setq guide-key/idle-delay 0)
+   #+end_src
+
+** Enable guide-key globally
+   #+begin_src emacs-lisp
+     (guide-key-mode 1)
    #+end_src
 
 
