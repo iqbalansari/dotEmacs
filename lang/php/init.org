@@ -270,6 +270,22 @@
   #+end_src
 
 
+* Function to format a file using 'phpcbf' command
+  #+begin_src emacs-lisp
+    (defun my-format-php-this-file ()
+      (interactive)
+      (if (not (executable-find "phpcbf"))
+          (error "`phpcbf' not found, please use composer to install php codesniffer")
+        (if (not buffer-file-name)
+            (error "Buffer is not currently visting any file")
+          (shell-command (format "phpcbf --encoding=utf8 --tab-width=4 --standard=%s --error-severity=0 %s %s"
+                                 my-phpcs-standard
+                                 (if (executable-find "diff") "" "--no-patch")
+                                 (expand-file-name buffer-file-name)))
+          (revert-buffer t t))))
+  #+end_src
+
+
 * List of projects to not prompt for gtags generation
   #+begin_src emacs-lisp
     (defvar my-php-no-tags-projects nil)
