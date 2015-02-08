@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<ruleset name="My Custom Standard">
+  <description>Custom coding standard</description>
+  <exclude-pattern>*/tests/*</exclude-pattern>
+
+  <!-- Include the whole PEAR standard -->
+  <rule ref="PEAR"/>
+
+
+  <!-- Change style errors to warnings -->
+
+  <rule ref="PEAR.Commenting.FileComment">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FileComment.MissingCategoryTag">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FileComment.MissingPackageTag">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FileComment.MissingAuthorTag">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FileComment.MissingLicenseTag">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FileComment.MissingLinkTag">
+    <type>warning</type>
+  </rule>
+
+  <rule ref="PEAR.Commenting.FunctionComment.SpacingAfter">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FunctionComment.MissingReturn">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FileComment.Missing">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Files.IncludingFile.UseRequireOnce">
+    <type>warning</type>
+  </rule>
+  <rule ref="Squiz.WhiteSpace.OperatorSpacing.NoSpaceBefore">
+    <type>warning</type>
+  </rule>
+  <rule ref="Squiz.WhiteSpace.OperatorSpacing.NoSpaceAfter">
+    <type>warning</type>
+  </rule>
+  <rule ref="Squiz.Operators.ComparisonOperatorUsage.NotAllowed">
+    <type>warning</type>
+  </rule>
+  <rule ref="Squiz.Operators.ComparisonOperatorUsage.ImplicitTrue">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.ControlStructures.ControlSignature">
+    <type>warning</type>
+  </rule>
+  <rule ref="Generic.PHP.LowerCaseConstant.Found">
+    <type>warning</type>
+  </rule>
+  <rule ref="Generic.Formatting.MultipleStatementAlignment.Incorrect">
+    <type>warning</type>
+  </rule>
+  <rule ref="Generic.Formatting.MultipleStatementAlignment.NotSame">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.Indent">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.CloseBracketLine">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.MultipleArguments">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.ControlStructures.MultiLineCondition.CloseBracketNewLine">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.ControlStructures.MultiLineCondition.StartWithBoolean">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.ControlStructures.MultiLineCondition.SpacingAfterOpenBrace">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.ControlStructures.MultiLineCondition.Alignment">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.WhiteSpace.ScopeIndent.Incorrect">
+    <type>warning</type>
+  </rule>
+  
+  <!-- Undefined variables -->
+  <rule ref="Generic.CodeAnalysis.VariableAnalysis.UndefinedVariable">
+    <severity>5</severity>
+    <type>error</type>
+  </rule>
+  
+  <rule ref="Generic.PHP.DeprecatedFunctions">
+    <type>warning</type>
+  </rule>
+
+  <rule ref="Generic.PHP.LowerCaseKeyword"/>
+  <rule ref="Generic.Strings.UnnecessaryStringConcat">
+    <type>warning</type>
+  </rule>
+
+</ruleset>

@@ -197,7 +197,9 @@
 * Function to refresh tags on save
   #+begin_src emacs-lisp
     (defun my-php-regenerate-tags ()
-      (when (and my-project-root buffer-file-name)
+      (when (and my-project-root
+                 buffer-file-name
+                 (locate-dominating-file buffer-file-name "GTAGS"))
         (shell-command (format "cd %s && global --single-update %s" my-project-root buffer-file-name))
         (message "TAGS regenerated!")))
   #+end_src
@@ -224,6 +226,7 @@
     (defun my-boris-enable-extra-settings ()
       (company-mode -1)
       (auto-complete-mode +1)
+      (setq php-extras-auto-complete-insert-parenthesis nil)
       (php-extras-autocomplete-setup)
       (eldoc-mode +1)
       (php-extras-eldoc-setup))
@@ -243,6 +246,7 @@
 * Function to install variable analysis plugin for PHP Code Sniffer
   #+begin_src emacs-lisp
     (defvar my-phpcs-variable-analysis-path (concat (locate-user-emacs-file "etc/PHP_Codesniffer-VariableAnalysis/")))
+    (defvar my-phpcs-standard (locate-user-emacs-file "etc/ruleset.xml"))
 
     (defun my-get-codesniffer-path ()
       (let* ((phpcs (executable-find "phpcs"))
@@ -263,4 +267,10 @@
             (copy-file variable-analysis-sniff
                        destination-sniff-file))
           t)))
+  #+end_src
+
+
+* List of projects to not prompt for gtags generation
+  #+begin_src emacs-lisp
+    (defvar my-php-no-tags-projects nil)
   #+end_src

@@ -37,10 +37,12 @@
                           (string-equal (file-truename project-root)
                                         (file-truename "~/.emacs.d/")))))
             (when (and (not (file-exists-p (concat project-root "/GTAGS")))
-                       (y-or-n-p (format "GTAG files not present for project [%s], generate them?"
-                                         project-root)))
-              (message "Generating TAGS for project")
-              (shell-command (format "cd %s && gtags" project-root)))
+                       (not (member project-root my-php-no-tags-projects)))
+              (if (y-or-n-p (format "GTAG files not present for project [%s], generate them?"
+                                    project-root))
+                  (progn (message "Generating TAGS for project")
+                         (shell-command (format "cd %s && gtags" project-root)))
+                (add-to-list 'my-php-no-tags-projects project-root)))
           (warn "Could not locate project root! Skipping generation of TAGS!"))))
 
   #+end_src
@@ -88,6 +90,8 @@
 
 ** Check if phpmd is installed
    #+begin_src emacs-lisp
-     (unless (executable-find "phpmd")
-       (warn "`phpmd' not found! Install it for better syntax checking"))
+     (if (executable-find "phpcs")
+         (when (my-install-variable-analysis-sniffs)
+           (setq flycheck-phpcs-standard my-phpcs-standard))
+         (warn "PHP Codesniffer not found! Install it using composer for better syntax checking"))
    #+end_src

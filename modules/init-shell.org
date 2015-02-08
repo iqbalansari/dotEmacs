@@ -47,7 +47,7 @@
   #+begin_src emacs-lisp
     (defun my-toggle-term-mode ()
       (interactive)
-      (if (term-in-line-mode)
+      (if (eq (current-local-map) term-raw-map)
           (progn (term-char-mode)
                  (message "Switched to char mode"))
         (term-line-mode)
