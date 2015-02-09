@@ -246,7 +246,7 @@
 * Function to install variable analysis plugin for PHP Code Sniffer
   #+begin_src emacs-lisp
     (defvar my-phpcs-variable-analysis-path (concat (locate-user-emacs-file "etc/PHP_Codesniffer-VariableAnalysis/")))
-    (defvar my-phpcs-standard (locate-user-emacs-file "etc/ruleset.xml"))
+    (defvar my-phpcs-standard (expand-file-name (locate-user-emacs-file "etc/ruleset.xml")))
 
     (defun my-get-codesniffer-path ()
       (let* ((phpcs (executable-find "phpcs"))
