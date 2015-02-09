@@ -48,10 +48,10 @@
     (defun my-toggle-term-mode ()
       (interactive)
       (if (eq (current-local-map) term-raw-map)
-          (progn (term-char-mode)
-                 (message "Switched to char mode"))
-        (term-line-mode)
-        (message "Switched to line mode")))
+          (progn (term-line-mode)
+                 (message "Switched to line mode"))
+        (term-char-mode)
+        (message "Switched to char mode")))
 
     (eval-after-load "term"
       '(progn (define-key term-raw-map (kbd "C-`") 'my-toggle-term-mode)

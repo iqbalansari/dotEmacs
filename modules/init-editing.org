@@ -15,6 +15,7 @@
       tiny
       expand-region
       hungry-delete
+      zop-to-char
       fold-this
       pos-tip
       phi-search))
@@ -625,3 +626,8 @@
     (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
     (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
   #+end_src
+
+** Keybinding for zop-to-char
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "M-z") 'zop-to-char)
+   #+end_src
