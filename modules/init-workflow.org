@@ -322,6 +322,35 @@
 
 
 * Configurations for org clocking
+** Better display of clocked in task, also indicate if not currently clocked in
+   #+begin_src emacs-lisp
+     (setq org-clock-clocked-in-display nil)
+
+     (defface my-org-not-clocked-in
+       `((t :background "red" :foreground "white" :weight bold))
+       "Face for when you are not clocked in to an org task")
+
+     (defface my-org-clocked-in
+       `((t :background "LimeGreen" :foreground "white" :weight bold))
+       "Face for when you are not clocked in to an org task")
+
+     (defun my-org-clock-mode-line ()
+       (let ((mode-line-string (concat " "
+                                       (if org-clock-current-task
+                                           org-mode-line-string
+                                         "Not clocked in")))
+             (mode-line-face (if org-clock-current-task
+                                 'my-org-clocked-in
+                               'my-org-not-clocked-in)))
+         (concat (propertize (concat mode-line-string " ")
+                             'face mode-line-face)
+                 " ")))
+
+     (setq global-mode-string (remove '(:eval (my-org-clock-mode-line)) global-mode-string))
+     (push '(:eval (my-org-clock-mode-line))
+           (cdr global-mode-string))
+   #+end_src
+
 ** Store persistence info inside org directory
    #+begin_src emacs-lisp
      (setq org-clock-persist-file (locate-user-emacs-file "org/misc/org-clock-save.el"))
