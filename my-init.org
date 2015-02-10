@@ -341,6 +341,9 @@
   #+begin_src emacs-lisp
     (put 'narrow-to-region 'disabled nil)
     (put 'scroll-left 'disabled nil)
+    (put 'downcase-region 'disabled nil)
+    (put 'upcase-word 'disabled nil)
+
   #+end_src
 
 
