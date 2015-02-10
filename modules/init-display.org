@@ -29,6 +29,12 @@
            solarized-height-plus-4 1.0)
    #+end_src
 
+** Fix underline position in X
+   The default makes the mode-line appear broken in solarized theme
+   #+begin_src emacs-lisp
+     (setq x-underline-at-descent-line t)
+   #+end_src
+
 ** Use dark or light theme according time
   #+begin_src emacs-lisp
     (defun my-load-solarized-theme ()
