@@ -335,7 +335,7 @@
        "Face for when you are not clocked in to an org task")
 
      (defun my-org-clock-mode-line ()
-       (org-clock-update-mode-line)
+       (when org-clock-current-task (org-clock-update-mode-line))
        (let ((mode-line-string (concat " "
                                        (if org-clock-current-task
                                            org-mode-line-string
