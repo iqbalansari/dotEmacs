@@ -116,6 +116,9 @@
   <rule ref="PEAR.WhiteSpace.ScopeClosingBrace.Indent">
     <type>warning</type>
   </rule>
+  <rule ref="Squiz.Operators.ComparisonOperatorUsage.ImplicitTrue">
+    <severity>0</severity>
+  </rule>
   
   <!-- Undefined variables -->
   <rule ref="Generic.CodeAnalysis.VariableAnalysis.UndefinedVariable">
@@ -137,6 +140,16 @@
     <type>warning</type>
   </rule>
 
+  <rule ref="PEAR.ControlStructures.MultiLineCondition.SpaceBeforeOpenBrace">
+    <type>warning</type>
+  </rule>
+  <rule ref="Generic.Functions.FunctionCallArgumentSpacing.NoSpaceAfterComma">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.ControlStructures.MultiLineCondition.SpaceBeforeOpenBrace">
+    <type>warning</type>
+  </rule>
+  
   <rule ref="Generic.PHP.LowerCaseKeyword"/>
   <rule ref="Generic.Strings.UnnecessaryStringConcat">
     <type>warning</type>
