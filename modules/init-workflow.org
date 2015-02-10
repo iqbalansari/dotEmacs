@@ -142,6 +142,11 @@
      (setq org-agenda-skip-scheduled-if-done t)
    #+end_src
 
+** Do not display tasks from past in org-agenda
+   #+begin_src emacs-lisp
+     (setq org-agenda-start-on-weekday nil)
+   #+end_src
+
 
 * Org capture templates
 ** Helper functions
@@ -246,7 +251,7 @@
                                               "TODO"
                                               'entry
                                               (list 'file
-                                                    (concat my-org-agenda-dir "/todos.org"))
+                                                    (locate-user-emacs-file "org/agenda/todos.org"))
                                               "* TODO %?\n%U\n\n"
                                               :empty-lines-after 2))
   #+end_src
@@ -257,7 +262,7 @@
                                                 "Interesting links"
                                                 'entry
                                                 (list 'file
-                                                      (concat my-notes-dir "links.org"))
+                                                      (locate-user-emacs-file "org/notes/links.org"))
                                                 "* UNREAD %?\n  %(my-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
@@ -268,7 +273,7 @@
                                                 "Note"
                                                 'entry
                                                 (list 'file
-                                                      (concat my-notes-dir "notes.org"))
+                                                      (locate-user-emacs-file "org/notes/notes.org"))
                                                 "* %? :NOTE:\n%U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
@@ -279,15 +284,25 @@
                                                 "Code snippets"
                                                 'entry
                                                 (list 'file
-                                                      (concat my-notes-dir "snippets.org"))
+                                                      (locate-user-emacs-file "org/notes/snippets.org"))
                                                 "* %? \n  #+begin_src %(my-get-source-buffers-mode)\n    %i\n  #+end_src\n\n"
                                                 :empty-lines-after 2))
     #+end_src
 
-*** Template for capturing appointments to diary file
+*** Template for capturing appointments
     #+begin_src emacs-lisp
       (add-to-list 'org-capture-templates (list "a"
                                                 "Appointment"
+                                                'plain
+                                                (list 'file
+                                                      (locate-user-emacs-file "org/agenda/appt.org"))
+                                                "* %?\n  SCHEDULED: <%(org-read-date)>"))
+    #+end_src
+
+*** Template to capture a diary entry
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "d"
+                                                "Diary"
                                                 'plain
                                                 (list 'file
                                                       (locate-user-emacs-file "org/diary"))
