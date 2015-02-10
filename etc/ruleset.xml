@@ -91,9 +91,44 @@
   <rule ref="PEAR.WhiteSpace.ScopeIndent.Incorrect">
     <type>warning</type>
   </rule>
+  <rule ref="PEAR.ControlStructures.MultiLineCondition.NewlineBeforeOpenBrace">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.WhiteSpace.ScopeIndent.IncorrectExact">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FunctionComment.Missing">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionDeclaration.BraceOnSameLine">
+    <type>warning</type>
+  </rule>
+
+  <rule ref="PEAR.NamingConventions.ValidFunctionName.FunctionNoCapital">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.WhiteSpace.ScopeClosingBrace.Line">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FunctionComment.MissingParamTag">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.WhiteSpace.ScopeClosingBrace.Indent">
+    <type>warning</type>
+  </rule>
   
   <!-- Undefined variables -->
   <rule ref="Generic.CodeAnalysis.VariableAnalysis.UndefinedVariable">
+    <severity>5</severity>
+    <type>error</type>
+  </rule>
+
+  <rule ref="Generic.CodeAnalysis.VariableAnalysis.UnusedVariable">
+    <severity>5</severity>
+    <type>warning</type>
+  </rule>
+
+  <rule ref="Generic.CodeAnalysis.VariableAnalysis.SelfOutsideClass">
     <severity>5</severity>
     <type>error</type>
   </rule>

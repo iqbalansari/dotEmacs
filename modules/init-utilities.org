@@ -183,7 +183,7 @@
 * guide-key configuration
 ** Key prefixes to guide for
    #+begin_src emacs-lisp
-     (setq guide-key/guide-key-sequence '("M-s" "M-s A" "M-s p" "M-s h" "C-x r" "C-x 4" (dired-mode "*" "%" "/" "r")))
+     (setq guide-key/guide-key-sequence '("M-s" "M-s A" "M-s p" "M-s h" "C-x r" "C-x 4" "C-c ^" (dired-mode "*" "%" "/" "r")))
    #+end_src
 
 ** Delay before displaying the guide

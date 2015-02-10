@@ -43,6 +43,7 @@
         mark-sexp
         my-beginning-of-line-or-indent
         new-line-dwim
+        nxml-electric-slash
         open-line-above
         open-line-below
         org-beginning-of-line

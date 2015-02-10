@@ -308,4 +308,8 @@
     (eval-after-load "merlin" '(diminish 'merlin-mode))
     (eval-after-load "auto-complete" '(diminish 'auto-complete-mode))    
     (eval-after-load "magit" '(diminish 'magit-auto-revert-mode))
+    (eval-after-load "flyspell" '(diminish 'flyspell-mode))
+    (eval-after-load "ggtags" '(diminish 'ggtags-mode))
+    (eval-after-load "subword" '(diminish 'subword-mode))
+    (eval-after-load "abbrev" '(diminish 'abbrev-mode))
   #+end_src
