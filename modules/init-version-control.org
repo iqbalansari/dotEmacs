@@ -140,3 +140,17 @@
         '(progn (define-key magit-gitflow-mode-map (kbd "C-f") nil)
                 (define-key magit-gitflow-mode-map (kbd "C-c f") 'magit-key-mode-popup-gitflow))))
   #+end_src
+
+
+* Enable smerge mode automatically for conflicted files
+  #+begin_src emacs-lisp
+    (defun sm-try-smerge ()
+      (when (and buffer-file-name
+                 (vc-backend buffer-file-name))
+        (save-excursion
+          (goto-char (point-min))
+          (when (re-search-forward "^<<<<<<< " nil t)
+            (smerge-mode +1)))))
+
+    (add-hook 'find-file-hook 'sm-try-smerge t)
+  #+end_src

@@ -331,7 +331,9 @@
   Command to view link log
   #+begin_src emacs-lisp
     (setq org-agenda-custom-commands
-          `(("l" "View link log" todo "UNREAD"
+          `(("l" "View link log" ((todo "UNREAD")
+                                  (todo "READING")
+                                  (todo "COMPLETED"))
              ((org-agenda-files '(,(concat my-notes-dir "links.org")))))))
   #+end_src
 
