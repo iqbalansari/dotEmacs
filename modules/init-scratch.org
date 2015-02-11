@@ -13,13 +13,10 @@
                               scratch-buffer-name
                             (with-current-buffer (generate-new-buffer scratch-buffer-name)
                               (funcall major-mode-function)
-                              (insert (concat (when (and (executable-find "fortune")
-                                                         (executable-find "cowsay"))
-                                                (concat (shell-command-to-string "fortune | cowsay") "\n"))
-                                              "Here is buffer for you to scratch :)"))
-                              (comment-region (point-min) (point-max))
+                              (when comment-start
+                                (insert "Here is buffer for you to scratch :)\n")
+                                (comment-region (point-min) (point-max)))
                               (goto-char (point-max))
-                              (insert "\n")
                               (current-buffer))))))
 
 

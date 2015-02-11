@@ -192,7 +192,8 @@
                                           "C-x r"
                                           "C-x 4"
                                           "C-c ^"
-                                          (dired-mode "*" "%" "/" "r")))
+                                          (dired-mode "*" "%" "/" "r")
+                                          (ibuffer-mode "*" "%" "/")))
    #+end_src
 
 ** Delay before displaying the guide
