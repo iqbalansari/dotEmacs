@@ -177,7 +177,7 @@
         (save-window-excursion
           (switch-to-prev-buffer)
           (when (equal major-mode 'w3m-mode)
-            (or (w3m-anchor)
+            (or (get-text-property (point) 'w3m-href-anchor)
                 w3m-current-url))))
     #+end_src
 

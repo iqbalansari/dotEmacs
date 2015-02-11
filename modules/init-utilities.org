@@ -6,6 +6,7 @@
                            eldoc-eval
                            guide-key
                            edit-server
+                           elfeed
                            f
                            deft
                            realgud
@@ -228,6 +229,12 @@
   #+end_src
 
 
+* Keybinding to launch elfeed
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c w") #'elfeed)
+  #+end_src
+
+
 * Install emacs-w3m if w3m is installed
 ** Keybindings for emacs-w3m
    #+begin_src emacs-lisp
@@ -283,12 +290,23 @@
      (add-hook 'w3m-mode-hook 'w3m-lnum-mode)
    #+end_src
 
+** DWIM version of w3m-browse-url
+   Prompts to open currently opened feeds URL in elfeed
+   #+begin_src emacs-lisp
+     (defun my-w3m-browse-url-dwim ()
+       (interactive)
+       (if (and (eq major-mode 'elfeed-show-mode)
+                (elfeed-entry-link elfeed-show-entry))
+           (w3m-browse-url (read-string "Emacs-w3m URL: " (elfeed-entry-link elfeed-show-entry)))
+         (call-interactively 'w3m-browse-url)))
+   #+end_src
+
 ** Install emacs-w3m if w3m executable is found
    #+begin_src emacs-lisp
      (when (executable-find "w3m")
        (my-install-package 'w3m)
        (global-set-key (kbd "C-c b") #'w3m)
-       (global-set-key (kbd "C-c l") #'w3m-browse-url))
+       (global-set-key (kbd "C-c l") #'my-w3m-browse-url-dwim))
    #+end_src
 
 
