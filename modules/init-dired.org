@@ -109,6 +109,12 @@
 
 
 * Dired filter's configurations
+** Do not print output any messages
+   #+begin_src emacs-lisp
+     (setq dired-filter-verbose nil)
+   #+end_src
+
+** Keybinding for filtering
   #+begin_src emacs-lisp
     (eval-after-load "dired"
       '(progn (load "dired-filter")
