@@ -17,7 +17,7 @@
     (setq org-todo-keywords
           (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s@/!)" "|" "DONE(d)")
                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")
-                  (sequence "UNREAD(u!)" "READING(r!)" "COMPLETED(f!)"))))
+                  (sequence "UNREAD(u!)" "READING(r!)" "READ(f!)"))))
   #+end_src
 
 ** Colors for TODO keywords
@@ -31,7 +31,7 @@
                    ("CANCELLED" :foreground "forest green" :weight bold)
                    ("UNREAD" :foreground "red" :weight bold)
                    ("READING" :foreground "blue" :weight bold)
-                   ("COMPLETED" :foreground "forest green" :weight bold))))
+                   ("READ" :foreground "forest green" :weight bold))))
    #+end_src
 
 ** Custom task priorities
