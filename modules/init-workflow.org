@@ -339,6 +339,11 @@
 
 
 * Configurations for org clocking
+** Capture a note while clocking out
+   #+begin_src emacs-lisp
+     (setq org-log-note-clock-out t)
+   #+end_src
+
 ** Better display of clocked in task, also indicate if not currently clocked in
    #+begin_src emacs-lisp
      (setq org-clock-clocked-in-display nil)
