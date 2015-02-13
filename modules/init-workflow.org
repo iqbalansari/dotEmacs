@@ -326,6 +326,17 @@
         (org-projectile:project-todo-entry "p" "* TODO %? :%(my-get-source-buffers-project):\n%a\n"))
     #+end_src
 
+*** Template for capturing elfeed feeds
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "e"
+                                                "Elfeed feed"
+                                                'entry
+                                                (list 'file
+                                                      (locate-user-emacs-file "org/notes/elfeed.org"))
+                                                "* %?\n  %(my-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
+                                                :empty-lines-after 2))
+    #+end_src
+
 
 * Custom agenda commands
   Command to view link log
@@ -382,7 +393,7 @@
        (make-directory (locate-user-emacs-file "org/misc") t))
    #+end_src
 
-** Save both the running clock, and the entire clock on exiting emacs
+** Save both the running clock, and the entire clock history on exiting emacs
   #+begin_src emacs-lisp
     (setq org-clock-persist t)
   #+end_src
