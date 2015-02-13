@@ -1,0 +1,83 @@
+* Install emacs-w3m if w3m executable is found
+   #+begin_src emacs-lisp
+     (when (executable-find "w3m")
+       (my-install-package 'w3m))
+   #+end_src
+
+
+* Keybindings for emacs-w3m
+   #+begin_src emacs-lisp
+     (defun my-set-w3m-keybindings ()
+       (define-key w3m-mode-map (kbd "M-n") #'w3m-next-anchor)
+       (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
+       (define-key w3m-mode-map (kbd "<down>") #'next-line)
+       (define-key w3m-mode-map (kbd "<up>") #'previous-line)
+       (define-key w3m-mode-map (kbd "<left>") nil)
+       (define-key w3m-mode-map (kbd "<right>") nil)
+       (define-key w3m-mode-map (kbd "<C-prior>") #'w3m-previous-buffer)
+       (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
+       (define-key w3m-mode-map (kbd "<C-S-prior>") #'w3m-tab-move-left)
+       (define-key w3m-mode-map (kbd "<C-S-next>") #'w3m-tab-move-right)
+       (define-key w3m-mode-map (kbd "C-c b") #'w3m-close-window)
+       (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
+       (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
+   #+end_src
+
+
+* Set mark before jumping to next/previous urls
+   #+begin_src emacs-lisp
+     (defun my-w3m-set-mark-before-jump ()
+       (defadvice w3m-next-anchor (before my-w3m-set-mark-before-next-url (&rest args))
+         (push-mark))
+
+       (defadvice w3m-previous-anchor (before my-w3m-set-mark-before-previous-url (&rest args))
+         (push-mark))
+
+       (defadvice w3m-view-this-url (before my-w3m-set-mark-before-viewing-url (&rest args))
+         (push-mark))
+
+       (ad-activate 'w3m-next-anchor)
+       (ad-activate 'w3m-previous-anchor)
+       (ad-activate 'w3m-view-this-url))
+   #+end_src
+
+
+* Activate the keybindings and advices after w3m loads
+   #+begin_src emacs-lisp
+     (eval-after-load "w3m"
+       '(progn (my-set-w3m-keybindings)
+               (my-w3m-set-mark-before-jump)))
+   #+end_src
+
+
+* Delete trailing spaces in w3m buffer
+   #+begin_src emacs-lisp
+     (add-hook 'w3m-display-hook (lambda (url)
+                                   (let ((buffer-read-only nil))
+                                     (delete-trailing-whitespace))))
+   #+end_src
+
+
+* Enable lnum mode for faster opening of urls
+   #+begin_src emacs-lisp
+     (add-hook 'w3m-mode-hook 'w3m-lnum-mode)
+   #+end_src
+
+
+* DWIM version of w3m-browse-url
+   Prompts to open currently opened feeds URL in elfeed
+   #+begin_src emacs-lisp
+     (defun my-w3m-browse-url-dwim ()
+       (interactive)
+       (if (and (eq major-mode 'elfeed-show-mode)
+                (elfeed-entry-link elfeed-show-entry))
+           (w3m-browse-url (read-string "Emacs-w3m URL: " (elfeed-entry-link elfeed-show-entry)))
+         (call-interactively 'w3m-browse-url)))
+   #+end_src
+
+* Global w3m keybindings
+  #+begin_src emacs-lisp
+    (when (executable-find "w3m")
+      (global-set-key (kbd "C-c b") #'w3m)
+      (global-set-key (kbd "C-c l") #'my-w3m-browse-url-dwim))
+  #+end_src

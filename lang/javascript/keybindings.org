@@ -25,3 +25,10 @@
         (my-setup-nodejs-repl-keys)
       (my-setup-skewer-repl-keys))
   #+end_src
+
+
+* Pretty printing javascript using js-beautify
+  #+begin_src emacs-lisp
+    (when (executable-find "js-beautify")
+      (define-key js2-mode-map (kbd "M-[") 'js-beautify))
+  #+end_src

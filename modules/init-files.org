@@ -142,3 +142,9 @@
     ;; Store the user choices when emacs exists
     (add-hook 'kill-emacs-hook #'my-store-ignored-local-vars)
   #+end_src
+
+
+* Do not delete files directly
+  #+begin_src emacs-lisp
+    (setq delete-by-moving-to-trash t)
+  #+end_src

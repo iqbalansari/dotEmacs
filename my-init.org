@@ -214,16 +214,6 @@
      (load "cl")
    #+end_src
 
-** 10. Select an application for spellchecking
-   #+begin_src emacs-lisp
-     (defvar ispell-program-name (or (executable-find "ispell")
-                                     (executable-find "aspell")
-                                     (executable-find "hunspell")))
-
-     (when (equal system-type 'windows-nt)
-       (setenv "LANG" "en_US.utf8"))
-   #+end_src
-
 
 * Increase gc threshhold
   #+begin_src emacs-lisp

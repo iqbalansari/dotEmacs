@@ -119,29 +119,33 @@
 
 * List of modules to be loaded
   #+begin_src emacs-lisp
-    (defvar my-modules-list '(display 
-                              completion
-                              backup
-                              files
-                              buffers
-                              dired
+    (defvar my-modules-list '(display
                               editing
-                              navigation
-                              search-replace
-                              ido
                               parenthesis
-                              syntax-check
-                              shell
-                              org
-                              utilities
-                              version-control
                               yasnippet
+                              navigation
+                              ido
+                              search-replace
+                              completion
+                              syntax-check
+                              buffers
+                              files
+                              dired
+                              version-control
+                              org
                               project
-                              scratch
                               workflow
+                              shell
+                              backup
+                              spellchecking
                               windows
                               session
-                              mail))
+                              scratch
+                              w3m
+                              mail
+                              rss
+                              pdf
+                              utilities))
   #+end_src
 
 

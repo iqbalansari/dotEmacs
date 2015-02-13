@@ -58,8 +58,7 @@
 * Start flyspell in org mode buffers
   The value of ispell-program name is set in my-init.org
   #+begin_src emacs-lisp
-    (when ispell-program-name
-      (add-to-list 'org-mode-hook 'flyspell-mode))
+    (add-to-list 'org-mode-hook 'flyspell-mode)
   #+end_src
 
 

@@ -509,6 +509,38 @@
    #+end_src
 
 
+* Cleanup whitespace in the buffer
+  #+begin_src emacs-lisp
+    (defun cleanup-buffer-safe ()
+      "Perform a bunch of safe operations on the whitespace content of a buffer.
+    Does not indent buffer, because it is used for a before-save-hook, and that
+    might be bad."
+      (interactive)
+      (untabify (point-min) (point-max))
+      (delete-trailing-whitespace)
+      (set-buffer-file-coding-system 'utf-8))
+  #+end_src
+
+
+* Convert buffer from DOS end-of-lines to Unix end-of-lines and vice versa
+  #+begin_src emacs-lisp
+    (defun dos-to-unix ()
+      "Cut all visible ^M from the current buffer."
+      (interactive)
+      (save-excursion
+        (goto-char (point-min))
+        (while (search-forward "\r" nil t)
+          (replace-match ""))))
+
+    (defun unix-to-dos ()
+      (interactive)
+      (save-excursion
+        (goto-char (point-min))
+        (while (search-forward "\n" nil t)
+          (replace-match "\r\n"))))
+  #+end_src
+
+
 * Require final newlines
   #+begin_src emacs-lisp
     (setq require-final-newline 'ask)

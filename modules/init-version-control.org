@@ -156,6 +156,14 @@
   #+end_src
 
 
+* Configurations for ediff
+  #+begin_src emacs-lisp
+    (setq ediff-diff-options "-w")
+    (setq ediff-split-window-function 'split-window-vertically)
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  #+end_src
+
+
 * Unfold all headlines for an org file in ediff mode
   Taken from [[http://orgmode.org/worg/org-hacks.html]]
   #+begin_src emacs-lisp
@@ -179,5 +187,4 @@
       (f-ediff-org-showhide ediff-buffer-A 'hide-sublevels 1)  
       (f-ediff-org-showhide ediff-buffer-B 'hide-sublevels 1)  
       (f-ediff-org-showhide ediff-buffer-C 'hide-sublevels 1))
-
   #+end_src

@@ -2,46 +2,15 @@
   #+begin_src emacs-lisp
     (my-install-packages '(mag-menu
                            inf-mongo
-                           prodigy
                            eldoc-eval
                            guide-key
                            edit-server
                            elfeed
-                           f
-                           deft
                            realgud
-                           pcre2el
                            bongo))
-
-    (when (eq system-type 'gnu/linux)
-      (my-install-package 'pdf-tools))
 
     (autoload 'mag-menu "mag-menu")
   #+end_src
-
-
-* Enable global rxt mode
-  #+begin_src emacs-lisp
-    (rxt-global-mode)
-  #+end_src
-
-
-* Enable flyspell prog mode in all programming buffers
-** Enable flyspell
-  #+begin_src emacs-lisp
-    (when ispell-program-name
-      (add-hook 'prog-mode-hook #'flyspell-prog-mode))
-  #+end_src
-
-** Disable spell checking inside strings
-   #+begin_src emacs-lisp
-     (setq flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face))
-   #+end_src
-
-** Disable the keybindings for auto-correcting word
-   #+begin_src emacs-lisp
-     (setq flyspell-use-meta-tab nil)
-   #+end_src
 
 
 * Command to replace the current expression with the result of its evaluation
@@ -66,38 +35,6 @@
   #+end_src
 
 
-* Cleanup whitespace in the buffer
-  #+begin_src emacs-lisp
-    (defun cleanup-buffer-safe ()
-      "Perform a bunch of safe operations on the whitespace content of a buffer.
-    Does not indent buffer, because it is used for a before-save-hook, and that
-    might be bad."
-      (interactive)
-      (untabify (point-min) (point-max))
-      (delete-trailing-whitespace)
-      (set-buffer-file-coding-system 'utf-8))
-  #+end_src
-
-
-* Convert buffer from DOS end-of-lines to Unix end-of-lines and vice versa
-  #+begin_src emacs-lisp
-    (defun dos-to-unix ()
-      "Cut all visible ^M from the current buffer."
-      (interactive)
-      (save-excursion
-        (goto-char (point-min))
-        (while (search-forward "\r" nil t)
-          (replace-match ""))))
-
-    (defun unix-to-dos ()
-      (interactive)
-      (save-excursion
-        (goto-char (point-min))
-        (while (search-forward "\n" nil t)
-          (replace-match "\r\n"))))
-  #+end_src
-
-
 * Start emacs-server
   #+begin_src emacs-lisp
     (load "server")
@@ -119,36 +56,6 @@
     (define-key Apropos-Prefix (kbd "l")   'apropos-library)
     (define-key Apropos-Prefix (kbd "v")   'apropos-variable)
     (define-key Apropos-Prefix (kbd "C-v") 'apropos-value)
-  #+end_src
-
-
-* Do not delete files directly
-  #+begin_src emacs-lisp
-    (setq delete-by-moving-to-trash t)
-  #+end_src
-
-
-* Configurations for ediff
-  #+begin_src emacs-lisp
-    (setq ediff-diff-options "-w")
-    (setq ediff-split-window-function 'split-window-horizontally)
-    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  #+end_src
-
-
-* Goto to next/previous page we reach the end/start of a page in doc-view
-  #+begin_src emacs-lisp
-    (setq doc-view-continuous t)
-  #+end_src
-
-
-* Use js-beautify to cleanup messy javascript
-  This can be also be used for reformatting JSON files for viewing them
-  #+begin_src emacs-lisp
-    (add-to-list 'load-path (concat otherpackages "js-beautify/"))
-    (when (executable-find "js-beautify")
-      (autoload 'js-beautify "js-beautify")
-      (global-set-key (kbd "M-[") 'js-beautify))
   #+end_src
 
 
@@ -229,131 +136,6 @@
   #+end_src
 
 
-
-* Elfeed configuration
-** Keybinding to launch elfeed
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c w") #'elfeed)
-  #+end_src
-
-** Load the feeds from elfeed.org file
-   #+begin_src emacs-lisp
-     (defun my-org-get-all-feeds (file)
-       (with-temp-buffer
-         (erase-buffer)
-         (insert-file-contents file)
-         (goto-char (point-min))
-
-         (let (feeds)
-
-           (while (re-search-forward org-plain-link-re nil t)
-             (let ((link (match-string 0))
-                   (tags (my-org-get-parents-tags)))
-
-               (add-to-list 'feeds (if tags (append (list link) tags) link))))
-           (nreverse feeds))))
-
-     (defun my-org-get-parents-tags ()
-       (mapcar #'intern
-               (save-excursion
-                 (let (tags)
-                   (while (not (equal (org-back-to-heading t) t))
-                     (setq tags (append tags (org-get-tags))))
-                   tags))))
-
-     (defun my-import-elfeed-feeds ()
-       (interactive)
-       (let* ((feeds-file (locate-user-emacs-file "org/notes/elfeed.org"))
-              (feeds (when (file-exists-p feeds-file)
-                       (my-org-get-all-feeds feeds-file))))
-         (setq elfeed-feeds feeds)
-         (message (format "Imported %d feeds" (length feeds)))))
-
-     (add-hook 'after-init-hook #'my-import-elfeed-feeds)
-   #+end_src
-
-** Store the database in org directory
-   So that it is synced with rest of the files
-   #+begin_src emacs-lisp
-     (setq elfeed-db-directory (locate-user-emacs-file "org/.elfeed"))
-   #+end_src
-
-
-* Install emacs-w3m if w3m is installed
-** Keybindings for emacs-w3m
-   #+begin_src emacs-lisp
-     (defun my-set-w3m-keybindings ()
-       (define-key w3m-mode-map (kbd "M-n") #'w3m-next-anchor)
-       (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
-       (define-key w3m-mode-map (kbd "<down>") #'next-line)
-       (define-key w3m-mode-map (kbd "<up>") #'previous-line)
-       (define-key w3m-mode-map (kbd "<left>") nil)
-       (define-key w3m-mode-map (kbd "<right>") nil)
-       (define-key w3m-mode-map (kbd "<C-prior>") #'w3m-previous-buffer)
-       (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
-       (define-key w3m-mode-map (kbd "<C-S-prior>") #'w3m-tab-move-left)
-       (define-key w3m-mode-map (kbd "<C-S-next>") #'w3m-tab-move-right)
-       (define-key w3m-mode-map (kbd "C-c b") #'w3m-close-window)
-       (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
-       (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
-   #+end_src
-
-** Set mark before jumping to next/previous urls
-   #+begin_src emacs-lisp
-     (defun my-w3m-set-mark-before-jump ()
-       (defadvice w3m-next-anchor (before my-w3m-set-mark-before-next-url (&rest args))
-         (push-mark))
-
-       (defadvice w3m-previous-anchor (before my-w3m-set-mark-before-previous-url (&rest args))
-         (push-mark))
-
-       (defadvice w3m-view-this-url (before my-w3m-set-mark-before-viewing-url (&rest args))
-         (push-mark))
-
-       (ad-activate 'w3m-next-anchor)
-       (ad-activate 'w3m-previous-anchor)
-       (ad-activate 'w3m-view-this-url))
-   #+end_src
-
-** Activate the keybindings and advices after w3m loads
-   #+begin_src emacs-lisp
-     (eval-after-load "w3m"
-       '(progn (my-set-w3m-keybindings)
-               (my-w3m-set-mark-before-jump)))
-   #+end_src
-
-** Delete trailing spaces in w3m buffer
-   #+begin_src emacs-lisp
-     (add-hook 'w3m-display-hook (lambda (url)
-                                   (let ((buffer-read-only nil))
-                                     (delete-trailing-whitespace))))
-   #+end_src
-
-** Enable lnum mode for faster opening of urls
-   #+begin_src emacs-lisp
-     (add-hook 'w3m-mode-hook 'w3m-lnum-mode)
-   #+end_src
-
-** DWIM version of w3m-browse-url
-   Prompts to open currently opened feeds URL in elfeed
-   #+begin_src emacs-lisp
-     (defun my-w3m-browse-url-dwim ()
-       (interactive)
-       (if (and (eq major-mode 'elfeed-show-mode)
-                (elfeed-entry-link elfeed-show-entry))
-           (w3m-browse-url (read-string "Emacs-w3m URL: " (elfeed-entry-link elfeed-show-entry)))
-         (call-interactively 'w3m-browse-url)))
-   #+end_src
-
-** Install emacs-w3m if w3m executable is found
-   #+begin_src emacs-lisp
-     (when (executable-find "w3m")
-       (my-install-package 'w3m)
-       (global-set-key (kbd "C-c b") #'w3m)
-       (global-set-key (kbd "C-c l") #'my-w3m-browse-url-dwim))
-   #+end_src
-
-
 * Start edit-server
   #+begin_src emacs-lisp
     (edit-server-start)
@@ -370,9 +152,3 @@
    #+begin_src emacs-lisp
      (autoload #'bongo-library-mode "bongo")
    #+end_src
-
-
-* Initialize pdf tools
-  #+begin_src emacs-lisp
-    ;(add-hook 'after-init-hook 'pdf-tools-install)
-  #+end_src

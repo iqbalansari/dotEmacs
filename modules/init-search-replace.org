@@ -6,6 +6,7 @@
         anzu
         discover
         swoop
+        pcre2el
         isearch-dabbrev))
 
     (when (executable-find "ack")
@@ -233,4 +234,8 @@
     (define-key isearch-mode-map (kbd "<tab>") 'isearch-dabbrev-expand)
   #+end_src
 
-  
+
+* Enable global rxt mode
+  #+begin_src emacs-lisp
+    (rxt-global-mode)
+  #+end_src

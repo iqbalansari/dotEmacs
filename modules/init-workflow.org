@@ -337,6 +337,15 @@
                                                 :empty-lines-after 2))
     #+end_src
 
+** Re-import elfeed feeds after capturing a feed
+   #+begin_src emacs-lisp
+     (defun my-maybe-reimport-feeds-after-capture ()
+       (when (string= (org-capture-get :key) "e")
+         (my-import-elfeed-feeds)))
+
+     (add-hook 'org-capture-after-finalize-hook #'my-maybe-reimport-feeds-after-capture)
+   #+end_src
+
 
 * Custom agenda commands
   Command to view link log

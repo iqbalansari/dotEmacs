@@ -12,6 +12,15 @@
   #+end_src
 
 
+* Use js-beautify to cleanup messy javascript
+  This can be also be used for reformatting JSON files for viewing them
+  #+begin_src emacs-lisp
+    (add-to-list 'load-path (concat otherpackages "js-beautify/"))
+    (when (executable-find "js-beautify")
+      (autoload 'js-beautify "js-beautify"))
+  #+end_src
+
+
 * Eval region in skewer mode
   #+begin_src emacs-lisp
     (defun my-js-eval-region (start end)

@@ -1,0 +1,17 @@
+* Install pdf-tools on linux platforms
+  #+begin_src emacs-lisp
+    (when (eq system-type 'gnu/linux)
+      (my-install-package 'pdf-tools))
+  #+end_src
+
+
+* Goto to next/previous page we reach the end/start of a page in doc-view
+  #+begin_src emacs-lisp
+    (setq doc-view-continuous t)
+  #+end_src
+
+
+* Initialize pdf tools
+  #+begin_src emacs-lisp
+    ;(add-hook 'after-init-hook 'pdf-tools-install)
+  #+end_src
