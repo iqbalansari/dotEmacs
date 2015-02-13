@@ -24,6 +24,12 @@
   #+end_src
 
 
+* Use ido for completion in org-mode
+  #+begin_src emacs-lisp
+    (setq org-completion-use-ido t)
+  #+end_src
+
+
 * Always use ido to read buffer name and file name
   #+begin_src emacs-lisp
     (setq read-buffer-function #'ido-read-buffer)
