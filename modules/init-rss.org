@@ -5,14 +5,15 @@
 
 
 * Open current article in w3m
+  Fallback to eww, if available or fallback to system browser
   #+begin_src emacs-lisp
     (defun my-elfeed-open-article-in-w3m ()
       (interactive)
       (if (elfeed-entry-link elfeed-show-entry)
-          (if (locate-library "w3m")
-              (w3m-browse-url (elfeed-entry-link elfeed-show-entry))
-            (message "`w3m' not installed, falling back to system browser")
-            (elfeed-show-visit))
+          (cond ((locate-library "w3m") (w3m-browse-url (elfeed-entry-link elfeed-show-entry)))
+                ((locate-library "eww") (eww-browse-url (elfeed-entry-link elfeed-show-entry)))
+                (t (progn (message "`w3m' not installed, falling back to system browser")
+                          (elfeed-show-visit))))
         (message "Not visiting an article!")))
   #+end_src
 
