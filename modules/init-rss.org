@@ -4,10 +4,37 @@
   #+end_src
 
 
-* Keybinding to launch elfeed
+* Open current article in w3m
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c w") #'elfeed)
+    (defun my-elfeed-open-article-in-w3m ()
+      (interactive)
+      (if (elfeed-entry-link elfeed-show-entry)
+          (if (locate-library "w3m")
+              (w3m-browse-url (elfeed-entry-link elfeed-show-entry))
+            (message "`w3m' not installed, falling back to system browser")
+            (elfeed-show-visit))
+        (message "Not visiting an article!")))
   #+end_src
+
+
+* Keybinding
+** Launch elfeed
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c f") #'elfeed)
+  #+end_src
+
+** Filtering articles
+   #+begin_src emacs-lisp
+     (eval-after-load "elfeed-search"
+       '(define-key elfeed-search-mode-map (kbd "/") #'elfeed-search-live-filter))
+   #+end_src
+
+** Keybindings for elfeed-show mode
+   #+begin_src emacs-lisp
+     (eval-after-load "elfeed-show"
+       '(progn (define-key elfeed-show-mode-map (kbd "l") #'my-elfeed-open-article-in-w3m)
+               (define-key elfeed-show-mode-map (kbd "/") #'elfeed-show-new-live-search)))
+   #+end_src
 
 
 * Load the feeds from elfeed.org file
@@ -45,7 +72,7 @@
    #+begin_src emacs-lisp 
      (defun my-import-elfeed-feeds ()
        (interactive)
-       (let* ((feeds-file (locate-user-emacs-file "org/notes/elfeed.org"))
+       (let* ((feeds-file (locate-user-emacs-file "org/elfeed.org"))
               (feeds (when (file-exists-p feeds-file)
                        (my-org-get-all-feeds feeds-file))))
          (setq elfeed-feeds feeds)

@@ -12,13 +12,15 @@
        (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
        (define-key w3m-mode-map (kbd "<down>") #'next-line)
        (define-key w3m-mode-map (kbd "<up>") #'previous-line)
+       (define-key w3m-mode-map (kbd "n") #'next-line)
+       (define-key w3m-mode-map (kbd "p") #'previous-line)
        (define-key w3m-mode-map (kbd "<left>") nil)
        (define-key w3m-mode-map (kbd "<right>") nil)
        (define-key w3m-mode-map (kbd "<C-prior>") #'w3m-previous-buffer)
        (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
        (define-key w3m-mode-map (kbd "<C-S-prior>") #'w3m-tab-move-left)
        (define-key w3m-mode-map (kbd "<C-S-next>") #'w3m-tab-move-right)
-       (define-key w3m-mode-map (kbd "C-c b") #'w3m-close-window)
+       (define-key w3m-mode-map (kbd "C-c w") #'w3m-close-window)
        (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
        (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
    #+end_src
@@ -75,9 +77,10 @@
          (call-interactively 'w3m-browse-url)))
    #+end_src
 
+
 * Global w3m keybindings
   #+begin_src emacs-lisp
     (when (executable-find "w3m")
-      (global-set-key (kbd "C-c b") #'w3m)
+      (global-set-key (kbd "C-c w") #'w3m)
       (global-set-key (kbd "C-c l") #'my-w3m-browse-url-dwim))
   #+end_src

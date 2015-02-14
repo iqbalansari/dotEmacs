@@ -60,7 +60,7 @@
           (kill-new kill-text)
           (message (concat "Copied" what)))))
 
-    (global-set-key (kbd "C-c f") 'my-copy-file-path)
+    (global-set-key (kbd "C-c b") 'my-copy-file-path)
   #+end_src
 
 
