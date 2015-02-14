@@ -1,0 +1,40 @@
+* Prefer executables provided by unxutils [[http://sourceforge.net/projects/unxutils/]]
+  Emacs relies on some external programs not available on windows for some of
+  it's commands to work properly. Fortunately windows version of these programs
+  are provided by some projects. Unxutils is one of them and seems to work best
+  with emacs.
+  
+** Path of unxutils files
+   #+begin_src emacs-lisp
+     (defvar my-unxutils-bin-dir (expand-file-name (locate-user-emacs-file "etc/unxutils/bin"))
+       "Path to bin directory of Unxutils distribution")
+     (defvar my-unxutils-wbin-dir (expand-file-name (locate-user-emacs-file "etc/unxutils/usr/local/wbin"))
+       "Path to usr/local/wbin directory of Unxutils distribution")
+   #+end_src
+
+** Add programs provided by unxutils to the exec-path and PATH
+   #+begin_src emacs-lisp
+     (dolist (directory (list my-unxutils-bin-dir my-unxutils-wbin-dir))
+       (when (equal system-type 'windows-nt)
+         (add-to-list 'exec-path directory)
+         (setenv "PATH" (mapconcat 'identity 
+                                   (cons directory
+                                         (split-string (getenv "PATH") path-separator))
+                                   path-separator))))
+   #+end_src
+
+** Warn on absence of files
+   #+begin_src emacs-lisp
+     (defvar my-windows-warn-abt-missing-unxutils t)
+
+     (when (and my-windows-warn-abt-missing-unxutils
+                (not (file-exists-p my-unxutils-wbin-dir)))
+       (add-hook 'after-init-hook
+                 (lambda ()
+                   (warn (format "unxutils not found, please download it from `%s' and extract it to `%s' directory \
+     otherwise some emacs commands might not work. If you have the files at some other location \
+     set the variables `my-unxutils-wbin-dir' and `my-unxutils-bin-dir' to point to it. To \
+     disable this warning set `my-windows-warn-abt-missing-unxutils' to nil."
+                                 "http://sourceforge.net/projects/unxutils/"
+                                 (expand-file-name (locate-user-emacs-file "etc/unxutils")))))))
+   #+end_src

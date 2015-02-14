@@ -146,6 +146,9 @@
                               rss
                               pdf
                               utilities))
+
+    (when (eq system-type 'windows-nt)
+      (add-to-list 'my-modules-list 'unxutils))
   #+end_src
 
 
