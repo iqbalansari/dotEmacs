@@ -9,10 +9,6 @@
         pcre2el
         isearch-dabbrev))
 
-    (when (executable-find "ack")
-      (add-to-list 'my-search-replace-packages 'ack-and-a-half)
-      (add-to-list 'my-search-replace-packages 'wgrep-ack))
-
     (when (executable-find "ag")
       (add-to-list 'my-search-replace-packages 'ag)
       (add-to-list 'my-search-replace-packages 'wgrep-ag))
@@ -222,10 +218,18 @@
 
     (when (executable-find "ag")
       (global-set-key (kbd "M-s p s") #'projectile-ack)
-      (global-set-key (kbd "M-s A s") #'ag)
-      (global-set-key (kbd "M-s A f") #'ag-files)
-      (global-set-key (kbd "M-s A d") #'ag-dired)
-      (global-set-key (kbd "M-s A p") #'ag-dired))
+      (global-set-key (kbd "M-s a s") #'ag)
+      (global-set-key (kbd "M-s a f") #'ag-files)
+      (global-set-key (kbd "M-s a d") #'ag-dired)
+      (global-set-key (kbd "M-s a p") #'ag-dired))
+  #+end_src
+
+
+* Enable highlighting of search term in ag
+  #+begin_src emacs-lisp
+    (setq ag-highlight-search (when (executable-find "ag")
+                                (version<= "0.14"
+                                           (third (split-string (shell-command-to-string "ag --version"))))))
   #+end_src
 
 

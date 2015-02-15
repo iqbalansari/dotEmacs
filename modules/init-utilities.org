@@ -100,6 +100,10 @@
                                           "C-x r"
                                           "C-x 4"
                                           "C-c ^"
+                                          "C-x v"
+                                          "C-c p"
+                                          "C-c p s"
+                                          "C-c p 4"
                                           (dired-mode "*" "%" "/" "r")
                                           (ibuffer-mode "*" "%" "/")))
    #+end_src

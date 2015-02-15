@@ -22,6 +22,8 @@
        (define-key w3m-mode-map (kbd "<C-S-next>") #'w3m-tab-move-right)
        (define-key w3m-mode-map (kbd "C-c w") #'w3m-close-window)
        (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
+       (define-key w3m-mode-map (kbd "C-c C-o") #'w3m-lnum-external-view-this-url)
+       (define-key w3m-mode-map (kbd "M-RET") #'w3m-lnum-external-view-this-url)
        (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
    #+end_src
 

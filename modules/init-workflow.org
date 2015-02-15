@@ -238,6 +238,36 @@
           (switch-to-prev-buffer)
           (projectile-project-name)))
     #+end_src
+*** Get active region in previous buffer as quote and org link to it
+    #+begin_src emacs-lisp
+      (defun my-justify-paragraph-text (text)
+        (with-temp-buffer
+          (erase-buffer)
+          (insert text)
+          (mark-whole-buffer)
+          (fill-paragraph t t)
+          (buffer-string)))
+
+      (defun my-indent-text (text &optional indent)
+        (with-temp-buffer
+          (erase-buffer)
+          (insert text)
+          (indent-region (point-min) (point-max) indent)
+          (buffer-string)))
+
+      (defun my-get-source-buffers-region-and-link ()
+        (save-window-excursion
+          (switch-to-prev-buffer)
+          (when (region-active-p)
+            (let ((selected-text (my-indent-text (my-justify-paragraph-text (buffer-substring (region-beginning)
+                                                                                              (region-end)))
+                                                 2))
+                  (fill-prefix "    "))
+              (my-indent-text (concat "#+begin_quote\n"
+                                      selected-text
+                                      "\n#+end_quote\n"
+                                      (org-store-link t)))))))
+    #+end_src
 
 ** The templates
 *** org-capture is not yet loaded, so initialize org-capture templates to empty list
@@ -274,7 +304,7 @@
                                                 'entry
                                                 (list 'file
                                                       (locate-user-emacs-file "org/notes/notes.org"))
-                                                "* %? :NOTE:\n%U\n\n"
+                                                "* %? %^G\n%(my-get-source-buffers-region-and-link)\n%U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
 
@@ -296,7 +326,7 @@
                                                 'plain
                                                 (list 'file
                                                       (locate-user-emacs-file "org/agenda/appt.org"))
-                                                "* %?\n  SCHEDULED: <%(org-read-date)>"))
+                                                "* %? %^g\n  SCHEDULED: <%(org-read-date)>"))
     #+end_src
 
 *** Template to capture a diary entry
@@ -328,12 +358,12 @@
 
 *** Template for capturing elfeed feeds
     #+begin_src emacs-lisp
-      (add-to-list 'org-capture-templates (list "e"
+      (add-to-list 'org-capture-templates (list "f"
                                                 "Elfeed feed"
                                                 'entry
                                                 (list 'file
                                                       (locate-user-emacs-file "org/elfeed.org"))
-                                                "* %?\n  %(my-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
+                                                "* %? %^g\n  %(my-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
 
@@ -377,12 +407,12 @@
        "Face for when you are not clocked in to an org task")
 
      (defun my-org-clock-mode-line ()
-       (when org-clock-current-task (org-clock-update-mode-line))
+       (when (org-clocking-p) (org-clock-update-mode-line))
        (let ((mode-line-string (concat " "
-                                       (if org-clock-current-task
+                                       (if (org-clocking-p)
                                            org-mode-line-string
                                          "Not clocked in")))
-             (mode-line-face (if org-clock-current-task
+             (mode-line-face (if (org-clocking-p)
                                  'my-org-clocked-in
                                'my-org-not-clocked-in)))
          (concat (propertize (concat mode-line-string " ")
