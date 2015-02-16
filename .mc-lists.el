@@ -116,6 +116,7 @@
         narrow-or-widen-dwim
         org-ctrl-c-ctrl-c
         org-edit-special
+        org-todo-list
         orgtbl-ctrl-c-ctrl-c
         orgtbl-hijacker-command-100
         phi-search

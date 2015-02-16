@@ -213,9 +213,6 @@
     (global-set-key (kbd "M-s z") #'zrgrep)
     (global-set-key (kbd "M-s p g") #'projectile-grep)
 
-    (when (executable-find "ack")
-      (global-set-key (kbd "M-s p a") #'projectile-ack))
-
     (when (executable-find "ag")
       (global-set-key (kbd "M-s p s") #'projectile-ack)
       (global-set-key (kbd "M-s a s") #'ag)

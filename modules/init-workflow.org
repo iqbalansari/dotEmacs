@@ -370,7 +370,7 @@
 ** Re-import elfeed feeds after capturing a feed
    #+begin_src emacs-lisp
      (defun my-maybe-reimport-feeds-after-capture ()
-       (when (string= (org-capture-get :key) "e")
+       (when (string= (org-capture-get :key) "f")
          (my-import-elfeed-feeds)))
 
      (add-hook 'org-capture-after-finalize-hook #'my-maybe-reimport-feeds-after-capture)
