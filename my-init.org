@@ -4,7 +4,9 @@
    Packages not currently installable package manager reside in this directory
    #+begin_src emacs-lisp
      (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
-     (add-to-list 'load-path otherpackages)
+
+     (dolist (package-dir (remove-if-not #'file-directory-p (directory-files otherpackages t "^[^.]+")))
+       (add-to-list 'load-path package-dir))
    #+end_src
 
 ** 2. Path to 'lang'uage specific configurations
@@ -315,25 +317,9 @@
    #+end_src
 
 
-* Unset C-z, I don't find it useful
-   #+begin_src emacs-lisp
-     (global-unset-key "\C-z")
-   #+end_src
-
-
 * Confirm before killing emacs
   #+begin_src emacs-lisp
     (setq confirm-kill-emacs 'y-or-n-p)
-  #+end_src
-
-
-* Enable some disabled commands
-  #+begin_src emacs-lisp
-    (put 'narrow-to-region 'disabled nil)
-    (put 'scroll-left 'disabled nil)
-    (put 'downcase-region 'disabled nil)
-    (put 'upcase-word 'disabled nil)
-
   #+end_src
 
 

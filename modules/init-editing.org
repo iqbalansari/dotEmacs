@@ -73,6 +73,15 @@
    #+end_src
 
 
+* Enable some disabled commands
+  #+begin_src emacs-lisp
+    (put 'narrow-to-region 'disabled nil)
+    (put 'scroll-left 'disabled nil)
+    (put 'downcase-region 'disabled nil)
+    (put 'upcase-word 'disabled nil)
+  #+end_src
+
+
 * General configurations for editing
 ** Always use spaces to indent and use four space
   #+begin_src emacs-lisp
@@ -662,4 +671,9 @@
 ** Keybinding for zop-to-char
    #+begin_src emacs-lisp
      (global-set-key (kbd "M-z") 'zop-to-char)
+   #+end_src
+
+** Unset C-z, I don't find it useful
+   #+begin_src emacs-lisp
+     (global-unset-key "\C-z")
    #+end_src

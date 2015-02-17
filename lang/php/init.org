@@ -272,7 +272,7 @@
 
 * Function to format a file using 'phpcbf' command
   #+begin_src emacs-lisp
-    (defun my-format-php-this-file ()
+    (defun my-php-format-this-file ()
       (interactive)
       (if (not (executable-find "phpcbf"))
           (error "`phpcbf' not found, please use composer to install php codesniffer")

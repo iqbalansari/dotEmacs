@@ -11,6 +11,7 @@
         browse-kill-ring
         c-electric-colon
         c-electric-delete-forward
+        c-electric-paren
         c-electric-semi&comma
         c-hungry-delete-backwards
         c-hungry-delete-forward

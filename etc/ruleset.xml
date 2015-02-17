@@ -149,7 +149,25 @@
   <rule ref="PEAR.ControlStructures.MultiLineCondition.SpaceBeforeOpenBrace">
     <type>warning</type>
   </rule>
-  
+  <rule ref="Generic.Commenting.DocComment.MissingShort">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Commenting.FunctionComment.MissingParamComment">
+    <type>warning</type>
+  </rule>
+  <rule ref="Generic.Commenting.DocComment.TagValueIndent">
+    <type>warning</type>
+  </rule>
+  <rule ref="Generic.Commenting.DocComment.NonParamGroup">
+    <type>warning</type>
+  </rule>
+  <rule ref="Generic.Commenting.DocComment.SpacingBeforeTags">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.SpaceBeforeOpenBracket">
+    <type>warning</type>
+  </rule>
+
   <rule ref="Generic.PHP.LowerCaseKeyword"/>
   <rule ref="Generic.Strings.UnnecessaryStringConcat">
     <type>warning</type>
