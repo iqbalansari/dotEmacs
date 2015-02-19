@@ -167,6 +167,15 @@
   <rule ref="PEAR.Functions.FunctionCallSignature.SpaceBeforeOpenBracket">
     <type>warning</type>
   </rule>
+  <rule ref="PEAR.Commenting.ClassComment.Missing">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.NamingConventions.ValidFunctionName.NotCamelCaps">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+    <type>warning</type>
+  </rule>
 
   <rule ref="Generic.PHP.LowerCaseKeyword"/>
   <rule ref="Generic.Strings.UnnecessaryStringConcat">
