@@ -105,7 +105,8 @@
                                           "C-c p s"
                                           "C-c p 4"
                                           (dired-mode "*" "%" "/" "r")
-                                          (ibuffer-mode "*" "%" "/")))
+                                          (ibuffer-mode "*" "%" "/")
+                                          (web-mode "C-c C-a" "C-c C-b" "C-c C-d" "C-c C-e" "C-c C-t")))
    #+end_src
 
 ** Delay before displaying the guide

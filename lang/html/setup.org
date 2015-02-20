@@ -29,7 +29,7 @@
    #+begin_src emacs-lisp
      (when (locate-library "tern")
        (load "tern-auto-complete")
-       (setq tern-ac-dot-complete t)
+       (set (make-local-variable 'tern-ac-dot-complete) t)
        (tern-ac-setup)
        (tern-mode))
    #+end_src
