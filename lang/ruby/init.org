@@ -24,11 +24,13 @@
 
 * Helper function to start robe
    #+begin_src emacs-lisp
-     (defun my-try-starting-robe (buffer)
-       (condition-case err
-           (robe-start)
-         (error (message (format "Failed to start robe because %s" 
-                                 (error-message-string err))))))
+     (defun my-try-starting-robe ()
+       (if inf-ruby-buffer
+           (condition-case err
+               (robe-start)
+             (error (message (format "Failed to start robe because %s" 
+                                     (error-message-string err)))))
+         (message "Could not start robe, since inf-ruby is not running")))
    #+end_src
 
 

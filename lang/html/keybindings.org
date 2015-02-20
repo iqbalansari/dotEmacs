@@ -28,3 +28,11 @@
   #+begin_src emacs-lisp
     (define-key web-mode-map (kbd "C-x C-\\") 'web-mode-fold-or-unfold)
   #+end_src
+
+
+* Reset C-c C-d to web-mode's keybindings
+  #+begin_src emacs-lisp
+    (when tern-mode
+      (define-key tern-mode-keymap (kbd "C-c C-d") nil))
+  #+end_src
+

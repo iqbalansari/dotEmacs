@@ -47,7 +47,7 @@
    #+begin_src emacs-lisp
      (if my-robe-can-run
          (progn (robe-mode)
-                (run-at-time 0.1 nil #'my-try-starting-robe buffer-file-name))
+                (run-at-time 0.1 nil #'my-try-starting-robe))
        (warn "`pry' not installed, robe won't start. See `http://github.com/dgutov/robe'"))
    #+end_src
 
