@@ -290,3 +290,9 @@
   #+begin_src emacs-lisp
     (defvar my-php-no-tags-projects nil)
   #+end_src
+
+
+* Do not display project name in modeline
+  #+begin_src emacs-lisp
+    (setq ggtags-mode-line-project-name nil)
+  #+end_src

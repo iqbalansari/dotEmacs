@@ -176,7 +176,19 @@
   <rule ref="PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
     <type>warning</type>
   </rule>
-
+  <rule ref="PEAR.NamingConventions.ValidClassName.StartWithCapital">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Commenting.FunctionComment.WrongStyle">
+    <type>warning</type>
+  </rule>
+  <rule ref="PEAR.NamingConventions.ValidFunctionName.FunctionNameInvalid">
+    <type>warning</type>
+  </rule>
+  
   <rule ref="Generic.PHP.LowerCaseKeyword"/>
   <rule ref="Generic.Strings.UnnecessaryStringConcat">
     <type>warning</type>
