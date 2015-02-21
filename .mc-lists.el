@@ -57,7 +57,9 @@
         org-metaright
         org-return-indent
         org-self-insert-command
+        org-shiftup
         org-table-sum
+        org-todo
         org-yank
         orgtbl-self-insert-command
         python-indent-electric-colon
