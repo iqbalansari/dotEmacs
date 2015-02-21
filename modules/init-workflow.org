@@ -258,15 +258,15 @@
       (defun my-get-source-buffers-region-and-link ()
         (save-window-excursion
           (switch-to-prev-buffer)
-          (when (region-active-p)
-            (let ((selected-text (my-indent-text (my-justify-paragraph-text (buffer-substring (region-beginning)
-                                                                                              (region-end)))
-                                                 2))
-                  (fill-prefix "    "))
-              (my-indent-text (concat "#+begin_quote\n"
-                                      selected-text
-                                      "\n#+end_quote\n"
-                                      (org-store-link t)))))))
+          (let ((fill-prefix "    "))
+            (my-indent-text (concat (when (region-active-p)
+                                      (concat "#+begin_quote\n"
+                                              (my-indent-text (my-justify-paragraph-text (buffer-substring (region-beginning)
+                                                                                                           (region-end)))
+                                                              2)
+                                              "\n#+end_quote\n"))
+                                    (org-store-link t))
+                            (when (region-active-p) 4 2)))))
     #+end_src
 
 ** The templates
