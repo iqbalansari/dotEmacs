@@ -175,6 +175,21 @@
    #+end_src
 
 
+* Integration with org-mode
+** Register a handler to open links to mu4e messages
+  #+begin_src emacs-lisp
+    (when (locate-library "org-mu4e")
+      (autoload 'org-mu4e-open "org-mu4e")
+      (org-add-link-type "mu4e" 'org-mu4e-open))
+  #+end_src
+
+** Load org-mu4e on loading mu4e
+   #+begin_src emacs-lisp
+     (eval-after-load "mu4e"
+       '(load "org-mu4e" t))
+   #+end_src
+
+
 * Convenience functions
 ** Advice mu4e~proc-sentinel so that path to mu binary is copied to clipboard
    This is needed since in case mu is installed using el-get (which it is), it

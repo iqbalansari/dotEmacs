@@ -5,7 +5,6 @@
                            eldoc-eval
                            guide-key
                            edit-server
-                           elfeed
                            realgud
                            bongo))
 
@@ -157,3 +156,9 @@
    #+begin_src emacs-lisp
      (autoload #'bongo-library-mode "bongo")
    #+end_src
+
+
+* Location of RFC files
+  #+begin_src emacs-lisp
+    (setq irfc-directory (locate-user-emacs-file "org/RFCs/"))
+  #+end_src

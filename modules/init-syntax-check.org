@@ -49,22 +49,3 @@
      (eval-after-load 'flycheck
        '(add-to-list 'flycheck-process-error-functions #'my-add-lines-for-errors))
    #+end_src
-
-
-* Display errors in a pos-tip
-** Custom function to display errors
-   The following function displays the errors at a point
-   in a popup
-   #+begin_src emacs-lisp
-     (load "pos-tip")
-     (defun my-display-messages-in-popup (errors)
-       (let ((messages (remove-if-not 'identity (mapcar #'flycheck-error-message errors))))
-         (when messages
-           (let ((inhibit-modification-hooks t))
-             (pos-tip-show (mapconcat (lambda (message) (concat "  " message "  "))
-                                      messages
-                                      "\n"))))))
-
-     (when (display-graphic-p)
-       (setq flycheck-display-errors-function #'my-display-messages-in-popup))
-   #+end_src
