@@ -70,7 +70,7 @@
    #+begin_src emacs-lisp
      (when my-irony-available
        (irony-mode)
-       (add-to-list 'company-backends '(company-irony company-c-headers company-keywords))
+       (add-to-list 'company-backends '(company-irony company-c-headers))
        (company-irony-setup-begin-commands))
    #+end_src
 

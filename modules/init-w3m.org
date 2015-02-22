@@ -51,6 +51,27 @@
   #+end_src
 
 
+* Jump to the title on loaded page
+  A simple heuristic to avoid the useless menus on the page (which are do not
+  work in w3m anyway) on a webpage and jump to the actual content
+  #+begin_src emacs-lisp
+    (defvar my-w3m-jump-to-title t "Jump to the title in w3m buffers after the page loads")
+
+    (defun my-w3m-goto-to-title (&optional url)
+      (interactive)
+      (let ((title (replace-regexp-in-string "\\(\\`[ \t\n\r]+\\|[ \t\n\r]+\\'\\)"
+                                             ""
+                                             (mapconcat #'identity (butlast (split-string w3m-current-title "-\\||") 1) "-"))))
+        (when (and my-w3m-jump-to-title
+                   (search-forward title nil t))
+          (goto-char (line-beginning-position))
+          (w3m-history-store-position)
+          (recenter 0))))
+
+    (add-hook 'w3m-display-hook #'my-w3m-goto-to-title)
+  #+end_src
+
+
 * DWIM version of w3m-browse-url
    Prompts to open currently opened feeds URL in elfeed
    #+begin_src emacs-lisp
@@ -61,6 +82,14 @@
            (w3m-browse-url (read-string "Emacs-w3m URL: " (elfeed-entry-link elfeed-show-entry)))
          (call-interactively 'w3m-browse-url)))
    #+end_src
+
+
+* Open current url in external browser
+  #+begin_src emacs-lisp
+    (defun my-w3m-view-url-in-external-browser ()
+      (interactive)
+      (browse-url w3m-current-url))
+  #+end_src
 
 
 * Keybindings for emacs-w3m
@@ -81,6 +110,7 @@
        (define-key w3m-mode-map (kbd "C-c w") #'w3m-close-window)
        (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
        (define-key w3m-mode-map (kbd "C-c C-o") #'w3m-lnum-external-view-this-url)
+       (define-key w3m-mode-map (kbd "E") #'my-w3m-view-url-in-external-browser)
        (define-key w3m-mode-map (kbd "M-RET") #'w3m-lnum-external-view-this-url)
        (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
    #+end_src

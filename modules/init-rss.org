@@ -10,10 +10,13 @@
     (defun my-elfeed-search-open-article-in-w3m ()
       (interactive)
       (let ((browse-url-browser-function (cond ((locate-library "w3m") #'w3m-browse-url)
-                                              ((locate-library "eww") #'eww-browse-url)
-                                              (t (progn (message "`w3m' not installed, falling back to system browser")
-                                                        #'browse-url-default-browser)))))
-        (elfeed-search-browse-url)))
+                                               ((locate-library "eww") #'eww-browse-url)
+                                               (t (progn (message "`w3m' not installed, falling back to system browser")
+                                                         #'browse-url-default-browser)))))
+        (elfeed-search-untag-all 'unread)
+        (save-excursion
+          (forward-line -1)
+          (elfeed-search-browse-url))))
   #+end_src
 
 
