@@ -80,8 +80,8 @@
 
     (defun my-regenerate-compiled-file-maybe (current-modules previous-modules target)
       (let ((stale-modules (my-get-changed-module-files current-modules))
-            (module-list-changed? (set-exclusive-or previous-modules current-modules)))
-        (when (or stale-modules module-list-changed?)
+            (module-list-changed-p (set-exclusive-or previous-modules current-modules)))
+        (when (or stale-modules module-list-changed-p)
           (my-compile-modules stale-modules)
           (my-combine-modules current-modules target))))
 
@@ -143,7 +143,7 @@
                               scratch
                               w3m
                               mail
-                              rss
+                              elfeed
                               pdf
                               utilities))
 
