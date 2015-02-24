@@ -88,10 +88,15 @@
     (flycheck-mode)
   #+end_src
 
-** Check if phpmd is installed
+** Check if phpcs is installed
    #+begin_src emacs-lisp
-     (if (executable-find "phpcs")
-         (when (my-install-variable-analysis-sniffs)
-           (setq flycheck-phpcs-standard my-phpcs-standard))
-         (warn "PHP Codesniffer not found! Install it using composer for better syntax checking"))
+     (if (executable-find "phpcs") 
+         (let* ((ruleset-dir (locate-dominating-file default-directory "ruleset.xml"))
+                (project-std (when ruleset-dir
+                               (concat ruleset-dir "ruleset.xml"))))
+           (setq flycheck-phpcs-standard
+                 (or project-std
+                     (when (my-install-variable-analysis-sniffs)
+                       my-phpcs-standard))))
+       (warn "PHP Codesniffer not found! Install it using composer for better syntax checking"))
    #+end_src

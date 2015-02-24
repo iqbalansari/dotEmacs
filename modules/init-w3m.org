@@ -61,7 +61,7 @@
       (interactive)
       (let ((title (replace-regexp-in-string "\\(\\`[ \t\n\r]+\\|[ \t\n\r]+\\'\\)"
                                              ""
-                                             (mapconcat #'identity (butlast (split-string w3m-current-title "-\\||") 1) "-"))))
+                                             (car (split-string w3m-current-title "\\( - \\| | \\)")))))
         (when (and my-w3m-jump-to-title
                    (search-forward title nil t))
           (goto-char (line-beginning-position))
