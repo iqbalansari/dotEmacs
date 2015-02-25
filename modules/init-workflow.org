@@ -1,7 +1,13 @@
 * Install org-projectile
   Useful for capturing project specific TODOs
   #+begin_src emacs-lisp
-    (my-install-package 'org-projectile)
+    (my-install-packages '(org-projectile org-journal))
+  #+end_src
+
+
+* Directory for org-journal
+  #+begin_src emacs-lisp
+    (setq org-journal-dir (locate-user-emacs-file "org/journal/"))
   #+end_src
 
 
