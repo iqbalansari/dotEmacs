@@ -191,9 +191,9 @@
     #+begin_src emacs-lisp
       (defun my-get-url-at-point-or-from-clipboard ()
         (require 'thingatpt)
-        (or (my-get-w3m-url)
-            (my-get-url-at-point)
-            (my-get-url-from-clipboard)))
+        (or (my-get-url-at-point)
+            (my-get-url-from-clipboard)
+            (my-get-w3m-url)))
     #+end_src
 
 *** Get name of major mode of buffer from which org-capture was called
@@ -271,7 +271,8 @@
                                                                                                            (region-end)))
                                                               2)
                                               "\n#+end_quote\n"))
-                                    (org-store-link t))
+                                    (or (my-get-url-from-clipboard)
+                                        (org-store-link t)))
                             (when (region-active-p) 4 2)))))
     #+end_src
 
