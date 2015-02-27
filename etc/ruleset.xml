@@ -188,6 +188,9 @@
   <rule ref="PEAR.NamingConventions.ValidFunctionName.FunctionNameInvalid">
     <type>warning</type>
   </rule>
+  <rule ref="Generic.WhiteSpace.DisallowTabIndent.TabsUsed">
+    <type>warning</type>
+  </rule>
   
   <rule ref="Generic.PHP.LowerCaseKeyword"/>
   <rule ref="Generic.Strings.UnnecessaryStringConcat">
