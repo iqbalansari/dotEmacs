@@ -15,9 +15,9 @@
 ** Define some extra keywords
   #+begin_src emacs-lisp
     (setq org-todo-keywords
-          (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s@/!)" "|" "DONE(d)")
-                  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")
-                  (sequence "UNREAD(u!)" "READING(r!)" "READ(f!)"))))
+          (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s!)" "DONE(d@/!)")
+                  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "CANCELLED(c@/!)")
+                  (sequence "UNREAD(u!)" "READING(r!)" "READ(f@/!)"))))
   #+end_src
 
 ** Colors for TODO keywords
@@ -183,6 +183,12 @@
                          (equal (match-string 2) (match-string 3)))
                     (org-todo 'done)
                   (org-todo 'todo)))))))
+  #+end_src
+
+
+* Log things in a drawer always
+  #+begin_src emacs-lisp
+    (setq org-log-into-drawer t)
   #+end_src
 
 

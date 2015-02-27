@@ -444,9 +444,69 @@
     (setq org-clock-persist t)
   #+end_src
 
+** Always insert clocking info in *CLOCK* drawer
+   #+begin_src emacs-lisp
+     (setq org-clock-into-drawer "CLOCK")
+   #+end_src
+
+** Remove clock line if resulting time is zero
+   #+begin_src emacs-lisp
+     (setq org-clock-out-remove-zero-time-clocks t)
+   #+end_src
+
+** Do not find a recent task, if there is not current clocked in task in org-clock-goto
+   #+begin_src emacs-lisp
+     (setq org-clock-goto-may-find-recent-task nil)
+   #+end_src
+
 ** Setup clock persistence
    #+begin_src emacs-lisp
      (org-clock-persistence-insinuate)
+   #+end_src
+
+** Automatically change todo states on clock-in and clock-out
+   #+begin_src emacs-lisp
+     (defun my-org-clock-in-switch (state)
+       (cond ((string= state "UNREAD") "READING")
+             ((string= state "READ") "READING")
+             (t "STARTED")))
+
+     (defun my-org-clock-out-switch (state)
+       (cond ((string= state "READING") "UNREAD")
+             ((string= state "STARTED") "TODO")))
+
+     (setq org-clock-in-switch-to-state #'my-org-clock-in-switch)
+     (setq org-clock-out-switch-to-state #'my-org-clock-out-switch)
+   #+end_src
+
+** View currently clocked in task
+  #+begin_src emacs-lisp
+    (defun my-org-hide/show-current-task ()
+      (interactive)
+      (let ((task-buffer-name "*Current Task*"))
+        (if (string= (buffer-name) task-buffer-name)
+            (ignore-errors (delete-window))
+          (if (not (org-clocking-p))
+              (error "Not clocked in to any task")
+            (select-window (or (get-buffer-window task-buffer-name)
+                               (split-window (frame-root-window) nil 'right)))
+            (when (get-buffer task-buffer-name)
+              (kill-buffer (get-buffer task-buffer-name)))
+            (org-clock-goto)
+            (switch-to-buffer (clone-indirect-buffer task-buffer-name nil))
+            (org-narrow-to-subtree)))))
+  #+end_src
+
+** Automatically clock out if task is marked as 'non-started' state
+   #+begin_src emacs-lisp
+     (setq org-clock-out-when-done '("TODO"
+                                      "NEXT"
+                                      "DONE"
+                                      "WAITING"
+                                      "HOLD"
+                                      "CANCELLED"
+                                      "READ"
+                                      "UNREAD"))
    #+end_src
 
 
@@ -515,11 +575,12 @@
 ** Global keybindings for org-mode
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c a") #'org-agenda)
-    (global-set-key (kbd "<f10>") #'org-todo-list)
-    (global-set-key (kbd "<f7>") #'org-clock-goto)
-    (global-set-key (kbd "<f8>") #'org-tags-view)
     (global-set-key (kbd "C-c c") #'org-capture)
-    (global-set-key (kbd "<f9>") #'org-capture)
+
+    (global-set-key (kbd "<f10>") #'org-todo-list)
+    (global-set-key (kbd "<f8>") #'my-org-hide/show-current-task)
+    (global-set-key (kbd "<f9>") #'org-tags-view)
+    (global-set-key (kbd "<f7>") #'org-capture)
   #+end_src
 
 ** Keybinding to open/exit deft
