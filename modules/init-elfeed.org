@@ -35,6 +35,11 @@
 
 
 * Load the feeds from elfeed.org file
+** Path to elfeed feeds file
+   #+begin_src emacs-lisp
+     (setq my-elfeed-file (locate-user-emacs-file "org/elfeed.org"))
+   #+end_src
+
 ** Function to extract all links from an org file
    #+begin_src emacs-lisp
      (defun my-org-get-all-feeds (file)
@@ -69,9 +74,8 @@
    #+begin_src emacs-lisp 
      (defun my-import-elfeed-feeds ()
        (interactive)
-       (let* ((feeds-file (locate-user-emacs-file "org/elfeed.org"))
-              (feeds (when (file-exists-p feeds-file)
-                       (my-org-get-all-feeds feeds-file))))
+       (let ((feeds (when (file-exists-p my-elfeed-file)
+                      (my-org-get-all-feeds my-elfeed-file))))
          (setq elfeed-feeds feeds)
          (message (format "Imported %d feeds" (length feeds)))))
    #+end_src
@@ -81,11 +85,33 @@
      (add-hook 'after-init-hook #'my-import-elfeed-feeds)
    #+end_src
 
+** Re-import feeds on saving feeds file
+   #+begin_src emacs-lisp
+     (defun my-import-elfeed-feeds-maybe ()
+       (when (and (eq major-mode 'org-mode)
+                  buffer-file-name
+                  (string= (file-truename my-elfeed-file)
+                           (file-truename buffer-file-name)))
+         (my-import-elfeed-feeds)))
+
+     (add-hook 'after-save-hook #'my-import-elfeed-feeds-maybe)
+   #+end_src
+
+** Org capture template adding new feed sources
+   #+begin_src emacs-lisp
+     (add-to-list 'org-capture-templates (list "f"
+                                               "Elfeed feed"
+                                               'entry
+                                               (list 'file my-elfeed-file)
+                                               "* %? %^g\n  %(my-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
+                                               :empty-lines-after 2))
+   #+end_src
+
 
 * Store the database in org directory
    So that it is synced with rest of the files
    #+begin_src emacs-lisp
-     (setq elfeed-db-directory (locate-user-emacs-file "org/.elfeed"))
+     (setq elfeed-db-directory (locate-user-emacs-file "org/elfeed"))
    #+end_src
 
 

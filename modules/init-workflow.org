@@ -171,10 +171,12 @@
    #+begin_src emacs-lisp
      (defun my-get-url-from-clipboard ()
        (require 'thingatpt)
-       (with-temp-buffer
-         (insert (string-trim (current-kill 0)))
-         (goto-char 0)
-         (thing-at-point-url-at-point)))
+       (let ((current-kill (ignore-errors (current-kill 0))))
+         (when current-kill
+           (with-temp-buffer
+             (insert (string-trim current-kill))
+             (goto-char 0)
+             (thing-at-point-url-at-point)))))
    #+end_src
 
 *** Get current url of w3m-buffer
@@ -244,31 +246,38 @@
           (switch-to-prev-buffer)
           (projectile-project-name)))
     #+end_src
+
 *** Get active region in previous buffer as quote and org link to it
     #+begin_src emacs-lisp
       (defun my-justify-paragraph-text (text)
         (with-temp-buffer
-          (erase-buffer)
           (insert text)
           (mark-whole-buffer)
-          (fill-paragraph t t)
+          (fill-paragraph nil t)
           (buffer-string)))
 
       (defun my-indent-text (text &optional indent)
         (with-temp-buffer
-          (erase-buffer)
           (insert text)
           (indent-region (point-min) (point-max) indent)
+          (buffer-string)))
+
+      (defun my-fix-newlines (text)
+        (with-temp-buffer
+          (insert (replace-regexp-in-string "\n"
+                                            "\n\n"
+                                            (replace-regexp-in-string "\\(\n\\)[^\n]" " " text nil nil 1)))
+          (delete-trailing-whitespace)
           (buffer-string)))
 
       (defun my-get-source-buffers-region-and-link ()
         (save-window-excursion
           (switch-to-prev-buffer)
-          (let ((fill-prefix "    "))
+          (let ((fill-prefix "  "))
             (my-indent-text (concat (when (region-active-p)
                                       (concat "#+begin_quote\n"
-                                              (my-indent-text (my-justify-paragraph-text (buffer-substring (region-beginning)
-                                                                                                           (region-end)))
+                                              (my-indent-text (my-justify-paragraph-text (my-fix-newlines (buffer-substring (region-beginning)
+                                                                                                                            (region-end))))
                                                               2)
                                               "\n#+end_quote\n"))
                                     (or (my-get-url-from-clipboard)
@@ -361,17 +370,6 @@
       (require 'org-projectile)
       (add-to-list 'org-capture-templates 
         (org-projectile:project-todo-entry "p" "* TODO %? :%(my-get-source-buffers-project):\n%a\n"))
-    #+end_src
-
-*** Template for capturing elfeed feeds
-    #+begin_src emacs-lisp
-      (add-to-list 'org-capture-templates (list "f"
-                                                "Elfeed feed"
-                                                'entry
-                                                (list 'file
-                                                      (locate-user-emacs-file "org/elfeed.org"))
-                                                "* %? %^g\n  %(my-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
-                                                :empty-lines-after 2))
     #+end_src
 
 ** Re-import elfeed feeds after capturing a feed
