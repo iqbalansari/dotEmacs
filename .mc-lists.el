@@ -31,6 +31,7 @@
         eval-defun
         eval-last-sexp
         eval-print-last-sexp
+        fill-paragraph
         forward-sentence
         forward-sexp
         hungry-delete-backward
