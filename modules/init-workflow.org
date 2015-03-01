@@ -1,7 +1,6 @@
-* Install org-projectile
-  Useful for capturing project specific TODOs
+* Install org-projectile, org-magit and org-journal
   #+begin_src emacs-lisp
-    (my-install-packages '(org-projectile org-journal))
+    (my-install-packages '(org-projectile org-journal org-magit))
   #+end_src
 
 
@@ -270,8 +269,9 @@
           (delete-trailing-whitespace)
           (buffer-string)))
 
-      (defun my-get-source-buffers-region-and-link ()
+      (defun my-get-source-buffers-region-and-link (&optional number)
         (save-window-excursion
+          (dotimes (_ (or number 0)) (switch-to-prev-buffer))
           (switch-to-prev-buffer)
           (let ((fill-prefix "  "))
             (my-indent-text (concat (when (region-active-p)
@@ -283,6 +283,20 @@
                                     (or (my-get-url-from-clipboard)
                                         (org-store-link t)))
                             (when (region-active-p) 4 2)))))
+    #+end_src
+
+*** Function to get journal file
+    #+begin_src emacs-lisp
+      (defun my-find-journal-file ()
+        (org-journal-dir-check-or-create)
+        (let ((file-name (concat org-journal-dir
+                                 (format-time-string org-journal-file-format))))
+          (find-file file-name)
+          (when (= 1 (point-max))
+            (insert org-journal-date-prefix
+                    (format-time-string org-journal-date-format)
+                    "\n"))
+          (goto-char (point-max))))
     #+end_src
 
 ** The templates
@@ -370,6 +384,15 @@
       (require 'org-projectile)
       (add-to-list 'org-capture-templates 
         (org-projectile:project-todo-entry "p" "* TODO %? :%(my-get-source-buffers-project):\n%a\n"))
+    #+end_src
+
+*** Template for capturing journal entry
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "j"
+                                                "Journal entry"
+                                                'plain
+                                                (list 'function #'my-find-journal-file)
+                                                "** %(format-time-string org-journal-time-format)%?\n%(my-get-source-buffers-region-and-link 1)"))
     #+end_src
 
 ** Re-import elfeed feeds after capturing a feed
