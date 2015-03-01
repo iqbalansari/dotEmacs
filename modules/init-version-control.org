@@ -188,3 +188,13 @@
       (f-ediff-org-showhide ediff-buffer-B 'hide-sublevels 1)  
       (f-ediff-org-showhide ediff-buffer-C 'hide-sublevels 1))
   #+end_src
+
+
+* Disable vc on tramp files
+  #+begin_src emacs-lisp
+    (eval-after-load "tramp"
+      '(setq vc-ignore-dir-regexp
+             (format "\\(%s\\)\\|\\(%s\\)"
+                     vc-ignore-dir-regexp
+                     tramp-file-name-regexp)))
+  #+end_src

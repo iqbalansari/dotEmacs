@@ -509,6 +509,7 @@
             (ignore-errors (delete-window))
           (if (not (org-clocking-p))
               (error "Not clocked in to any task")
+            (org-save-all-org-buffers)
             (select-window (or (get-buffer-window task-buffer-name)
                                (split-window (frame-root-window) nil 'right)))
             (when (get-buffer task-buffer-name)

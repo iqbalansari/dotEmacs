@@ -497,8 +497,8 @@
      (defun my-file-objective-c-header-p ()
        (and buffer-file-name
             (string= (file-name-extension buffer-file-name) "h")
-            (or (>= (length (file-expand-wildcards "*.m"))
-                    (length (file-expand-wildcards "*.c")))
+            (or (> (length (file-expand-wildcards "*.m"))
+                   (length (file-expand-wildcards "*.c")))
                 (re-search-forward "@\\<interface\\>" 
                                    magic-mode-regexp-match-limit t))))
 
