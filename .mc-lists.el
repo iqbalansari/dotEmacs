@@ -44,6 +44,7 @@
         kill-sexp
         kill-visual-line
         mark-sexp
+        markdown-exdent-or-delete
         my-beginning-of-line-or-indent
         new-line-dwim
         nxml-electric-slash

@@ -1,6 +1,6 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (my-install-packages '(org-bullets company-math pcsv))
+    (my-install-packages '(org-bullets org-toc company-math pcsv))
   #+end_src
 
 
@@ -122,12 +122,39 @@
   #+end_src
 
 
-* Export backends that should always be available
+* org-export configuration
+** Export backends that should always be available
+   #+begin_src emacs-lisp
+     (eval-after-load "org"
+       '(progn (add-to-list 'org-export-backends 'md)
+               (add-to-list 'org-export-backends 'odt)))
+   #+end_src
+
+** Do not include tags in export
+   #+begin_src emacs-lisp
+     (setq org-export-with-tags nil)
+   #+end_src
+
+
+* org-toc configuration
+** Enable org-toc
   #+begin_src emacs-lisp
-    (eval-after-load "org"
-      '(progn (add-to-list 'org-export-backends 'md)
-              (add-to-list 'org-export-backends 'odt)))
+    (add-hook 'org-mode-hook #'org-toc-enable)
   #+end_src
+
+** Exclude trees with TOC tag
+   org already exports a better table of contents, org-toc I find org-toc useful
+   for org-documents that are do not need to be exported
+   #+begin_src emacs-lisp
+     (eval-after-load "ox"
+       '(progn (add-to-list 'org-export-exclude-tags "TOC")
+               (add-to-list 'org-export-exclude-tags "TOC_2")
+               (add-to-list 'org-export-exclude-tags "TOC_2_org")
+               (add-to-list 'org-export-exclude-tags "TOC_2_gh")
+               (add-to-list 'org-export-exclude-tags "TOC_3")
+               (add-to-list 'org-export-exclude-tags "TOC_3_org")
+               (add-to-list 'org-export-exclude-tags "TOC_3_gh")))
+   #+end_src
 
 
 * Keybinding to save edits in org-src mode
