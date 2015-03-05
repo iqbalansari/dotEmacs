@@ -13,5 +13,7 @@
 
 * Initialize pdf tools
   #+begin_src emacs-lisp
-    ;(add-hook 'after-init-hook 'pdf-tools-install)
+    (eval-after-load "doc-view"
+      '(when (locate-library "pdf-tools")
+         (pdf-tools-install)))
   #+end_src

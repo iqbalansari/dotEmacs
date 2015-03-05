@@ -1,6 +1,6 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (my-install-packages '(org-bullets org-toc company-math pcsv))
+    (my-install-packages '(org-bullets org-toc org-pdfview company-math pcsv))
   #+end_src
 
 
@@ -253,3 +253,11 @@
       (delete-region beg end)
       (org-table-align))
   #+end_src
+
+
+* Load org-pdfview for links to pdf documents
+  #+begin_src emacs-lisp
+    (eval-after-load 'org
+      '(load "org-pdfview"))
+  #+end_src
+

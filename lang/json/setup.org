@@ -1,3 +1,9 @@
+* Do not escape slashes while reformatting
+  #+begin_src emacs-lisp
+    (setq json-reformat:pretty-string? t)
+  #+end_src
+
+
 * Load json-snatcher
   #+begin_src emacs-lisp
     (load "json-snatcher")

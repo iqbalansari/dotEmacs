@@ -479,7 +479,6 @@
     (my-auto-install-lang (rx (or ".pip" "requirements.txt") string-end) 'pip-requirements 'pip-requirements-mode)
     (my-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
     (my-auto-install-lang (rx ".ps1" string-end) 'powershell 'powershell-mode)
-    (my-auto-install-lang (rx ".bongo-library" string-end) 'bongo 'bongo-library-mode)
     (my-auto-install-lang (rx "rfc" (one-or-more digit) ".txt" string-end) 'irfc 'irfc-mode)
   #+end_src
 

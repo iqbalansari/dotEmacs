@@ -403,6 +403,15 @@
                                                 "Journal entry"
                                                 'plain
                                                 (list 'function #'my-find-journal-file)
+                                                "** %(format-time-string org-journal-time-format)%?\n"))
+    #+end_src
+
+*** Template for capturing journal entry
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "J"
+                                                "Journal entry"
+                                                'plain
+                                                (list 'function #'my-find-journal-file)
                                                 "** %(format-time-string org-journal-time-format)%?\n%(my-get-source-buffers-region-and-link 1)"))
     #+end_src
 
