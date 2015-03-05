@@ -44,3 +44,9 @@
   #+begin_src emacs-lisp
     (winner-mode 1)
   #+end_src
+
+
+* Shorter keybinding to switch windows
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-o") #'switch-window)
+  #+end_src
