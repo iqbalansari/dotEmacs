@@ -316,6 +316,17 @@
                                               :empty-lines-after 2))
   #+end_src
 
+*** Template for capturing todos linked to given buffer
+  #+begin_src emacs-lisp
+    (add-to-list 'org-capture-templates (list "T"
+                                              "TODO linked to current buffer"
+                                              'entry
+                                              (list 'file
+                                                    (locate-user-emacs-file "org/agenda/todos.org"))
+                                              "* TODO %?\n%(my-get-source-buffers-region-and-link)\n%U\n\n"
+                                              :empty-lines-after 2))
+  #+end_src
+
 *** Template for capturing links
     #+begin_src emacs-lisp
       (add-to-list 'org-capture-templates (list "l"
