@@ -1,4 +1,7 @@
-* Install markdown-toc
+* Install markdown-toc and pandoc-mode
   #+begin_src emacs-lisp
     (my-install-package 'markdown-toc)
+
+    (when (executable-find "pandoc")
+      (my-install-package 'pandoc-mode))
   #+end_src

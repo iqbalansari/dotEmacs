@@ -1,3 +1,10 @@
+* Enable pandoc-mode
+  #+begin_src emacs-lisp
+    (when (locate-library "pandoc-mode")
+      (pandoc-mode +1))
+  #+end_src
+
+
 * Enable spell check
   #+begin_src emacs-lisp
     (when ispell-program-name
