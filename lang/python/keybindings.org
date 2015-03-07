@@ -40,24 +40,6 @@
   #+end_src
 
 
-* TODO Keybinding for nosetests menu
-  #+begin_src emacs-lisp
-    (when (locate-library "nose")
-      (define-key python-mode-map "\C-ct" (lambda ()
-                               (interactive)
-                               (mag-menu '(title
-                                           (switches
-                                            ("-d" "Drop into debugger on errors" "--pdb"))
-                                           (actions
-                                            ("a" "Run all nose tests"
-                                             (lambda (options) (my-execute-nose-tests options #'nosetests-all)))
-                                            ("b" "Run nosetests on current buffer"
-                                             (lambda (options) (my-execute-nose-tests options #'nosetests-module)))
-                                            ("p" "Run nosetests on testable thing at point in current buffer"
-                                             (lambda (options) (my-execute-nose-tests options #'nosetests-one)))))))))
-  #+end_src
-
-
 * Keybindings for virtualenvwrapper
   #+begin_src emacs-lisp
     (when (locate-library "virtualenvwrapper")

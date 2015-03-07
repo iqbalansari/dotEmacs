@@ -480,6 +480,7 @@
     (my-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
     (my-auto-install-lang (rx ".ps1" string-end) 'powershell 'powershell-mode)
     (my-auto-install-lang (rx "rfc" (one-or-more digit) ".txt" string-end) 'irfc 'irfc-mode)
+    (my-auto-install-lang (rx word-start (zero-or-one ".") "ledger" string-end) 'ledger-mode 'ledger-mode)
   #+end_src
 
 ** Some extra auto-mode-alist entries

@@ -6,7 +6,8 @@
         smooth-scrolling
         volatile-highlights
         solarized-theme
-        page-break-lines))
+        page-break-lines
+        hl-todo))
 
     (my-install-packages my-display-packages)
   #+end_src
@@ -286,6 +287,12 @@
           '(:eval (if (buffer-file-name)
                       (abbreviate-file-name (buffer-file-name))
                     "%b")))
+  #+end_src
+
+
+* Enable hl-todo mode
+  #+begin_src emacs-lisp
+    (global-hl-todo-mode)
   #+end_src
 
 

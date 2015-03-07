@@ -345,6 +345,17 @@
                                                 'entry
                                                 (list 'file
                                                       (locate-user-emacs-file "org/notes/notes.org"))
+                                                "* %? %^G\n%U\n\n"
+                                                :empty-lines-after 2))
+    #+end_src
+
+*** Template for capturing notes linked to a buffer
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "N"
+                                                "Note"
+                                                'entry
+                                                (list 'file
+                                                      (locate-user-emacs-file "org/notes/notes.org"))
                                                 "* %? %^G\n%(my-get-source-buffers-region-and-link)\n%U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
@@ -406,7 +417,7 @@
                                                 "** %(format-time-string org-journal-time-format)%?\n"))
     #+end_src
 
-*** Template for capturing journal entry
+*** Template for capturing journal entry linked to given buffer
     #+begin_src emacs-lisp
       (add-to-list 'org-capture-templates (list "J"
                                                 "Journal entry"
