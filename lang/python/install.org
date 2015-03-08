@@ -7,15 +7,10 @@
 + [[https://bitbucket.org/durin42/nosemacs][nosemacs]] - Emacs extension to provide easy nosetest integration.
 + [[https://github.com/porterjamesj/virtualenvwrapper.el][virtualenvwrapper]] - A virtualenvwrapper written in elisp
   #+begin_src emacs-lisp
-    (defvar my-python-packages
-     '(virtualenvwrapper
-       flycheck
-       nose))
-  #+end_src
+    (defvar my-python-packages '(virtualenvwrapper
+                                 flycheck
+                                 nose))
 
-
-* Install the packages
-  #+begin_src emacs-lisp
     (my-install-packages my-python-packages)
   #+end_src
 

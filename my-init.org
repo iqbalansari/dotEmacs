@@ -480,7 +480,10 @@
     (my-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
     (my-auto-install-lang (rx ".ps1" string-end) 'powershell 'powershell-mode)
     (my-auto-install-lang (rx "rfc" (one-or-more digit) ".txt" string-end) 'irfc 'irfc-mode)
-    (my-auto-install-lang (rx word-start (zero-or-one ".") "ledger" string-end) 'ledger-mode 'ledger-mode)
+    (my-auto-install-lang (rx "CMakeLists.txt" string-end) 'cmake-mode 'cmake-mode)
+    (my-auto-install-lang (rx ".cmake" string-end) 'cmake-mode 'cmake-mode)
+    (my-auto-install-lang (rx word-start "ledger" string-end) 'ledger-mode 'ledger-mode)
+    (my-auto-install-lang (rx ".ledger" string-end) 'ledger-mode 'ledger-mode)
   #+end_src
 
 ** Some extra auto-mode-alist entries
@@ -529,5 +532,7 @@
      (my-setup-lang 'web-mode-hook "html" "html")
      (my-setup-lang 'haskell-mode-hook "haskell")
      (my-setup-lang 'ruby-mode-hook "ruby" "rb")
+     (my-setup-lang 'ledger-mode-hook "ledger")
+     (my-setup-lang 'cmake-mode-hook "cmake")
    #+end_src
 

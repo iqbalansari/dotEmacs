@@ -1,0 +1,5 @@
+* Install cmake-font-lock
+  #+begin_src emacs-lisp
+    (my-install-package 'cmake-font-lock)
+  #+end_src
+

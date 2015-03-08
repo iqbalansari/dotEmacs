@@ -43,6 +43,7 @@
         kill-sentence
         kill-sexp
         kill-visual-line
+        ledger-magic-tab
         mark-sexp
         markdown-exdent-or-delete
         my-beginning-of-line-or-indent
@@ -111,6 +112,7 @@
         ggtags-find-tag-dwim
         haskell-indentation-delete-backward-char
         help-for-help
+        ido-find-file
         ido-switch-buffer
         isearch-backward-regexp
         isearch-forward-regexp

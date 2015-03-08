@@ -1,0 +1,11 @@
+* Setup error checking
+** Be pedantic about errors
+   #+begin_src emacs-lisp
+     (setq flycheck-ledger-pedantic 'check-payees)
+   #+end_src
+
+** Enable flycheck
+  #+begin_src emacs-lisp
+    (load "flycheck-ledger")
+    (flycheck-mode +1)
+  #+end_src
