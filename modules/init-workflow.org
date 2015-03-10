@@ -281,7 +281,7 @@
                                                               2)
                                               "\n#+end_quote\n"))
                                     (or (my-get-url-from-clipboard)
-                                        (org-store-link t)))
+                                        (org-store-link nil)))
                             (when (region-active-p) 4 2)))))
     #+end_src
 

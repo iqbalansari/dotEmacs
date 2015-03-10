@@ -16,6 +16,7 @@
         c-electric-slash
         c-hungry-delete-backwards
         c-hungry-delete-forward
+        comint-delchar-or-maybe-eof
         complete-symbol
         completion-at-point
         copy-line-or-region
