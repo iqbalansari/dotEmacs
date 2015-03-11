@@ -1,6 +1,9 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (my-install-packages '(org-bullets org-toc org-pdfview company-math pcsv))
+    (my-install-packages '(org-bullets org-toc company-math pcsv))
+
+    (when (locate-library "pdf-tools")
+      (my-install-package 'org-pdfview))
   #+end_src
 
 
