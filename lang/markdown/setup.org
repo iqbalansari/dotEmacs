@@ -1,3 +1,13 @@
+* Enable gfm-mode if the origin is github
+  #+begin_src emacs-lisp
+    (when (and buffer-file-name
+               (locate-dominating-file buffer-file-name ".git")
+               (string-match-p "github"
+                               (or (shell-command-to-string "git config --get remote.origin.url") "")))
+      (delay-mode-hooks (gfm-mode)))
+  #+end_src
+
+
 * Enable pandoc-mode
   #+begin_src emacs-lisp
     (when (locate-library "pandoc-mode")

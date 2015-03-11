@@ -14,6 +14,7 @@
         c-electric-paren
         c-electric-semi&comma
         c-electric-slash
+        c-electric-star
         c-hungry-delete-backwards
         c-hungry-delete-forward
         comint-delchar-or-maybe-eof

@@ -535,4 +535,3 @@
      (my-setup-lang 'ledger-mode-hook "ledger")
      (my-setup-lang 'cmake-mode-hook "cmake")
    #+end_src
-
