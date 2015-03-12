@@ -5,7 +5,16 @@
    #+end_src
 
 ** Enable flycheck
+   Make sure we do not enable it for encrypted files
   #+begin_src emacs-lisp
     (load "flycheck-ledger")
-    (flycheck-mode +1)
+    (unless (flycheck-encrypted-buffer-p) (flycheck-mode +1))
+  #+end_src
+
+
+* Setup completion
+  Since ledger uses pcomplete, we need to add it to completion-at-point-functions
+  so that company-mode picks it up
+  #+begin_src emacs-lisp
+    (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
   #+end_src
