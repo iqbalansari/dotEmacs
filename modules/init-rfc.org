@@ -40,6 +40,20 @@
            rfc-number)))
    #+end_src
 
+** Function to export irfc links
+   #+begin_src emacs-lisp
+     (defun my-irfc-export (rfc-number desc format)
+       "Export a irfc link from Org files."
+       (let* ((web-link (format "https://tools.ietf.org/html/rfc%s" rfc-number))
+              (desc (or desc web-link)))
+         (cond
+          ((eq format 'html) (format "<a href=\"%s\">%s</a>" web-link desc))
+          ((eq format 'latex) (format "\href{%s}{%s}" web-link desc))
+          ((eq format 'ascii) (format "%s (%s)" desc web-link))
+          ((eq format 'md) (format "[%s](%s)" desc web-link))
+          (t web-link))))
+   #+end_src
+
 ** Function to open org RFC link
   #+begin_src emacs-lisp
     (defun my-open-rfc-file (path)
@@ -51,6 +65,6 @@
      (defun my-open-rfc-file (path)
        (irfc-visit (string-to-int path)))
 
-     (org-add-link-type "rfc" 'my-open-rfc-file)
+     (org-add-link-type "rfc" #'my-open-rfc-file #'my-irfc-export)
      (add-hook 'org-store-link-functions 'my-store-irfc-link)
    #+end_src
