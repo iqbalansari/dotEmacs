@@ -9,6 +9,7 @@
         backward-sexp
         beginning-of-buffer
         browse-kill-ring
+        c-electric-brace
         c-electric-colon
         c-electric-delete-forward
         c-electric-paren
