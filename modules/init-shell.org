@@ -220,7 +220,7 @@
        "Return the first live shell for a project"
        ;; Clean up any killed shells
        (puthash project-root
-                (remove-if-not (lambda (buffer)
+                (cl-remove-if-not (lambda (buffer)
                                  (buffer-live-p buffer))
                                (gethash project-root my-shell-to-project-map))
                 my-shell-to-project-map)

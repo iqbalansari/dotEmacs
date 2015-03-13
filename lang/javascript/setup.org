@@ -37,6 +37,7 @@
 ** Setup tern backend for auto-completion if ternjs is available
    #+begin_src emacs-lisp
      (setq tern-ac-on-dot nil)
+     (define-key tern-mode-keymap "." nil)
 
      (when my-ternjs-available
        (add-to-list 'company-backends 'company-tern))

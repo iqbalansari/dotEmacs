@@ -22,7 +22,7 @@
 
     (defun my-get-all-major-modes-names ()
       (remove-duplicates (mapcar #'symbol-name
-                                 (remove-if-not #'symbolp
+                                 (cl-remove-if-not #'symbolp
                                                 (mapcar #'cdr auto-mode-alist)))
                          :test #'string=))
   #+end_src

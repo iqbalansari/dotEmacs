@@ -91,7 +91,7 @@
     (eval-after-load "projectile"
       '(progn (setq magit-repo-dirs (mapcar (lambda (dir)
                                               (substring dir 0 -1))
-                                            (remove-if-not (lambda (project)
+                                            (cl-remove-if-not (lambda (project)
                                                              (file-directory-p (concat project "/.git/")))
                                                            (projectile-relevant-known-projects)))
 

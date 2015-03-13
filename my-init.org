@@ -5,7 +5,7 @@
    #+begin_src emacs-lisp
      (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
 
-     (dolist (package-dir (remove-if-not #'file-directory-p (directory-files otherpackages t "^[^.]+")))
+     (dolist (package-dir (cl-remove-if-not #'file-directory-p (directory-files otherpackages t "^[^.]+")))
        (add-to-list 'load-path package-dir))
    #+end_src
 

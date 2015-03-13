@@ -6,11 +6,18 @@
 
 
 * Enable popwin, automatically gets rid of useless windows
+** Enable popwin
   #+begin_src emacs-lisp
     (my-install-package 'popwin)
     (load "popwin")
     (popwin-mode 1)
   #+end_src
+
+** Popwin config
+   #+begin_src emacs-lisp
+     (push '(grep-mode :dedicated t :width 0.5 :position right :stick t :noselect t) popwin:special-display-config)
+     (push '(help-mode :dedicated t :width 0.5 :position right :stick nil) popwin:special-display-config)
+   #+end_src
 
 
 * Use qwerty shortcuts to switch windows

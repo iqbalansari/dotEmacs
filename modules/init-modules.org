@@ -28,7 +28,7 @@
 
     (defun my-get-changed-module-files (modules)
       (if (file-exists-p my-tangled-modules)
-          (remove-if-not (lambda (module)
+          (cl-remove-if-not (lambda (module)
                        (file-newer-than-file-p (my-get-module-org-file module)
                                                (my-get-module-el-file module)))
                      modules)
@@ -65,7 +65,7 @@
       (interactive)
       (let ((compiled-folders (mapcar (lambda (folder)
                                         (concat folder "/.compiled"))
-                                      (append (remove-if-not #'file-directory-p
+                                      (append (cl-remove-if-not #'file-directory-p
                                                              (directory-files my-langs-dir t "[^.]+"))
                                               (list my-modules-dir)))))
 

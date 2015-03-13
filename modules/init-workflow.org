@@ -541,12 +541,11 @@
           (if (not (org-clocking-p))
               (error "Not clocked in to any task")
             (org-save-all-org-buffers)
-            (select-window (or (get-buffer-window task-buffer-name)
-                               (split-window (frame-root-window) nil 'right)))
             (when (get-buffer task-buffer-name)
               (kill-buffer (get-buffer task-buffer-name)))
+            (pop-to-buffer nil t)
             (org-clock-goto)
-            (switch-to-buffer (clone-indirect-buffer task-buffer-name nil))
+            (switch-to-buffer (clone-indirect-buffer task-buffer-name nil) t)
             (org-narrow-to-subtree)))))
   #+end_src
 

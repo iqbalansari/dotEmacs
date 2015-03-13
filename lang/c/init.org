@@ -25,7 +25,7 @@
      (defun my--find-llvm-config-executable()
        "Try finding llvm-config executable"
        (or (executable-find "llvm-config")
-           (car (sort (remove-if-not #'file-executable-p (loop for path in exec-path when (file-exists-p path)
+           (car (sort (cl-remove-if-not #'file-executable-p (loop for path in exec-path when (file-exists-p path)
                                                                append (directory-files path t "^llvm-config")))
                       (lambda (file1 file2)
                         (version< (or (nth 2 (split-string file2 "-")) "0")
@@ -55,7 +55,7 @@
      (defun my--extract-libclang-version-from-file (file)
        "Extract libclang version from header file"
        (let* ((declarations (split-string (my-read-file file) "\n"))
-              (clang-version-dec (car (remove-if-not (lambda (dec)
+              (clang-version-dec (car (cl-remove-if-not (lambda (dec)
                                                        (string-match-p "#define[\s]+CLANG_VERSION[\s]+" dec))
                                                      declarations))))
          (when clang-version-dec

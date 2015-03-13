@@ -145,7 +145,7 @@
               (if mu4e-compose-parent-message
                   (let ((receiving-email (cdar (mu4e-message-field mu4e-compose-parent-message
                                                                    :to))))
-                    (caar (remove-if-not (lambda (account)
+                    (caar (cl-remove-if-not (lambda (account)
                                            (string= (cadr (assoc 'user-mail-address account))
                                                     receiving-email))
                                          my-mu4e-account-alist)))
