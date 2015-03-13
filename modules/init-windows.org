@@ -5,6 +5,14 @@
   #+end_src
 
 
+* Enable popwin, automatically gets rid of useless windows
+  #+begin_src emacs-lisp
+    (my-install-package 'popwin)
+    (load "popwin")
+    (popwin-mode 1)
+  #+end_src
+
+
 * Use qwerty shortcuts to switch windows
   #+begin_src emacs-lisp
     (setq switch-window-shortcut-style 'qwerty)
