@@ -26,10 +26,18 @@
     (make-local-variable 'my-rtags-project-indexed)
 
     (when my-rtags-available
-      (let ((rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
-                                                           " --is-indexed "
-                                                           buffer-file-name))))
-        (setq my-rtags-project-indexed (string= rtags-status "indexed\n"))))
+      (let* ((project-root (ignore-errors (projectile-project-root)))
+             (rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
+                                                            " --is-indexed "
+                                                            buffer-file-name)))
+             (project-indexed (string= rtags-status "indexed\n")))
+        (if project-indexed
+            (setq my-rtags-project-indexed project-indexed)
+          (if (file-exists-p (format "%s/compile_commands.json" project-root))
+              (shell-command (format "%s -J %s"
+                                     (shell-quote-argument (rtags-executable-find "rc"))
+                                     (shell-quote-argument project-root)))
+            (warn "compile_commands.json not found for this project")))))
   #+end_src
 
 
@@ -40,11 +48,11 @@
         (cond (my-gtags-available (progn
                                     (unless (file-exists-p (concat project-root "GTAGS"))
                                     (shell-command (concat "cd "
-                                                           project-root
+                                                           (shell-quote-argument project-root)
                                                            " && gtags")))))
               ((executable-find "etags") (unless  (file-exists-p (concat project-root "TAGS"))
                                            (shell-command (concat "cd "
-                                                                  project-root
+                                                                  (shell-quote-argument project-root)
                                                                   " && find . -name \"*.[ch]\" -print | xargs etags -a ")))))))
   #+end_src
 

@@ -1,3 +1,9 @@
+* Install backup-walker
+  #+begin_src emacs-lisp
+    (my-install-package 'backup-walker)
+  #+end_src
+
+
 * Force backup on each save
   #+begin_src emacs-lisp
     (defun force-backup-of-buffer ()

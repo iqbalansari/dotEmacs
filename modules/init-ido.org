@@ -104,12 +104,5 @@
   By default they are bound `next-history-element` and `previous-history-element` 
   which is terribly confusing since it seems they would cycle the candidates
    #+begin_src emacs-lisp
-     (defun my-ido-vertical-keys ()
-       "Add my keybindings for ido."
-       (define-key ido-common-completion-map [up] 'ido-prev-match)
-       (define-key ido-common-completion-map [down] 'ido-next-match)
-       (define-key ido-file-dir-completion-map [up] 'ido-prev-match)
-       (define-key ido-file-dir-completion-map [down] 'ido-next-match))
-
-     (add-hook 'ido-setup-hook 'my-ido-vertical-keys)
+     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
    #+end_src
