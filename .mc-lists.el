@@ -105,6 +105,7 @@
         transpose-words
         wdired-finish-edit
         yas-expand
+        yaml-electric-backspace
         ))
 
 (setq mc/cmds-to-run-once

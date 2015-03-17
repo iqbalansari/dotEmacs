@@ -33,11 +33,12 @@
              (project-indexed (string= rtags-status "indexed\n")))
         (if project-indexed
             (setq my-rtags-project-indexed project-indexed)
-          (if (file-exists-p (format "%s/compile_commands.json" project-root))
-              (shell-command (format "%s -J %s"
-                                     (shell-quote-argument (rtags-executable-find "rc"))
-                                     (shell-quote-argument project-root)))
-            (warn "compile_commands.json not found for this project")))))
+          (let ((compile-commands (my-locate-compile-commands project-root)))
+            (if compile-commands
+                (shell-command (format "%s -J %s"
+                                       (rtags-executable-find "rc")
+                                       (shell-quote-argument compile-commands)))
+              (warn "compile_commands.json not found for this project"))))))
   #+end_src
 
 

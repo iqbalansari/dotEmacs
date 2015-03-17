@@ -141,3 +141,12 @@
             (my-gtags-available (call-interactively #'gtags-find-rtag))
             (t (call-interactively #'rgrep))))
   #+end_src
+
+
+* Helper function to locate compile_commands.json
+  #+begin_src emacs-lisp
+    (defun my-locate-compile-commands (dir)
+      (cond ((file-exists-p (format "%s/compile_commands.json" dir)) (format "%s/compile_commands.json" dir))
+            ((file-exists-p (format "%s/build/compile_commands.json" dir)) (format "%s/build/compile_commands.json" dir))))
+  #+end_src
+
