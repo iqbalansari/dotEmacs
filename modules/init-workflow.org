@@ -352,7 +352,7 @@
 *** Template for capturing notes linked to a buffer
     #+begin_src emacs-lisp
       (add-to-list 'org-capture-templates (list "N"
-                                                "Note"
+                                                "Note linked to current buffer"
                                                 'entry
                                                 (list 'file
                                                       (locate-user-emacs-file "org/notes/notes.org"))
@@ -420,7 +420,7 @@
 *** Template for capturing journal entry linked to given buffer
     #+begin_src emacs-lisp
       (add-to-list 'org-capture-templates (list "J"
-                                                "Journal entry"
+                                                "Journal entry linked to current buffer"
                                                 'plain
                                                 (list 'function #'my-find-journal-file)
                                                 "** %(format-time-string org-journal-time-format)%?\n%(my-get-source-buffers-region-and-link 1)"))

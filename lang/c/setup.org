@@ -30,7 +30,7 @@
              (rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
                                                             " --is-indexed "
                                                             buffer-file-name)))
-             (project-indexed (string= rtags-status "indexed\n")))
+             (project-indexed (not (string= rtags-status "unknown\n"))))
         (if project-indexed
             (setq my-rtags-project-indexed project-indexed)
           (let ((compile-commands (my-locate-compile-commands project-root)))
