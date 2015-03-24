@@ -64,8 +64,7 @@
   #+end_src
 
 
-* Function to rename current buffer and associated file taken from
-  [[http://whattheemacsd.com/file-defuns.el-01.html][whattheemacsd]].
+* Function to rename current buffer and associated file taken from [[http://whattheemacsd.com/file-defuns.el-01.html][whattheemacsd]].
   #+begin_src emacs-lisp
     (defun rename-current-buffer-file ()
       "Renames current buffer and file it is visiting."
@@ -77,7 +76,9 @@
           (let ((new-name (read-file-name "New name: " filename)))
             (if (get-buffer new-name)
                 (error "A buffer named '%s' already exists!" new-name)
-              (rename-file filename new-name 1)
+              (if (vc-backend filename)
+                  (vc-rename-file filename new-name)
+                (rename-file filename new-name 1))
               (rename-buffer new-name)
               (set-visited-file-name new-name)
               (set-buffer-modified-p nil)
