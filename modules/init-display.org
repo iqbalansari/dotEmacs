@@ -6,7 +6,8 @@
         smooth-scrolling
         volatile-highlights
         solarized-theme
-        page-break-lines))
+        page-break-lines
+        highlight-thing))
 
     (my-install-packages my-display-packages)
   #+end_src
@@ -280,6 +281,13 @@
           '(:eval (if (buffer-file-name)
                       (abbreviate-file-name (buffer-file-name))
                     "%b")))
+  #+end_src
+
+
+* Highlight thing configuration
+  #+begin_src emacs-lisp
+    (setq highlight-thing-limit-to-defun t)
+    (add-hook 'prog-mode-hook #'highlight-thing-mode)
   #+end_src
 
 
