@@ -13,7 +13,20 @@
   #+end_src
 
 
-* Use ido to prompt for snippets
+* Set verbosity to zero
+  #+begin_src emacs-lisp
+    (setq yas-verbosity 0)
+  #+end_src
+
+
+* Configuration for expanding snippets
+** Disable snippet expansion on tab, it is annoying
+  #+begin_src emacs-lisp
+    (define-key yas-minor-mode-map (kbd "TAB") nil)
+    (define-key yas-minor-mode-map [(tab)] nil)
+  #+end_src
+
+** Use ido to prompt for snippets
   #+begin_src emacs-lisp
     (setq yas-prompt-functions
           (cons 'yas-ido-prompt
@@ -21,26 +34,20 @@
                         yas-prompt-functions)))
   #+end_src
 
-
-* Set verbosity to zero
-  #+begin_src emacs-lisp
-    (setq yas-verbosity 0)
-  #+end_src
-
-
-* Leave my tab alone
-** Disable snippet expansion on tab, it is annoying
-  #+begin_src emacs-lisp
-    (define-key yas-minor-mode-map (kbd "TAB") nil)
-    (define-key yas-minor-mode-map [(tab)] nil)
-  #+end_src
-
 ** Use company-mode to expand snippet otherwise use ido
    #+begin_src emacs-lisp
+     (defun my-expand-yas-using-company ()
+       (interactive)
+       (condition-case err
+           (call-interactively #'company-yasnippet)
+         (error (when (and (string= (error-message-string err) "Cannot complete at point")
+                           (yas--templates-for-key-at-point)))
+                (yas-expand))))
+
      (defun my-expand-yas ()
        (interactive)
        (call-interactively (if (bound-and-true-p company-mode)
-                               #'company-yasnippet
+                               #'my-expand-yas-using-company
                              #'yas-insert-snippet)))
 
      (eval-after-load "company"

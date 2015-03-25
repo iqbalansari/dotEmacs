@@ -1,3 +1,4 @@
+
 * Declaration of global variables and utility functions
   Set global variables to be used in the rest of the intialization
 ** 1. Path to packages not in a package manager
