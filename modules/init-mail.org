@@ -132,6 +132,14 @@
   #+end_src
 
 
+* Auto update configuration
+  #+begin_src emacs-lisp
+    (setq mu4e-hide-index-messages t)
+    (setq mu4e-get-mail-command "offlineimap -q")
+    (setq mu4e-update-interval 300)
+  #+end_src
+
+
 * Configuration for sending mail
 ** Sending mail from multiple smtp accounts when using mu4e
   #+begin_src emacs-lisp
