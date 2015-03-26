@@ -487,6 +487,7 @@
     (my-auto-install-lang (rx ".cmake" string-end) 'cmake-mode 'cmake-mode)
     (my-auto-install-lang (rx word-start "ledger" string-end) 'ledger-mode 'ledger-mode)
     (my-auto-install-lang (rx ".ledger" string-end) 'ledger-mode 'ledger-mode)
+    (my-auto-install-lang (rx "Dockerfile" string-end) 'dockerfile-mode 'dockerfile-mode)
   #+end_src
 
 ** Some extra auto-mode-alist entries
