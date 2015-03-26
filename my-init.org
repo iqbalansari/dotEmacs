@@ -512,16 +512,10 @@
                   (cons #'my-file-objective-c-header-p #'objc-mode))
    #+end_src
 
-** Interpreter mode alist entries
-   #+begin_src emacs-lisp
-     (add-to-list 'interpreter-mode-alist (cons "node" #'js-mode))
-   #+end_src
-
 ** Setup loading of language configuration when the language mode loads
    #+begin_src emacs-lisp
      (my-setup-lang 'python-mode-hook "python")
      (my-setup-lang 'js2-mode-hook "javascript")
-     (my-setup-lang 'js-mode-hook "javascript")
      (my-setup-lang 'php-mode-hook "php")
      (my-setup-lang 'lisp-mode-hook "common-lisp")
      (my-setup-lang 'scheme-mode-hook "scheme")
