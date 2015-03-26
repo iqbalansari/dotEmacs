@@ -19,7 +19,8 @@ to restart any shell you are using to launch emacs after making the changes!"))
   (load custom-file))
 
 (require 'package)
-(package-initialize)
+(setq package-enable-at-startup nil)
+(package-initialize 'noactivate)
 
 ;; Ensure we have the latest org mode installed
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))

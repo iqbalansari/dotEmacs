@@ -4,6 +4,8 @@
 ** 1. Path to packages not in a package manager
    Packages not currently installable package manager reside in this directory
    #+begin_src emacs-lisp
+     (load "cl")
+
      (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
 
      (dolist (package-dir (cl-remove-if-not #'file-directory-p (directory-files otherpackages t "^[^.]+")))
