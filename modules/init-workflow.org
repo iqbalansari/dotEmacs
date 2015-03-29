@@ -447,6 +447,31 @@
   #+end_src
 
 
+* Change TODO state to READING when opening a UNREAD link
+  #+begin_src emacs-lisp
+    (defun my-org-mark-link-as-reading-on-follow ()
+      (let ((todo-state (save-excursion (org-back-to-heading t)
+                                        (org-get-todo-state))))
+        (when (string= todo-state "UNREAD")
+          (org-todo "READING"))))
+
+    (add-hook 'org-follow-link-hook #'my-org-mark-link-as-reading-on-follow)
+  #+end_src
+
+
+* Clock in automatically if TODO state changes to STARTED or READING
+  #+begin_src emacs-lisp
+    (defun my-org-clock-in-on-todo-change ()
+      (when (and org-state
+                 (or (string= org-state "STARTED")
+                     (string= org-state "READING")))
+        ;; Disable state change on clock in (since we are in middle of a state change)
+        (let (org-clock-in-switch-to-state) (org-clock-in))))
+
+    (add-hook 'org-after-todo-state-change-hook #'my-org-clock-in-on-todo-change)
+  #+end_src
+
+
 * Configurations for org clocking
 ** Capture a note while clocking out
    #+begin_src emacs-lisp
