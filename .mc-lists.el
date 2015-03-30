@@ -104,8 +104,9 @@
         tiny-expand
         transpose-words
         wdired-finish-edit
-        yas-expand
         yaml-electric-backspace
+        yaml-electric-dash-and-dot
+        yas-expand
         ))
 
 (setq mc/cmds-to-run-once
