@@ -472,6 +472,29 @@
   #+end_src
 
 
+* Clock into a task interactively
+  This queries for a tag for searching (similar to org-tag-view) and list all
+  the matching pending tasks. This is different from `C-u org-clock-in` which
+  prompts only for recent tasks
+  #+begin_src emacs-lisp
+    (defun my-extract-todos (file matcher)
+      (let ((existing-buffer (find-buffer-visiting file))
+            (org-agenda-buffer nil))
+        (save-window-excursion
+          (with-current-buffer (if existing-buffer existing-buffer (find-file file))
+            (org-scan-tags 'agenda matcher t)))))
+
+    (defun my-clock-in-interactive ()
+      (interactive)
+      (let* ((todo-only t)
+             (matcher (cdr (org-make-tags-matcher nil)))
+             (org-clock-history (mapcar (lambda (todo) (get-text-property 0 'org-marker todo))
+                                        (loop for agenda-file in (org-agenda-files)
+                                              append (my-extract-todos agenda-file matcher)))))
+        (org-clock-in '(4))))
+  #+end_src
+
+
 * Configurations for org clocking
 ** Capture a note while clocking out
    #+begin_src emacs-lisp
@@ -496,8 +519,8 @@
                                        (if (org-clocking-p)
                                            org-mode-line-string
                                          (org-propertize "Not clocked in"
-                                                         'help-echo "Click to clock in to a recent task"
-                                                         'keymap '(mode-line keymap (mouse-1 . (lambda () (interactive) (org-clock-in '(4)))))))))
+                                                         'help-echo "Click to clock in to a task"
+                                                         'keymap '(mode-line keymap (mouse-1 . my-clock-in-interactive))))))
              (mode-line-face (if (org-clocking-p)
                                  'my-org-clocked-in
                                'my-org-not-clocked-in)))
