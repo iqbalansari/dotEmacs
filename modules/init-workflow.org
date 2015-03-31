@@ -495,7 +495,9 @@
        (let ((mode-line-string (concat " "
                                        (if (org-clocking-p)
                                            org-mode-line-string
-                                         "Not clocked in")))
+                                         (org-propertize "Not clocked in"
+                                                         'help-echo "Click to clock in to a recent task"
+                                                         'keymap '(mode-line keymap (mouse-1 . (lambda () (interactive) (org-clock-in '(4)))))))))
              (mode-line-face (if (org-clocking-p)
                                  'my-org-clocked-in
                                'my-org-not-clocked-in)))
