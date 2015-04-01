@@ -464,7 +464,14 @@
     (defun my-org-clock-in-on-todo-change ()
       (when (and org-state
                  (or (string= org-state "STARTED")
-                     (string= org-state "READING")))
+                     (string= org-state "READING"))
+                 ;; The todo change can also occur because of user clocking in
+                 ;; (see `org-clock-in-switch-to-state' and `org-clock-out-switch-to-state')
+                 ;; in which case we need to avoid re-clocking in, however since org-mode
+                 ;; might not have completed clocked in when this todo change occurs we
+                 ;; need to ensure we are not clocked in by comparing `org-clock-current-task'
+                 ;; to current task
+                 (not (string= org-clock-current-task (nth 4 (org-heading-components)))))
         ;; Disable state change on clock in (since we are in middle of a state change)
         (let (org-clock-in-switch-to-state) (org-clock-in))))
 
@@ -519,8 +526,11 @@
                                        (if (org-clocking-p)
                                            org-mode-line-string
                                          (org-propertize "Not clocked in"
-                                                         'help-echo "Click to clock in to a task"
-                                                         'keymap '(mode-line keymap (mouse-1 . my-clock-in-interactive))))))
+                                                         'help-echo "You are not clocked in to any task\nmouse-1 allows searching for task to clock in (similar to `org-tag-view`)\nmouse-2 allows clocking in to a recent task"
+                                                         'keymap '(mode-line keymap
+                                                                             (mouse-1 . my-clock-in-interactive)
+                                                                             (mouse-2 . (lambda () (interactive) (org-clock-in '(4))))
+                                                                             (mouse-3 . (lambda () (interactive) (org-clock-in '(4)))))))))
              (mode-line-face (if (org-clocking-p)
                                  'my-org-clocked-in
                                'my-org-not-clocked-in)))
