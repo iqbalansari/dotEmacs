@@ -622,6 +622,20 @@
    #+end_src
 
 
+* View pending tasks
+  #+begin_src emacs-lisp
+    (defun my-view-lagging-tasks ()
+      (interactive)
+      (let ((time (if current-prefix-arg (read-string "For time: " "now") "now"))
+            (not-done-matcher "TODO<>\"\"+TODO<>\"DONE\"+TODO<>\"CANCELLED\"+TODO<>\"STARTED\""))
+        (org-tags-view nil (format "%s+DEADLINE<=\"<%s>\"|%s+SCHEDULED<=\"<%s>\""
+                                   not-done-matcher
+                                   time
+                                   not-done-matcher
+                                   time))))
+  #+end_src
+
+
 * Goto to a random task from global TODO list
   #+begin_src emacs-lisp
     (defun org-random-entry (&optional arg)
@@ -690,6 +704,7 @@
     (global-set-key (kbd "C-c c") #'org-capture)
 
     (global-set-key (kbd "<f12>") #'org-agenda-list)
+    (global-set-key (kbd "<f11>") #'my-view-lagging-tasks)
     (global-set-key (kbd "<f10>") #'org-todo-list)
     (global-set-key (kbd "<f8>") #'my-org-hide/show-current-task)
     (global-set-key (kbd "<f9>") #'org-tags-view)
