@@ -18,6 +18,7 @@
      (push '(grep-mode :dedicated t :width 0.5 :position right :stick t :noselect t) popwin:special-display-config)
      (push '(occur-mode :dedicated t :width 0.5 :position right :stick t :noselect t) popwin:special-display-config)
      (push '(help-mode :dedicated t :width 0.5 :position right :stick nil) popwin:special-display-config)
+     (setq popwin:special-display-config (delete 'slime-repl-mode popwin:special-display-config))
    #+end_src
 
 
