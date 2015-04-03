@@ -627,7 +627,7 @@
     (defun my-view-lagging-tasks ()
       (interactive)
       (let ((time (if current-prefix-arg (read-string "For time: " "now") "now"))
-            (not-done-matcher "TODO<>\"\"+TODO<>\"DONE\"+TODO<>\"CANCELLED\"+TODO<>\"STARTED\""))
+            (not-done-matcher "TODO<>\"DONE\"+TODO<>\"CANCELLED\"+TODO<>\"STARTED\""))
         (org-tags-view nil (format "%s+DEADLINE<=\"<%s>\"|%s+SCHEDULED<=\"<%s>\""
                                    not-done-matcher
                                    time
