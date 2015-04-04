@@ -5,6 +5,12 @@
   #+end_src
 
 
+* Install interleave, very useful for taking/reading notes while reading PDFs
+  #+begin_src emacs-lisp
+    (my-install-package 'interleave)
+  #+end_src
+
+
 * Goto to next/previous page we reach the end/start of a page in doc-view
   #+begin_src emacs-lisp
     (setq doc-view-continuous t)
