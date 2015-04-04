@@ -1,0 +1,7 @@
+* Keybinding to get documentation for ansible module
+  #+begin_src emacs-lisp
+    (when my-in-ansible-playbook-p
+      (define-key yaml-mode-map my-show-doc #'ansible-doc))
+  #+end_src
+
+  

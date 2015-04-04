@@ -475,7 +475,7 @@
     (my-auto-install-lang (rx ".json" string-end) 'json-mode 'json-mode)
     (my-auto-install-lang (rx ".csv" string-end) 'csv-mode 'csv-mode)
     (my-auto-install-lang (rx (or (seq "." (or "md" "markdown" "mkdn")) "README") string-end) 'markdown-mode 'markdown-mode)
-    (my-auto-install-lang (rx (or ".yaml" ".yaml.dist") string-end) 'yaml-mode 'yaml-mode)
+    (my-auto-install-lang (rx (or (regexp ".y[a]?ml") (regexp ".y[a]?ml.dist")) string-end) 'yaml-mode 'yaml-mode)
     (my-auto-install-lang (rx (or "http.conf" "srm.conf" "access.conf" (seq "sites-" (or "available" "enabled")) ".htaccess") string-end)
                           'apache-mode 
                           'apache-mode)
@@ -537,5 +537,6 @@
      (my-setup-lang 'haskell-mode-hook "haskell")
      (my-setup-lang 'ruby-mode-hook "ruby" "rb")
      (my-setup-lang 'ledger-mode-hook "ledger")
+     (my-setup-lang 'yaml-mode-hook "yaml")
      (my-setup-lang 'cmake-mode-hook "cmake")
    #+end_src
