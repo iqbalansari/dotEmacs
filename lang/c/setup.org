@@ -26,7 +26,7 @@
     (make-local-variable 'my-rtags-project-indexed)
 
     (when my-rtags-available
-      (let* ((project-root (ignore-errors (projectile-project-root)))
+      (let* ((project-root (or (ignore-errors (projectile-project-root)) default-directory))
              (rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
                                                             " --is-indexed "
                                                             buffer-file-name)))
