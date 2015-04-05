@@ -122,7 +122,6 @@
 
 
 * Highlight changes in the buffer
-** Configuration for highlight changes mode
   #+begin_src emacs-lisp
     (setq highlight-changes-visibility-initial-state nil)
     (global-highlight-changes-mode t)
@@ -131,13 +130,6 @@
     (set-face-foreground 'highlight-changes-delete nil)
     (set-face-background 'highlight-changes-delete "#916868")
   #+end_src
-
-** Keybindings for highlight changes mode
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "<f6>") 'highlight-changes-visible-mode)
-     (global-set-key (kbd "<C-f6>") 'highlight-changes-next-change)
-     (global-set-key (kbd "<C-S-f6>") 'highlight-changes-previous-change)
-   #+end_src
 
 
 * Highlight current line

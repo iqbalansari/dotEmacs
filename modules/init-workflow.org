@@ -703,7 +703,8 @@
     (global-set-key (kbd "C-c a") #'org-agenda)
     (global-set-key (kbd "C-c c") #'org-capture)
 
-    (global-set-key (kbd "<f7>") #'org-capture)
+    (global-set-key (kbd "<f5>") #'org-capture)
+    (global-set-key (kbd "<f6>") #'my-clock-in-interactive)
     (global-set-key (kbd "<f8>") #'my-org-hide/show-current-task)
     (global-set-key (kbd "<f9>") #'org-tags-view)
     (global-set-key (kbd "<f10>") #'my-view-lagging-tasks)
