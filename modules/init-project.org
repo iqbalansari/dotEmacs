@@ -43,7 +43,7 @@
    #+begin_src emacs-lisp
      (setq projectile-project-root-files
            (append projectile-project-root-files
-                   '(".tern-project" "compile_commands.json" ".edts" ".ensime" ".merlin")))
+                   '(".tern-project" "compile_commands.json" ".edts" ".ensime" ".merlin" "configure")))
    #+end_src
 
 
