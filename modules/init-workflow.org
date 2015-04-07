@@ -493,7 +493,9 @@
 
     (defun my-clock-in-interactive ()
       (interactive)
-      (if (and (org-clocking-p) (not current-prefix-arg))
+      (if (and (org-clocking-p)
+               (not current-prefix-arg)
+               (y-or-n-p "Are you sure you want to clock out?"))
           (progn (org-clock-out)
                  (message "Clocked out of existing task"))
         (let* ((todo-only t)

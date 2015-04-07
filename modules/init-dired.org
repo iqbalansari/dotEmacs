@@ -134,6 +134,23 @@
   #+end_src
 
 
+* Configurations to hide certain files in dired
+** Hide ._ files created by Mac
+  #+begin_src emacs-lisp
+    (setq dired-omit-files "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\._.*")
+  #+end_src
+
+** Enable omit mode in dired
+   #+begin_src emacs-lisp
+     (add-hook 'dired-mode-hook 'dired-omit-mode)
+   #+end_src
+
+** Do not log omit events
+   #+begin_src emacs-lisp
+     (setq dired-omit-verbose nil)
+   #+end_src
+
+
 * Keybindings
 ** Keybinding to enable wdired mode
   #+begin_src emacs-lisp

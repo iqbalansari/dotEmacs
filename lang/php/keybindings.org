@@ -15,7 +15,7 @@
 
 * Keybinding to start debugging current script
   #+begin_src emacs-lisp
-    (define-key php-mode-map [f5] #'my-php-debug)
+    (define-key php-mode-map (kbd "C-c g") #'my-php-debug)
   #+end_src
 
 
