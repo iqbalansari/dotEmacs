@@ -126,6 +126,11 @@
            (concat my-org-agenda-dir "projects.org"))
    #+end_src
 
+*** Path to per repo TODO file
+    #+begin_src emacs-lisp
+      (setq org-projectile:per-repo-filename "TODO.org")
+    #+end_src
+
 *** Any files in org folder will be added to agenda files
   #+begin_src emacs-lisp
     (setq org-agenda-files (list my-org-agenda-dir))
