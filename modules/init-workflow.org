@@ -403,9 +403,12 @@
 
 *** Template for project specific TODOs
     #+begin_src emacs-lisp
-      (require 'org-projectile)
-      (add-to-list 'org-capture-templates 
-        (org-projectile:project-todo-entry "p" "* TODO %? :%(my-get-source-buffers-project):\n%a\n"))
+      (defun my-enable-org-projectile ()
+        (load "org-projectile")
+        (add-to-list 'org-capture-templates 
+                     (org-projectile:project-todo-entry "p" "* TODO %? :%(my-get-source-buffers-project):\n%a\n")))
+
+      (eval-after-load "projectile" #'my-enable-org-projectile)
     #+end_src
 
 *** Template for capturing journal entry
