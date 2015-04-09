@@ -199,9 +199,14 @@
     (defun my-php-regenerate-tags ()
       (when (and my-project-root
                  buffer-file-name
-                 (locate-dominating-file buffer-file-name "GTAGS"))
-        (shell-command (format "cd %s && global --single-update %s" my-project-root buffer-file-name))
-        (message "TAGS regenerated!")))
+                 (locate-dominating-file buffer-file-name "GTAGS")
+                 (executable-find "global"))
+        (let ((default-directory my-project-root))
+          (start-process "PHP tags update"
+                         nil
+                         "global"
+                         "--single-update"
+                         buffer-file-name))))
   #+end_src
 
 
