@@ -134,6 +134,12 @@
   #+end_src
 
 
+* Set neotree configuration
+** Use nerd theme
+  #+begin_src emacs-lisp
+    (setq neo-theme 'nerd)
+  #+end_src
+
 * Configurations to hide certain files in dired
 ** Hide ._ files created by Mac
   #+begin_src emacs-lisp
