@@ -140,6 +140,26 @@
     (setq neo-theme 'nerd)
   #+end_src
 
+** Automatically change neotree on changing current buffer
+   #+begin_src emacs-lisp
+     (defun my-neotree-refresh (last-buffer current-buffer)
+       (when (and (not (eq current-buffer (neo-global--get-buffer)))
+                  (neo-global--window-exists-p))
+         (let ((buffer-directory (with-current-buffer current-buffer
+                                   (or (ignore-errors (projectile-project-root))
+                                       default-directory)))
+               (neotree-directory (with-current-buffer neo-global--buffer
+                                    (or (ignore-errors (projectile-project-root))
+                                        default-directory))))
+           (unless (string= buffer-directory neotree-directory)
+             (save-selected-window
+               (neo-global--open-dir buffer-directory)
+               (goto-char (point-min)))))))
+
+     (add-hook 'my-buffer-change-hook #'my-neotree-refresh)
+   #+end_src
+
+
 * Configurations to hide certain files in dired
 ** Hide ._ files created by Mac
   #+begin_src emacs-lisp
