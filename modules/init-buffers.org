@@ -187,7 +187,9 @@
             (ignore-errors (run-hook-with-args 'my-buffer-change-hook my-last-buffer current-buffer)))
           (setq my-last-buffer current-buffer))))
 
-    (add-hook 'post-command-hook #'my-run-buffer-change-hooks-maybe)
+    (add-hook 'after-init-hook
+              (lambda ()
+                (add-hook 'post-command-hook #'my-run-buffer-change-hooks-maybe)))
   #+end_src
 
 
