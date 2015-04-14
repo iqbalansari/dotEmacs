@@ -140,6 +140,36 @@
     (setq neo-theme 'nerd)
   #+end_src
 
+** Use shorter keybindings
+   #+begin_src emacs-lisp
+     (setq neo-keymap-style 'concise)
+   #+end_src
+
+** Keep the cursor at start of node
+   #+begin_src emacs-lisp
+     (setq neo-auto-indent-point t)
+   #+end_src
+
+** Readjust neotree to current buffer's directory on reopen
+   #+begin_src emacs-lisp
+     (setq neo-smart-open t)
+   #+end_src
+
+** Auto open file on creation
+   #+begin_src emacs-lisp
+     (setq neo-create-file-auto-open t)
+   #+end_src
+
+** Do not display updir line
+   #+begin_src emacs-lisp
+     (setq neo-show-updir-line nil)
+   #+end_src
+
+** Make neotree a bit wider
+   #+begin_src emacs-lisp
+     (setq neo-window-width 30)
+   #+end_src
+
 ** Automatically change neotree on changing current buffer
    #+begin_src emacs-lisp
      (defun my-neotree-refresh (last-buffer current-buffer)
