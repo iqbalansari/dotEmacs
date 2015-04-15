@@ -214,11 +214,6 @@
                (ad-activate ',func)))
    #+end_src
 
-** 9. Load cl, it defines a lot of useful functions
-   #+begin_src emacs-lisp
-     (load "cl")
-   #+end_src
-
 
 * Increase gc threshhold
   #+begin_src emacs-lisp
