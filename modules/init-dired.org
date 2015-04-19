@@ -168,6 +168,10 @@
 ** Make neotree a bit wider
    #+begin_src emacs-lisp
      (setq neo-window-width 30)
+
+     ;; To reduce split-window-threshold since some width is
+     ;; taken up by neotree
+     (setq split-width-threshold (- split-width-threshold neo-window-width))
    #+end_src
 
 ** Automatically change neotree on changing current buffer
