@@ -190,7 +190,7 @@
                (neo-global--open-dir buffer-directory)
                (goto-char (point-min)))))))
 
-     (add-hook 'my-buffer-change-hook #'my-neotree-refresh)
+     (add-hook 'buffer-change-hook #'my-neotree-refresh)
    #+end_src
 
 

@@ -144,15 +144,14 @@
 
 * Enable smerge mode automatically for conflicted files
   #+begin_src emacs-lisp
-    (defun sm-try-smerge ()
-      (when (and buffer-file-name
-                 (vc-backend buffer-file-name))
+    (defun my-enable-smerge-maybe (last-buffer current-buffer)
+      (when (vc-backend buffer-file-name)
         (save-excursion
           (goto-char (point-min))
           (when (re-search-forward "^<<<<<<< " nil t)
             (smerge-mode +1)))))
 
-    (add-hook 'find-file-hook 'sm-try-smerge t)
+    (add-hook 'buffer-change-hook 'my-enable-smerge-maybe)
   #+end_src
 
 
