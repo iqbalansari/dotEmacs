@@ -1,6 +1,6 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (my-install-packages '(org-bullets org-toc company-math pcsv))
+    (my-install-packages '(org-bullets toc-org company-math pcsv))
 
     (when (locate-library "pdf-tools")
       (my-install-package 'org-pdfview))
@@ -139,17 +139,10 @@
    #+end_src
 
 
-* org-toc configuration
-** Hack around conflict between org-toc.el from melpa and one bundled with org-plus-contrib
-   #+begin_src emacs-lisp
-     (let ((org-toc-elpa-dir (car (file-expand-wildcards (concat package-user-dir "/org-toc*")))))
-       (when org-toc-elpa-dir
-         (autoload #'org-toc-enable (concat org-toc-elpa-dir "/org-toc.el"))))
-   #+end_src
-
+* toc-org configuration
 ** Enable org-toc
   #+begin_src emacs-lisp
-    (add-hook 'org-mode-hook #'org-toc-enable)
+    (add-hook 'org-mode-hook #'toc-org-enable)
   #+end_src
 
 ** Exclude trees with TOC tag
