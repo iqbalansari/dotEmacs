@@ -140,6 +140,11 @@
 
 
 * toc-org configuration
+** By default use org-mode links
+   #+begin_src emacs-lisp
+     (setq toc-org-hrefify-default "org")
+   #+end_src
+
 ** Enable org-toc
   #+begin_src emacs-lisp
     (add-hook 'org-mode-hook #'toc-org-enable)
