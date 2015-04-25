@@ -1,7 +1,7 @@
 
 * Declaration of global variables and utility functions
   Set global variables to be used in the rest of the intialization
-** 1. Path to packages not in a package manager
+** Path to packages not in a package manager
    Packages not currently installable package manager reside in this directory
    #+begin_src emacs-lisp
      (load "cl")
@@ -12,14 +12,14 @@
        (add-to-list 'load-path package-dir))
    #+end_src
 
-** 2. Path to 'lang'uage specific configurations
+** Path to language specific configurations
    Lang contain the configuration related to one specific type of file.
    They reside in the following directory
    #+begin_src emacs-lisp
      (defvar my-langs-dir (locate-user-emacs-file "lang/"))
    #+end_src
 
-** 3. Check if given file is older than any of the other given files
+** Check if given file is older than any of the other given files
    #+begin_src emacs-lisp
      (defun my-is-file-stale (orig-file &rest files)
        (if (file-exists-p orig-file)
@@ -31,7 +31,7 @@
          t))
    #+end_src
 
-** 4. Helper functions to read/write from/to file
+** Helper functions to read/write from/to file
    #+begin_src emacs-lisp
      (defun my-read-file (path)
        (with-temp-buffer
@@ -44,7 +44,7 @@
          (insert data)))
    #+end_src
 
-** 5. Function to load language configuration
+** Function to load language configuration
    A simple helper function to load a particular language configuration.
    Instead of loading the org files one by one it combines all the code in
    them in one compiled file and loads that file, the compiled file is regenerated
@@ -157,7 +157,7 @@
                             (my-load-lang-config-for-buffer language))))))
    #+end_src
 
-** 6. Function to declare one-shot keybindings
+** Function to declare one-shot keybindings
     These bindings active only after a particular command and are
     deactivated as soon as some other key is pressed (as in 'C-x e'
     and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
@@ -169,7 +169,7 @@
            map) t))
     #+end_src
 
-** 7. Interacting with REPL
+** Interacting with REPL
    #+begin_src emacs-lisp
      (defmacro my-evaluate-line-in-repl (name send-region-func)
        `(defun ,name ()
@@ -200,7 +200,7 @@
                                 end))))
    #+end_src
 
-** 8. Highlighting the line to reorient the user
+** Highlighting the line to reorient the user
    #+begin_src emacs-lisp
      (load "pulse")
      (defun my-highlight-line ()
@@ -210,8 +210,17 @@
        `(progn (defadvice ,func (after highlight-current-line
                                        (&rest args))
                  "Flash the current line after jump"
-                 (run-at-time 0.1 nil #'my-highlight-line))
+                 (run-at-time  nil #'my-highlight-line))
                (ad-activate ',func)))
+   #+end_src
+
+** Prefer utf-8 encoding
+   #+begin_src emacs-lisp
+     (setq locale-coding-system 'utf-8)
+     (set-terminal-coding-system 'utf-8)
+     (set-keyboard-coding-system 'utf-8)
+     (set-selection-coding-system 'utf-8)
+     (prefer-coding-system 'utf-8)
    #+end_src
 
 
@@ -257,7 +266,7 @@
              (package-install package)
            
            ;; File error most probably means, the contents are old
-           ;; refresh content and try again (emacs-version <= 24.4)
+           ;; refresh content and try again (emacs-version <= 2)
            (file-error (progn (package-refresh-contents)
                               (package-install package)))
 

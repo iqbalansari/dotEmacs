@@ -4,16 +4,6 @@
   #+end_src
 
 
-* Prefer utf-8 encoding
-  #+begin_src emacs-lisp
-    (setq locale-coding-system 'utf-8)
-    (set-terminal-coding-system 'utf-8)
-    (set-keyboard-coding-system 'utf-8)
-    (set-selection-coding-system 'utf-8)
-    (prefer-coding-system 'utf-8)
-  #+end_src
-
-
 * Create unique names for same named buffers
   #+begin_src emacs-lisp
     (load "uniquify")
