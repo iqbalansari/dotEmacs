@@ -38,7 +38,7 @@
 
 ** Use dark or light theme according time
   #+begin_src emacs-lisp
-    (defun my-load-solarized-theme ()
+    (defun my-load-solarized-theme (&optional frame)
       (interactive)
       (let ((current-hour (third (decode-time)))
             (current-minute (second (decode-time))))
@@ -47,13 +47,13 @@
             (load-theme 'solarized-light t)
           (load-theme 'solarized-dark t))
 
-        (set-face-attribute 'company-tooltip-common nil
+        (set-face-attribute 'company-tooltip-common frame
                             :underline nil
                             :background (face-background 'company-tooltip)
                             :foreground (face-foreground 'company-tooltip)
                             :bold t)
 
-        (set-face-attribute 'company-tooltip-common-selection nil
+        (set-face-attribute 'company-tooltip-common-selection frame
                             :underline nil
                             :background (face-background 'company-tooltip-selection)
                             :foreground (face-foreground 'company-tooltip-selection)
@@ -80,9 +80,14 @@
 
 * Use DejaVu Sans Mono / Source Code Pro / Consolas font if available
   #+begin_src emacs-lisp
-    (cond ((member "DejaVu Sans Mono" (font-family-list)) (set-frame-font "DejaVu Sans Mono-10"))
-          ((member "Source Code Pro" (font-family-list)) (set-frame-font "Source Code Pro-10.90"))
-          ((member "Consolas" (font-family-list)) (set-frame-font "Consolas-11.7:light")))
+    (defun my-set-font (&optional frame)
+      (set-frame-font (cond ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-10")
+                            ((member "Source Code Pro" (font-family-list)) "Source Code Pro-10.90")
+                            ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
+                      t
+                      (list (or frame (selected-frame)))))
+
+    (add-hook 'after-make-frame-functions #'my-set-font)
   #+end_src
 
 
