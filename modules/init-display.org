@@ -59,7 +59,8 @@
                             :foreground (face-foreground 'company-tooltip-selection)
                             :bold t)))
 
-    (add-hook 'after-init-hook #'my-load-solarized-theme)
+    (when (display-graphic-p)
+      (add-hook 'after-init-hook #'my-load-solarized-theme))
   #+end_src
 
 
