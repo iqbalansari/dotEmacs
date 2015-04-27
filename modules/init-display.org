@@ -88,6 +88,7 @@
                       (list (or frame (selected-frame)))))
 
     (add-hook 'after-make-frame-functions #'my-set-font)
+    (my-set-font)
   #+end_src
 
 
