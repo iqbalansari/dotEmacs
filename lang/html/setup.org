@@ -11,12 +11,12 @@
   #+begin_src emacs-lisp
     (company-mode -1)
     (auto-complete-mode +1)
-    (load "ac-html")
+    ;; (load "ac-html")
 
-    (add-to-list 'web-mode-ac-sources-alist
-                 '("html" . (ac-source-html-attribute-value
-                             ac-source-html-tag
-                             ac-source-html-attribute)))
+    ;; (add-to-list 'web-mode-ac-sources-alist
+    ;;              '("html" . (ac-source-html-attribute-value
+    ;;                          ac-source-html-tag
+    ;;                          ac-source-html-attribute)))
   #+end_src
 
 ** Completion for css properties
