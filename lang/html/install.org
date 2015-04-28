@@ -10,7 +10,6 @@
 
 * Install tern for javascript completion
   #+begin_src emacs-lisp
-    (if (executable-find "tern")
-        (my-install-package 'tern-auto-complete)
-      (warn "Install npm to install ternjs"))
+    (when (executable-find "tern")
+      (my-install-package 'tern-auto-complete))
   #+end_src
