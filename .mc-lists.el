@@ -99,6 +99,7 @@
         sp-unwrap-sexp
         sp-up-sexp
         st2-like-beginning-of-line
+        subword-left
         subword-right
         tern-ac-dot-complete
         tiny-expand
