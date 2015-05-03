@@ -141,7 +141,8 @@
 
 * Highlight current line
   #+begin_src emacs-lisp
-    (global-hl-line-mode)
+    (when (display-graphic-p)
+      (global-hl-line-mode) )
   #+end_src
 
 
