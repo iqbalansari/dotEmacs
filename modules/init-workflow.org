@@ -1,6 +1,48 @@
 * Install org-projectile, org-magit and org-journal
   #+begin_src emacs-lisp
-    (my-install-packages '(org-projectile org-journal org-magit))
+    (my-install-packages '(org-projectile org-journal org-magit noflet))
+  #+end_src
+
+
+* Command to call org-capture in a separate frame
+  Useful for invoking org-capture from a window manager
+  like xmonad using emacsclient
+  #+begin_src emacs-lisp
+    (require 'noflet)
+
+    (defadvice org-capture-finalize (after delete-capture-frame activate)  
+      "Advise capture-finalize to close the frame"  
+      (if (equal "*Org Capture*" (frame-parameter nil 'name))  
+          (delete-frame)))
+
+    (defun make-capture-frame ()
+      "Create a new frame and run org-capture. Useful for calling from
+    an external program, using emacsclient eg. xmonad 
+    CREDITS: Alexander Vorobiev
+    http://lists.gnu.org/archive/html/emacs-orgmode/2013-10/msg00150.html and
+    http://www.glassberg-powell.com/blog/20140709/emacs-org-mode-capture-anywhere"
+      (interactive)
+      ;; Instruct desktop to not save org capture frame
+      (make-frame '((name . "*Org Capture*") (desktop-dont-save . t)))
+      (select-frame-by-name "*Org Capture*")
+      (delete-other-windows)
+      (noflet ((switch-to-buffer-other-window (buf) (switch-to-buffer buf)))
+        ;; Handle any error so that subsequent frame cleanup code
+        ;; gets a chance to run
+        (condition-case err
+            (org-capture)
+          (error (message (format "Caught exception: [%s]" err))
+                 (when (equal "*Org Capture*" (frame-parameter nil 'name))
+                   ;; Delete the frame even if the user cancelled or there
+                   ;; was some error, TODO: this can be potentially confusing
+                   ;; if there is some bug in the configuration which cause
+                   ;; the capture to fail and the frame disappears with out
+                   ;; proper error message (messages would still be there
+                   ;; in messages buffer tough)
+                   (delete-frame)
+                   ;; Otherwise main frame keeps listening for
+                   ;; input
+                   (keyboard-quit))))))
   #+end_src
 
 
