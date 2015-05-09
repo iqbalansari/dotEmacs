@@ -157,9 +157,21 @@
 
 * Configurations for ediff
   #+begin_src emacs-lisp
-    (setq ediff-diff-options "-w")
     (setq ediff-split-window-function 'split-window-vertically)
     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  #+end_src
+
+
+* Restoring window configuration after ediff session
+  #+begin_src emacs-lisp
+    (defun my-store-pre-ediff-winconfig ()
+      (setq my-ediff-last-windows (current-window-configuration)))
+
+    (defun my-restore-pre-ediff-winconfig ()
+      (set-window-configuration my-ediff-last-windows))
+
+    (add-hook 'ediff-before-setup-hook #'my-store-pre-ediff-winconfig)
+    (add-hook 'ediff-quit-hook #'my-restore-pre-ediff-winconfig)
   #+end_src
 
 
