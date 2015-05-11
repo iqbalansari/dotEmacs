@@ -48,30 +48,6 @@
   #+end_src
 
 
-* Setup Rope for refactoring
-** Configuration
-   1. Prevent rope from setting up keybindings, we'll set our keybindings
-   #+begin_src emacs-lisp
-     (setq ropemacs-enable-shortcuts nil)
-     (setq ropemacs-local-prefix nil)
-     (setq ropemacs-global-prefix nil)
-   #+end_src
-
-   2. Enable autoimport
-   #+begin_src emacs-lisp
-     (setq ropemacs-enable-autoimport t)
-   #+end_src
-
-** Start ropemacs
-   Load pymacs and load rope, if not already loaded
-   #+begin_src emacs-lisp
-     (when (and (locate-library "pymacs")
-                (not (featurep 'pymacs)))
-       (load "pymacs")
-       (pymacs-load "ropemacs" "rope-"))
-   #+end_src
-
-
 * Setup flycheck for error checking
 ** Enable flycheck-mode (except if the file is in non-writable folder)
   #+begin_src emacs-lisp

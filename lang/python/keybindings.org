@@ -24,33 +24,10 @@
    #+end_src
 
 
-* Keybinding for finding references
-  #+begin_src emacs-lisp
-    (when (featurep 'ropemacs)
-      (define-key python-mode-map my-find-references #'rope-find-occurrences))
-  #+end_src
-
-
 * Set keybindings for Jedi
   #+begin_src emacs-lisp
     (when my-jedi-available
       (define-key python-mode-map my-jump-to-definition 'jedi:goto-definition)
       (define-key python-mode-map my-pop-jump-to-definition-marker 'jedi:goto-definition-pop-marker)
       (define-key python-mode-map my-show-doc 'jedi:show-doc))
-  #+end_src
-
-
-* Keybindings for virtualenvwrapper
-  #+begin_src emacs-lisp
-    (when (locate-library "virtualenvwrapper")
-      (define-key python-mode-map (kbd "C-c v") (lambda () (interactive) (discover-show-context-menu 'venv))))
-  #+end_src
-
-
-* Set keybindings for refactoring
-  #+begin_src emacs-lisp
-    (when (featurep 'ropemacs)
-      (define-key python-mode-map my-refactor-rename 'rope-rename)
-      (define-key python-mode-map my-refactor-auto-import 'rope-auto-import)
-      (define-key python-mode-map my-refactor-organize-imports 'rope-organize-imports))
   #+end_src

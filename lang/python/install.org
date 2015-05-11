@@ -1,8 +1,6 @@
 * Ensure that the required "packages" are installed
 + [[http://tkf.github.io/emacs-jedi/][jedi]] - Python auto-completion for Emacs. It is faster than other alternatives
   and just works
-+ [[www.github.com/pinard/Pymacs][pymacs]] - Interface between emacs-lisp and python, need by rope
-+ [[http://rope.sourceforge.net/ropemacs.html][ropemacs]] - A plugin to perform python refactorings in emacs
 + [[https://bitbucket.org/jonwaltman/pydoc-info][pydoc-info]] - Emacs package for searching Python documentation in Info
 + [[https://bitbucket.org/durin42/nosemacs][nosemacs]] - Emacs extension to provide easy nosetest integration.
 + [[https://github.com/porterjamesj/virtualenvwrapper.el][virtualenvwrapper]] - A virtualenvwrapper written in elisp
@@ -26,13 +24,4 @@
 
                (my-install-package 'virtualenvwrapper))
       (warn "You need to install python `virtualenv' to install jedi"))
-  #+end_src
-
-
-* Install ropemacs
-  #+begin_src emacs-lisp
-    (if (and (executable-find "make")
-             (executable-find "python"))
-        (my-install-package 'ropemacs)
-      (warn "Install `python' and `make' to install `ropemacs'"))
   #+end_src
