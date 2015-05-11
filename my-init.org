@@ -210,7 +210,7 @@
        `(progn (defadvice ,func (after highlight-current-line
                                        (&rest args))
                  "Flash the current line after jump"
-                 (run-at-time  nil #'my-highlight-line))
+                 (run-at-time 0.1 nil #'my-highlight-line))
                (ad-activate ',func)))
    #+end_src
 
@@ -266,7 +266,7 @@
              (package-install package)
            
            ;; File error most probably means, the contents are old
-           ;; refresh content and try again (emacs-version <= 2)
+           ;; refresh content and try again (emacs-version >= 24.4)
            (file-error (progn (package-refresh-contents)
                               (package-install package)))
 
