@@ -102,6 +102,7 @@
                               files
                               dired
                               version-control
+                              debugging
                               org
                               project
                               workflow

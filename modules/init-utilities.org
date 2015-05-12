@@ -1,14 +1,10 @@
 * Install required packages
   #+begin_src emacs-lisp
-    (my-install-packages '(mag-menu
-                           inf-mongo
+    (my-install-packages '(inf-mongo
                            eldoc-eval
                            guide-key
                            edit-server
-                           realgud
                            bongo))
-
-    (autoload 'mag-menu "mag-menu")
   #+end_src
 
 
