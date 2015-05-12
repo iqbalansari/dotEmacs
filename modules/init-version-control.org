@@ -158,6 +158,12 @@
             (smerge-mode +1)))))
 
     (add-hook 'buffer-change-hook 'my-enable-smerge-maybe)
+
+    (defun my-org-mode-expand-all ()
+      (when (eq major-mode 'org-mode)
+        (show-all)))
+
+    (add-hook 'smerge-mode-hook #'my-org-mode-expand-all)
   #+end_src
 
 
