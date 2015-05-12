@@ -52,6 +52,12 @@
   #+end_src
 
 
+* Let magit auto revert files
+  #+begin_src emacs-lisp
+    (add-hook 'after-init-hook #'magit-auto-revert-mode)
+  #+end_src
+
+
 * Use 'emacsclient' as editor
   #+begin_src emacs-lisp
     (setenv "EDITOR" "emacsclient")
