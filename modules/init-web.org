@@ -1,3 +1,10 @@
+* Open links in firefox by default
+  #+begin_src emacs-lisp
+    (when (executable-find "firefox")
+      (setq browse-url-browser-function #'browse-url-firefox))
+  #+end_src
+
+
 * Install emacs-w3m if w3m executable is found
    #+begin_src emacs-lisp
      (when (executable-find "w3m")

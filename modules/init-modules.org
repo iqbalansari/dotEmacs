@@ -112,7 +112,7 @@
                               windows
                               session
                               scratch
-                              w3m
+                              web
                               mail
                               elfeed
                               pdf
