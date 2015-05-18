@@ -411,15 +411,18 @@
    These are general purpose libraries that can are used
    by different modes
 
-   The libaries are loaded by the file 'modules/init-modules.org'
+   The libaries are loaded by the file 'config/init.org'
    #+begin_src emacs-lisp
-     (when (file-newer-than-file-p (locate-user-emacs-file "modules/init-modules.org")
-                                   (locate-user-emacs-file "modules/.compiled/init-modules.el"))
-       (org-babel-tangle-file (locate-user-emacs-file "modules/init-modules.org")
-                              (locate-user-emacs-file "modules/.compiled/init-modules.el")
+     (unless (file-exists-p (locate-user-emacs-file "config/.compiled/"))
+       (make-directory (locate-user-emacs-file "config/.compiled/")))
+
+     (when (file-newer-than-file-p (locate-user-emacs-file "config/init.org")
+                                   (locate-user-emacs-file "config/.compiled/init.el"))
+       (org-babel-tangle-file (locate-user-emacs-file "config/init.org")
+                              (locate-user-emacs-file "config/.compiled/init.el")
                               "emacs-lisp"))
-     
-     (load-file (locate-user-emacs-file "modules/.compiled/init-modules.el"))
+
+     (load-file (locate-user-emacs-file "config/.compiled/init.el"))
    #+end_src
 
 

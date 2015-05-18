@@ -35,10 +35,6 @@ to restart any shell you are using to launch emacs after making the changes!"))
 
 (require 'org)
 
-;; Create .compiled dir in modules
-(unless (file-exists-p (locate-user-emacs-file "modules/.compiled/"))
-  (make-directory (locate-user-emacs-file "modules/.compiled/")))
-
 ;; Avoid re-extraction if file has not changed
 (if (file-newer-than-file-p (locate-user-emacs-file "my-init.org") 
 			    (locate-user-emacs-file "my-init.el"))
