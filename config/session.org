@@ -1,0 +1,68 @@
+* Use desktop mode
+** Restore just one buffer immediately
+   #+begin_src emacs-lisp
+     (setq desktop-restore-eager 1)
+   #+end_src
+
+** Do not save temporary buffers
+   #+begin_src emacs-lisp
+     (setq desktop-buffers-not-to-save  "\\(\\` \\|^\\*\\)")
+   #+end_src
+
+** Enable desktop mode
+  #+begin_src emacs-lisp
+    (desktop-save-mode 1)
+  #+end_src
+
+** Avoid stale locks on desktop file taken from [[http://www.emacswiki.org/emacs/DeskTop#toc4][emacswiki]]
+   #+begin_src emacs-lisp
+     (defun emacs-process-p (pid)
+       "If pid is the process ID of an emacs process, return t, else nil.
+     Also returns nil if pid is nil."
+       (when pid
+         (let ((attributes (process-attributes pid)) (cmd))
+           (dolist (attr attributes)
+             (if (string= "comm" (car attr))
+                 (setq cmd (cdr attr))))
+           (if (and cmd (or (string= "emacs" cmd) (string= "emacs.exe" cmd))) t))))
+
+     (defadvice desktop-owner (after pry-from-cold-dead-hands activate)
+       "Don't allow dead emacsen to own the desktop file."
+       (when (not (emacs-process-p ad-return-value))
+         (setq ad-return-value nil)))
+   #+end_src
+
+** Do not save encrypted files, message mode files
+   #+begin_src emacs-lisp
+     (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\|\.gpg$\\|,S$\\|,DS\\)")
+     (add-to-list 'desktop-modes-not-to-save 'message-mode)
+   #+end_src
+
+
+* Save minibuffer history across sessions
+  #+begin_src emacs-lisp
+    (savehist-mode 1)
+    (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+  #+end_src
+
+
+* Use virtual buffers
+  This will show the buffers previously opened in the ido-switch-buffer prompt
+  and allow to select it. On selecting the buffer the file is opened again
+  #+begin_src emacs-lisp
+    (setq ido-use-virtual-buffers t)
+  #+end_src
+
+** Do not remember 'sent email' files
+   #+begin_src emacs-lisp
+     (eval-after-load "recentf"
+       '(progn (add-to-list 'recentf-exclude ".+,DS")
+               (add-to-list 'recentf-exclude ".+,S")
+               (add-to-list 'recentf-exclude ".*\.git/.*")))
+   #+end_src
+
+
+* Store more history
+  #+begin_src emacs-lisp
+    (setq history-length 1000)
+  #+end_src

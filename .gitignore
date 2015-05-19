@@ -17,7 +17,7 @@ tramp
 url/*
 workgroups
 semanticdb/
-session*
+/session*
 server/*
 projectile.cache
 org
