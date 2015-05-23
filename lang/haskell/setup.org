@@ -96,7 +96,7 @@
    #+begin_src emacs-lisp
      (if (executable-find "hoogle")
          (unless (zerop (shell-command "hoogle --info t"))
-           (warn "`hoogle' data not generated, do `hoogle data' in the shell to generate it"))
+           (warn "`hoogle' data not generated, run `hoogle data' to generate it"))
        (warn "`hoogle' is not installed documentation popup would not work, install it using cabal"))
    #+end_src
 

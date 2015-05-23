@@ -1,8 +1,4 @@
 * Geiser startup
-** Disable auto-complete mode
-   #+begin_src emacs-lisp
-     (auto-complete-mode -1)
-   #+end_src
 
 ** Check scheme implementation is available
    #+begin_src emacs-lisp

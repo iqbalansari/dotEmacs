@@ -129,7 +129,13 @@
   #+end_src
 
 
-* Keybinding to quickly jump to a symbol in buffer
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c s") 'helm-imenu)
-  #+end_src
+* Helm Imenu configuration
+** Keybinding to quickly jump to a symbol in buffer
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c s") 'helm-imenu)
+   #+end_src
+
+** Do not directly jump to the definition even if there is just on candidate
+   #+begin_src emacs-lisp
+     (setq helm-imenu-execute-action-at-once-if-one nil)
+   #+end_src
