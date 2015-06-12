@@ -1,3 +1,9 @@
+* Path to php-executable
+  #+begin_src emacs-lisp
+    (setq php-executable (executable-find "php"))
+  #+end_src
+
+
 * Set the path to boris
   #+begin_src emacs-lisp
     (unless (boundp 'php-boris-command)
@@ -20,6 +26,11 @@
        (ggtags-mode +1))
 
      (setq ggtags-enable-navigation-keys nil)
+   #+end_src
+
+** Sort candidates by nearness
+   #+begin_src emacs-lisp
+     (setq ggtags-sort-by-nearness t)
    #+end_src
 
 ** Generate tags file for project if not already generated 

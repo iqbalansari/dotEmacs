@@ -1,9 +1,3 @@
-* Path to php-executable
-  #+begin_src emacs-lisp
-    (setq php-executable (executable-find "php"))
-  #+end_src
-
-
 * Install php-extras and php-auto-yasnippets
   #+begin_src emacs-lisp
     (my-install-package 'php-extras)
@@ -38,9 +32,9 @@
               (not (version< my-gnu-global-version "5.9.7")))
          (progn (my-install-package 'ggtags)
                 (setq my-gtags-available t))
-       (cond ((not my-gnu-global-version) (warn "GNU Global not installed, not installing gtags"))
+       (cond ((not my-gnu-global-version) (warn "GNU Global not installed, not installing ggtags"))
              (t (warn (concat "GNU Global version is " my-gnu-global-version
-                              " gtags requires atleast version 5.9.7 of GNU global to work, not installing gtags")))))
+                              " ggtags requires atleast version 5.9.7 of GNU global to work, not installing ggtags")))))
    #+end_src
 
 
