@@ -4,6 +4,9 @@
 
     (when (locate-library "pdf-tools")
       (my-install-package 'org-pdfview))
+
+    (when (string-match-p "^gnome-" (getenv "DESKTOP_SESSION"))
+      (my-install-package 'org-gnome))
   #+end_src
 
 
@@ -262,3 +265,10 @@
       '(load "org-pdfview" t))
   #+end_src
 
+
+* Configuration for org-mode gnome integration
+  #+begin_src emacs-lisp
+    (when (locate-library "org-gnome")
+      (global-org-gnome-minor-mode)
+      (og-enable-org-agenda-notifications))
+  #+end_src
