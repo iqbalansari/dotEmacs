@@ -1,7 +1,9 @@
-* Function to enable completion in elxir REPL and buffer
+* Enable completion in elxir REPL
   #+begin_src emacs-lisp
     (defun my-elixir-enable-completion ()
       (add-to-list 'company-backends 'alchemist-company))
+
+    (add-hook 'alchemist-iex-mode-hook #'my-elixir-enable-completion)
   #+end_src
 
 
