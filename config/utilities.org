@@ -116,6 +116,7 @@
                                           "C-c /"
                                           "C-c / e"
                                           "C-c / p"
+                                          "C-c C-w"
                                           (dired-mode "*" "%" "/" "r")
                                           (ibuffer-mode "*" "%" "/")
                                           (web-mode "C-c C-a" "C-c C-b" "C-c C-d" "C-c C-e" "C-c C-t")))
