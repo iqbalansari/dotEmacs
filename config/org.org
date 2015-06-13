@@ -5,7 +5,7 @@
     (when (locate-library "pdf-tools")
       (my-install-package 'org-pdfview))
 
-    (when (string-match-p "^gnome-" (getenv "DESKTOP_SESSION"))
+    (when (string-match-p "^gnome-" (or (getenv "DESKTOP_SESSION") ""))
       (my-install-package 'org-gnome))
   #+end_src
 
