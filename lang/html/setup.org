@@ -7,32 +7,10 @@
 
 
 * Enable auto-completion
-** Completion in for html parts of the file
   #+begin_src emacs-lisp
-    (company-mode -1)
-    (auto-complete-mode +1)
-    ;; (load "ac-html")
-
-    ;; (add-to-list 'web-mode-ac-sources-alist
-    ;;              '("html" . (ac-source-html-attribute-value
-    ;;                          ac-source-html-tag
-    ;;                          ac-source-html-attribute)))
+    (company-mode +1)
+    (add-to-list 'company-backends 'company-web-html)
   #+end_src
-
-** Completion for css properties
-  #+begin_src emacs-lisp
-    (add-to-list 'web-mode-ac-sources-alist
-                 '("css" . (ac-source-css-property)))
-  #+end_src
-
-** Completion for javascript parts
-   #+begin_src emacs-lisp
-     (when (locate-library "tern")
-       (load "tern-auto-complete")
-       (set (make-local-variable 'tern-ac-dot-complete) t)
-       (tern-ac-setup)
-       (tern-mode))
-   #+end_src
 
 
 * Enable auto-expansion

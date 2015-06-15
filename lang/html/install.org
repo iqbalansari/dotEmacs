@@ -2,14 +2,7 @@
   #+begin_src emacs-lisp
     (defvar my-html-packages '(emmet-mode
                                skewer-mode
-                               ac-html))
+                               company-web))
 
     (my-install-packages my-html-packages)
-  #+end_src
-
-
-* Install tern for javascript completion
-  #+begin_src emacs-lisp
-    (when (executable-find "tern")
-      (my-install-package 'tern-auto-complete))
   #+end_src
