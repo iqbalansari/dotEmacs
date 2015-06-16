@@ -128,7 +128,8 @@
 
 * Enable quick help for company-mode
   #+begin_src emacs-lisp
-    (company-quickhelp-mode +1)
+    (when (display-graphic-p)
+      (company-quickhelp-mode +1))
   #+end_src
 
 
