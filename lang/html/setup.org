@@ -10,6 +10,7 @@
   #+begin_src emacs-lisp
     (company-mode +1)
     (add-to-list 'company-backends 'company-web-html)
+    (add-to-list 'company-backends 'company-css)
   #+end_src
 
 
