@@ -120,7 +120,8 @@
 * Enable company-mode globally
   #+begin_src emacs-lisp
     (setq company-global-modes '(not erlang-mode python-mode web-mode))
-    (setq-default company-backends '(company-capf company-dabbrev))
+    (setq my-default-company-backends '(company-capf company-dabbrev company-files))
+    (setq-default company-backends my-default-company-backends)
     (make-variable-buffer-local 'company-backends)
     (global-company-mode)
   #+end_src
