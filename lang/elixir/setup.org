@@ -10,6 +10,12 @@
   #+end_src
 
 
+* Setup autocompletion
+  #+begin_src emacs-lisp
+    (my-elixir-enable-completion)
+  #+end_src
+
+
 * Enable syntax checking
   #+begin_src emacs-lisp
     (flycheck-mode +1)
