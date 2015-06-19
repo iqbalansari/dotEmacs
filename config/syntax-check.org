@@ -6,7 +6,7 @@
 
 * Disable syntax checking on new-line
   #+begin_src emacs-lisp
-    (eval-after-load "flycheck"
+    (eval-after-load 'flycheck
       '(setq flycheck-check-syntax-automatically (delq 'new-line flycheck-check-syntax-automatically)))
   #+end_src
 
@@ -49,3 +49,17 @@
      (eval-after-load 'flycheck
        '(add-to-list 'flycheck-process-error-functions #'my-add-lines-for-errors))
    #+end_src
+
+
+* Change flycheck face to use straight lines instead of wavy lines
+  #+begin_src emacs-lisp
+    (defun my-flycheck-use-straight-lines ()
+      (let ((error-color (plist-get (face-attribute 'flycheck-error :underline) :color))
+            (warning-color (plist-get (face-attribute 'flycheck-warning :underline) :color))
+            (info-color (plist-get (face-attribute 'flycheck-info :underline) :color)))
+        (set-face-attribute 'flycheck-error nil :underline (list :style 'line :color error-color))
+        (set-face-attribute 'flycheck-warning nil :underline (list :style 'line :color warning-color))
+        (set-face-attribute 'flycheck-info nil :underline (list :style 'line :color info-color))))
+
+    (add-hook 'flycheck-mode-hook #'my-flycheck-use-straight-lines)
+  #+end_src

@@ -30,8 +30,28 @@
    #+end_src
 
 
-* Activate the keybindings and advices after w3m loads
+* Keybindings for emacs-w3m
    #+begin_src emacs-lisp
+     (defun my-set-w3m-keybindings ()
+       (define-key w3m-mode-map (kbd "M-n") #'w3m-next-anchor)
+       (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
+       (define-key w3m-mode-map (kbd "<down>") #'next-line)
+       (define-key w3m-mode-map (kbd "<up>") #'previous-line)
+       (define-key w3m-mode-map (kbd "n") #'next-line)
+       (define-key w3m-mode-map (kbd "p") #'previous-line)
+       (define-key w3m-mode-map (kbd "<left>") nil)
+       (define-key w3m-mode-map (kbd "<right>") nil)
+       (define-key w3m-mode-map (kbd "<C-prior>") #'w3m-previous-buffer)
+       (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
+       (define-key w3m-mode-map (kbd "<C-S-prior>") #'w3m-tab-move-left)
+       (define-key w3m-mode-map (kbd "<C-S-next>") #'w3m-tab-move-right)
+       (define-key w3m-mode-map (kbd "C-c w") #'w3m-close-window)
+       (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
+       (define-key w3m-mode-map (kbd "C-c C-o") #'w3m-lnum-external-view-this-url)
+       (define-key w3m-mode-map (kbd "E") #'my-w3m-view-url-in-external-browser)
+       (define-key w3m-mode-map (kbd "M-RET") #'w3m-lnum-external-view-this-url)
+       (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
+
      (eval-after-load "w3m"
        '(progn (my-set-w3m-keybindings)
                (my-w3m-set-mark-before-jump)))
@@ -97,30 +117,6 @@
       (interactive)
       (browse-url w3m-current-url))
   #+end_src
-
-
-* Keybindings for emacs-w3m
-   #+begin_src emacs-lisp
-     (defun my-set-w3m-keybindings ()
-       (define-key w3m-mode-map (kbd "M-n") #'w3m-next-anchor)
-       (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
-       (define-key w3m-mode-map (kbd "<down>") #'next-line)
-       (define-key w3m-mode-map (kbd "<up>") #'previous-line)
-       (define-key w3m-mode-map (kbd "n") #'next-line)
-       (define-key w3m-mode-map (kbd "p") #'previous-line)
-       (define-key w3m-mode-map (kbd "<left>") nil)
-       (define-key w3m-mode-map (kbd "<right>") nil)
-       (define-key w3m-mode-map (kbd "<C-prior>") #'w3m-previous-buffer)
-       (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
-       (define-key w3m-mode-map (kbd "<C-S-prior>") #'w3m-tab-move-left)
-       (define-key w3m-mode-map (kbd "<C-S-next>") #'w3m-tab-move-right)
-       (define-key w3m-mode-map (kbd "C-c w") #'w3m-close-window)
-       (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
-       (define-key w3m-mode-map (kbd "C-c C-o") #'w3m-lnum-external-view-this-url)
-       (define-key w3m-mode-map (kbd "E") #'my-w3m-view-url-in-external-browser)
-       (define-key w3m-mode-map (kbd "M-RET") #'w3m-lnum-external-view-this-url)
-       (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
-   #+end_src
 
 
 * Global w3m keybindings
