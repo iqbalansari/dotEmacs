@@ -140,6 +140,16 @@
   #+end_src
 
 
+* Start mu4e
+  #+begin_src emacs-lisp
+    (defun my-start-mu4e-bg ()
+      (when (locate-library "mu4e")
+        (mu4e t)))
+
+    (add-hook 'after-init-hook #'my-start-mu4e-bg)
+  #+end_src
+
+
 * Configuration for sending mail
 ** Sending mail from multiple smtp accounts when using mu4e
   #+begin_src emacs-lisp

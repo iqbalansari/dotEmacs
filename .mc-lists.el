@@ -50,6 +50,7 @@
         mark-sexp
         markdown-exdent-or-delete
         my-beginning-of-line-or-indent
+        my-dwim-org-table-blank-field
         new-line-dwim
         nxml-electric-slash
         open-line-above
