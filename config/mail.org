@@ -143,8 +143,14 @@
 * Start mu4e
   #+begin_src emacs-lisp
     (defun my-start-mu4e-bg ()
-      (when (locate-library "mu4e")
-        (mu4e t)))
+      "Start in background avoiding any prompts and ignoring errors"
+      (require 'mu4e)
+      (when (and (locate-library "mu4e")
+                 (file-directory-p mu4e-maildir)
+                 (file-directory-p (concat mu4e-maildir mu4e-sent-folder))
+                 (file-directory-p (concat mu4e-maildir mu4e-drafts-folder))
+                 (file-directory-p (concat mu4e-maildir mu4e-trash-folder)))
+        (ignore-errors (mu4e t))))
 
     (add-hook 'after-init-hook #'my-start-mu4e-bg)
   #+end_src
@@ -253,7 +259,7 @@
           (my--start-mu4e)
         (message "mu4e not installed! You need to install `autoreconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev' for installing mu4e")))
 
-    (defun my-quit-mu4e ()
+    (defun my-hide-mu4e ()
       (interactive)
       (setq my-mu-win-config (current-window-configuration))
       (when my-pre-mu-win-config
@@ -266,8 +272,12 @@
     (global-set-key (kbd "C-c m") #'my-start-mu4e)    
 
     (eval-after-load "mu4e"
-      '(progn (define-key mu4e-main-mode-map (kbd "C-c m") #'my-quit-mu4e)
-              (define-key mu4e-view-mode-map (kbd "C-c m") #'my-quit-mu4e)
-              (define-key mu4e-headers-mode-map (kbd "C-c m") #'my-quit-mu4e)'
-              (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'my-quit-mu4e)))
+      '(progn (define-key mu4e-main-mode-map (kbd "q") #'my-hide-mu4e)
+              (define-key mu4e-main-mode-map (kbd "Q") #'mu4e-quit)
+              (define-key mu4e-main-mode-map (kbd "/") #'mu4e-headers-search)
+              (define-key mu4e-main-mode-map (kbd "C-c m") #'my-hide-mu4e)
+              (define-key mu4e-view-mode-map (kbd "C-c m") #'my-hide-mu4e)
+              (define-key mu4e-headers-mode-map (kbd "C-c m") #'my-hide-mu4e)
+              (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'my-hide-mu4e)
+              (define-key mu4e-view-mode-map (kbd "U") #'mu4e-headers-rerun-search)))
   #+end_src
