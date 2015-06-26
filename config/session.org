@@ -62,6 +62,13 @@
    #+end_src
 
 
+* Remember place in buffers across sessions
+  #+begin_src emacs-lisp
+    (setq-default save-place t)
+    (require 'saveplace)
+  #+end_src
+
+
 * Store more history
   #+begin_src emacs-lisp
     (setq history-length 1000)
