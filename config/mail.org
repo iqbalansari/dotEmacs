@@ -1,21 +1,27 @@
-* Install mu when on Linux
-  #+begin_src emacs-lisp
-    (when (eq system-type 'gnu/linux)
-      ;; Install only if the prerequisites are satisfied
-      (if (and (executable-find "autoreconf")
-               (executable-find "xapian-config")
-               (executable-find "libtool")
-               (or (and (getenv "GMIME_CFLAGS")
-                        (getenv "GMIME_LIBS"))
-                   (when (executable-find "pkg-config")
-                     (zerop (shell-command "pkg-config --exists gmime-2.6")))))
-          (progn (my-install-package 'mu4e)
-                 (when (and (boundp 'mu4e-maildir)
-                            (not (file-exists-p mu4e-maildir)))
-                   (warn "Please set `mu4e-maildir' to your maildir")))
-        (message "You need to install `autoreconf', `libxapian-dev', `libtool'
-    and `libgmime-2.6-dev' for building mu4e")))
-  #+end_src
+* Install the required libraries
+** Install mu when on Linux
+   #+begin_src emacs-lisp
+     (when (eq system-type 'gnu/linux)
+       ;; Install only if the prerequisites are satisfied
+       (if (and (executable-find "autoreconf")
+                (executable-find "xapian-config")
+                (executable-find "libtool")
+                (or (and (getenv "GMIME_CFLAGS")
+                         (getenv "GMIME_LIBS"))
+                    (when (executable-find "pkg-config")
+                      (zerop (shell-command "pkg-config --exists gmime-2.6")))))
+           (progn (my-install-package 'mu4e)
+                  (when (and (boundp 'mu4e-maildir)
+                             (not (file-exists-p mu4e-maildir)))
+                    (warn "Please set `mu4e-maildir' to your maildir")))
+         (message "You need to install `autoreconf', `libxapian-dev', `libtool'
+     and `libgmime-2.6-dev' for building mu4e")))
+   #+end_src
+
+** Install notify.el for notifications
+   #+begin_src emacs-lisp
+     (my-install-package 'notify)
+   #+end_src
 
 
 * Set mail-host-address
@@ -154,6 +160,25 @@
 
     (add-hook 'after-init-hook #'my-start-mu4e-bg)
   #+end_src
+
+
+* Notify the number of unread emails after fetching new mail
+** Helper function to notify about unread email
+  #+begin_src emacs-lisp
+    (defun my-notify-about-unread-mails ()
+      (let* ((mail-command (format "%s find --nocolor flag:unread AND NOT flag:trashed" mu4e-mu-binary))
+             (unread-mail-p (shell-command (format "%s > /dev/null 2>&1" mail-command))))
+        (when (zerop unread-mail-p)
+          (let ((unread-mail-count (string-to-int (shell-command-to-string (format "%s | wc -l" mail-command)))))
+            (notify "mu4e" (if (= unread-mail-count 1)
+                               "You have an unread email"
+                             (format "You have %s unread email(s)" unread-mail-count)))))))
+  #+end_src
+
+** Run the notification function after updating the index
+   #+begin_src emacs-lisp
+     (add-hook 'mu4e-index-updated-hook #'my-notify-about-unread-mails)
+   #+end_src
 
 
 * Configuration for sending mail
