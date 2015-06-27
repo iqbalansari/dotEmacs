@@ -8,6 +8,12 @@
   #+end_src
 
 
+* Install try, useful for trying out packages before actually installing them
+  #+begin_src emacs-lisp
+    (my-install-package 'try)
+  #+end_src
+
+
 * Command to replace the current expression with the result of its evaluation
   #+begin_src emacs-lisp
     (defun eval-and-replace ()
