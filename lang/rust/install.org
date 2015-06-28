@@ -1,0 +1,18 @@
+* Copy RUST_SRC_PATH's value from the shell
+  #+begin_src emacs-lisp
+    (let ((cur-rust-path (getenv "RUST_SRC_PATH")))
+      (when (or (not cur-rust-path)
+                (zerop (length cur-rust-path)))
+        (if (equal system-type 'windows-nt) 
+            (warn "`RUST_SRC_PATH' not set, godef et al will not work")
+          (let ((rust-path (cdar (exec-path-from-shell-getenvs '("RUST_SRC_PATH")))))
+            (setenv "RUST_SRC_PATH" rust-path)
+            (when (zerop (length rust-path))
+              (warn "`RUST_SRC_PATH' not set, autocompletion, jump to definition will not work"))))))
+  #+end_src
+
+
+* Install flycheck-rust
+  #+begin_src emacs-lisp
+    (my-install-package 'flycheck-rust)
+  #+end_src

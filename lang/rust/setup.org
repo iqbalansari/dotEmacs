@@ -1,0 +1,35 @@
+* Setup racer
+  #+begin_src emacs-lisp
+    (require 'racer)
+    (setq racer-cmd (executable-find "racer"))
+
+    (if (and racer-cmd
+             (file-exists-p racer-rust-src-path))
+        (racer-activate)
+      (warn (if racer-cmd
+                "Path to rust src not set, not activating racer. Please set `RUST_SRC_PATH' environment variable"
+              "`racer' not found in path, please install it from https://github.com/phildawes/racer")))
+  #+end_src
+
+
+* Enable syntax checking
+  #+begin_src emacs-lisp
+    (flycheck-rust-setup)
+    (flycheck-mode +1)
+  #+end_src
+
+
+* Set mark before jumping
+  #+begin_src emacs-lisp
+    (defadvice racer-find-definition (before my-racer-push-mark-before-jump (&rest args))
+      (push-mark))
+
+    (ad-activate 'racer-find-definition)
+  #+end_src
+
+
+* Set compilation command
+  #+begin_src emacs-lisp
+    (set (make-variable-buffer-local 'compile-command) "cargo run")
+  #+end_src
+
