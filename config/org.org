@@ -269,6 +269,8 @@
 * Configuration for org-mode gnome integration
   #+begin_src emacs-lisp
     (when (locate-library "org-gnome")
+      (setq org-gnome-integrate-with-empathy nil)
+      (setq org-gnome-integrate-with-calendar t)
       (global-org-gnome-minor-mode)
       (og-enable-org-agenda-notifications))
   #+end_src
