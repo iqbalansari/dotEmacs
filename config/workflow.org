@@ -64,18 +64,14 @@
 
     (unless (file-exists-p my-notes-dir)
       (make-directory my-notes-dir t))
+
+    (setq deft-directory my-notes-dir)
   #+end_src
 
 ** Use org mode files for taking notes
    #+begin_src emacs-lisp
-     (setq deft-extension "org")    
-     (setq deft-text-mode 'org-mode)
+     (setq deft-extensions '("org" "md" "markdown" "txt" "text"))    
    #+end_src
-
-** Directory for notes folder
-  #+begin_src emacs-lisp
-    (setq deft-directory my-notes-dir)
-  #+end_src
 
 ** Use filename as title in deft
    #+begin_src emacs-lisp
