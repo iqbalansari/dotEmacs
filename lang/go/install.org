@@ -2,7 +2,8 @@
   #+begin_src emacs-lisp
     (let ((cur-go-path (getenv "GOPATH")))
       (when (or (not cur-go-path)
-                (zerop (length cur-go-path)))
+                (zerop (length cur-go-path))
+                (not (file-exists-p cur-go-path)))
         (if (equal system-type 'windows-nt) 
             (warn "`GOPATH' not set, godef et al will not work")
           (let ((go-path (cdar (exec-path-from-shell-getenvs '("GOPATH")))))
