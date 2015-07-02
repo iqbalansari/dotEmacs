@@ -507,9 +507,6 @@
 ** Do not add duplicates to kill-ring
    #+begin_src emacs-lisp
      (setq browse-kill-ring-no-duplicates t)
-     (eval-after-load "browse-kill-ring"
-       '(progn (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
-              (ad-activate 'kill-new)))
    #+end_src
 
 ** Always keep the current entry in kill ring at the top
