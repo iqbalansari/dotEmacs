@@ -20,3 +20,9 @@
   #+begin_src emacs-lisp
     (flycheck-mode +1)
   #+end_src
+
+
+* Flash the current line after jump to definition
+  #+begin_src emacs-lisp
+    (my-highlight-line-after-func alchemist-goto-definition-at-point)
+  #+end_src

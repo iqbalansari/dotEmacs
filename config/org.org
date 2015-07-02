@@ -272,5 +272,5 @@
       (setq org-gnome-integrate-with-empathy nil)
       (setq org-gnome-integrate-with-calendar t)
       (global-org-gnome-minor-mode)
-      (og-enable-org-agenda-notifications))
+      (setq appt-disp-window-function #'og-notify-appt))
   #+end_src

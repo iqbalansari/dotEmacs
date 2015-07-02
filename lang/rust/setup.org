@@ -33,3 +33,9 @@
     (set (make-variable-buffer-local 'compile-command) "cargo run")
   #+end_src
 
+
+* Flash the current line after jump to definition
+  #+begin_src emacs-lisp
+    (my-highlight-line-after-func racer-find-definition)
+  #+end_src
+  
