@@ -315,7 +315,6 @@
     (eval-after-load "page-break-lines" '(diminish 'page-break-lines-mode))
     (eval-after-load "merlin" '(diminish 'merlin-mode))
     (eval-after-load "auto-complete" '(diminish 'auto-complete-mode))    
-    (eval-after-load "magit" '(diminish 'magit-auto-revert-mode))
     (eval-after-load "flyspell" '(diminish 'flyspell-mode))
     (eval-after-load "ggtags" '(diminish 'ggtags-mode))
     (eval-after-load "subword" '(diminish 'subword-mode))

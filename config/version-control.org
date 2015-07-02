@@ -89,13 +89,13 @@
   invoked with a prefix argument or from a non-git folder
   #+begin_src emacs-lisp
     (eval-after-load "projectile"
-      '(progn (setq magit-repo-dirs (mapcar (lambda (dir)
+      '(progn (setq magit-repository-directories (mapcar (lambda (dir)
                                               (substring dir 0 -1))
                                             (cl-remove-if-not (lambda (project)
                                                              (file-directory-p (concat project "/.git/")))
                                                            (projectile-relevant-known-projects)))
 
-                    magit-repo-dirs-depth 1)))
+                    magit-repository-directories-depth 1)))
   #+end_src
 
 
@@ -138,7 +138,7 @@
       (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
       (eval-after-load "magit-gitflow"
         '(progn (define-key magit-gitflow-mode-map (kbd "C-f") nil)
-                (define-key magit-gitflow-mode-map (kbd "C-c f") 'magit-key-mode-popup-gitflow))))
+                (define-key magit-gitflow-mode-map (kbd "C-c f") 'magit-gitflow-popup))))
   #+end_src
 
 

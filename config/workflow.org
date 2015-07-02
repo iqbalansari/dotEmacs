@@ -1,6 +1,6 @@
-* Install org-projectile, org-magit and org-journal
+* Install org-projectile, orgit and org-journal
   #+begin_src emacs-lisp
-    (my-install-packages '(org-projectile org-journal org-magit noflet))
+    (my-install-packages '(org-projectile org-journal orgit noflet))
   #+end_src
 
 
