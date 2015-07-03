@@ -163,6 +163,37 @@
 
 
 * Notify the number of unread emails after fetching new mail
+** Helper function to view unread emails
+   #+begin_src emacs-lisp
+     (defun my-mu4e-view-unread-mails ()
+       (interactive)
+       (setq my-pre-mu-win-config (current-window-configuration))
+       (mu4e-headers-search-bookmark "flag:unread AND NOT flag:trashed")
+       (setq my-mu-win-config (current-window-configuration)))
+   #+end_src
+
+
+** Displaying unread mail count in modeline
+   #+begin_src emacs-lisp
+     (setq display-time-mail-string "")
+
+     (defvar mail-mode-line)
+     (add-to-list 'global-mode-string 'mail-mode-line t)
+         
+     (defun my-get-mailcount-mode-line-string (unread-mail-count)
+       (propertize "Mail"
+                   'help-echo (concat (if (= unread-mail-count 1)
+                                          "You have an unread email"
+                                        (format "You have %s unread email(s)" unread-mail-count))
+                                      "\nClick here to view "
+                                      (if (= unread-mail-count 1) "it" "them"))
+                   'keymap '(mode-line keymap
+                                       (mouse-1 . my-mu4e-view-unread-mails)
+                                       (mouse-2 . my-mu4e-view-unread-mails)
+                                       (mouse-3 . my-mu4e-view-unread-mails))))
+   #+end_src
+
+
 ** Helper function to notify about unread email
   #+begin_src emacs-lisp
     (defun my-notify-about-unread-mails ()
