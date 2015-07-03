@@ -254,6 +254,11 @@
                                  (delete "~/.authinfo.gpg" auth-sources))))
    #+end_src
 
+** Send mail using smtp
+   #+begin_src emacs-lisp
+     (setq send-mail-function 'smtpmail-send-it)
+   #+end_src
+
 
 * Integration with org-mode
 ** Register a handler to open links to mu4e messages
