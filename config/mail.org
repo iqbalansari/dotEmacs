@@ -137,15 +137,73 @@
     (eval-after-load "mu4e"
       '(when (locate-library "w3m")
          (load "w3m")
-         (add-to-list 'mu4e-view-actions '("Open in w3m" . mu4e-action-view-in-w3m))))
+         (add-to-list 'mu4e-view-actions '("open in w3m" . mu4e-action-view-in-w3m))))
   #+end_src
 
-** Integration with org-contacts
+** Action to import appointments from ical files
+   #+begin_src emacs-lisp
+     (require 'org-import-icalendar)
+
+     (defun my-parse-ical-event (event)
+       ;; org-import-icalendar expects e to be bound
+       (let ((e event))
+         (list :location (icalendar--get-event-property event 'LOCATION)
+               :summary (icalendar--convert-string-for-import
+                         (or (icalendar--get-event-property event 'SUMMARY)
+                             "No summary"))
+               :description (icalendar--get-event-property event 'DESCRIPTION)
+               :date (org-import-icalendar-get-org-timestring event))))
+
+     (defun my-parse-ical-file (file)
+       (with-temp-buffer
+         (insert-file-contents-literally file)
+         (dos-to-unix)
+         (goto-char (point-min))
+         (let* ((ical-data (icalendar--read-element nil nil))
+                (zone-map (icalendar--convert-all-timezones ical-data))
+                (events (icalendar--all-events ical-data)))
+           (mapcar #'my-parse-ical-event events))))
+
+     (defun my-make-appts-from-parsed-ical-data (data)
+       (dolist (ical-data data)
+         (append-to-file (format "\n* TODO %s\n  SCHEDULED: %s\n  %s\n"
+                                 (plist-get ical-data :summary)
+                                 (plist-get ical-data :date)
+                                 (plist-get ical-data :description))
+                         nil
+                         (locate-user-emacs-file "org/agenda/appt.org"))))
+
+     (defun my-appt-from-ical (file)
+       (my-make-appts-from-parsed-ical-data (my-parse-ical-file file)))
+
+     (defun mu4e-action-appt-from-ics (msg)
+       (dolist (index (hash-table-keys mu4e~view-attach-map))
+         (let ((attachment (mu4e~view-get-attach msg index))
+               (tmpfile (make-temp-file "mu4e")))
+           (when (string= (plist-get attachment :mime-type)
+                          "application/ics")
+             (mu4e~proc-extract 'save
+                                (mu4e-message-field msg :docid)
+                                (plist-get attachment :index)
+                                mu4e-decryption-policy
+                                tmpfile)
+             (my-appt-from-ical tmpfile)
+             (message (format "Imported %s" (plist-get attachment :name)))))))
+
+     (eval-after-load "mu4e"
+       '(add-to-list 'mu4e-view-actions (cons "ical to appt" 'mu4e-action-appt-from-ics) t))
+   #+end_src
+
+** Action to add contacts to org-contacts
   #+begin_src emacs-lisp
     (setq mu4e-org-contacts-file (locate-user-emacs-file "org/contacts.org"))
     (eval-after-load "mu4e"
-      '(add-to-list 'mu4e-headers-actions
-                    '("org-contact-add" . mu4e-action-add-org-contact) t))
+      '(progn (add-to-list 'mu4e-headers-actions
+                           (cons "org-contact-add" 'mu4e-action-add-org-contact)
+                           t)
+              (add-to-list 'mu4e-view-actions
+                           (cons "org-contact-add" 'mu4e-action-add-org-contact)
+                           t)))
   #+end_src
 
 
