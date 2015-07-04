@@ -32,16 +32,17 @@
 
 * Auto-complete addresses in 'From', 'To' field in message mode
 ** Use company mode for better completion interface
-  mu4e provides a completion at point function which can use as completion
-  backend. Also remove text-properties that interfere with company mode's menu
-  #+begin_src emacs-lisp
-    (defun my-strip-message-mode-problematic-text-props ()
-      (ignore-errors (save-excursion
-                       (search-forward-regexp (concat "^" mail-header-separator) nil t)
-                       (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky)))))
-
-    (add-hook 'message-mode-hook 'my-strip-message-mode-problematic-text-props)
-  #+end_src
+   Remove text-properties that interfere with company mode's menu
+   #+begin_src emacs-lisp
+     (defun my-strip-message-mode-problematic-text-props ()
+       (ignore-errors (save-excursion
+                        (goto-char (point-min))
+                        (search-forward-regexp (concat "^" mail-header-separator) nil t)
+                        (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky)))))
+   
+     (add-hook 'message-mode-hook 'my-strip-message-mode-problematic-text-props)
+     (add-hook 'mu4e-compose-mode-hook 'my-strip-message-mode-problematic-text-props)
+   #+end_src
 
 
 * Offlineimap configuration
