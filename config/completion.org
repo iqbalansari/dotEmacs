@@ -137,7 +137,7 @@
 * Enable company-ispell in all text/fundamental mode buffers
   #+begin_src emacs-lisp
     (defun my-text-mode-enable-completion ()
-      (add-to-list 'company-backends '(company-capf company-ispell company-dabbrev)))
+      (setq company-backends '(company-capf company-ispell company-dabbrev)))
 
     (add-hook 'text-mode-hook #'my-text-mode-enable-completion)
     (add-hook 'fundamental-mode #'my-text-mode-enable-completion)
