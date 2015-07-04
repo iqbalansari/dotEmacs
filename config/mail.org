@@ -35,11 +35,11 @@
    Remove text-properties that interfere with company mode's menu
    #+begin_src emacs-lisp
      (defun my-strip-message-mode-problematic-text-props ()
-       (ignore-errors (save-excursion
-                        (goto-char (point-min))
-                        (search-forward-regexp (concat "^" mail-header-separator) nil t)
-                        (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky)))))
-   
+       (save-excursion
+         (goto-char (point-min))
+         (search-forward-regexp (concat "^" mail-header-separator) nil t)
+         (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky))))
+        
      (add-hook 'message-mode-hook 'my-strip-message-mode-problematic-text-props)
      (add-hook 'mu4e-compose-mode-hook 'my-strip-message-mode-problematic-text-props)
    #+end_src
