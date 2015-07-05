@@ -1,6 +1,7 @@
 * Install org-projectile, orgit and org-journal
   #+begin_src emacs-lisp
-    (my-install-packages '(org-projectile org-journal orgit noflet))
+    (my-install-packages '(org-projectile org-journal orgbox orgit noflet))
+    (require 'orgbox)
   #+end_src
 
 
