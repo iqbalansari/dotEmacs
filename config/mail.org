@@ -232,15 +232,25 @@
 
 
 * Notify the number of unread emails after fetching new mail
-** Helper function to view unread emails
-   #+begin_src emacs-lisp
-     (defun my-mu4e-view-unread-mails ()
-       (interactive)
-       (setq my-pre-mu-win-config (current-window-configuration))
-       (mu4e-headers-search-bookmark "flag:unread AND NOT flag:trashed")
-       (setq my-mu-win-config (current-window-configuration)))
-   #+end_src
+** Helper functions to interact with mu/mu4e
+*** Function to get count of unread emails
+    #+begin_src emacs-lisp
+      (defun my-mu-get-unread-mail-count ()
+        (let* ((mail-command (format "%s find --nocolor flag:unread AND NOT flag:trashed" mu4e-mu-binary))
+               (unread-mail-p (zerop (shell-command (format "%s > /dev/null 2>&1" mail-command)))))
+          (if unread-mail-p
+              (string-to-int (shell-command-to-string (format "%s | wc -l" mail-command)))
+            0)))
+    #+end_src
 
+*** Helper function to view unread emails
+    #+begin_src emacs-lisp
+      (defun my-mu4e-view-unread-mails ()
+        (interactive)
+        (setq my-pre-mu-win-config (current-window-configuration))
+        (mu4e-headers-search-bookmark "flag:unread AND NOT flag:trashed")
+        (setq my-mu-win-config (current-window-configuration)))
+    #+end_src
 
 ** Displaying unread mail count in modeline
    #+begin_src emacs-lisp
@@ -263,21 +273,19 @@
    #+end_src
 
 
-** Helper function to notify about unread email
+** Helper function to notify about unread email and update mail count
   #+begin_src emacs-lisp
-    (defun my-notify-about-unread-mails ()
-      (let* ((mail-command (format "%s find --nocolor flag:unread AND NOT flag:trashed" mu4e-mu-binary))
-             (unread-mail-p (shell-command (format "%s > /dev/null 2>&1" mail-command))))
-        (when (zerop unread-mail-p)
-          (let ((unread-mail-count (string-to-int (shell-command-to-string (format "%s | wc -l" mail-command)))))
-            (notify "mu4e" (if (= unread-mail-count 1)
-                               "You have an unread email"
-                             (format "You have %s unread email(s)" unread-mail-count)))))))
+    (defun my-mu4e-notify-unread-messages ()
+      (let ((unread-mail-count (my-mu-get-unread-mail-count)))
+        (when (not (zerop unread-mail-count))
+          (notify "mu4e" (if (= unread-mail-count 1)
+                             "You have an unread email"
+                           (format "You have %s unread email(s)" unread-mail-count))))))
   #+end_src
 
-** Run the notification function after updating the index
+** Notify and update mode-line after updating the index
    #+begin_src emacs-lisp
-     (add-hook 'mu4e-index-updated-hook #'my-notify-about-unread-mails)
+     (add-hook 'mu4e-index-updated-hook #'my-mu4e-notify-unread-messages)
    #+end_src
 
 
