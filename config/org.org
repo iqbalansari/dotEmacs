@@ -1,12 +1,9 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (my-install-packages '(org-bullets toc-org company-math pcsv))
+    (my-install-packages '(org-bullets toc-org company-math pcsv notify))
 
     (when (locate-library "pdf-tools")
       (my-install-package 'org-pdfview))
-
-    (when (string-match-p "^gnome-" (or (getenv "DESKTOP_SESSION") ""))
-      (my-install-package 'org-gnome))
   #+end_src
 
 
@@ -266,11 +263,11 @@
   #+end_src
 
 
-* Configuration for org-mode gnome integration
+* Notify about appointments using notify-send
   #+begin_src emacs-lisp
-    (when (locate-library "org-gnome")
-      (setq org-gnome-integrate-with-empathy nil)
-      (setq org-gnome-integrate-with-calendar t)
-      (global-org-gnome-minor-mode)
-      (setq appt-disp-window-function #'og-notify-appt))
+    (defun my-notify-appt (time-to-appt new-time msg)
+      (notify (format "Appointment in %s minutes" time-to-appt)
+              msg))
+
+    (setq appt-disp-window-function #'my-notify-appt)
   #+end_src
