@@ -52,6 +52,9 @@
       (let ((stale-modules (my-get-changed-module-files current-modules))
             (module-list-changed-p (set-exclusive-or previous-modules current-modules)))
         (when (or stale-modules module-list-changed-p)
+          ;; Delete previously compiled file
+          (when (file-exists-p (concat my-tangled-modules "c"))
+            (delete-file (concat my-tangled-modules "c")))
           (my-compile-modules stale-modules)
           (my-combine-modules current-modules target))))
 
