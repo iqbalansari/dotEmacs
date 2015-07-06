@@ -266,8 +266,11 @@
 * Notify about appointments using notify-send
   #+begin_src emacs-lisp
     (defun my-notify-appt (time-to-appt new-time msg)
-      (notify (format "Appointment in %s minutes" time-to-appt)
-              msg))
+      (if (equal (type-of time-to-appt) 'cons)
+          (mapcar* #'my-notify-appt time-to-appt new-time 'msg)
+        (notify (format "Appointment in %s minutes" time-to-appt)
+                msg)))
 
     (setq appt-disp-window-function #'my-notify-appt)
+    (setq appt-delete-window-function #'ignore)
   #+end_src
