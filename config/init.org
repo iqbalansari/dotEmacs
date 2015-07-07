@@ -12,10 +12,10 @@
   faster since we load a single file
   #+begin_src emacs-lisp
     (defvar my-modules-dir (locate-user-emacs-file "config/"))
-    (defvar my-modules-compiled-dir (concat my-modules-dir ".compiled/"))
+    (defvar my-modules-compiled-dir (expand-file-name ".compiled/" my-modules-dir))
 
-    (defvar my-tangled-modules (concat my-modules-compiled-dir ".combined.el"))
-    (defvar my-previous-modules-file (concat my-modules-compiled-dir ".previous-modules"))
+    (defvar my-tangled-modules (expand-file-name ".combined.el" my-modules-compiled-dir))
+    (defvar my-previous-modules-file (expand-file-name ".previous-modules" my-modules-compiled-dir))
 
     (defvar my-previous-modules (when (file-exists-p my-previous-modules-file)
                                      (read (my-read-file my-previous-modules-file))))
@@ -53,8 +53,8 @@
             (module-list-changed-p (set-exclusive-or previous-modules current-modules)))
         (when (or stale-modules module-list-changed-p)
           ;; Delete previously compiled file
-          (when (file-exists-p (concat my-tangled-modules "c"))
-            (delete-file (concat my-tangled-modules "c")))
+          (when (file-exists-p (byte-compile-dest-file my-tangled-modules))
+            (delete-file (byte-compile-dest-file my-tangled-modules)))
           (my-compile-modules stale-modules)
           (my-combine-modules current-modules target))))
 
