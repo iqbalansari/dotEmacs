@@ -37,11 +37,13 @@
      (defun my-strip-message-mode-problematic-text-props ()
        (save-excursion
          (goto-char (point-min))
-         (search-forward-regexp (concat "^" mail-header-separator) nil t)
-         (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky))))
+         (when (search-forward-regexp (concat "^" mail-header-separator) nil t)
+           (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky)))))
         
      (add-hook 'message-mode-hook 'my-strip-message-mode-problematic-text-props)
+     (add-hook 'message-mode-hook 'flyspell-mode)
      (add-hook 'mu4e-compose-mode-hook 'my-strip-message-mode-problematic-text-props)
+     (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
    #+end_src
 
 
