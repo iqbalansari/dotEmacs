@@ -253,25 +253,73 @@
     #+end_src
 
 ** Displaying unread mail count in modeline
+*** Disable the default mail mode-line indicator 
    #+begin_src emacs-lisp
      (setq display-time-mail-string "")
-
-     (defvar mail-mode-line)
-     (add-to-list 'global-mode-string 'mail-mode-line t)
-         
-     (defun my-get-mailcount-mode-line-string (unread-mail-count)
-       (propertize "Mail"
-                   'help-echo (concat (if (= unread-mail-count 1)
-                                          "You have an unread email"
-                                        (format "You have %s unread email(s)" unread-mail-count))
-                                      "\nClick here to view "
-                                      (if (= unread-mail-count 1) "it" "them"))
-                   'keymap '(mode-line keymap
-                                       (mouse-1 . my-mu4e-view-unread-mails)
-                                       (mouse-2 . my-mu4e-view-unread-mails)
-                                       (mouse-3 . my-mu4e-view-unread-mails))))
    #+end_src
 
+*** Custom mode-line indicator for mail
+   #+begin_src emacs-lisp
+     (defvar my-mail-mode-line)
+     (add-to-list 'global-mode-string '(:eval my-mail-mode-line) t)
+
+     (defun my-get-mailcount-mode-line-string (unread-mail-count)
+       (when (not (zerop unread-mail-count))
+         (concat " "
+                 (propertize
+                  "Mail"
+                  'display (when (display-graphic-p)
+                             display-time-mail-icon)
+                  'face display-time-mail-face
+                  'help-echo (concat (if (= unread-mail-count 1)
+                                         "You have an unread email"
+                                       (format "You have %s unread email(s)" unread-mail-count))
+                                     "\nClick here to view "
+                                     (if (= unread-mail-count 1) "it" "them"))
+                  'mouse-face 'mode-line-highlight
+                  'keymap '(mode-line keymap
+                                      (mouse-1 . my-mu4e-view-unread-mails)
+                                      (mouse-2 . my-mu4e-view-unread-mails)
+                                      (mouse-3 . my-mu4e-view-unread-mails)))
+                 (if (zerop unread-mail-count)
+                     " "
+                   (format " [%d] " unread-mail-count)))))
+   #+end_src
+
+*** Function to update mail count
+    #+begin_src emacs-lisp
+      (defun my-update-mail-mode-line ()
+        (setq my-mail-mode-line (my-get-mailcount-mode-line-string (my-mu-get-unread-mail-count)))
+        (force-mode-line-update))
+    #+end_src
+
+*** Setup for updating the mail mode line
+**** Update mode-line when mu4e loads
+     #+begin_src emacs-lisp
+       (eval-after-load 'mu4e
+         '(my-update-mail-mode-line))
+     #+end_src
+
+**** Update mode-line after executing marks
+    #+begin_src emacs-lisp
+      (defun my-setup-mail-count-update-after-exec-marks ()
+        (defadvice mu4e-mark-execute-all (after my-update-mail-count)
+          (my-update-mail-mode-line))
+        (ad-activate 'mu4e-mark-execute-all))
+
+      (eval-after-load 'mu4e
+        '(my-setup-mail-count-update-after-exec-marks))
+    #+end_src
+
+**** Update mode-line after viewing a message
+     #+begin_src emacs-lisp
+       (add-hook 'mu4e-view-mode-hook #'my-update-mail-mode-line)
+     #+end_src
+
+**** Update mode-line after fetching mail
+     #+begin_src emacs-lisp
+       (add-hook 'mu4e-index-updated-hook #'my-update-mail-mode-line)
+     #+end_src
 
 ** Helper function to notify about unread email and update mail count
   #+begin_src emacs-lisp
@@ -283,7 +331,7 @@
                            (format "You have %s unread email(s)" unread-mail-count))))))
   #+end_src
 
-** Notify and update mode-line after updating the index
+** Notify after updating the index
    #+begin_src emacs-lisp
      (add-hook 'mu4e-index-updated-hook #'my-mu4e-notify-unread-messages)
    #+end_src
