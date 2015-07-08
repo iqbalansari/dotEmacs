@@ -1,9 +1,6 @@
 * Install some useful packages
   #+begin_src emacs-lisp
     (iqbal-install-packages '(org-bullets toc-org company-math pcsv notify))
-
-    (when (locate-library "pdf-tools")
-      (iqbal-install-package 'org-pdfview))
   #+end_src
 
 
@@ -253,13 +250,6 @@
       (insert (yf/lisp-table-to-org-table (pcsv-parse-region beg end)))
       (delete-region beg end)
       (org-table-align))
-  #+end_src
-
-
-* Load org-pdfview for links to pdf documents
-  #+begin_src emacs-lisp
-    (eval-after-load 'org
-      '(load "org-pdfview" t))
   #+end_src
 
 
