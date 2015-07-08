@@ -261,7 +261,7 @@
 
 *** Custom mode-line indicator for mail
    #+begin_src emacs-lisp
-     (defvar iqbal-mail-mode-line)
+     (defvar iqbal-mail-mode-line "")
      (add-to-list 'global-mode-string '(:eval iqbal-mail-mode-line) t)
 
      (defun iqbal-get-mailcount-mode-line-string (unread-mail-count)
