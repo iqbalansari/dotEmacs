@@ -221,8 +221,7 @@
   #+begin_src emacs-lisp
     (defun iqbal-start-mu4e-bg ()
       "Start in background avoiding any prompts and ignoring errors"
-      (require 'mu4e)
-      (when (and (locate-library "mu4e")
+      (when (and (require 'mu4e nil t)
                  (file-directory-p mu4e-maildir)
                  (file-directory-p (concat mu4e-maildir mu4e-sent-folder))
                  (file-directory-p (concat mu4e-maildir mu4e-drafts-folder))
