@@ -1,6 +1,6 @@
 * Install php-extras and php-auto-yasnippets
   #+begin_src emacs-lisp
-    (my-install-package 'php-extras)
+    (iqbal-install-package 'php-extras)
   #+end_src
 
 
@@ -8,7 +8,7 @@
   #+begin_src emacs-lisp
     (when (or (executable-find "boris")
               (executable-find "boris.phar"))
-      (my-install-package 'php-boris-minor-mode))
+      (iqbal-install-package 'php-boris-minor-mode))
   #+end_src
 
 
@@ -16,24 +16,24 @@
   #+begin_src emacs-lisp
     (when (and (executable-find "php")
                (string-match-p "Xdebug" (shell-command-to-string "php -m -c")))
-      (my-install-package 'geben))
+      (iqbal-install-package 'geben))
   #+end_src
 
 
 * Install gtags if GNU Global is installed
 ** Find GNU Global's version
    #+begin_src emacs-lisp
-     (setq my-gnu-global-version (my--get-gnu-global-version))
+     (setq iqbal-gnu-global-version (iqbal--get-gnu-global-version))
    #+end_src
 
 ** Install gtags if latest GNU global version is installed
    #+begin_src emacs-lisp
-     (if (and my-gnu-global-version
-              (not (version< my-gnu-global-version "5.9.7")))
-         (progn (my-install-package 'ggtags)
-                (setq my-gtags-available t))
-       (cond ((not my-gnu-global-version) (warn "GNU Global not installed, not installing ggtags"))
-             (t (warn (concat "GNU Global version is " my-gnu-global-version
+     (if (and iqbal-gnu-global-version
+              (not (version< iqbal-gnu-global-version "5.9.7")))
+         (progn (iqbal-install-package 'ggtags)
+                (setq iqbal-gtags-available t))
+       (cond ((not iqbal-gnu-global-version) (warn "GNU Global not installed, not installing ggtags"))
+             (t (warn (concat "GNU Global version is " iqbal-gnu-global-version
                               " ggtags requires atleast version 5.9.7 of GNU global to work, not installing ggtags")))))
    #+end_src
 

@@ -1,6 +1,6 @@
 * Install realgud
   #+begin_src emacs-lisp
-    (my-install-package 'realgud)
+    (iqbal-install-package 'realgud)
   #+end_src
 
 

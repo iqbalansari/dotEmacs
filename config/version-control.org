@@ -4,16 +4,16 @@
   + [[https://github.com/syohex/emacs-git-messenger][git-messenger]] - Popup last commit message associated with current line
   + [[https://github.com/pidu/git-timemachine][git-timemachine]] - Walk through git revisions of a file
   #+begin_src emacs-lisp
-    (defvar my-version-control-packages
+    (defvar iqbal-version-control-packages
       '(magit
         diff-hl
         git-timemachine
         git-messenger))
 
     (when (zerop (call-process "git" nil nil nil "flow" "init" "help"))
-      (add-to-list 'my-version-control-packages 'magit-gitflow))
+      (add-to-list 'iqbal-version-control-packages 'magit-gitflow))
 
-    (my-install-packages my-version-control-packages)
+    (iqbal-install-packages iqbal-version-control-packages)
   #+end_src
 
 
@@ -103,7 +103,7 @@
   This simply checks if the magit status mode is active now, in which case it prompts
   for the git repository to switch to
   #+begin_src emacs-lisp
-    (defun my-magit-status ()
+    (defun iqbal-magit-status ()
       (interactive)
       (let ((current-prefix-arg (or current-prefix-arg (equal major-mode 'magit-status-mode))))
         (call-interactively 'magit-status)))
@@ -112,7 +112,7 @@
 
 * Keybindings
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x g") 'my-magit-status)
+    (global-set-key (kbd "C-x g") 'iqbal-magit-status)
 
     (eval-after-load "magit"
       '(progn (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
@@ -144,20 +144,20 @@
 
 * Enable smerge mode automatically for conflicted files
   #+begin_src emacs-lisp
-    (defun my-enable-smerge-maybe (last-buffer current-buffer)
+    (defun iqbal-enable-smerge-maybe (last-buffer current-buffer)
       (when (vc-backend buffer-file-name)
         (save-excursion
           (goto-char (point-min))
           (when (re-search-forward "^<<<<<<< " nil t)
             (smerge-mode +1)))))
 
-    (add-hook 'buffer-change-hook 'my-enable-smerge-maybe)
+    (add-hook 'buffer-change-hook 'iqbal-enable-smerge-maybe)
 
-    (defun my-org-mode-expand-all ()
+    (defun iqbal-org-mode-expand-all ()
       (when (eq major-mode 'org-mode)
         (show-all)))
 
-    (add-hook 'smerge-mode-hook #'my-org-mode-expand-all)
+    (add-hook 'smerge-mode-hook #'iqbal-org-mode-expand-all)
   #+end_src
 
 
@@ -170,14 +170,14 @@
 
 * Restoring window configuration after ediff session
   #+begin_src emacs-lisp
-    (defun my-store-pre-ediff-winconfig ()
-      (setq my-ediff-last-windows (current-window-configuration)))
+    (defun iqbal-store-pre-ediff-winconfig ()
+      (setq iqbal-ediff-last-windows (current-window-configuration)))
 
-    (defun my-restore-pre-ediff-winconfig ()
-      (set-window-configuration my-ediff-last-windows))
+    (defun iqbal-restore-pre-ediff-winconfig ()
+      (set-window-configuration iqbal-ediff-last-windows))
 
-    (add-hook 'ediff-before-setup-hook #'my-store-pre-ediff-winconfig)
-    (add-hook 'ediff-quit-hook #'my-restore-pre-ediff-winconfig)
+    (add-hook 'ediff-before-setup-hook #'iqbal-store-pre-ediff-winconfig)
+    (add-hook 'ediff-quit-hook #'iqbal-restore-pre-ediff-winconfig)
   #+end_src
 
 

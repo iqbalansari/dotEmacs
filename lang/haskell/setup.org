@@ -32,7 +32,7 @@
 
       ;; Do not highlight line if cursor is on node
       (make-variable-buffer-local 'hl-line-range-function)
-      (setq hl-line-range-function #'my-shm-do-not-highlight-line-on-nodes)
+      (setq hl-line-range-function #'iqbal-shm-do-not-highlight-line-on-nodes)
 
       (when (custom-theme-enabled-p 'solarized-light)
         (set-face-background 'shm-current-face "#eee8d5")
@@ -75,7 +75,7 @@
 
 * Initialize ghc-mod
   #+begin_src emacs-lisp
-    (when my-ghc-mod-available
+    (when iqbal-ghc-mod-available
       (ghc-init))
   #+end_src
 
@@ -83,7 +83,7 @@
 * Setup auto-completion
 ** Enable company mode and company-ghc
   #+begin_src emacs-lisp
-    (when my-ghc-mod-available
+    (when iqbal-ghc-mod-available
       (add-to-list 'company-backends '(company-ghc :with company-dabbrev-code)))
   #+end_src
 
@@ -103,5 +103,5 @@
 
 * Flash line after jump
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func haskell-mode-jump-to-def-or-tag)
+    (iqbal-highlight-line-after-func haskell-mode-jump-to-def-or-tag)
   #+end_src

@@ -6,28 +6,28 @@
 
 * Keybindings for interacting with python shell
    #+begin_src emacs-lisp
-     (define-key python-mode-map my-send-region #'my-py-send-region)
-     (define-key python-mode-map my-send-line #'my-py-send-line)
-     (define-key python-mode-map my-send-buffer #'python-shell-send-buffer)
-     (define-key python-mode-map my-send-function #'python-shell-send-defun)
-     (define-key python-mode-map my-send-file #'python-shell-send-file)
+     (define-key python-mode-map iqbal-send-region #'iqbal-py-send-region)
+     (define-key python-mode-map iqbal-send-line #'iqbal-py-send-line)
+     (define-key python-mode-map iqbal-send-buffer #'python-shell-send-buffer)
+     (define-key python-mode-map iqbal-send-function #'python-shell-send-defun)
+     (define-key python-mode-map iqbal-send-file #'python-shell-send-file)
    #+end_src
 
 
 * Keybindings for navigation (set only when not in terminal)
    #+begin_src emacs-lisp
      (when (display-graphic-p)
-       (define-key python-mode-map (kbd "C-M-a") 'my-py-begining-of-defun)
-       (define-key python-mode-map (kbd "C-M-e") 'my-py-end-of-defun)
-       (define-key python-mode-map (kbd "C-M-S-a") 'my-py-begining-of-class)
-       (define-key python-mode-map (kbd "C-M-S-e") 'my-py-end-of-class))
+       (define-key python-mode-map (kbd "C-M-a") 'iqbal-py-begining-of-defun)
+       (define-key python-mode-map (kbd "C-M-e") 'iqbal-py-end-of-defun)
+       (define-key python-mode-map (kbd "C-M-S-a") 'iqbal-py-begining-of-class)
+       (define-key python-mode-map (kbd "C-M-S-e") 'iqbal-py-end-of-class))
    #+end_src
 
 
 * Set keybindings for Jedi
   #+begin_src emacs-lisp
-    (when my-jedi-available
-      (define-key python-mode-map my-jump-to-definition 'jedi:goto-definition)
-      (define-key python-mode-map my-pop-jump-to-definition-marker 'jedi:goto-definition-pop-marker)
-      (define-key python-mode-map my-show-doc 'jedi:show-doc))
+    (when iqbal-jedi-available
+      (define-key python-mode-map iqbal-jump-to-definition 'jedi:goto-definition)
+      (define-key python-mode-map iqbal-pop-jump-to-definition-marker 'jedi:goto-definition-pop-marker)
+      (define-key python-mode-map iqbal-show-doc 'jedi:show-doc))
   #+end_src

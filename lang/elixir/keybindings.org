@@ -1,14 +1,14 @@
 * Keybindings for interaction with the REPL
   #+begin_src emacs-lisp
-    (define-key elixir-mode-map my-run-shell #'my-start-iex)
-    (define-key elixir-mode-map my-send-region #'alchemist-iex-send-region)
-    (define-key elixir-mode-map my-send-buffer #'alchemist-iex-compile-this-buffer)
-    (define-key elixir-mode-map my-send-file #'alchemist-compile-file)
-    (define-key elixir-mode-map my-send-line #'alchemist-iex-send-current-line)
+    (define-key elixir-mode-map iqbal-run-shell #'iqbal-start-iex)
+    (define-key elixir-mode-map iqbal-send-region #'alchemist-iex-send-region)
+    (define-key elixir-mode-map iqbal-send-buffer #'alchemist-iex-compile-this-buffer)
+    (define-key elixir-mode-map iqbal-send-file #'alchemist-compile-file)
+    (define-key elixir-mode-map iqbal-send-line #'alchemist-iex-send-current-line)
   #+end_src
 
 
 * Keybinding to get documentation for function at point
   #+begin_src emacs-lisp
-    (define-key elixir-mode-map my-show-doc #'alchemist-help-search-at-point)
+    (define-key elixir-mode-map iqbal-show-doc #'alchemist-help-search-at-point)
   #+end_src

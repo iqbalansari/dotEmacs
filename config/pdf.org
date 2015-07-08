@@ -1,14 +1,14 @@
 * Install pdf-tools on linux platforms
   #+begin_src emacs-lisp
     (when (eq system-type 'gnu/linux)
-      (my-install-package 'pdf-tools))
+      (iqbal-install-package 'pdf-tools))
   #+end_src
 
 
 * Install interleave, very useful for taking/reading notes while reading PDFs
 ** Install from melpa
   #+begin_src emacs-lisp
-    (my-install-package 'interleave)
+    (iqbal-install-package 'interleave)
   #+end_src
 
 ** Location to interleave notes directory
@@ -25,10 +25,10 @@
 
 * Initialize pdf tools
   #+begin_src emacs-lisp
-    (defun my-install-pdf-tools ()
+    (defun iqbal-install-pdf-tools ()
       (eval-after-load "doc-view"
         '(when (locate-library "pdf-tools")
            (pdf-tools-install))))
 
-    (add-hook 'after-init-hook #'my-install-pdf-tools t)
+    (add-hook 'after-init-hook #'iqbal-install-pdf-tools t)
   #+end_src

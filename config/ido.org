@@ -6,7 +6,7 @@
   + [[http://www.emacswiki.org/emacs/download/idomenu.el][idomenu]] - imenu tag selection a la ido
 
   #+begin_src emacs-lisp
-    (defvar my-ido-packages
+    (defvar iqbal-ido-packages
       '(flx
         flx-ido
         ido-ubiquitous
@@ -14,7 +14,7 @@
         smex
         ido-vertical-mode))
 
-    (my-install-packages my-ido-packages)
+    (iqbal-install-packages iqbal-ido-packages)
   #+end_src
 
 
@@ -92,11 +92,11 @@
 * Map Alt-backspace to 'ido-delete-backward-updir
    I often mistakenly type these when in ido-find-file leading to 'buffer-read-only' error
    #+begin_src emacs-lisp
-     (defun my-ido-keys ()
+     (defun iqbal-ido-keys ()
        "Add my keybindings for ido."
        (define-key ido-file-dir-completion-map (kbd "<M-backspace>") 'ido-delete-backward-updir))
 
-     (add-hook 'ido-setup-hook 'my-ido-keys)
+     (add-hook 'ido-setup-hook 'iqbal-ido-keys)
    #+end_src
 
 

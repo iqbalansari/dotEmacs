@@ -2,7 +2,7 @@
    If region is active wrap it with expression otherwise
    expand current line
    #+begin_src emacs-lisp
-     (defun my-emmet-wrap-or-expand-snippet ()
+     (defun iqbal-emmet-wrap-or-expand-snippet ()
        (interactive)
        (if (region-active-p)
            (call-interactively #'emmet-wrap-with-markup)
@@ -12,7 +12,7 @@
 
 * Function to highlight a line only if not at a tag
   #+begin_src emacs-lisp
-    (defun my-disable-hl-line-on-tags ()
+    (defun iqbal-disable-hl-line-on-tags ()
       (unless (web-mode-element-boundaries)
         (cons (line-beginning-position) (line-end-position))))
   #+end_src

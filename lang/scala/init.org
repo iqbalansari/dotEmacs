@@ -1,6 +1,6 @@
 * Helper function to load ensime
   #+begin_src emacs-lisp
-    (defun my-load-ensime ()
+    (defun iqbal-load-ensime ()
       (if (or (getenv "JDK_HOME")
               (getenv "JAVA_HOME")
               (executable-find "javac"))

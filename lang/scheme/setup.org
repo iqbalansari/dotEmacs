@@ -2,27 +2,27 @@
 
 ** Check scheme implementation is available
    #+begin_src emacs-lisp
-     (setq my-available-scheme (or (executable-find "guile")
+     (setq iqbal-available-scheme (or (executable-find "guile")
                                    (executable-find "racket")))
 
-     (unless my-available-scheme
+     (unless iqbal-available-scheme
        (warn "No scheme implementation found! Geiser requires either `guile' (for scheme files) or `racket' (for racket files) installed"))
    #+end_src
 
 ** Always start a repl (if one is not running already) when geiser is activated
   #+begin_src emacs-lisp
-    (when my-available-scheme (setq geiser-mode-start-repl-p t))
+    (when iqbal-available-scheme (setq geiser-mode-start-repl-p t))
   #+end_src
 
 ** Turn on geiser mode
   #+begin_src emacs-lisp
-    (when my-available-scheme (turn-on-geiser-mode))
+    (when iqbal-available-scheme (turn-on-geiser-mode))
   #+end_src
 
 
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func geiser-edit-symbol-at-point)
+    (iqbal-highlight-line-after-func geiser-edit-symbol-at-point)
   #+end_src
 
 

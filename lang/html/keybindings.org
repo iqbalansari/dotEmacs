@@ -8,7 +8,7 @@
 * Keybindings for emmet
   #+begin_src emacs-lisp
     (define-key web-mode-map (kbd "C-c RET") nil)
-    (define-key web-mode-map (kbd "C-c RET") #'my-emmet-wrap-or-expand-snippet)
+    (define-key web-mode-map (kbd "C-c RET") #'iqbal-emmet-wrap-or-expand-snippet)
   #+end_src
 
 
@@ -20,7 +20,7 @@
 
 * Keybinding to rename current tag
   #+begin_src emacs-lisp
-    (define-key web-mode-map my-refactor-rename 'web-mode-element-rename)
+    (define-key web-mode-map iqbal-refactor-rename 'web-mode-element-rename)
   #+end_src
 
 

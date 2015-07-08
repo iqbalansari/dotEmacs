@@ -6,15 +6,15 @@
   
 ** Path of unxutils files
    #+begin_src emacs-lisp
-     (defvar my-unxutils-bin-dir (expand-file-name (locate-user-emacs-file "etc/unxutils/bin"))
+     (defvar iqbal-unxutils-bin-dir (expand-file-name (locate-user-emacs-file "etc/unxutils/bin"))
        "Path to bin directory of Unxutils distribution")
-     (defvar my-unxutils-wbin-dir (expand-file-name (locate-user-emacs-file "etc/unxutils/usr/local/wbin"))
+     (defvar iqbal-unxutils-wbin-dir (expand-file-name (locate-user-emacs-file "etc/unxutils/usr/local/wbin"))
        "Path to usr/local/wbin directory of Unxutils distribution")
    #+end_src
 
 ** Add programs provided by unxutils to the exec-path and PATH
    #+begin_src emacs-lisp
-     (dolist (directory (list my-unxutils-bin-dir my-unxutils-wbin-dir))
+     (dolist (directory (list iqbal-unxutils-bin-dir iqbal-unxutils-wbin-dir))
        (when (equal system-type 'windows-nt)
          (add-to-list 'exec-path directory)
          (setenv "PATH" (mapconcat 'identity 
@@ -25,16 +25,16 @@
 
 ** Warn on absence of files
    #+begin_src emacs-lisp
-     (defvar my-windows-warn-abt-missing-unxutils t)
+     (defvar iqbal-windows-warn-abt-missing-unxutils t)
 
-     (when (and my-windows-warn-abt-missing-unxutils
-                (not (file-exists-p my-unxutils-wbin-dir)))
+     (when (and iqbal-windows-warn-abt-missing-unxutils
+                (not (file-exists-p iqbal-unxutils-wbin-dir)))
        (add-hook 'after-init-hook
                  (lambda ()
                    (warn (format "unxutils not found, please download it from `%s' and extract it to `%s' directory \
      otherwise some emacs commands might not work. If you have the files at some other location \
-     set the variables `my-unxutils-wbin-dir' and `my-unxutils-bin-dir' to point to it. To \
-     disable this warning set `my-windows-warn-abt-missing-unxutils' to nil."
+     set the variables `iqbal-unxutils-wbin-dir' and `iqbal-unxutils-bin-dir' to point to it. To \
+     disable this warning set `iqbal-windows-warn-abt-missing-unxutils' to nil."
                                  "http://sourceforge.net/projects/unxutils/"
                                  (expand-file-name (locate-user-emacs-file "etc/unxutils")))))))
    #+end_src

@@ -1,22 +1,22 @@
 * Unset keybindings
   #+begin_src emacs-lisp
     (when (fboundp 'merlin-mode)
-      (define-key merlin-mode-map my-send-region nil)
-      (define-key merlin-mode-map my-send-line nil))
+      (define-key merlin-mode-map iqbal-send-region nil)
+      (define-key merlin-mode-map iqbal-send-line nil))
   #+end_src
 
 
 * Keybindings for interaction with OCaml REPL
   #+begin_src emacs-lisp
     (if (featurep 'utop)
-        (my-set-bindings-for-utop)
-      (my-set-bindings-for-ocaml-repl))
+        (iqbal-set-bindings-for-utop)
+      (iqbal-set-bindings-for-ocaml-repl))
   #+end_src
 
 
 * Keybindings to jump to definition
   #+begin_src emacs-lisp
     (when (fboundp 'merlin-mode)
-      (define-key tuareg-mode-map my-jump-to-definition #'merlin-locate)
-      (define-key tuareg-mode-map my-pop-jump-to-definition-marker #'merlin-pop-stack))
+      (define-key tuareg-mode-map iqbal-jump-to-definition #'merlin-locate)
+      (define-key tuareg-mode-map iqbal-pop-jump-to-definition-marker #'merlin-pop-stack))
   #+end_src

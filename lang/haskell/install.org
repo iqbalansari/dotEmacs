@@ -1,8 +1,8 @@
 * Install ghc-mod frontend if ghc-mod is installed
   #+begin_src emacs-lisp
     (if (executable-find "ghc-mod")
-        (progn (my-install-packages '(ghc company-ghc))
-               (setq my-ghc-mod-available t))
+        (progn (iqbal-install-packages '(ghc company-ghc))
+               (setq iqbal-ghc-mod-available t))
       (warn "`ghc-mod' not installed, auto-completion will not work. Install `ghc-mod' using cabal"))
   #+end_src
 
@@ -10,6 +10,6 @@
 * Install `shm` if structured-haskell-mode is installed
   #+begin_src emacs-lisp
     (when (executable-find "structured-haskell-mode")
-      (my-install-package 'shm))
+      (iqbal-install-package 'shm))
   #+end_src
 

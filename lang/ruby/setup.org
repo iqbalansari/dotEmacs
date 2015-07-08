@@ -35,8 +35,8 @@
 * Enable robe if pry is installed
 ** Determine if robe can be run
    #+begin_src emacs-lisp
-     (make-variable-buffer-local 'my-robe-can-run)
-     (setq my-robe-can-run (if (and buffer-file-name
+     (make-variable-buffer-local 'iqbal-robe-can-run)
+     (setq iqbal-robe-can-run (if (and buffer-file-name
                                     (locate-dominating-file buffer-file-name "Gemfile"))
                                (and (executable-find "bundle")
                                     (zerop (shell-command "bundle show pry")))
@@ -45,9 +45,9 @@
 
 ** Enable robe if prerequisites are satisfied
    #+begin_src emacs-lisp
-     (if my-robe-can-run
+     (if iqbal-robe-can-run
          (progn (robe-mode)
-                (run-at-time 0.1 nil #'my-try-starting-robe))
+                (run-at-time 0.1 nil #'iqbal-try-starting-robe))
        (warn "`pry' not installed, robe won't start. See `http://github.com/dgutov/robe'"))
    #+end_src
 

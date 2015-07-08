@@ -1,6 +1,6 @@
 * Helper function to start ruby console for project if possible
    #+begin_src emacs-lisp
-     (defun my-start-ruby-shell ()
+     (defun iqbal-start-ruby-shell ()
        (interactive)
        (condition-case nil
            (inf-ruby-console-auto)
@@ -24,7 +24,7 @@
 
 * Helper function to start robe
    #+begin_src emacs-lisp
-     (defun my-try-starting-robe ()
+     (defun iqbal-try-starting-robe ()
        (if inf-ruby-buffer
            (condition-case err
                (robe-start)
@@ -36,7 +36,7 @@
 
 * Function to send current definition to inferior Ruby process.
   #+begin_src emacs-lisp
-    (defun my-ruby-send-definition ()
+    (defun iqbal-ruby-send-definition ()
       (interactive)
       (save-excursion
         (beginning-of-defun)
@@ -46,7 +46,7 @@
 
 * Misc variables
   #+begin_src emacs-lisp
-    (defvar my-robe-can-run nil)
-    (make-variable-buffer-local 'my-robe-can-run)
+    (defvar iqbal-robe-can-run nil)
+    (make-variable-buffer-local 'iqbal-robe-can-run)
   #+end_src
 

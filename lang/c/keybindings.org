@@ -1,17 +1,17 @@
 * Keybindings for navigation
 ** Jump to definition
    #+begin_src emacs-lisp
-     (define-key c-mode-map my-jump-to-definition #'my-c-find-definition)
+     (define-key c-mode-map iqbal-jump-to-definition #'iqbal-c-find-definition)
    #+end_src
 
 ** And back
   #+begin_src emacs-lisp
-    (define-key c-mode-map my-pop-jump-to-definition-marker #'my-c-pop-mark)
+    (define-key c-mode-map iqbal-pop-jump-to-definition-marker #'iqbal-c-pop-mark)
   #+end_src
 
 ** Keybindings for gtags select buffer
    #+begin_src emacs-lisp
-     (when my-gtags-available
+     (when iqbal-gtags-available
        (define-key gtags-select-mode-map (kbd "<return>") #'gtags-select-tag)
        (define-key gtags-select-mode-map (kbd "q") #'bury-buffer))
    #+end_src
@@ -19,25 +19,25 @@
 
 * Keybinding for renaming
   #+begin_src emacs-lisp
-    (when my-rtags-available
-      (define-key c-mode-map my-refactor-rename #'rtags-rename-symbol))
+    (when iqbal-rtags-available
+      (define-key c-mode-map iqbal-refactor-rename #'rtags-rename-symbol))
   #+end_src
 
 
 * Keybinding for finding references
   #+begin_src emacs-lisp
-    (define-key c-mode-map my-find-references #'my-c-find-references)
+    (define-key c-mode-map iqbal-find-references #'iqbal-c-find-references)
   #+end_src
 
 
 * Keybinding to add current file to current project and index it
   #+begin_src emacs-lisp
-    (when my-rtags-available
-      (define-key c-mode-map (kbd "C-c C-k") #'my-rtags-index-this-file))
+    (when iqbal-rtags-available
+      (define-key c-mode-map (kbd "C-c C-k") #'iqbal-rtags-index-this-file))
   #+end_src
 
 
 * Open man page for symbol at point
   #+begin_src emacs-lisp
-    (define-key c-mode-map my-show-doc #'my-get-man-page-at-pt)
+    (define-key c-mode-map iqbal-show-doc #'iqbal-get-man-page-at-pt)
   #+end_src

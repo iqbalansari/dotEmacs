@@ -1,6 +1,6 @@
 * Install required packages
   #+begin_src emacs-lisp
-    (my-install-packages '(inf-mongo
+    (iqbal-install-packages '(inf-mongo
                            eldoc-eval
                            guide-key
                            edit-server
@@ -10,7 +10,7 @@
 
 * Install try, useful for trying out packages before actually installing them
   #+begin_src emacs-lisp
-    (my-install-package 'try)
+    (iqbal-install-package 'try)
   #+end_src
 
 
@@ -74,7 +74,7 @@
 
 * Save macros as functions, credit [[http://draketo.de/light/english/emacs/babcore]]
   #+begin_src emacs-lisp
-    (defun my-save-current-kbd-macro-to-dot-emacs (name)
+    (defun iqbal-save-current-kbd-macro-to-dot-emacs (name)
       "Save the current macro as named function definition inside
     your initialization file so you can reuse it anytime in the
     future."
@@ -150,13 +150,13 @@
 * Keybinding to start calculator
   By default start calc, but with prefix argument start simple calculator
   #+begin_src emacs-lisp
-    (defun my-start-calculator ()
+    (defun iqbal-start-calculator ()
       (interactive)
       (if current-prefix-arg
           (call-interactively #'calculator)
         (call-interactively #'calc)))
 
-    (global-set-key (kbd "C-c C") #'my-start-calculator)
+    (global-set-key (kbd "C-c C") #'iqbal-start-calculator)
   #+end_src
 
 

@@ -1,13 +1,13 @@
 * Misc variables
   #+begin_src emacs-lisp
-    (defvar my-edts-available)
+    (defvar iqbal-edts-available)
   #+end_src
 
 
 * Helper function to start distel
   This is used only on windows where edts is not available
   #+begin_src emacs-lisp
-     (defun my-start-distel ()
+     (defun iqbal-start-distel ()
        (unless (and inferior-erlang-buffer
                     (buffer-live-p inferior-erlang-buffer))
 

@@ -22,7 +22,7 @@
 * Configuration for jump to definition
 ** Enable gtags mode
    #+begin_src emacs-lisp
-     (when my-gtags-available
+     (when iqbal-gtags-available
        (ggtags-mode +1))
 
      (setq ggtags-enable-navigation-keys nil)
@@ -35,32 +35,32 @@
 
 ** Generate tags file for project if not already generated 
   #+begin_src emacs-lisp
-    (when my-gtags-available
+    (when iqbal-gtags-available
       (let ((project-root (or (ignore-errors (projectile-project-root))
                               (locate-dominating-file (or buffer-file-name default-directory)
                                                       "GTAGS"))))
         
-        (make-variable-buffer-local 'my-project-root)
-        (setq my-project-root project-root)
+        (make-variable-buffer-local 'iqbal-project-root)
+        (setq iqbal-project-root project-root)
         (if (and project-root
                  (not (or (string-equal (expand-file-name project-root)
                                         (expand-file-name "~/"))
                           (string-equal (file-truename project-root)
                                         (file-truename "~/.emacs.d/")))))
             (when (and (not (file-exists-p (concat project-root "/GTAGS")))
-                       (not (member project-root my-php-no-tags-projects)))
+                       (not (member project-root iqbal-php-no-tags-projects)))
               (if (y-or-n-p (format "GTAG files not present for project [%s], generate them?"
                                     project-root))
                   (progn (message "Generating TAGS for project")
                          (shell-command (format "cd %s && gtags" project-root)))
-                (add-to-list 'my-php-no-tags-projects project-root)))
+                (add-to-list 'iqbal-php-no-tags-projects project-root)))
           (warn "Could not locate project root! Skipping generation of TAGS!"))))
 
   #+end_src
 
 ** Regenerate tags for project on saving buffer
    #+begin_src emacs-lisp
-     (add-hook (make-variable-buffer-local 'after-save-hook) #'my-php-regenerate-tags)
+     (add-hook (make-variable-buffer-local 'after-save-hook) #'iqbal-php-regenerate-tags)
    #+end_src
 
 ** Regex to match included/required files this helps jumping to the files easily using ggtags-find-tag-dwim
@@ -82,7 +82,7 @@
   #+begin_src emacs-lisp
     (eldoc-mode)
     (make-local-variable 'eldoc-documentation-function)
-    (setq eldoc-documentation-function #'my-php-eldoc-function)
+    (setq eldoc-documentation-function #'iqbal-php-eldoc-function)
   #+end_src
 
 
@@ -107,7 +107,7 @@
                                (concat ruleset-dir "ruleset.xml"))))
            (setq flycheck-phpcs-standard
                  (or project-std
-                     (when (my-install-variable-analysis-sniffs)
-                       my-phpcs-standard))))
+                     (when (iqbal-install-variable-analysis-sniffs)
+                       iqbal-phpcs-standard))))
        (warn "PHP Codesniffer not found! Install it using composer for better syntax checking"))
    #+end_src

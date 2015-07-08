@@ -16,12 +16,12 @@
    Lang contain the configuration related to one specific type of file.
    They reside in the following directory
    #+begin_src emacs-lisp
-     (defvar my-langs-dir (locate-user-emacs-file "lang/"))
+     (defvar iqbal-langs-dir (locate-user-emacs-file "lang/"))
    #+end_src
 
 ** Check if given file is older than any of the other given files
    #+begin_src emacs-lisp
-     (defun my-is-file-stale (orig-file &rest files)
+     (defun iqbal-is-file-stale (orig-file &rest files)
        (if (file-exists-p orig-file)
            (reduce (lambda (is-stale-yet? file)
                      (or is-stale-yet?
@@ -33,12 +33,12 @@
 
 ** Helper functions to read/write from/to file
    #+begin_src emacs-lisp
-     (defun my-read-file (path)
+     (defun iqbal-read-file (path)
        (with-temp-buffer
          (insert-file-contents-literally path)
          (buffer-substring-no-properties (point-min) (point-max))))
 
-     (defun my-write-to-file (file data)
+     (defun iqbal-write-to-file (file data)
        (with-temp-file file
          (erase-buffer)
          (insert data)))
@@ -50,35 +50,35 @@
    them in one compiled file and loads that file, the compiled file is regenerated
    if any of the org files change
    #+begin_src emacs-lisp
-     (defvar my-initialized-langs nil)
+     (defvar iqbal-initialized-langs nil)
 
-     (defun my-initialize-lang (lang)
-       (let* ((lang-path (concat my-langs-dir lang "/"))
+     (defun iqbal-initialize-lang (lang)
+       (let* ((lang-path (concat iqbal-langs-dir lang "/"))
               (init-file (concat lang-path "init.org"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest "init.el")))
          (when (and (file-exists-p init-file)
-                    (or (not (member lang my-initialized-langs))
-                        (my-is-file-stale compiled-file init-file)))
+                    (or (not (member lang iqbal-initialized-langs))
+                        (iqbal-is-file-stale compiled-file init-file)))
 
            (unless (file-exists-p compiled-file-dest)
              (make-directory compiled-file-dest))
 
-           (when (my-is-file-stale compiled-file init-file)
+           (when (iqbal-is-file-stale compiled-file init-file)
              (org-babel-tangle-file init-file compiled-file "emacs-lisp"))
 
            (load (file-name-sans-extension compiled-file)))
 
-         (add-to-list 'my-initialized-langs lang)))
+         (add-to-list 'iqbal-initialized-langs lang)))
 
-     (defun my-compile-lang-config (lang)
+     (defun iqbal-compile-lang-config (lang)
        "Compile a languages configuration file, it simply tangles all the related
      org files and combines them into one elisp file"
        (interactive
         (list (ido-completing-read "Language: "
-                                   (directory-files my-langs-dir nil "[^.]+"))))
+                                   (directory-files iqbal-langs-dir nil "[^.]+"))))
        (let* ((files '("install" "setup" "keybindings"))
-              (lang-path (concat my-langs-dir lang "/"))
+              (lang-path (concat iqbal-langs-dir lang "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
 
@@ -86,75 +86,75 @@
            (unless (file-exists-p compiled-file-dest)
              (make-directory compiled-file-dest))
 
-           (my-write-to-file compiled-file
+           (iqbal-write-to-file compiled-file
                              (loop for file in files
                                    when (file-exists-p (concat lang-path file ".org"))
-                                   concat (my-read-file (car (org-babel-tangle-file
+                                   concat (iqbal-read-file (car (org-babel-tangle-file
                                                               (concat lang-path file ".org")
                                                               (concat compiled-file-dest file ".el")
                                                               "emacs-lisp")))))
            (byte-compile-file compiled-file))))
 
-     (defun my-load-lang-config (language)
+     (defun iqbal-load-lang-config (language)
        (let* ((files '("install" "setup" "keybindings"))
-              (lang-path (concat my-langs-dir language "/"))
+              (lang-path (concat iqbal-langs-dir language "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
               (compiled-file (concat compiled-file-dest ".combined.el")))
 
          (when (file-exists-p lang-path)
-           (my-initialize-lang language)
+           (iqbal-initialize-lang language)
            
-           (when (apply #'my-is-file-stale compiled-file
+           (when (apply #'iqbal-is-file-stale compiled-file
                         (loop for file in files
                               when (file-exists-p (concat lang-path file ".org"))
                               collect (concat lang-path file ".org")))
-             (my-compile-lang-config language))
+             (iqbal-compile-lang-config language))
 
            (load (file-name-sans-extension compiled-file)))))
 
-     (defun my-load-lang-config-for-buffer (language)
+     (defun iqbal-load-lang-config-for-buffer (language)
        "Load a languages configuration, it compiles the config files
           first (if needed)"
        (interactive
         (list (ido-completing-read "Language: "
-                                   (directory-files my-langs-dir nil "[^.]+"))))
+                                   (directory-files iqbal-langs-dir nil "[^.]+"))))
        (unless (or (and (string-prefix-p "*" (buffer-name))
                         (not (numberp (string-match-p "*scratch [\\[a-z0-9A-Z]+\\]"
                                                       (buffer-name)))))
                    (string-prefix-p " " (buffer-name)))
-         (my-load-lang-config language)))
+         (iqbal-load-lang-config language)))
 
-     (defun my-compile-all-lang-config ()
+     (defun iqbal-compile-all-lang-config ()
        "Compile all language configurations"
        (interactive)
-       (dolist (lang (directory-files my-langs-dir nil "[^.]+"))
-         (my-compile-lang-config lang)))
+       (dolist (lang (directory-files iqbal-langs-dir nil "[^.]+"))
+         (iqbal-compile-lang-config lang)))
 
      ;; Taken from prelude
-     (defmacro my-auto-install (extension package mode)
+     (defmacro iqbal-auto-install (extension package mode)
        "When file with EXTENSION is opened triggers auto-install of PACKAGE.
      PACKAGE is installed only if not already present. The file is opened in MODE."
        `(add-to-list 'auto-mode-alist
                      `(,extension . (lambda ()
-                                      (my-install-package ',package)
+                                      (iqbal-install-package ',package)
                                       (,mode)))))
 
-     (defun my-auto-install-lang (extension package mode)
+     (defun iqbal-auto-install-lang (extension package mode)
        "Setup installation of PACKAGE, if the package is not installed,
      when a file with extension EXTENSION is opened, the files with the
      EXTENSION are open in MODE"
        (add-to-list 'auto-mode-alist (cons extension mode))
        (unless (package-installed-p package)
-         (my-auto-install extension package mode)))
+         (iqbal-auto-install extension package mode)))
 
-     (defun my-setup-lang (hook language &rest extensions)
+     (defun iqbal-setup-lang (hook language &rest extensions)
        (add-hook hook (lexical-let ((language language)
                                     (extensions extensions))
                         (lambda ()
                           (when (or (not extensions)
                                     (and (member (file-name-extension (buffer-name))
                                                  extensions)))
-                            (my-load-lang-config-for-buffer language))))))
+                            (iqbal-load-lang-config-for-buffer language))))))
    #+end_src
 
 ** Function to declare one-shot keybindings
@@ -171,13 +171,13 @@
 
 ** Interacting with REPL
    #+begin_src emacs-lisp
-     (defmacro my-evaluate-line-in-repl (name send-region-func)
+     (defmacro iqbal-evaluate-line-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
           (,send-region-func (line-beginning-position)
                              (line-end-position))))
      
-     (defmacro my-evaluate-file-in-repl (name send-region-func)
+     (defmacro iqbal-evaluate-file-in-repl (name send-region-func)
        `(defun ,name (file)
           (interactive (list (ido-read-file-name "File to evaluate: ")))
           (with-temp-buffer
@@ -185,13 +185,13 @@
             (,send-region-func (point-min)
                                (point-max)))))
      
-     (defmacro my-evaluate-buffer-in-repl (name send-region-func)
+     (defmacro iqbal-evaluate-buffer-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
           (,send-region-func (point-min)
                              (point-max))))
      
-     (defmacro my-evaluate-defun-in-repl (name send-region-func)
+     (defmacro iqbal-evaluate-defun-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
           (let ((start (save-excursion (beginning-of-defun) (point)))
@@ -203,14 +203,14 @@
 ** Highlighting the line to reorient the user
    #+begin_src emacs-lisp
      (load "pulse")
-     (defun my-highlight-line ()
+     (defun iqbal-highlight-line ()
        (pulse-momentary-highlight-one-line (point)))
 
-     (defmacro my-highlight-line-after-func (func)
+     (defmacro iqbal-highlight-line-after-func (func)
        `(progn (defadvice ,func (after highlight-current-line
                                        (&rest args))
                  "Flash the current line after jump"
-                 (run-at-time 0.1 nil #'my-highlight-line))
+                 (run-at-time 0.1 nil #'iqbal-highlight-line))
                (ad-activate ',func)))
    #+end_src
 
@@ -241,26 +241,26 @@
 
 ** Refresh package contents if needed
    #+begin_src emacs-lisp
-     (defvar my-package-refresh-needed (reduce (lambda (need-refresh repo)
+     (defvar iqbal-package-refresh-needed (reduce (lambda (need-refresh repo)
                                                  (or (not (file-exists-p (concat package-user-dir "/archives/"
                                                                                  (car repo)
                                                                                  "/archive-contents")))
                                                      need-refresh))
                                                package-archives :initial-value nil))
 
-     (when my-package-refresh-needed
+     (when iqbal-package-refresh-needed
        (package-refresh-contents))
    #+end_src
 
 ** Path to El-Get recipies
    Use recipies from this directory
    #+begin_src emacs-lisp
-     (defvar my-local-recipes (locate-user-emacs-file "recipies/"))
+     (defvar iqbal-local-recipes (locate-user-emacs-file "recipies/"))
    #+end_src
 
 ** Helper functions to install package if not already installed 
    #+begin_src emacs-lisp
-     (defun my--install-package (package &optional after-install)
+     (defun iqbal--install-package (package &optional after-install)
        (unless (package-installed-p package)
          (condition-case err
              (package-install package)
@@ -282,23 +282,23 @@
          (when after-install
            (funcall after-install))))
 
-     (defun my-install-package (package &optional after-install)
+     (defun iqbal-install-package (package &optional after-install)
        "Install package if not already installed, use el-get if 'local' recipe exists
           for the package. Otherwise install it using package"
-       (if (file-exists-p (concat my-local-recipes 
+       (if (file-exists-p (concat iqbal-local-recipes 
                                   (symbol-name package)
                                   ".rcp"))
            (el-get 'sync package)
-         (my--install-package package after-install)))
+         (iqbal--install-package package after-install)))
 
-     (defun my-install-packages (packages)
+     (defun iqbal-install-packages (packages)
        (dolist (package packages)
-         (my-install-package package)))
+         (iqbal-install-package package)))
    #+end_src
 
 ** Install el-get for installing packages that have external dependencies
    #+begin_src emacs-lisp
-     (my-install-package 'el-get)
+     (iqbal-install-package 'el-get)
      (load "el-get")
    #+end_src
 
@@ -342,7 +342,7 @@
 
 ** Initialize the environment from shell
   #+begin_src emacs-lisp
-    (my-install-package 'exec-path-from-shell)
+    (iqbal-install-package 'exec-path-from-shell)
 
     (when (and (display-graphic-p)
                (not (equal system-type 'windows-nt)))
@@ -371,41 +371,41 @@
 
 ** Jumping to definitions
    #+begin_src emacs-lisp
-     (defvar my-jump-to-definition (kbd "M-."))
-     (defvar my-pop-jump-to-definition-marker (kbd "M-,"))
+     (defvar iqbal-jump-to-definition (kbd "M-."))
+     (defvar iqbal-pop-jump-to-definition-marker (kbd "M-,"))
    #+end_src
 
 ** Finding references
    #+begin_src emacs-lisp
-     (defvar my-find-references (kbd "C-c <"))
+     (defvar iqbal-find-references (kbd "C-c <"))
    #+end_src
 
 ** Displaying doc
    #+begin_src emacs-lisp
-     (defvar my-show-doc (kbd "C-c d"))
+     (defvar iqbal-show-doc (kbd "C-c d"))
    #+end_src
 
 ** Refactoring
    #+begin_src emacs-lisp
-     (defvar my-refactor-rename (kbd "C-c r"))
-     (defvar my-refactor-auto-import (kbd "C-c i"))
-     (defvar my-refactor-organize-imports (kbd "C-c o"))
+     (defvar iqbal-refactor-rename (kbd "C-c r"))
+     (defvar iqbal-refactor-auto-import (kbd "C-c i"))
+     (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
    #+end_src
 
 ** Interacting with REPL
    #+begin_src emacs-lisp
-     (defvar my-run-shell (kbd "C-c C-z"))
-     (defvar my-send-region (kbd "C-c C-r"))
-     (defvar my-send-buffer (kbd "C-c C-b"))
-     (defvar my-send-line (kbd "C-c C-f"))
-     (defvar my-send-file (kbd "C-c C-l"))
-     (defvar my-send-function (kbd "C-M-x"))
-     (defvar my-send-phrase/sexp/block (kbd "C-x C-e"))
+     (defvar iqbal-run-shell (kbd "C-c C-z"))
+     (defvar iqbal-send-region (kbd "C-c C-r"))
+     (defvar iqbal-send-buffer (kbd "C-c C-b"))
+     (defvar iqbal-send-line (kbd "C-c C-f"))
+     (defvar iqbal-send-file (kbd "C-c C-l"))
+     (defvar iqbal-send-function (kbd "C-M-x"))
+     (defvar iqbal-send-phrase/sexp/block (kbd "C-x C-e"))
    #+end_src
 
 ** Expanding macro
    #+begin_src emacs-lisp
-     (defvar my-expand-macro (kbd "C-c RET"))
+     (defvar iqbal-expand-macro (kbd "C-c RET"))
    #+end_src
 
 
@@ -431,17 +431,17 @@
 * Setup language configurations
 ** Emacs lisp is needs to be configured specially
    #+begin_src emacs-lisp
-     (defvar my-elisp-packages '(elisp-slime-nav 
+     (defvar iqbal-elisp-packages '(elisp-slime-nav 
                                  macrostep
                                  cl-lib-highlight))
 
-     (my-install-packages my-elisp-packages)
+     (iqbal-install-packages iqbal-elisp-packages)
 
      ;; ielm replaces the current window, stop it from doing so
      (defadvice ielm (before do-not-replace-this-window (&rest args))
        (select-window (split-window)))
 
-     (defun my-emacs-lisp-config ()
+     (defun iqbal-emacs-lisp-config ()
        ;; Setup
        (elisp-slime-nav-mode +1)
        (eldoc-mode +1)
@@ -457,49 +457,49 @@
        (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
        ;; Keybindings
-       (local-set-key my-show-doc #'elisp-slime-nav-describe-elisp-thing-at-point)
-       (local-set-key my-run-shell #'ielm)
-       (local-set-key my-send-buffer #'eval-buffer)
-       (local-set-key my-send-file #'load-file)
-       (local-set-key my-send-region #'eval-region)
-       (local-set-key my-expand-macro 'macrostep-expand))
+       (local-set-key iqbal-show-doc #'elisp-slime-nav-describe-elisp-thing-at-point)
+       (local-set-key iqbal-run-shell #'ielm)
+       (local-set-key iqbal-send-buffer #'eval-buffer)
+       (local-set-key iqbal-send-file #'load-file)
+       (local-set-key iqbal-send-region #'eval-region)
+       (local-set-key iqbal-expand-macro 'macrostep-expand))
 
-     (add-hook 'emacs-lisp-mode-hook #'my-emacs-lisp-config)
+     (add-hook 'emacs-lisp-mode-hook #'iqbal-emacs-lisp-config)
    #+end_src
 
 ** Setup installation of external language modes
   #+begin_src emacs-lisp
-    (my-auto-install-lang (rx ".js" string-end) 'js2-mode 'js2-mode)
-    (my-auto-install-lang (rx ".php" string-end) 'php-mode 'php-mode)
-    (my-auto-install-lang (rx "." (or "scala" "sbt") string-end) 'scala-mode2 'scala-mode)
-    (my-auto-install-lang (rx ".ml" (zero-or-one ?i ?y ?l ?p) string-end) 'tuareg 'tuareg-mode)
-    (my-auto-install-lang (rx ".hs" string-end) 'haskell-mode 'haskell-mode)
-    (my-auto-install-lang (rx "." (or (seq "clj" (zero-or-one ?s ?x)) "dtm" "edn") string-end) 'clojure-mode 'clojure-mode)
-    (my-auto-install-lang (rx ".erl" string-end) 'erlang 'erlang-mode)
-    (my-auto-install-lang (rx "." (or "ex" "exs")) 'elixir-mode 'elixir-mode)
-    (my-auto-install-lang (rx "." (or "sml" "sig")) 'sml-mode 'sml-mode)
-    (my-auto-install-lang (rx "." (or "html" "ejs" "twig") string-end) 'web-mode 'web-mode)
-    (my-auto-install-lang (rx ".go" string-end) 'go-mode 'go-mode)
-    (my-auto-install-lang (rx ".rs" string-end) 'rust-mode 'rust-mode)
-    (my-auto-install-lang (rx ".jade" string-end) 'jade-mode 'jade-mode)
-    (my-auto-install-lang (rx ".factor" string-end) 'fuel 'factor-mode)
-    (my-auto-install-lang (rx ".json" string-end) 'json-mode 'json-mode)
-    (my-auto-install-lang (rx ".csv" string-end) 'csv-mode 'csv-mode)
-    (my-auto-install-lang (rx (or (seq "." (or "md" "markdown" "mkdn")) "README") string-end) 'markdown-mode 'markdown-mode)
-    (my-auto-install-lang (rx (or (regexp ".y[a]?ml") (regexp ".y[a]?ml.dist")) string-end) 'yaml-mode 'yaml-mode)
-    (my-auto-install-lang (rx ".toml" string-end) 'toml-mode 'toml-mode)
-    (my-auto-install-lang (rx (or "http.conf" "srm.conf" "access.conf" (seq "sites-" (or "available" "enabled")) ".htaccess") string-end)
+    (iqbal-auto-install-lang (rx ".js" string-end) 'js2-mode 'js2-mode)
+    (iqbal-auto-install-lang (rx ".php" string-end) 'php-mode 'php-mode)
+    (iqbal-auto-install-lang (rx "." (or "scala" "sbt") string-end) 'scala-mode2 'scala-mode)
+    (iqbal-auto-install-lang (rx ".ml" (zero-or-one ?i ?y ?l ?p) string-end) 'tuareg 'tuareg-mode)
+    (iqbal-auto-install-lang (rx ".hs" string-end) 'haskell-mode 'haskell-mode)
+    (iqbal-auto-install-lang (rx "." (or (seq "clj" (zero-or-one ?s ?x)) "dtm" "edn") string-end) 'clojure-mode 'clojure-mode)
+    (iqbal-auto-install-lang (rx ".erl" string-end) 'erlang 'erlang-mode)
+    (iqbal-auto-install-lang (rx "." (or "ex" "exs")) 'elixir-mode 'elixir-mode)
+    (iqbal-auto-install-lang (rx "." (or "sml" "sig")) 'sml-mode 'sml-mode)
+    (iqbal-auto-install-lang (rx "." (or "html" "ejs" "twig") string-end) 'web-mode 'web-mode)
+    (iqbal-auto-install-lang (rx ".go" string-end) 'go-mode 'go-mode)
+    (iqbal-auto-install-lang (rx ".rs" string-end) 'rust-mode 'rust-mode)
+    (iqbal-auto-install-lang (rx ".jade" string-end) 'jade-mode 'jade-mode)
+    (iqbal-auto-install-lang (rx ".factor" string-end) 'fuel 'factor-mode)
+    (iqbal-auto-install-lang (rx ".json" string-end) 'json-mode 'json-mode)
+    (iqbal-auto-install-lang (rx ".csv" string-end) 'csv-mode 'csv-mode)
+    (iqbal-auto-install-lang (rx (or (seq "." (or "md" "markdown" "mkdn")) "README") string-end) 'markdown-mode 'markdown-mode)
+    (iqbal-auto-install-lang (rx (or (regexp ".y[a]?ml") (regexp ".y[a]?ml.dist")) string-end) 'yaml-mode 'yaml-mode)
+    (iqbal-auto-install-lang (rx ".toml" string-end) 'toml-mode 'toml-mode)
+    (iqbal-auto-install-lang (rx (or "http.conf" "srm.conf" "access.conf" (seq "sites-" (or "available" "enabled")) ".htaccess") string-end)
                           'apache-mode 
                           'apache-mode)
-    (my-auto-install-lang (rx (or ".pip" "requirements.txt") string-end) 'pip-requirements 'pip-requirements-mode)
-    (my-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
-    (my-auto-install-lang (rx ".ps1" string-end) 'powershell 'powershell-mode)
-    (my-auto-install-lang (rx "rfc" (one-or-more digit) ".txt" string-end) 'irfc 'irfc-mode)
-    (my-auto-install-lang (rx "CMakeLists.txt" string-end) 'cmake-mode 'cmake-mode)
-    (my-auto-install-lang (rx ".cmake" string-end) 'cmake-mode 'cmake-mode)
-    (my-auto-install-lang (rx word-start "ledger" string-end) 'ledger-mode 'ledger-mode)
-    (my-auto-install-lang (rx ".ledger" string-end) 'ledger-mode 'ledger-mode)
-    (my-auto-install-lang (rx "Dockerfile" string-end) 'dockerfile-mode 'dockerfile-mode)
+    (iqbal-auto-install-lang (rx (or ".pip" "requirements.txt") string-end) 'pip-requirements 'pip-requirements-mode)
+    (iqbal-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
+    (iqbal-auto-install-lang (rx ".ps1" string-end) 'powershell 'powershell-mode)
+    (iqbal-auto-install-lang (rx "rfc" (one-or-more digit) ".txt" string-end) 'irfc 'irfc-mode)
+    (iqbal-auto-install-lang (rx "CMakeLists.txt" string-end) 'cmake-mode 'cmake-mode)
+    (iqbal-auto-install-lang (rx ".cmake" string-end) 'cmake-mode 'cmake-mode)
+    (iqbal-auto-install-lang (rx word-start "ledger" string-end) 'ledger-mode 'ledger-mode)
+    (iqbal-auto-install-lang (rx ".ledger" string-end) 'ledger-mode 'ledger-mode)
+    (iqbal-auto-install-lang (rx "Dockerfile" string-end) 'dockerfile-mode 'dockerfile-mode)
   #+end_src
 
 ** Some extra auto-mode-alist entries
@@ -513,7 +513,7 @@
 
 ** Distinguishing between objc-headers and c-headers
    #+begin_src emacs-lisp
-     (defun my-file-objective-c-header-p ()
+     (defun iqbal-file-objective-c-header-p ()
        (and buffer-file-name
             (string= (file-name-extension buffer-file-name) "h")
             (or (> (length (file-expand-wildcards "*.m"))
@@ -522,34 +522,34 @@
                                    magic-mode-regexp-match-limit t))))
 
      (add-to-list 'magic-mode-alist
-                  (cons #'my-file-objective-c-header-p #'objc-mode))
+                  (cons #'iqbal-file-objective-c-header-p #'objc-mode))
    #+end_src
 
 ** Setup loading of language configuration when the language mode loads
    #+begin_src emacs-lisp
-     (my-setup-lang 'python-mode-hook "python")
-     (my-setup-lang 'js2-mode-hook "javascript")
-     (my-setup-lang 'php-mode-hook "php")
-     (my-setup-lang 'lisp-mode-hook "common-lisp")
-     (my-setup-lang 'scheme-mode-hook "scheme")
-     (my-setup-lang 'c-mode-hook "c" "c" "h")
-     (my-setup-lang 'c++-mode-hook "c" "cpp" "hpp")
-     (my-setup-lang 'css-mode-hook "css")
-     (my-setup-lang 'scala-mode-hook "scala" "scala")
-     (my-setup-lang 'tuareg-mode-hook "ocaml")
-     (my-setup-lang 'go-mode-hook "go")
-     (my-setup-lang 'rust-mode-hook "rust")
-     (my-setup-lang 'erlang-mode-hook "erlang")
-     (my-setup-lang 'elixir-mode-hook "elixir")
-     (my-setup-lang 'factor-mode-hook "factor")
-     (my-setup-lang 'json-mode-hook "json")
-     (my-setup-lang 'markdown-mode-hook "markdown")
-     (my-setup-lang 'sml-mode-hook "sml")
-     (my-setup-lang 'clojure-mode-hook "clojure")
-     (my-setup-lang 'web-mode-hook "html" "html")
-     (my-setup-lang 'haskell-mode-hook "haskell")
-     (my-setup-lang 'ruby-mode-hook "ruby" "rb")
-     (my-setup-lang 'ledger-mode-hook "ledger")
-     (my-setup-lang 'yaml-mode-hook "yaml")
-     (my-setup-lang 'cmake-mode-hook "cmake")
+     (iqbal-setup-lang 'python-mode-hook "python")
+     (iqbal-setup-lang 'js2-mode-hook "javascript")
+     (iqbal-setup-lang 'php-mode-hook "php")
+     (iqbal-setup-lang 'lisp-mode-hook "common-lisp")
+     (iqbal-setup-lang 'scheme-mode-hook "scheme")
+     (iqbal-setup-lang 'c-mode-hook "c" "c" "h")
+     (iqbal-setup-lang 'c++-mode-hook "c" "cpp" "hpp")
+     (iqbal-setup-lang 'css-mode-hook "css")
+     (iqbal-setup-lang 'scala-mode-hook "scala" "scala")
+     (iqbal-setup-lang 'tuareg-mode-hook "ocaml")
+     (iqbal-setup-lang 'go-mode-hook "go")
+     (iqbal-setup-lang 'rust-mode-hook "rust")
+     (iqbal-setup-lang 'erlang-mode-hook "erlang")
+     (iqbal-setup-lang 'elixir-mode-hook "elixir")
+     (iqbal-setup-lang 'factor-mode-hook "factor")
+     (iqbal-setup-lang 'json-mode-hook "json")
+     (iqbal-setup-lang 'markdown-mode-hook "markdown")
+     (iqbal-setup-lang 'sml-mode-hook "sml")
+     (iqbal-setup-lang 'clojure-mode-hook "clojure")
+     (iqbal-setup-lang 'web-mode-hook "html" "html")
+     (iqbal-setup-lang 'haskell-mode-hook "haskell")
+     (iqbal-setup-lang 'ruby-mode-hook "ruby" "rb")
+     (iqbal-setup-lang 'ledger-mode-hook "ledger")
+     (iqbal-setup-lang 'yaml-mode-hook "yaml")
+     (iqbal-setup-lang 'cmake-mode-hook "cmake")
    #+end_src

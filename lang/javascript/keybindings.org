@@ -1,29 +1,29 @@
 * Set keybindings for ternjs
   #+begin_src emacs-lisp
-    (when my-ternjs-available
-      (define-key js2-mode-map my-jump-to-definition 'tern-find-definition)
-      (define-key js2-mode-map my-pop-jump-to-definition-marker 'tern-pop-find-definition)
-      (define-key js2-mode-map my-show-doc 'my-tern-get-docs)
-      (define-key js2-mode-map my-refactor-rename 'tern-rename-variable))
+    (when iqbal-ternjs-available
+      (define-key js2-mode-map iqbal-jump-to-definition 'tern-find-definition)
+      (define-key js2-mode-map iqbal-pop-jump-to-definition-marker 'tern-pop-find-definition)
+      (define-key js2-mode-map iqbal-show-doc 'iqbal-tern-get-docs)
+      (define-key js2-mode-map iqbal-refactor-rename 'tern-rename-variable))
   #+end_src
 
 
 * Unset some keybindings
 ** Tern takes them over
   #+begin_src emacs-lisp
-    (when my-ternjs-available
-      (define-key tern-mode-keymap my-send-region nil)
-      (define-key tern-mode-keymap my-send-line nil)
-      (define-key tern-mode-keymap my-send-buffer nil)
-      (define-key tern-mode-keymap my-refactor-rename nil))
+    (when iqbal-ternjs-available
+      (define-key tern-mode-keymap iqbal-send-region nil)
+      (define-key tern-mode-keymap iqbal-send-line nil)
+      (define-key tern-mode-keymap iqbal-send-buffer nil)
+      (define-key tern-mode-keymap iqbal-refactor-rename nil))
   #+end_src
 
 
 * Keybindings for REPL interaction
   #+begin_src emacs-lisp
-    (if my-js-use-nodejs-repl
-        (my-setup-nodejs-repl-keys)
-      (my-setup-skewer-repl-keys))
+    (if iqbal-js-use-nodejs-repl
+        (iqbal-setup-nodejs-repl-keys)
+      (iqbal-setup-skewer-repl-keys))
   #+end_src
 
 

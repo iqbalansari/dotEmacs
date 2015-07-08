@@ -1,13 +1,13 @@
 * Install required packages
   These do not have external dependencies
   #+begin_src emacs-lisp
-    (defvar my-ruby-packages '(inf-ruby
+    (defvar iqbal-ruby-packages '(inf-ruby
                                robe
                                yari))
 
     (when (executable-find "rvm")
-      (add-to-list 'my-ruby-packages 'rvm))
+      (add-to-list 'iqbal-ruby-packages 'rvm))
 
-    (my-install-packages my-ruby-packages)
+    (iqbal-install-packages iqbal-ruby-packages)
   #+end_src
 

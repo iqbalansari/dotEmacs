@@ -10,7 +10,7 @@
                          (getenv "GMIME_LIBS"))
                     (when (executable-find "pkg-config")
                       (zerop (shell-command "pkg-config --exists gmime-2.6")))))
-           (progn (my-install-package 'mu4e)
+           (progn (iqbal-install-package 'mu4e)
                   (when (and (boundp 'mu4e-maildir)
                              (not (file-exists-p mu4e-maildir)))
                     (warn "Please set `mu4e-maildir' to your maildir")))
@@ -20,7 +20,7 @@
 
 ** Install notify.el for notifications
    #+begin_src emacs-lisp
-     (my-install-package 'notify)
+     (iqbal-install-package 'notify)
    #+end_src
 
 
@@ -34,15 +34,15 @@
 ** Use company mode for better completion interface
    Remove text-properties that interfere with company mode's menu
    #+begin_src emacs-lisp
-     (defun my-strip-message-mode-problematic-text-props ()
+     (defun iqbal-strip-message-mode-problematic-text-props ()
        (save-excursion
          (goto-char (point-min))
          (when (search-forward-regexp (concat "^" mail-header-separator) nil t)
            (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky)))))
-        
-     (add-hook 'message-mode-hook 'my-strip-message-mode-problematic-text-props)
+
+     (add-hook 'message-mode-hook 'iqbal-strip-message-mode-problematic-text-props)
      (add-hook 'message-mode-hook 'flyspell-mode)
-     (add-hook 'mu4e-compose-mode-hook 'my-strip-message-mode-problematic-text-props)
+     (add-hook 'mu4e-compose-mode-hook 'iqbal-strip-message-mode-problematic-text-props)
      (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
    #+end_src
 
@@ -146,7 +146,7 @@
    #+begin_src emacs-lisp
      (require 'org-import-icalendar)
 
-     (defun my-parse-ical-event (event)
+     (defun iqbal-parse-ical-event (event)
        ;; org-import-icalendar expects e to be bound
        (let ((e event))
          (list :location (icalendar--get-event-property event 'LOCATION)
@@ -156,7 +156,7 @@
                :description (icalendar--get-event-property event 'DESCRIPTION)
                :date (org-import-icalendar-get-org-timestring event))))
 
-     (defun my-parse-ical-file (file)
+     (defun iqbal-parse-ical-file (file)
        (with-temp-buffer
          (insert-file-contents-literally file)
          (dos-to-unix)
@@ -164,9 +164,9 @@
          (let* ((ical-data (icalendar--read-element nil nil))
                 (zone-map (icalendar--convert-all-timezones ical-data))
                 (events (icalendar--all-events ical-data)))
-           (mapcar #'my-parse-ical-event events))))
+           (mapcar #'iqbal-parse-ical-event events))))
 
-     (defun my-make-appts-from-parsed-ical-data (data)
+     (defun iqbal-make-appts-from-parsed-ical-data (data)
        (dolist (ical-data data)
          (append-to-file (format "\n* TODO %s\n  SCHEDULED: %s\n  %s\n"
                                  (plist-get ical-data :summary)
@@ -175,8 +175,8 @@
                          nil
                          (locate-user-emacs-file "org/agenda/appt.org"))))
 
-     (defun my-appt-from-ical (file)
-       (my-make-appts-from-parsed-ical-data (my-parse-ical-file file)))
+     (defun iqbal-appt-from-ical (file)
+       (iqbal-make-appts-from-parsed-ical-data (iqbal-parse-ical-file file)))
 
      (defun mu4e-action-appt-from-ics (msg)
        (dolist (index (hash-table-keys mu4e~view-attach-map))
@@ -189,7 +189,7 @@
                                 (plist-get attachment :index)
                                 mu4e-decryption-policy
                                 tmpfile)
-             (my-appt-from-ical tmpfile)
+             (iqbal-appt-from-ical tmpfile)
              (message (format "Imported %s" (plist-get attachment :name)))))))
 
      (eval-after-load "mu4e"
@@ -219,7 +219,7 @@
 
 * Start mu4e
   #+begin_src emacs-lisp
-    (defun my-start-mu4e-bg ()
+    (defun iqbal-start-mu4e-bg ()
       "Start in background avoiding any prompts and ignoring errors"
       (require 'mu4e)
       (when (and (locate-library "mu4e")
@@ -229,7 +229,7 @@
                  (file-directory-p (concat mu4e-maildir mu4e-trash-folder)))
         (ignore-errors (mu4e t))))
 
-    (add-hook 'after-init-hook #'my-start-mu4e-bg)
+    (add-hook 'after-init-hook #'iqbal-start-mu4e-bg)
   #+end_src
 
 
@@ -237,7 +237,7 @@
 ** Helper functions to interact with mu/mu4e
 *** Function to get count of unread emails
     #+begin_src emacs-lisp
-      (defun my-mu-get-unread-mail-count ()
+      (defun iqbal-mu-get-unread-mail-count ()
         (let* ((mail-command (format "%s find --nocolor flag:unread AND NOT flag:trashed" mu4e-mu-binary))
                (unread-mail-p (zerop (shell-command (format "%s > /dev/null 2>&1" mail-command)))))
           (if unread-mail-p
@@ -247,11 +247,11 @@
 
 *** Helper function to view unread emails
     #+begin_src emacs-lisp
-      (defun my-mu4e-view-unread-mails ()
+      (defun iqbal-mu4e-view-unread-mails ()
         (interactive)
-        (setq my-pre-mu-win-config (current-window-configuration))
+        (setq iqbal-pre-mu-win-config (current-window-configuration))
         (mu4e-headers-search-bookmark "flag:unread AND NOT flag:trashed")
-        (setq my-mu-win-config (current-window-configuration)))
+        (setq iqbal-mu-win-config (current-window-configuration)))
     #+end_src
 
 ** Displaying unread mail count in modeline
@@ -262,10 +262,10 @@
 
 *** Custom mode-line indicator for mail
    #+begin_src emacs-lisp
-     (defvar my-mail-mode-line)
-     (add-to-list 'global-mode-string '(:eval my-mail-mode-line) t)
+     (defvar iqbal-mail-mode-line)
+     (add-to-list 'global-mode-string '(:eval iqbal-mail-mode-line) t)
 
-     (defun my-get-mailcount-mode-line-string (unread-mail-count)
+     (defun iqbal-get-mailcount-mode-line-string (unread-mail-count)
        (when (not (zerop unread-mail-count))
          (concat " "
                  (propertize
@@ -280,9 +280,9 @@
                                      (if (= unread-mail-count 1) "it" "them"))
                   'mouse-face 'mode-line-highlight
                   'keymap '(mode-line keymap
-                                      (mouse-1 . my-mu4e-view-unread-mails)
-                                      (mouse-2 . my-mu4e-view-unread-mails)
-                                      (mouse-3 . my-mu4e-view-unread-mails)))
+                                      (mouse-1 . iqbal-mu4e-view-unread-mails)
+                                      (mouse-2 . iqbal-mu4e-view-unread-mails)
+                                      (mouse-3 . iqbal-mu4e-view-unread-mails)))
                  (if (zerop unread-mail-count)
                      " "
                    (format " [%d] " unread-mail-count)))))
@@ -290,8 +290,8 @@
 
 *** Function to update mail count
     #+begin_src emacs-lisp
-      (defun my-update-mail-mode-line ()
-        (setq my-mail-mode-line (my-get-mailcount-mode-line-string (my-mu-get-unread-mail-count)))
+      (defun iqbal-update-mail-mode-line ()
+        (setq iqbal-mail-mode-line (iqbal-get-mailcount-mode-line-string (iqbal-mu-get-unread-mail-count)))
         (force-mode-line-update))
     #+end_src
 
@@ -299,34 +299,34 @@
 **** Update mode-line when mu4e loads
      #+begin_src emacs-lisp
        (eval-after-load 'mu4e
-         '(my-update-mail-mode-line))
+         '(iqbal-update-mail-mode-line))
      #+end_src
 
 **** Update mode-line after executing marks
     #+begin_src emacs-lisp
-      (defun my-setup-mail-count-update-after-exec-marks ()
-        (defadvice mu4e-mark-execute-all (after my-update-mail-count)
-          (my-update-mail-mode-line))
+      (defun iqbal-setup-mail-count-update-after-exec-marks ()
+        (defadvice mu4e-mark-execute-all (after iqbal-update-mail-count)
+          (iqbal-update-mail-mode-line))
         (ad-activate 'mu4e-mark-execute-all))
 
       (eval-after-load 'mu4e
-        '(my-setup-mail-count-update-after-exec-marks))
+        '(iqbal-setup-mail-count-update-after-exec-marks))
     #+end_src
 
 **** Update mode-line after viewing a message
      #+begin_src emacs-lisp
-       (add-hook 'mu4e-view-mode-hook #'my-update-mail-mode-line)
+       (add-hook 'mu4e-view-mode-hook #'iqbal-update-mail-mode-line)
      #+end_src
 
 **** Update mode-line after fetching mail
      #+begin_src emacs-lisp
-       (add-hook 'mu4e-index-updated-hook #'my-update-mail-mode-line)
+       (add-hook 'mu4e-index-updated-hook #'iqbal-update-mail-mode-line)
      #+end_src
 
 ** Helper function to notify about unread email and update mail count
   #+begin_src emacs-lisp
-    (defun my-mu4e-notify-unread-messages ()
-      (let ((unread-mail-count (my-mu-get-unread-mail-count)))
+    (defun iqbal-mu4e-notify-unread-messages ()
+      (let ((unread-mail-count (iqbal-mu-get-unread-mail-count)))
         (when (not (zerop unread-mail-count))
           (notify "mu4e" (if (= unread-mail-count 1)
                              "You have an unread email"
@@ -335,16 +335,16 @@
 
 ** Notify after updating the index
    #+begin_src emacs-lisp
-     (add-hook 'mu4e-index-updated-hook #'my-mu4e-notify-unread-messages)
+     (add-hook 'mu4e-index-updated-hook #'iqbal-mu4e-notify-unread-messages)
    #+end_src
 
 
 * Configuration for sending mail
 ** Sending mail from multiple smtp accounts when using mu4e
   #+begin_src emacs-lisp
-    (defvar my-mu4e-account-alist nil "List of accounts in format specified here [http://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html]")
+    (defvar iqbal-mu4e-account-alist nil "List of accounts in format specified here [http://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html]")
 
-    (defun my-mu4e-set-account ()
+    (defun iqbal-mu4e-set-account ()
       "Set the account for composing a message."
       (let* ((account
               ;; If we are about to compose a reply retrieve try retrieving the
@@ -355,23 +355,23 @@
                     (caar (cl-remove-if-not (lambda (account)
                                            (string= (cadr (assoc 'user-mail-address account))
                                                     receiving-email))
-                                         my-mu4e-account-alist)))
+                                         iqbal-mu4e-account-alist)))
                 ;; Otherwise read the account to use from the user
-                (when my-mu4e-account-alist
+                (when iqbal-mu4e-account-alist
                   (completing-read (format "Compose with account: (%s) "
                                            (mapconcat #'(lambda (var) (car var))
-                                                      my-mu4e-account-alist "/"))
-                                   (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-                                   nil t nil nil (caar my-mu4e-account-alist)))))
+                                                      iqbal-mu4e-account-alist "/"))
+                                   (mapcar #'(lambda (var) (car var)) iqbal-mu4e-account-alist)
+                                   nil t nil nil (caar iqbal-mu4e-account-alist)))))
              ;; Retrieve the variables corresponding to account
-             (account-vars (cdr (assoc account my-mu4e-account-alist))))
+             (account-vars (cdr (assoc account iqbal-mu4e-account-alist))))
         (when account-vars
           ;; Set the variables
           (mapc #'(lambda (var)
                     (set (car var) (cadr var)))
                 account-vars))))
 
-    (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+    (add-hook 'mu4e-compose-pre-hook 'iqbal-mu4e-set-account)
   #+end_src
 
 ** Prefer .authinfo.gpg for credentials
@@ -404,12 +404,12 @@
 
 * Convenience functions
 ** Advice mu4e~proc-sentinel so that path to mu binary is copied to clipboard
-   This is needed since in case mu is installed using el-get (which it is), it
-   is buried deep in .emacs.d folder and might not be in PATH, as such it cannot
-   be run directly from shell. The following advice copies the path to mu to clipboard, so that
-   it can be directly run from shell
+   This is needed since in case mu is installed using el-get, which is buried
+   deep in .emacs.d folder and might not be in PATH, as such it cannot be run
+   directly from shell. The following advice copies the path to mu to clipboard,
+   so that it can be directly run from shell
    #+begin_src emacs-lisp
-     (defun my-advise-mu4e~proc-sentinel ()
+     (defun iqbal-advise-mu4e~proc-sentinel ()
        (defadvice mu4e~proc-sentinel (around show-path-to-mu-binary (&rest args))
          (condition-case err
              ad-do-it
@@ -421,51 +421,51 @@
        (ad-activate 'mu4e~proc-sentinel))
 
      (eval-after-load "mu4e"
-       '(my-advise-mu4e~proc-sentinel))
+       '(iqbal-advise-mu4e~proc-sentinel))
    #+end_src
 
 ** Functions to start/hide mu4e
    Store the window configuration before starting mu4e and restore it when
    exiting mu4e
    #+begin_src emacs-lisp
-    (defvar my-pre-mu-win-config nil)
-    (defvar my-mu-win-config nil)
+    (defvar iqbal-pre-mu-win-config nil)
+    (defvar iqbal-mu-win-config nil)
 
-    (defun my--start-mu4e ()
+    (defun iqbal--start-mu4e ()
       ;; If mu4e is running and a mu4e window configuration is
       ;; stored
-      (if (and my-mu-win-config
+      (if (and iqbal-mu-win-config
                (get-buffer " *mu4e-main*"))
-          (set-window-configuration my-mu-win-config)
+          (set-window-configuration iqbal-mu-win-config)
         (call-interactively #'mu4e)))
 
-    (defun my-start-mu4e ()
+    (defun iqbal-start-mu4e ()
       (interactive)
-      (setq my-pre-mu-win-config (current-window-configuration))
+      (setq iqbal-pre-mu-win-config (current-window-configuration))
       
       (if (locate-library "mu4e")
-          (my--start-mu4e)
+          (iqbal--start-mu4e)
         (message "mu4e not installed! You need to install `autoreconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev' for installing mu4e")))
 
-    (defun my-hide-mu4e ()
+    (defun iqbal-hide-mu4e ()
       (interactive)
-      (setq my-mu-win-config (current-window-configuration))
-      (when my-pre-mu-win-config
-        (set-window-configuration my-pre-mu-win-config)))
+      (setq iqbal-mu-win-config (current-window-configuration))
+      (when iqbal-pre-mu-win-config
+        (set-window-configuration iqbal-pre-mu-win-config)))
    #+end_src
 
 
 * Keybindings to hide/show mu4e
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c m") #'my-start-mu4e)    
+    (global-set-key (kbd "C-c m") #'iqbal-start-mu4e)    
 
     (eval-after-load "mu4e"
-      '(progn (define-key mu4e-main-mode-map (kbd "q") #'my-hide-mu4e)
+      '(progn (define-key mu4e-main-mode-map (kbd "q") #'iqbal-hide-mu4e)
               (define-key mu4e-main-mode-map (kbd "Q") #'mu4e-quit)
               (define-key mu4e-main-mode-map (kbd "/") #'mu4e-headers-search)
-              (define-key mu4e-main-mode-map (kbd "C-c m") #'my-hide-mu4e)
-              (define-key mu4e-view-mode-map (kbd "C-c m") #'my-hide-mu4e)
-              (define-key mu4e-headers-mode-map (kbd "C-c m") #'my-hide-mu4e)
-              (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'my-hide-mu4e)
+              (define-key mu4e-main-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
+              (define-key mu4e-view-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
+              (define-key mu4e-headers-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
+              (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
               (define-key mu4e-view-mode-map (kbd "U") #'mu4e-headers-rerun-search)))
   #+end_src

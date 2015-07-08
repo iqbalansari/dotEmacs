@@ -25,12 +25,12 @@
 * Setup Tern for autocompletion and some refactoring
 ** Check ternjs availability
    #+begin_src emacs-lisp
-     (setq my-ternjs-available (locate-library "tern"))
+     (setq iqbal-ternjs-available (locate-library "tern"))
    #+end_src
 
 ** Enable tern-mode
    #+begin_src emacs-lisp
-     (when my-ternjs-available
+     (when iqbal-ternjs-available
        (tern-mode t))
    #+end_src
 
@@ -39,7 +39,7 @@
      (setq tern-ac-on-dot nil)
      (define-key tern-mode-keymap "." nil)
 
-     (when my-ternjs-available
+     (when iqbal-ternjs-available
        (add-to-list 'company-backends 'company-tern))
    #+end_src
 
@@ -49,14 +49,14 @@
    nodejs-repl is better for node as it provides autocompletion, use it if inside
    a node project
    #+begin_src emacs-lisp
-     (setq my-js-use-nodejs-repl (when buffer-file-name 
+     (setq iqbal-js-use-nodejs-repl (when buffer-file-name 
                                    (locate-dominating-file buffer-file-name "package.json")))
    #+end_src
 
 ** Skewer mode configuration
 *** Enable skewer mode
   #+begin_src emacs-lisp
-    (unless my-js-use-nodejs-repl
+    (unless iqbal-js-use-nodejs-repl
       (skewer-mode))
   #+end_src
 

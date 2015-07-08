@@ -28,11 +28,11 @@
 
 ** Custom functions for sending regions based on elpy's code
    #+begin_src emacs-lisp
-     (defun my-py-send-region (beg end)
+     (defun iqbal-py-send-region (beg end)
        (interactive "r")
        (python-shell-send-string (elpy--region-without-indentation beg end)))
 
-     (defun my-py-send-line ()
+     (defun iqbal-py-send-line ()
        (interactive)
        (python-shell-send-string (elpy--region-without-indentation (line-beginning-position)
                                                                    (line-end-position))))
@@ -42,7 +42,7 @@
 * Separate functions for moving to start/end of function and class
 ** A modified version of python-mode's python-nav-end-of-defun
    #+begin_src emacs-lisp
-     (defun my-python-nav-end-of-defun (&optional args)
+     (defun iqbal-python-nav-end-of-defun (&optional args)
        "Move point to the end of def or class.
      Returns nil if point is not in a def or class."
        (interactive)
@@ -65,7 +65,7 @@
 
 ** Macro to define modified navigation commands
    #+begin_src emacs-lisp
-     (defmacro my-py-define-nav-command (name bound-regexp nav-func)
+     (defmacro iqbal-py-define-nav-command (name bound-regexp nav-func)
        `(defun ,name (&optional args)
           (interactive "p")
           (let ((python-nav-beginning-of-defun-regexp ,bound-regexp))
@@ -75,36 +75,36 @@
 
 ** Function for moving at start of class
   #+begin_src emacs-lisp
-    (my-py-define-nav-command my-py-begining-of-class
+    (iqbal-py-define-nav-command iqbal-py-begining-of-class
                               "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
                               python-nav-beginning-of-defun)
   #+end_src
 
 ** Function for moving at end of class
    #+begin_src emacs-lisp
-     (my-py-define-nav-command my-py-end-of-class
+     (iqbal-py-define-nav-command iqbal-py-end-of-class
                                "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
-                               my-python-nav-end-of-defun)
+                               iqbal-python-nav-end-of-defun)
    #+end_src
 
 ** Function for moving at start of function
    #+begin_src emacs-lisp
-     (my-py-define-nav-command my-py-begining-of-defun
+     (iqbal-py-define-nav-command iqbal-py-begining-of-defun
                                "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
                                python-nav-beginning-of-defun)
    #+end_src
 
 ** Function for moving at end of function
    #+begin_src emacs-lisp
-     (my-py-define-nav-command my-py-end-of-defun
+     (iqbal-py-define-nav-command iqbal-py-end-of-defun
                                "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
-                               my-python-nav-end-of-defun)
+                               iqbal-python-nav-end-of-defun)
    #+end_src
 
 
 * Function to execute nose tests using the nose library 
   #+begin_src emacs-lisp
-    (defun my-execute-nose-tests (options nose-fn)
+    (defun iqbal-execute-nose-tests (options nose-fn)
       (let ((debug (assoc "--pdb" options)))
         (funcall nose-fn debug)))
   #+end_src

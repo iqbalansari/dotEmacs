@@ -2,7 +2,7 @@
    If region is active wrap it with expression otherwise
    expand current line
    #+begin_src emacs-lisp
-     (defun my-emmet-wrap-or-expand-snippet ()
+     (defun iqbal-emmet-wrap-or-expand-snippet ()
        (interactive)
        (if (region-active-p)
            (call-interactively #'emmet-wrap-with-markup)

@@ -1,5 +1,5 @@
 * Install clojure mode, cider and ac-cider
   #+begin_src emacs-lisp
-    (my-install-packages '(cider 
+    (iqbal-install-packages '(cider 
                            clj-refactor))
   #+end_src

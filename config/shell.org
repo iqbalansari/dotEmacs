@@ -1,12 +1,12 @@
 * Install shelldoc
   #+begin_src emacs-lisp
-    (my-install-package 'shelldoc)
+    (iqbal-install-package 'shelldoc)
   #+end_src
 
 
 * Install projectile if not installed yet
   #+begin_src emacs-lisp
-    (my-install-package 'projectile)
+    (iqbal-install-package 'projectile)
   #+end_src
 
 
@@ -14,7 +14,7 @@
   #+begin_src emacs-lisp
     (when (and (equal system-type 'windows-nt)
                (executable-find "powershell"))
-      (my-install-package 'powershell))
+      (iqbal-install-package 'powershell))
   #+end_src
 
 
@@ -28,24 +28,24 @@
 
 * Use C-S-w to quickly kill comint/compilation mode buffers
   #+begin_src emacs-lisp
-    (defun my-kill-buffer-delete-window ()
+    (defun iqbal-kill-buffer-delete-window ()
       (interactive)
       (let ((kill-buffer-query-functions nil))
         (kill-buffer)
         (ignore-errors (delete-window))))
 
     (eval-after-load "comint"
-      '(define-key comint-mode-map (kbd "C-S-w") #'my-kill-buffer-delete-window))
+      '(define-key comint-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window))
 
     (eval-after-load "compile"
-      '(progn (define-key compilation-mode-map (kbd "C-S-w") #'my-kill-buffer-delete-window)
-              (define-key compilation-minor-mode-map (kbd "C-S-w") #'my-kill-buffer-delete-window)))
+      '(progn (define-key compilation-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window)
+              (define-key compilation-minor-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window)))
   #+end_src
 
 
 * Faster keybinding to switch between line and character mode in term
   #+begin_src emacs-lisp
-    (defun my-toggle-term-mode ()
+    (defun iqbal-toggle-term-mode ()
       (interactive)
       (if (eq (current-local-map) term-raw-map)
           (progn (term-line-mode)
@@ -54,8 +54,8 @@
         (message "Switched to char mode")))
 
     (eval-after-load "term"
-      '(progn (define-key term-raw-map (kbd "C-`") 'my-toggle-term-mode)
-              (define-key term-mode-map (kbd "C-`") 'my-toggle-term-mode)))
+      '(progn (define-key term-raw-map (kbd "C-`") 'iqbal-toggle-term-mode)
+              (define-key term-mode-map (kbd "C-`") 'iqbal-toggle-term-mode)))
   #+end_src
 
 
@@ -75,27 +75,27 @@
 
 * Remap ctrl-arrow keys in term mode to move buffer if buffer-move is installed
   #+begin_src emacs-lisp
-    (defun my-enable-buf-move-term ()
+    (defun iqbal-enable-buf-move-term ()
       (define-key term-raw-map (kbd "C-<left>") #'buf-move-left)
       (define-key term-raw-map (kbd "C-<right>") #'buf-move-right)
       (define-key term-raw-map (kbd "C-<up>") #'buf-move-up)
       (define-key term-raw-map (kbd "C-<down>") #'buf-move-down))
 
     (eval-after-load "buffer-move"
-      '(add-hook 'term-mode-hook #'my-enable-buf-move-term))
+      '(add-hook 'term-mode-hook #'iqbal-enable-buf-move-term))
   #+end_src
 
 
 * Remap shift-arrow keys in term mode to select window if windmove is being used
   #+begin_src emacs-lisp
-    (defun my-enable-windmove-term ()
+    (defun iqbal-enable-windmove-term ()
       (define-key term-raw-map (kbd "<S-left>") #'windmove-left)
       (define-key term-raw-map (kbd "<S-right>") #'windmove-right)
       (define-key term-raw-map (kbd "<S-up>") #'windmove-up)
       (define-key term-raw-map (kbd "<S-down>") #'windmove-down))
 
     (eval-after-load "windmove"
-      '(add-hook 'term-mode-hook #'my-enable-windmove-term))
+      '(add-hook 'term-mode-hook #'iqbal-enable-windmove-term))
   #+end_src
 
 
@@ -104,7 +104,7 @@
    the key in global-map if region is active otherwise
    sends the last keys to the terminal emulator
   #+begin_src emacs-lisp
-    (defun my-execute-command-if-region-or-send-raw (&optional meta?)
+    (defun iqbal-execute-command-if-region-or-send-raw (&optional meta?)
       (interactive)
       (let* ((keys (this-single-command-keys))
              (command (lookup-key global-map keys)))
@@ -113,42 +113,42 @@
               (meta?  (term-send-raw-meta))
               (t (term-send-raw)))))
 
-    (defun my-execute-command-if-region-or-send-raw-meta ()
+    (defun iqbal-execute-command-if-region-or-send-raw-meta ()
       (interactive)
-      (my-execute-command-if-region-or-send-raw t))
+      (iqbal-execute-command-if-region-or-send-raw t))
   #+end_src
 
 ** Capture C-n, C-p, C-a, C-e, M-< and M-> is region is active or send
    raw keys to the terminal
    #+begin_src emacs-lisp
      (eval-after-load 'term
-       '(progn (define-key term-raw-map "\C-n" 'my-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\C-p" 'my-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\C-a" 'my-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\C-e" 'my-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\C-w" 'my-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\M-w" 'my-execute-command-if-region-or-send-raw-meta)
-               (define-key term-raw-map "\M-<" 'my-execute-command-if-region-or-send-raw-meta)
-               (define-key term-raw-map "\M->" 'my-execute-command-if-region-or-send-raw-meta)))
+       '(progn (define-key term-raw-map "\C-n" 'iqbal-execute-command-if-region-or-send-raw)
+               (define-key term-raw-map "\C-p" 'iqbal-execute-command-if-region-or-send-raw)
+               (define-key term-raw-map "\C-a" 'iqbal-execute-command-if-region-or-send-raw)
+               (define-key term-raw-map "\C-e" 'iqbal-execute-command-if-region-or-send-raw)
+               (define-key term-raw-map "\C-w" 'iqbal-execute-command-if-region-or-send-raw)
+               (define-key term-raw-map "\M-w" 'iqbal-execute-command-if-region-or-send-raw-meta)
+               (define-key term-raw-map "\M-<" 'iqbal-execute-command-if-region-or-send-raw-meta)
+               (define-key term-raw-map "\M->" 'iqbal-execute-command-if-region-or-send-raw-meta)))
    #+end_src
 
 
 * Delete the window when shell is killed
   #+begin_src emacs-lisp
     (defadvice term-handle-exit (after term-kill-buffer-on-exit activate)
-      (my-kill-term-delete-window))
+      (iqbal-kill-term-delete-window))
   #+end_src
 
 
 * Making shift-tab work with term-mode
   #+begin_src emacs-lisp
-    (defun my-term-send-backtab ()
+    (defun iqbal-term-send-backtab ()
       "Send backtab to the term process"
       (interactive)
       (term-send-raw-string (kbd "\033[Z")))
 
     (eval-after-load 'term
-      '(define-key term-raw-map (kbd "<backtab>") 'my-term-send-backtab))
+      '(define-key term-raw-map (kbd "<backtab>") 'iqbal-term-send-backtab))
   #+end_src
 
 
@@ -164,11 +164,11 @@
   Need to set hl-line-range-function function since (hl-line-mode -1)
   isn't working
   #+begin_src emacs-lisp
-    (defun my-hide-hl-line ()
+    (defun iqbal-hide-hl-line ()
       (make-local-variable 'hl-line-range-function)
       (setq hl-line-range-function (lambda () nil)))
 
-    (add-hook 'term-mode-hook #'my-hide-hl-line)
+    (add-hook 'term-mode-hook #'iqbal-hide-hl-line)
   #+end_src
 
 
@@ -186,14 +186,14 @@
 ** Use zsh or bash if available else fallback to eshell
    On windows use powershell if available
    #+begin_src emacs-lisp
-     (defvar my-preferred-shell (or (executable-find "zsh")
+     (defvar iqbal-preferred-shell (or (executable-find "zsh")
                                     (executable-find "bash")
                                     #'eshell))
 
      (when (equal system-type 'windows-nt)
-       (setq my-preferred-shell (if (locate-library "powershell") #'powershell #'eshell)))
+       (setq iqbal-preferred-shell (if (locate-library "powershell") #'powershell #'eshell)))
 
-     (defun my-is-shell-mode (mode)
+     (defun iqbal-is-shell-mode (mode)
        (or (eq mode 'term-mode)
            (eq mode 'eshell-mode)
            (eq mode 'shell-mode)))
@@ -211,39 +211,39 @@
    it in the hashmap.
 
    #+begin_src emacs-lisp
-     (defvar my-shell-to-project-map (make-hash-table :test 'equal))
+     (defvar iqbal-shell-to-project-map (make-hash-table :test 'equal))
 
-     (defun my-get-project-root ()
+     (defun iqbal-get-project-root ()
        (or (ignore-errors (projectile-project-root)) "global"))
 
-     (defun my-get-live-shell-for-project (project-root)
+     (defun iqbal-get-live-shell-for-project (project-root)
        "Return the first live shell for a project"
        ;; Clean up any killed shells
        (puthash project-root
                 (cl-remove-if-not (lambda (buffer)
                                  (buffer-live-p buffer))
-                               (gethash project-root my-shell-to-project-map))
-                my-shell-to-project-map)
+                               (gethash project-root iqbal-shell-to-project-map))
+                iqbal-shell-to-project-map)
 
        ;; Return the first live shell
-       (car (gethash project-root my-shell-to-project-map)))    
+       (car (gethash project-root iqbal-shell-to-project-map)))    
 
-     (defun my-create-new-shell-and-store (project-root)
+     (defun iqbal-create-new-shell-and-store (project-root)
        "Create a new shell for the project and store it in the global hash"
        (puthash project-root
-                (append (gethash project-root my-shell-to-project-map)
-                        (list (my-create-shell-buffer project-root)))
-                my-shell-to-project-map))
+                (append (gethash project-root iqbal-shell-to-project-map)
+                        (list (iqbal-create-shell-buffer project-root)))
+                iqbal-shell-to-project-map))
    #+end_src
 
 ** Functions for starting shells
   #+begin_src emacs-lisp
-    (defun my-start-non-term-shell (launcher shell-name)
+    (defun iqbal-start-non-term-shell (launcher shell-name)
       (funcall launcher)
       (rename-buffer shell-name t)
       (current-buffer))
 
-    (defun my-create-shell-buffer (&optional name)
+    (defun iqbal-create-shell-buffer (&optional name)
       "Create a new shell, if my prefered shell is set
       start that shell otherwise start eshell, rename
       the shell using login name, system name and name
@@ -253,15 +253,15 @@
                                   (concat " - " name)))))
 
         ;; If it is a string then it should point to the shell to start using ansi-term
-        (if (stringp my-preferred-shell)
-            (ansi-term my-preferred-shell shell-name)
-          (my-start-non-term-shell my-preferred-shell shell-name))))
+        (if (stringp iqbal-preferred-shell)
+            (ansi-term iqbal-preferred-shell shell-name)
+          (iqbal-start-non-term-shell iqbal-preferred-shell shell-name))))
 
-    (defun my-open-shell-for-project (project-root &optional force?)
+    (defun iqbal-open-shell-for-project (project-root &optional force?)
       "Open a shell for the project, switches to existing shell if
        there already exists a shell for the project and force? is nil
        otherwise create a new shell"
-      (let ((shell (my-get-live-shell-for-project project-root)))
+      (let ((shell (iqbal-get-live-shell-for-project project-root)))
         (cond ((and shell (not force?))
                (message "Switching to existing shell")
 
@@ -271,37 +271,37 @@
                
                (switch-to-buffer shell))
               (force? (message "Creating new shell")
-                      (my-create-new-shell-and-store project-root))
+                      (iqbal-create-new-shell-and-store project-root))
               (t (message "No associated shell found! Creating new shell")
-                 (my-create-new-shell-and-store project-root)))))
+                 (iqbal-create-new-shell-and-store project-root)))))
 
-    (defun my-start-shell (&optional direction)
+    (defun iqbal-start-shell (&optional direction)
       (interactive)
       (let ((existing-window (when direction (window-in-direction direction))))
         (if (and existing-window
                  (member (window-buffer existing-window)
-                         (gethash (my-get-project-root) my-shell-to-project-map))
-                 (my-is-shell-mode (with-current-buffer (window-buffer existing-window)
+                         (gethash (iqbal-get-project-root) iqbal-shell-to-project-map))
+                 (iqbal-is-shell-mode (with-current-buffer (window-buffer existing-window)
                                      major-mode)))
             (select-window existing-window)
           (when direction (select-window (split-window nil nil direction)))
-          (my-open-shell-for-project (my-get-project-root)
-                                     (my-is-shell-mode major-mode)))))
+          (iqbal-open-shell-for-project (iqbal-get-project-root)
+                                     (iqbal-is-shell-mode major-mode)))))
 
-    (defun my-split-window-below-start-terminal ()
+    (defun iqbal-split-window-below-start-terminal ()
       (interactive)
-      (my-start-shell 'below))
+      (iqbal-start-shell 'below))
 
-    (defun my-split-window-right-start-terminal ()
+    (defun iqbal-split-window-right-start-terminal ()
       (interactive)
-      (my-start-shell 'right))
+      (iqbal-start-shell 'right))
   #+end_src
 
 ** Functions for killing shell buffers
    These functions kill the shell buffer as well as delete the window containing
    it
    #+begin_src emacs-lisp
-     (defun my-kill-term-buffer ()
+     (defun iqbal-kill-term-buffer ()
        (let ((kill-buffer-query-functions nil)
              (buffer-windows (get-buffer-window-list (current-buffer) nil t)))
 
@@ -315,22 +315,22 @@
          (unless (= 1 (length (window-list)))
            (delete-window))))    
 
-     (defun my-kill-term-delete-window ()
+     (defun iqbal-kill-term-delete-window ()
        (interactive)
-       (if (my-is-shell-mode major-mode)
-           (my-kill-term-buffer)
+       (if (iqbal-is-shell-mode major-mode)
+           (iqbal-kill-term-buffer)
          (message "Not in a shell")))
    #+end_src
 
 ** Keybindings
    #+begin_src emacs-lisp
-     (global-set-key (kbd "C-\\") #'my-split-window-below-start-terminal)
-     (global-set-key (kbd "C-|") #'my-split-window-right-start-terminal)
-     (global-set-key (kbd "C-S-t") #'my-start-shell)
-     (global-set-key (kbd "C-S-w") #'my-kill-term-delete-window)
+     (global-set-key (kbd "C-\\") #'iqbal-split-window-below-start-terminal)
+     (global-set-key (kbd "C-|") #'iqbal-split-window-right-start-terminal)
+     (global-set-key (kbd "C-S-t") #'iqbal-start-shell)
+     (global-set-key (kbd "C-S-w") #'iqbal-kill-term-delete-window)
      (eval-after-load "term"
-       '(progn (define-key term-raw-map (kbd "C-|") #'my-split-window-right-start-terminal)
-               (define-key term-raw-map (kbd "C-\\") #'my-split-window-below-start-terminal)
+       '(progn (define-key term-raw-map (kbd "C-|") #'iqbal-split-window-right-start-terminal)
+               (define-key term-raw-map (kbd "C-\\") #'iqbal-split-window-below-start-terminal)
                (define-key term-raw-map (kbd "C-S-q") #'delete-window)))
 
      (eval-after-load "shell"
@@ -380,10 +380,10 @@
 * Command Clear comint based REPL
   Taken from [[http://emacsredux.com/blog/2015/01/18/clear-comint-buffers/]]
   #+begin_src emacs-lisp
-    (defun my-comint-clear-buffer ()
+    (defun iqbal-comint-clear-buffer ()
       (interactive)
       (let ((comint-buffer-maximum-size 0))
         (comint-truncate-buffer)))
 
-    (eval-after-load "comint" '(define-key comint-mode-map "\C-c\M-o" #'my-comint-clear-buffer))
+    (eval-after-load "comint" '(define-key comint-mode-map "\C-c\M-o" #'iqbal-comint-clear-buffer))
   #+end_src

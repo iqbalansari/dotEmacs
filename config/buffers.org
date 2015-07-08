@@ -1,6 +1,6 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (my-install-packages '(swap-buffers ibuffer-vc))
+    (iqbal-install-packages '(swap-buffers ibuffer-vc))
   #+end_src
 
 
@@ -163,23 +163,23 @@
   Alternative approach would be to advise a low level function like
   `set-buffer`, but I guess that could lead to difficult-to-debug errors
   #+begin_src emacs-lisp
-    (defvar my-last-buffer nil "Records last buffer that was visible")
-    (defvar my-buffer-change-in-progress-p nil
-      "Used to avoid running my-buffer-change-hook while running a my-buffer-change-hook")
+    (defvar iqbal-last-buffer nil "Records last buffer that was visible")
+    (defvar iqbal-buffer-change-in-progress-p nil
+      "Used to avoid running iqbal-buffer-change-hook while running a iqbal-buffer-change-hook")
 
-    (defun my-run-buffer-change-hooks-maybe ()
-      "Run my-buffer-change-hook if the buffer has changed"
+    (defun iqbal-run-buffer-change-hooks-maybe ()
+      "Run iqbal-buffer-change-hook if the buffer has changed"
       (let ((current-buffer (current-buffer)))
-        (when (and (not my-buffer-change-in-progress-p)
+        (when (and (not iqbal-buffer-change-in-progress-p)
                    (not (minibufferp current-buffer))
-                   (not (eq current-buffer my-last-buffer)))
-          (let ((my-buffer-change-in-progress-p t))
-            (ignore-errors (run-hook-with-args 'buffer-change-hook my-last-buffer current-buffer)))
-          (setq my-last-buffer current-buffer))))
+                   (not (eq current-buffer iqbal-last-buffer)))
+          (let ((iqbal-buffer-change-in-progress-p t))
+            (ignore-errors (run-hook-with-args 'buffer-change-hook iqbal-last-buffer current-buffer)))
+          (setq iqbal-last-buffer current-buffer))))
 
     (add-hook 'after-init-hook
               (lambda ()
-                (add-hook 'post-command-hook #'my-run-buffer-change-hooks-maybe)))
+                (add-hook 'post-command-hook #'iqbal-run-buffer-change-hooks-maybe)))
   #+end_src
 
 

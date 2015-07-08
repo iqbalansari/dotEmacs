@@ -12,7 +12,7 @@
 
 * Setup autocompletion
   #+begin_src emacs-lisp
-    (my-elixir-enable-completion)
+    (iqbal-elixir-enable-completion)
   #+end_src
 
 
@@ -24,5 +24,5 @@
 
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func alchemist-goto-definition-at-point)
+    (iqbal-highlight-line-after-func alchemist-goto-definition-at-point)
   #+end_src

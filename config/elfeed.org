@@ -1,13 +1,20 @@
 * Install required packages
   #+begin_src emacs-lisp
-    (my-install-package 'elfeed)
+    (iqbal-install-package 'elfeed)
+  #+end_src
+
+
+* Make url-queue more linient
+  #+begin_src emacs-lisp
+    (setq url-queue-parallel-processes 3)
+    (setq url-queue-timeout 30)
   #+end_src
 
 
 * Open current article in w3m in elfeed-search-mode
   Fallback to eww, if available or fallback to system browser
   #+begin_src emacs-lisp
-    (defun my-elfeed-search-open-article-in-w3m ()
+    (defun iqbal-elfeed-search-open-article-in-w3m ()
       (interactive)
       (let ((browse-url-browser-function (cond ((locate-library "w3m") #'w3m-browse-url)
                                                ((locate-library "eww") #'eww-browse-url)
@@ -23,7 +30,7 @@
 * Open current article in w3m in elfeed-show mode
   Fallback to eww, if available or fallback to system browser
   #+begin_src emacs-lisp
-    (defun my-elfeed-show-open-article-in-w3m ()
+    (defun iqbal-elfeed-show-open-article-in-w3m ()
       (interactive)
       (if (elfeed-entry-link elfeed-show-entry)
           (cond ((locate-library "w3m") (w3m-browse-url (elfeed-entry-link elfeed-show-entry)))
@@ -37,12 +44,12 @@
 * Load the feeds from elfeed.org file
 ** Path to elfeed feeds file
    #+begin_src emacs-lisp
-     (setq my-elfeed-file (locate-user-emacs-file "org/elfeed.org"))
+     (setq iqbal-elfeed-file (locate-user-emacs-file "org/elfeed.org"))
    #+end_src
 
 ** Function to extract all links from an org file
    #+begin_src emacs-lisp
-     (defun my-org-get-all-feeds (file)
+     (defun iqbal-org-get-all-feeds (file)
        (with-temp-buffer
          (erase-buffer)
          (insert-file-contents file)
@@ -52,7 +59,7 @@
 
            (while (re-search-forward org-plain-link-re nil t)
              (let ((link (match-string 0))
-                   (tags (my-org-get-parents-tags)))
+                   (tags (iqbal-org-get-parents-tags)))
 
                (add-to-list 'feeds (if tags (append (list link) tags) link))))
            (nreverse feeds))))
@@ -61,7 +68,7 @@
 ** Function to extract all tags for given org-element
    This returns the tags from all ancestors of given element
    #+begin_src emacs-lisp
-     (defun my-org-get-parents-tags ()
+     (defun iqbal-org-get-parents-tags ()
        (mapcar #'intern
                (save-excursion
                  (let (tags)
@@ -72,29 +79,29 @@
 
 ** Function to import feeds from elfeed.org
    #+begin_src emacs-lisp 
-     (defun my-import-elfeed-feeds ()
+     (defun iqbal-import-elfeed-feeds ()
        (interactive)
-       (let ((feeds (when (file-exists-p my-elfeed-file)
-                      (my-org-get-all-feeds my-elfeed-file))))
+       (let ((feeds (when (file-exists-p iqbal-elfeed-file)
+                      (iqbal-org-get-all-feeds iqbal-elfeed-file))))
          (setq elfeed-feeds feeds)
          (message (format "Imported %d feeds" (length feeds)))))
    #+end_src
 
 ** Import all feeds after init
    #+begin_src emacs-lisp
-     (add-hook 'after-init-hook #'my-import-elfeed-feeds)
+     (add-hook 'after-init-hook #'iqbal-import-elfeed-feeds)
    #+end_src
 
 ** Re-import feeds on saving feeds file
    #+begin_src emacs-lisp
-     (defun my-import-elfeed-feeds-maybe ()
+     (defun iqbal-import-elfeed-feeds-maybe ()
        (when (and (eq major-mode 'org-mode)
                   buffer-file-name
-                  (string= (file-truename my-elfeed-file)
+                  (string= (file-truename iqbal-elfeed-file)
                            (file-truename buffer-file-name)))
-         (my-import-elfeed-feeds)))
+         (iqbal-import-elfeed-feeds)))
 
-     (add-hook 'after-save-hook #'my-import-elfeed-feeds-maybe)
+     (add-hook 'after-save-hook #'iqbal-import-elfeed-feeds-maybe)
    #+end_src
 
 ** Org capture template adding new feed sources
@@ -102,8 +109,8 @@
      (add-to-list 'org-capture-templates (list "f"
                                                "Elfeed feed"
                                                'entry
-                                               (list 'file my-elfeed-file)
-                                               "* %? %^g\n  %(my-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
+                                               (list 'file iqbal-elfeed-file)
+                                               "* %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
                                                :empty-lines-after 2))
    #+end_src
 
@@ -124,7 +131,7 @@
 ** Keybindings for elfeed-search mode
    #+begin_src emacs-lisp
      (eval-after-load "elfeed-search"
-       '(progn (define-key elfeed-search-mode-map (kbd "l") #'my-elfeed-search-open-article-in-w3m)
+       '(progn (define-key elfeed-search-mode-map (kbd "l") #'iqbal-elfeed-search-open-article-in-w3m)
                (define-key elfeed-search-mode-map (kbd "/") #'elfeed-search-live-filter)
                (define-key elfeed-search-mode-map (kbd "U") #'elfeed-update)))
    #+end_src
@@ -132,6 +139,6 @@
 ** Keybindings for elfeed-show mode
    #+begin_src emacs-lisp
      (eval-after-load "elfeed-show"
-       '(progn (define-key elfeed-show-mode-map (kbd "l") #'my-elfeed-show-open-article-in-w3m)
+       '(progn (define-key elfeed-show-mode-map (kbd "l") #'iqbal-elfeed-show-open-article-in-w3m)
                (define-key elfeed-show-mode-map (kbd "/") #'elfeed-show-new-live-search)))
    #+end_src

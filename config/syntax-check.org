@@ -1,6 +1,6 @@
 * Install flycheck
   #+begin_src emacs-lisp
-    (my-install-package 'flycheck)
+    (iqbal-install-package 'flycheck)
   #+end_src
 
 
@@ -28,7 +28,7 @@
    #+begin_src emacs-lisp
      (require 'flycheck)
 
-     (defun my-add-lines-for-errors (err)
+     (defun iqbal-add-lines-for-errors (err)
        (flycheck-error-with-buffer err
          (when (equal (flycheck-error-level err) 'error)
            (pcase-let* ((`(,beg . ,end) (flycheck-error-region-for-mode
@@ -47,13 +47,13 @@
              overlay))))
 
      (eval-after-load 'flycheck
-       '(add-to-list 'flycheck-process-error-functions #'my-add-lines-for-errors))
+       '(add-to-list 'flycheck-process-error-functions #'iqbal-add-lines-for-errors))
    #+end_src
 
 
 * Change flycheck face to use straight lines instead of wavy lines
   #+begin_src emacs-lisp
-    (defun my-flycheck-use-straight-lines ()
+    (defun iqbal-flycheck-use-straight-lines ()
       (let ((error-color (plist-get (face-attribute 'flycheck-error :underline) :color))
             (warning-color (plist-get (face-attribute 'flycheck-warning :underline) :color))
             (info-color (plist-get (face-attribute 'flycheck-info :underline) :color)))
@@ -61,5 +61,5 @@
         (set-face-attribute 'flycheck-warning nil :underline (list :style 'line :color warning-color))
         (set-face-attribute 'flycheck-info nil :underline (list :style 'line :color info-color))))
 
-    (add-hook 'flycheck-mode-hook #'my-flycheck-use-straight-lines)
+    (add-hook 'flycheck-mode-hook #'iqbal-flycheck-use-straight-lines)
   #+end_src

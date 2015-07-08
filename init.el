@@ -36,10 +36,10 @@ to restart any shell you are using to launch emacs after making the changes!"))
 (require 'org)
 
 ;; Avoid re-extraction if file has not changed
-(if (file-newer-than-file-p (locate-user-emacs-file "my-init.org") 
-			    (locate-user-emacs-file "my-init.el"))
-    (org-babel-load-file (locate-user-emacs-file "my-init.org"))
-  (load-file (locate-user-emacs-file "my-init.el")))
+(if (file-newer-than-file-p (locate-user-emacs-file "iqbal-init.org") 
+			    (locate-user-emacs-file "iqbal-init.el"))
+    (org-babel-load-file (locate-user-emacs-file "iqbal-init.org"))
+  (load-file (locate-user-emacs-file "iqbal-init.el")))
 
 ;; Load private settings if exist
 (when (file-exists-p (locate-user-emacs-file "private.org"))

@@ -1,6 +1,6 @@
 * Enable gtags-mode
   #+begin_src emacs-lisp
-    (when my-gtags-available
+    (when iqbal-gtags-available
       (gtags-mode))
   #+end_src
 
@@ -13,7 +13,7 @@
 
 * Load rtags and start rdm
   #+begin_src emacs-lisp
-    (when my-rtags-available
+    (when iqbal-rtags-available
       (unless (fboundp 'rtags-start-process-maybe)
         (load "rtags"))
     
@@ -23,17 +23,17 @@
 
 * Check if project is indexed
   #+begin_src emacs-lisp
-    (make-local-variable 'my-rtags-project-indexed)
+    (make-local-variable 'iqbal-rtags-project-indexed)
 
-    (when my-rtags-available
+    (when iqbal-rtags-available
       (let* ((project-root (or (ignore-errors (projectile-project-root)) default-directory))
              (rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
                                                             " --is-indexed "
                                                             buffer-file-name)))
              (project-indexed (not (string= rtags-status "unknown\n"))))
         (if project-indexed
-            (setq my-rtags-project-indexed project-indexed)
-          (let ((compile-commands (my-locate-compile-commands project-root)))
+            (setq iqbal-rtags-project-indexed project-indexed)
+          (let ((compile-commands (iqbal-locate-compile-commands project-root)))
             (if compile-commands
                 (shell-command (format "%s -J %s"
                                        (rtags-executable-find "rc")
@@ -45,8 +45,8 @@
 * Create GTAGS/TAGS if not created yet and RTags is not available for the project
   #+begin_src emacs-lisp
     (let ((project-root (ignore-errors (projectile-project-root))))
-      (when (and project-root (not my-rtags-project-indexed))
-        (cond (my-gtags-available (progn
+      (when (and project-root (not iqbal-rtags-project-indexed))
+        (cond (iqbal-gtags-available (progn
                                     (unless (file-exists-p (concat project-root "GTAGS"))
                                     (shell-command (concat "cd "
                                                            (shell-quote-argument project-root)
@@ -67,17 +67,17 @@
 
 * Highlight line after jump to definition
    #+begin_src emacs-lisp
-     (my-highlight-line-after-func my-c-find-definition-rtags)
-     (my-highlight-line-after-func my-find-definition-rtags-fallback)
-     (my-highlight-line-after-func gtags-find-tag)
-     (my-highlight-line-after-func find-tag)
+     (iqbal-highlight-line-after-func iqbal-c-find-definition-rtags)
+     (iqbal-highlight-line-after-func iqbal-find-definition-rtags-fallback)
+     (iqbal-highlight-line-after-func gtags-find-tag)
+     (iqbal-highlight-line-after-func find-tag)
    #+end_src
 
 
 * Setup auto-completion
    Also add company-c-headers to company-backends
    #+begin_src emacs-lisp
-     (when my-irony-available
+     (when iqbal-irony-available
        (irony-mode)
        (add-to-list 'company-backends '(company-irony company-c-headers))
        (company-irony-setup-begin-commands))
@@ -86,7 +86,7 @@
 
 * Setup eldoc
   #+begin_src emacs-lisp
-    (when my-irony-available
+    (when iqbal-irony-available
       (irony-eldoc))
   #+end_src
 
@@ -99,8 +99,8 @@
 
 ** Select whichever checker is available
    #+begin_src emacs-lisp
-     (flycheck-select-checker (cond ((and my-gcc-version (not (version< my-gcc-version "4.8.1"))) 'c/c++-gcc)
-                                    (my-clang-version 'c/c++-clang)))
+     (flycheck-select-checker (cond ((and iqbal-gcc-version (not (version< iqbal-gcc-version "4.8.1"))) 'c/c++-gcc)
+                                    (iqbal-clang-version 'c/c++-clang)))
    #+end_src
 
   #+begin_src emacs-lisp

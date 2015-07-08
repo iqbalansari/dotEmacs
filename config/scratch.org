@@ -1,9 +1,9 @@
 * Create scratch buffer for a given major mode
   #+begin_src emacs-lisp
-    (defun my-create-scratch-buffer (&optional read-major-mode-p)
+    (defun iqbal-create-scratch-buffer (&optional read-major-mode-p)
       (interactive "P")
       (let* ((major-mode-function (if read-major-mode-p
-                                      (intern (ido-completing-read "Major mode: " (my-get-all-major-modes-names)))
+                                      (intern (ido-completing-read "Major mode: " (iqbal-get-all-major-modes-names)))
                                     major-mode))
              (scratch-buffer-name (concat "*scratch ["
                                           (replace-regexp-in-string "-mode$" ""
@@ -20,7 +20,7 @@
                               (current-buffer))))))
 
 
-    (defun my-get-all-major-modes-names ()
+    (defun iqbal-get-all-major-modes-names ()
       (remove-duplicates (mapcar #'symbol-name
                                  (cl-remove-if-not #'symbolp
                                                 (mapcar #'cdr auto-mode-alist)))
@@ -30,5 +30,5 @@
 
 * Keybinding to create scratch buffer
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c j") #'my-create-scratch-buffer)
+    (global-set-key (kbd "C-c j") #'iqbal-create-scratch-buffer)
   #+end_src

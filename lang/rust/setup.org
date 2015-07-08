@@ -21,7 +21,7 @@
 
 * Set mark before jumping
   #+begin_src emacs-lisp
-    (defadvice racer-find-definition (before my-racer-push-mark-before-jump (&rest args))
+    (defadvice racer-find-definition (before iqbal-racer-push-mark-before-jump (&rest args))
       (push-mark))
 
     (ad-activate 'racer-find-definition)
@@ -36,6 +36,6 @@
 
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func racer-find-definition)
+    (iqbal-highlight-line-after-func racer-find-definition)
   #+end_src
   

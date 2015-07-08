@@ -16,7 +16,7 @@
   The following guesses the whether the file belongs to ansible playbook
   using some hueristics
   #+begin_src emacs-lisp
-    (setq my-in-ansible-playbook-p (and (executable-find "ansible")
+    (setq iqbal-in-ansible-playbook-p (and (executable-find "ansible")
                                         (or (let ((src-file (or buffer-file-name default-directory)))
                                               (or (locate-dominating-file src-file "ansible")
                                                   (locate-dominating-file src-file "roles")
@@ -32,5 +32,5 @@
 
 * Enable ansible-doc mode in ansible playbook
   #+begin_src emacs-lisp
-    (when my-in-ansible-playbook-p (ansible-doc-mode +1))
+    (when iqbal-in-ansible-playbook-p (ansible-doc-mode +1))
   #+end_src

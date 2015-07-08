@@ -3,12 +3,12 @@
 + [[http://www.emacswiki.org/emacs/goto-chg.el][goto-chg]] - Move point through buffer-undo-list positions
 
   #+begin_src emacs-lisp
-    (defvar my-navigation-packages
+    (defvar iqbal-navigation-packages
       '(goto-chg
         ace-jump-mode
         helm))
   
-    (my-install-packages my-navigation-packages)
+    (iqbal-install-packages iqbal-navigation-packages)
   #+end_src
 
 
@@ -28,7 +28,7 @@
 
 * Push mark before jumping to last change
   #+begin_src emacs-lisp
-    (defadvice goto-last-change (before my-push-mark-before-jumping-to-chg (&rest ignored))
+    (defadvice goto-last-change (before iqbal-push-mark-before-jumping-to-chg (&rest ignored))
       (push-mark))
   #+end_src
 
@@ -44,7 +44,7 @@
 * Goto beginning of the line or indentation
   If we are the begining of the line goto to indentation and vice versa
   #+begin_src emacs-lisp
-    (defun my-beginning-of-line-or-indent ()
+    (defun iqbal-beginning-of-line-or-indent ()
       "Go to the position of the first non-whitespace character.
     If already there, go to actual beginning of line."
       (interactive "^")
@@ -52,7 +52,7 @@
           (back-to-indentation)
         (move-beginning-of-line nil)))
 
-    (global-set-key (kbd "C-a") 'my-beginning-of-line-or-indent)
+    (global-set-key (kbd "C-a") 'iqbal-beginning-of-line-or-indent)
   #+end_src
 
 
@@ -64,7 +64,7 @@
 
 * Flash after jumping to definition using imenu
   #+begin_src emacs-lisp
-    (add-hook 'imenu-after-jump-hook 'my-highlight-line)
+    (add-hook 'imenu-after-jump-hook 'iqbal-highlight-line)
   #+end_src
 
 
@@ -72,13 +72,13 @@
   #+begin_src emacs-lisp
     (defadvice compile-goto-error (after hightlight-line-after-jump (&rest args))
       (recenter)
-      (run-at-time 0.5 nil #'my-highlight-line))
+      (run-at-time 0.5 nil #'iqbal-highlight-line))
 
     (ad-activate #'compile-goto-error)
 
     (defadvice occur-mode-goto-occurrence (after hightlight-line-after-jump (&rest args))
       (recenter)
-      (run-at-time 0.5 nil #'my-highlight-line))
+      (run-at-time 0.5 nil #'iqbal-highlight-line))
 
     (ad-activate #'occur-mode-goto-occurrence)
   #+end_src
@@ -88,7 +88,7 @@
   #+begin_src emacs-lisp
     (defadvice next-error (after hightlight-line-after-jump (&rest args))
       (recenter)
-      (run-at-time 0.5 nil #'my-highlight-line))
+      (run-at-time 0.5 nil #'iqbal-highlight-line))
 
     (ad-activate #'next-error)
   #+end_src

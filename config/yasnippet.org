@@ -1,6 +1,6 @@
 * Ensure that required packages are installed
   #+begin_src emacs-lisp
-    (my-install-package 'yasnippet)
+    (iqbal-install-package 'yasnippet)
   #+end_src
 
 
@@ -36,7 +36,7 @@
 
 ** Use company-mode to expand snippet otherwise use ido
    #+begin_src emacs-lisp
-     (defun my-expand-yas-using-company ()
+     (defun iqbal-expand-yas-using-company ()
        (interactive)
        (condition-case err
            (call-interactively #'company-yasnippet)
@@ -44,14 +44,14 @@
                            (yas--templates-for-key-at-point)))
                 (yas-expand))))
 
-     (defun my-expand-yas ()
+     (defun iqbal-expand-yas ()
        (interactive)
        (call-interactively (if (bound-and-true-p company-mode)
-                               #'my-expand-yas-using-company
+                               #'iqbal-expand-yas-using-company
                              #'yas-insert-snippet)))
 
      (eval-after-load "company"
-       '(define-key yas-minor-mode-map (kbd "<C-return>") #'my-expand-yas))
+       '(define-key yas-minor-mode-map (kbd "<C-return>") #'iqbal-expand-yas))
    #+end_src
 
 

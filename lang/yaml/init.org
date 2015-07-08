@@ -1,6 +1,6 @@
 * Variable to check we are in ansible playbook
   #+begin_src emacs-lisp
-    (defvar my-in-ansible-playbook-p nil)
-    (make-variable-buffer-local 'my-in-ansible-playbook-p)
+    (defvar iqbal-in-ansible-playbook-p nil)
+    (make-variable-buffer-local 'iqbal-in-ansible-playbook-p)
   #+end_src
 

@@ -1,15 +1,15 @@
 * Enable completion in elxir REPL
   #+begin_src emacs-lisp
-    (defun my-elixir-enable-completion ()
+    (defun iqbal-elixir-enable-completion ()
       (add-to-list 'company-backends 'alchemist-company))
 
-    (add-hook 'alchemist-iex-mode-hook #'my-elixir-enable-completion)
+    (add-hook 'alchemist-iex-mode-hook #'iqbal-elixir-enable-completion)
   #+end_src
 
 
 * Try starting iex for given project if possible
   #+begin_src emacs-lisp
-    (defun my-start-iex ()
+    (defun iqbal-start-iex ()
       (interactive)
       (if (alchemist-project-p)
           (progn (message "Starting iex for the project")

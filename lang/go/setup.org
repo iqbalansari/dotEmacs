@@ -39,8 +39,8 @@
 
 * Highlight line after jumping to definition
   #+begin_src emacs-lisp
-    (when my-godef-available
-      (my-highlight-line-after-func godef-jump))
+    (when iqbal-godef-available
+      (iqbal-highlight-line-after-func godef-jump))
   #+end_src
 
 

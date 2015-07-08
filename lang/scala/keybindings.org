@@ -32,23 +32,23 @@
 * Keybinding to start scala interpreter or sbt
   #+begin_src emacs-lisp
     (if (equal (file-name-extension buffer-file-name) "sbt")
-        (define-key scala-mode-map my-run-shell #'sbt-start)
-      (define-key scala-mode-map my-run-shell #'run-scala))
+        (define-key scala-mode-map iqbal-run-shell #'sbt-start)
+      (define-key scala-mode-map iqbal-run-shell #'run-scala))
   #+end_src
 
 
 * Keybindings for interacting with the REPL
   #+begin_src emacs-lisp
-    (define-key scala-mode-map my-send-region #'sbt-send-region)
-    (define-key scala-mode-map my-send-buffer (my-evaluate-buffer-in-repl my-scala-eval-buffer sbt:send-region))
-    (define-key scala-mode-map my-send-line (my-evaluate-line-in-repl my-scala-eval-line sbt:send-region))
-    (define-key scala-mode-map my-send-function (my-evaluate-defun-in-repl my-scala-eval-defun sbt:send-region))
-    (define-key scala-mode-map my-send-file (my-evaluate-file-in-repl my-scala-eval-file sbt:send-region))
+    (define-key scala-mode-map iqbal-send-region #'sbt-send-region)
+    (define-key scala-mode-map iqbal-send-buffer (iqbal-evaluate-buffer-in-repl iqbal-scala-eval-buffer sbt:send-region))
+    (define-key scala-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-scala-eval-line sbt:send-region))
+    (define-key scala-mode-map iqbal-send-function (iqbal-evaluate-defun-in-repl iqbal-scala-eval-defun sbt:send-region))
+    (define-key scala-mode-map iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-scala-eval-file sbt:send-region))
   #+end_src
 
 
 * Keybindings for refactoring
   #+begin_src emacs-lisp
-    (define-key scala-mode-map my-refactor-rename #'ensime-refactor-rename)
-    (define-key scala-mode-map my-refactor-organize-imports #'ensime-refactor-organize-imports)
+    (define-key scala-mode-map iqbal-refactor-rename #'ensime-refactor-rename)
+    (define-key scala-mode-map iqbal-refactor-organize-imports #'ensime-refactor-organize-imports)
   #+end_src

@@ -1,9 +1,9 @@
 * Function to find GNU global's version
   #+begin_src emacs-lisp
-    (defvar my-gnu-global-version "0")
-    (defvar my-gtags-available nil)
+    (defvar iqbal-gnu-global-version "0")
+    (defvar iqbal-gtags-available nil)
 
-    (defun my--get-gnu-global-version ()
+    (defun iqbal--get-gnu-global-version ()
       (when (executable-find "global")
         (car (last (split-string (car (split-string (shell-command-to-string "global --version") "\n"))
                                  " ")))))
@@ -12,13 +12,13 @@
 
 * Project root for current buffer
   #+begin_src emacs-lisp
-    (defvar my-project-root nil)
+    (defvar iqbal-project-root nil)
   #+end_src
 
 
 * Helper functions to retrieve and format documentation for function using gtags output
    #+begin_src emacs-lisp
-     (defun my-php-format-doc-string (docstring)
+     (defun iqbal-php-format-doc-string (docstring)
        "Strip comments from php DOCSTRING"
        (with-current-buffer (get-buffer-create " *php-ggtags-doc-format*")
          (erase-buffer)
@@ -40,7 +40,7 @@
          (string-trim (buffer-string))))
 
 
-     (defun my-php-grab-comments (location)
+     (defun iqbal-php-grab-comments (location)
        "Get the comments for the function starting at location"
        (let (comments)
          (goto-char location)
@@ -52,7 +52,7 @@
                  comments))
          (mapconcat 'identity comments "\n")))
 
-     (defun my-php-retrieve-and-format-docstring (location)
+     (defun iqbal-php-retrieve-and-format-docstring (location)
        "Retrieve the docstring for the function at LOCATION and return formatted docstring
      LOCATION is assumed to be a list having file location, symbol name, line number and function
      signature in same order"
@@ -61,15 +61,15 @@
          (insert-file-contents-literally (car location))
          (goto-line (string-to-int (caddr location)))
          (string-trim (format "%s\n\n%s\n\nUser defined function in %s"
-                              (my-php-format-doc-string (my-php-grab-comments (point)))
-                              (my-php-format-eldoc-string (apply #'mapconcat (list 'identity (cdddr location) " ")) 0)
+                              (iqbal-php-format-doc-string (iqbal-php-grab-comments (point)))
+                              (iqbal-php-format-eldoc-string (apply #'mapconcat (list 'identity (cdddr location) " ")) 0)
                               (abbreviate-file-name (car location))))))
    #+end_src
 
 
 * Helper function to format the documentation retrieved using php-extras
    #+begin_src emacs-lisp
-     (defun my-php-format-php-extras-doc (doc)
+     (defun iqbal-php-format-php-extras-doc (doc)
        "Format the doc returned by php-extras this fontifies the function signature in the doc"
        (with-current-buffer (get-buffer-create " *php-doc-format")
          (erase-buffer)
@@ -88,29 +88,29 @@
 
 * Function to retrieve documentation for symbol using gtags or php-extras
    #+begin_src emacs-lisp
-     (defun my-php-get-doc (symbol)
+     (defun iqbal-php-get-doc (symbol)
        "Try fetching documentation for symbol using gtags otherwise fallback to php-extras"
        (let* ((doc (php-extras-function-documentation symbol))
-              (location (when (and (not doc) my-gtags-available)
+              (location (when (and (not doc) iqbal-gtags-available)
                           (shell-command-to-string (format "global -a -d %s --result cscope"
                                                            (shell-quote-argument symbol))))))
          (if doc
-             (my-php-format-php-extras-doc doc)
+             (iqbal-php-format-php-extras-doc doc)
            (when (and location
                       (not (string= location "global: GTAGS not found.\n"))
                       (not (string= location "")))
-             (my-php-retrieve-and-format-docstring (split-string location " "))))))
+             (iqbal-php-retrieve-and-format-docstring (split-string location " "))))))
    #+end_src
 
 
 * Function to show documentation for symbol at point
   #+begin_src emacs-lisp
-    (defun my-php-doc-at-point (symbol)
+    (defun iqbal-php-doc-at-point (symbol)
       "Show documentation for symbol at point"
       (interactive (list (symbol-at-point)))
       (if (not symbol)
           (error "No symbol at point")
-        (let ((doc (my-php-get-doc (symbol-name symbol))))
+        (let ((doc (iqbal-php-get-doc (symbol-name symbol))))
           (if doc
               (with-electric-help (lambda () (insert doc)) "*php-doc*")
             (error (format "No doc found for %s" (symbol-name symbol)))))))
@@ -119,7 +119,7 @@
 
 * Custom function to combine eldoc retrieved using ggtags and php-extra eldoc
    #+begin_src emacs-lisp
-     (defun my-php-count-args (arglist)
+     (defun iqbal-php-count-args (arglist)
        ;; Count the number of arguments in given argument list
        (with-current-buffer (get-buffer-create " *php-eldoc*")
          (erase-buffer)
@@ -137,7 +137,7 @@
                (setq count (+ 1 count)))))
          count))
 
-     (defun my-php-format-eldoc-string (doc arg-number)
+     (defun iqbal-php-format-eldoc-string (doc arg-number)
        (with-current-buffer (get-buffer-create " *php-eldoc*")
          (erase-buffer)
          (insert doc)
@@ -159,13 +159,13 @@
            (add-face-text-property (point) (- (search-forward-regexp ",\\|)$") 1) '(:weight bold :inherit highlight)))
          (string-trim (buffer-string))))
 
-     (defun my-php-extras-eldoc-at-pt ()
+     (defun iqbal-php-extras-eldoc-at-pt ()
        (when (eq php-extras-function-arguments 'not-loaded)
          (php-extras-load-eldoc))
        (when (hash-table-p php-extras-function-arguments)
          (php-extras-get-function-property (php-get-pattern) 'prototype)))
 
-     (defun my-php-eldoc-function ()
+     (defun iqbal-php-eldoc-function ()
        (interactive)
        ;; Find the position of opening bracket for current expression
        (let* ((open-paren (cadr (syntax-ppss)))
@@ -181,27 +181,27 @@
               (doc (save-excursion
                      (when in-function-call-maybe
                        (goto-char open-paren))
-                     (or (my-php-extras-eldoc-at-pt) (when my-gtags-available
+                     (or (iqbal-php-extras-eldoc-at-pt) (when iqbal-gtags-available
                                                        (ignore-errors (ggtags-eldoc-function))))))
               ;; If we have documentation for the function try finding the argument
               ;; at point
               (arg-number (if (and in-function-call-maybe doc)
-                              (my-php-count-args (buffer-substring (+ open-paren 1) (point)))
+                              (iqbal-php-count-args (buffer-substring (+ open-paren 1) (point)))
                             0)))
          (when doc
            ;; Format the doc and return
-           (ignore-errors (my-php-format-eldoc-string doc arg-number)))))
+           (ignore-errors (iqbal-php-format-eldoc-string doc arg-number)))))
    #+end_src
 
 
 * Function to refresh tags on save
   #+begin_src emacs-lisp
-    (defun my-php-regenerate-tags ()
-      (when (and my-project-root
+    (defun iqbal-php-regenerate-tags ()
+      (when (and iqbal-project-root
                  buffer-file-name
                  (locate-dominating-file buffer-file-name "GTAGS")
                  (executable-find "global"))
-        (let ((default-directory my-project-root))
+        (let ((default-directory iqbal-project-root))
           (start-process "PHP tags update"
                          nil
                          "global"
@@ -213,7 +213,7 @@
 * Function to quickly start debugging a script using geben
   Copied from [[https://blogs.oracle.com/opal/entry/quick_debugging_of_php_scripts]]
   #+begin_src emacs-lisp
-    (defun my-php-debug ()
+    (defun iqbal-php-debug ()
       "Run current PHP script for debugging with geben"
       (interactive)
       (if (locate-library "geben")
@@ -228,7 +228,7 @@
 
 * Some extra configurations for boris repl
   #+begin_src emacs-lisp
-    (defun my-boris-enable-extra-settings ()
+    (defun iqbal-boris-enable-extra-settings ()
       (company-mode -1)
       (auto-complete-mode +1)
       (setq php-extras-auto-complete-insert-parenthesis nil)
@@ -236,7 +236,7 @@
       (eldoc-mode +1)
       (php-extras-eldoc-setup))
 
-    (add-hook 'php-boris-mode-hook #'my-boris-enable-extra-settings)
+    (add-hook 'php-boris-mode-hook #'iqbal-boris-enable-extra-settings)
   #+end_src
 
 
@@ -250,10 +250,10 @@
 
 * Function to install variable analysis plugin for PHP Code Sniffer
   #+begin_src emacs-lisp
-    (defvar my-phpcs-variable-analysis-path (concat (locate-user-emacs-file "etc/PHP_Codesniffer-VariableAnalysis/")))
-    (defvar my-phpcs-standard (expand-file-name (locate-user-emacs-file "etc/ruleset.xml")))
+    (defvar iqbal-phpcs-variable-analysis-path (concat (locate-user-emacs-file "etc/PHP_Codesniffer-VariableAnalysis/")))
+    (defvar iqbal-phpcs-standard (expand-file-name (locate-user-emacs-file "etc/ruleset.xml")))
 
-    (defun my-get-codesniffer-path ()
+    (defun iqbal-get-codesniffer-path ()
       (let* ((phpcs (executable-find "phpcs"))
              (vendor-path (when phpcs (locate-dominating-file phpcs "vendor")))
              (codesniffer-path (concat vendor-path "vendor/squizlabs/php_codesniffer/CodeSniffer/")))
@@ -261,9 +261,9 @@
           codesniffer-path)))
 
 
-    (defun my-install-variable-analysis-sniffs ()
-      (let* ((codesniffer-path (my-get-codesniffer-path))
-             (variable-analysis-sniff (concat my-phpcs-variable-analysis-path "Sniffs/CodeAnalysis/VariableAnalysisSniff.php"))
+    (defun iqbal-install-variable-analysis-sniffs ()
+      (let* ((codesniffer-path (iqbal-get-codesniffer-path))
+             (variable-analysis-sniff (concat iqbal-phpcs-variable-analysis-path "Sniffs/CodeAnalysis/VariableAnalysisSniff.php"))
              (destination-sniff-file (when codesniffer-path
                                        (concat codesniffer-path
                                                "Standards/Generic/Sniffs/CodeAnalysis/VariableAnalysisSniff.php"))))
@@ -277,14 +277,14 @@
 
 * Function to format a file using 'phpcbf' command
   #+begin_src emacs-lisp
-    (defun my-php-format-this-file ()
+    (defun iqbal-php-format-this-file ()
       (interactive)
       (if (not (executable-find "phpcbf"))
           (error "`phpcbf' not found, please use composer to install php codesniffer")
         (if (not buffer-file-name)
             (error "Buffer is not currently visting any file")
           (shell-command (format "phpcbf --encoding=utf8 --tab-width=4 --standard=%s --error-severity=0 %s %s"
-                                 my-phpcs-standard
+                                 iqbal-phpcs-standard
                                  (if (executable-find "diff") "" "--no-patch")
                                  (expand-file-name buffer-file-name)))
           (revert-buffer t t))))
@@ -293,7 +293,7 @@
 
 * List of projects to not prompt for gtags generation
   #+begin_src emacs-lisp
-    (defvar my-php-no-tags-projects nil)
+    (defvar iqbal-php-no-tags-projects nil)
   #+end_src
 
 

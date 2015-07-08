@@ -1,6 +1,6 @@
 * Pop documentation for symbol at point in a window
   #+begin_src emacs-lisp
-    (defun my-tern-get-docs ()
+    (defun iqbal-tern-get-docs ()
       (interactive)
       (tern-run-query (lambda (data)
                         (let ((url (cdr (assq 'url data))) (doc (cdr (assq 'doc data))))
@@ -22,7 +22,7 @@
 
 * Eval region in skewer mode
   #+begin_src emacs-lisp
-    (defun my-js-eval-region (start end)
+    (defun iqbal-js-eval-region (start end)
       (interactive "r")
       (skewer-eval (buffer-substring-no-properties start end)))
   #+end_src
@@ -30,7 +30,7 @@
 
 * Eval region in nodejs repl
   #+begin_src emacs-lisp
-    (defun my-nodejs-send-region (start end)
+    (defun iqbal-nodejs-send-region (start end)
       (interactive "r")
       (nodejs-repl--send-string (concat (buffer-substring-no-properties start end)
                                         "\n")))
@@ -51,37 +51,37 @@
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
     (eval-after-load "tern"
-      '(my-highlight-line-after-func tern-find-definition))
+      '(iqbal-highlight-line-after-func tern-find-definition))
   #+end_src
 
 
 * Keybindings for nodejs-repl
    #+begin_src emacs-lisp
-     (defun my-setup-nodejs-repl-keys ()
-       (define-key js2-mode-map my-run-shell #'nodejs-repl)
-       (define-key js2-mode-map my-send-buffer (my-evaluate-buffer-in-repl my-nodejs-eval-buffer my-nodejs-send-region))
-       (define-key js2-mode-map my-send-function (my-evaluate-defun-in-repl my-nodejs-eval-defun my-nodejs-send-region))
-       (define-key js2-mode-map my-send-region #'my-nodejs-send-region)
-       (define-key js2-mode-map my-send-line (my-evaluate-line-in-repl my-nodejs-eval-line my-nodejs-send-region))
-       (define-key js2-mode-map my-send-file (my-evaluate-file-in-repl my-nodejs-eval-file my-nodejs-send-region)))
+     (defun iqbal-setup-nodejs-repl-keys ()
+       (define-key js2-mode-map iqbal-run-shell #'nodejs-repl)
+       (define-key js2-mode-map iqbal-send-buffer (iqbal-evaluate-buffer-in-repl iqbal-nodejs-eval-buffer iqbal-nodejs-send-region))
+       (define-key js2-mode-map iqbal-send-function (iqbal-evaluate-defun-in-repl iqbal-nodejs-eval-defun iqbal-nodejs-send-region))
+       (define-key js2-mode-map iqbal-send-region #'iqbal-nodejs-send-region)
+       (define-key js2-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-nodejs-eval-line iqbal-nodejs-send-region))
+       (define-key js2-mode-map iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-nodejs-eval-file iqbal-nodejs-send-region)))
    #+end_src
 
 
 * Keybindings for skewer-repl
    #+begin_src emacs-lisp
-     (defun my-setup-skewer-repl-keys ()
-       (define-key js2-mode-map my-send-buffer #'skewer-load-buffer)
-       (define-key js2-mode-map my-send-function #'skewer-eval-defun)
-       (define-key js2-mode-map my-send-region #'my-js-eval-region)
-       (define-key js2-mode-map my-send-phrase/sexp/block #'skewer-eval-last-expression)
-       (define-key js2-mode-map my-send-line (my-evaluate-line-in-repl my-js-eval-line my-js-eval-region))
-       (define-key js2-mode-map my-send-file (my-evaluate-file-in-repl my-js-eval-file my-js-eval-region)))
+     (defun iqbal-setup-skewer-repl-keys ()
+       (define-key js2-mode-map iqbal-send-buffer #'skewer-load-buffer)
+       (define-key js2-mode-map iqbal-send-function #'skewer-eval-defun)
+       (define-key js2-mode-map iqbal-send-region #'iqbal-js-eval-region)
+       (define-key js2-mode-map iqbal-send-phrase/sexp/block #'skewer-eval-last-expression)
+       (define-key js2-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-js-eval-line iqbal-js-eval-region))
+       (define-key js2-mode-map iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-js-eval-file iqbal-js-eval-region)))
    #+end_src
 
 
 * Misc variables
   #+begin_src emacs-lisp
-    (defvar my-ternjs-available)
-    (defvar my-js-use-nodejs-repl nil)
-    (make-variable-buffer-local 'my-js-use-nodejs-repl)
+    (defvar iqbal-ternjs-available)
+    (defvar iqbal-js-use-nodejs-repl nil)
+    (make-variable-buffer-local 'iqbal-js-use-nodejs-repl)
   #+end_src

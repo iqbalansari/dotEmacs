@@ -1,6 +1,6 @@
 * Ensure that the required packages are installed
   #+begin_src emacs-lisp
-    (defvar my-display-packages
+    (defvar iqbal-display-packages
       '(diminish
         eval-sexp-fu
         smooth-scrolling
@@ -9,7 +9,7 @@
         page-break-lines
         highlight-thing))
 
-    (my-install-packages my-display-packages)
+    (iqbal-install-packages iqbal-display-packages)
   #+end_src
 
 
@@ -38,7 +38,7 @@
 
 ** Use dark or light theme according time
   #+begin_src emacs-lisp
-    (defun my-load-solarized-theme (&optional frame)
+    (defun iqbal-load-solarized-theme (&optional frame)
       (interactive)
       (let ((current-hour (third (decode-time)))
             (current-minute (second (decode-time))))
@@ -60,7 +60,7 @@
                             :bold t)))
 
     (when (display-graphic-p)
-      (add-hook 'after-init-hook #'my-load-solarized-theme))
+      (add-hook 'after-init-hook #'iqbal-load-solarized-theme))
   #+end_src
 
 
@@ -80,15 +80,15 @@
 
 * Use DejaVu Sans Mono / Source Code Pro / Consolas font if available
   #+begin_src emacs-lisp
-    (defun my-set-font (&optional frame)
+    (defun iqbal-set-font (&optional frame)
       (set-frame-font (cond ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
                             ((member "Source Code Pro" (font-family-list)) "Source Code Pro-10.90")
                             ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
                       t
                       (list (or frame (selected-frame)))))
 
-    (add-hook 'after-make-frame-functions #'my-set-font)
-    (my-set-font)
+    (add-hook 'after-make-frame-functions #'iqbal-set-font)
+    (iqbal-set-font)
   #+end_src
 
 
@@ -173,20 +173,20 @@
 
 * Change the cursor display according to minor modes
   #+begin_src emacs-lisp
-    (defvar my-set-cursor-color-color nil)
-    (defvar my-set-cursor-color-buffer nil)
+    (defvar iqbal-set-cursor-color-color nil)
+    (defvar iqbal-set-cursor-color-buffer nil)
 
-    (defun my-set-cursor-color-according-to-mode ()
+    (defun iqbal-set-cursor-color-according-to-mode ()
       "Change cursor color according to some minor modes."
       (let ((color (cond (buffer-read-only "purple1")
                          (overwrite-mode "red")
                          (t "#38B4D2"))))
-        (unless (and (string= color my-set-cursor-color-color)
-                     (string= (buffer-name) my-set-cursor-color-buffer))
-          (set-cursor-color (setq my-set-cursor-color-color color))
-          (setq my-set-cursor-color-buffer (buffer-name)))))
+        (unless (and (string= color iqbal-set-cursor-color-color)
+                     (string= (buffer-name) iqbal-set-cursor-color-buffer))
+          (set-cursor-color (setq iqbal-set-cursor-color-color color))
+          (setq iqbal-set-cursor-color-buffer (buffer-name)))))
 
-    (add-hook 'post-command-hook 'my-set-cursor-color-according-to-mode)
+    (add-hook 'post-command-hook 'iqbal-set-cursor-color-according-to-mode)
   #+end_src
 
 
@@ -194,9 +194,9 @@
   A simple function to toggle fullscreen, which works on windows as well as Linux
   borrowed from emacswiki
   #+begin_src emacs-lisp
-    (defvar my-fullscreen-p t "Check if fullscreen is on or off")
+    (defvar iqbal-fullscreen-p t "Check if fullscreen is on or off")
 
-    (defun my-non-fullscreen ()
+    (defun iqbal-non-fullscreen ()
       (interactive)
       (if (fboundp 'w32-send-sys-command)
           ;; WM_SYSCOMMAND restore #xf120
@@ -204,21 +204,21 @@
         (progn (set-frame-parameter nil 'width 82)
                (set-frame-parameter nil 'fullscreen 'fullheight))))
 
-    (defun my-fullscreen ()
+    (defun iqbal-fullscreen ()
       (interactive)
       (if (fboundp 'w32-send-sys-command)
           ;; WM_SYSCOMMAND maximaze #xf030
           (w32-send-sys-command 61488)
         (set-frame-parameter nil 'fullscreen 'fullboth)))
 
-    (defun my-toggle-fullscreen ()
+    (defun iqbal-toggle-fullscreen ()
       (interactive)
-      (setq my-fullscreen-p (not my-fullscreen-p))
-      (if my-fullscreen-p
-          (my-non-fullscreen)
-        (my-fullscreen)))
+      (setq iqbal-fullscreen-p (not iqbal-fullscreen-p))
+      (if iqbal-fullscreen-p
+          (iqbal-non-fullscreen)
+        (iqbal-fullscreen)))
 
-    (global-set-key (kbd "<f11>") 'my-toggle-fullscreen)
+    (global-set-key (kbd "<f11>") 'iqbal-toggle-fullscreen)
   #+end_src
 
 

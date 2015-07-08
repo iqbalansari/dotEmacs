@@ -3,7 +3,7 @@
                  handy functions to interact with projects, find files etc
 
   #+begin_src emacs-lisp
-    (my-install-package 'projectile)
+    (iqbal-install-package 'projectile)
   #+end_src
 
 
@@ -28,7 +28,7 @@
 * Custom project types
 ** Function for treating dropbox directory as projects
   #+begin_src emacs-lisp
-    (defun my-projectile-locate-dropbox-project (dir &optional list) 
+    (defun iqbal-projectile-locate-dropbox-project (dir &optional list) 
       (let ((candidate (projectile-locate-dominating-file dir ".dropbox")))
         ;; The .dropbox directory in home folder should not be treated as
         ;; project root
@@ -36,7 +36,7 @@
                    (not (file-directory-p (concat candidate ".dropbox"))))
           (expand-file-name candidate))))
 
-    (add-to-list 'projectile-project-root-files-functions #'my-projectile-locate-dropbox-project t)
+    (add-to-list 'projectile-project-root-files-functions #'iqbal-projectile-locate-dropbox-project t)
   #+end_src
 
 ** Additional projectile project roots
@@ -55,7 +55,7 @@
 
 * Process buffers should not be considered part of project unless they are shells
   #+begin_src emacs-lisp
-    (defun my-filter-out-non-shell-processes (buffers)
+    (defun iqbal-filter-out-non-shell-processes (buffers)
       (remove-if (lambda (buffer)
                    (let ((buffer-major-mode (with-current-buffer buffer
                                               major-mode)))
@@ -65,7 +65,7 @@
                                    (eq buffer-major-mode 'eshell-mode))))))
                  buffers))
 
-    (setq projectile-buffers-filter-function #'my-filter-out-non-shell-processes)
+    (setq projectile-buffers-filter-function #'iqbal-filter-out-non-shell-processes)
   #+end_src
 
 

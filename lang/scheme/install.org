@@ -1,10 +1,10 @@
 * Install geiser and auto-completion package for geiser
   #+begin_src emacs-lisp
-    (defvar my-scm-packages
+    (defvar iqbal-scm-packages
       '(geiser
         ac-geiser))
 
-    (my-install-packages my-scm-packages)
+    (iqbal-install-packages iqbal-scm-packages)
   #+end_src
 
 

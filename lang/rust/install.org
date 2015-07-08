@@ -15,11 +15,11 @@
 
 * Install racer
   #+begin_src emacs-lisp
-    (my-install-package 'racer)
+    (iqbal-install-package 'racer)
   #+end_src
 
 
 * Install flycheck-rust
   #+begin_src emacs-lisp
-    (my-install-package 'flycheck-rust)
+    (iqbal-install-package 'flycheck-rust)
   #+end_src

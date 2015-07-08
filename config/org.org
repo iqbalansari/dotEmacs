@@ -1,9 +1,9 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (my-install-packages '(org-bullets toc-org company-math pcsv notify))
+    (iqbal-install-packages '(org-bullets toc-org company-math pcsv notify))
 
     (when (locate-library "pdf-tools")
-      (my-install-package 'org-pdfview))
+      (iqbal-install-package 'org-pdfview))
   #+end_src
 
 
@@ -59,7 +59,7 @@
 
 
 * Start flyspell in org mode buffers
-  The value of ispell-program name is set in my-init.org
+  The value of ispell-program name is set in iqbal-init.org
   #+begin_src emacs-lisp
     (add-to-list 'org-mode-hook 'flyspell-mode)
   #+end_src
@@ -93,7 +93,7 @@
 ** Install graphviz-dot-mode
    #+begin_src emacs-lisp
      (when (executable-find "dot")
-       (my-install-package 'graphviz-dot-mode))
+       (iqbal-install-package 'graphviz-dot-mode))
    #+end_src
 
 ** Associate 'dot' extension with graphviz-dot-mode
@@ -113,7 +113,7 @@
 
 * Enable company mode and company-math in org-mode files
   #+begin_src emacs-lisp
-    (defun my-org-enable-company-mode ()
+    (defun iqbal-org-enable-company-mode ()
       (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
       (add-to-list 'company-backends
                    '(company-capf
@@ -121,7 +121,7 @@
                      company-ispell
                      company-dabbrev)))
 
-    (add-hook 'org-mode-hook #'my-org-enable-company-mode)
+    (add-hook 'org-mode-hook #'iqbal-org-enable-company-mode)
   #+end_src
 
 
@@ -184,14 +184,14 @@
   overshadowed, the following sets the keybinding to a DWIM version which calls
   ace-jump-mode unless the point is inside a table
   #+begin_src emacs-lisp
-    (defun my-dwim-org-table-blank-field ()
+    (defun iqbal-dwim-org-table-blank-field ()
       (interactive)
       (if (and (not current-prefix-arg)
                (org-at-table-p))
           (call-interactively #'org-table-blank-field)
         (call-interactively #'ace-jump-mode)))
 
-    (org-defkey org-mode-map (kbd "C-c SPC") #'my-dwim-org-table-blank-field)
+    (org-defkey org-mode-map (kbd "C-c SPC") #'iqbal-dwim-org-table-blank-field)
   #+end_src
 
 
@@ -265,12 +265,12 @@
 
 * Notify about appointments using notify-send
   #+begin_src emacs-lisp
-    (defun my-notify-appt (time-to-appt new-time msg)
+    (defun iqbal-notify-appt (time-to-appt new-time msg)
       (if (equal (type-of time-to-appt) 'cons)
-          (mapcar* #'my-notify-appt time-to-appt new-time 'msg)
+          (mapcar* #'iqbal-notify-appt time-to-appt new-time 'msg)
         (notify (format "Appointment in %s minutes" time-to-appt)
                 msg)))
 
-    (setq appt-disp-window-function #'my-notify-appt)
+    (setq appt-disp-window-function #'iqbal-notify-appt)
     (setq appt-delete-window-function #'ignore)
   #+end_src

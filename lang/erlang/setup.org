@@ -1,14 +1,14 @@
 * Start edts
 ** Is edts available?
   #+begin_src emacs-lisp
-    (setq my-edts-available (locate-library "edts-mode"))
+    (setq iqbal-edts-available (locate-library "edts-mode"))
   #+end_src
 
 ** Load edts if not already loaded
   #+begin_src emacs-lisp
     (setq edts-inhibit-package-check t)
 
-    (when (and my-edts-available
+    (when (and iqbal-edts-available
                (not (fboundp #'edts-mode)))
       (load "edts-start"))
   #+end_src
@@ -16,7 +16,7 @@
 
 * Enable edts mode
   #+begin_src emacs-lisp
-    (when my-edts-available
+    (when iqbal-edts-available
       (auto-complete-mode +1)
       (edts-mode))
   #+end_src
@@ -31,7 +31,7 @@
 
 ** Enable erlang extended mode
    #+begin_src emacs-lisp
-     (when (and (not my-edts-available)
+     (when (and (not iqbal-edts-available)
                 (locate-library "distel"))
        (unless (fboundp 'erlang-extended-mode)
          (load "distel"))
@@ -41,15 +41,15 @@
 
 ** Start erlang shell and connect to it
    #+begin_src emacs-lisp
-     (when (and (not my-edts-available)
+     (when (and (not iqbal-edts-available)
                 (locate-library "distel")
                 (executable-find "erl"))
-       (run-at-time 0.2 nil #'my-start-distel))
+       (run-at-time 0.2 nil #'iqbal-start-distel))
    #+end_src
 
 ** Setup company auto-completion for distel using company mode
    #+begin_src emacs-lisp
-     (when (and (not my-edts-available)
+     (when (and (not iqbal-edts-available)
                 (locate-library "company-distel"))
        (company-mode +1)
        (load "company-distel")
@@ -60,13 +60,13 @@
 * Enable syntax checking
   Do not enable flycheck if edts is available
   #+begin_src emacs-lisp
-    (unless my-edts-available
+    (unless iqbal-edts-available
       (flycheck-mode))
   #+end_src
 
 
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (when my-edts-available
-      (my-highlight-line-after-func edts-find-source-under-point))
+    (when iqbal-edts-available
+      (iqbal-highlight-line-after-func edts-find-source-under-point))
   #+end_src

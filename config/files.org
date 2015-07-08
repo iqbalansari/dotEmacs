@@ -1,20 +1,20 @@
 * Prompt user to create directory when visiting a non-existent directory
   #+begin_src emacs-lisp
-    (defun my-create-non-existent-directory ()
+    (defun iqbal-create-non-existent-directory ()
       (when buffer-file-name
         (let ((parent-directory (file-name-directory buffer-file-name)))
           (when (and (not (file-exists-p parent-directory))
                      (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
             (make-directory parent-directory t)))))
 
-    (add-to-list 'find-file-not-found-functions #'my-create-non-existent-directory)
+    (add-to-list 'find-file-not-found-functions #'iqbal-create-non-existent-directory)
   #+end_src
 
 
 * Open a file using sudo
   These were taken from [[https://github.com/fniessen/emacs-leuven][emacs-leuven]]
   #+begin_src emacs-lisp
-    (defun my-find-file-sudo-header-warning ()
+    (defun iqbal-find-file-sudo-header-warning ()
       "*Display a warning in header line of the current buffer."
       (let* ((warning "WARNING: EDITING FILE WITH ROOT PRIVILEGES!")
              (space (+ 6 (- (frame-width) (length warning))))
@@ -23,27 +23,27 @@
         (setq header-line-format
               (propertize warning 'face 'header-line))))
 
-    (defun my-find-file-sudo (filename)
+    (defun iqbal-find-file-sudo (filename)
       "Open FILENAME with root privileges."
       (interactive (list (ido-read-file-name "File name: ")))
       (set-buffer (find-file (concat "/sudo::" filename)))
-      (my-find-file-sudo-header-warning))
+      (iqbal-find-file-sudo-header-warning))
   #+end_src
 
 
 * Open current file in sudo
   #+begin_src emacs-lisp
-    (defun my-sudo-open-this-file ()
+    (defun iqbal-sudo-open-this-file ()
       (interactive)
       (if (buffer-file-name)
-          (my-find-file-sudo (buffer-file-name))
+          (iqbal-find-file-sudo (buffer-file-name))
         (message "Current buffer is not visiting a file")))
   #+end_src
 
 
 * Keybinding to save current file's name to kill-ring
   #+begin_src emacs-lisp
-    (defun my-copy-file-path (arg)
+    (defun iqbal-copy-file-path (arg)
       "With prefix argument copy the name of current buffer
     Else if we are in dired mode copy the path to directory,
     Otherwise copy the path to the file the current buffer is
@@ -61,7 +61,7 @@
           (kill-new kill-text)
           (message (concat "Copied" what)))))
 
-    (global-set-key (kbd "C-c f") 'my-copy-file-path)
+    (global-set-key (kbd "C-c f") 'iqbal-copy-file-path)
   #+end_src
 
 
@@ -109,40 +109,40 @@
 
 * Do not prompt to apply local vars if user has said no once
   #+begin_src emacs-lisp
-    (defvar my-local-vars-file (locate-user-emacs-file ".disabled-local-vars")
+    (defvar iqbal-local-vars-file (locate-user-emacs-file ".disabled-local-vars")
       "Directories with ignore local vars are stored here")
     
-    (defvar my-ignored-local-vars (when (file-exists-p my-local-vars-file)
-                                       (read (my-read-file my-local-vars-file)))
+    (defvar iqbal-ignored-local-vars (when (file-exists-p iqbal-local-vars-file)
+                                       (read (iqbal-read-file iqbal-local-vars-file)))
       "Local copy of directories for which local vars are ignored")
     
-    (defun my-store-ignored-local-vars ()
+    (defun iqbal-store-ignored-local-vars ()
       "Write the local copy of ignored directories to disk wiil be
     restored on startup"
-      (my-write-to-file my-local-vars-file
-                           (prin1-to-string my-ignored-local-vars)))
+      (iqbal-write-to-file iqbal-local-vars-file
+                           (prin1-to-string iqbal-ignored-local-vars)))
     
-    (defun my-enable-local-vars-for (dir)
+    (defun iqbal-enable-local-vars-for (dir)
       "Re-enable local vars for directory"
       (interactive (list (ido-completing-read "Enable local vars for: "
-                                              my-ignored-local-vars)))
-      (setq my-ignored-local-vars (delete dir my-ignored-local-vars)))
+                                              iqbal-ignored-local-vars)))
+      (setq iqbal-ignored-local-vars (delete dir iqbal-ignored-local-vars)))
     
-    (defadvice hack-local-variables-confirm (around my-cache-local-vars-resp
+    (defadvice hack-local-variables-confirm (around iqbal-cache-local-vars-resp
                                                     (all-vars unsafe-vars risky-vars dir-name))
       "If the user replies in negative to applying local vars remember it and do not
     prompt the user the next time"
-      (unless (member dir-name my-ignored-local-vars)
+      (unless (member dir-name iqbal-ignored-local-vars)
         ad-do-it
         (unless ad-return-value
-          (add-to-list 'my-ignored-local-vars dir-name)))
+          (add-to-list 'iqbal-ignored-local-vars dir-name)))
       (setq ad-return-value nil))
     
     ;; Activate the advice
     (ad-activate 'hack-local-variables-confirm)
     
     ;; Store the user choices when emacs exists
-    (add-hook 'kill-emacs-hook #'my-store-ignored-local-vars)
+    (add-hook 'kill-emacs-hook #'iqbal-store-ignored-local-vars)
   #+end_src
 
 

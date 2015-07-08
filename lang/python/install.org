@@ -5,23 +5,23 @@
 + [[https://bitbucket.org/durin42/nosemacs][nosemacs]] - Emacs extension to provide easy nosetest integration.
 + [[https://github.com/porterjamesj/virtualenvwrapper.el][virtualenvwrapper]] - A virtualenvwrapper written in elisp
   #+begin_src emacs-lisp
-    (defvar my-python-packages '(virtualenvwrapper
+    (defvar iqbal-python-packages '(virtualenvwrapper
                                  flycheck
                                  nose))
 
-    (my-install-packages my-python-packages)
+    (iqbal-install-packages iqbal-python-packages)
   #+end_src
 
 
 * Install jedi, virtualenvwrapper if virtualenv is present
   #+begin_src emacs-lisp
     (if (executable-find "virtualenv")
-        (progn (my-install-package 'jedi (lambda ()
+        (progn (iqbal-install-package 'jedi (lambda ()
                                            (jedi:install-server-block)
                                            (when (equal system-type 'windows-nt)
                                              (message "You might need to restart emacs for `jedi' to work")
                                              (sit-for 5))))
 
-               (my-install-package 'virtualenvwrapper))
+               (iqbal-install-package 'virtualenvwrapper))
       (warn "You need to install python `virtualenv' to install jedi"))
   #+end_src

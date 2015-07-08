@@ -3,9 +3,9 @@
   is not supported
   #+begin_src emacs-lisp
     (if (equal system-type 'windows-nt)
-        (my-install-packages '(distel company-distel))
+        (iqbal-install-packages '(distel company-distel))
       (if (and (executable-find "escript")
                (executable-find "epmd"))
-          (my-install-package 'edts)
+          (iqbal-install-package 'edts)
         (warn "`escript' or `epmd' not found, these need to be in your PATH to install edts")))
   #+end_src

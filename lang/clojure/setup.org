@@ -12,5 +12,5 @@
 
 * Flash the current line after jump to definition
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func cider-find-var)
+    (iqbal-highlight-line-after-func cider-find-var)
   #+end_src

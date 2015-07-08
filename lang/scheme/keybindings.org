@@ -1,19 +1,19 @@
 * Keybinding for getting documentation
   #+begin_src emacs-lisp
-    (define-key scheme-mode-map my-show-doc #'geiser-doc-symbol-at-point)
+    (define-key scheme-mode-map iqbal-show-doc #'geiser-doc-symbol-at-point)
   #+end_src
 
 
 * Interacting with the REPL
   #+begin_src emacs-lisp
-    (define-key scheme-mode-map my-send-file #'geiser-load-file)
-    (define-key scheme-mode-map my-send-phrase/sexp/block #'geiser-eval-last-sexp)
+    (define-key scheme-mode-map iqbal-send-file #'geiser-load-file)
+    (define-key scheme-mode-map iqbal-send-phrase/sexp/block #'geiser-eval-last-sexp)
   #+end_src
 
 
 * Listing callers
   #+begin_src emacs-lisp
-    (define-key scheme-mode-map my-find-references #'geiser-xref-callers)
+    (define-key scheme-mode-map iqbal-find-references #'geiser-xref-callers)
   #+end_src
 
 

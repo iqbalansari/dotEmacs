@@ -1,21 +1,21 @@
 * Keybinding for looking up doumentation
   #+begin_src emacs-lisp
-    (define-key php-mode-map (kbd "C-c d") #'my-php-doc-at-point)
+    (define-key php-mode-map (kbd "C-c d") #'iqbal-php-doc-at-point)
   #+end_src
 
 
 * Keybindings to jumping to definition
   #+begin_src emacs-lisp
-    (when my-gtags-available
-      (define-key php-mode-map my-jump-to-definition #'ggtags-find-tag-dwim)
-      (define-key php-mode-map my-pop-jump-to-definition-marker #'pop-tag-mark)
-      (define-key php-mode-map my-find-references #'ggtags-find-reference))
+    (when iqbal-gtags-available
+      (define-key php-mode-map iqbal-jump-to-definition #'ggtags-find-tag-dwim)
+      (define-key php-mode-map iqbal-pop-jump-to-definition-marker #'pop-tag-mark)
+      (define-key php-mode-map iqbal-find-references #'ggtags-find-reference))
   #+end_src
 
 
 * Keybinding to start debugging current script
   #+begin_src emacs-lisp
-    (define-key php-mode-map (kbd "C-c g") #'my-php-debug)
+    (define-key php-mode-map (kbd "C-c g") #'iqbal-php-debug)
   #+end_src
 
 

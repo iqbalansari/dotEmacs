@@ -35,7 +35,7 @@
 * Disable hl-line when current tag is highlighted
   #+begin_src emacs-lisp
     (make-local-variable 'hl-line-range-function)
-    (setq hl-line-range-function #'my-disable-hl-line-on-tags)
+    (setq hl-line-range-function #'iqbal-disable-hl-line-on-tags)
   #+end_src
 
 

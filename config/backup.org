@@ -1,6 +1,6 @@
 * Install backup-walker
   #+begin_src emacs-lisp
-    (my-install-package 'backup-walker)
+    (iqbal-install-package 'backup-walker)
   #+end_src
 
 

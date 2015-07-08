@@ -1,9 +1,9 @@
 * Ensure that autocomplete packages are installed
   #+begin_src emacs-lisp
-    (defvar my-auto-complete-packages
+    (defvar iqbal-auto-complete-packages
       '(company company-quickhelp auto-complete pos-tip))
 
-    (my-install-packages my-auto-complete-packages)
+    (iqbal-install-packages iqbal-auto-complete-packages)
   #+end_src
 
 
@@ -76,7 +76,7 @@
 * Configuration for using tab for autocompletion taken from [[https://github.com/purcell/emacs.d][Steve Purcell's config]]
   Trigger autocompletion using <tab>
   #+begin_src emacs-lisp
-    (defun my-auto-complete-at-point ()
+    (defun iqbal-auto-complete-at-point ()
       (when (and (not (minibufferp))
                  auto-complete-mode
                  (looking-back "\\(\\sw\\|\\s_\\)")
@@ -85,8 +85,8 @@
 
     (defun set-auto-complete-as-completion-at-point-function ()
       (setq completion-at-point-functions
-            (cons 'my-auto-complete-at-point
-                  (remove 'my-auto-complete-at-point completion-at-point-functions))))
+            (cons 'iqbal-auto-complete-at-point
+                  (remove 'iqbal-auto-complete-at-point completion-at-point-functions))))
 
     (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
   #+end_src
@@ -120,8 +120,8 @@
 * Enable company-mode globally
   #+begin_src emacs-lisp
     (setq company-global-modes '(not erlang-mode python-mode web-mode))
-    (setq my-default-company-backends '(company-capf company-dabbrev company-files))
-    (setq-default company-backends my-default-company-backends)
+    (setq iqbal-default-company-backends '(company-capf company-dabbrev company-files))
+    (setq-default company-backends iqbal-default-company-backends)
     (make-variable-buffer-local 'company-backends)
     (global-company-mode)
   #+end_src
@@ -136,9 +136,9 @@
 
 * Enable company-ispell in all text/fundamental mode buffers
   #+begin_src emacs-lisp
-    (defun my-text-mode-enable-completion ()
+    (defun iqbal-text-mode-enable-completion ()
       (setq company-backends '(company-capf company-ispell company-dabbrev)))
 
-    (add-hook 'text-mode-hook #'my-text-mode-enable-completion)
-    (add-hook 'fundamental-mode #'my-text-mode-enable-completion)
+    (add-hook 'text-mode-hook #'iqbal-text-mode-enable-completion)
+    (add-hook 'fundamental-mode #'iqbal-text-mode-enable-completion)
   #+end_src

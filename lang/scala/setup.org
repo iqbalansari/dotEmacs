@@ -21,7 +21,7 @@
 ** Load ensime if not loaded already and prerequisites are satisfied
   #+begin_src emacs-lisp
     (unless (fboundp #'ensime-mode)
-      (my-load-ensime))
+      (iqbal-load-ensime))
   #+end_src
 
 ** Enable ensime
@@ -43,5 +43,5 @@
 
 * Flash current line after jumping to definition
   #+begin_src emacs-lisp
-    (my-highlight-line-after-func ensime-edit-definition)
+    (iqbal-highlight-line-after-func ensime-edit-definition)
   #+end_src

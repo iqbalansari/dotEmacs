@@ -16,27 +16,27 @@
 * Install go-autocomplete and go-eldoc
 ** Is gocode available?
    #+begin_src emacs-lisp
-     (setq my-gocode-available (executable-find "gocode"))
+     (setq iqbal-gocode-available (executable-find "gocode"))
    #+end_src
 
 ** Install the packages only if gocode is available
    #+begin_src emacs-lisp
-     (if my-gocode-available
-         (my-install-packages '(company-go go-eldoc))
+     (if iqbal-gocode-available
+         (iqbal-install-packages '(company-go go-eldoc))
        (warn "`gocode' not installed autocompletion will not work"))
    #+end_src
 
 
 * Warn if godef is installed
   #+begin_src emacs-lisp
-    (setq my-godef-available (executable-find "godef"))
+    (setq iqbal-godef-available (executable-find "godef"))
 
-    (unless my-godef-available
+    (unless iqbal-godef-available
       (warn "`godef' not installed jump to definition would not work"))
   #+end_src
 
 
 * Extra snippets for go-mode
   #+begin_src emacs-lisp
-    (my-install-package 'go-snippets)
+    (iqbal-install-package 'go-snippets)
   #+end_src

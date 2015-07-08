@@ -1,7 +1,7 @@
 * Some additional packages for working with dired
   #+begin_src emacs-lisp
-    (defvar my-dired-packages '(dired-details dired-single neotree dircmp dired-filter dired-ranger))
-    (my-install-packages my-dired-packages)
+    (defvar iqbal-dired-packages '(dired-details dired-single neotree dircmp dired-filter dired-ranger))
+    (iqbal-install-packages iqbal-dired-packages)
   #+end_src
 
 
@@ -82,7 +82,7 @@
 
 * Dired-single configuration as recommended in dired-single.el
   #+begin_src emacs-lisp
-    (defun my-dired-init ()
+    (defun iqbal-dired-init ()
       "Bunch of stuff to run for dired, either immediately or when it's
             loaded."
       (define-key dired-mode-map (kbd "RET") 'dired-single-buffer)
@@ -94,9 +94,9 @@
     ;; if dired's already loaded, then the keymap will be bound
     (if (boundp 'dired-mode-map)
         ;; we're good to go; just add our bindings
-        (my-dired-init)
+        (iqbal-dired-init)
       ;; it's not loaded yet, so add our bindings to the load-hook
-      (add-hook 'dired-load-hook 'my-dired-init))
+      (add-hook 'dired-load-hook 'iqbal-dired-init))
   #+end_src
 
 
@@ -176,7 +176,7 @@
 
 ** Automatically change neotree on changing current buffer
    #+begin_src emacs-lisp
-     (defun my-neotree-refresh (last-buffer current-buffer)
+     (defun iqbal-neotree-refresh (last-buffer current-buffer)
        (when (and (not (eq current-buffer (neo-global--get-buffer)))
                   (neo-global--window-exists-p))
          (let ((buffer-directory (with-current-buffer current-buffer
@@ -190,7 +190,7 @@
                (neo-global--open-dir buffer-directory)
                (goto-char (point-min)))))))
 
-     (add-hook 'buffer-change-hook #'my-neotree-refresh)
+     (add-hook 'buffer-change-hook #'iqbal-neotree-refresh)
    #+end_src
 
 

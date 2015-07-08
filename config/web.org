@@ -8,20 +8,20 @@
 * Install emacs-w3m if w3m executable is found
    #+begin_src emacs-lisp
      (when (executable-find "w3m")
-       (my-install-package 'w3m))
+       (iqbal-install-package 'w3m))
    #+end_src
 
 
 * Set mark before jumping to next/previous urls
    #+begin_src emacs-lisp
-     (defun my-w3m-set-mark-before-jump ()
-       (defadvice w3m-next-anchor (before my-w3m-set-mark-before-next-url (&rest args))
+     (defun iqbal-w3m-set-mark-before-jump ()
+       (defadvice w3m-next-anchor (before iqbal-w3m-set-mark-before-next-url (&rest args))
          (push-mark))
 
-       (defadvice w3m-previous-anchor (before my-w3m-set-mark-before-previous-url (&rest args))
+       (defadvice w3m-previous-anchor (before iqbal-w3m-set-mark-before-previous-url (&rest args))
          (push-mark))
 
-       (defadvice w3m-view-this-url (before my-w3m-set-mark-before-viewing-url (&rest args))
+       (defadvice w3m-view-this-url (before iqbal-w3m-set-mark-before-viewing-url (&rest args))
          (push-mark))
 
        (ad-activate 'w3m-next-anchor)
@@ -32,7 +32,7 @@
 
 * Keybindings for emacs-w3m
    #+begin_src emacs-lisp
-     (defun my-set-w3m-keybindings ()
+     (defun iqbal-set-w3m-keybindings ()
        (define-key w3m-mode-map (kbd "M-n") #'w3m-next-anchor)
        (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
        (define-key w3m-mode-map (kbd "<down>") #'next-line)
@@ -48,13 +48,13 @@
        (define-key w3m-mode-map (kbd "C-c w") #'w3m-close-window)
        (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
        (define-key w3m-mode-map (kbd "C-c C-o") #'w3m-lnum-external-view-this-url)
-       (define-key w3m-mode-map (kbd "E") #'my-w3m-view-url-in-external-browser)
+       (define-key w3m-mode-map (kbd "E") #'iqbal-w3m-view-url-in-external-browser)
        (define-key w3m-mode-map (kbd "M-RET") #'w3m-lnum-external-view-this-url)
        (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
 
      (eval-after-load "w3m"
-       '(progn (my-set-w3m-keybindings)
-               (my-w3m-set-mark-before-jump)))
+       '(progn (iqbal-set-w3m-keybindings)
+               (iqbal-w3m-set-mark-before-jump)))
    #+end_src
 
 
@@ -82,27 +82,27 @@
   A simple heuristic to avoid the useless menus on the page (which are do not
   work in w3m anyway) on a webpage and jump to the actual content
   #+begin_src emacs-lisp
-    (defvar my-w3m-jump-to-title t "Jump to the title in w3m buffers after the page loads")
+    (defvar iqbal-w3m-jump-to-title t "Jump to the title in w3m buffers after the page loads")
 
-    (defun my-w3m-goto-to-title (&optional url)
+    (defun iqbal-w3m-goto-to-title (&optional url)
       (interactive)
       (let ((title (replace-regexp-in-string "\\(\\`[ \t\n\r]+\\|[ \t\n\r]+\\'\\)"
                                              ""
                                              (car (split-string w3m-current-title "\\( - \\| | \\)")))))
-        (when (and my-w3m-jump-to-title
+        (when (and iqbal-w3m-jump-to-title
                    (search-forward title nil t))
           (goto-char (line-beginning-position))
           (w3m-history-store-position)
           (recenter 0))))
 
-    (add-hook 'w3m-display-hook #'my-w3m-goto-to-title)
+    (add-hook 'w3m-display-hook #'iqbal-w3m-goto-to-title)
   #+end_src
 
 
 * DWIM version of w3m-browse-url
    Prompts to open currently opened feeds URL in elfeed
    #+begin_src emacs-lisp
-     (defun my-w3m-browse-url-dwim ()
+     (defun iqbal-w3m-browse-url-dwim ()
        (interactive)
        (if (and (eq major-mode 'elfeed-show-mode)
                 (elfeed-entry-link elfeed-show-entry))
@@ -113,7 +113,7 @@
 
 * Open current url in external browser
   #+begin_src emacs-lisp
-    (defun my-w3m-view-url-in-external-browser ()
+    (defun iqbal-w3m-view-url-in-external-browser ()
       (interactive)
       (browse-url w3m-current-url))
   #+end_src
@@ -123,5 +123,5 @@
   #+begin_src emacs-lisp
     (when (executable-find "w3m")
       (global-set-key (kbd "C-c w") #'w3m)
-      (global-set-key (kbd "C-c l") #'my-w3m-browse-url-dwim))
+      (global-set-key (kbd "C-c l") #'iqbal-w3m-browse-url-dwim))
   #+end_src

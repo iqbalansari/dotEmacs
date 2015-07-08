@@ -26,7 +26,7 @@
 * Setup Jedi for autocompletion
 ** Check if jedi is installed
    #+begin_src emacs-lisp
-     (setq my-jedi-available (locate-library "jedi"))
+     (setq iqbal-jedi-available (locate-library "jedi"))
    #+end_src
 
 ** Automatically start completion after inserting a dot
@@ -37,7 +37,7 @@
 ** Setup jedi for current buffer
    #+begin_src emacs-lisp
      (auto-complete-mode +1)
-     (when my-jedi-available
+     (when iqbal-jedi-available
        (jedi:setup))
    #+end_src
 
@@ -95,6 +95,6 @@
 
 * Flash current line after a jump to definition
   #+begin_src emacs-lisp
-    (when my-jedi-available
-      (my-highlight-line-after-func jedi:goto-definition))
+    (when iqbal-jedi-available
+      (iqbal-highlight-line-after-func jedi:goto-definition))
   #+end_src

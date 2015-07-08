@@ -1,6 +1,6 @@
 * Install packages useful for search and replace
   #+begin_src emacs-lisp
-    (defvar my-search-replace-packages
+    (defvar iqbal-search-replace-packages
       '(visual-regexp
         wgrep
         anzu
@@ -9,10 +9,10 @@
         isearch-dabbrev))
 
     (when (executable-find "ag")
-      (add-to-list 'my-search-replace-packages 'ag)
-      (add-to-list 'my-search-replace-packages 'wgrep-ag))
+      (add-to-list 'iqbal-search-replace-packages 'ag)
+      (add-to-list 'iqbal-search-replace-packages 'wgrep-ag))
 
-    (my-install-packages my-search-replace-packages)
+    (iqbal-install-packages iqbal-search-replace-packages)
   #+end_src
 
 
