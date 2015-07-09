@@ -41,6 +41,7 @@
         hungry-delete-forward
         increment-integer-at-point
         indent-for-tab-command
+        iqbal-beginning-of-line-or-indent
         jedi:dot-complete
         kill-region
         kill-sentence
@@ -49,8 +50,8 @@
         ledger-magic-tab
         mark-sexp
         markdown-exdent-or-delete
-        my-beginning-of-line-or-indent
-        my-dwim-org-table-blank-field
+        iqbal-beginning-of-line-or-indent
+        iqbal-dwim-org-table-blank-field
         new-line-dwim
         nxml-electric-slash
         open-line-above
