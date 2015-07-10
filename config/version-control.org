@@ -52,6 +52,14 @@
   #+end_src
 
 
+* Do not check for commit conventions in magit commit buffer
+  #+begin_src emacs-lisp
+    (eval-after-load 'magit
+      (remove-hook 'git-commit-finish-query-functions
+                   #'git-commit-check-style-conventions))
+  #+end_src
+
+
 * Use 'emacsclient' as editor
   #+begin_src emacs-lisp
     (setenv "EDITOR" "emacsclient")
