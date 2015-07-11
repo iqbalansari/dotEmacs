@@ -158,7 +158,9 @@
 
      (defun iqbal-parse-ical-file (file)
        (with-temp-buffer
-         (insert-file-contents-literally file)
+         ;; insert-file-contents does not work apparently due to the file not being
+         ;; synced to the file-system (?). Hack around it
+         (insert (with-current-buffer (find-file-noselect file) (buffer-string)))
          (dos-to-unix)
          (goto-char (point-min))
          (let* ((ical-data (icalendar--read-element nil nil))
