@@ -360,7 +360,7 @@
                                               :empty-lines-after 2))
   #+end_src
 
-*** Template for capturing todos linked to given buffer
+*** Template for capturing todos linked to current buffer
   #+begin_src emacs-lisp
     (add-to-list 'org-capture-templates (list "T"
                                               "TODO linked to current buffer"
@@ -393,7 +393,7 @@
                                                 :empty-lines-after 2))
     #+end_src
 
-*** Template for capturing notes linked to a buffer
+*** Template for capturing notes linked to current buffer
     #+begin_src emacs-lisp
       (add-to-list 'org-capture-templates (list "N"
                                                 "Note linked to current buffer"
@@ -423,6 +423,16 @@
                                                 (list 'file
                                                       (locate-user-emacs-file "org/agenda/appt.org"))
                                                 "* %? %^g\n  SCHEDULED: <%(org-read-date)>"))
+    #+end_src
+
+*** Template for capturing appointments linked to current buffer
+    #+begin_src emacs-lisp
+      (add-to-list 'org-capture-templates (list "A"
+                                                "Appointment linked to current buffer"
+                                                'plain
+                                                (list 'file
+                                                      (locate-user-emacs-file "org/agenda/appt.org"))
+                                                "* %? %^g\n%(iqbal-get-source-buffers-region-and-link)\n  SCHEDULED: <%(org-read-date)>"))
     #+end_src
 
 *** Template to capture a diary entry
