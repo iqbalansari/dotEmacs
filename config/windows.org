@@ -5,6 +5,19 @@
   #+end_src
 
 
+* Install transpose-frame
+  #+begin_src emacs-lisp
+    (iqbal-install-package 'transpose-frame)
+
+    (autoload #'transpose-frame "transpose-frame" "Transpose windows arrangement at FRAME." t)
+    (autoload #'flip-frame "transpose-frame" "Flip windows arrangement vertically at FRAME." t)
+    (autoload #'flop-frame "transpose-frame" "Flop windows arrangement horizontally at FRAME." t)
+    (autoload #'rotate-frame "transpose-frame" "Rotate windows arrangement 180 degrees at FRAME." t)
+    (autoload #'rotate-frame-clockwise "transpose-frame" "Rotate windows arrangement 90 degrees clockwise at FRAME." t)
+    (autoload #'rotate-frame-anticlockwise "transpose-frame" "Rotate windows arrangement 90 degrees anti-clockwise at FRAME." t)
+  #+end_src
+
+
 * Install eyebrowse
   #+begin_src emacs-lisp
     (iqbal-install-package 'eyebrowse)
