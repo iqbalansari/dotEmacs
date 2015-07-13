@@ -100,6 +100,13 @@
                                 (:subject)))
   #+end_src
 
+** Make bindings to open links in mu4e consistent with org-mode bindings
+   #+begin_src emacs-lisp
+     (eval-after-load 'mu4e-view
+       '(define-key mu4e-view-clickable-urls-keymap (kbd "C-c C-o") #'mu4e~view-browse-url-from-binding))
+   #+end_src
+
+
 ** Action to view the current message in browser
   #+begin_src emacs-lisp
     (eval-after-load "mu4e"
