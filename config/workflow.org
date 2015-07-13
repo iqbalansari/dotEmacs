@@ -586,7 +586,7 @@
 
      (defun iqbal-org-clock-mode-line ()
        (when (org-clocking-p) (org-clock-update-mode-line))
-       (let ((mode-line-string (concat " "
+       (let ((mode-line-string (format " %s "
                                        (if (org-clocking-p)
                                            org-mode-line-string
                                          (org-propertize "Not clocked in"
@@ -598,9 +598,7 @@
              (mode-line-face (if (org-clocking-p)
                                  'iqbal-org-clocked-in
                                'iqbal-org-not-clocked-in)))
-         (concat (propertize (concat mode-line-string " ")
-                             'face mode-line-face)
-                 " ")))
+         (format "%s " (propertize mode-line-string 'face mode-line-face 'mouse-face 'mode-line-highlight))))
 
      (setq global-mode-string (remove '(:eval (iqbal-org-clock-mode-line)) global-mode-string))
      (push '(:eval (iqbal-org-clock-mode-line))
