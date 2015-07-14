@@ -3,9 +3,3 @@
     (define-key rust-mode-map (kbd "TAB") #'racer-complete-or-indent)
     (define-key rust-mode-map (kbd "M-.") #'racer-find-definition)
   #+end_src
-
-
-* Keybinding to jump back, after jumping to definition
-  #+begin_src emacs-lisp
-    (define-key rust-mode-map (kbd "M-,") #'pop-to-mark-command)
-  #+end_src

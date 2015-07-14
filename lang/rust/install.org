@@ -8,6 +8,7 @@
             (warn "`RUST_SRC_PATH' not set, autocompletion, jump to definition will not work")
           (let ((rust-path (cdar (exec-path-from-shell-getenvs '("RUST_SRC_PATH")))))
             (setenv "RUST_SRC_PATH" rust-path)
+            (setq racer-rust-src-path rust-path)
             (when (zerop (length rust-path))
               (warn "`RUST_SRC_PATH' not set, autocompletion, jump to definition will not work"))))))
   #+end_src
