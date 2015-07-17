@@ -169,6 +169,12 @@
   #+end_src
 
 
+* Change prefix for smerge mode
+  #+begin_src emacs-lisp
+    (setq smerge-command-prefix "\C-cv")
+  #+end_src
+
+
 * Configurations for ediff
   #+begin_src emacs-lisp
     (setq ediff-split-window-function 'split-window-vertically)
