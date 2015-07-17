@@ -95,6 +95,8 @@
    (setq which-key-idle-delay 0.3)
    (which-key-mode +1)
    (which-key-setup-side-window-bottom)
+   (setq which-key-side-window-max-height 0.5)
+   (setq which-key-sort t)
  #+end_src
 
 
