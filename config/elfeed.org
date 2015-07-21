@@ -122,6 +122,20 @@
    #+end_src
 
 
+* Integration with org-mode
+  #+begin_src emacs-lisp
+    (defun iqbal-org-elfeed-store-link ()
+      "Store a link to a w3m buffer."
+      (when (eq major-mode 'elfeed-show-mode)
+        (org-store-link-props
+         :type "elfeed"
+         :link (elfeed-entry-link elfeed-show-entry)
+         :description (elfeed-entry-title elfeed-show-entry))))
+
+    (add-hook 'org-store-link-functions 'iqbal-org-elfeed-store-link)
+  #+end_src
+
+
 * Keybinding
 ** Launch elfeed
   #+begin_src emacs-lisp
