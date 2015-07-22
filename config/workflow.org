@@ -1,6 +1,6 @@
 * Install org-projectile, orgit and org-journal
   #+begin_src emacs-lisp
-    (iqbal-install-packages '(org-projectile org-journal orgbox orgit noflet))
+    (iqbal-install-packages '(org-projectile org-journal org-dashboard orgbox orgit noflet))
     (require 'orgbox)
   #+end_src
 
@@ -44,6 +44,17 @@
                    ;; Otherwise main frame keeps listening for
                    ;; input
                    (keyboard-quit))))))
+  #+end_src
+
+
+* Command to toggle org-dashboard
+  #+begin_src emacs-lisp
+    (defun iqbal-toggle-org-dashboard ()
+      (interactive)
+      (let ((dashboard-window (get-buffer-window "*Org Dashboard*")))
+        (if dashboard-window
+            (delete-window dashboard-window)
+          (call-interactively #'org-dashboard-display))))
   #+end_src
 
 
@@ -767,6 +778,7 @@
 
     (global-set-key (kbd "<f5>") #'org-capture)
     (global-set-key (kbd "<f6>") #'iqbal-clock-in-interactive)
+    (global-set-key (kbd "<f7>") #'iqbal-toggle-org-dashboard)
     (global-set-key (kbd "<f8>") #'iqbal-org-hide/show-current-task)
     (global-set-key (kbd "<f9>") #'org-tags-view)
     (global-set-key (kbd "<f10>") #'iqbal-view-lagging-tasks)
