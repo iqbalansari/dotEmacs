@@ -301,3 +301,22 @@
   #+begin_src emacs-lisp
     (setq ggtags-mode-line-project-name nil)
   #+end_src
+
+
+* Jumping to symbol using avy
+  Need a special function, since when jumping to character 'a' we want to able
+  to jump to 'a' as well as '$a' (since PHP prefixes variables with '$')
+  #+begin_src emacs-lisp
+    (defun iqbal-avy-goto-char-php (char &optional arg)
+      "Jump to the currently visible PHP identifier.
+    The window scope is determined by `avy-all-windows' (ARG negates it)."
+      (interactive (list (read-char "char: " t)
+                         current-prefix-arg))
+      (avy-with avy-goto-char
+        (avy--generic-jump
+         (if (= 13 char)
+             "\n"
+           (format "\\$?%s" (regexp-quote (string char))))
+         arg
+         avy-style)))
+  #+end_src
