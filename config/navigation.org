@@ -1,29 +1,18 @@
 * Install some packages useful for navigation
-+ [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
-+ [[http://www.emacswiki.org/emacs/goto-chg.el][goto-chg]] - Move point through buffer-undo-list positions
-
   #+begin_src emacs-lisp
     (defvar iqbal-navigation-packages
       '(goto-chg
-        ace-jump-mode
+        avy
         helm))
-  
+
     (iqbal-install-packages iqbal-navigation-packages)
   #+end_src
 
 
-* Ace Jump mode setup
-** Use line-mode if called with single prefix arg
+* Avy setup
   #+begin_src emacs-lisp
-    (setq ace-jump-mode-submode-list '(ace-jump-word-mode
-                                       ace-jump-line-mode
-                                       ace-jump-char-mode))
+    (global-set-key (kbd "C-c SPC") 'avy-goto-word-or-subword-1)
   #+end_src
-
-** Keybinding for ace-jump-mode
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
-   #+end_src
 
 
 * Push mark before jumping to last change

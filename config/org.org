@@ -186,7 +186,9 @@
       (if (and (not current-prefix-arg)
                (org-at-table-p))
           (call-interactively #'org-table-blank-field)
-        (call-interactively #'ace-jump-mode)))
+        (if (functionp (global-key-binding (kbd "C-c SPC")))
+            (call-interactively (global-key-binding (kbd "C-c SPC")))
+          (message "Not in org-mode table"))))
 
     (org-defkey org-mode-map (kbd "C-c SPC") #'iqbal-dwim-org-table-blank-field)
   #+end_src
