@@ -42,6 +42,8 @@
         increment-integer-at-point
         indent-for-tab-command
         iqbal-beginning-of-line-or-indent
+        iqbal-beginning-of-line-or-indent
+        iqbal-dwim-org-table-blank-field
         jedi:dot-complete
         kill-region
         kill-sentence
@@ -50,8 +52,6 @@
         ledger-magic-tab
         mark-sexp
         markdown-exdent-or-delete
-        iqbal-beginning-of-line-or-indent
-        iqbal-dwim-org-table-blank-field
         new-line-dwim
         nxml-electric-slash
         open-line-above
@@ -61,6 +61,7 @@
         org-delete-char
         org-end-of-line
         org-force-self-insert
+        org-forward-paragraph
         org-kill-line
         org-metaleft
         org-metaright
