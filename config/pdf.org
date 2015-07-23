@@ -30,3 +30,12 @@
 
     (add-hook 'after-init-hook #'iqbal-install-pdf-tools t)
   #+end_src
+
+
+* org-pdfview configuration
+  #+begin_src emacs-lisp
+    (defun iqbal-load-org-pdfview ()
+      (require 'org-pdfview))
+
+    (add-hook 'pdf-view-mode-hook #'iqbal-load-org-pdfview)
+  #+end_src
