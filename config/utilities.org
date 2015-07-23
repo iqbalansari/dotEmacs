@@ -97,6 +97,7 @@
    (which-key-setup-side-window-bottom)
    (setq which-key-side-window-max-height 0.5)
    (setq which-key-sort t)
+   (define-key which-key-mode-map (kbd "C-x <f5>") 'which-key-show-next-page)
  #+end_src
 
 
