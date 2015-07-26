@@ -369,6 +369,12 @@
    #+end_src
 
 
+* Make comint prompt read-only
+  #+begin_src emacs-lisp
+    (setq comint-prompt-read-only t)
+  #+end_src
+
+
 * Few useful tips from wikiemacs
 ** Make URLs clickable
    #+begin_src emacs-lisp
@@ -377,7 +383,7 @@
    #+end_src
 
 
-* Command Clear comint based REPL
+* Clear comint based REPL
   Taken from [[http://emacsredux.com/blog/2015/01/18/clear-comint-buffers/]]
   #+begin_src emacs-lisp
     (defun iqbal-comint-clear-buffer ()

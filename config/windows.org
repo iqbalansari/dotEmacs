@@ -49,9 +49,15 @@
 
 
 * Use windmove to select windows using shift + arrow keys
+** Use default keybindings
   #+begin_src emacs-lisp
     (windmove-default-keybindings)
   #+end_src
+
+** Wrap around when moving off last window in a direction
+   #+begin_src emacs-lisp
+     (setq windmove-wrap-around t)
+   #+end_src
 
 
 * Switch to bar cursor type before invoking switch-window

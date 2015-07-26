@@ -72,6 +72,7 @@
 * Do not allow a parent to be marked DONE, if children are marked TODO
   #+begin_src emacs-lisp
     (setq org-enforce-todo-dependencies t)
+    (customize-set-variable 'org-enforce-todo-checkbox-dependencies t)
   #+end_src
 
 
@@ -172,6 +173,12 @@
 * Use org speed commands
   #+begin_src emacs-lisp
     (setq org-use-speed-commands t)
+  #+end_src
+
+
+* Throw error if editing invisible regions
+  #+begin_src emacs-lisp
+    (setq org-catch-invisible-edits 'show-and-error)
   #+end_src
 
 
