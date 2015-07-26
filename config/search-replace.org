@@ -6,7 +6,8 @@
         anzu
         swoop
         pcre2el
-        isearch-dabbrev))
+        isearch-dabbrev
+        helm))
 
     (when (executable-find "ag")
       (add-to-list 'iqbal-search-replace-packages 'ag)
@@ -238,4 +239,10 @@
 * Enable global rxt mode
   #+begin_src emacs-lisp
     (rxt-global-mode)
+  #+end_src
+
+
+* Keybinding for helm-locate
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-s l") #'helm-locate)
   #+end_src
