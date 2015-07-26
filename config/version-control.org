@@ -178,6 +178,13 @@
 * Change prefix for smerge mode
   #+begin_src emacs-lisp
     (setq smerge-command-prefix "\C-cv")
+
+    (defun iqbal-redefine-smerge-keybindings ()
+      (easy-mmode-defmap smerge-mode-map
+                         `((,smerge-command-prefix . ,smerge-basic-map))
+                         "Keymap for `smerge-mode'."))
+
+    (add-hook 'smerge-mode-hook #'iqbal-redefine-smerge-keybindings)
   #+end_src
 
 
