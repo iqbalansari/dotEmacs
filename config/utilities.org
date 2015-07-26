@@ -1,6 +1,7 @@
 * Install required packages
   #+begin_src emacs-lisp
     (iqbal-install-packages '(inf-mongo
+                              helm-commandlinefu
                               eldoc-eval
                               guide-key
                               which-key
