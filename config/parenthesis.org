@@ -27,9 +27,12 @@
   #+end_src
 
 
-* Do not add autopair "'" or """ if around a word
+* Do not add autopair "'" or """ if around a word and if in eldoc-in-minibuffer-mode
   #+begin_src emacs-lisp
-    (sp-pair "'" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
+    (defun iqbal-in-eldoc-eval (id action context)
+      (member 'eldoc-in-minibuffer-mode minor-mode-list))
+
+    (sp-pair "'" nil :unless '(sp-point-after-word-p sp-point-before-word-p iqbal-in-eldoc-eval))
     (sp-pair "\"" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
   #+end_src
 
