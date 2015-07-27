@@ -162,3 +162,9 @@
   #+begin_src emacs-lisp
     (setq irfc-directory (locate-user-emacs-file "org/RFCs/"))
   #+end_src
+
+
+* Keybinding to compile
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c ;") #'compile)
+  #+end_src
