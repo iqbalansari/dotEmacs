@@ -22,17 +22,23 @@
 
 * Enable smartparens in minibuffer
   #+begin_src emacs-lisp
-    (add-hook 'minibuffer-setup-hook (lambda () (when (eq this-command 'eldoc-eval-expression)
-                                                  (smartparens-mode +1))))
+    (defun iqbal-in-eldoc-eval-p (id action context)
+      (when (minibufferp)
+        (member 'eldoc-in-minibuffer-mode minor-mode-list)))
+
+    (defun iqbal-eldoc-eval-hook ()
+      (when (eq this-command 'eldoc-eval-expression)
+        (smartparens-mode +1)
+        ;; Seems smartparens overrides this if set globally
+        (sp-pair "'" nil :unless '(iqbal-in-eldoc-eval-p))))
+
+    (add-hook 'minibuffer-setup-hook #'iqbal-eldoc-eval-hook)
   #+end_src
 
 
-* Do not add autopair "'" or """ if around a word and if in eldoc-in-minibuffer-mode
+* Do not add autopair "'" or """ if around a word
   #+begin_src emacs-lisp
-    (defun iqbal-in-eldoc-eval (id action context)
-      (member 'eldoc-in-minibuffer-mode minor-mode-list))
-
-    (sp-pair "'" nil :unless '(sp-point-after-word-p sp-point-before-word-p iqbal-in-eldoc-eval))
+    (sp-pair "'" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
     (sp-pair "\"" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
   #+end_src
 
