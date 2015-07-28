@@ -396,8 +396,8 @@
      (defvar iqbal-run-shell (kbd "C-c C-z"))
      (defvar iqbal-send-region (kbd "C-c C-r"))
      (defvar iqbal-send-buffer (kbd "C-c C-b"))
-     (defvar iqbal-send-line (kbd "C-c C-f"))
-     (defvar iqbal-send-file (kbd "C-c C-l"))
+     (defvar iqbal-send-line (kbd "C-c C-l"))
+     (defvar iqbal-send-file (kbd "C-c C-f"))
      (defvar iqbal-send-function (kbd "C-M-x"))
      (defvar iqbal-send-phrase/sexp/block (kbd "C-x C-e"))
    #+end_src
@@ -470,6 +470,7 @@
   #+begin_src emacs-lisp
     (iqbal-auto-install-lang (rx ".js" string-end) 'js2-mode 'js2-mode)
     (iqbal-auto-install-lang (rx ".php" string-end) 'php-mode 'php-mode)
+    (iqbal-auto-install-lang (rx ".lua" string-end) 'lua-mode 'lua-mode)
     (iqbal-auto-install-lang (rx "." (or "scala" "sbt") string-end) 'scala-mode2 'scala-mode)
     (iqbal-auto-install-lang (rx ".ml" (zero-or-one ?i ?y ?l ?p) string-end) 'tuareg 'tuareg-mode)
     (iqbal-auto-install-lang (rx ".hs" string-end) 'haskell-mode 'haskell-mode)
@@ -529,6 +530,7 @@
      (iqbal-setup-lang 'python-mode-hook "python")
      (iqbal-setup-lang 'js2-mode-hook "javascript")
      (iqbal-setup-lang 'php-mode-hook "php")
+     (iqbal-setup-lang 'lua-mode-hook "lua")
      (iqbal-setup-lang 'lisp-mode-hook "common-lisp")
      (iqbal-setup-lang 'scheme-mode-hook "scheme")
      (iqbal-setup-lang 'c-mode-hook "c" "c" "h")

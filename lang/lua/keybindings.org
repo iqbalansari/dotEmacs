@@ -1,0 +1,9 @@
+* Keybindings for the REPL
+  #+begin_src emacs-lisp
+    (define-key lua-mode-map iqbal-run-shell #'lua-show-process-buffer)
+    (define-key lua-mode-map iqbal-send-region #'lua-send-region)
+    (define-key lua-mode-map iqbal-send-line #'lua-send-current-line)
+    (define-key lua-mode-map iqbal-send-buffer #'lua-send-buffer)
+    (define-key lua-mode-map iqbal-send-function #'lua-send-defun)
+    (define-key lua-mode-map iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-lua-send-file lua-send-region))
+  #+end_src
