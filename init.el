@@ -9,6 +9,11 @@ this may lead to unexpected behaviour, not proceeding. Please set `HOME' to
 value of `USERPROFILE', and move your .emacs.d directory there. Remember
 to restart any shell you are using to launch emacs after making the changes!"))
 
+;; Ensure we are using atleast version 24.4 of emacs
+(when (version< emacs-version "24.4")
+  (error "This config works only with emacs version 24.4 and higher, please upgrade
+your emacs and try again!"))
+
 ;; Use absolute file name of user-emacs-directory.
 (setq user-emacs-directory (file-truename "~/.emacs.d/"))
 
