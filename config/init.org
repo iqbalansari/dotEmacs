@@ -91,34 +91,35 @@
 * List of modules to be loaded
   #+begin_src emacs-lisp
     (defvar iqbal-modules-list '(display
-                              editing
-                              parenthesis
-                              yasnippet
-                              navigation
-                              ido
-                              search-replace
-                              completion
-                              syntax-check
-                              buffers
-                              files
-                              dired
-                              version-control
-                              debugging
-                              org
-                              project
-                              workflow
-                              shell
-                              backup
-                              spellchecking
-                              windows
-                              session
-                              scratch
-                              web
-                              mail
-                              elfeed
-                              pdf
-                              rfc
-                              utilities))
+                                 editing
+                                 compile
+                                 parenthesis
+                                 yasnippet
+                                 navigation
+                                 ido
+                                 search-replace
+                                 completion
+                                 syntax-check
+                                 buffers
+                                 files
+                                 dired
+                                 version-control
+                                 debugging
+                                 org
+                                 project
+                                 workflow
+                                 shell
+                                 backup
+                                 spellchecking
+                                 windows
+                                 session
+                                 scratch
+                                 web
+                                 mail
+                                 elfeed
+                                 pdf
+                                 rfc
+                                 utilities))
 
     (when (eq system-type 'windows-nt)
       (add-to-list 'iqbal-modules-list 'unxutils))

@@ -1,0 +1,39 @@
+* Save files without asking before compiling 
+ #+begin_src emacs-lisp
+   (setq compilation-ask-about-save nil)
+ #+end_src
+
+
+* Keybinding to compile
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c ;") #'compile)
+  #+end_src
+
+
+* COMMENT Notify of completion of compilation
+  #+begin_src emacs-lisp
+    (defun iqbal-notify-compilation-finish (buffer message)
+      (with-current-buffer buffer
+        (unless (eq major-mode 'grep-mode)
+          (let ((disp-message (format "Command: %s \n\nIn directory: %s\n\nStatus: %s"
+                                      (string-trim compile-command)
+                                      (string-trim default-directory)
+                                      (string-trim message))))
+            (notify "Emacs compile.el" disp-message)))))
+
+    (add-hook 'compilation-finish-functions #'iqbal-notify-compilation-finish)
+  #+end_src
+
+
+* Translate ansi sequences in compilation buffers
+  #+begin_src emacs-lisp
+    (autoload 'ansi-color-apply-on-region "ansi-color")
+    (defun iqbal-colorize-compilation-buffer ()
+      (when (eq major-mode 'compilation-mode)
+        (toggle-read-only)
+        (ansi-color-apply-on-region compilation-filter-start (point))
+        (toggle-read-only)))
+
+    (add-hook 'compilation-filter-hook 'iqbal-colorize-compilation-buffer)
+  #+end_src
+
