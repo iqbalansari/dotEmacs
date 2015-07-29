@@ -34,6 +34,11 @@
     (setq jedi:complete-on-dot t)
   #+end_src
 
+** Show function signature in minibuffer
+   #+begin_src emacs-lisp
+     (setq jedi:tooltip-method nil)
+   #+end_src
+
 ** Setup jedi for current buffer
    #+begin_src emacs-lisp
      (auto-complete-mode +1)
