@@ -491,7 +491,7 @@
     (iqbal-auto-install-lang (rx (or "http.conf" "srm.conf" "access.conf" (seq "sites-" (or "available" "enabled")) ".htaccess") string-end)
                           'apache-mode 
                           'apache-mode)
-    (iqbal-auto-install-lang (rx (or ".pip" "requirements.txt") string-end) 'pip-requirements 'pip-requirements-mode)
+    (iqbal-auto-install-lang (rx (or ".pip" (seq "requirements" (zero-or-more nonl)  ".txt")) string-end) 'pip-requirements 'pip-requirements-mode)
     (iqbal-auto-install-lang (rx ".dot" string-end) 'graphviz-dot-mode 'graphviz-dot-mode)
     (iqbal-auto-install-lang (rx ".ps1" string-end) 'powershell 'powershell-mode)
     (iqbal-auto-install-lang (rx "rfc" (one-or-more digit) ".txt" string-end) 'irfc 'irfc-mode)
