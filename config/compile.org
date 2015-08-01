@@ -10,11 +10,11 @@
   #+end_src
 
 
-* COMMENT Notify of completion of compilation
+* Notify of completion of compilation
   #+begin_src emacs-lisp
     (defun iqbal-notify-compilation-finish (buffer message)
       (with-current-buffer buffer
-        (unless (eq major-mode 'grep-mode)
+        (when (eq major-mode 'compilation-mode)
           (let ((disp-message (format "Command: %s \n\nIn directory: %s\n\nStatus: %s"
                                       (string-trim compile-command)
                                       (string-trim default-directory)

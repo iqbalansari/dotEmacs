@@ -3,3 +3,11 @@
     (unless (equal system-type 'windows-nt)
       (exec-path-from-shell-copy-envs '("LUA_PATH")))
   #+end_src
+
+
+* Function to switch to Lua REPL
+  #+begin_src emacs-lisp
+    (defun iqbal-lua-switch-to-repl ()
+      (interactive)
+      (switch-to-buffer-other-window (process-buffer (lua-get-create-process))))
+  #+end_src
