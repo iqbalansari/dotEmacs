@@ -333,10 +333,7 @@
   This is needed if emacs not started from a shell
 ** The variables to copy from shell
    #+begin_src emacs-lisp
-     (setq exec-path-from-shell-variables (list "PATH" "MANPATH" "IRBRC" "RUBY_VERSION"
-                                                "MY_RUBY_HOME" "GEM_PATH" "GEM_HOME" "SBCL_HOME"
-                                                "PKG_CONFIG_PATH" "LD_LIBRARY_PATH" "ACLOCAL_PATH"))
-                                                
+     (setq exec-path-from-shell-variables (list "PATH" "MANPATH" "PKG_CONFIG_PATH" "LD_LIBRARY_PATH" "ACLOCAL_PATH"))
    #+end_src
 
 ** Initialize the environment from shell

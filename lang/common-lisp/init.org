@@ -1,0 +1,5 @@
+* Copy SBCL_HOME's value from the shell (only on first run)
+  #+begin_src emacs-lisp
+    (unless (equal system-type 'windows-nt)
+      (exec-path-from-shell-copy-envs '("SBCL_HOME")))
+  #+end_src

@@ -1,3 +1,10 @@
+* Copy need environment variables from the shell
+  #+begin_src emacs-lisp
+    (unless (equal system-type 'windows-nt)
+      (exec-path-from-shell-copy-envs '("IRBRC" "RUBY_VERSION" "MY_RUBY_HOME" "GEM_PATH" "GEM_HOME")))
+  #+end_src
+
+
 * Helper function to start ruby console for project if possible
    #+begin_src emacs-lisp
      (defun iqbal-start-ruby-shell ()
