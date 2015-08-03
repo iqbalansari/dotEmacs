@@ -12,9 +12,20 @@
 
 * Notify of completion of compilation
   #+begin_src emacs-lisp
+    (defun iqbal-buffer-on-screen-p (buffer)
+      (let ((buffer-window (get-buffer-window buffer t)))
+        ;; If buffer is not open in a window it is not visible
+        (and buffer-window
+             ;; Check the visibility of the frame the window belongs to
+             (equal (frame-visible-p (window-frame buffer-window))
+                    t))))
+
     (defun iqbal-notify-compilation-finish (buffer message)
       (with-current-buffer buffer
-        (when (eq major-mode 'compilation-mode)
+        ;; Display notification only if we are in compilation mode
+        ;; and buffer is not visible
+        (when (and (eq major-mode 'compilation-mode)
+                   (not (iqbal-buffer-on-screen-p (current-buffer))))
           (let ((disp-message (format "Command: %s \n\nIn directory: %s\n\nStatus: %s"
                                       (string-trim compile-command)
                                       (string-trim default-directory)
