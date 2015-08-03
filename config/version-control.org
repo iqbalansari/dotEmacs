@@ -60,6 +60,12 @@
   #+end_src
 
 
+* Do not verify if pushing current branch to its upstream branch
+  #+begin_src emacs-lisp
+    (setq magit-push-always-verify 'PP)
+  #+end_src
+
+
 * Use 'emacsclient' as editor
   #+begin_src emacs-lisp
     (setenv "EDITOR" "emacsclient")
