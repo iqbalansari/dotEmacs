@@ -228,6 +228,19 @@
 
     (when (eq system-type 'windows-nt)
       (setq smooth-scroll-margin 1))
+
+    (defun iqbal-window-config-change-hook ()
+      "Reset smooth-scroll-margin to 1 on small windows, this avoids
+    sudden jumps in point when scrolling through a window"
+      (unless (eq system-type 'windows-nt)
+        (setq smooth-scroll-margin
+              (if (<= (window-height) 20) 1 10))))
+
+    (defun iqbal-add-window-config-change-hook (last-buffer current-buffer)
+      (with-current-buffer current-buffer
+        (add-hook 'window-configuration-change-hook #'iqbal-window-config-change-hook t t)))
+
+    (add-hook #'buffer-change-hook #'iqbal-add-window-config-change-hook)
   #+end_src
 
 
