@@ -224,6 +224,8 @@
 
 * Use smooth-scrolling for better scrolling
   #+begin_src emacs-lisp
+    (make-variable-buffer-local 'smooth-scroll-margin) 
+
     (when (eq system-type 'windows-nt)
       (setq smooth-scroll-margin 1))
   #+end_src
