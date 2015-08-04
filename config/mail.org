@@ -180,12 +180,14 @@
 
      (defun iqbal-make-appts-from-parsed-ical-data (data)
        (dolist (ical-data data)
-         (append-to-file (format "\n* TODO %s\n  SCHEDULED: %s\n%s\n"
-                                 (plist-get ical-data :summary)
-                                 (plist-get ical-data :date)
-                                 (iqbal-indent-text (plist-get ical-data :description) 2))
-                         nil
-                         (locate-user-emacs-file "org/agenda/appt.org"))))
+         (let ((mail-link (org-store-link nil)))
+           (append-to-file (format "\n* TODO %s\n  SCHEDULED: %s\n%s\n\nSource: %s"
+                                   (plist-get ical-data :summary)
+                                   (plist-get ical-data :date)
+                                   (iqbal-indent-text (plist-get ical-data :description) 2)
+                                   mail-link)
+                           nil
+                           (locate-user-emacs-file "org/agenda/appt.org")))))
 
      (defun iqbal-appt-from-ical (file)
        (iqbal-make-appts-from-parsed-ical-data (iqbal-parse-ical-file file)))
