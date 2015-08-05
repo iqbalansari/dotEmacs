@@ -24,7 +24,6 @@ your emacs and try again!"))
   (load custom-file))
 
 (require 'package)
-(setq package-enable-at-startup nil)
 (package-initialize 'noactivate)
 
 ;; Ensure we have the latest org mode installed
@@ -37,7 +36,6 @@ your emacs and try again!"))
 ;; use them. Unfortunately this needs to be set before loading org, hence
 ;; setting it here
 (setq org-replace-disputed-keys t)
-
 (require 'org)
 
 ;; Avoid re-extraction if file has not changed
