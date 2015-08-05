@@ -24,7 +24,7 @@ your emacs and try again!"))
   (load custom-file))
 
 (require 'package)
-(package-initialize 'noactivate)
+(package-initialize)
 
 ;; Ensure we have the latest org mode installed
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
