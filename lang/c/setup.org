@@ -33,7 +33,8 @@
              (project-indexed (not (string= rtags-status "unknown\n"))))
         (if project-indexed
             (setq iqbal-rtags-project-indexed project-indexed)
-          (let ((compile-commands (iqbal-locate-compile-commands project-root)))
+          (let ((compile-commands (or (iqbal-locate-compile-commands default-directory)
+                                      (iqbal-locate-compile-commands project-root))))
             (if compile-commands
                 (shell-command (format "%s -J %s"
                                        (rtags-executable-find "rc")
