@@ -23,6 +23,12 @@
   #+end_src
 
 
+* Create higher resolution image in doc-view
+  #+begin_src emacs-lisp
+    (setq doc-view-resolution 200)
+  #+end_src
+
+
 * Initialize pdf tools
   #+begin_src emacs-lisp
     (defun iqbal-install-pdf-tools ()

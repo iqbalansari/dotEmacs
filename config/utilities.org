@@ -6,7 +6,7 @@
                               guide-key
                               which-key
                               edit-server
-                              bongo))
+                              rainbow-mode))
   #+end_src
 
 
