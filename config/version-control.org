@@ -1,14 +1,11 @@
 * Ensure that required packages are installed
-  + [[http://magit.github.io/magit/][magit]] - Awesome git interface for emacs
-  + [[https://github.com/dgutov/diff-hl][diff-hl]] - Emacs package for highlighting uncommitted changes
-  + [[https://github.com/syohex/emacs-git-messenger][git-messenger]] - Popup last commit message associated with current line
-  + [[https://github.com/pidu/git-timemachine][git-timemachine]] - Walk through git revisions of a file
   #+begin_src emacs-lisp
     (defvar iqbal-version-control-packages
       '(magit
         diff-hl
         git-timemachine
-        git-messenger))
+        git-messenger
+        ssh-agency))
 
     (when (zerop (call-process "git" nil nil nil "flow" "init" "help"))
       (add-to-list 'iqbal-version-control-packages 'magit-gitflow))
