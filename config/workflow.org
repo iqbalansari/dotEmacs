@@ -326,18 +326,17 @@
 
       (defun iqbal-get-source-buffers-region-and-link (&optional number)
         (save-window-excursion
-          (dotimes (_ (or number 0)) (switch-to-prev-buffer))
-          (switch-to-prev-buffer)
+          (switch-to-buffer (plist-get org-capture-plist :original-buffer))
           (let ((fill-prefix "  "))
             (iqbal-indent-text (concat (when (region-active-p)
-                                      (concat "#+begin_quote\n"
-                                              (iqbal-indent-text (iqbal-justify-paragraph-text (iqbal-fix-newlines (buffer-substring (region-beginning)
-                                                                                                                            (region-end))))
-                                                              2)
-                                              "\n#+end_quote\n"))
-                                    (or (iqbal-get-url-from-clipboard)
-                                        (org-store-link nil)))
-                            (when (region-active-p) 4 2)))))
+                                         (concat "#+begin_quote\n"
+                                                 (iqbal-indent-text (iqbal-justify-paragraph-text (iqbal-fix-newlines (buffer-substring (region-beginning)
+                                                                                                                                        (region-end))))
+                                                                    2)
+                                                 "\n#+end_quote\n"))
+                                       (or (iqbal-get-url-from-clipboard)
+                                           (org-store-link nil)))
+                               (when (region-active-p) 4 2)))))
     #+end_src
 
 *** Function to get journal file
