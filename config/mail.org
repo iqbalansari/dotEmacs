@@ -169,7 +169,8 @@
      (defun iqbal-parse-ical-file (file)
        (with-temp-buffer
          ;; insert-file-contents does not work apparently due to the file not being
-         ;; synced to the file-system (?). Hack around it
+         ;; synced to the file-system (?). Hack around it. TODO: Properly debug this
+         (message (format "Parsing appts from %s" file))
          (insert (with-current-buffer (find-file-noselect file) (buffer-string)))
          (dos-to-unix)
          (goto-char (point-min))
@@ -181,7 +182,7 @@
      (defun iqbal-make-appts-from-parsed-ical-data (data)
        (dolist (ical-data data)
          (let ((mail-link (org-store-link nil)))
-           (append-to-file (format "\n* TODO %s\n  SCHEDULED: %s\n%s\n\nSource: %s"
+           (append-to-file (format "* TODO %s\n  SCHEDULED: %s\n%s\n\nSource: %s"
                                    (plist-get ical-data :summary)
                                    (plist-get ical-data :date)
                                    (iqbal-indent-text (plist-get ical-data :description) 2)

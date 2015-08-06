@@ -1,6 +1,6 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (iqbal-install-packages '(swap-buffers ibuffer-vc))
+    (iqbal-install-packages '(swap-buffers ibuffer-projectile))
   #+end_src
 
 
@@ -25,10 +25,15 @@
   #+end_src
 
 
-* Use ibuffer-vc to group buffers by vc root
+* Use ibuffer-projectile to group buffers by projects
 ** Group buffers by vc in ibuffer
   #+begin_src emacs-lisp
-    (add-hook 'ibuffer-hook #'ibuffer-vc-set-filter-groups-by-vc-root)
+    (defun ibuffer-projectile-setup ()
+      (ibuffer-projectile-set-filter-groups)
+      (unless (eq ibuffer-sorting-mode 'alphabetic)
+        (ibuffer-do-sort-by-alphabetic)))
+
+    (add-hook 'ibuffer-hook #'ibuffer-projectile-setup)
   #+end_src
 
 ** Include vc status in ibuffer-list
