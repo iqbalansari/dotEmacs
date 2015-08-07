@@ -147,13 +147,12 @@
        (unless (package-installed-p package)
          (iqbal-auto-install extension package mode)))
 
-     (defun iqbal-setup-lang (hook language &rest extensions)
+     (defun iqbal-setup-lang (hook language &optional extension)
        (add-hook hook (lexical-let ((language language)
-                                    (extensions extensions))
+                                    (extension extension))
                         (lambda ()
-                          (when (or (not extensions)
-                                    (and (member (file-name-extension (buffer-name))
-                                                 extensions)))
+                          (when (or (not extension)
+                                    (string-match-p extension (file-name-extension (buffer-name))))
                             (iqbal-load-lang-config-for-buffer language))))))
    #+end_src
 
@@ -531,8 +530,8 @@
      (iqbal-setup-lang 'lua-mode-hook "lua")
      (iqbal-setup-lang 'lisp-mode-hook "common-lisp")
      (iqbal-setup-lang 'scheme-mode-hook "scheme")
-     (iqbal-setup-lang 'c-mode-hook "c" "c" "h")
-     (iqbal-setup-lang 'c++-mode-hook "c" "cpp" "hpp")
+     (iqbal-setup-lang 'c-mode-hook "c")
+     (iqbal-setup-lang 'c++-mode-hook "c" "\\(CC?\\|HH?\\)")
      (iqbal-setup-lang 'css-mode-hook "css")
      (iqbal-setup-lang 'scala-mode-hook "scala" "scala")
      (iqbal-setup-lang 'tuareg-mode-hook "ocaml")
