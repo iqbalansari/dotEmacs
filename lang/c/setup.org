@@ -23,8 +23,6 @@
 
 * Check if project is indexed
   #+begin_src emacs-lisp
-    (make-local-variable 'iqbal-rtags-project-indexed)
-
     (when iqbal-rtags-available
       (let* ((project-root (or (ignore-errors (projectile-project-root)) default-directory))
              (rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
@@ -33,9 +31,10 @@
              (project-indexed (not (string= rtags-status "unknown\n"))))
         (if project-indexed
             (setq iqbal-rtags-project-indexed project-indexed)
-          (let ((compile-commands (or (iqbal-locate-compile-commands default-directory)
-                                      (iqbal-locate-compile-commands project-root))))
-            (if compile-commands
+          (let ((compile-commands (locate-dominating-file "compile_commands.json"
+                                                          (or buffer-file-name default-directory))))
+            (if (and compile-commands
+                     (file-in-directory-p compile-commands project-root))
                 (shell-command (format "%s -J %s"
                                        (rtags-executable-find "rc")
                                        (shell-quote-argument compile-commands)))
@@ -48,10 +47,10 @@
     (let ((project-root (ignore-errors (projectile-project-root))))
       (when (and project-root (not iqbal-rtags-project-indexed))
         (cond (iqbal-gtags-available (progn
-                                    (unless (file-exists-p (concat project-root "GTAGS"))
-                                    (shell-command (concat "cd "
-                                                           (shell-quote-argument project-root)
-                                                           " && gtags")))))
+                                       (unless (file-exists-p (concat project-root "GTAGS"))
+                                         (shell-command (concat "cd "
+                                                                (shell-quote-argument project-root)
+                                                                " && gtags")))))
               ((executable-find "etags") (unless  (file-exists-p (concat project-root "TAGS"))
                                            (shell-command (concat "cd "
                                                                   (shell-quote-argument project-root)
