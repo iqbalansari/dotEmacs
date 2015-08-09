@@ -197,6 +197,12 @@
   #+end_src
 
 
+* Follow symlinks automatically
+  #+begin_src emacs-lisp
+    (setq vc-follow-symlinks t)
+  #+end_src
+
+
 * Unfold all headlines for an org file in ediff mode
   Taken from [[http://orgmode.org/worg/org-hacks.html]]
   #+begin_src emacs-lisp

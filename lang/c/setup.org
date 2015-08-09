@@ -29,8 +29,8 @@
                                                             " --is-indexed "
                                                             buffer-file-name)))
              (project-indexed (not (string= rtags-status "unknown\n"))))
-        (if project-indexed
-            (setq iqbal-rtags-project-indexed project-indexed)
+        (setq iqbal-rtags-project-indexed project-indexed)
+        (unless project-indexed
           (let ((compile-commands (locate-dominating-file "compile_commands.json"
                                                           (or buffer-file-name default-directory))))
             (if (and compile-commands

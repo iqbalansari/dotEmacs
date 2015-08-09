@@ -72,6 +72,7 @@
         org-todo
         org-yank
         orgtbl-self-insert-command
+        overwrite-mode
         python-indent-electric-colon
         repeat
         sh-assignment
