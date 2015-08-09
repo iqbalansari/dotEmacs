@@ -152,7 +152,7 @@
                                     (extension extension))
                         (lambda ()
                           (when (or (not extension)
-                                    (string-match-p extension (file-name-extension (buffer-name))))
+                                    (string-match-p extension (or (file-name-extension (buffer-name)) "")))
                             (iqbal-load-lang-config-for-buffer language))))))
    #+end_src
 
