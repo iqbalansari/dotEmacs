@@ -93,3 +93,10 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "M-o") #'switch-window)
   #+end_src
+
+
+* Keybindings to split windows
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-x -") #'split-window-vertically)
+    (global-set-key (kbd "C-x \\") #'split-window-horizon)
+  #+end_src
