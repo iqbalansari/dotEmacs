@@ -201,7 +201,8 @@
 
 ** Highlighting the line to reorient the user
    #+begin_src emacs-lisp
-     (load "pulse")
+     (autoload #'pulse-momentary-highlight-one-line "pulse")
+
      (defun iqbal-highlight-line ()
        (pulse-momentary-highlight-one-line (point)))
 
@@ -251,10 +252,12 @@
        (package-refresh-contents))
    #+end_src
 
-** Path to El-Get recipies
+** Path to custom El-Get recipies
    Use recipies from this directory
    #+begin_src emacs-lisp
      (defvar iqbal-local-recipes (locate-user-emacs-file "recipies/"))
+     (eval-after-load "el-get"
+       '(add-to-list 'el-get-recipe-path iqbal-local-recipes))
    #+end_src
 
 ** Helper functions to install package if not already installed 
@@ -298,12 +301,6 @@
 ** Install el-get for installing packages that have external dependencies
    #+begin_src emacs-lisp
      (iqbal-install-package 'el-get)
-     (load "el-get")
-   #+end_src
-
-** Path to custom el-get recipes
-   #+begin_src emacs-lisp
-     (add-to-list 'el-get-recipe-path (locate-user-emacs-file "recipies/"))
    #+end_src
 
 ** Use shallow clones
