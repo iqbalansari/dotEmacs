@@ -60,7 +60,7 @@
   #+end_src
 
 
-* mu4e configuration
+* General mu4e configuration
 ** Use w3m to render html messages
   #+begin_src emacs-lisp
     (when (executable-find "w3m")
@@ -107,12 +107,7 @@
    #+end_src
 
 
-** Action to view the current message in browser
-  #+begin_src emacs-lisp
-    (eval-after-load "mu4e"
-      '(add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser)))
-  #+end_src
-
+* Additional actions for messages
 ** Action to retag message
    #+begin_src emacs-lisp
      (eval-after-load "mu4e"
@@ -124,28 +119,52 @@
                             t)))
    #+end_src
 
+** Action to view current message in a browser
+   #+begin_src emacs-lisp
+     (defun iqbal-mu4e-action-view-in-browser (msg)
+       "Modified version of original `mu4e-action-view-in-browser' this adds a meta
+     tag to charset, hardcoded to utf8 field, this makes the resulting document
+     render properly in browser.
+
+     The code assumes that the message is encoded in UTF-8, since finding the original
+     encoding will require parsing the original message and most of the times the
+     messages are utf-8 encoded"
+       (let* ((html (mu4e-message-field msg :body-html))
+              (txt (mu4e-message-field msg :body-txt))
+              (tmpfile (format "%s%x.html" temporary-file-directory (random t))))
+         (unless (or html txt)
+           (mu4e-error "No body part for this message"))
+         (with-temp-buffer
+           (let* ((msg-text (or html (concat "<pre>" txt "</pre>")))
+                  (html-format "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html;charset=UTF-8\"></head>%s</html>"))
+             (insert (if (string-prefix-p "<html" msg-text)
+                         ;; If the html starts with <html, it probably already
+                         ;; has the encoding declared
+                         msg-text
+                       ;; Otherwise add head with charset
+                       (format html-format
+                               ;; Wrap the text in body tag, technically not needed
+                               ;; since modern browsers handle such malformed content
+                               (format "%s%s%s"
+                                       (unless (string-prefix-p "<body" msg-text) "<body>")
+                                       msg-text
+                                       (unless (string-prefix-p "<body" msg-text) "</body>")))))
+             (write-file tmpfile)
+             (browse-url (concat "file://" tmpfile))))))
+
+     (eval-after-load "mu4e"
+       '(add-to-list 'mu4e-view-actions '("View in browser" . iqbal-mu4e-action-view-in-browser)))
+   #+end_src
+
 ** Action to view current message in w3m
   #+begin_src emacs-lisp
     (defun mu4e-action-view-in-w3m (msg)
-      "View the body of the message in a web browser.
-    You can influence the browser to use with the variable
-    `browse-url-generic-program'."
-      (let* ((html (mu4e-message-field msg :body-html))
-             (txt (mu4e-message-field msg :body-txt))
-             (tmpfile (format "%s%x.html" temporary-file-directory (random t))))
-        
-        (unless (or html txt)
-          (mu4e-error "No body part for this message"))
-        (with-temp-buffer
-          ;; simplistic -- but note that it's only an example...
-          (insert (or html (concat "<pre>" txt "</pre>")))
-          (write-file tmpfile)
-          (w3m-browse-url (concat "file://" tmpfile))
-          (setq html-test html))))
+      "View message in w3m"
+      (let ((browse-url-browser-function #'w3m-browse-url))
+        (iqbal-mu4e-action-view-in-browser msg)))
 
     (eval-after-load "mu4e"
       '(when (locate-library "w3m")
-         (load "w3m")
          (add-to-list 'mu4e-view-actions '("open in w3m" . mu4e-action-view-in-w3m))))
   #+end_src
 
