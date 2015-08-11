@@ -47,12 +47,6 @@
    #+end_src
 
 
-* Run projectile commander after switching project
-  #+begin_src emacs-lisp
-    (setq projectile-switch-project-action #'projectile-commander)
-  #+end_src
-
-
 * Process buffers should not be considered part of project unless they are shells
   #+begin_src emacs-lisp
     (defun iqbal-filter-out-non-shell-processes (buffers)

@@ -1,0 +1,13 @@
+* Install helm packages
+  #+begin_src emacs-lisp
+    (iqbal-install-packages '(helm helm-descbinds helm-projectile))
+  #+end_src
+
+
+* Enable helm
+  #+begin_src emacs-lisp
+    (helm-mode +1)
+    (global-set-key (kbd "C-x C-f") #'helm-find-files)
+    (helm-projectile-on)
+    (setq projectile-switch-project-action #'helm-projectile)
+  #+end_src

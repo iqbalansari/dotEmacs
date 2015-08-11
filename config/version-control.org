@@ -14,12 +14,6 @@
   #+end_src
 
 
-* Use ido as completing-read function in magit
-  #+begin_src emacs-lisp
-    (setq magit-completing-read-function 'magit-ido-completing-read)
-  #+end_src
-
-
 * Enable revert backup
   #+begin_src emacs-lisp
     (setq magit-revert-backup t)

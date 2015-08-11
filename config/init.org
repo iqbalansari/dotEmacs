@@ -96,7 +96,7 @@
                                  parenthesis
                                  yasnippet
                                  navigation
-                                 ido
+                                 helm
                                  search-replace
                                  completion
                                  syntax-check
