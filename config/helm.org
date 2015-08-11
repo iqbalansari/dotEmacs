@@ -10,4 +10,6 @@
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
     (helm-projectile-on)
     (setq projectile-switch-project-action #'helm-projectile)
+    (setq helm-descbinds-window-style 'split-window)
+    (helm-descbinds-mode +1)
   #+end_src
