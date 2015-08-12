@@ -4,12 +4,52 @@
   #+end_src
 
 
+* Enable fuzzy-match everywhere
+  #+begin_src emacs-lisp
+    (setq helm-recentf-fuzzy-match t)
+    (setq helm-buffers-fuzzy-matching t)
+    (setq helm-locate-fuzzy-match t)
+    (setq helm-M-x-fuzzy-match t)
+    (setq helm-semantic-fuzzy-match t)
+    (setq helm-imenu-fuzzy-match t)
+    (setq helm-apropos-fuzzy-match t)
+    (setq helm-lisp-fuzzy-completion t)
+    (setq helm-completion-in-region-fuzzy-match t)
+  #+end_src
+
+
 * Enable helm
   #+begin_src emacs-lisp
     (helm-mode +1)
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
-    (helm-projectile-on)
+    (global-set-key (kbd "C-x b") #'helm-buffers-list)
+    (global-set-key (kbd "M-x") #'helm-M-x)
+  #+end_src
+
+
+* Turn on helm-projectile
+  #+begin_src emacs-lisp
+    (with-eval-after-load 'projectile
+      (helm-projectile-on))
+
     (setq projectile-switch-project-action #'helm-projectile)
     (setq helm-descbinds-window-style 'split-window)
     (helm-descbinds-mode +1)
+  #+end_src
+
+
+* Echo input in header line
+  Taken from http://www.reddit.com/r/emacs/comments/3asbyn/new_and_very_useful_helm_feature_enter_search/
+  #+begin_src emacs-lisp
+    (setq helm-echo-input-in-header-line t)
+
+    (defun helm-hide-minibuffer-maybe ()
+      (when (with-helm-buffer helm-echo-input-in-header-line)
+        (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
+          (overlay-put ov 'window (selected-window))
+          (overlay-put ov 'face (let ((bg-color (face-background 'default nil)))
+                                  `(:background ,bg-color :foreground ,bg-color)))
+          (setq-local cursor-type nil))))
+
+    (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
   #+end_src
