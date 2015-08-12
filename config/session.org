@@ -55,10 +55,10 @@
 
 ** Do not remember 'sent email' files
    #+begin_src emacs-lisp
-     (eval-after-load "recentf"
-       '(progn (add-to-list 'recentf-exclude ".+,DS")
-               (add-to-list 'recentf-exclude ".+,S")
-               (add-to-list 'recentf-exclude ".*\.git/.*")))
+     (with-eval-after-load 'recentf
+       (add-to-list 'recentf-exclude ".+,DS")
+       (add-to-list 'recentf-exclude ".+,S")
+       (add-to-list 'recentf-exclude ".*\.git/.*"))
    #+end_src
 
 

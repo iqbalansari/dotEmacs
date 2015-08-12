@@ -54,19 +54,19 @@
       (goto-char (point-min))
       (dired-next-line 3))
 
-    (eval-after-load "dired"
-      '(progn (define-key dired-mode-map
-                (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map
+        (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
 
-              (define-key dired-mode-map
-                (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom)))
+      (define-key dired-mode-map
+        (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom))
   #+end_src
 
 
 * Load dired-x for additional functionality
   #+begin_src emacs-lisp
-    (eval-after-load "dired"
-      '(load "dired-x"))
+    (with-eval-after-load 'dired
+      (load "dired-x"))
   #+end_src
 
 
@@ -116,21 +116,21 @@
 
 ** Keybinding for filtering
   #+begin_src emacs-lisp
-    (eval-after-load "dired"
-      '(progn (load "dired-filter")
-              (define-key dired-mode-map "/" dired-filter-mark-map)))
+    (with-eval-after-load 'dired
+      (load "dired-filter")
+      (define-key dired-mode-map "/" dired-filter-mark-map))
   #+end_src
 
 
 * Dired ranger's configuration
   #+begin_src emacs-lisp
-    (eval-after-load "dired"
-      '(progn (load "dired-filter")
-              (define-key dired-mode-map "rc" #'dired-ranger-copy)
-              (define-key dired-mode-map "rr" #'dired-ranger-move)
-              (define-key dired-mode-map "rp" #'dired-ranger-paste)
-              (define-key dired-mode-map "rb" #'dired-ranger-bookmark)
-              (define-key dired-mode-map "rv" #'dired-ranger-bookmark-visit)))
+    (with-eval-after-load 'dired
+      (load "dired-filter")
+      (define-key dired-mode-map "rc" #'dired-ranger-copy)
+      (define-key dired-mode-map "rr" #'dired-ranger-move)
+      (define-key dired-mode-map "rp" #'dired-ranger-paste)
+      (define-key dired-mode-map "rb" #'dired-ranger-bookmark)
+      (define-key dired-mode-map "rv" #'dired-ranger-bookmark-visit))
   #+end_src
 
 
@@ -214,8 +214,8 @@
 * Keybindings
 ** Keybinding to enable wdired mode
   #+begin_src emacs-lisp
-    (eval-after-load "dired"
-      '(define-key dired-mode-map "e" #'dired-toggle-read-only))
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map "e" #'dired-toggle-read-only))
   #+end_src
 
 ** Keybindings for starting dired
