@@ -11,6 +11,12 @@
   #+end_src
 
 
+* Instruct ffap to not ping to remote hosts
+  #+begin_src emacs-lisp
+    (setq ffap-machine-p-known 'reject)
+  #+end_src
+
+
 * Open a file using sudo
   These were taken from [[https://github.com/fniessen/emacs-leuven][emacs-leuven]]
   #+begin_src emacs-lisp
