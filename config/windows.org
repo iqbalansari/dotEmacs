@@ -98,5 +98,5 @@
 * Keybindings to split windows
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x -") #'split-window-vertically)
-    (global-set-key (kbd "C-x \\") #'split-window-horizon)
+    (global-set-key (kbd "C-x \\") #'split-window-horizontally)
   #+end_src
