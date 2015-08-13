@@ -8,6 +8,7 @@
 * Interacting with the repl
   #+begin_src emacs-lisp
     (define-key haskell-mode-map iqbal-run-shell #'haskell-interactive-bring)
+    (define-key haskell-mode-map iqbal-send-file #'haskell-process-load-or-reload)
   #+end_src
 
 

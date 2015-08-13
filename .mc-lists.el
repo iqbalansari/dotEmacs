@@ -70,6 +70,7 @@
         org-shiftup
         org-table-sum
         org-todo
+        org-update-statistics-cookies
         org-yank
         orgtbl-self-insert-command
         overwrite-mode
