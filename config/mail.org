@@ -143,7 +143,7 @@
                          msg-text
                        ;; Otherwise add head with charset
                        (format html-format
-                               ;; Wrap the text in body tag, technically not needed
+                               ;; Wrap the text in body tag, usually not needed
                                ;; since modern browsers handle such malformed content
                                (format "%s%s%s"
                                        (unless (string-prefix-p "<body" msg-text) "<body>")
@@ -201,7 +201,7 @@
      (defun iqbal-make-appts-from-parsed-ical-data (data)
        (dolist (ical-data data)
          (let ((mail-link (org-store-link nil)))
-           (append-to-file (format "* TODO %s\n  SCHEDULED: %s\n%s\n\nSource: %s"
+           (append-to-file (format "\n* TODO %s\n  SCHEDULED: %s\n%s\n\nSource: %s"
                                    (plist-get ical-data :summary)
                                    (plist-get ical-data :date)
                                    (iqbal-indent-text (plist-get ical-data :description) 2)
