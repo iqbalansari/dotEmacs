@@ -6,6 +6,7 @@
 
 * Enable fuzzy-match everywhere
   #+begin_src emacs-lisp
+    (setq helm-mode-fuzzy-match t)
     (setq helm-recentf-fuzzy-match t)
     (setq helm-buffers-fuzzy-matching t)
     (setq helm-locate-fuzzy-match t)
