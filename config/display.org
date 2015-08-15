@@ -329,4 +329,6 @@
     (with-eval-after-load 'ggtags (diminish 'ggtags-mode))
     (with-eval-after-load 'subword (diminish 'subword-mode))
     (with-eval-after-load 'abbrev (diminish 'abbrev-mode))
+    (with-eval-after-load 'helm (diminish 'helm-mode))
+    (with-eval-after-load 'eyebrowse (diminish ' eyebrowse-mode))
   #+end_src
