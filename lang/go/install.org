@@ -34,9 +34,3 @@
     (unless iqbal-godef-available
       (warn "`godef' not installed jump to definition would not work"))
   #+end_src
-
-
-* Extra snippets for go-mode
-  #+begin_src emacs-lisp
-    (iqbal-install-package 'go-snippets)
-  #+end_src

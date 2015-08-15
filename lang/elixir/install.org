@@ -2,10 +2,3 @@
   #+begin_src emacs-lisp
     (iqbal-install-package 'alchemist)
   #+end_src
-
-
-* Install elixir-snippets
-  #+begin_src emacs-lisp
-    (iqbal-install-package 'elixir-yasnippets)
-  #+end_src
-

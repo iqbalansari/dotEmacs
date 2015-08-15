@@ -7,9 +7,9 @@
 * Do not use '~/.emacs.d' in yas-snippets-dir
   Rather use the absolute path to '~/.emacs.d/snippets'
   #+begin_src emacs-lisp
-    (load "yasnippet")
-    (setq yas-snippet-dirs (append (list (locate-user-emacs-file "snippets/"))
-                                   (remove "~/.emacs.d/snippets" yas-snippet-dirs)))
+    (with-eval-after-load 'yasnippet
+      (setq yas-snippet-dirs (append (list (locate-user-emacs-file "snippets/"))
+                                     (remove "~/.emacs.d/snippets" yas-snippet-dirs))))
   #+end_src
 
 
@@ -22,19 +22,12 @@
 * Configuration for expanding snippets
 ** Disable snippet expansion on tab, it is annoying
   #+begin_src emacs-lisp
-    (define-key yas-minor-mode-map (kbd "TAB") nil)
-    (define-key yas-minor-mode-map [(tab)] nil)
+    (with-eval-after-load 'yasnippet
+      (define-key yas-minor-mode-map (kbd "TAB") nil)
+      (define-key yas-minor-mode-map [(tab)] nil))
   #+end_src
 
-** Use ido to prompt for snippets
-  #+begin_src emacs-lisp
-    (setq yas-prompt-functions
-          (cons 'yas-ido-prompt
-                (remove 'yas-ido-prompt
-                        yas-prompt-functions)))
-  #+end_src
-
-** Use company-mode to expand snippet otherwise use ido
+** Use company-mode (if enabled) to expand snippet
    #+begin_src emacs-lisp
      (defun iqbal-expand-yas-using-company ()
        (interactive)
@@ -50,12 +43,12 @@
                                #'iqbal-expand-yas-using-company
                              #'yas-insert-snippet)))
 
-     (with-eval-after-load 'company
+     (with-eval-after-load 'yasnippet
        (define-key yas-minor-mode-map (kbd "<C-return>") #'iqbal-expand-yas))
    #+end_src
 
 
 * Enable yasnippet global mode
   #+begin_src emacs-lisp
-    (yas-global-mode)
+;    (yas-global-mode)
   #+end_src
