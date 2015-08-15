@@ -18,8 +18,7 @@
 * Load merlin if ocamlmerlin is installed
   #+begin_src emacs-lisp
     (if (executable-find "ocamlmerlin")
-        (progn (iqbal-install-package 'auto-complete)
-               (load "merlin"))
+        (load "merlin")
       (warn "`ocamlmerlin' not installed, use opam to install it"))
   #+end_src
 
