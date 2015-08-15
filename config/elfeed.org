@@ -30,14 +30,48 @@
 * Open current article in w3m in elfeed-show mode
   Fallback to eww, if available or fallback to system browser
   #+begin_src emacs-lisp
+    (defun iqbal-elfeed-show-reddit-get-orig-article ()
+      (save-excursion
+        (goto-char (point-min))
+        (when (search-forward "[link]" (point-max) t)
+          (goto-char (match-beginning 0))
+          (let ((text-prop (text-properties-at (point))))
+            (and (member 'shr-link (text-properties-at (point)))
+                 (plist-get (text-properties-at (point)) 'shr-url))))))
+
     (defun iqbal-elfeed-show-open-article-in-w3m ()
       (interactive)
-      (if (elfeed-entry-link elfeed-show-entry)
-          (cond ((locate-library "w3m") (w3m-browse-url (elfeed-entry-link elfeed-show-entry)))
-                ((locate-library "eww") (eww-browse-url (elfeed-entry-link elfeed-show-entry)))
-                (t (progn (message "`w3m' not installed, falling back to system browser")
-                          (elfeed-show-visit))))
-        (message "Not visiting an article!")))
+      (let* ((feed-link (elfeed-entry-link elfeed-show-entry))
+             ;; If this is a reddit feed try jumping to original
+             ;; article instead of reddit link
+             (link (if (and (not current-prefix-arg)
+                            (string-match-p "reddit\.com/r/" feed-link))
+                       (or (iqbal-elfeed-show-reddit-get-orig-article) feed-link)
+                     feed-link)))
+        (if link
+            (cond ((locate-library "w3m") (w3m-browse-url link))
+                  ((locate-library "eww") (eww-browse-url link))
+                  (t (progn (message "`w3m' not installed, falling back to system browser")
+                            (elfeed-show-visit))))
+          (message "Not visiting an article!"))))
+  #+end_src
+
+
+* Jump directly to original article when viewing reddit feed
+  #+begin_src emacs-lisp
+    (defun iqbal-elfeed-show-visit ()
+      "Visit the current entry in the browser."
+      (interactive)
+      (let* ((feed-link (elfeed-entry-link elfeed-show-entry))
+             ;; If this is a reddit feed try jumping to original
+             ;; article instead of reddit link
+             (link (if (and (not current-prefix-arg)
+                            (string-match-p "reddit\.com/r/" feed-link))
+                       (or (iqbal-elfeed-show-reddit-get-orig-article) feed-link)
+                     feed-link)))
+        (when link
+          (message "Sent to browser: %s" link)
+          (browse-url link))))
   #+end_src
 
 
@@ -154,5 +188,6 @@
    #+begin_src emacs-lisp
      (with-eval-after-load 'elfeed-show
        (define-key elfeed-show-mode-map (kbd "w") #'iqbal-elfeed-show-open-article-in-w3m)
-       (define-key elfeed-show-mode-map (kbd "/") #'elfeed-show-new-live-search))
+       (define-key elfeed-show-mode-map (kbd "/") #'elfeed-show-new-live-search)
+       (define-key elfeed-show-mode-map (kbd "b") #'iqbal-elfeed-show-visit))
    #+end_src
