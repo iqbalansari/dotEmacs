@@ -1,0 +1,6 @@
+(:name org-player
+       :description "Use bongo to play links to audio/video files"
+       :type http
+       :url "http://orgmode.org/worg/code/elisp/org-player.el"
+       :features org-player
+       :checksum "08dd21c09c049905472a6705f3a3a146d28a1bd7")

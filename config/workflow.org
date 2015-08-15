@@ -517,8 +517,8 @@
 * Change TODO state to READING when opening a UNREAD link
   #+begin_src emacs-lisp
     (defun iqbal-org-mark-link-as-reading-on-follow ()
-      (let ((todo-state (save-excursion (org-back-to-heading t)
-                                        (org-get-todo-state))))
+      (let ((todo-state (save-excursion (when (ignore-errors (org-back-to-heading t))
+                                          (org-get-todo-state)))))
         (when (string= todo-state "UNREAD")
           (org-todo "READING"))))
 

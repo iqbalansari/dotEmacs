@@ -5,8 +5,8 @@
                               eldoc-eval
                               guide-key
                               which-key
-                              edit-server
-                              rainbow-mode))
+                              rainbow-mode
+                              bongo))
   #+end_src
 
 
@@ -137,12 +137,6 @@
         (call-interactively #'calc)))
 
     (global-set-key (kbd "C-c C") #'iqbal-start-calculator)
-  #+end_src
-
-
-* Start edit-server
-  #+begin_src emacs-lisp
-    (edit-server-start)
   #+end_src
 
 
