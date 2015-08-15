@@ -6,8 +6,8 @@
 
 * Disable syntax checking on new-line
   #+begin_src emacs-lisp
-    (eval-after-load 'flycheck
-      '(setq flycheck-check-syntax-automatically (delq 'new-line flycheck-check-syntax-automatically)))
+    (with-eval-after-load 'flycheck
+      (setq flycheck-check-syntax-automatically (delq 'new-line flycheck-check-syntax-automatically)))
   #+end_src
 
 
@@ -46,8 +46,8 @@
              (overlay-put overlay 'help-echo (flycheck-error-message err))
              overlay))))
 
-     (eval-after-load 'flycheck
-       '(add-to-list 'flycheck-process-error-functions #'iqbal-add-lines-for-errors))
+     (with-eval-after-load 'flycheck
+       (add-to-list 'flycheck-process-error-functions #'iqbal-add-lines-for-errors))
    #+end_src
 
 

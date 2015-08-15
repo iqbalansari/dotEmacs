@@ -472,7 +472,7 @@
         (add-to-list 'org-capture-templates 
                      (org-projectile:project-todo-entry "p" "* TODO %? :%(iqbal-get-source-buffers-project):\n%a\n")))
 
-      (eval-after-load "projectile" #'iqbal-enable-org-projectile)
+      (with-eval-after-load 'projectile (iqbal-enable-org-projectile))
     #+end_src
 
 *** Template for capturing journal entry
@@ -788,8 +788,8 @@
 ** Keybinding to open/exit deft
    #+begin_src emacs-lisp
      (global-set-key (kbd "C-c n") #'deft)
-     (eval-after-load "deft"
-       '(define-key deft-mode-map (kbd "C-c n") #'quit-window))
+     (with-eval-after-load 'deft
+       (define-key deft-mode-map (kbd "C-c n") #'quit-window))
    #+end_src
 
 ** Keybinding to view diary

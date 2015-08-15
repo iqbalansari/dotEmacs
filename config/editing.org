@@ -391,16 +391,15 @@
 ** Show folded code in a pos-tip
 *** With fold this
     #+begin_src emacs-lisp
-      (eval-after-load "fold-this"
-        '(progn
-           (defadvice fold-this (after fold-this-show-help (start end))
-             (let ((overlays (overlays-in start end)))
-               (dolist (ov overlays)
-                 (when (eq (overlay-get ov  'type) 'fold-this)
-                   (overlay-put ov 'help-echo 'iqbal--display-folded-content)
-                   (define-key (overlay-get ov 'keymap) (kbd "C-x C-\\") 'fold-this-unfold-at-point)))))
+      (with-eval-after-load 'fold-this
+        (defadvice fold-this (after fold-this-show-help (start end))
+          (let ((overlays (overlays-in start end)))
+            (dolist (ov overlays)
+              (when (eq (overlay-get ov  'type) 'fold-this)
+                (overlay-put ov 'help-echo 'iqbal--display-folded-content)
+                (define-key (overlay-get ov 'keymap) (kbd "C-x C-\\") 'fold-this-unfold-at-point)))))
 
-           (ad-activate 'fold-this)))
+        (ad-activate 'fold-this))
     #+end_src
 *** With hs-minor-mode
     #+begin_src emacs-lisp
@@ -455,10 +454,10 @@
 * Multiple cursors setup
 ** Load mc-cycle-cursors and mc-hide-unmatched-lines-mode for extra functionality
    #+begin_src emacs-lisp
-     (eval-after-load "multiple-cursors-core"
-       '(progn (load "mc-mark-more")
-               (load "mc-hide-unmatched-lines-mode")
-               (load "mc-cycle-cursors")))
+     (with-eval-after-load 'multiple-cursors-core
+       (load "mc-mark-more")
+       (load "mc-hide-unmatched-lines-mode")
+       (load "mc-cycle-cursors"))
    #+end_src
 
 ** Location for mc/list-file

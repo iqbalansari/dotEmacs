@@ -31,9 +31,9 @@
 
 ** Use auto-complete with flyspell
    #+begin_src emacs-lisp
-     (eval-after-load "auto-complete"
-       '(progn (define-key ac-menu-map [backtab] 'ac-previous)
-               (ac-flyspell-workaround)))
+     (with-eval-after-load 'auto-complete
+       (define-key ac-menu-map [backtab] 'ac-previous)
+       (ac-flyspell-workaround))
    #+end_src
 
 ** To get pop-ups with docs even if a word is uniquely completed from Steve Purcell's config
@@ -111,9 +111,9 @@
 ** Keybindings
    Remap company-complete-common to company-complete-common-or-cycle
    #+begin_src emacs-lisp
-     (eval-after-load "company"
-       '(progn (define-key company-active-map [remap company-complete-common] #'company-complete-common-or-cycle)
-               (define-key company-active-map (kbd "<backtab>") #'company-select-previous)))
+     (with-eval-after-load 'company
+       (define-key company-active-map [remap company-complete-common] #'company-complete-common-or-cycle)
+       (define-key company-active-map (kbd "<backtab>") #'company-select-previous))
    #+end_src
 
 

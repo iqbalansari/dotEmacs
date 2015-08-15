@@ -102,21 +102,21 @@
 
 ** Make bindings to open links in mu4e consistent with org-mode bindings
    #+begin_src emacs-lisp
-     (eval-after-load 'mu4e-view
-       '(define-key mu4e-view-clickable-urls-keymap (kbd "C-c C-o") #'mu4e~view-browse-url-from-binding))
+     (with-eval-after-load 'mu4e-view
+       (define-key mu4e-view-clickable-urls-keymap (kbd "C-c C-o") #'mu4e~view-browse-url-from-binding))
    #+end_src
 
 
 * Additional actions for messages
 ** Action to retag message
    #+begin_src emacs-lisp
-     (eval-after-load "mu4e"
-       '(progn (add-to-list 'mu4e-headers-actions
-                            (cons "retag" 'mu4e-action-retag-message)
-                            t)
-               (add-to-list 'mu4e-view-actions
-                            (cons "retag" 'mu4e-action-retag-message)
-                            t)))
+     (with-eval-after-load 'mu4e
+       (add-to-list 'mu4e-headers-actions
+                    (cons "retag" 'mu4e-action-retag-message)
+                    t)
+       (add-to-list 'mu4e-view-actions
+                    (cons "retag" 'mu4e-action-retag-message)
+                    t))
    #+end_src
 
 ** Action to view current message in a browser
@@ -152,8 +152,8 @@
              (write-file tmpfile)
              (browse-url (concat "file://" tmpfile))))))
 
-     (eval-after-load "mu4e"
-       '(add-to-list 'mu4e-view-actions '("View in browser" . iqbal-mu4e-action-view-in-browser)))
+     (with-eval-after-load 'mu4e
+       (add-to-list 'mu4e-view-actions '("View in browser" . iqbal-mu4e-action-view-in-browser)))
    #+end_src
 
 ** Action to view current message in w3m
@@ -163,9 +163,9 @@
       (let ((browse-url-browser-function #'w3m-browse-url))
         (iqbal-mu4e-action-view-in-browser msg)))
 
-    (eval-after-load "mu4e"
-      '(when (locate-library "w3m")
-         (add-to-list 'mu4e-view-actions '("open in w3m" . mu4e-action-view-in-w3m))))
+    (with-eval-after-load 'mu4e
+      (when (locate-library "w3m")
+        (add-to-list 'mu4e-view-actions '("open in w3m" . mu4e-action-view-in-w3m))))
   #+end_src
 
 ** Action to import appointments from ical files
@@ -226,21 +226,9 @@
              (iqbal-appt-from-ical tmpfile)
              (message (format "Imported %s" (plist-get attachment :name)))))))
 
-     (eval-after-load "mu4e"
-       '(add-to-list 'mu4e-view-actions (cons "ical to appt" 'mu4e-action-appt-from-ics) t))
+     (with-eval-after-load 'mu4e
+       (add-to-list 'mu4e-view-actions (cons "ical to appt" 'mu4e-action-appt-from-ics) t))
    #+end_src
-
-** Action to add contacts to org-contacts
-  #+begin_src emacs-lisp
-    (setq mu4e-org-contacts-file (locate-user-emacs-file "org/contacts.org"))
-    (eval-after-load "mu4e"
-      '(progn (add-to-list 'mu4e-headers-actions
-                           (cons "org-contact-add" 'mu4e-action-add-org-contact)
-                           t)
-              (add-to-list 'mu4e-view-actions
-                           (cons "org-contact-add" 'mu4e-action-add-org-contact)
-                           t)))
-  #+end_src
 
 
 * Auto update configuration
@@ -340,8 +328,7 @@
 *** Setup for updating the mail mode line
 **** Update mode-line when mu4e loads
      #+begin_src emacs-lisp
-       (eval-after-load 'mu4e
-         '(iqbal-update-mail-count-modeline))
+       (with-eval-after-load 'mu4e (iqbal-update-mail-count-modeline))
      #+end_src
 
 **** Update mode-line after executing marks
@@ -351,8 +338,7 @@
           (iqbal-update-mail-count-modeline))
         (ad-activate 'mu4e-mark-execute-all))
 
-      (eval-after-load 'mu4e
-        '(iqbal-setup-mail-count-update-after-exec-marks))
+      (with-eval-after-load 'mu4e '(iqbal-setup-mail-count-update-after-exec-marks))
     #+end_src
 
 **** Update mode-line after viewing a message
@@ -420,9 +406,9 @@
 
 ** Prefer .authinfo.gpg for credentials
    #+begin_src emacs-lisp
-     (eval-after-load "auth-source"
-       '(setq auth-sources (cons "~/.authinfo.gpg"
-                                 (delete "~/.authinfo.gpg" auth-sources))))
+     (with-eval-after-load 'auth-source
+       (setq auth-sources (cons "~/.authinfo.gpg"
+                                (delete "~/.authinfo.gpg" auth-sources))))
    #+end_src
 
 ** Send mail using smtp
@@ -441,8 +427,7 @@
 
 ** Load org-mu4e on loading mu4e
    #+begin_src emacs-lisp
-     (eval-after-load "mu4e"
-       '(load "org-mu4e" t))
+     (with-eval-after-load 'mu4e (load "org-mu4e" t))
    #+end_src
 
 
@@ -464,8 +449,7 @@
 
        (ad-activate 'mu4e~proc-sentinel))
 
-     (eval-after-load "mu4e"
-       '(iqbal-advise-mu4e~proc-sentinel))
+     (with-eval-after-load 'mu4e (iqbal-advise-mu4e~proc-sentinel))
    #+end_src
 
 ** Functions to start/hide mu4e
@@ -503,13 +487,13 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c m") #'iqbal-start-mu4e)    
 
-    (eval-after-load "mu4e"
-      '(progn (define-key mu4e-main-mode-map (kbd "q") #'iqbal-hide-mu4e)
-              (define-key mu4e-main-mode-map (kbd "Q") #'mu4e-quit)
-              (define-key mu4e-main-mode-map (kbd "/") #'mu4e-headers-search)
-              (define-key mu4e-main-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
-              (define-key mu4e-view-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
-              (define-key mu4e-headers-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
-              (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
-              (define-key mu4e-view-mode-map (kbd "U") #'mu4e-headers-rerun-search)))
+    (with-eval-after-load 'mu4e
+      (define-key mu4e-main-mode-map (kbd "q") #'iqbal-hide-mu4e)
+      (define-key mu4e-main-mode-map (kbd "Q") #'mu4e-quit)
+      (define-key mu4e-main-mode-map (kbd "/") #'mu4e-headers-search)
+      (define-key mu4e-main-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
+      (define-key mu4e-view-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
+      (define-key mu4e-headers-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
+      (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
+      (define-key mu4e-view-mode-map (kbd "U") #'mu4e-headers-rerun-search))
   #+end_src

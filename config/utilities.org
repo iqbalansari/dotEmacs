@@ -122,8 +122,8 @@
 * Additional keybinding for redo in calc
   Just for consistency with regular redo keybinding
   #+begin_src emacs-lisp
-    (eval-after-load "calc"
-      '(define-key calc-mode-map (kbd "C-?") #'calc-redo))
+    (with-eval-after-load 'calc
+      (define-key calc-mode-map (kbd "C-?") #'calc-redo))
   #+end_src
 
 

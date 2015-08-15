@@ -95,24 +95,22 @@
 * Customizations for linum-mode
 ** Make custom linum consistent [http://www.emacswiki.org/emacs/LineNumbers#toc6]
    #+begin_src emacs-lisp
-     (eval-after-load "linum"
-       '(progn (defface linum-leading-zero
-                 `((t :inherit 'linum
-                      :foreground ,(face-attribute 'linum :background nil t)))
-                 "Face for displaying leading zeroes for line numbers in display margin."
-                 :group 'linum)
-     
-               (defun linum-format-func (line)
-                 (let ((w (length
-                           (number-to-string (count-lines (point-min) (point-max))))))
-                   (concat
-                    (propertize (make-string (- w (length (number-to-string line))) ?0)
-                                'face 'linum-leading-zero)
-                    (propertize (concat " " (number-to-string line) " ") 'face 'linum))))
-     
-               ;; Line numbers in margin
-                                             ;(global-linum-mode t)
-               (setq linum-format 'linum-format-func)))
+     (with-eval-after-load 'linum
+       (defface linum-leading-zero
+         `((t :inherit 'linum
+              :foreground ,(face-attribute 'linum :background nil t)))
+         "Face for displaying leading zeroes for line numbers in display margin."
+         :group 'linum)
+
+       (defun linum-format-func (line)
+         (let ((w (length
+                   (number-to-string (count-lines (point-min) (point-max))))))
+           (concat
+            (propertize (make-string (- w (length (number-to-string line))) ?0)
+                        'face 'linum-leading-zero)
+            (propertize (concat " " (number-to-string line) " ") 'face 'linum))))
+
+       (setq linum-format 'linum-format-func))
    #+end_src
 
 
@@ -310,26 +308,25 @@
     (load "diminish")
 
     (diminish 'visual-line-mode)
-    (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
-    (eval-after-load "smartparens" '(diminish 'smartparens-mode))
-    (eval-after-load "volatile-highlights" '(diminish 'volatile-highlights-mode))
-    (eval-after-load "projectile" '(diminish 'projectile-mode))
-    (eval-after-load "auto-complete" '(diminish 'auto-complete-mode))
-    (eval-after-load "undo-tree" '(diminish 'undo-tree-mode))
-    (eval-after-load "guide-key" '(diminish 'guide-key-mode))
-    (eval-after-load "back-button" '(diminish 'back-button-mode))
-    (eval-after-load "el-spice" '(diminish 'el-spice-mode))
-    (eval-after-load "eldoc" '(diminish 'eldoc-mode))
-    (eval-after-load "hideshow" '(diminish 'hs-minor-mode))
-    (eval-after-load "autopair" '(diminish 'autopair-mode))
-    (eval-after-load "hilit-chg" '(diminish 'highlight-changes-mode))
-    (eval-after-load "tern" '(diminish 'tern-mode))
-    (eval-after-load "company" '(diminish 'company-mode))
-    (eval-after-load "page-break-lines" '(diminish 'page-break-lines-mode))
-    (eval-after-load "merlin" '(diminish 'merlin-mode))
-    (eval-after-load "auto-complete" '(diminish 'auto-complete-mode))    
-    (eval-after-load "flyspell" '(diminish 'flyspell-mode))
-    (eval-after-load "ggtags" '(diminish 'ggtags-mode))
-    (eval-after-load "subword" '(diminish 'subword-mode))
-    (eval-after-load "abbrev" '(diminish 'abbrev-mode))
+    (with-eval-after-load 'yasnippet (diminish 'yas-minor-mode))
+    (with-eval-after-load 'smartparens (diminish 'smartparens-mode))
+    (with-eval-after-load 'volatile-highlights (diminish 'volatile-highlights-mode))
+    (with-eval-after-load 'projectile (diminish 'projectile-mode))
+    (with-eval-after-load 'auto-complete (diminish 'auto-complete-mode))
+    (with-eval-after-load 'undo-tree (diminish 'undo-tree-mode))
+    (with-eval-after-load 'guide-key (diminish 'guide-key-mode))
+    (with-eval-after-load 'back-button (diminish 'back-button-mode))
+    (with-eval-after-load 'eldoc (diminish 'eldoc-mode))
+    (with-eval-after-load 'hideshow (diminish 'hs-minor-mode))
+    (with-eval-after-load 'autopair (diminish 'autopair-mode))
+    (with-eval-after-load 'hilit-chg (diminish 'highlight-changes-mode))
+    (with-eval-after-load 'tern (diminish 'tern-mode))
+    (with-eval-after-load 'company (diminish 'company-mode))
+    (with-eval-after-load 'page-break-lines (diminish 'page-break-lines-mode))
+    (with-eval-after-load 'merlin (diminish 'merlin-mode))
+    (with-eval-after-load 'auto-complete (diminish 'auto-complete-mode))    
+    (with-eval-after-load 'flyspell (diminish 'flyspell-mode))
+    (with-eval-after-load 'ggtags (diminish 'ggtags-mode))
+    (with-eval-after-load 'subword (diminish 'subword-mode))
+    (with-eval-after-load 'abbrev (diminish 'abbrev-mode))
   #+end_src

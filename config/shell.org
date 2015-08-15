@@ -20,9 +20,9 @@
 
 * Use shift-enter to accumulate output in comint mode
   #+begin_src emacs-lisp
-    (eval-after-load "comint"
-      '(progn (define-key comint-mode-map (kbd "C-c SPC") nil)
-              (define-key comint-mode-map (kbd "<S-return>") #'comint-accumulate)))
+    (with-eval-after-load 'comint
+      (define-key comint-mode-map (kbd "C-c SPC") nil)
+      (define-key comint-mode-map (kbd "<S-return>") #'comint-accumulate))
   #+end_src
 
 
@@ -34,12 +34,12 @@
         (kill-buffer)
         (ignore-errors (delete-window))))
 
-    (eval-after-load "comint"
-      '(define-key comint-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window))
+    (with-eval-after-load 'comint
+      (define-key comint-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window))
 
-    (eval-after-load "compile"
-      '(progn (define-key compilation-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window)
-              (define-key compilation-minor-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window)))
+    (with-eval-after-load 'compile
+      (define-key compilation-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window)
+      (define-key compilation-minor-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window))
   #+end_src
 
 
@@ -53,23 +53,25 @@
         (term-char-mode)
         (message "Switched to char mode")))
 
-    (eval-after-load "term"
-      '(progn (define-key term-raw-map (kbd "C-`") 'iqbal-toggle-term-mode)
-              (define-key term-mode-map (kbd "C-`") 'iqbal-toggle-term-mode)))
+    (with-eval-after-load 'term
+      (define-key term-raw-map (kbd "C-`") 'iqbal-toggle-term-mode)
+      (define-key term-mode-map (kbd "C-`") 'iqbal-toggle-term-mode))
   #+end_src
 
 
 * Set C-x as the prefix command rather than C-c
   #+begin_src emacs-lisp
-    (eval-after-load 'term
-      '(term-set-escape-char ?\C-x))
+    (with-eval-after-load 'term (term-set-escape-char ?\C-x))
   #+end_src
 
 
 * Set keybindings for undo in the term
   #+begin_src emacs-lisp
-    (eval-after-load 'term
-      '(progn (define-key term-raw-map (kbd "C-/") (lambda () (interactive) (term-send-raw-string (kbd "C-_"))))))
+    (with-eval-after-load 'term
+      (define-key term-raw-map (kbd "C-/") (lambda ()
+                                             (interactive)
+                                             (term-send-raw-string (kbd "C-_")))))
+
   #+end_src
 
 
@@ -81,8 +83,8 @@
       (define-key term-raw-map (kbd "C-<up>") #'buf-move-up)
       (define-key term-raw-map (kbd "C-<down>") #'buf-move-down))
 
-    (eval-after-load "buffer-move"
-      '(add-hook 'term-mode-hook #'iqbal-enable-buf-move-term))
+    (with-eval-after-load 'buffer-move
+      (add-hook 'term-mode-hook #'iqbal-enable-buf-move-term))
   #+end_src
 
 
@@ -94,8 +96,8 @@
       (define-key term-raw-map (kbd "<S-up>") #'windmove-up)
       (define-key term-raw-map (kbd "<S-down>") #'windmove-down))
 
-    (eval-after-load "windmove"
-      '(add-hook 'term-mode-hook #'iqbal-enable-windmove-term))
+    (with-eval-after-load 'windmove
+      (add-hook 'term-mode-hook #'iqbal-enable-windmove-term))
   #+end_src
 
 
@@ -121,15 +123,15 @@
 ** Capture C-n, C-p, C-a, C-e, M-< and M-> is region is active or send
    raw keys to the terminal
    #+begin_src emacs-lisp
-     (eval-after-load 'term
-       '(progn (define-key term-raw-map "\C-n" 'iqbal-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\C-p" 'iqbal-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\C-a" 'iqbal-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\C-e" 'iqbal-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\C-w" 'iqbal-execute-command-if-region-or-send-raw)
-               (define-key term-raw-map "\M-w" 'iqbal-execute-command-if-region-or-send-raw-meta)
-               (define-key term-raw-map "\M-<" 'iqbal-execute-command-if-region-or-send-raw-meta)
-               (define-key term-raw-map "\M->" 'iqbal-execute-command-if-region-or-send-raw-meta)))
+     (with-eval-after-load 'term
+       (define-key term-raw-map "\C-n" 'iqbal-execute-command-if-region-or-send-raw)
+       (define-key term-raw-map "\C-p" 'iqbal-execute-command-if-region-or-send-raw)
+       (define-key term-raw-map "\C-a" 'iqbal-execute-command-if-region-or-send-raw)
+       (define-key term-raw-map "\C-e" 'iqbal-execute-command-if-region-or-send-raw)
+       (define-key term-raw-map "\C-w" 'iqbal-execute-command-if-region-or-send-raw)
+       (define-key term-raw-map "\M-w" 'iqbal-execute-command-if-region-or-send-raw-meta)
+       (define-key term-raw-map "\M-<" 'iqbal-execute-command-if-region-or-send-raw-meta)
+       (define-key term-raw-map "\M->" 'iqbal-execute-command-if-region-or-send-raw-meta))
    #+end_src
 
 
@@ -147,8 +149,8 @@
       (interactive)
       (term-send-raw-string (kbd "\033[Z")))
 
-    (eval-after-load 'term
-      '(define-key term-raw-map (kbd "<backtab>") 'iqbal-term-send-backtab))
+    (with-eval-after-load 'term
+      (define-key term-raw-map (kbd "<backtab>") 'iqbal-term-send-backtab))
   #+end_src
 
 
@@ -174,11 +176,11 @@
 
 * Better colors for term mode
   #+begin_src emacs-lisp
-    (eval-after-load 'term
-      '(progn (set-face-attribute 'term-color-blue nil :foreground "#1e90ff")
-              (set-face-attribute 'term-color-red nil :foreground "#ee5c42")
-              (set-face-attribute 'term-color-cyan nil :foreground "#8cd0d3")
-              (set-face-attribute 'term-color-green nil :foreground "#00ff00")))
+    (with-eval-after-load 'term
+      (set-face-attribute 'term-color-blue nil :foreground "#1e90ff")
+      (set-face-attribute 'term-color-red nil :foreground "#ee5c42")
+      (set-face-attribute 'term-color-cyan nil :foreground "#8cd0d3")
+      (set-face-attribute 'term-color-green nil :foreground "#00ff00"))
   #+end_src
 
 
@@ -328,13 +330,14 @@
      (global-set-key (kbd "C-|") #'iqbal-split-window-right-start-terminal)
      (global-set-key (kbd "C-S-t") #'iqbal-start-shell)
      (global-set-key (kbd "C-S-w") #'iqbal-kill-term-delete-window)
-     (eval-after-load "term"
-       '(progn (define-key term-raw-map (kbd "C-|") #'iqbal-split-window-right-start-terminal)
-               (define-key term-raw-map (kbd "C-\\") #'iqbal-split-window-below-start-terminal)
-               (define-key term-raw-map (kbd "C-S-q") #'delete-window)))
 
-     (eval-after-load "shell"
-       '(define-key shell-mode-map (kbd "C-S-q") #'delete-window))
+     (with-eval-after-load 'term
+       (define-key term-raw-map (kbd "C-|") #'iqbal-split-window-right-start-terminal)
+       (define-key term-raw-map (kbd "C-\\") #'iqbal-split-window-below-start-terminal)
+       (define-key term-raw-map (kbd "C-S-q") #'delete-window))
+
+     (with-eval-after-load 'shell
+       (define-key shell-mode-map (kbd "C-S-q") #'delete-window))
    #+end_src
 
 
@@ -391,5 +394,6 @@
       (let ((comint-buffer-maximum-size 0))
         (comint-truncate-buffer)))
 
-    (eval-after-load "comint" '(define-key comint-mode-map "\C-c\M-o" #'iqbal-comint-clear-buffer))
+    (with-eval-after-load 'comint
+      (define-key comint-mode-map (kbd "C-c M-o") #'iqbal-comint-clear-buffer))
   #+end_src

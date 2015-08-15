@@ -50,8 +50,8 @@
                                #'iqbal-expand-yas-using-company
                              #'yas-insert-snippet)))
 
-     (eval-after-load "company"
-       '(define-key yas-minor-mode-map (kbd "<C-return>") #'iqbal-expand-yas))
+     (with-eval-after-load 'company
+       (define-key yas-minor-mode-map (kbd "<C-return>") #'iqbal-expand-yas))
    #+end_src
 
 

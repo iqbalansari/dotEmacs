@@ -1,8 +1,9 @@
 * Enable semantic only in c-mode, cc-mode and java-mode
   #+begin_src emacs-lisp
-    (eval-after-load "semantic"
-      '(add-to-list 'semantic-inhibit-functions
-                   (lambda () (not (member major-mode '(java-mode c-mode c++-mode))))))
+    (with-eval-after-load 'semantic
+      (add-to-list 'semantic-inhibit-functions
+                   (lambda ()
+                     (not (member major-mode '(java-mode c-mode c++-mode))))))
   #+end_src
 
 

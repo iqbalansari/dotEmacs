@@ -126,9 +126,9 @@
 * org-export configuration
 ** Export backends that should always be available
    #+begin_src emacs-lisp
-     (eval-after-load "org"
-       '(progn (add-to-list 'org-export-backends 'md)
-               (add-to-list 'org-export-backends 'odt)))
+     (with-eval-after-load 'org
+       (add-to-list 'org-export-backends 'md)
+       (add-to-list 'org-export-backends 'odt))
    #+end_src
 
 ** Do not include tags in export
@@ -152,21 +152,21 @@
    org already exports a better table of contents, I find org-toc useful for
    org documents that are do not need to be exported
    #+begin_src emacs-lisp
-     (eval-after-load "ox"
-       '(progn (add-to-list 'org-export-exclude-tags "TOC")
-               (add-to-list 'org-export-exclude-tags "TOC_2")
-               (add-to-list 'org-export-exclude-tags "TOC_2_org")
-               (add-to-list 'org-export-exclude-tags "TOC_2_gh")
-               (add-to-list 'org-export-exclude-tags "TOC_3")
-               (add-to-list 'org-export-exclude-tags "TOC_3_org")
-               (add-to-list 'org-export-exclude-tags "TOC_3_gh")))
+     (with-eval-after-load 'ox
+       (add-to-list 'org-export-exclude-tags "TOC")
+       (add-to-list 'org-export-exclude-tags "TOC_2")
+       (add-to-list 'org-export-exclude-tags "TOC_2_org")
+       (add-to-list 'org-export-exclude-tags "TOC_2_gh")
+       (add-to-list 'org-export-exclude-tags "TOC_3")
+       (add-to-list 'org-export-exclude-tags "TOC_3_org")
+       (add-to-list 'org-export-exclude-tags "TOC_3_gh"))
    #+end_src
 
 
 * Keybinding to save edits in org-src mode
   #+begin_src emacs-lisp
-    (eval-after-load 'org-src
-      '(define-key org-src-mode-map "\C-c\C-c" #'org-edit-src-exit))
+    (with-eval-after-load 'org-src
+      (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
   #+end_src
 
 
@@ -204,8 +204,8 @@
 * Automatically mark a task as DONE, when all checkboxes are checked
   Taken from [[http://orgmode.org/worg/org-hacks.html]]
   #+begin_src emacs-lisp
-    (eval-after-load 'org-list
-      '(add-hook 'org-checkbox-statistics-hook (function ndk/checkbox-list-complete)))
+    (with-eval-after-load 'org-list
+      (add-hook 'org-checkbox-statistics-hook (function ndk/checkbox-list-complete)))
 
     (defun ndk/checkbox-list-complete ()
       (save-excursion

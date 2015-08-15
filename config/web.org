@@ -52,9 +52,9 @@
        (define-key w3m-mode-map (kbd "M-RET") #'w3m-lnum-external-view-this-url)
        (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
 
-     (eval-after-load "w3m"
-       '(progn (iqbal-set-w3m-keybindings)
-               (iqbal-w3m-set-mark-before-jump)))
+     (with-eval-after-load 'w3m
+       (iqbal-set-w3m-keybindings)
+       (iqbal-w3m-set-mark-before-jump))
    #+end_src
 
 
