@@ -75,38 +75,36 @@
    the following will return nil, irrespective of whether ipython is installed
    globally, unless the `check-venv-p` is nil
   #+begin_src emacs-lisp
-    (defun iqbal-ipython-available-p (check-venv-p)
+    (defun iqbal-ipython-available-in-virtualenv-p ()
       (when (executable-find "ipython")
         ;; If a virtualenv is active also make sure ipython is installed
         ;; in the virtualenv
-        (or (not check-venv-p)
-            (not pyvenv-virtual-env)
+        (or (not (bound-and-true-p pyvenv-virtual-env))
             (string-prefix-p (file-truename pyvenv-virtual-env)
                              (file-truename (executable-find "ipython"))))))
   #+end_src
 
-** Functions to setup python interpreter
+** Function to setup python interpreter
    #+begin_src emacs-lisp
-     (defun iqbal-set-python-interpreter (venv-activating-p)
-       (if (not (equal system-type 'windows-nt))
-           ;; Do not check venv for ipython if we are deactivating the
-           ;; current venv
-           (setq python-shell-interpreter (if (iqbal-ipython-available-p venv-activating-p)
-                     "ipython"
-                   "python"))
-         (unless (zerop (shell-command "python -c \"import readline\""))
-           (warn "`pyreadline' not installed, completion in python shell would not work
-         do `pip install pyreadline', to install pyreadline"))))
+     (defun iqbal-set-python-interpreter ()
+       ;; Do not check venv for ipython if we are deactivating the
+       ;; current venv
+       (setq python-shell-interpreter (if (and (iqbal-ipython-available-in-virtualenv-p)
+                                               ;; Do not use ipython on windows
+                                               (not (equal system-type 'windows-nt)))
+                                          "ipython"
+                                        "python"))
 
-     (defun iqbal-set-python-interpreter-on-venv-act ()
-       (iqbal-set-python-interpreter t))
-
-     (defun iqbal-set-python-interpreter-on-venv-deact ()
-       (iqbal-set-python-interpreter nil))
+       (when (and (equal system-type 'windows-nt)
+                  (not (zerop (shell-command "python -c \"import readline\""))))
+         (warn "`pyreadline' not installed, completion in python shell would not work
+         do `pip install pyreadline', to install pyreadline")))
    #+end_src
 
-** Setup python interpreter in pyvenv activate and deactivate hooks
+** Setup python interpreter before starting python shell
    #+begin_src emacs-lisp
-     (add-hook 'pyvenv-post-activate-hooks #'iqbal-set-python-interpreter-on-venv-act)
-     (add-hook 'pyvenv-post-deactivate-hooks #'iqbal-set-python-interpreter-on-venv-deact)
+     (defadvice python-shell-parse-command (before iqbal-setup-python-interpreter (&rest ignored))
+       (iqbal-set-python-interpreter))
+
+     (ad-activate 'python-shell-parse-command)
    #+end_src
