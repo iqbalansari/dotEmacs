@@ -6,8 +6,8 @@
 
 * Keybindings for interacting with python shell
    #+begin_src emacs-lisp
-     (define-key python-mode-map iqbal-send-region #'iqbal-py-send-region)
-     (define-key python-mode-map iqbal-send-line #'iqbal-py-send-line)
+     (define-key python-mode-map iqbal-send-region #'python-shell-send-region-or-paragraph)
+     (define-key python-mode-map iqbal-send-line #'python-shell-send-line)
      (define-key python-mode-map iqbal-send-buffer #'python-shell-send-buffer)
      (define-key python-mode-map iqbal-send-function #'python-shell-send-defun)
      (define-key python-mode-map iqbal-send-file #'python-shell-send-file)

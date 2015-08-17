@@ -1,6 +1,6 @@
 * Install helm packages
   #+begin_src emacs-lisp
-    (iqbal-install-packages '(helm helm-descbinds helm-projectile))
+    (iqbal-install-packages '(helm helm-descbinds helm-projectile wgrep-helm))
   #+end_src
 
 
@@ -34,6 +34,17 @@
       (helm-projectile-on))
 
     (setq projectile-switch-project-action #'helm-projectile)
+  #+end_src
+
+* Add projectile sources to helm-mini
+  #+begin_src emacs-lisp
+    (add-to-list 'helm-mini-default-sources 'helm-source-projectile-buffers-list)
+    (add-to-list 'helm-mini-default-sources 'helm-source-projectile-files-list t)
+  #+end_src
+
+
+* helm-descbinds configuration
+  #+begin_src emacs-lisp
     (setq helm-descbinds-window-style 'split-window)
     (helm-descbinds-mode +1)
   #+end_src
@@ -53,4 +64,9 @@
           (setq-local cursor-type nil))))
 
     (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
+  #+end_src
+
+* Keybinding for helm-mini
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c t") #'helm-mini)
   #+end_src

@@ -24,7 +24,7 @@
 * Check if project is indexed
   #+begin_src emacs-lisp
     (when iqbal-rtags-available
-      (let* ((project-root (or (ignore-errors (projectile-project-root)) default-directory))
+      (let* ((project-root (let ((projectile-require-project-root nil)) (projectile-project-root)))
              (rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
                                                             " --is-indexed "
                                                             buffer-file-name)))

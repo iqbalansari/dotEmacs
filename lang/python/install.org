@@ -1,11 +1,7 @@
 * Ensure that the required "packages" are installed
-+ [[http://tkf.github.io/emacs-jedi/][jedi]] - Python auto-completion for Emacs. It is faster than other alternatives
-  and just works
-+ [[https://bitbucket.org/jonwaltman/pydoc-info][pydoc-info]] - Emacs package for searching Python documentation in Info
-+ [[https://bitbucket.org/durin42/nosemacs][nosemacs]] - Emacs extension to provide easy nosetest integration.
   #+begin_src emacs-lisp
     (defvar iqbal-python-packages '(pyvenv
-                                    flycheck
+                                    python-x
                                     nose))
 
     (iqbal-install-packages iqbal-python-packages)
