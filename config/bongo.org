@@ -1,0 +1,22 @@
+* Install bongo
+  #+begin_src emacs-lisp
+    (iqbal-install-package 'bongo)
+  #+end_src
+
+
+* Use VLC to play https streams
+  #+begin_src emacs-lisp
+    (setq bongo-custom-backend-matchers '((vlc "https:" t)))
+  #+end_src
+
+
+* Bongo configuration
+** Keybinding to start bongo
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c M") #'bongo)
+  #+end_src
+
+** Autoload bongo-library-mode
+   #+begin_src emacs-lisp
+     (autoload #'bongo-library-mode "bongo")
+   #+end_src

@@ -5,8 +5,7 @@
                               eldoc-eval
                               guide-key
                               which-key
-                              rainbow-mode
-                              bongo))
+                              rainbow-mode))
   #+end_src
 
 
@@ -137,22 +136,4 @@
         (call-interactively #'calc)))
 
     (global-set-key (kbd "C-c C") #'iqbal-start-calculator)
-  #+end_src
-
-
-* Bongo configuration
-** Keybinding to start bongo
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c M") #'bongo)
-  #+end_src
-
-** Autoload bongo-library-mode
-   #+begin_src emacs-lisp
-     (autoload #'bongo-library-mode "bongo")
-   #+end_src
-
-
-* Location of RFC files
-  #+begin_src emacs-lisp
-    (setq irfc-directory (locate-user-emacs-file "org/RFCs/"))
   #+end_src
