@@ -54,12 +54,13 @@
 * Change flycheck face to use straight lines instead of wavy lines
   #+begin_src emacs-lisp
     (defun iqbal-flycheck-use-straight-lines ()
-      (let ((error-color (plist-get (face-attribute 'flycheck-error :underline) :color))
-            (warning-color (plist-get (face-attribute 'flycheck-warning :underline) :color))
-            (info-color (plist-get (face-attribute 'flycheck-info :underline) :color)))
-        (set-face-attribute 'flycheck-error nil :underline (list :style 'line :color error-color))
-        (set-face-attribute 'flycheck-warning nil :underline (list :style 'line :color warning-color))
-        (set-face-attribute 'flycheck-info nil :underline (list :style 'line :color info-color))))
+      (when (display-graphic-p)
+        (let ((error-color (plist-get (face-attribute 'flycheck-error :underline) :color))
+              (warning-color (plist-get (face-attribute 'flycheck-warning :underline) :color))
+              (info-color (plist-get (face-attribute 'flycheck-info :underline) :color)))
+          (set-face-attribute 'flycheck-error nil :underline (list :style 'line :color error-color))
+          (set-face-attribute 'flycheck-warning nil :underline (list :style 'line :color warning-color))
+          (set-face-attribute 'flycheck-info nil :underline (list :style 'line :color info-color)))))
 
     (add-hook 'flycheck-mode-hook #'iqbal-flycheck-use-straight-lines)
   #+end_src
