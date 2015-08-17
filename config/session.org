@@ -61,6 +61,11 @@
        (add-to-list 'recentf-exclude ".*\.git/.*"))
    #+end_src
 
+** Enable recentf mode
+   #+begin_src emacs-lisp
+     (recentf-mode +1)
+   #+end_src
+
 
 * Remember place in buffers across sessions
   #+begin_src emacs-lisp

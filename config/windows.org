@@ -97,6 +97,14 @@
 
 * Keybindings to split windows
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x -") #'split-window-vertically)
-    (global-set-key (kbd "C-x \\") #'split-window-horizontally)
+    (defun iqbal-split-window-vertically ()
+      (interactive)
+      (select-window (split-window-vertically)))
+
+    (defun iqbal-split-window-horizontally ()
+      (interactive)
+      (select-window (split-window-horizontally)))
+
+    (global-set-key (kbd "C-x -") #'iqbal-split-window-vertically)
+    (global-set-key (kbd "C-x \\") #'iqbal-split-window-horizontally)
   #+end_src
