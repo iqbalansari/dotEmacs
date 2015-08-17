@@ -119,6 +119,7 @@
                                  elfeed
                                  pdf
                                  rfc
+                                 bongo
                                  utilities))
 
     (when (eq system-type 'windows-nt)

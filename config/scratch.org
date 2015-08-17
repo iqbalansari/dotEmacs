@@ -3,7 +3,7 @@
     (defun iqbal-create-scratch-buffer (&optional read-major-mode-p)
       (interactive "P")
       (let* ((major-mode-function (if read-major-mode-p
-                                      (intern (ido-completing-read "Major mode: " (iqbal-get-all-major-modes-names)))
+                                      (intern (completing-read "Major mode: " (iqbal-get-all-major-modes-names)))
                                     major-mode))
              (scratch-buffer-name (concat "*scratch ["
                                           (replace-regexp-in-string "-mode$" ""

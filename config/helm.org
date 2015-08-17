@@ -22,9 +22,6 @@
 * Enable helm
   #+begin_src emacs-lisp
     (helm-mode +1)
-    (global-set-key (kbd "C-x C-f") #'helm-find-files)
-    (global-set-key (kbd "C-x b") #'helm-buffers-list)
-    (global-set-key (kbd "M-x") #'helm-M-x)
   #+end_src
 
 
@@ -35,6 +32,7 @@
 
     (setq projectile-switch-project-action #'helm-projectile)
   #+end_src
+
 
 * Add projectile sources to helm-mini
   #+begin_src emacs-lisp
@@ -66,7 +64,16 @@
     (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
   #+end_src
 
-* Keybinding for helm-mini
+
+* Do not prompt when creating new file
+  #+BEGIN_SRC emacs-lisp
+    (setq helm-ff-newfile-prompt-p nil)
+  #+END_SRC
+
+
+* Keybindings
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c t") #'helm-mini)
+    (global-set-key (kbd "C-x C-f") #'helm-find-files)
+    (global-set-key (kbd "M-x") #'helm-M-x)
+    (global-set-key (kbd "C-x b") #'helm-mini)
   #+end_src
