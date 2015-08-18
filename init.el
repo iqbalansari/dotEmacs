@@ -35,7 +35,6 @@ your emacs and try again!"))
 ;; Do not let org overtake shift-arrow, ctrl-arrow keys windmove and buffermove
 ;; use them. Unfortunately this needs to be set before loading org, hence
 ;; setting it here
-(setq org-replace-disputed-keys t)
 (require 'org)
 
 ;; Avoid re-extraction if file has not changed

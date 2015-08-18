@@ -52,6 +52,12 @@
 ** Use default keybindings
   #+begin_src emacs-lisp
     (windmove-default-keybindings)
+
+    (with-eval-after-load 'org
+      (org-defkey org-mode-map (kbd  "<S-left>")  'windmove-left)
+      (org-defkey org-mode-map (kbd  "<S-right>") 'windmove-right)
+      (org-defkey org-mode-map (kbd  "<S-up>")    'windmove-up)
+      (org-defkey org-mode-map (kbd  "<S-down>")  'windmove-down))
   #+end_src
 
 ** Wrap around when moving off last window in a direction
