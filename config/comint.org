@@ -1,0 +1,105 @@
+* Use C-S-w to quickly kill comint mode buffers
+  #+begin_src emacs-lisp
+    (defun iqbal-kill-buffer-delete-window ()
+      (interactive)
+      (let ((kill-buffer-query-functions nil))
+        (kill-buffer)
+        (ignore-errors (delete-window))))
+
+    (with-eval-after-load 'comint
+      (define-key comint-mode-map (kbd "C-S-w") #'iqbal-kill-buffer-delete-window))
+  #+end_src
+
+
+* Various customizations picked up from [[http://snarfed.org/why_i_run_shells_inside_emacs][snarfed.org]]
+** Always add output at the bottom
+   #+begin_src emacs-lisp
+     (setq comint-scroll-to-bottom-on-output nil)
+   #+end_src
+
+** No duplicates in command history
+   #+begin_src emacs-lisp
+     (setq comint-input-ignoredups t)
+   #+end_src
+
+** Truncate buffers continuously
+   #+begin_src emacs-lisp
+     (add-hook 'comint-output-filter-functions 'comint-truncate-buffer)
+   #+end_src
+
+** Set pager to 'cat'
+   #+begin_src emacs-lisp
+     (setenv "PAGER" "cat")
+   #+end_src
+
+** Make comint prompt read-only
+   #+begin_src emacs-lisp
+     (setq comint-prompt-read-only t)
+   #+end_src
+
+
+* Clear comint based REPL
+  Taken from [[http://emacsredux.com/blog/2015/01/18/clear-comint-buffers/]]
+  #+begin_src emacs-lisp
+    (defun iqbal-comint-clear-buffer ()
+      (interactive)
+      (let ((comint-buffer-maximum-size 0))
+        (comint-truncate-buffer)))
+
+    (with-eval-after-load 'comint
+      (define-key comint-mode-map (kbd "C-c M-o") #'iqbal-comint-clear-buffer))
+  #+end_src
+
+
+* Remembering comint history across sessions
+  Taken from [[https://oleksandrmanzyuk.wordpress.com/2011/10/23/a-persistent-command-history-in-emacs/]]
+** Directory where comint history will be stored
+  #+begin_src emacs-lisp
+    (defvar comint-history-dir (locate-user-emacs-file "comint-history"))
+
+    (unless (file-exists-p comint-history-dir)
+      (make-directory comint-history-dir))
+  #+end_src
+
+** Function to write comint history on exit
+  #+begin_src emacs-lisp
+    (defun comint-write-history-on-exit (process event)
+      (comint-write-input-ring)
+      (let ((buf (process-buffer process)))
+        (when (buffer-live-p buf)
+          (with-current-buffer buf
+            (insert (format "\nProcess %s %s" process event))))))
+  #+end_src
+
+** Function to setup comint history
+  #+begin_src emacs-lisp
+    (defun turn-on-comint-history ()
+      (let ((process (get-buffer-process (current-buffer))))
+        (when process
+          (setq comint-input-ring-file-name
+                (expand-file-name (format "inferior-%s-history"
+                                          (process-name process))
+                                  comint-history-dir))
+          (comint-read-input-ring t)
+          (set-process-sentinel process
+                                #'comint-write-history-on-exit))))
+  #+end_src
+
+** Setup comint history on comint start
+  #+begin_src emacs-lisp
+    (add-hook 'comint-mode-hook 'turn-on-comint-history)
+  #+end_src
+
+** Save comint history when buffer is killed without exiting the process
+  #+begin_src emacs-lisp
+    (add-hook 'kill-buffer-hook 'comint-write-input-ring)
+  #+end_src
+
+** Save comint history when emacs is killed
+  #+begin_src emacs-lisp
+    (defun comint-write-input-ring-all-buffers ()
+      (mapc (lambda (buffer) (with-current-buffer buffer (comint-write-input-ring)))
+            (buffer-list)))
+
+    (add-hook 'kill-emacs-hook 'comint-write-input-ring-all-buffers)
+  #+end_src

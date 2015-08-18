@@ -41,10 +41,15 @@
            (remove-text-properties (match-beginning 0) (match-end 0) '(rear-nonsticky)))))
 
      (add-hook 'message-mode-hook 'iqbal-strip-message-mode-problematic-text-props)
-     (add-hook 'message-mode-hook 'flyspell-mode)
      (add-hook 'mu4e-compose-mode-hook 'iqbal-strip-message-mode-problematic-text-props)
-     (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
    #+end_src
+
+
+* Enable flyspell mode in message-mode
+  #+begin_src emacs-lisp
+    (add-hook 'message-mode-hook 'flyspell-mode)
+    (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
+  #+end_src
 
 
 * Offlineimap configuration

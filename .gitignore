@@ -63,3 +63,4 @@ trello/
 /.trello/
 /emacs-init.el
 /emms/cache
+/comint-history
