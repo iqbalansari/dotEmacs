@@ -30,6 +30,15 @@
   #+end_src
 
 
+* Instruct emacs to strip echos from the shell
+  #+begin_src emacs-lisp
+    (defun iqbal-set-process-echoes-input ()
+      (setq comint-process-echoes t))
+
+    (add-hook 'shell-mode-hook #'iqbal-set-process-echoes-input)
+  #+end_src
+
+
 * Make URLs clickable
   #+begin_src emacs-lisp
     (add-hook 'shell-mode-hook 'goto-address-mode)

@@ -552,6 +552,12 @@
   #+end_src
 
 
+* Do not ask before saving abbrevs
+  #+begin_src emacs-lisp
+    (setq save-abbrevs 'silently)
+  #+end_src
+
+
 * Keybindings
 ** Keybinding to prompt user for value during recording macro
    #+begin_src emacs-lisp

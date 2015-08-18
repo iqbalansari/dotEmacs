@@ -81,6 +81,7 @@
                                           (process-name process))
                                   comint-history-dir))
           (comint-read-input-ring t)
+          (add-hook 'kill-buffer-hook 'comint-write-input-ring t t)
           (set-process-sentinel process
                                 #'comint-write-history-on-exit))))
   #+end_src
@@ -88,11 +89,6 @@
 ** Setup comint history on comint start
   #+begin_src emacs-lisp
     (add-hook 'comint-mode-hook 'turn-on-comint-history)
-  #+end_src
-
-** Save comint history when buffer is killed without exiting the process
-  #+begin_src emacs-lisp
-    (add-hook 'kill-buffer-hook 'comint-write-input-ring)
   #+end_src
 
 ** Save comint history when emacs is killed

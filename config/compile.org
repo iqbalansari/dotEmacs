@@ -41,9 +41,8 @@
     (autoload 'ansi-color-apply-on-region "ansi-color")
     (defun iqbal-colorize-compilation-buffer ()
       (when (eq major-mode 'compilation-mode)
-        (toggle-read-only)
-        (ansi-color-apply-on-region compilation-filter-start (point))
-        (toggle-read-only)))
+        (let ((inhibit-read-only t))
+          (ansi-color-apply-on-region compilation-filter-start (point)))))
 
     (add-hook 'compilation-filter-hook 'iqbal-colorize-compilation-buffer)
   #+end_src
