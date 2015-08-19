@@ -43,3 +43,12 @@
   #+begin_src emacs-lisp
     (add-hook 'shell-mode-hook 'goto-address-mode)
   #+end_src
+
+
+* Better completion UI for shell-mode
+  #+begin_src emacs-lisp
+    (with-eval-after-load 'shell
+      (define-key shell-mode-map (kbd "TAB") #'company-complete))
+
+    (add-hook 'shell-mode-hook #'company-mode)
+  #+end_src
