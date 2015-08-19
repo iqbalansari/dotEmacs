@@ -26,7 +26,7 @@
 
 
 * Use ibuffer-projectile to group buffers by projects
-** Group buffers by vc in ibuffer
+** Group buffers by projectile projects
   #+begin_src emacs-lisp
     (defun ibuffer-projectile-setup ()
       (ibuffer-projectile-set-filter-groups)
@@ -52,90 +52,18 @@
    #+end_src
 
 
-* Filter groups for ibuffer
-** The filters
+* Do not show empty groups in ibuffer
   #+begin_src emacs-lisp
-    (setq ibuffer-saved-filter-groups
-          '(("default"
-             ("Chat"
-              (mode . circe-mode))
-             ("Org"
-              (or
-               (mode . diary-mode)
-               (mode . org-mode)
-               (mode . org-agenda-mode)))
-             ("LaTeX"
-              (or
-               (mode . latex-mode)
-               (mode . LaTeX-mode)
-               (mode . bibtex-mode)
-               (mode . reftex-mode)))
-             ("Gnus & News"
-              (or
-               (mode . message-mode)
-               (mode . bbdb-mode)
-               (mode . mail-mode)
-               (mode . gnus-group-mode)
-               (mode . gnus-summary-mode)
-               (mode . gnus-article-mode)
-               (name . "^\\(\\.bbdb\\|dot-bbdb\\)$")
-               (name . "^\\.newsrc-dribble$")
-               (mode . newsticker-mode)))
-             ("Files"
-              (filename . ".*"))
-             ("Dired"
-              (mode . dired-mode))
-             ("Shell"
-              (mode . shell-mode)
-              (mode . eshell-mode)
-              (mode . term-mode))
-             ("Version Control"
-              (or
-               (mode . svn-status-mode)
-               (mode . svn-log-edit-mode)
-               (name . "^\\*svn-")
-               (name . "^\\*vc\\*$")
-               (name . "^\\*Annotate")
-               (name . "^\\*git-")
-               (name . "^\\*vc-")))
-             ("Emacs"
-              (or
-               (name . "^\\*scratch\\*$")
-               (name . "^\\*Messages\\*$")
-               (name . "^TAGS\\(<[0-9]+>\\)?$")
-               (name . "^\\*Occur\\*$")
-               (name . "^\\*grep\\*$")
-               (name . "^\\*Compile-Log\\*$")
-               (name . "^\\*Backtrace\\*$")
-               (name . "^\\*Process List\\*$")
-               (name . "^\\*gud\\*$")
-               (name . "^\\*Kill Ring\\*$")
-               (name . "^\\*Completions\\*$")
-               (name . "^\\*tramp")
-               (name . "^\\*compilation\\*$")))
-             ("Emacs Source"
-              (mode . emacs-lisp-mode))
-             ("Documentation"
-              (or
-               (mode . Info-mode)
-               (mode . apropos-mode)
-               (mode . woman-mode)
-               (mode . help-mode)
-               (mode . Man-mode)))
-             ("Procs" (predicate . (get-buffer-process (current-buffer)))))))
+    (setq ibuffer-show-empty-filter-groups nil)
   #+end_src
 
-** Do not show empty groups
-   #+begin_src emacs-lisp
-     (setq ibuffer-show-empty-filter-groups nil)
-   #+end_src
 
-** Display ibuffer with filter groups
-   #+begin_src emacs-lisp
-     (add-hook 'ibuffer-mode-hook
-               (lambda ()
-                 (ibuffer-switch-to-saved-filter-groups "default")))
-   #+end_src
+* Do not skip some buffers in ibuffer
+  #+begin_src emacs-lisp
+    (with-eval-after-load 'ibuf-ext
+      (add-to-list 'ibuffer-never-show-predicates "\\*helm.*")
+      (add-to-list 'ibuffer-never-show-predicates "\\*Flycheck.*"))
+  #+end_src
 
 
 * DWIM version of narrow commands
