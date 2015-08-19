@@ -3,7 +3,6 @@
     (defvar iqbal-display-packages
       '(diminish
         eval-sexp-fu
-        smooth-scrolling
         volatile-highlights
         solarized-theme
         page-break-lines
@@ -220,23 +219,10 @@
   #+end_src
 
 
-* Use smooth-scrolling for better scrolling
-  Dynamically reset scroll margin on window resize to prevent awkward
-  jumps
+* Avoid jumps of scrolling 
   #+begin_src emacs-lisp
-    (make-variable-buffer-local 'smooth-scroll-margin)
-
-    (defun iqbal-set-smooth-scroll-margin (&optional frame)
-      (save-window-excursion
-        (dolist (window (window-list frame 'no-minibuffer))
-          (with-current-buffer (window-buffer window)
-            (setq smooth-scroll-margin
-                  (if (or (eq system-type 'windows-nt)
-                          (<= (window-height) 20))
-                      1
-                    10))))))
-
-    (add-hook 'window-size-change-functions #'iqbal-set-smooth-scroll-margin)
+    (setq scroll-margin 0)
+    (setq redisplay-dont-pause t)
   #+end_src
 
 
