@@ -1,6 +1,6 @@
 * Install helm packages
   #+begin_src emacs-lisp
-    (iqbal-install-packages '(helm helm-descbinds helm-projectile wgrep-helm))
+    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company wgrep-helm))
   #+end_src
 
 
@@ -67,9 +67,16 @@
 
 
 * Do not prompt when creating new file
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (setq helm-ff-newfile-prompt-p nil)
-  #+END_SRC
+  #+end_src
+
+
+* Helm company configuration
+  #+begin_src emacs-lisp
+    (with-eval-after-load 'company
+      (define-key company-active-map (kbd "C-<return>") 'helm-company))
+  #+end_src
 
 
 * Keybindings

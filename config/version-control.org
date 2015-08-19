@@ -87,7 +87,7 @@
   #+end_src
 
 
-* Configurations for magit-repos-dir
+* Configurations for magit-repos-directories
   If projectile is present then configure magit to prompt for the
   projectile projects that are also git repositories, when magit is
   invoked with a prefix argument or from a non-git folder
