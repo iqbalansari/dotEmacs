@@ -170,7 +170,7 @@
   #+end_src
 
 
-* Keybinding
+* Keybindings
 ** Launch elfeed
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c N") #'elfeed)
@@ -178,10 +178,16 @@
 
 ** Keybindings for elfeed-search mode
    #+begin_src emacs-lisp
+     (defun elfeed-save-db-interactive ()
+       (interactive)
+       (elfeed-db-save)
+       (message "Elfeed database saved!"))
+
      (with-eval-after-load 'elfeed-search
        (define-key elfeed-search-mode-map (kbd "w") #'iqbal-elfeed-search-open-article-in-w3m)
        (define-key elfeed-search-mode-map (kbd "/") #'elfeed-search-live-filter)
-       (define-key elfeed-search-mode-map (kbd "U") #'elfeed-update))
+       (define-key elfeed-search-mode-map (kbd "U") #'elfeed-update)
+       (define-key elfeed-search-mode-map (kbd "C-x C-s") #'elfeed-save-db-interactive))
    #+end_src
 
 ** Keybindings for elfeed-show mode
@@ -189,5 +195,6 @@
      (with-eval-after-load 'elfeed-show
        (define-key elfeed-show-mode-map (kbd "w") #'iqbal-elfeed-show-open-article-in-w3m)
        (define-key elfeed-show-mode-map (kbd "/") #'elfeed-show-new-live-search)
-       (define-key elfeed-show-mode-map (kbd "b") #'iqbal-elfeed-show-visit))
+       (define-key elfeed-show-mode-map (kbd "b") #'iqbal-elfeed-show-visit)
+       (define-key elfeed-show-mode-map (kbd "C-x C-s") #'elfeed-save-db-interactive))
    #+end_src
