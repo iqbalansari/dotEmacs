@@ -32,7 +32,7 @@
 
 * Reset C-c C-d to web-mode's keybindings
   #+begin_src emacs-lisp
-    (when tern-mode
+    (when (bound-and-true-p tern-mode)
       (define-key tern-mode-keymap (kbd "C-c C-d") nil))
   #+end_src
 
