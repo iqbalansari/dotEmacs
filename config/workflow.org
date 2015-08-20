@@ -503,6 +503,12 @@
    #+end_src
 
 
+* Add id to each captured item
+  #+begin_src emacs-lisp
+    (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
+  #+end_src
+
+
 * Custom agenda commands
   Command to view link log
   #+begin_src emacs-lisp
