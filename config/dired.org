@@ -11,56 +11,61 @@
   #+end_src
 
 
-* Dired mode configurations
-** Allow recursive delete, after asking for each directory at top level
-  #+begin_src emacs-lisp
-    (setq dired-recursive-deletes 'top)
-  #+end_src
+* Allow recursive delete, after asking for each directory at top level
+ #+begin_src emacs-lisp
+   (setq dired-recursive-deletes 'top)
+ #+end_src
 
-** Copy recursively without asking
-  #+begin_src emacs-lisp
-    (setq dired-recursive-copies 'always)
-  #+end_src
 
-** Auto revert dired buffer on revisiting
-  #+begin_src emacs-lisp
-    (setq dired-auto-revert-buffer t)
-  #+end_src
+* Copy recursively without asking
+ #+begin_src emacs-lisp
+   (setq dired-recursive-copies 'always)
+ #+end_src
 
-** Let dired guess the target directory
-  #+begin_src emacs-lisp
-    (setq dired-dwim-target t)
-  #+end_src
 
-** Isearch in file names only, if when initial point position is on a file name
-  #+begin_src emacs-lisp
-    (setq dired-isearch-filenames 'dwim)
-  #+end_src
+* Auto revert dired buffer on revisiting
+ #+begin_src emacs-lisp
+   (setq dired-auto-revert-buffer t)
+ #+end_src
 
-** Display human-readable sizes in dired
-  #+begin_src emacs-lisp
-    (setq dired-listing-switches "-lah")
-  #+end_src
 
-** When in dired jump to start and end of directory listing (not the dired buffer)
-  #+begin_src emacs-lisp
-    (defun dired-jump-to-bottom ()
-      (interactive)
-      (goto-char (point-max))
-      (dired-next-line -1))
+* Let dired guess the target directory
+ #+begin_src emacs-lisp
+   (setq dired-dwim-target t)
+ #+end_src
 
-    (defun dired-back-to-top ()
-      (interactive)
-      (goto-char (point-min))
-      (dired-next-line 3))
 
-    (with-eval-after-load 'dired
-      (define-key dired-mode-map
-        (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+* Isearch in file names only, if when initial point position is on a file name
+ #+begin_src emacs-lisp
+   (setq dired-isearch-filenames 'dwim)
+ #+end_src
 
-      (define-key dired-mode-map
-        (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom))
-  #+end_src
+
+* Display human-readable sizes in dired
+ #+begin_src emacs-lisp
+   (setq dired-listing-switches "-lah")
+ #+end_src
+
+
+* When in dired jump to start and end of directory listing (not the dired buffer)
+ #+begin_src emacs-lisp
+   (defun dired-jump-to-bottom ()
+     (interactive)
+     (goto-char (point-max))
+     (dired-next-line -1))
+
+   (defun dired-back-to-top ()
+     (interactive)
+     (goto-char (point-min))
+     (dired-next-line 1))
+
+   (with-eval-after-load 'dired
+     (define-key dired-mode-map
+       (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
+
+     (define-key dired-mode-map
+       (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom))
+ #+end_src
 
 
 * Load dired-x for additional functionality
@@ -220,7 +225,7 @@
 
 ** Keybindings for starting dired
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x C-d") 'ido-dired)
+    (global-set-key (kbd "C-x C-d") 'dired)
   #+end_src
 
 ** Keybinding for neotree
