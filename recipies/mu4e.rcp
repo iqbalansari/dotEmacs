@@ -13,5 +13,6 @@
        :build `(("autoreconf" "-i")
                 ("./configure")
                 ("make"))
+       :info "mu4e/mu4e.info"
        :load-path "mu4e"
        )
