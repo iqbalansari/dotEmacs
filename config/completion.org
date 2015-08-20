@@ -113,13 +113,16 @@
    #+begin_src emacs-lisp
      (with-eval-after-load 'company
        (define-key company-active-map [remap company-complete-common] #'company-complete-common-or-cycle)
-       (define-key company-active-map (kbd "<backtab>") #'company-select-previous))
+       (define-key company-active-map (kbd "<backtab>") #'company-select-previous)
+       (define-key company-active-map (kbd "C-e") #'company-complete-common)
+       (define-key company-active-map (kbd "C-n") #'company-select-next)
+       (define-key company-active-map (kbd "C-p") #'company-select-previous))
    #+end_src
 
 
 * Enable company-mode globally
   #+begin_src emacs-lisp
-    (setq company-global-modes '(not erlang-mode python-mode web-mode))
+    (setq company-global-modes '(not erlang-mode python-mode))
     (setq iqbal-default-company-backends '(company-capf company-dabbrev company-files))
     (setq-default company-backends iqbal-default-company-backends)
     (make-variable-buffer-local 'company-backends)
