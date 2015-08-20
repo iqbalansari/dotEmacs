@@ -1,6 +1,12 @@
 * Install bongo
   #+begin_src emacs-lisp
-    (iqbal-install-package 'bongo)
+    (iqbal-install-packages '(bongo volume))
+  #+end_src
+
+
+* Prefer playlist buffers
+  #+begin_src emacs-lisp
+    (setq bongo-prefer-library-buffers nil)
   #+end_src
 
 
@@ -10,13 +16,33 @@
   #+end_src
 
 
-* Bongo configuration
+* Bongo keybindings
 ** Keybinding to start bongo
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c M") #'bongo)
   #+end_src
 
-** Autoload bongo-library-mode
+** Keybindings for bongo-dired-library-mode
    #+begin_src emacs-lisp
-     (autoload #'bongo-library-mode "bongo")
+     (with-eval-after-load 'bongo
+       (define-key bongo-dired-library-mode-map (kbd "C-c C-e") nil))
    #+end_src
+
+
+* Setup auto-mode-alist entries
+  #+begin_src emacs-lisp
+    (add-to-list 'auto-mode-alist
+                 '("\\.bongo-library$" . bongo-library-mode))
+    (add-to-list 'auto-mode-alist
+                 '("\\.bongo-playlist$" . bongo-playlist-mode))
+
+    (autoload 'bongo-library-mode "bongo" "bongo library mode" t)
+    (autoload 'bongo-playlist-mode "bongo" "bongo playlist mode" t)
+    (autoload 'bongo-dired-library-mode "bongo" "bongo dired library mode" t)
+  #+end_src
+
+
+* Enable bongo-dired-mode
+  #+begin_src emacs-lisp
+    (add-hook 'dired-mode-hook #'bongo-dired-library-mode)
+  #+end_src

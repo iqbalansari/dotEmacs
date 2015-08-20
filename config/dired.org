@@ -220,7 +220,7 @@
 ** Keybinding to enable wdired mode
   #+begin_src emacs-lisp
     (with-eval-after-load 'dired
-      (define-key dired-mode-map "e" #'dired-toggle-read-only))
+      (define-key dired-mode-map (kbd "C-c C-e") #'dired-toggle-read-only))
   #+end_src
 
 ** Keybindings for starting dired

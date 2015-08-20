@@ -72,6 +72,12 @@
   #+end_src
 
 
+* Wrap on reaching on end/start of helm candidates
+  #+begin_src emacs-lisp
+    (setq helm-move-to-line-cycle-in-source t)
+  #+end_src
+
+
 * Helm company configuration
   #+begin_src emacs-lisp
     (with-eval-after-load 'company
