@@ -1,6 +1,12 @@
-* Install irfc for viewing RFC files
+* Autoload irfc entry points
   #+begin_src emacs-lisp
-    (iqbal-install-package 'irfc)
+    (autoload 'irfc-mode "irfc" "Major mode for IETF RFC documents." t nil)
+
+    (autoload 'irfc-follow "irfc" "Open RFC document around point.
+    Download and open RFC document if it does not exist in `irfc-directory'." t nil)
+
+    (autoload 'irfc-visit "irfc" "Open RFC document RFC-NUMBER.
+    Download and open RFC document if it does not exist in `irfc-directory'." t nil)
   #+end_src
 
 
