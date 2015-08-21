@@ -87,7 +87,13 @@
   #+end_src
 
 
-* Enable bongo-dired-mode
+* Enqueuing tracks from arbitrary dired buffers
   #+begin_src emacs-lisp
-    (add-hook 'dired-mode-hook #'bongo-dired-library-mode)
+    (autoload 'bongo-dired-append-enqueue-lines "bongo" "Enqueue tracks in bongo" t)
+    (autoload 'bongo-dired-insert-enqueue-lines "bongo" "Enqueue tracks in bongo" t)
+
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map "e" 'bongo-dired-append-enqueue-lines)
+      (define-key dired-mode-map "E" 'bongo-dired-insert-enqueue-lines))
   #+end_src
+
