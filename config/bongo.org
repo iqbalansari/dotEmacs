@@ -58,15 +58,17 @@
 
     (defun iqbal-resolve-redirects (url)
       (if (executable-find "curl")
-          (iqbal-resolve-redirects-url url)
-        (iqbal-resolve-redirects-curl url)))
+          (iqbal-resolve-redirects-curl url)
+        (iqbal-resolve-redirects-url url)))
 
     (defun iqbal-add-enclosure-to-bongo (elfeed-entry bongo-buffer)
       (let* ((enclosures (elfeed-entry-enclosures elfeed-entry))
              (enclosure (when enclosures (car enclosures))))
-        (if enclosure
+        (if (and enclosure
+                 (or (string-prefix-p "audio" (cadr enclosure))
+                     (string-prefix-p "video" (cadr enclosure))))
             (with-current-buffer bongo-buffer
-              (message "Resolving redirects in enclosure url")
+              (message "Resolving redirects in enclosure url ... ")
               (let ((url (or (iqbal-resolve-redirects (car enclosure))
                              (and (y-or-n-p "Could not resolve redirects use the original url?")
                                   url))))
@@ -74,7 +76,7 @@
                     (progn (bongo-insert-uri url (elfeed-entry-title elfeed-entry))
                            (message "Enclosure added to bongo library"))
                   (user-error "Could not add enclosure to bongo library!"))))
-          (user-error "Np enclousures found in current feed!"))))
+          (user-error "No playable enclousures found in current feed!"))))
 
     (defun iqbal-elfeed-show-add-enclosure-to-bongo ()
       (interactive)

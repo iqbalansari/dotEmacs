@@ -217,7 +217,7 @@
       (defun iqbal-get-url-at-point ()
         (require 'thingatpt)
         (save-window-excursion
-          (switch-to-prev-buffer)
+          (switch-to-buffer (plist-get org-capture-plist :original-buffer))
           (thing-at-point-url-at-point)))
     #+end_src
 
@@ -237,7 +237,7 @@
     #+begin_src emacs-lisp
       (defun iqbal-get-w3m-url ()
         (save-window-excursion
-          (switch-to-prev-buffer)
+          (switch-to-buffer (plist-get org-capture-plist :original-buffer))
           (when (equal major-mode 'w3m-mode)
             (or (get-text-property (point) 'w3m-href-anchor)
                 w3m-current-url))))
@@ -259,7 +259,7 @@
     #+begin_src emacs-lisp
       (defun iqbal-get-source-buffers-mode ()
           (save-window-excursion
-            (switch-to-prev-buffer)
+            (switch-to-buffer (plist-get org-capture-plist :original-buffer))
             (substring (symbol-name major-mode) 0 -5)))
     #+end_src
 
@@ -297,7 +297,7 @@
     #+begin_src emacs-lisp
       (defun iqbal-get-source-buffers-project ()
         (save-window-excursion
-          (switch-to-prev-buffer)
+          (switch-to-buffer (plist-get org-capture-plist :original-buffer))
           (projectile-project-name)))
     #+end_src
 
