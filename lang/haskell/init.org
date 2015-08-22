@@ -27,3 +27,8 @@
     (defvar iqbal-ghc-mod-available nil)
   #+end_src
 
+
+* Make 'haskell-tags-on-save' buffer local
+  #+begin_src emacs-lisp
+    (make-variable-buffer-local 'haskell-tags-on-save)
+  #+end_src
