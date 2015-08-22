@@ -214,7 +214,7 @@
     (global-set-key (kbd "M-s p g") #'projectile-grep)
 
     (when (executable-find "ag")
-      (global-set-key (kbd "M-s p s") #'projectile-ack)
+      (global-set-key (kbd "M-s p s") #'projectile-ag)
       (global-set-key (kbd "M-s a s") #'ag)
       (global-set-key (kbd "M-s a f") #'ag-files)
       (global-set-key (kbd "M-s a d") #'ag-dired)
