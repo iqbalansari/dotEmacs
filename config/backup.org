@@ -3,6 +3,12 @@
     (iqbal-install-package 'backup-walker)
   #+end_src
 
+* Create auto-save directory if it does not already exist
+  #+begin_src emacs-lisp
+    (unless (file-exists-p (locate-user-emacs-file "auto-save/"))
+      (make-directory (locate-user-emacs-file "auto-save/")))
+  #+end_src
+
 
 * Force backup on each save
   #+begin_src emacs-lisp

@@ -90,7 +90,7 @@
 
 * List of modules to be loaded
   #+begin_src emacs-lisp
-    (defvar iqbal-modules-list '(display
+    (defvar iqbal-modules-list '(ui
                                  editing
                                  compile
                                  parenthesis

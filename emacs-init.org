@@ -1,24 +1,4 @@
-
 * Declaration of global variables and utility functions
-  Set global variables to be used in the rest of the intialization
-** Path to packages not in a package manager
-   Packages not currently installable package manager reside in this directory
-   #+begin_src emacs-lisp
-     (load "cl")
-
-     (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
-
-     (dolist (package-dir (cl-remove-if-not #'file-directory-p (directory-files otherpackages t "^[^.]+")))
-       (add-to-list 'load-path package-dir))
-   #+end_src
-
-** Path to language specific configurations
-   Lang contain the configuration related to one specific type of file.
-   They reside in the following directory
-   #+begin_src emacs-lisp
-     (defvar iqbal-langs-dir (locate-user-emacs-file "lang/"))
-   #+end_src
-
 ** Check if given file is older than any of the other given files
    #+begin_src emacs-lisp
      (defun iqbal-is-file-stale (orig-file &rest files)
@@ -42,6 +22,276 @@
        (with-temp-file file
          (erase-buffer)
          (insert data)))
+   #+end_src
+
+** Function to declare one-shot keybindings
+    These bindings active only after a particular command and are
+    deactivated as soon as some other key is pressed (as in 'C-x e'
+    and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
+    #+begin_src emacs-lisp
+      (defun one-shot-keybinding (key command)
+        (set-temporary-overlay-map
+         (let ((map (make-sparse-keymap)))
+           (define-key map (kbd key) command)
+           map) t))
+    #+end_src
+
+** Interacting with REPL
+   #+begin_src emacs-lisp
+     (defmacro iqbal-evaluate-line-in-repl (name send-region-func)
+       `(defun ,name ()
+          (interactive)
+          (,send-region-func (line-beginning-position)
+                             (line-end-position))))
+     
+     (defmacro iqbal-evaluate-file-in-repl (name send-region-func)
+       `(defun ,name (file)
+          (interactive (list (ido-read-file-name "File to evaluate: ")))
+          (with-temp-buffer
+            (insert-file-contents file)
+            (,send-region-func (point-min)
+                               (point-max)))))
+     
+     (defmacro iqbal-evaluate-buffer-in-repl (name send-region-func)
+       `(defun ,name ()
+          (interactive)
+          (,send-region-func (point-min)
+                             (point-max))))
+     
+     (defmacro iqbal-evaluate-defun-in-repl (name send-region-func)
+       `(defun ,name ()
+          (interactive)
+          (let ((start (save-excursion (beginning-of-defun) (point)))
+                (end   (save-excursion (end-of-defun) (point))))
+            (,send-region-func  start
+                                end))))
+   #+end_src
+
+** Highlighting the line to reorient the user
+   #+begin_src emacs-lisp
+     (autoload #'pulse-momentary-highlight-one-line "pulse")
+
+     (defun iqbal-highlight-line ()
+       (pulse-momentary-highlight-one-line (point)))
+
+     (defmacro iqbal-highlight-line-after-func (func)
+       `(progn (defadvice ,func (after highlight-current-line
+                                       (&rest args))
+                 "Flash the current line after jump"
+                 (run-at-time 0.1 nil #'iqbal-highlight-line))
+               (ad-activate ',func)))
+   #+end_src
+
+** Prefer utf-8 encoding
+   #+begin_src emacs-lisp
+     (setq locale-coding-system 'utf-8)
+     (set-terminal-coding-system 'utf-8)
+     (set-keyboard-coding-system 'utf-8)
+     (set-selection-coding-system 'utf-8)
+     (prefer-coding-system 'utf-8)
+   #+end_src
+
+** Increase gc threshhold
+   #+begin_src emacs-lisp
+     (setq gc-cons-threshold (* 100 1024 1024))
+   #+end_src
+
+
+* Initialize package management
+** Add some more repositories
+   #+begin_src emacs-lisp
+     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+     (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+     (package-initialize)
+   #+end_src
+
+** Refresh package contents if needed
+   #+begin_src emacs-lisp
+     (defvar iqbal-package-refresh-needed (reduce (lambda (need-refresh repo)
+                                                 (or (not (file-exists-p (concat package-user-dir "/archives/"
+                                                                                 (car repo)
+                                                                                 "/archive-contents")))
+                                                     need-refresh))
+                                               package-archives :initial-value nil))
+
+     (when iqbal-package-refresh-needed
+       (package-refresh-contents))
+   #+end_src
+
+** Path to custom El-Get recipies
+   Use recipies from this directory
+   #+begin_src emacs-lisp
+     (defvar iqbal-local-recipes (locate-user-emacs-file "recipies/"))
+     (eval-after-load "el-get"
+       '(add-to-list 'el-get-recipe-path iqbal-local-recipes))
+   #+end_src
+
+** Helper functions to install package if not already installed 
+   #+begin_src emacs-lisp
+     (defun iqbal--install-package (package &optional after-install)
+       (unless (package-installed-p package)
+         (condition-case err
+             (package-install package)
+           
+           ;; File error most probably means, the contents are old
+           ;; refresh content and try again (emacs-version >= 24.4)
+           (file-error (progn (package-refresh-contents)
+                              (package-install package)))
+
+           ;; Older emacs
+           (error (if (or (string-match-p "Error during download request.*Not Found"
+                                          (error-message-string err))
+                          (string-match-p "Package `.*' is unavailable"
+                                          (error-message-string err)))
+                      (progn (package-refresh-contents)
+                             (package-install package))
+                    (signal (car err) (cdr err)))))
+
+         (when after-install
+           (funcall after-install))))
+
+     (defun iqbal-install-package (package &optional after-install)
+       "Install package if not already installed, use el-get if 'local' recipe exists
+          for the package. Otherwise install it using package"
+       (if (file-exists-p (concat iqbal-local-recipes 
+                                  (symbol-name package)
+                                  ".rcp"))
+           (el-get 'sync package)
+         (iqbal--install-package package after-install)))
+
+     (defun iqbal-install-packages (packages)
+       (dolist (package packages)
+         (iqbal-install-package package)))
+   #+end_src
+
+** Install el-get for installing packages that have external dependencies
+   #+begin_src emacs-lisp
+     (iqbal-install-package 'el-get)
+   #+end_src
+
+** Create directory for el-get
+   #+begin_src emacs-lisp
+     (unless (file-exists-p (locate-user-emacs-file "el-get"))
+       (make-directory (locate-user-emacs-file "el-get")))
+   #+end_src
+
+** Use shallow clones for git repositories
+   #+begin_src emacs-lisp
+     (setq el-get-git-shallow-clone t)
+   #+end_src
+
+** Path to packages not in a package manager
+   Packages not currently installable package manager reside in this directory
+   #+begin_src emacs-lisp
+     (load "cl")
+
+     (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
+
+     (dolist (package-dir (cl-remove-if-not #'file-directory-p (directory-files otherpackages t "^[^.]+")))
+       (add-to-list 'load-path package-dir))
+   #+end_src
+
+** Byte compile installed packages in a clean environment
+*** Install emacs-async
+    #+begin_src emacs-lisp
+      (iqbal-install-package 'async)
+    #+end_src
+
+*** Enable async byte compilation for all packages
+    #+begin_src emacs-lisp
+      (setq async-bytecomp-allowed-packages '(all))
+      (async-bytecomp-package-mode)
+    #+end_src
+
+
+* Setup the PATH and exec-path from shell
+  This is needed if emacs not started from a shell
+** The variables to copy from shell
+   #+begin_src emacs-lisp
+     (setq exec-path-from-shell-variables (list "PATH" "MANPATH" "PKG_CONFIG_PATH" "LD_LIBRARY_PATH" "ACLOCAL_PATH"))
+   #+end_src
+
+** Initialize the environment from shell
+  #+begin_src emacs-lisp
+    (iqbal-install-package 'exec-path-from-shell)
+
+    (when (and (display-graphic-p)
+               (not (equal system-type 'windows-nt)))
+      (exec-path-from-shell-initialize))
+  #+end_src
+
+ 
+* Declare common keybindings
+  These don't actually bind any command rather they define the keys that will
+  be used for common actions across multiple modes for commands
+  like jumping-to-definition etc. These keys will be bound to actual
+  functions by the respective major modes.
+
+** Jumping to definitions
+   #+begin_src emacs-lisp
+     (defvar iqbal-jump-to-definition (kbd "M-."))
+     (defvar iqbal-pop-jump-to-definition-marker (kbd "M-,"))
+   #+end_src
+
+** Finding references
+   #+begin_src emacs-lisp
+     (defvar iqbal-find-references (kbd "C-c <"))
+   #+end_src
+
+** Displaying doc
+   #+begin_src emacs-lisp
+     (defvar iqbal-show-doc (kbd "C-c d"))
+   #+end_src
+
+** Refactoring
+   #+begin_src emacs-lisp
+     (defvar iqbal-refactor-rename (kbd "C-c r"))
+     (defvar iqbal-refactor-auto-import (kbd "C-c i"))
+     (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
+   #+end_src
+
+** Interacting with REPL
+   #+begin_src emacs-lisp
+     (defvar iqbal-run-shell (kbd "C-c C-z"))
+     (defvar iqbal-send-region (kbd "C-c C-r"))
+     (defvar iqbal-send-buffer (kbd "C-c C-b"))
+     (defvar iqbal-send-line (kbd "C-c C-l"))
+     (defvar iqbal-send-file (kbd "C-c C-f"))
+     (defvar iqbal-send-function (kbd "C-M-x"))
+     (defvar iqbal-send-phrase/sexp/block (kbd "C-x C-e"))
+   #+end_src
+
+** Expanding macro
+   #+begin_src emacs-lisp
+     (defvar iqbal-expand-macro (kbd "C-c RET"))
+   #+end_src
+
+
+* Load common libraries
+   These are general purpose libraries that can are used
+   by different modes
+
+   The libaries are loaded by the file 'config/init.org'
+   #+begin_src emacs-lisp
+     (unless (file-exists-p (locate-user-emacs-file "config/.compiled/"))
+       (make-directory (locate-user-emacs-file "config/.compiled/")))
+
+     (when (file-newer-than-file-p (locate-user-emacs-file "config/init.org")
+                                   (locate-user-emacs-file "config/.compiled/init.el"))
+       (org-babel-tangle-file (locate-user-emacs-file "config/init.org")
+                              (locate-user-emacs-file "config/.compiled/init.el")
+                              "emacs-lisp"))
+
+     (load-file (locate-user-emacs-file "config/.compiled/init.el"))
+   #+end_src
+
+
+* Setup language configurations
+** Path to language specific configurations
+   Lang contain the configuration related to one specific type of file.
+   They reside in the following directory
+   #+begin_src emacs-lisp
+     (defvar iqbal-langs-dir (locate-user-emacs-file "lang/"))
    #+end_src
 
 ** Function to load language configuration
@@ -156,278 +406,6 @@
                             (iqbal-load-lang-config-for-buffer language))))))
    #+end_src
 
-** Function to declare one-shot keybindings
-    These bindings active only after a particular command and are
-    deactivated as soon as some other key is pressed (as in 'C-x e'
-    and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
-    #+begin_src emacs-lisp
-      (defun one-shot-keybinding (key command)
-        (set-temporary-overlay-map
-         (let ((map (make-sparse-keymap)))
-           (define-key map (kbd key) command)
-           map) t))
-    #+end_src
-
-** Interacting with REPL
-   #+begin_src emacs-lisp
-     (defmacro iqbal-evaluate-line-in-repl (name send-region-func)
-       `(defun ,name ()
-          (interactive)
-          (,send-region-func (line-beginning-position)
-                             (line-end-position))))
-     
-     (defmacro iqbal-evaluate-file-in-repl (name send-region-func)
-       `(defun ,name (file)
-          (interactive (list (ido-read-file-name "File to evaluate: ")))
-          (with-temp-buffer
-            (insert-file-contents file)
-            (,send-region-func (point-min)
-                               (point-max)))))
-     
-     (defmacro iqbal-evaluate-buffer-in-repl (name send-region-func)
-       `(defun ,name ()
-          (interactive)
-          (,send-region-func (point-min)
-                             (point-max))))
-     
-     (defmacro iqbal-evaluate-defun-in-repl (name send-region-func)
-       `(defun ,name ()
-          (interactive)
-          (let ((start (save-excursion (beginning-of-defun) (point)))
-                (end   (save-excursion (end-of-defun) (point))))
-            (,send-region-func  start
-                                end))))
-   #+end_src
-
-** Highlighting the line to reorient the user
-   #+begin_src emacs-lisp
-     (autoload #'pulse-momentary-highlight-one-line "pulse")
-
-     (defun iqbal-highlight-line ()
-       (pulse-momentary-highlight-one-line (point)))
-
-     (defmacro iqbal-highlight-line-after-func (func)
-       `(progn (defadvice ,func (after highlight-current-line
-                                       (&rest args))
-                 "Flash the current line after jump"
-                 (run-at-time 0.1 nil #'iqbal-highlight-line))
-               (ad-activate ',func)))
-   #+end_src
-
-** Prefer utf-8 encoding
-   #+begin_src emacs-lisp
-     (setq locale-coding-system 'utf-8)
-     (set-terminal-coding-system 'utf-8)
-     (set-keyboard-coding-system 'utf-8)
-     (set-selection-coding-system 'utf-8)
-     (prefer-coding-system 'utf-8)
-   #+end_src
-
-
-* Increase gc threshhold
-  #+begin_src emacs-lisp
-    (setq gc-cons-threshold (* 100 1024 1024))
-  #+end_src
-
-
-* Initialize package management
-** Add some more repositories
-   #+begin_src emacs-lisp
-     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-     (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-     (package-initialize)
-   #+end_src
-
-** Refresh package contents if needed
-   #+begin_src emacs-lisp
-     (defvar iqbal-package-refresh-needed (reduce (lambda (need-refresh repo)
-                                                 (or (not (file-exists-p (concat package-user-dir "/archives/"
-                                                                                 (car repo)
-                                                                                 "/archive-contents")))
-                                                     need-refresh))
-                                               package-archives :initial-value nil))
-
-     (when iqbal-package-refresh-needed
-       (package-refresh-contents))
-   #+end_src
-
-** Path to custom El-Get recipies
-   Use recipies from this directory
-   #+begin_src emacs-lisp
-     (defvar iqbal-local-recipes (locate-user-emacs-file "recipies/"))
-     (eval-after-load "el-get"
-       '(add-to-list 'el-get-recipe-path iqbal-local-recipes))
-   #+end_src
-
-** Helper functions to install package if not already installed 
-   #+begin_src emacs-lisp
-     (defun iqbal--install-package (package &optional after-install)
-       (unless (package-installed-p package)
-         (condition-case err
-             (package-install package)
-           
-           ;; File error most probably means, the contents are old
-           ;; refresh content and try again (emacs-version >= 24.4)
-           (file-error (progn (package-refresh-contents)
-                              (package-install package)))
-
-           ;; Older emacs
-           (error (if (or (string-match-p "Error during download request.*Not Found"
-                                          (error-message-string err))
-                          (string-match-p "Package `.*' is unavailable"
-                                          (error-message-string err)))
-                      (progn (package-refresh-contents)
-                             (package-install package))
-                    (signal (car err) (cdr err)))))
-
-         (when after-install
-           (funcall after-install))))
-
-     (defun iqbal-install-package (package &optional after-install)
-       "Install package if not already installed, use el-get if 'local' recipe exists
-          for the package. Otherwise install it using package"
-       (if (file-exists-p (concat iqbal-local-recipes 
-                                  (symbol-name package)
-                                  ".rcp"))
-           (el-get 'sync package)
-         (iqbal--install-package package after-install)))
-
-     (defun iqbal-install-packages (packages)
-       (dolist (package packages)
-         (iqbal-install-package package)))
-   #+end_src
-
-** Install el-get for installing packages that have external dependencies
-   #+begin_src emacs-lisp
-     (iqbal-install-package 'el-get)
-   #+end_src
-
-** Create directory for el-get
-   #+begin_src emacs-lisp
-     (unless (file-exists-p (locate-user-emacs-file "el-get"))
-       (make-directory (locate-user-emacs-file "el-get")))
-   #+end_src
-
-** Use shallow clones for git repositories
-   #+begin_src emacs-lisp
-     (setq el-get-git-shallow-clone t)
-   #+end_src
-
-** Byte compile installed packages in a clean environment
-*** Install emacs-async
-    #+begin_src emacs-lisp
-      (iqbal-install-package 'async)
-    #+end_src
-
-*** Enable async byte compilation for all packages
-    #+begin_src emacs-lisp
-      (setq async-bytecomp-allowed-packages '(all))
-      (async-bytecomp-package-mode)
-    #+end_src
-
-
-* Confirm before killing emacs
-  #+begin_src emacs-lisp
-    (setq confirm-kill-emacs 'y-or-n-p)
-  #+end_src
-
-
-* Setup the PATH and exec-path from shell
-  This is needed if emacs not started from a shell
-** The variables to copy from shell
-   #+begin_src emacs-lisp
-     (setq exec-path-from-shell-variables (list "PATH" "MANPATH" "PKG_CONFIG_PATH" "LD_LIBRARY_PATH" "ACLOCAL_PATH"))
-   #+end_src
-
-** Initialize the environment from shell
-  #+begin_src emacs-lisp
-    (iqbal-install-package 'exec-path-from-shell)
-
-    (when (and (display-graphic-p)
-               (not (equal system-type 'windows-nt)))
-      (exec-path-from-shell-initialize))
-  #+end_src
-
-
-* Replace yes-no questions with y-n questions
-  #+begin_src emacs-lisp
-    (fset 'yes-or-no-p 'y-or-n-p)
-  #+end_src
-
-
-* Create auto-save directory if it does not already exist
-  #+begin_src emacs-lisp
-    (unless (file-exists-p (locate-user-emacs-file "auto-save/"))
-      (make-directory (locate-user-emacs-file "auto-save/")))
-  #+end_src
-
-
-* Declare common keybindings
-  These don't actually bind any command rather they define the keys that will
-  be used for common actions across multiple modes for commands
-  like jumping-to-definition etc. These keys will be bound to actual
-  functions by the respective major modes.
-
-** Jumping to definitions
-   #+begin_src emacs-lisp
-     (defvar iqbal-jump-to-definition (kbd "M-."))
-     (defvar iqbal-pop-jump-to-definition-marker (kbd "M-,"))
-   #+end_src
-
-** Finding references
-   #+begin_src emacs-lisp
-     (defvar iqbal-find-references (kbd "C-c <"))
-   #+end_src
-
-** Displaying doc
-   #+begin_src emacs-lisp
-     (defvar iqbal-show-doc (kbd "C-c d"))
-   #+end_src
-
-** Refactoring
-   #+begin_src emacs-lisp
-     (defvar iqbal-refactor-rename (kbd "C-c r"))
-     (defvar iqbal-refactor-auto-import (kbd "C-c i"))
-     (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
-   #+end_src
-
-** Interacting with REPL
-   #+begin_src emacs-lisp
-     (defvar iqbal-run-shell (kbd "C-c C-z"))
-     (defvar iqbal-send-region (kbd "C-c C-r"))
-     (defvar iqbal-send-buffer (kbd "C-c C-b"))
-     (defvar iqbal-send-line (kbd "C-c C-l"))
-     (defvar iqbal-send-file (kbd "C-c C-f"))
-     (defvar iqbal-send-function (kbd "C-M-x"))
-     (defvar iqbal-send-phrase/sexp/block (kbd "C-x C-e"))
-   #+end_src
-
-** Expanding macro
-   #+begin_src emacs-lisp
-     (defvar iqbal-expand-macro (kbd "C-c RET"))
-   #+end_src
-
-
-* Load common libraries
-   These are general purpose libraries that can are used
-   by different modes
-
-   The libaries are loaded by the file 'config/init.org'
-   #+begin_src emacs-lisp
-     (unless (file-exists-p (locate-user-emacs-file "config/.compiled/"))
-       (make-directory (locate-user-emacs-file "config/.compiled/")))
-
-     (when (file-newer-than-file-p (locate-user-emacs-file "config/init.org")
-                                   (locate-user-emacs-file "config/.compiled/init.el"))
-       (org-babel-tangle-file (locate-user-emacs-file "config/init.org")
-                              (locate-user-emacs-file "config/.compiled/init.el")
-                              "emacs-lisp"))
-
-     (load-file (locate-user-emacs-file "config/.compiled/init.el"))
-   #+end_src
-
-
-* Setup language configurations
 ** Emacs lisp is needs to be configured specially
    #+begin_src emacs-lisp
      (defvar iqbal-elisp-packages '(elisp-slime-nav 

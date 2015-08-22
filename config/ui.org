@@ -12,6 +12,18 @@
   #+end_src
 
 
+* Replace yes-no questions with y-n questions
+  #+begin_src emacs-lisp
+    (fset 'yes-or-no-p 'y-or-n-p)
+  #+end_src
+
+
+* Confirm before killing emacs
+  #+begin_src emacs-lisp
+    (setq confirm-kill-emacs 'y-or-n-p)
+  #+end_src
+
+
 * Do not show the startup screen
   #+begin_src emacs-lisp
     (setq inhibit-startup-screen t)

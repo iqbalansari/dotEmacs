@@ -1,27 +1,19 @@
 * Install some useful packages
-+ [[https://github.com/winterTTr/ace-jump-mode/wiki][ace-jump-mode]] Move your cursor to ANY position in visible region quickly
-+ [[http://www.dr-qubit.org/undo-tree/undo-tree-0.6.4.el][undo-tree]] - Represents your undo history as a tree and provides some really useful features
-+ [[https://github.com/browse-kill-ring/browse-kill-ring][browse-kill-ring]] - Useful package for interacting with the kill ring visually
-+ [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] - Multiple cursors for emacs.
-+ [[https://github.com/abo-abo/tiny][tiny]] - Quickly generate linear ranges in Emacs
-+ [[https://github.com/magnars/expand-region.el][expand-region]] - Emacs extension to increase selected region by semantic units.
-+ [[https://github.com/nflath/hungry-delete][hungry-delete]] - Get hungry delete everywhere
-
-#+begin_src emacs-lisp
-  (defvar iqbal-editing-packages
-    '(undo-tree
-      browse-kill-ring
-      multiple-cursors
-      tiny
-      expand-region
-      hungry-delete
-      zop-to-char
-      fold-this
-      pos-tip
-      phi-search))
-
-  (iqbal-install-packages iqbal-editing-packages)
-#+end_src
+  #+begin_src emacs-lisp
+    (defvar iqbal-editing-packages
+      '(undo-tree
+        browse-kill-ring
+        multiple-cursors
+        tiny
+        expand-region
+        hungry-delete
+        zop-to-char
+        fold-this
+        pos-tip
+        phi-search))
+  
+    (iqbal-install-packages iqbal-editing-packages)
+  #+end_src
 
 
 * Integration with system clipboard
@@ -78,7 +70,7 @@
     (put 'narrow-to-region 'disabled nil)
     (put 'scroll-left 'disabled nil)
     (put 'downcase-region 'disabled nil)
-    (put 'upcase-word 'disabled nil)
+    (put 'upcase-region 'disabled nil)
   #+end_src
 
 
