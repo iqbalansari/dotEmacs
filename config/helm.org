@@ -79,6 +79,12 @@
   #+end_src
 
 
+* Various mode settings
+  #+begin_src emacs-lisp
+    (setq haskell-completing-read-function #'helm--completing-read-default)
+  #+end_src
+
+
 * Keybindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
