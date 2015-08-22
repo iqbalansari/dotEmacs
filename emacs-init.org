@@ -313,6 +313,18 @@
      (setq el-get-git-shallow-clone t)
    #+end_src
 
+** Byte compile installed packages in a clean environment
+*** Install emacs-async
+    #+begin_src emacs-lisp
+      (iqbal-install-package 'async)
+    #+end_src
+
+*** Enable async byte compilation for all packages
+    #+begin_src emacs-lisp
+      (setq async-bytecomp-allowed-packages '(all))
+      (async-bytecomp-package-mode)
+    #+end_src
+
 
 * Confirm before killing emacs
   #+begin_src emacs-lisp
