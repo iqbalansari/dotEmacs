@@ -364,8 +364,9 @@
     (add-to-list 'org-capture-templates (list "t"
                                               "TODO"
                                               'entry
-                                              (list 'file
-                                                    (locate-user-emacs-file "org/agenda/todos.org"))
+                                              (list 'file+headline
+                                                    (locate-user-emacs-file "org/agenda/todos.org")
+                                                    "Unfiled")
                                               "* TODO %?\n%U\n\n"
                                               :empty-lines-after 2))
   #+end_src
@@ -375,8 +376,9 @@
     (add-to-list 'org-capture-templates (list "T"
                                               "TODO linked to current buffer"
                                               'entry
-                                              (list 'file
-                                                    (locate-user-emacs-file "org/agenda/todos.org"))
+                                              (list 'file+headline
+                                                    (locate-user-emacs-file "org/agenda/todos.org") 
+                                                    "Unfiled")
                                               "* TODO %?\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
                                               :empty-lines-after 2))
   #+end_src
@@ -386,8 +388,9 @@
       (add-to-list 'org-capture-templates (list "l"
                                                 "Interesting links"
                                                 'entry
-                                                (list 'file
-                                                      (locate-user-emacs-file "org/notes/links.org"))
+                                                (list 'file+headline
+                                                      (locate-user-emacs-file "org/notes/links.org")
+                                                      "To read")
                                                 "* UNREAD %?\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
@@ -397,19 +400,21 @@
       (add-to-list 'org-capture-templates (list "n"
                                                 "Note"
                                                 'entry
-                                                (list 'file
-                                                      (locate-user-emacs-file "org/notes/notes.org"))
+                                                (list 'file+headline
+                                                      (locate-user-emacs-file "org/notes/notes.org")
+                                                      "Unfiled")
                                                 "* %? %^G\n%U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
-
+    
 *** Template for capturing notes linked to current buffer
     #+begin_src emacs-lisp
       (add-to-list 'org-capture-templates (list "N"
                                                 "Note linked to current buffer"
                                                 'entry
-                                                (list 'file
-                                                      (locate-user-emacs-file "org/notes/notes.org"))
+                                                (list 'file+headline
+                                                      (locate-user-emacs-file "org/notes/notes.org")
+                                                      "Unfiled")
                                                 "* %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
                                                 :empty-lines-after 2))
     #+end_src
