@@ -18,13 +18,6 @@
   #+end_src
 
 
-* Install eyebrowse
-  #+begin_src emacs-lisp
-    (iqbal-install-package 'eyebrowse)
-    (add-hook 'after-init-hook #'eyebrowse-mode)
-  #+end_src
-
-
 * Enable popwin, automatically gets rid of useless windows
 ** Enable popwin
   #+begin_src emacs-lisp
@@ -48,16 +41,10 @@
   #+end_src
 
 
-* Use windmove to select windows using shift + arrow keys
+* Use windmove to select windows using ctrl + arrow keys
 ** Use default keybindings
   #+begin_src emacs-lisp
-    (windmove-default-keybindings)
-
-    (with-eval-after-load 'org
-      (org-defkey org-mode-map (kbd  "<S-left>")  'windmove-left)
-      (org-defkey org-mode-map (kbd  "<S-right>") 'windmove-right)
-      (org-defkey org-mode-map (kbd  "<S-up>")    'windmove-up)
-      (org-defkey org-mode-map (kbd  "<S-down>")  'windmove-down))
+    (windmove-default-keybindings 'control)
   #+end_src
 
 ** Wrap around when moving off last window in a direction

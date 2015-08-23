@@ -1,6 +1,6 @@
 * Install some useful packages
   #+begin_src emacs-lisp
-    (iqbal-install-packages '(swap-buffers ibuffer-projectile))
+    (iqbal-install-packages '(swap-buffers buffer-move ibuffer-projectile))
   #+end_src
 
 
@@ -92,6 +92,16 @@
   #+end_src
 
 
+* Disable swapping buffer with minibuffer when using buffer-move
+  #+begin_src emacs-lisp
+    (defadvice buf-move-to (around my-do-not-swap-with-minibuffer (direction))
+      (unless (minibufferp (window-buffer (windmove-find-other-window direction)))
+        ad-do-it))
+
+    (ad-activate 'buf-move-to)
+  #+end_src
+
+
 * Simulate buffer-change-hook, since emacs does not have one
   Alternative approach would be to advise a low level function like
   `set-buffer`, but I guess that could lead to difficult-to-debug errors
@@ -120,3 +130,19 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c b") 'swap-buffers)
   #+end_src
+
+
+* Keybindings for buf-move
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "<C-S-up>")     'buf-move-up)
+    (global-set-key (kbd "<C-S-down>")   'buf-move-down)
+    (global-set-key (kbd "<C-S-left>")   'buf-move-left)
+    (global-set-key (kbd "<C-S-right>")  'buf-move-right)
+
+    (with-eval-after-load 'org
+      (org-defkey org-mode-map (kbd "<C-S-up>")     'buf-move-up)
+      (org-defkey org-mode-map (kbd "<C-S-down>")   'buf-move-down)
+      (org-defkey org-mode-map (kbd "<C-S-left>")   'buf-move-left)
+      (org-defkey org-mode-map (kbd "<C-S-right>")  'buf-move-right))
+  #+end_src
+

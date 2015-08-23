@@ -16,6 +16,16 @@
   #+end_src
 
 
+* Fetch timing data when bongo player starts
+  #+begin_src emacs-lisp
+    (defun iqbal-bongo-start-vlc-timer (player)
+      (when (eq (bongo-player-backend-name bongo-player) 'vlc)
+        (bongo-vlc-player-start-timer player)))
+
+    (add-hook 'bongo-player-started-functions #'iqbal-bongo-start-vlc-timer)
+  #+end_src
+
+
 * Bongo keybindings
 ** Keybinding to start bongo
   #+begin_src emacs-lisp
