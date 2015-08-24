@@ -108,13 +108,26 @@
      (setq company-require-match nil)
    #+end_src
 
+** Complete if only preview is being displayed
+   #+begin_src emacs-lisp
+     (defun iqbal-complete-if-just-one-candidate ()
+       (interactive)
+       ;; This might fail sometimes since, it checks whether
+       ;; inline preview CAN be displayed rather than whether it
+       ;; IS displayed
+       (when (company--show-inline-p)
+         (call-interactively 'company-complete-selection)))
+   #+end_src
+
 ** Keybindings
    Remap company-complete-common to company-complete-common-or-cycle
    #+begin_src emacs-lisp
      (with-eval-after-load 'company
        (define-key company-active-map [remap company-complete-common] #'company-complete-common-or-cycle)
        (define-key company-active-map (kbd "<backtab>") #'company-select-previous)
-       (define-key company-active-map (kbd "C-e") #'company-complete-common)
+       (define-key company-active-map (kbd "C-e") #'iqbal-complete-if-just-one-candidate)
+       (define-key company-active-map (kbd "C-f") #'iqbal-complete-if-just-one-candidate)
+       (define-key company-active-map (kbd "<right>") #'iqbal-complete-if-just-one-candidate)
        (define-key company-active-map (kbd "C-n") #'company-select-next)
        (define-key company-active-map (kbd "C-p") #'company-select-previous))
    #+end_src
