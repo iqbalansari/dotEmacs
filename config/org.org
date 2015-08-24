@@ -10,37 +10,6 @@
   #+end_src
 
 
-* Custom TODO keywords and priority levels
-  Copied from [[http://doc.norang.ca/org-mode.html#TodoKeywords]]
-** Define some extra keywords
-  #+begin_src emacs-lisp
-    (setq org-todo-keywords
-          (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s!)" "DONE(d@/!)")
-                  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "CANCELLED(c@/!)")
-                  (sequence "UNREAD(u!)" "READING(r!)" "READ(f@/!)"))))
-  #+end_src
-
-** Colors for TODO keywords
-   #+begin_src emacs-lisp
-     (setq org-todo-keyword-faces
-           (quote (("TODO" :foreground "red" :weight bold)
-                   ("NEXT" :foreground "blue" :weight bold)
-                   ("DONE" :foreground "forest green" :weight bold)
-                   ("WAITING" :foreground "orange" :weight bold)
-                   ("HOLD" :foreground "magenta" :weight bold)
-                   ("CANCELLED" :foreground "forest green" :weight bold)
-                   ("UNREAD" :foreground "red" :weight bold)
-                   ("READING" :foreground "blue" :weight bold)
-                   ("READ" :foreground "forest green" :weight bold))))
-   #+end_src
-
-** Custom task priorities
-   #+begin_src emacs-lisp
-     (setq org-default-priority ?E)
-     (setq org-lowest-priority ?E)
-   #+end_src
-
-
 * Directory for org files
   #+begin_src emacs-lisp
     (setq org-directory (locate-user-emacs-file "org/"))
@@ -182,7 +151,7 @@
   #+end_src
 
 
-* Compatibility with ace-jump-mode
+* DWIM version C-c SPC
   Since org-mode binds `C-c SPC` to the command `org-table-blank-field` (which
   is useful only if point is in a table) the ace-jump-mode's binding is
   overshadowed, the following sets the keybinding to a DWIM version which calls
