@@ -379,7 +379,7 @@
           (delete-trailing-whitespace)
           (buffer-string)))
 
-      (defun iqbal-get-source-buffers-region-and-link (&optional number)
+      (defun iqbal-get-source-buffers-region-and-link ()
         (save-window-excursion
           (switch-to-buffer (plist-get org-capture-plist :original-buffer))
           (let ((fill-prefix "  "))
@@ -389,8 +389,7 @@
                                                                                                                                         (region-end))))
                                                                     2)
                                                  "\n#+end_quote\n"))
-                                       (or (iqbal-get-url-from-clipboard)
-                                           (org-store-link nil)))
+                                       (org-store-link nil))
                                (when (region-active-p) 4 2)))))
     #+end_src
 
