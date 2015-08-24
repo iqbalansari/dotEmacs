@@ -10,6 +10,12 @@
   #+end_src
 
 
+* Location of RFC files
+  #+begin_src emacs-lisp
+    (setq irfc-directory (iqbal-get-file-in-data-directory "RFCs" t))
+  #+end_src
+
+
 * Integration with org-mode
 ** Helper functions to get info about currently viewed RFC
   #+begin_src emacs-lisp
@@ -74,9 +80,3 @@
      (org-add-link-type "rfc" #'iqbal-open-rfc-file #'iqbal-irfc-export)
      (add-hook 'org-store-link-functions 'iqbal-store-irfc-link)
    #+end_src
-
-
-* Location of RFC files
-  #+begin_src emacs-lisp
-    (setq irfc-directory (locate-user-emacs-file "org/RFCs/"))
-  #+end_src

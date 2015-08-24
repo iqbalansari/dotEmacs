@@ -4,6 +4,13 @@
   #+end_src
 
 
+* Store the database in data directory
+   So that it is synced with rest of the files
+   #+begin_src emacs-lisp
+     (setq elfeed-db-directory (iqbal-get-file-in-data-directory "elfeed" t))
+   #+end_src
+
+
 * Make url-queue more linient
   #+begin_src emacs-lisp
     (setq url-queue-parallel-processes 3)
@@ -78,7 +85,7 @@
 * Load the feeds from elfeed.org file
 ** Path to elfeed feeds file
    #+begin_src emacs-lisp
-     (setq iqbal-elfeed-file (locate-user-emacs-file "org/elfeed.org"))
+     (setq iqbal-elfeed-file (iqbal-get-file-in-data-directory "elfeed.org"))
    #+end_src
 
 ** Function to extract all links from an org file
@@ -146,13 +153,6 @@
                                                (list 'file iqbal-elfeed-file)
                                                "* %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
                                                :empty-lines-after 2))
-   #+end_src
-
-
-* Store the database in org directory
-   So that it is synced with rest of the files
-   #+begin_src emacs-lisp
-     (setq elfeed-db-directory (locate-user-emacs-file "org/elfeed"))
    #+end_src
 
 

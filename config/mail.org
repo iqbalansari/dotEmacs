@@ -232,7 +232,7 @@
                                    (iqbal-indent-text (plist-get ical-data :description) 2)
                                    mail-link)
                            nil
-                           (locate-user-emacs-file "org/agenda/appt.org")))))
+                           (iqbal-get-file-in-data-directory "agenda/appt.org")))))
 
      (defun iqbal-appt-from-ical (file)
        (iqbal-make-appts-from-parsed-ical-data (iqbal-parse-ical-file file)))

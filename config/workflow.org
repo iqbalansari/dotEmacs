@@ -56,7 +56,7 @@
              (cons current-file (delq current-file files))
            files)))
 
-     (setq org-refile-targets (list (cons 'iqbal-get-refile-targets '(:maxlevel . 3))))c
+     (setq org-refile-targets (list (cons 'iqbal-get-refile-targets '(:maxlevel . 3))))
    #+end_src
 
 ** Use outline path while refiling
@@ -120,7 +120,7 @@
 
 * Directory for org-journal
   #+begin_src emacs-lisp
-    (setq org-journal-dir (locate-user-emacs-file "org/journal/"))
+    (setq org-journal-dir (iqbal-get-file-in-data-directory "journal/" t))
   #+end_src
 
 
@@ -132,11 +132,7 @@
 
 ** Path to notes directory
   #+begin_src emacs-lisp
-    (defvar iqbal-notes-dir (locate-user-emacs-file "org/notes/"))
-
-    (unless (file-exists-p iqbal-notes-dir)
-      (make-directory iqbal-notes-dir t))
-
+    (defvar iqbal-notes-dir (iqbal-get-file-in-data-directory "notes" t))
     (setq deft-directory iqbal-notes-dir)
   #+end_src
 
@@ -154,7 +150,7 @@
 * Configurations for emacs diary
 ** Store diary file in org folder
   #+begin_src emacs-lisp
-    (setq diary-file (locate-user-emacs-file "org/diary"))
+    (setq diary-file (iqbal-get-file-in-data-directory "diary"))
   #+end_src
 
 ** Let diary entries be included in agenda buffer
@@ -216,24 +212,21 @@
      (load "org-habit")
    #+end_src
 
+** Directory for agenda files
+  #+begin_src emacs-lisp
+    (defvar iqbal-org-agenda-dir (iqbal-get-file-in-data-directory "agenda" t))
+  #+end_src
+
 ** Path to default org-captured file
   #+begin_src emacs-lisp
-    (setq org-default-notes-file (concat iqbal-notes-dir "/captured.org"))
+    (setq org-default-notes-file (expand-file-name "captured.org" iqbal-org-agenda-dir))
   #+end_src
 
 ** The org agenda files
-*** Org agenda files will stored in ~/.emacs.d/org/agenda/
-   #+begin_src emacs-lisp
-     (defvar iqbal-org-agenda-dir (locate-user-emacs-file "org/agenda/"))
-
-     (unless (file-exists-p iqbal-org-agenda-dir)
-       (make-directory iqbal-org-agenda-dir t))
-   #+end_src
-
 *** Path to org-projectile todo file
    #+begin_src emacs-lisp
      (setq org-projectile:projects-file
-           (concat iqbal-org-agenda-dir "projects.org"))
+           (expand-file-name "projects.org" iqbal-org-agenda-dir))
    #+end_src
 
 *** Path to per repo TODO file
@@ -425,7 +418,7 @@
                                               "TODO"
                                               'entry
                                               (list 'file+headline
-                                                    (locate-user-emacs-file "org/agenda/todos.org")
+                                                    (expand-file-name "todos.org" iqbal-org-agenda-dir)
                                                     "Unfiled")
                                               "* TODO %?\n%U\n\n"
                                               :empty-lines-after 2))
@@ -437,7 +430,7 @@
                                               "TODO linked to current buffer"
                                               'entry
                                               (list 'file+headline
-                                                    (locate-user-emacs-file "org/agenda/todos.org") 
+                                                    (expand-file-name "todos.org" iqbal-org-agenda-dir)
                                                     "Unfiled")
                                               "* TODO %?\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
                                               :empty-lines-after 2))
@@ -449,7 +442,7 @@
                                                 "Interesting links"
                                                 'entry
                                                 (list 'file+headline
-                                                      (locate-user-emacs-file "org/notes/links.org")
+                                                      (expand-file-name "links.org" iqbal-notes-dir)
                                                       "To read")
                                                 "* UNREAD %?\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
@@ -461,7 +454,7 @@
                                                 "Note"
                                                 'entry
                                                 (list 'file+headline
-                                                      (locate-user-emacs-file "org/notes/notes.org")
+                                                      (expand-file-name "notes.org" iqbal-notes-dir)
                                                       "Unfiled")
                                                 "* %? %^G\n%U\n\n"
                                                 :empty-lines-after 2))
@@ -473,7 +466,7 @@
                                                 "Note linked to current buffer"
                                                 'entry
                                                 (list 'file+headline
-                                                      (locate-user-emacs-file "org/notes/notes.org")
+                                                      (expand-file-name "notes.org" iqbal-notes-dir)
                                                       "Unfiled")
                                                 "* %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
                                                 :empty-lines-after 2))
@@ -485,7 +478,7 @@
                                                 "Code snippets"
                                                 'entry
                                                 (list 'file
-                                                      (locate-user-emacs-file "org/notes/snippets.org"))
+                                                      (expand-file-name "snippets.org" iqbal-notes-dir))
                                                 "* %? \n  #+begin_src %(iqbal-get-source-buffers-mode)\n    %i\n  #+end_src\n\n"
                                                 :empty-lines-after 2))
     #+end_src
@@ -496,7 +489,7 @@
                                                 "Appointment"
                                                 'plain
                                                 (list 'file
-                                                      (locate-user-emacs-file "org/agenda/appt.org"))
+                                                      (expand-file-name "appt.org" iqbal-org-agenda-dir))
                                                 "* %? %^g\n  SCHEDULED: <%(org-read-date)>"))
     #+end_src
 
@@ -506,7 +499,7 @@
                                                 "Appointment linked to current buffer"
                                                 'plain
                                                 (list 'file
-                                                      (locate-user-emacs-file "org/agenda/appt.org"))
+                                                      (expand-file-name "appt.org" iqbal-org-agenda-dir))
                                                 "* %? %^g\n%(iqbal-get-source-buffers-region-and-link)\n  SCHEDULED: <%(org-read-date)>"))
     #+end_src
 
@@ -516,7 +509,7 @@
                                                 "Diary"
                                                 'plain
                                                 (list 'file
-                                                      (locate-user-emacs-file "org/diary"))
+                                                      (iqbal-get-file-in-data-directory "diary"))
                                                 "%(iqbal-read-date-for-diary) %?\n\n"))
     #+end_src
 
@@ -526,7 +519,7 @@
                                                 "Habit" 
                                                 'entry 
                                                 (list 'file 
-                                                      (locate-user-emacs-file "org/agenda/habits.org"))
+                                                      (expand-file-name "habits.org" iqbal-org-agenda-dir))
                                                 "* TODO %?\nSCHEDULED: <%<%Y-%m-%d .+1d/2d>>\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))
     #+end_src
 
@@ -581,7 +574,7 @@
           `(("l" "View link log" ((todo "UNREAD")
                                   (todo "READING")
                                   (todo "READ"))
-             ((org-agenda-files '(,(concat iqbal-notes-dir "links.org")))))))
+             ((org-agenda-files '(,(expand-file-name "links.org" iqbal-notes-dir)))))))
   #+end_src
 
 
@@ -688,10 +681,7 @@
 
 ** Store persistence info inside org directory
    #+begin_src emacs-lisp
-     (setq org-clock-persist-file (locate-user-emacs-file "org/misc/org-clock-save.el"))
-
-     (unless (file-exists-p (locate-user-emacs-file "org/misc"))
-       (make-directory (locate-user-emacs-file "org/misc") t))
+     (setq org-clock-persist-file (expand-file-name "org-clock-save.el" (iqbal-get-file-in-data-directory "misc" t)))
    #+end_src
 
 ** Save both the running clock, and the entire clock history on exiting emacs

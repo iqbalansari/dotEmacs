@@ -92,7 +92,7 @@
       (interactive)
       (when (eq major-mode 'elfeed-show-mode)
         (iqbal-add-enclosure-to-bongo elfeed-show-entry
-                                      (find-file-noselect (locate-user-emacs-file "org/podcasts.bongo-library")))))
+                                      (find-file-noselect (iqbal-get-file-in-data-directory "podcasts.bongo-library")))))
 
     (with-eval-after-load 'elfeed-show
       (define-key elfeed-show-mode-map (kbd "M") #'iqbal-elfeed-show-add-enclosure-to-bongo))

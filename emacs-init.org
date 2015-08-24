@@ -97,6 +97,26 @@
    #+end_src
 
 
+* Location of data directory
+  #+begin_src emacs-lisp
+    (defvar iqbal-data-directory (locate-user-emacs-file "data/") "Directory to store personal data")
+
+    (defun iqbal-get-file-in-data-directory (filename &optional directory-p)
+      (unless (file-exists-p iqbal-data-directory)
+        (make-directory iqbal-data-directory))
+
+      (unless (file-directory-p iqbal-data-directory)
+        (user-error "The specified data-directory %s, is a file. Please delete it or custom `iqbal-data-directory'"))
+
+      (let ((file (expand-file-name filename
+                                    (file-truename iqbal-data-directory))))
+        (when directory-p
+          (make-directory file t))
+
+        file))
+  #+end_src
+
+
 * Initialize package management
 ** Add some more repositories
    #+begin_src emacs-lisp

@@ -13,7 +13,7 @@
 
 ** Location to interleave notes directory
    #+begin_src emacs-lisp
-     (setq interleave--org-notes-dir-list (list (locate-user-emacs-file "org/notes")))
+     (setq interleave--org-notes-dir-list (list (iqbal-get-file-in-data-directory "notes" t)))
    #+end_src
 
 

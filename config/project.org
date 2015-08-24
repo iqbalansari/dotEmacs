@@ -1,7 +1,4 @@
 * Ensure that required packages are installed
-  + [[https://github.com/bbatsov/projectile][projectile]] - Lightweight project interaction library for emacs, provides
-                 handy functions to interact with projects, find files etc
-
   #+begin_src emacs-lisp
     (iqbal-install-package 'projectile)
   #+end_src

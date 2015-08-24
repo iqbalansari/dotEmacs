@@ -12,9 +12,7 @@
 
 * Directory for org files
   #+begin_src emacs-lisp
-    (setq org-directory (locate-user-emacs-file "org/"))
-    (when (not (file-exists-p org-directory))
-      (make-directory org-directory))
+    (setq org-directory (iqbal-get-file-in-data-directory "org" t))
   #+end_src
 
 
