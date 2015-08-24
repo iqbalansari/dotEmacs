@@ -37,8 +37,11 @@
 * Add projectile sources to helm-mini
   #+begin_src emacs-lisp
     (with-eval-after-load 'helm-projectile
-      (setf (cdr helm-mini-default-sources) (cons 'helm-source-projectile-buffers-list (cdr helm-mini-default-sources)))
-      (add-to-list 'helm-mini-default-sources 'helm-source-projectile-files-list t))
+      (setq helm-mini-default-sources '(helm-source-buffers-list
+                                        helm-source-projectile-buffers-list
+                                        helm-source-projectile-files-list 
+                                        helm-source-buffer-not-found
+                                        helm-source-recentf)))
   #+end_src
 
 

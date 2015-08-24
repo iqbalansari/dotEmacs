@@ -49,7 +49,9 @@
                             ;; Files in current directory
                             (append (directory-files default-directory t "\\.org$")
                                     ;; and agenda files
-                                    (org-agenda-files))))
+                                    (org-agenda-files)
+                                    (when (bound-and-true-p iqbal-notes-dir)
+                                      (list iqbal-notes-dir)))))
              (current-file (when buffer-file-name (file-truename buffer-file-name))))
          ;; Make sure current file is first
          (if current-file
