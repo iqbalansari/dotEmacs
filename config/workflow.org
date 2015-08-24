@@ -35,6 +35,36 @@
      (setq org-lowest-priority ?E)
    #+end_src
 
+
+* Org refile configuration
+** Allow creating parent nodes while refiling
+   #+begin_src emacs-lisp
+     (setq org-refile-allow-creating-parent-nodes 'confirm)
+   #+end_src
+
+** Allow refiling to agenda files and org files in current directory
+   #+begin_src emacs-lisp
+     (defun iqbal-get-refile-targets ()
+       (let ((files (mapcar #'file-truename
+                            ;; Files in current directory
+                            (append (directory-files default-directory t "\\.org$")
+                                    ;; and agenda files
+                                    (org-agenda-files))))
+             (current-file (when buffer-file-name (file-truename buffer-file-name))))
+         ;; Make sure current file is first
+         (if current-file
+             (cons current-file (delq current-file files))
+           files)))
+
+     (setq org-refile-targets (list (cons 'iqbal-get-refile-targets '(:maxlevel . 3))))c
+   #+end_src
+
+** Use outline path while refiling
+   #+begin_src emacs-lisp
+     (setq org-refile-use-outline-path t)
+   #+end_src
+
+
 * Command to call org-capture in a separate frame
   Useful for invoking org-capture from a window manager
   like xmonad using emacsclient
