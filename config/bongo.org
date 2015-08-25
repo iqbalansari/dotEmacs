@@ -22,7 +22,7 @@
       (when (eq (bongo-player-backend-name bongo-player) 'vlc)
         (bongo-vlc-player-start-timer player)))
 
-    (add-hook 'bongo-player-started-functions #'iqbal-bongo-start-vlc-timer)
+    (add-hook 'bongo-player-sought-functions #'iqbal-bongo-start-vlc-timer)
   #+end_src
 
 

@@ -293,13 +293,6 @@
   #+end_src
 
 
-* Highlight thing configuration
-  #+begin_src emacs-lisp
-    (setq highlight-thing-limit-to-defun t)
-    (add-hook 'prog-mode-hook #'highlight-thing-mode)
-  #+end_src
-
-
 * Diminsh some minor modes
   #+begin_src emacs-lisp
     ;; Apparently package.el fails to autoload this sometimes

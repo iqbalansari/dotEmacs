@@ -60,11 +60,8 @@
      (dired-next-line 1))
 
    (with-eval-after-load 'dired
-     (define-key dired-mode-map
-       (vector 'remap 'beginning-of-buffer) 'dired-back-to-top)
-
-     (define-key dired-mode-map
-       (vector 'remap 'end-of-buffer) 'dired-jump-to-bottom))
+     (define-key dired-mode-map [remap beginning-of-buffer] 'dired-back-to-top)
+     (define-key dired-mode-map [remap end-of-buffer] 'dired-jump-to-bottom))
  #+end_src
 
 
