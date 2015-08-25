@@ -12,7 +12,7 @@
 
 * Use VLC to play https streams
   #+begin_src emacs-lisp
-    (setq bongo-custom-backend-matchers '((vlc "https:" t)))
+    (setq bongo-custom-backend-matchers '((vlc . ("https:" . t))))
   #+end_src
 
 
