@@ -143,7 +143,8 @@
               (mod seconds 60)))
 
     (defun iqbal-player-state-org-description (player)
-      (let* ((description (or (ignore-errors (cdr (assoc 'title (assoc 'track player))))
+      (let* ((description (or (ignore-errors (cdr (assoc 'title
+                                                         (assoc 'track (bongo-player-infoset player)))))
                               (file-name-base (bongo-player-file-name player))))
              (elapsed-time (bongo-player-elapsed-time player))
              (time-string (when elapsed-time (format " - %s"(iqbal-seconds-as-minutes elapsed-time)))))
