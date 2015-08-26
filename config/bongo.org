@@ -16,14 +16,40 @@
   #+end_src
 
 
-* Fetch timing data when bongo player starts
-  #+begin_src emacs-lisp
-    (defun iqbal-bongo-start-vlc-timer (player)
-      (when (eq (bongo-player-backend-name bongo-player) 'vlc)
-        (bongo-vlc-player-start-timer player)))
+* Hacks around vlc backend
+  Would eventually report these upstream
+** And '--play-and-stop' to vlc process 
+   Without this --play-and-exit does not seem to have any effect
+   #+begin_src emacs-lisp
+     (setq bongo-vlc-extra-arguments '("--play-and-stop"))
+   #+end_src
 
-    (add-hook 'bongo-player-sought-functions #'iqbal-bongo-start-vlc-timer)
+** Fetch timing data when bongo player starts or seeks
+   #+begin_src emacs-lisp
+     (defun iqbal-bongo-start-vlc-timer (player)
+       (when (eq (bongo-player-backend-name bongo-player) 'vlc)
+         (bongo-vlc-player-start-timer player)))
+
+     (add-hook 'bongo-player-sought-functions #'iqbal-bongo-start-vlc-timer)
+     (add-hook 'bongo-player-started-functions #'iqbal-bongo-start-vlc-timer)
+   #+end_src
+
+
+* Other minor configurations
+** Do not display bongo logo
+  #+begin_src emacs-lisp
+    (setq bongo-logo nil)
   #+end_src
+
+** Mark played tracks
+   #+begin_src emacs-lisp
+     (setq bongo-mark-played-tracks t)
+   #+end_src
+
+** Update references to renamed files without asking
+   #+begin_src emacs-lisp
+     (setq bongo-update-references-to-renamed-files t)
+   #+end_src
 
 
 * Bongo keybindings
@@ -109,3 +135,33 @@
       (define-key dired-mode-map "E" 'bongo-dired-insert-enqueue-lines))
   #+end_src
 
+
+* Integration with org-mode
+  #+begin_src emacs-lisp
+    (defun iqbal-seconds-as-minutes (seconds)
+      (format "%02d:%02d"(/ seconds 60)
+              (mod seconds 60)))
+
+    (defun iqbal-player-state-org-description (player)
+      (let* ((description (or (ignore-errors (cdr (assoc 'title (assoc 'track player))))
+                              (file-name-base (bongo-player-file-name player))))
+             (elapsed-time (bongo-player-elapsed-time player))
+             (time-string (when elapsed-time (format " - %s"(iqbal-seconds-as-minutes elapsed-time)))))
+        (concat (string-trim description) time-string)))
+
+    (defun iqbal-store-bongo-link ()
+      (when (and (bongo-buffer-p (current-buffer))
+                 bongo-player)
+        (let* ((elapsed-time (bongo-player-elapsed-time bongo-player))
+               (file-name (bongo-player-file-name bongo-player))
+               (description (iqbal-player-state-org-description bongo-player))
+               (link (concat "bongo:"
+                             (url-hexify-string file-name)
+                             (when elapsed-time
+                               (format "::%d" elapsed-time)))))
+          (org-store-link-props :type "bongo"
+                                :link link
+                                :description description))))
+
+    (add-hook 'org-store-link-functions 'iqbal-store-bongo-link)
+  #+end_src
