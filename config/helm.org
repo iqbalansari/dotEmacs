@@ -91,6 +91,31 @@
   #+end_src
 
 
+* Helm kill-ring configuration
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "M-y") #'helm-show-kill-ring)
+  #+end_src
+
+
+* Sources for helm-files
+  Remove source for buffers and move source for current directory to the top
+  #+begin_src emacs-lisp
+    (setq helm-for-files-preferred-list '(helm-source-files-in-current-dir
+                                          helm-source-find-files
+                                          helm-source-recentf
+                                          helm-source-bookmarks
+                                          helm-source-locate))
+
+    (with-eval-after-load 'helm-projectile
+      (setq helm-for-files-preferred-list '(helm-source-files-in-current-dir
+                                            helm-source-projectile-files-list 
+                                            helm-source-find-files
+                                            helm-source-recentf
+                                            helm-source-bookmarks
+                                            helm-source-locate)))
+  #+end_src
+
+
 * Keybindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
