@@ -51,37 +51,32 @@
   #+end_src
 
 
-* Flash after jumping to definition using imenu
+* Flash current line after jumping to buffers
+** After jumping using imenu
   #+begin_src emacs-lisp
-    (add-hook 'imenu-after-jump-hook 'iqbal-highlight-line)
+    (add-hook 'imenu-after-jump-hook 'iqbal-highlight-line t)
   #+end_src
 
+** After jumping to occurrence from occur mode 
+   #+begin_src emacs-lisp
+     (add-hook 'occur-mode-find-occurrence-hook #'iqbal-highlight-line t)
+   #+end_src
 
-* Flash line after jumping to an error/occurrence of string
+** After jumping to error from grep/compilation mode
+   #+begin_src emacs-lisp
+     (add-hook 'next-error-hook #'iqbal-highlight-line t)
+   #+end_src
+
+
+* Unfold headline when jumping to a point in org buffer
   #+begin_src emacs-lisp
-    (defadvice compile-goto-error (after hightlight-line-after-jump (&rest args))
-      (recenter)
-      (run-at-time 0.5 nil #'iqbal-highlight-line))
+    (defun iqbal-org-reveal-maybe ()
+      (when (eq major-mode 'org-mode)
+        (org-reveal)))
 
-    (ad-activate #'compile-goto-error)
-
-    (defadvice occur-mode-goto-occurrence (after hightlight-line-after-jump (&rest args))
-      (recenter)
-      (run-at-time 0.5 nil #'iqbal-highlight-line))
-
-    (ad-activate #'occur-mode-goto-occurrence)
+    (add-hook 'next-error-hook #'iqbal-org-reveal-maybe)
+    (add-hook 'occur-mode-find-occurrence-hook #'iqbal-org-reveal-maybe)
   #+end_src
-
-
-* Recenter and flash line after jumping to next error
-  #+begin_src emacs-lisp
-    (defadvice next-error (after hightlight-line-after-jump (&rest args))
-      (recenter)
-      (run-at-time 0.5 nil #'iqbal-highlight-line))
-
-    (ad-activate #'next-error)
-  #+end_src
-
 
 
 * Always rescan buffers when using imenu
@@ -118,13 +113,3 @@
   #+end_src
 
 
-* Helm Imenu configuration
-** Keybinding to quickly jump to a symbol in buffer
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c s") 'helm-imenu)
-   #+end_src
-
-** Do not directly jump to the definition even if there is just on candidate
-   #+begin_src emacs-lisp
-     (setq helm-imenu-execute-action-at-once-if-one nil)
-   #+end_src
