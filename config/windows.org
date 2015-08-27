@@ -84,7 +84,7 @@
 
 * Shorter keybinding to switch windows
   #+begin_src emacs-lisp
-    (global-set-key (kbd "M-o") #'switch-window)
+    (global-set-key (kbd "M-o") #'other-window)
   #+end_src
 
 
