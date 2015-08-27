@@ -153,18 +153,21 @@
         (concat (string-trim description) time-string)))
 
     (defun iqbal-store-bongo-link ()
-      (when (and (bongo-buffer-p (current-buffer))
-                 bongo-player)
-        (let* ((elapsed-time (bongo-player-elapsed-time bongo-player))
-               (file-name (bongo-player-file-name bongo-player))
-               (description (iqbal-player-state-org-description bongo-player))
-               (link (concat "bongo:"
-                             (url-hexify-string file-name)
-                             (when elapsed-time
-                               (format "::%d" elapsed-time)))))
-          (org-store-link-props :type "bongo"
-                                :link link
-                                :description description))))
+      (save-window-excursion
+        (when (bongo-buffer-p)
+          (when (bongo-library-buffer-p)
+            (bongo-switch-buffers))
+          (when bongo-player
+            (let* ((elapsed-time (bongo-player-elapsed-time bongo-player))
+                   (file-name (bongo-player-file-name bongo-player))
+                   (description (iqbal-player-state-org-description bongo-player))
+                   (link (concat "bongo:"
+                                 (url-hexify-string file-name)
+                                 (when elapsed-time
+                                   (format "::%d" elapsed-time)))))
+              (org-store-link-props :type "bongo"
+                                    :link link
+                                    :description description))))))
 
     (add-hook 'org-store-link-functions 'iqbal-store-bongo-link)
   #+end_src
@@ -175,24 +178,39 @@
        "Temporary bongo playlist to be used for playing bongo links")
 
      (defun iqbal-get-file-name-and-time (link)
-       (if (string-match-p ".*::[0-9]+$" link)
+       (if (string-match-p ".*::[0-9]+\\(-[0-9]+\\)?$" link)
            (let* ((components (split-string link "::"))
                   (path (url-unhex-string (car components)))
-                  (time (string-to-int (cadr components))))
+                  (time (mapcar #'string-to-int (split-string (cadr components) "-"))))
              (cons path time))
          (cons (url-unhex-string link) nil)))
+
+     (defun iqbal-compute-bongo-vlc-options (time)
+       (if (not time)
+           bongo-vlc-extra-arguments
+         (append bongo-vlc-extra-arguments
+                 (list "--start-time" (int-to-string (car time)))
+                 (when (cdr time)
+                   (list "--stop-time" (int-to-string (cadr time)))))))
 
      (defun iqbal-open-bongo-link (link)
        (let* ((bongo-playlist-buffer (find-file-noselect iqbal-bongo-playlist-file))
               (parsed-link (iqbal-get-file-name-and-time link))
               (path (car parsed-link))
-              (time (cdr parsed-link)))
+              (time (cdr parsed-link))
+              ;; If vlc is available force bongo to use it
+              (bongo-enabled-backends (if (member 'vlc bongo-enabled-backends)
+                                          '(vlc)
+                                        bongo-enabled-backends))
+              (bongo-vlc-extra-arguments (iqbal-compute-bongo-vlc-options time)))
          (with-bongo-playlist-buffer
+           ;; Do not play any track after this
+           (bongo-start/stop-playback-mode)
            (bongo-insert-file path)
            (forward-line -1)
            (bongo-play-line)
            (when time
-             (bongo-seek-to time)))))
+             (bongo-seek-to (car time))))))
 
      (org-add-link-type "bongo" #'iqbal-open-bongo-link)
    #+end_src
