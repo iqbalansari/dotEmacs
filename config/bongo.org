@@ -81,7 +81,8 @@
 * Add elfeed enclosures to bongo library
   #+begin_src emacs-lisp
     (defun iqbal-resolve-redirects-url (url)
-      (let ((url-request-method "HEAD"))
+      (let ((url-request-method "HEAD")
+            (url-show-status nil))
         (with-current-buffer (url-retrieve-synchronously url)
           (url-recreate-url url-http-target-url))))
 
@@ -137,6 +138,7 @@
 
 
 * Integration with org-mode
+** Storing link to currently playing media in bongo
   #+begin_src emacs-lisp
     (defun iqbal-seconds-as-minutes (seconds)
       (format "%02d:%02d"(/ seconds 60)
@@ -166,3 +168,31 @@
 
     (add-hook 'org-store-link-functions 'iqbal-store-bongo-link)
   #+end_src
+
+** Opening links to media in bongo
+   #+begin_src emacs-lisp
+     (defvar iqbal-bongo-playlist-file (make-temp-file "playlist" nil ".bongo-playlist")
+       "Temporary bongo playlist to be used for playing bongo links")
+
+     (defun iqbal-get-file-name-and-time (link)
+       (if (string-match-p ".*::[0-9]+$" link)
+           (let* ((components (split-string link "::"))
+                  (path (url-unhex-string (car components)))
+                  (time (string-to-int (cadr components))))
+             (cons path time))
+         (cons (url-unhex-string link) nil)))
+
+     (defun iqbal-open-bongo-link (link)
+       (let* ((bongo-playlist-buffer (find-file-noselect iqbal-bongo-playlist-file))
+              (parsed-link (iqbal-get-file-name-and-time link))
+              (path (car parsed-link))
+              (time (cdr parsed-link)))
+         (with-bongo-playlist-buffer
+           (bongo-insert-file path)
+           (backward-char)
+           (bongo-play-line)
+           (when time
+             (bongo-seek-to time)))))
+
+     (org-add-link-type "bongo" #'iqbal-open-bongo-link)
+   #+end_src
