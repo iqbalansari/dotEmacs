@@ -1,8 +1,4 @@
 * Packages for working with paranthesis
-  + [[https://github.com/Fuco1/smartparens][smartparens]] - A very useful package for working with parenthesis. Alongwith providing
-  regular features like autopairing, it also provides function for naviagation and
-  manipulation of parenthesis.
-
   #+begin_src emacs-lisp
     (defvar iqbal-paranthesis-packages
       '(smartparens))

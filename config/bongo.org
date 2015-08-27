@@ -189,7 +189,7 @@
               (time (cdr parsed-link)))
          (with-bongo-playlist-buffer
            (bongo-insert-file path)
-           (backward-char)
+           (forward-line -1)
            (bongo-play-line)
            (when time
              (bongo-seek-to time)))))
