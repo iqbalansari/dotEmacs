@@ -1,0 +1,10 @@
+* Setup company-mode completion in eshell
+  #+begin_src emacs-lisp
+    (defun iqbal-esh-setup-company ()
+      (define-key eshell-mode-map [tab] 'company-complete)
+      (define-key eshell-mode-map [(control ?i)] 'company-complete))
+
+    (with-eval-after-load 'company
+      (add-hook 'eshell-mode-hook #'iqbal-esh-setup-company))
+  #+end_src
+

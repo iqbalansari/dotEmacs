@@ -109,6 +109,7 @@
                                  org
                                  project
                                  workflow
+                                 eshell
                                  shell
                                  term
                                  backup

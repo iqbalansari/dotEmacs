@@ -115,8 +115,9 @@
        ;; This might fail sometimes since, it checks whether
        ;; inline preview CAN be displayed rather than whether it
        ;; IS displayed
-       (when (company--show-inline-p)
-         (call-interactively 'company-complete-selection)))
+       (call-interactively (if (company--show-inline-p)
+                               'company-complete-selection
+                             'company-abort)))
    #+end_src
 
 ** Keybindings
