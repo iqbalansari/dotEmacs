@@ -26,7 +26,8 @@
 
 ** Add a custom function for underlining errors
    #+begin_src emacs-lisp
-     (require 'flycheck)
+     (eval-when-compile
+       (require 'flycheck))
 
      (defun iqbal-add-lines-for-errors (err)
        (flycheck-error-with-buffer err

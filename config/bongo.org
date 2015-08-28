@@ -26,12 +26,13 @@
 
 ** Fetch timing data when bongo player starts or seeks
    #+begin_src emacs-lisp
-     (defun iqbal-bongo-start-vlc-timer (player)
+     (defun iqbal-bongo-start-vlc-timer (&optional player)
        (when (eq (bongo-player-backend-name bongo-player) 'vlc)
-         (bongo-vlc-player-start-timer player)))
+         (bongo-vlc-player-start-timer bongo-player)))
 
      (add-hook 'bongo-player-sought-functions #'iqbal-bongo-start-vlc-timer)
      (add-hook 'bongo-player-started-functions #'iqbal-bongo-start-vlc-timer)
+     (add-hook 'bongo-player-started-hook #'iqbal-bongo-start-vlc-timer)
    #+end_src
 
 
@@ -132,14 +133,50 @@
 
 
 * Enqueuing tracks from arbitrary dired buffers
-  #+begin_src emacs-lisp
-    (autoload 'bongo-dired-append-enqueue-lines "bongo" "Enqueue tracks in bongo" t)
-    (autoload 'bongo-dired-insert-enqueue-lines "bongo" "Enqueue tracks in bongo" t)
+** Helper functions to enqueue files from dired 
+*** Enqueuing files from dired marks
+   #+begin_src emacs-lisp
+     (eval-when-compile
+       (require 'dired))
+      
+     (defun iqbal-bongo-dired-enqueue-files-from-marks-or-point (mode)
+       (dired-map-over-marks (bongo-dired-enqueue-lines mode 0 t) nil))
+    #+end_src
 
-    (with-eval-after-load 'dired
-      (define-key dired-mode-map "e" 'bongo-dired-append-enqueue-lines)
-      (define-key dired-mode-map "E" 'bongo-dired-insert-enqueue-lines))
-  #+end_src
+*** Enqueuing files from region 
+    #+begin_src emacs-lisp
+      (defun iqbal-bongo-dired-enqueue-files-from-region (mode)
+        (let ((start (region-beginning))
+              (end (region-end)))
+          (save-excursion
+            (goto-char start)
+            (while (< (point) end)
+              (bongo-dired-enqueue-lines mode 0 t)
+              (forward-line +1)))))
+   #+end_src
+
+*** Tying them together
+    #+begin_src emacs-lisp
+      (defun iqbal-bongo-dired-enqueue (mode)
+        (if (region-active-p)
+            (iqbal-bongo-dired-enqueue-files-from-region mode)
+          (iqbal-bongo-dired-enqueue-files-from-marks-or-point mode)))
+
+      (defun iqbal-bongo-dired-append-enqueue-lines ()
+        (interactive)
+        (iqbal-bongo-dired-enqueue 'append))
+
+      (defun iqbal-bongo-dired-insert-enqueue-lines ()
+        (interactive)
+        (iqbal-bongo-dired-enqueue 'insert))
+    #+end_src
+
+** Keybindings
+   #+begin_src emacs-lisp
+     (with-eval-after-load 'dired
+       (define-key dired-mode-map "e" 'iqbal-bongo-dired-append-enqueue-lines)
+       (define-key dired-mode-map "E" 'iqbal-bongo-dired-insert-enqueue-lines))
+   #+end_src
 
 
 * Integration with org-mode
@@ -149,30 +186,51 @@
       (format "%02d:%02d"(/ seconds 60)
               (mod seconds 60)))
 
-    (defun iqbal-player-state-org-description (player)
+    (defun iqbal-get-player-state-org-description (player &optional elapsed-time stop-time)
       (let* ((description (or (ignore-errors (cdr (assoc 'title
                                                          (assoc 'track (bongo-player-infoset player)))))
                               (file-name-base (bongo-player-file-name player))))
-             (elapsed-time (bongo-player-elapsed-time player))
-             (time-string (when elapsed-time (format " - %s"(iqbal-seconds-as-minutes elapsed-time)))))
+             (time-string (when elapsed-time
+                            (concat (format " - %s" (iqbal-seconds-as-minutes elapsed-time))
+                                    (when stop-time
+                                      (format " to %s" (iqbal-seconds-as-minutes stop-time)))))))
         (concat (string-trim description) time-string)))
 
+
     (defun iqbal-store-bongo-link ()
-      (save-window-excursion
-        (when (bongo-buffer-p)
-          (when (bongo-library-buffer-p)
-            (bongo-switch-buffers))
-          (when bongo-player
-            (let* ((elapsed-time (bongo-player-elapsed-time bongo-player))
-                   (file-name (bongo-player-file-name bongo-player))
-                   (description (iqbal-player-state-org-description bongo-player))
-                   (link (concat "bongo:"
-                                 (url-hexify-string file-name)
-                                 (when elapsed-time
-                                   (format "::%d" elapsed-time)))))
-              (org-store-link-props :type "bongo"
-                                    :link link
-                                    :description description))))))
+      ;; It seems org calls org-store-link-functions twice.  First to check which
+      ;; functions are capable of capturing links in the buffer and second time to
+      ;; get link This is problematic since we read input from user We can avoiding
+      ;; capturing link again by checking org-store-link-plist which is set globally
+      ;; by org-mode after processing a link function.  It is set to nil at start of
+      ;; capture process by org-mode, so if it is set we can safely it to know
+      ;; whether we are being called second time and simply return the stored value,
+      ;; will report this as a bug to org-mode, the API can be improved OR atleast better
+      ;; documented
+      (if (and org-store-link-plist
+               (string= (plist-get org-store-link-plist :type) "bongo"))
+          org-store-link-plist
+        (save-window-excursion
+          (when (bongo-buffer-p)
+            (when (bongo-library-buffer-p)
+              (bongo-switch-buffers))
+            (when bongo-player
+              (let* ((elapsed-time (bongo-player-elapsed-time bongo-player))
+                     (stop-after (when elapsed-time
+                                   (read-number "[ Link to currently playing media ] Number of seconds after which to stop playback, if 0 stop when the media ends: " 0)))
+                     (stop-time (when (and stop-after (not (zerop stop-after)))
+                                  (+ elapsed-time stop-after)))
+                     (file-name (bongo-player-file-name bongo-player))
+                     (description (iqbal-get-player-state-org-description bongo-player elapsed-time stop-time))
+                     (link (concat "bongo:"
+                                   (url-hexify-string file-name)
+                                   (when elapsed-time
+                                     (concat (format "::%d" elapsed-time)
+                                             (when stop-time
+                                               (format "-%d" stop-time)))))))
+                (org-store-link-props :type "bongo"
+                                      :link link
+                                      :description description)))))))
 
     (add-hook 'org-store-link-functions 'iqbal-store-bongo-link)
   #+end_src
@@ -208,7 +266,7 @@
                                           '(vlc)
                                         bongo-enabled-backends))
               (bongo-vlc-extra-arguments (iqbal-compute-bongo-vlc-options time)))
-         (with-bongo-playlist-buffer
+         (with-current-buffer bongo-playlist-buffer
            ;; Do not play any track after this
            (bongo-start/stop-playback-mode)
            (bongo-insert-file path)
