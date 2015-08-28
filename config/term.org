@@ -45,14 +45,25 @@
 
 * Remap shift-arrow keys in term mode to select window if windmove is being used
   #+begin_src emacs-lisp
-    (defun iqbal-enable-windmove-term ()
+    (defun iqbal-term-enable-windmove ()
       (define-key term-raw-map (kbd "<S-left>") #'windmove-left)
       (define-key term-raw-map (kbd "<S-right>") #'windmove-right)
       (define-key term-raw-map (kbd "<S-up>") #'windmove-up)
       (define-key term-raw-map (kbd "<S-down>") #'windmove-down))
 
     (with-eval-after-load 'windmove
-      (add-hook 'term-mode-hook #'iqbal-enable-windmove-term))
+      (add-hook 'term-mode-hook #'iqbal-term-enable-windmove))
+  #+end_src
+
+
+* Remap keybinding to switch windows
+  #+begin_src emacs-lisp
+    (defun iqbal-term-enable-switch-window ()
+      (define-key term-raw-map (kbd "M-o") #'other-window)
+      (with-eval-after-load 'switch-window
+        (define-key term-raw-map (kbd "C-x o") #'switch-window)))
+
+    (add-hook 'term-mode-hook #'iqbal-term-enable-switch-window)
   #+end_src
 
 

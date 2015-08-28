@@ -34,7 +34,6 @@
 
 * Do not add autopair "'" or """ if around a word
   #+begin_src emacs-lisp
-    (sp-pair "'" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
     (sp-pair "\"" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
   #+end_src
 

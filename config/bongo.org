@@ -51,6 +51,11 @@
      (setq bongo-update-references-to-renamed-files t)
    #+end_src
 
+** Insert directories without asking
+   #+begin_src emacs-lisp
+     (setq bongo-insert-whole-directory-trees t)
+   #+end_src
+
 
 * Bongo keybindings
 ** Keybinding to start bongo
