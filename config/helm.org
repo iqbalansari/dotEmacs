@@ -128,6 +128,13 @@
    #+end_src
 
 
+* Do not complete in step while org-refiling
+  Otherwise only the top level completions are shown by helm
+  #+begin_src emacs-lisp
+    (setq org-outline-path-complete-in-steps nil)
+  #+end_src
+
+
 * Keybindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
