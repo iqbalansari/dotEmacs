@@ -215,17 +215,22 @@
             (when (bongo-library-buffer-p)
               (bongo-switch-buffers))
             (when bongo-player
-              (let* ((elapsed-time (bongo-player-elapsed-time bongo-player))
-                     (stop-after (when elapsed-time
-                                   (read-number "[ Link to currently playing media ] Number of seconds after which to stop playback, if 0 stop when the media ends: " 0)))
-                     (stop-time (when (and stop-after (not (zerop stop-after)))
-                                  (+ elapsed-time stop-after)))
+              (let* ((current-time (bongo-player-elapsed-time bongo-player))
+                     (duration (when current-time
+                                 (read-number "[org-store-link] Duration of the clip, if 0 play till end of media: " 0)))
+                     (stop-time (when (and duration (not (zerop duration)))
+                                  (+ current-time duration)))
+                     (start-time (if (and stop-time (< stop-time current-time))
+                                     stop-time
+                                   current-time))
+                     (stop-time (when stop-time
+                                  (max current-time stop-time)))
                      (file-name (bongo-player-file-name bongo-player))
-                     (description (iqbal-get-player-state-org-description bongo-player elapsed-time stop-time))
+                     (description (iqbal-get-player-state-org-description bongo-player start-time stop-time))
                      (link (concat "bongo:"
                                    (url-hexify-string file-name)
-                                   (when elapsed-time
-                                     (concat (format "::%d" elapsed-time)
+                                   (when start-time
+                                     (concat (format "::%d" start-time)
                                              (when stop-time
                                                (format "-%d" stop-time)))))))
                 (org-store-link-props :type "bongo"
@@ -272,7 +277,7 @@
            (bongo-insert-file path)
            (forward-line -1)
            (bongo-play-line)
-           (when time
+           (when (and time (not (eq (car bongo-player) 'vlc)))
              (bongo-seek-to (car time))))))
 
      (org-add-link-type "bongo" #'iqbal-open-bongo-link)
