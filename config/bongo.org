@@ -52,6 +52,11 @@
      (setq bongo-update-references-to-renamed-files t)
    #+end_src
 
+** Insert intermediate headers
+   #+begin_src emacs-lisp
+     (setq bongo-insert-intermediate-headers t)
+   #+end_src
+
 ** Insert directories without asking
    #+begin_src emacs-lisp
      (setq bongo-insert-whole-directory-trees t)
@@ -177,6 +182,20 @@
        (define-key dired-mode-map "e" 'iqbal-bongo-dired-append-enqueue-lines)
        (define-key dired-mode-map "E" 'iqbal-bongo-dired-insert-enqueue-lines))
    #+end_src
+
+
+* Follow marked tracks (if available) in random playback mode
+  Stolen from [[http://www.emacswiki.org/emacs/BongoHacks#toc5]]
+  #+begin_src emacs-lisp
+    (defun iqbal-play-only-marked-tracks (orig-func &optional point)
+      (let ((play-this-track-p (funcall orig-func point)))
+        (and play-this-track-p
+             (or (null bongo-marking)
+                 (bongo-marked-track-line-p point)))))
+
+    (with-eval-after-load 'bongo
+        (advice-add 'bongo-randomly-playable-track-line-p :around #'iqbal-play-only-marked-tracks))
+  #+end_src
 
 
 * Integration with org-mode
