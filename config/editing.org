@@ -10,8 +10,9 @@
         zop-to-char
         fold-this
         pos-tip
-        phi-search))
-  
+        phi-search
+        fix-word))
+
     (iqbal-install-packages iqbal-editing-packages)
   #+end_src
 
@@ -667,6 +668,13 @@
      (global-set-key (kbd "M-z") 'zop-to-char)
    #+end_src
 
+** Keybindings for fix-word
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "M-u") #'fix-word-upcase)
+     (global-set-key (kbd "M-l") #'fix-word-downcase)
+     (global-set-key (kbd "M-c") #'fix-word-capitalize)
+   #+end_src
+   
 ** Unset C-z, I don't find it useful
    #+begin_src emacs-lisp
      (global-unset-key (kbd "C-z"))
