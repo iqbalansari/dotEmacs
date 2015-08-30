@@ -1,6 +1,6 @@
 * Some additional packages for working with dired
   #+begin_src emacs-lisp
-    (defvar iqbal-dired-packages '(dired-details dired-single neotree dircmp dired-filter dired-ranger))
+    (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger))
     (iqbal-install-packages iqbal-dired-packages)
   #+end_src
 
@@ -136,66 +136,6 @@
   #+end_src
 
 
-* Set neotree configuration
-** Use nerd theme
-  #+begin_src emacs-lisp
-    (setq neo-theme 'nerd)
-  #+end_src
-
-** Use shorter keybindings
-   #+begin_src emacs-lisp
-     (setq neo-keymap-style 'concise)
-   #+end_src
-
-** Keep the cursor at start of node
-   #+begin_src emacs-lisp
-     (setq neo-auto-indent-point t)
-   #+end_src
-
-** Readjust neotree to current buffer's directory on reopen
-   #+begin_src emacs-lisp
-     (setq neo-smart-open t)
-   #+end_src
-
-** Auto open file on creation
-   #+begin_src emacs-lisp
-     (setq neo-create-file-auto-open t)
-   #+end_src
-
-** Do not display updir line
-   #+begin_src emacs-lisp
-     (setq neo-show-updir-line nil)
-   #+end_src
-
-** Make neotree a bit wider
-   #+begin_src emacs-lisp
-     (setq neo-window-width 30)
-
-     ;; To reduce split-window-threshold since some width is
-     ;; taken up by neotree
-     (setq split-width-threshold (- split-width-threshold neo-window-width))
-   #+end_src
-
-** Automatically change neotree on changing current buffer
-   #+begin_src emacs-lisp
-     (defun iqbal-neotree-refresh (last-buffer current-buffer)
-       (when (and (not (eq current-buffer (neo-global--get-buffer)))
-                  (neo-global--window-exists-p))
-         (let ((buffer-directory (with-current-buffer current-buffer
-                                   (or (ignore-errors (projectile-project-root))
-                                       default-directory)))
-               (neotree-directory (with-current-buffer neo-global--buffer
-                                    (or (ignore-errors (projectile-project-root))
-                                        default-directory))))
-           (unless (string= buffer-directory neotree-directory)
-             (save-selected-window
-               (neo-global--open-dir buffer-directory)
-               (goto-char (point-min)))))))
-
-     (add-hook 'buffer-change-hook #'iqbal-neotree-refresh)
-   #+end_src
-
-
 * Configurations to hide certain files in dired
 ** Hide ._ files created by Mac
   #+begin_src emacs-lisp
@@ -225,8 +165,3 @@
     (global-set-key (kbd "C-x C-d") 'dired)
   #+end_src
 
-** Keybinding for neotree
-  #+begin_src emacs-lisp
-    (autoload 'neotree-toggle "neotree")
-    (global-set-key (kbd "C-c z") 'neotree-toggle)
-  #+end_src

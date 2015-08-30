@@ -1,0 +1,80 @@
+* Install neotree
+  #+begin_src emacs-lisp
+    (iqbal-install-package 'neotree)
+  #+end_src
+
+
+* Use nerd theme
+ #+begin_src emacs-lisp
+   (setq neo-theme 'nerd)
+ #+end_src
+
+
+* Use shorter keybindings
+  #+begin_src emacs-lisp
+    (setq neo-keymap-style 'concise)
+  #+end_src
+
+
+* Keep the cursor at start of node
+  #+begin_src emacs-lisp
+    (setq neo-auto-indent-point t)
+  #+end_src
+
+
+* Readjust neotree to current buffer's directory on reopen
+  #+begin_src emacs-lisp
+    (setq neo-smart-open t)
+  #+end_src
+
+
+* Auto open file on creation
+  #+begin_src emacs-lisp
+    (setq neo-create-file-auto-open t)
+  #+end_src
+
+
+* Do not display updir line
+  #+begin_src emacs-lisp
+    (setq neo-show-updir-line nil)
+  #+end_src
+
+
+* Make neotree a bit wider
+  #+begin_src emacs-lisp
+    (setq neo-window-width 30)
+
+    ;; To reduce split-window-threshold since some width is
+    ;; taken up by neotree
+    (setq split-width-threshold (- split-width-threshold neo-window-width))
+  #+end_src
+
+
+* Automatically change neotree on changing current buffer
+  #+begin_src emacs-lisp
+    (defun iqbal-neotree-refresh (last-buffer current-buffer)
+      (when (and (not (eq current-buffer (neo-global--get-buffer)))
+                 (neo-global--window-exists-p))
+        (let* (projectile-require-project-root
+               (buffer-directory (with-current-buffer current-buffer
+                                   (projectile-project-root)))
+               (neotree-directory (with-current-buffer neo-global--buffer
+                                    (projectile-project-root))))
+          (save-selected-window
+            (unless (string= buffer-directory neotree-directory)
+              (neo-global--open-dir buffer-directory))
+            (when (and buffer-file-name
+                       (file-exists-p buffer-file-name))
+              (neotree-find buffer-file-name default-directory))))))
+
+    (with-eval-after-load 'neotree
+      (add-hook 'buffer-change-hook #'iqbal-neotree-refresh)
+      (define-key neotree-mode-map (kbd "^") #'neotree-select-up-node))
+  #+end_src
+
+
+* Keybinding for neotree
+  #+begin_src emacs-lisp
+    (autoload 'neotree-toggle "neotree")
+    (global-set-key (kbd "C-c z") 'neotree-toggle)
+  #+end_src

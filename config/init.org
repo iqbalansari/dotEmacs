@@ -108,6 +108,7 @@
                                  comint
                                  org
                                  project
+                                 sidebar
                                  workflow
                                  eshell
                                  shell
