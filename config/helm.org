@@ -67,7 +67,8 @@
           (setq-local cursor-type nil))))
 
     (when (display-graphic-p)
-      (setq helm-echo-input-in-header-line t)
+      (setq helm-echo-input-in-header-line t
+            helm-split-window-in-side-p t)
       (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
   #+end_src
 
