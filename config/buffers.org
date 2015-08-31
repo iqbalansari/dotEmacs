@@ -146,3 +146,9 @@
       (org-defkey org-mode-map (kbd "<C-S-right>")  'buf-move-right))
   #+end_src
 
+
+* Keybinding to kill current buffer without prompting for buffer name
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-x k") #'kill-this-buffer)
+  #+end_src
+

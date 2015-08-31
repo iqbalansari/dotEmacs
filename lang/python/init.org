@@ -103,8 +103,5 @@
 
 ** Setup python interpreter before starting python shell
    #+begin_src emacs-lisp
-     (defadvice python-shell-parse-command (before iqbal-setup-python-interpreter (&rest ignored))
-       (iqbal-set-python-interpreter))
-
-     (ad-activate 'python-shell-parse-command)
+     (advice-add 'python-shell-parse-command :before #'iqbal-set-python-interpreter)
    #+end_src
