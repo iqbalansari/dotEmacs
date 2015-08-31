@@ -10,9 +10,10 @@
   #+end_src
 
 
-* Use VLC to play https streams
+* Custom backend matchers
   #+begin_src emacs-lisp
     (setq bongo-custom-backend-matchers '((vlc . ("https:" . t))))
+    (setq bongo-custom-backend-matchers '((vlc . (local-file . ("webm")))))
   #+end_src
 
 
