@@ -65,7 +65,8 @@
               (neo-global--open-dir buffer-directory))
             (when (and buffer-file-name
                        (file-exists-p buffer-file-name))
-              (neotree-find buffer-file-name default-directory))))))
+              (neotree-find buffer-file-name default-directory)
+              (recenter))))))
 
     (with-eval-after-load 'neotree
       (add-hook 'buffer-change-hook #'iqbal-neotree-refresh)
