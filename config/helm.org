@@ -37,6 +37,13 @@
   #+end_src
 
 
+* Instruct projectile to use helm for completing read
+  #+begin_src emacs-lisp
+    (with-eval-after-load 'projectile
+      (setq projectile-completion-system 'helm))
+  #+end_src
+
+
 * Add projectile sources to helm-mini
   #+begin_src emacs-lisp
     (with-eval-after-load 'helm-projectile

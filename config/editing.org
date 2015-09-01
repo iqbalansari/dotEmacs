@@ -10,8 +10,7 @@
         zop-to-char
         fold-this
         pos-tip
-        phi-search
-        fix-word))
+        phi-search))
 
     (iqbal-install-packages iqbal-editing-packages)
   #+end_src
@@ -551,6 +550,23 @@
   #+end_src
 
 
+* DWIM versions of upcase-word and friends
+  These operate on region if active otherwise operate on current word
+  #+begin_src emacs-lisp
+    (defmacro iqbal-work-on-region-or-word (func docstring word-func region-func)
+      `(defun ,func ()
+         ,docstring
+         (interactive)
+         (call-interactively  (if (region-active-p)
+                                  ',region-func
+                                ',word-func))))
+
+    (iqbal-work-on-region-or-word iqbal-upcase-dwim "Downcase word or region" upcase-word upcase-region)
+    (iqbal-work-on-region-or-word iqbal-downcase-dwim "Upcase word or region" downcase-word downcase-region)
+    (iqbal-work-on-region-or-word iqbal-capitalize-dwim "Capitalize word or region" capitalize-word capitalize-region)
+  #+end_src
+
+
 * Keybindings
 ** Keybinding to prompt user for value during recording macro
    #+begin_src emacs-lisp
@@ -668,11 +684,11 @@
      (global-set-key (kbd "M-z") 'zop-to-char)
    #+end_src
 
-** Keybindings for fix-word
+** Keybindings for DWIM versions upcase-word and friends
    #+begin_src emacs-lisp
-     (global-set-key (kbd "M-u") #'fix-word-upcase)
-     (global-set-key (kbd "M-l") #'fix-word-downcase)
-     (global-set-key (kbd "M-c") #'fix-word-capitalize)
+     (global-set-key (kbd "M-u") #'iqbal-upcase-dwim)
+     (global-set-key (kbd "M-l") #'iqbal-downcase-dwim)
+     (global-set-key (kbd "M-c") #'iqbal-capitalize-dwim)
    #+end_src
    
 ** Unset C-z, I don't find it useful
