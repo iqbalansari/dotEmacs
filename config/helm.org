@@ -65,14 +65,6 @@
 * Echo input in header line
   Taken from http://www.reddit.com/r/emacs/comments/3asbyn/new_and_very_useful_helm_feature_enter_search/
   #+begin_src emacs-lisp
-    (defun helm-hide-minibuffer-maybe ()
-      (when helm-echo-input-in-header-line
-        (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-          (overlay-put ov 'window (selected-window))
-          (overlay-put ov 'face (let ((bg-color (face-background 'default nil)))
-                                  `(:background ,bg-color :foreground ,bg-color)))
-          (setq-local cursor-type nil))))
-
     (when (display-graphic-p)
       (setq helm-echo-input-in-header-line t
             helm-split-window-in-side-p t)
