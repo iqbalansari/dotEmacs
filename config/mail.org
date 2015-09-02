@@ -117,6 +117,16 @@
    #+end_src
 
 
+* Apply format=flowed to outgoing messages 
+  [[http://www.djcbsoftware.nl/code/mu/mu4e/Writing-messages.html][mu4e manual]] says this should add format=flowed for autogoing messages
+  #+begin_src emacs-lisp
+    (defun iqbal-mu4e-toggle-hard-newlines ()
+      (use-hard-newlines nil 'guess))
+
+    (add-hook 'mu4e-compose-mode-hook #'iqbal-mu4e-toggle-hard-newlines)
+  #+end_src
+
+
 * Attach files directly from dired
 ** Helper functions to attach files
 *** Autoload `gnus-dired-attach`
