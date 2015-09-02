@@ -178,7 +178,7 @@
 ** Keybindings
    #+begin_src emacs-lisp
      (with-eval-after-load 'dired
-       (define-key dired-mode-map (kbd "C-c RET") #'iqbal-mu4e-attach-files-from-dired))
+       (define-key dired-mode-map (kbd "a") #'iqbal-mu4e-attach-files-from-dired))
    #+end_src
 
 
@@ -532,30 +532,30 @@
    Store the window configuration before starting mu4e and restore it when
    exiting mu4e
    #+begin_src emacs-lisp
-    (defvar iqbal-pre-mu-win-config nil)
-    (defvar iqbal-mu-win-config nil)
+     (defvar iqbal-pre-mu-win-config nil)
+     (defvar iqbal-mu-win-config nil)
 
-    (defun iqbal--start-mu4e ()
-      ;; If mu4e is running and a mu4e window configuration is
-      ;; stored
-      (if (and iqbal-mu-win-config
-               (get-buffer " *mu4e-main*"))
-          (set-window-configuration iqbal-mu-win-config)
-        (call-interactively #'mu4e)))
+     (defun iqbal--start-mu4e ()
+       ;; If mu4e is running and a mu4e window configuration is
+       ;; stored
+       (if (and iqbal-mu-win-config
+                (mu4e-running-p))
+           (set-window-configuration iqbal-mu-win-config)
+         (call-interactively #'mu4e)))
 
-    (defun iqbal-start-mu4e ()
-      (interactive)
-      (setq iqbal-pre-mu-win-config (current-window-configuration))
-      
-      (if (locate-library "mu4e")
-          (iqbal--start-mu4e)
-        (message "mu4e not installed! You need to install `autoconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev' for installing mu4e")))
+     (defun iqbal-start-mu4e ()
+       (interactive)
+       (setq iqbal-pre-mu-win-config (current-window-configuration))
 
-    (defun iqbal-hide-mu4e ()
-      (interactive)
-      (setq iqbal-mu-win-config (current-window-configuration))
-      (when iqbal-pre-mu-win-config
-        (set-window-configuration iqbal-pre-mu-win-config)))
+       (if (locate-library "mu4e")
+           (iqbal--start-mu4e)
+         (message "mu4e not installed! You need to install `autoconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev' for installing mu4e")))
+
+     (defun iqbal-hide-mu4e ()
+       (interactive)
+       (setq iqbal-mu-win-config (current-window-configuration))
+       (when iqbal-pre-mu-win-config
+         (set-window-configuration iqbal-pre-mu-win-config)))
    #+end_src
 
 
