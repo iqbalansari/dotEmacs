@@ -95,7 +95,8 @@
    #+begin_src emacs-lisp
      (with-eval-after-load 'org
        (add-to-list 'org-export-backends 'md)
-       (add-to-list 'org-export-backends 'odt))
+       (add-to-list 'org-export-backends 'odt)
+       (add-to-list 'org-export-backends 'gfm))
    #+end_src
 
 ** Do not include tags in export

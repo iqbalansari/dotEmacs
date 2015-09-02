@@ -148,6 +148,10 @@
      (setq deft-use-filename-as-title t)
    #+end_src
 
+** Use filter string as title for new file
+   #+begin_src emacs-lisp
+     (setq deft-use-filter-string-for-filename t)
+   #+end_src
 
 * Configurations for emacs diary
 ** Store diary file in org folder

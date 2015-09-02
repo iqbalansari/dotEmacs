@@ -61,6 +61,12 @@
        (add-to-list 'recentf-exclude ".*\.git/.*"))
    #+end_src
 
+** Remember more files
+   #+begin_src emacs-lisp
+     (setq recentf-max-saved-items 1000)
+   #+end_src
+
+
 ** Enable recentf mode
    #+begin_src emacs-lisp
      (recentf-mode +1)
