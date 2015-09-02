@@ -111,6 +111,11 @@
        (define-key mu4e-view-clickable-urls-keymap (kbd "C-c C-o") #'mu4e~view-browse-url-from-binding))
    #+end_src
 
+** Always show email addresses in mu4e
+   #+begin_src emacs-lisp
+     (setq mu4e-view-show-addresses t)
+   #+end_src
+
 
 * Attach files directly from dired
 ** Helper functions to attach files
