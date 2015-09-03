@@ -140,6 +140,11 @@
 
 * Enqueuing tracks from arbitrary dired buffers
 ** Helper functions to enqueue files from dired 
+*** Autoload required function
+    #+begin_src emacs-lisp
+      (autoload 'bongo-dired-enqueue-lines "bongo")
+    #+end_src
+
 *** Enqueuing files from dired marks
    #+begin_src emacs-lisp
      (eval-when-compile
@@ -182,6 +187,10 @@
      (with-eval-after-load 'dired
        (define-key dired-mode-map "e" 'iqbal-bongo-dired-append-enqueue-lines)
        (define-key dired-mode-map "E" 'iqbal-bongo-dired-insert-enqueue-lines))
+
+     (with-eval-after-load 'bongo
+       (define-key bongo-dired-library-mode-map "e" 'iqbal-bongo-dired-append-enqueue-lines)
+       (define-key bongo-dired-library-mode-map "E" 'iqbal-bongo-dired-insert-enqueue-lines))
    #+end_src
 
 
