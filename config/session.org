@@ -66,7 +66,6 @@
      (setq recentf-max-saved-items 1000)
    #+end_src
 
-
 ** Enable recentf mode
    #+begin_src emacs-lisp
      (recentf-mode +1)
