@@ -136,9 +136,19 @@
 
 
 * Keybindings
+** Global keybindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
     (global-set-key (kbd "M-x") #'helm-M-x)
     (global-set-key (kbd "C-x b") #'helm-mini)
     (global-set-key [remap locate] #'helm-locate)
   #+end_src
+
+
+** Swap C-z and tab
+   #+begin_src emacs-lisp
+     (with-eval-after-load 'helm
+       (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+       (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+       (define-key helm-map (kbd "C-z")  'helm-select-action))
+   #+end_src

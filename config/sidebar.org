@@ -10,6 +10,12 @@
  #+end_src
 
 
+* Always split the root window of the frame
+  #+begin_src emacs-lisp
+    (setq neo-modern-sidebar t)
+  #+end_src
+
+
 * Use shorter keybindings
   #+begin_src emacs-lisp
     (setq neo-keymap-style 'concise)
