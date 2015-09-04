@@ -121,11 +121,6 @@
      (setq mu4e-headers-skip-duplicates t)
    #+end_src
 
-** Include related message in search
-   #+begin_src emacs-lisp
-     (setq mu4e-headers-include-related t)
-   #+end_src
-
 
 * Apply format=flowed to outgoing messages 
   [[http://www.djcbsoftware.nl/code/mu/mu4e/Writing-messages.html][mu4e manual]] says this should add format=flowed for autogoing messages
