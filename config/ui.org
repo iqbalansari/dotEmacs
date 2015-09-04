@@ -91,15 +91,11 @@
 
 * Use DejaVu Sans Mono / Source Code Pro / Consolas font if available
   #+begin_src emacs-lisp
-    (defun iqbal-set-font (&optional frame)
-      (set-frame-font (cond ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
-                            ((member "Source Code Pro" (font-family-list)) "Source Code Pro-10.90")
-                            ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
-                      t
-                      (list (or frame (selected-frame)))))
-
-    (add-hook 'after-make-frame-functions #'iqbal-set-font)
-    (iqbal-set-font)
+    (set-frame-font (cond ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
+                          ((member "Source Code Pro" (font-family-list)) "Source Code Pro-10.90")
+                          ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
+                    t
+                    t)
   #+end_src
 
 
