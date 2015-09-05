@@ -319,3 +319,9 @@
     (with-eval-after-load 'helm-mode (diminish 'helm-mode))
     (with-eval-after-load 'eyebrowse (diminish ' eyebrowse-mode))
   #+end_src
+
+
+* Enable recursive minibuffers
+  #+begin_src emacs-lisp
+    (setq enable-recursive-minibuffers t)
+  #+end_src
