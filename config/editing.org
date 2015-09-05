@@ -542,12 +542,14 @@
       `(defun ,func ()
          ,docstring
          (interactive)
-         (call-interactively  (if (region-active-p)
-                                  ',region-func
-                                ',word-func))))
+         (let ((command (if (region-active-p)
+                            ',region-func
+                          ',word-func)))
+           (call-interactively  (or (command-remapping command)
+                                    command)))))
 
-    (iqbal-work-on-region-or-word iqbal-upcase-dwim "Downcase word or region" upcase-word upcase-region)
-    (iqbal-work-on-region-or-word iqbal-downcase-dwim "Upcase word or region" downcase-word downcase-region)
+    (iqbal-work-on-region-or-word iqbal-upcase-dwim "Upcase word or region" upcase-word upcase-region)
+    (iqbal-work-on-region-or-word iqbal-downcase-dwim "Downcase word or region" downcase-word downcase-region)
     (iqbal-work-on-region-or-word iqbal-capitalize-dwim "Capitalize word or region" capitalize-word capitalize-region)
   #+end_src
 
