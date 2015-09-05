@@ -7,25 +7,65 @@
   #+end_src
 
 
-* Enable fuzzy-match everywhere
-  #+begin_src emacs-lisp
-    (setq helm-mode-fuzzy-match t)
-    (setq helm-recentf-fuzzy-match t)
-    (setq helm-buffers-fuzzy-matching t)
-    (setq helm-locate-fuzzy-match t)
-    (setq helm-M-x-fuzzy-match t)
-    (setq helm-semantic-fuzzy-match t)
-    (setq helm-imenu-fuzzy-match t)
-    (setq helm-apropos-fuzzy-match t)
-    (setq helm-lisp-fuzzy-completion t)
-    (setq helm-completion-in-region-fuzzy-match t)
-  #+end_src
-
-
 * Enable helm
   #+begin_src emacs-lisp
     (helm-mode +1)
   #+end_src
+
+
+* Make helm more like ido
+** Enable fuzzy-match everywhere
+   #+begin_src emacs-lisp
+     (setq helm-mode-fuzzy-match t)
+     (setq helm-recentf-fuzzy-match t)
+     (setq helm-buffers-fuzzy-matching t)
+     (setq helm-locate-fuzzy-match t)
+     (setq helm-M-x-fuzzy-match t)
+     (setq helm-semantic-fuzzy-match t)
+     (setq helm-imenu-fuzzy-match t)
+     (setq helm-apropos-fuzzy-match t)
+     (setq helm-lisp-fuzzy-completion t)
+     (setq helm-completion-in-region-fuzzy-match t)
+   #+end_src
+
+** Use enter the current directory (if we are at a directory file) or open the file 
+   Inspired by http://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
+   and https://github.com/emacs-helm/helm/issues/776
+  #+begin_src emacs-lisp
+    (defun iqbal-helm-ff-find-file-or-expand ()
+      (interactive)
+      (if (and (file-directory-p (helm-get-selection))
+               (< (length (helm-marked-candidates)) 2)
+               ;; Open a directory if we are '.'
+               (not (string= (file-name-nondirectory (helm-get-selection)) ".")))
+          (helm-execute-persistent-action)
+        (helm-exit-minibuffer)))
+
+    (with-eval-after-load 'helm-files
+      (define-key helm-find-files-map (kbd "RET") 'iqbal-helm-ff-find-file-or-expand))
+  #+end_src
+
+** Use backspace to either delete current character or go up a directory (if looking at a directory)
+   Inspired by https://github.com/syl20bnr/spacemacs/pull/1524
+   #+begin_src emacs-lisp
+     (defun iqbal-helm-ff-backward-char-or-updir ()
+       (interactive)
+       (if (string-empty-p (file-name-nondirectory helm-pattern))
+           (helm-find-files-up-one-level 1)
+         (call-interactively #'helm-ff-delete-char-backward)))
+
+     (with-eval-after-load 'helm-files
+       (define-key helm-find-files-map (kbd "<backspace>") 'iqbal-helm-ff-backward-char-or-updir))
+   #+end_src
+
+** Swap C-z and tab
+   Stolen from http://tuhdo.github.io/helm-intro.html
+   #+begin_src emacs-lisp
+     (with-eval-after-load 'helm
+       (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+       (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+       (define-key helm-map (kbd "C-z")  'helm-select-action))
+   #+end_src
 
 
 * Turn on helm-projectile
@@ -135,20 +175,10 @@
   #+end_src
 
 
-* Keybindings
-** Global keybindings
+* Global keybindings
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
     (global-set-key (kbd "M-x") #'helm-M-x)
     (global-set-key (kbd "C-x b") #'helm-mini)
     (global-set-key [remap locate] #'helm-locate)
   #+end_src
-
-
-** Swap C-z and tab
-   #+begin_src emacs-lisp
-     (with-eval-after-load 'helm
-       (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-       (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
-       (define-key helm-map (kbd "C-z")  'helm-select-action))
-   #+end_src
