@@ -148,7 +148,15 @@
 
 
 * Keybinding to kill current buffer without prompting for buffer name
+  Use a custom command to kill the buffer since the standard `kill-this-buffer`
+  commands seems to be tied to the menu bar see [http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/menu-bar.el?id=59b5723c9b613f14cd60cd3239cfdbc0d2343b18#n1865]
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-x k") #'kill-this-buffer)
+    (defun iqbal-kill-this-buffer ()
+      (interactive)
+      (cond
+       ((window-minibuffer-p (frame-selected-window (selected-frame))) (abort-recursive-edit))
+       (t (kill-buffer (current-buffer)))))
+
+    (global-set-key (kbd "C-x k") #'iqbal-kill-this-buffer)
   #+end_src
 
