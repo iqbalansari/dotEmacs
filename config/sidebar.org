@@ -4,18 +4,6 @@
   #+end_src
 
 
-* Use nerd theme
- #+begin_src emacs-lisp
-   (setq neo-theme 'nerd)
- #+end_src
-
-
-* Always split the root window of the frame
-  #+begin_src emacs-lisp
-    (setq neo-modern-sidebar t)
-  #+end_src
-
-
 * Use shorter keybindings
   #+begin_src emacs-lisp
     (setq neo-keymap-style 'concise)
@@ -40,20 +28,38 @@
   #+end_src
 
 
-* Do not display updir line
+* Neotree display settings
+** Do not display the cursor when the neotree buffer is not selected
+   #+begin_src emacs-lisp
+     (defun iqbal-neotree-hide-cursor ()
+       (setq-local cursor-type nil))
+
+     (add-hook 'neotree-mode-hook #'iqbal-neotree-hide-cursor)
+   #+end_src
+     
+** Do not display updir line
+   #+begin_src emacs-lisp
+     (setq neo-show-updir-line nil)
+   #+end_src
+
+** Make neotree a bit wider
+   #+begin_src emacs-lisp
+     (setq neo-window-width 30)
+
+     ;; To reduce split-window-threshold since some width is
+     ;; taken up by neotree
+     (setq split-width-threshold (- split-width-threshold neo-window-width))
+   #+end_src
+
+** Use nerd theme
   #+begin_src emacs-lisp
-    (setq neo-show-updir-line nil)
+    (setq neo-theme 'nerd)
   #+end_src
 
-
-* Make neotree a bit wider
-  #+begin_src emacs-lisp
-    (setq neo-window-width 30)
-
-    ;; To reduce split-window-threshold since some width is
-    ;; taken up by neotree
-    (setq split-width-threshold (- split-width-threshold neo-window-width))
-  #+end_src
+** Always split the root window of the frame
+   #+begin_src emacs-lisp
+     (setq neo-modern-sidebar t)
+   #+end_src
 
 
 * Automatically change neotree on changing current buffer
@@ -71,7 +77,10 @@
               (neo-global--open-dir buffer-directory))
             (when (and buffer-file-name
                        (file-exists-p buffer-file-name))
-              (neotree-find buffer-file-name default-directory)
+              ;; Use internal function otherwise neotree prompts before changing the
+              ;; root
+              (neo-global--open-and-find buffer-file-name)
+              ;; Make sure the current file is at the center
               (recenter))))))
 
     (with-eval-after-load 'neotree

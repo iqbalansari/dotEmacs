@@ -44,7 +44,7 @@
                (overlay-put overlay 'before-string
                             (flycheck-error-level-make-fringe-icon
                              level flycheck-indication-mode)))
-             (overlay-put overlay 'help-echo (flycheck-error-message err))
+             (overlay-put overlay 'help-echo #'flycheck-help-echo)
              overlay))))
 
      (with-eval-after-load 'flycheck

@@ -19,12 +19,6 @@
 
 * Hacks around vlc backend
   Would eventually report these upstream
-** And '--play-and-stop' to vlc process 
-   Without this --play-and-exit does not seem to have any effect
-   #+begin_src emacs-lisp
-     (setq bongo-vlc-extra-arguments '("--play-and-stop"))
-   #+end_src
-
 ** Fetch timing data when bongo player starts or seeks
    #+begin_src emacs-lisp
      (defun iqbal-bongo-start-vlc-timer (&optional player)
