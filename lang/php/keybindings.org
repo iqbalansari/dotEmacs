@@ -24,11 +24,3 @@
     (when (locate-library "php-boris-minor-mode")
       (define-key php-mode-map (kbd "C-c C-b") #'php-boris-eval-buffer))
   #+end_src
-
-
-* Keybinding to navigate using avy
-  #+begin_src emacs-lisp
-    (eval-after-load "avy"
-      '(when (where-is-internal 'avy-goto-word-or-subword-1)
-         (define-key php-mode-map (car (where-is-internal 'avy-goto-word-or-subword-1)) #'iqbal-avy-goto-char-php)))
-  #+end_src

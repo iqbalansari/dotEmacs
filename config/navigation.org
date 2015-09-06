@@ -2,17 +2,24 @@
   #+begin_src emacs-lisp
     (defvar iqbal-navigation-packages
       '(goto-chg
-        avy
-        helm))
-
+        ace-jump-mode))
+  
     (iqbal-install-packages iqbal-navigation-packages)
   #+end_src
 
 
-* Avy setup
+* Ace Jump mode setup
+** Use line-mode if called with single prefix arg
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c SPC") 'avy-goto-word-or-subword-1)
+    (setq ace-jump-mode-submode-list '(ace-jump-word-mode
+                                       ace-jump-line-mode
+                                       ace-jump-char-mode))
   #+end_src
+
+** Keybinding for ace-jump-mode
+   #+begin_src emacs-lisp
+     (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+   #+end_src
 
 
 * Push mark before jumping to last change
