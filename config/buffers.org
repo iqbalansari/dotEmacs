@@ -102,27 +102,27 @@
   #+end_src
 
 
-* Simulate buffer-change-hook, since emacs does not have one
+* Simulate buffer-switch-hook, since emacs does not have one
   Alternative approach would be to advise a low level function like
   `set-buffer`, but I guess that could lead to difficult-to-debug errors
   #+begin_src emacs-lisp
     (defvar iqbal-last-buffer nil "Records last buffer that was visible")
     (defvar iqbal-buffer-change-in-progress-p nil
-      "Used to avoid running iqbal-buffer-change-hook while running a iqbal-buffer-change-hook")
+      "Used to avoid running iqbal-buffer-switch-hook while running a iqbal-buffer-switch-hook")
 
-    (defun iqbal-run-buffer-change-hooks-maybe ()
-      "Run iqbal-buffer-change-hook if the buffer has changed"
+    (defun iqbal-run-buffer-switch-hooks-maybe ()
+      "Run iqbal-buffer-switch-hook if the buffer has changed"
       (let ((current-buffer (current-buffer)))
         (when (and (not iqbal-buffer-change-in-progress-p)
                    (not (minibufferp current-buffer))
                    (not (eq current-buffer iqbal-last-buffer)))
           (let ((iqbal-buffer-change-in-progress-p t))
-            (ignore-errors (run-hook-with-args 'buffer-change-hook iqbal-last-buffer current-buffer)))
+            (ignore-errors (run-hook-with-args 'buffer-switch-hook iqbal-last-buffer current-buffer)))
           (setq iqbal-last-buffer current-buffer))))
 
     (add-hook 'after-init-hook
               (lambda ()
-                (add-hook 'post-command-hook #'iqbal-run-buffer-change-hooks-maybe)))
+                (add-hook 'post-command-hook #'iqbal-run-buffer-switch-hooks-maybe)))
   #+end_src
 
 

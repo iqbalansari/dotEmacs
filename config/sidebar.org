@@ -75,7 +75,7 @@
               (recenter))))))
 
     (with-eval-after-load 'neotree
-      (add-hook 'buffer-change-hook #'iqbal-neotree-refresh)
+      (add-hook 'buffer-switch-hook #'iqbal-neotree-refresh)
       (define-key neotree-mode-map (kbd "^") #'neotree-select-up-node))
   #+end_src
 

@@ -156,7 +156,7 @@
           (when (re-search-forward "^<<<<<<< " nil t)
             (smerge-mode +1)))))
 
-    (add-hook 'buffer-change-hook 'iqbal-enable-smerge-maybe)
+    (add-hook 'buffer-switch-hook 'iqbal-enable-smerge-maybe)
 
     (defun iqbal-org-mode-expand-all ()
       (when (eq major-mode 'org-mode)
