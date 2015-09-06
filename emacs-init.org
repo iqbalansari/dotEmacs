@@ -529,7 +529,7 @@
      (iqbal-setup-lang 'lua-mode-hook "lua")
      (iqbal-setup-lang 'lisp-mode-hook "common-lisp")
      (iqbal-setup-lang 'scheme-mode-hook "scheme")
-     (iqbal-setup-lang 'c-mode-hook "c")
+     (iqbal-setup-lang 'c-mode-hook "c" "c")
      (iqbal-setup-lang 'c++-mode-hook "c" "\\(CC?\\|HH?\\)")
      (iqbal-setup-lang 'css-mode-hook "css")
      (iqbal-setup-lang 'scala-mode-hook "scala" "scala")
