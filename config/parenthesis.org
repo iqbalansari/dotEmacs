@@ -13,6 +13,17 @@
 ** We don't need smartparens in RE builder
    #+begin_src emacs-lisp
      (add-to-list 'sp-ignore-modes-list 'reb-mode)
+     (add-to-list 'sp-ignore-modes-list 'artist-mode)
+   #+end_src
+
+** smartparens slows down artist mode, turn it off in artist-mode
+   #+begin_src emacs-lisp
+     (defun iqbal-artist-mode-toggle-smartparens ()
+       (if (eq major-mode 'picture-mode)
+           (turn-off-smartparens-mode)
+         (turn-on-smartparens-mode)))
+
+     (add-hook 'artist-mode-hook #'iqbal-artist-mode-toggle-smartparens)
    #+end_src
 
 
@@ -29,12 +40,6 @@
         (sp-pair "'" nil :unless '(iqbal-in-eldoc-eval-p))))
 
     (add-hook 'minibuffer-setup-hook #'iqbal-eldoc-eval-hook)
-  #+end_src
-
-
-* Do not add autopair "'" or """ if around a word
-  #+begin_src emacs-lisp
-    ;(sp-pair "\"" nil :unless '(sp-point-after-word-p sp-point-before-word-p))
   #+end_src
 
 
