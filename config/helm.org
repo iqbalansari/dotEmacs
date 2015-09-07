@@ -50,7 +50,7 @@
    #+begin_src emacs-lisp
      (defun iqbal-helm-ff-backward-char-or-updir ()
        (interactive)
-       (if (string-empty-p (file-name-nondirectory helm-pattern))
+       (if (string= (file-name-nondirectory helm-pattern) "")
            (helm-find-files-up-one-level 1)
          (call-interactively #'helm-ff-delete-char-backward)))
 

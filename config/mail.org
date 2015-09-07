@@ -121,6 +121,11 @@
      (setq mu4e-headers-skip-duplicates t)
    #+end_src
 
+** Kill message buffer after email is sent
+   #+begin_src emacs-lisp
+     (setq message-kill-buffer-on-exit t)
+   #+end_src
+
 
 * Apply format=flowed to outgoing messages 
   [[http://www.djcbsoftware.nl/code/mu/mu4e/Writing-messages.html][mu4e manual]] says this should add format=flowed for autogoing messages
