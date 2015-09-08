@@ -1,0 +1,48 @@
+* Install deft for managing notes
+ #+begin_src emacs-lisp
+   (iqbal-install-package 'deft)
+ #+end_src
+
+
+* Use annotate for inline annotations
+  #+begin_src emacs-lisp
+    (iqbal-install-package 'annotate)
+  #+end_src
+
+
+* Path to notes directory
+ #+begin_src emacs-lisp
+   (setq deft-directory (iqbal-get-file-in-data-directory "notes" t))
+ #+end_src
+
+
+* Path to annotations directory
+  #+begin_src emacs-lisp
+    (setq annotate-file (iqbal-get-file-in-data-directory "annotations"))
+  #+end_src
+
+
+* Use org mode files for taking notes
+  #+begin_src emacs-lisp
+    (setq deft-extensions '("org" "md" "markdown" "txt" "text"))    
+  #+end_src
+
+
+* Use filename as title in deft
+  #+begin_src emacs-lisp
+    (setq deft-use-filename-as-title t)
+  #+end_src
+
+
+* Use filter string as title for new file
+  #+begin_src emacs-lisp
+    (setq deft-use-filter-string-for-filename t)
+  #+end_src
+
+
+* Keybinding to open/exit deft
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c n") #'deft)
+    (with-eval-after-load 'deft
+      (define-key deft-mode-map (kbd "C-c n") #'quit-window))
+  #+end_src

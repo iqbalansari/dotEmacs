@@ -107,9 +107,10 @@
                                  debugging
                                  comint
                                  org
+                                 workflow
+                                 notes
                                  project
                                  sidebar
-                                 workflow
                                  eshell
                                  shell
                                  term
@@ -120,10 +121,10 @@
                                  scratch
                                  web
                                  mail
-                                 elfeed
+                                 rss
                                  pdf
                                  rfc
-                                 bongo
+                                 music
                                  utilities))
 
     (when (eq system-type 'windows-nt)

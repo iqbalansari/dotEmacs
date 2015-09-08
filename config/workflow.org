@@ -5,6 +5,12 @@
   #+end_src
 
 
+* Directory for storing notes
+  #+begin_src emacs-lisp
+    (defvar iqbal-notes-dir (iqbal-get-file-in-data-directory "notes" t))
+  #+end_src
+
+
 * Custom TODO keywords and priority levels
   Copied from [[http://doc.norang.ca/org-mode.html#TodoKeywords]]
 ** Define some extra keywords
@@ -125,33 +131,6 @@
     (setq org-journal-dir (iqbal-get-file-in-data-directory "journal/" t))
   #+end_src
 
-
-* Configuration for taking notes
-** Install deft for managing notes
-  #+begin_src emacs-lisp
-    (iqbal-install-package 'deft)
-  #+end_src
-
-** Path to notes directory
-  #+begin_src emacs-lisp
-    (defvar iqbal-notes-dir (iqbal-get-file-in-data-directory "notes" t))
-    (setq deft-directory iqbal-notes-dir)
-  #+end_src
-
-** Use org mode files for taking notes
-   #+begin_src emacs-lisp
-     (setq deft-extensions '("org" "md" "markdown" "txt" "text"))    
-   #+end_src
-
-** Use filename as title in deft
-   #+begin_src emacs-lisp
-     (setq deft-use-filename-as-title t)
-   #+end_src
-
-** Use filter string as title for new file
-   #+begin_src emacs-lisp
-     (setq deft-use-filter-string-for-filename t)
-   #+end_src
 
 * Configurations for emacs diary
 ** Store diary file in org folder
@@ -850,13 +829,6 @@
     (global-set-key (kbd "<f11>") #'org-todo-list)
     (global-set-key (kbd "<f12>") #'org-agenda-list)
   #+end_src
-
-** Keybinding to open/exit deft
-   #+begin_src emacs-lisp
-     (global-set-key (kbd "C-c n") #'deft)
-     (with-eval-after-load 'deft
-       (define-key deft-mode-map (kbd "C-c n") #'quit-window))
-   #+end_src
 
 ** Keybinding to view diary
    #+begin_src emacs-lisp
