@@ -18,3 +18,10 @@
                                          (sit-for 5))))
       (warn "You need to install python `virtualenv' to install jedi"))
   #+end_src
+
+
+* Install py-autopep8 if autopep8 is available
+  #+begin_src emacs-lisp
+    (when (executable-find "autopep8")
+      (iqbal-install-package 'py-autopep8))
+  #+end_src
