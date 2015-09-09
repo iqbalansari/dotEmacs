@@ -26,29 +26,6 @@
   #+end_src
 
 
-* Ignore whitespace in magit
-  The following function enable hiding of whitespace changes in
-  magit status buffer. Copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
-
-  #+begin_src emacs-lisp
-    (defun magit-toggle-whitespace ()
-      (interactive)
-      (if (member "-w" magit-diff-options)
-          (magit-dont-ignore-whitespace)
-        (magit-ignore-whitespace)))
-
-    (defun magit-ignore-whitespace ()
-      (interactive)
-      (add-to-list 'magit-diff-options "-w")
-      (magit-refresh))
-
-    (defun magit-dont-ignore-whitespace ()
-      (interactive)
-      (setq magit-diff-options (remove "-w" magit-diff-options))
-      (magit-refresh))
-  #+end_src
-
-
 * Do not check for commit conventions in magit commit buffer
   #+begin_src emacs-lisp
     (with-eval-after-load 'magit
