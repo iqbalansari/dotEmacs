@@ -1,34 +1,34 @@
 * Set keybindings for ternjs
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-ternjs-available
       (define-key js2-mode-map iqbal-jump-to-definition 'tern-find-definition)
       (define-key js2-mode-map iqbal-pop-jump-to-definition-marker 'tern-pop-find-definition)
       (define-key js2-mode-map iqbal-show-doc 'iqbal-tern-get-docs)
       (define-key js2-mode-map iqbal-refactor-rename 'tern-rename-variable))
-  #+end_src
+  #+END_SRC
 
 
 * Unset some keybindings
 ** Tern takes them over
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-ternjs-available
       (define-key tern-mode-keymap iqbal-send-region nil)
       (define-key tern-mode-keymap iqbal-send-line nil)
       (define-key tern-mode-keymap iqbal-send-buffer nil)
       (define-key tern-mode-keymap iqbal-refactor-rename nil))
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for REPL interaction
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (if iqbal-js-use-nodejs-repl
         (iqbal-setup-nodejs-repl-keys)
       (iqbal-setup-skewer-repl-keys))
-  #+end_src
+  #+END_SRC
 
 
 * Pretty printing javascript using js-beautify
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "js-beautify")
       (define-key js2-mode-map (kbd "M-[") 'js-beautify))
-  #+end_src
+  #+END_SRC

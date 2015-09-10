@@ -1,32 +1,32 @@
 * Configuration for haskell-mode
 ** Enable interactive haskell mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq haskell-process-suggest-remove-import-lines t)
      (setq haskell-process-auto-import-loaded-modules t)
      (interactive-haskell-mode)
-   #+end_src
+   #+END_SRC
 
 ** Enable haskell-indentation-mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (turn-on-haskell-indentation)
-   #+end_src
+   #+END_SRC
 
 ** Enable declaration scan mode for better navigation
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (turn-on-haskell-decl-scan)
-   #+end_src
+   #+END_SRC
 
 ** Use presentation-mode instead of minibuffer for type info
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq haskell-process-use-presentation-mode t)
-   #+end_src
+   #+END_SRC
 
 
 * Enable structured-haskell-mode if installed
   Otherwise fallback to haskell-mode's indentation also disable hl-line mode's
   highlighting on nodes, if shm is installed otherwise it interferes with shm's
   highlighting. Set some better colors for solarized light theme
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "structured-haskell-mode")
       (structured-haskell-mode)
 
@@ -37,71 +37,71 @@
       (when (custom-theme-enabled-p 'solarized-light)
         (set-face-background 'shm-current-face "#eee8d5")
         (set-face-background 'shm-quarantine-face "lemonchiffon")))
-  #+end_src
+  #+END_SRC
 
 
 * Turn on eldoc
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (turn-on-haskell-doc)
-   #+end_src
+   #+END_SRC
 
 
 * Setup jump to definition
 ** If hasktags is installed and file is not in home directory generate tags on save
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (if (executable-find "hasktags")
         (when (and buffer-file-name
                    (not (string= (file-name-directory buffer-file-name)
                                  (expand-file-name "~/"))))
           (setq haskell-tags-on-save t))
       (warn "`hasktags' not installed, jump to definition MAY not work"))
-  #+end_src
+  #+END_SRC
 
 
 * Managing imports
 ** Suggest removal of unused imports
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq haskell-process-suggest-remove-import-lines t)
-   #+end_src
+   #+END_SRC
 
 ** Suggest importing required modules
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (if (executable-find "hoogle")
          (setq haskell-process-suggest-hoogle-imports t)
        (when (executable-find "haskell-docs")
          (setq haskell-process-suggest-haskell-docs-imports t)))
-   #+end_src
+   #+END_SRC
 
 
 * Initialize ghc-mod
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-ghc-mod-available
       (ghc-init))
-  #+end_src
+  #+END_SRC
 
 
 * Setup auto-completion
 ** Enable company mode and company-ghc
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-ghc-mod-available
       (add-to-list 'company-backends '(company-ghc :with company-dabbrev-code)))
-  #+end_src
+  #+END_SRC
 
 ** Show type info in the minibuffer
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq company-ghc-show-info t)
-   #+end_src
+   #+END_SRC
 
 ** Warn if hoogle is not installed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (if (executable-find "hoogle")
          (unless (zerop (shell-command "hoogle --info t"))
            (warn "`hoogle' data not generated, run `hoogle data' to generate it"))
        (warn "`hoogle' is not installed documentation popup would not work, install it using cabal"))
-   #+end_src
+   #+END_SRC
 
 
 * Flash line after jump
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func haskell-mode-jump-to-def-or-tag)
-  #+end_src
+  #+END_SRC

@@ -1,6 +1,6 @@
 * Install required packages
   These do not have external dependencies
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-ruby-packages '(inf-ruby
                                robe
                                yari))
@@ -9,5 +9,5 @@
       (add-to-list 'iqbal-ruby-packages 'rvm))
 
     (iqbal-install-packages iqbal-ruby-packages)
-  #+end_src
+  #+END_SRC
 

@@ -1,5 +1,5 @@
 * Install flycheck-ledger
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'flycheck-ledger)
-  #+end_src
+  #+END_SRC
 

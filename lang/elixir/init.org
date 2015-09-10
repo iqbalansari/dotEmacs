@@ -1,14 +1,14 @@
 * Enable completion in elxir REPL
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-elixir-enable-completion ()
       (add-to-list 'company-backends 'alchemist-company))
 
     (add-hook 'alchemist-iex-mode-hook #'iqbal-elixir-enable-completion)
-  #+end_src
+  #+END_SRC
 
 
 * Try starting iex for given project if possible
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-start-iex ()
       (interactive)
       (if (alchemist-project-p)
@@ -16,4 +16,4 @@
                  (alchemist-iex-project-run))
         (message "Not in mix project, falling back to non-project REPL")
         (alchemist-iex-run)))
-  #+end_src
+  #+END_SRC

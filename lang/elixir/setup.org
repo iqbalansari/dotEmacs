@@ -1,28 +1,28 @@
 * Enable alchemist mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (alchemist-mode +1)
-  #+end_src
+  #+END_SRC
 
 
 * Compile project if needed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq alchemist-project-compile-when-needed t)
-  #+end_src
+  #+END_SRC
 
 
 * Setup autocompletion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-elixir-enable-completion)
-  #+end_src
+  #+END_SRC
 
 
 * Enable syntax checking
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-mode +1)
-  #+end_src
+  #+END_SRC
 
 
 * Flash the current line after jump to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func alchemist-goto-definition-at-point)
-  #+end_src
+  #+END_SRC

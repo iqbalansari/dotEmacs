@@ -1,34 +1,34 @@
 * Packages for working with paranthesis
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-paranthesis-packages
       '(smartparens))
 
     (iqbal-install-packages iqbal-paranthesis-packages)
 
     (smartparens-global-mode t)
-  #+end_src
+  #+END_SRC
 
 
 * Diable smartparens in some modes
 ** We don't need smartparens in RE builder
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-to-list 'sp-ignore-modes-list 'reb-mode)
      (add-to-list 'sp-ignore-modes-list 'artist-mode)
-   #+end_src
+   #+END_SRC
 
 ** smartparens slows down artist mode, turn it off in artist-mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-artist-mode-toggle-smartparens ()
        (if (eq major-mode 'picture-mode)
            (turn-off-smartparens-mode)
          (turn-on-smartparens-mode)))
 
      (add-hook 'artist-mode-hook #'iqbal-artist-mode-toggle-smartparens)
-   #+end_src
+   #+END_SRC
 
 
 * Enable smartparens in minibuffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-in-eldoc-eval-p (id action context)
       (when (minibufferp)
         (member 'eldoc-in-minibuffer-mode minor-mode-list)))
@@ -40,45 +40,45 @@
         (sp-pair "'" nil :unless '(iqbal-in-eldoc-eval-p))))
 
     (add-hook 'minibuffer-setup-hook #'iqbal-eldoc-eval-hook)
-  #+end_src
+  #+END_SRC
 
 
 * Extra configuration for some modes
 ** Load smartparens config for extra configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "smartparens-config")
-  #+end_src
+  #+END_SRC
 
 ** Enable strict mode in all lispy modes
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (dolist (mode sp--lisp-modes)
        (add-hook (intern (concat (symbol-name mode) "-hook"))
                  #'smartparens-strict-mode))
-   #+end_src
+   #+END_SRC
 
 
 * Do not autoescape string
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq sp-autoescape-string-quote nil)
-  #+end_src
+  #+END_SRC
 
 
 * Display configuration for smartparens
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq sp-highlight-pair-overlay nil)
     (setq sp-highlight-wrap-overlay nil)
     (setq sp-highlight-wrap-tag-overlay nil)
-  #+end_src
+  #+END_SRC
 
 
 * Always skip closing parenthesis
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq sp-autoskip-closing-pair 'always)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for navigating around sexps using smartparens
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
     (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
 
@@ -89,11 +89,11 @@
     (define-key sp-keymap (kbd "C-M-S-u") 'sp-backward-up-sexp)
     (define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
     (define-key sp-keymap (kbd "C-M-S-d") 'sp-backward-down-sexp)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for manipulating sexps using smartparens
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
     (define-key sp-keymap (kbd "C-M-S-k") 'sp-backward-kill-sexp)
     (define-key sp-keymap (kbd "C-M-;") 'sp-kill-hybrid-sexp)
@@ -126,26 +126,26 @@
 
     (define-key sp-keymap (kbd "C->") 'sp-add-to-next-sexp)
     (define-key sp-keymap (kbd "C-<") 'sp-add-to-previous-sexp)
-  #+end_src
+  #+END_SRC
 
 
 * Highlight matching parenthesis
 ** Enable highlighting
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (show-paren-mode t)
-  #+end_src
+  #+END_SRC
 
 ** Show matching paranthesis immediately
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq show-paren-delay 0)
-   #+end_src
+   #+END_SRC
 
 ** Highlight only the paranthesis
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq show-paren-style 'parenthesis)
-   #+end_src
+   #+END_SRC
 
 ** Custom colors for parenthesis
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (set-face-attribute 'show-paren-mismatch nil :foreground "white" :background "red")
-   #+end_src
+   #+END_SRC

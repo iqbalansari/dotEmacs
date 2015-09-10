@@ -1,5 +1,5 @@
 * Install some useful packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-editing-packages
       '(undo-tree
         browse-kill-ring
@@ -13,18 +13,18 @@
         phi-search))
 
     (iqbal-install-packages iqbal-editing-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Integration with system clipboard
 ** Use system clipboard, these are helpful only when running GUI emacs
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq x-select-enable-clipboard t)
     (setq save-interprogram-paste-before-kill t)
-  #+end_src
+  #+END_SRC
 
 ** Use 'xsel' for kill and yank on emacs run in terminal
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (unless window-system
        (when (getenv "DISPLAY")
          (if (executable-find "xsel")
@@ -51,10 +51,10 @@
                (setq interprogram-cut-function 'xsel-cut-function)
                (setq interprogram-paste-function 'xsel-paste-function))
            (message "Install `xsel' for integrating copy-paste between emacs run in terminal and other programs"))))
-   #+end_src
+   #+END_SRC
 
 ** Workaround for 'Quit :"empty or unsupported pasteboard type"' bug on OS X
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (and (eq window-system 'ns)
                 (version< emacs-version "24.4")) 
        (defadvice ns-get-pasteboard (around hack-empty-pasteboard compile activate) 
@@ -62,43 +62,43 @@
              ad-do-it 
            (quit (message "%s" (cadr err)) 
                  nil))))
-   #+end_src
+   #+END_SRC
 
 
 * Enable some disabled commands
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (put 'narrow-to-region 'disabled nil)
     (put 'scroll-left 'disabled nil)
     (put 'downcase-region 'disabled nil)
     (put 'upcase-region 'disabled nil)
-  #+end_src
+  #+END_SRC
 
 
 * General configurations for editing
 ** Always use spaces to indent and use four space
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq-default tab-width 4)
     (setq-default indent-tabs-mode nil)
     (setq tab-stop-list (number-sequence 4 200 4))
-  #+end_src
+  #+END_SRC
 
 ** Enable subword mode globally
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-subword-mode 1)
-  #+end_src
+  #+END_SRC
 
 ** Replace selected region with typed text
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (delete-selection-mode)
-  #+end_src
+  #+END_SRC
 ** Set fill-column to 80
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq-default fill-column 80)
-  #+end_src
+  #+END_SRC
 
 
 * Command to toggle comment on region or line if no region is selected
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun comment-or-uncomment-region-or-line ()
         "Comments or uncomments the region or the current line if there's no active region."
         (interactive)
@@ -108,11 +108,11 @@
                 (setq beg (line-beginning-position) end (line-end-position)))
             (comment-or-uncomment-region beg end)
             (forward-line)))
-  #+end_src
+  #+END_SRC
 
 
 * Command to copy/cut current line if no region is selected, if rectangle is selected use it
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-mark-lines(arg)
       (back-to-indentation)
       (set-mark-command nil)
@@ -146,14 +146,14 @@
             (t  (progn (iqbal-mark-lines arg)
                        (call-interactively 'kill-region)
                        (message (concat "Killed " (number-to-string arg) " line(s)"))))))
-  #+end_src
+  #+END_SRC
 
 
 * Commands to duplicate current line or region
   Duplicate current line if region is not selected else duplicate the region
   pressing 'd' immediately after duplicating a line will duplicate the line
   again.
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun duplicate-current-line-or-region (arg)
       "Duplicates the current line or region ARG times.
     If there's no region, the current line will be duplicated."
@@ -190,14 +190,14 @@
           (newline)
           (forward-char -1))
         (duplicate-region num (point-at-bol) (1+ (point-at-eol)))))
-  #+end_src
+  #+END_SRC
 
 
 * Commands for opening newlines
   Typing shift + return anywhere on a line will create a new line
   below the current line, ctrl + shift + return will open a line above
   M-RET between parenthesis will insert an newline between the parenthesis
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     ;; Directly calling indent-line-function, since indent-for-tab-command can
     ;; trigger completions (if tab-always-indent is set to complete)
     (defun open-line-below ()
@@ -225,12 +225,12 @@
             (newline)
             (funcall indent-line-function)))
         (funcall indent-line-function)))
-  #+end_src
+  #+END_SRC
 
 
 * Commands to increment and decrement integers at point
   These were borrowed from prelude
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun thing-at-point-goto-end-of-integer ()
       "Go to end of integer at point."
       (let ((inhibit-changing-match-data t))
@@ -291,7 +291,7 @@
     With numeric prefix arg DEC, decrement the integer by DEC amount."
       (interactive "p")
       (increment-integer-at-point (- (or dec 1))))
-  #+end_src
+  #+END_SRC
 
 
 * Command to prompt for user input during macro execution
@@ -303,7 +303,7 @@
   point. If you don’t want to insert the text right away you can
   instead kill the input at this point (using ‘C-a C-k RET’) and use
   it later in the macro definition.
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-macro-query (arg)
       "Prompt for input using minibuffer during kbd macro execution.  With prefix
        argument, allows you to select what prompt string to use.  If the input is
@@ -313,11 +313,11 @@
              (input (minibuffer-with-setup-hook (lambda () (kbd-macro-query t))
                       (read-from-minibuffer prompt))))
         (unless (string= "" input) (insert input))))
-  #+end_src
+  #+END_SRC
 
 
 * Auto-indent on yanked text taken from [[http://www.emacswiki.org/emacs/AutoIndentation#toc3][emacswiki]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (dolist (command '(yank yank-pop))
        (eval `(defadvice ,command (after indent-region activate)
                 (and (not current-prefix-arg)
@@ -330,26 +330,26 @@
                                                           plain-tex-mode))
                      (let ((mark-even-if-inactive transient-mark-mode))
                        (indent-region (region-beginning) (region-end) nil))))))
-  #+end_src
+  #+END_SRC
 
 
 * Code folding configuration
 ** Enable hs-minor-mode for supported modes
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-enable-hs ()
        (ignore-errors
          (hs-minor-mode)))
 
      (add-hook 'prog-mode-hook 'iqbal-enable-hs)
-   #+end_src
+   #+END_SRC
 
 ** Setup help at point to display local-help
   Setup help-at-pt to display help when idle, in case of folded code
   it will actually execute the code to display the [[folded_code][folded code popup]].
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
        (setq help-at-pt-display-when-idle t)
        (help-at-pt-set-timer)
-  #+end_src
+  #+END_SRC
 
 ** Function to display folded area as a popup <<folded_code>>
    hs-mode mode allows us to additional data to the overlay, this can
@@ -360,29 +360,29 @@
    Further we can toggle the folded region with 'C-g' or '<return>' by setting
    keymap property of the overlay
 
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (load "pos-tip")
      (defun iqbal--display-folded-content (window ov pos)
        (pos-tip-show (buffer-substring (overlay-start ov)
                                                 (overlay-end ov)))
        nil)
-   #+end_src
+   #+END_SRC
 
 ** Unfold code when searching
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
       (setq hs-isearch-open t)
-  #+end_src
+  #+END_SRC
 
 ** Keymap for folded content
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-folding-keymap (make-sparse-keymap))
      (define-key iqbal-folding-keymap (kbd "<return>") 'hs-toggle-hiding)
      (define-key iqbal-folding-keymap (kbd "C-g") 'hs-toggle-hiding)
-   #+end_src
+   #+END_SRC
 
 ** Show folded code in a pos-tip
 *** With fold this
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (with-eval-after-load 'fold-this
         (defadvice fold-this (after fold-this-show-help (start end))
           (let ((overlays (overlays-in start end)))
@@ -392,20 +392,20 @@
                 (define-key (overlay-get ov 'keymap) (kbd "C-x C-\\") 'fold-this-unfold-at-point)))))
 
         (ad-activate 'fold-this))
-    #+end_src
+    #+END_SRC
 *** With hs-minor-mode
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-display-folded-content (ov)
         (overlay-put ov 'display "...")
         (overlay-put ov 'keymap iqbal-folding-keymap)
         (overlay-put ov 'help-echo 'iqbal--display-folded-content))
 
       (setq hs-set-up-overlay 'iqbal-display-folded-content)
-    #+end_src
+    #+END_SRC
 
 ** Function to fold code at current indentation <<fold_indentation>>
    The following code was borrowed from [[http://www.emacswiki.org/emacs/HideShow#toc5][EmacsWiki]] and modified a bit
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-hide-current-indentation ()
        (interactive)
        (set-selective-display
@@ -413,10 +413,10 @@
           (progn
             (back-to-indentation)
             (current-column)))))
-   #+end_src
+   #+END_SRC
 
 ** Combining fold-this and hs-minor-mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-fold-this-hs-hide ()
        "Folds the region if mark is active otherwise fold the current indent"
        (interactive)
@@ -425,27 +425,27 @@
                           (region-end))
          (when (and (boundp 'hs-minor-mode) hs-minor-mode)
            (hs-toggle-hiding))))
-   #+end_src
+   #+END_SRC
 
 
 * Multiple cursors setup
 ** Load mc-cycle-cursors and mc-hide-unmatched-lines-mode for extra functionality
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'multiple-cursors-core
        (load "mc-mark-more")
        (load "mc-hide-unmatched-lines-mode")
        (load "mc-cycle-cursors"))
-   #+end_src
+   #+END_SRC
 
 ** Location for mc/list-file
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq mc/list-file (locate-user-emacs-file ".mc-lists.el"))
-   #+end_src
+   #+END_SRC
 
 
 * Undo tree setup
 ** Keep the region active when undoing in a region
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defadvice undo-tree-undo (around keep-region activate)
        (if (use-region-p)
            (let ((m (set-marker (make-marker) (mark)))
@@ -456,43 +456,43 @@
              (set-marker p nil)
              (set-marker m nil))
          ad-do-it))
-   #+end_src
+   #+END_SRC
 
 ** Enable undo-tree globally
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-undo-tree-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Browse kill ring setup
 ** Do not show duplicates in kill-ring
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq browse-kill-ring-display-duplicates nil)
-   #+end_src
+   #+END_SRC
 
 ** Don't highlight current candidate in kill-ring
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq browse-kill-ring-highlight-inserted-item nil)
-   #+end_src
+   #+END_SRC
 
 ** Display maximum of 100 characters per entry in kill-ring
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq browse-kill-ring-maximum-display-length 100)
-   #+end_src
+   #+END_SRC
 
 ** Do not add duplicates to kill-ring
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq browse-kill-ring-no-duplicates t)
-   #+end_src
+   #+END_SRC
 
 ** Always keep the current entry in kill ring at the top
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq browse-kill-ring-recenter t)
-   #+end_src
+   #+END_SRC
 
 
 * Cleanup whitespace in the buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun cleanup-buffer-safe ()
       "Perform a bunch of safe operations on the whitespace content of a buffer.
     Does not indent buffer, because it is used for a before-save-hook, and that
@@ -501,11 +501,11 @@
       (untabify (point-min) (point-max))
       (delete-trailing-whitespace)
       (set-buffer-file-coding-system 'utf-8))
-  #+end_src
+  #+END_SRC
 
 
 * Convert buffer from DOS end-of-lines to Unix end-of-lines and vice versa
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun dos-to-unix ()
       "Cut all visible ^M from the current buffer."
       (interactive)
@@ -520,24 +520,24 @@
         (goto-char (point-min))
         (while (search-forward "\n" nil t)
           (replace-match "\r\n"))))
-  #+end_src
+  #+END_SRC
 
 
 * Require final newlines
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq require-final-newline 'ask)
-  #+end_src
+  #+END_SRC
 
 
 * Do not ask before saving abbrevs
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq save-abbrevs 'silently)
-  #+end_src
+  #+END_SRC
 
 
 * DWIM versions of upcase-word and friends
   These operate on region if active otherwise operate on current word
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defmacro iqbal-work-on-region-or-word (func docstring word-func region-func)
       `(defun ,func ()
          ,docstring
@@ -551,56 +551,56 @@
     (iqbal-work-on-region-or-word iqbal-upcase-dwim "Upcase word or region" upcase-word upcase-region)
     (iqbal-work-on-region-or-word iqbal-downcase-dwim "Downcase word or region" downcase-word downcase-region)
     (iqbal-work-on-region-or-word iqbal-capitalize-dwim "Capitalize word or region" capitalize-word capitalize-region)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings
 ** Keybinding to prompt user for value during recording macro
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key "\C-xQ" 'iqbal-macro-query)
-   #+end_src
+   #+END_SRC
 
 ** Keybindings for DWIM versions of copy/cut versions
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "M-w") 'copy-line-or-region)
      (global-set-key (kbd "C-w") 'cut-line-or-region)
-   #+end_src
+   #+END_SRC
 
 ** Keybinding to duplicate current line or region
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-x d") 'duplicate-current-line-or-region)
-   #+end_src
+   #+END_SRC
 
 ** Keybindings to open newlines
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-o") 'open-line-below)
      (global-set-key (kbd "C-S-o") 'open-line-above)
      (define-key prog-mode-map (kbd "<M-return>") 'new-line-dwim)
-   #+end_src
+   #+END_SRC
 
 ** Keybindings to increment/decrement integers at point
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-c +") 'increment-integer-at-point)
      (global-set-key (kbd "C-c -") 'decrement-integer-at-point)
-   #+end_src
+   #+END_SRC
 
 ** Keybinding to toggle comment on line or region
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
-   #+end_src
+   #+END_SRC
 
 ** Keybindings for multiple cursors
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-S-m") 'mc/mark-more-like-this-extended)
     (global-set-key (kbd "C-S-l") 'mc/edit-lines)
     (global-set-key (kbd "C-S-c") 'mc/mark-all-like-this-dwim)
     (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
     (global-set-key (kbd "C-S-r") 'set-rectangular-region-anchor)
     (global-set-key (kbd "C-S-a") 'mc/mark-all-in-region)
-  #+end_src
+  #+END_SRC
 
 ** Extra keybindings enabled in multiple cursors mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-additional-mc-keybindings ()
        (define-key mc/keymap (kbd "C-s") #'phi-search)
        (define-key mc/keymap (kbd "C-r") #'phi-search-backward)
@@ -611,36 +611,36 @@
        (define-key mc/keymap (kbd "C-j") #'newline))
 
      (add-hook 'multiple-cursors-mode-hook #'iqbal-additional-mc-keybindings)
-   #+end_src
+   #+END_SRC
 
 ** Keybindings for expanding tiny expressions
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'tiny-expand "tiny")
     (global-set-key (kbd "C-:") 'tiny-expand)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for browse kill ring
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'browse-kill-ring "browse-kill-ring")
     (global-set-key (kbd "C-c M-y") 'browse-kill-ring)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for expand region
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-=") 'er/expand-region)
     (global-set-key (kbd "C--") 'er/contract-region)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings to highlight text according to regexp
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c h l") 'highlight-lines-matching-regexp)
     (global-set-key (kbd "C-c h w") 'highlight-regexp)
     (global-set-key (kbd "C-c h r") 'unhighlight-regexp)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for killing backwards
   Pressing shift with usual keys will reverse the operations
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun backward-kill-line (arg)
       "Kill ARG lines backward."
       (interactive "p")
@@ -651,35 +651,35 @@
     (global-set-key (kbd "M-D") 'backward-kill-word)
 
     (global-set-key (kbd "C-S-d") 'backward-delete-char-untabify)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for code folding
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
       (global-set-key (kbd "C-x C-\\") 'iqbal-fold-this-hs-hide)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for hungry deletion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'hungry-delete-forward "hungry-delete")
     (autoload 'hungry-delete-backward "hungry-delete")
     (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
     (global-set-key (kbd "C-c <deletechar>") 'hungry-delete-forward)
-  #+end_src
+  #+END_SRC
 
 ** Keybinding for zop-to-char
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "M-z") 'zop-to-char)
-   #+end_src
+   #+END_SRC
 
 ** Keybindings for DWIM versions upcase-word and friends
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "M-u") #'iqbal-upcase-dwim)
      (global-set-key (kbd "M-l") #'iqbal-downcase-dwim)
      (global-set-key (kbd "M-c") #'iqbal-capitalize-dwim)
-   #+end_src
+   #+END_SRC
    
 ** Unset C-z, I don't find it useful
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-unset-key (kbd "C-z"))
      (global-unset-key (kbd "C-x C-z"))
-   #+end_src
+   #+END_SRC

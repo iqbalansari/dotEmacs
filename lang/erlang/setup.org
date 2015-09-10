@@ -1,72 +1,72 @@
 * Start edts
 ** Is edts available?
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq iqbal-edts-available (locate-library "edts-mode"))
-  #+end_src
+  #+END_SRC
 
 ** Load edts if not already loaded
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq edts-inhibit-package-check t)
 
     (when (and iqbal-edts-available
                (not (fboundp #'edts-mode)))
       (load "edts-start"))
-  #+end_src
+  #+END_SRC
 
 
 * Enable edts mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-edts-available
       (auto-complete-mode +1)
       (edts-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Setup distel, if edts is not available
 ** Set inferior-erlang-machine-options
    So that name of erlang shell started is emacs
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq inferior-erlang-machine-options '("-sname" "emacs"))
-   #+end_src
+   #+END_SRC
 
 ** Enable erlang extended mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (and (not iqbal-edts-available)
                 (locate-library "distel"))
        (unless (fboundp 'erlang-extended-mode)
          (load "distel"))
 
        (erlang-extended-mode t))
-   #+end_src
+   #+END_SRC
 
 ** Start erlang shell and connect to it
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (and (not iqbal-edts-available)
                 (locate-library "distel")
                 (executable-find "erl"))
        (run-at-time 0.2 nil #'iqbal-start-distel))
-   #+end_src
+   #+END_SRC
 
 ** Setup company auto-completion for distel using company mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (and (not iqbal-edts-available)
                 (locate-library "company-distel"))
        (company-mode +1)
        (load "company-distel")
        (add-to-list 'company-backends 'company-distel))
-   #+end_src
+   #+END_SRC
 
 
 * Enable syntax checking
   Do not enable flycheck if edts is available
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (unless iqbal-edts-available
       (flycheck-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Flash the current line after jump to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-edts-available
       (iqbal-highlight-line-after-func edts-find-source-under-point))
-  #+end_src
+  #+END_SRC

@@ -1,38 +1,38 @@
 * Unset emmet's default keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key emmet-mode-keymap (kbd "<C-return>") nil)
     (define-key emmet-mode-keymap (kbd "C-j") nil)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for emmet
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key web-mode-map (kbd "C-c RET") nil)
     (define-key web-mode-map (kbd "C-c RET") #'iqbal-emmet-wrap-or-expand-snippet)
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding for jumping to matching tag
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key web-mode-map (kbd "C-'") 'web-mode-tag-match)
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding to rename current tag
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key web-mode-map iqbal-refactor-rename 'web-mode-element-rename)
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding to fold html entities
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key web-mode-map (kbd "C-x C-\\") 'web-mode-fold-or-unfold)
-  #+end_src
+  #+END_SRC
 
 
 * Reset C-c C-d to web-mode's keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (bound-and-true-p tern-mode)
       (define-key tern-mode-keymap (kbd "C-c C-d") nil))
-  #+end_src
+  #+END_SRC
 

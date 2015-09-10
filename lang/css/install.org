@@ -1,7 +1,7 @@
 * Install required packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-css-packages
       '(css-eldoc skewer-mode emmet-mode))
 
     (iqbal-install-packages iqbal-css-packages)
-  #+end_src
+  #+END_SRC

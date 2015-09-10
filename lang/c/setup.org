@@ -1,28 +1,28 @@
 * Enable gtags-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-gtags-available
       (gtags-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Enable prepaint mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (preproc-font-lock-global-mode 1)
-  #+end_src
+  #+END_SRC
 
 
 * Load rtags and start rdm
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-rtags-available
       (unless (fboundp 'rtags-start-process-maybe)
         (load "rtags"))
     
       (rtags-start-process-maybe))
-  #+end_src
+  #+END_SRC
 
 
 * Check if project is indexed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-rtags-available
       (let* ((project-root (let ((projectile-require-project-root nil)) (projectile-project-root)))
              (rtags-status (shell-command-to-string (concat (rtags-executable-find "rc")
@@ -39,11 +39,11 @@
                                        (rtags-executable-find "rc")
                                        (shell-quote-argument compile-commands)))
               (warn "compile_commands.json not found for this project"))))))
-  #+end_src
+  #+END_SRC
 
 
 * Create GTAGS/TAGS if not created yet and RTags is not available for the project
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (let ((project-root (ignore-errors (projectile-project-root))))
       (when (and project-root (not iqbal-rtags-project-indexed))
         (cond (iqbal-gtags-available (progn
@@ -55,55 +55,55 @@
                                            (shell-command (concat "cd "
                                                                   (shell-quote-argument project-root)
                                                                   " && find . -name \"*.[ch]\" -print | xargs etags -a ")))))))
-  #+end_src
+  #+END_SRC
 
 
 * Automatically jump to symbol under cursor in *RTags* buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq rtags-error-timer-interval 0.1)
     (setq rtags-tracking t)
-  #+end_src
+  #+END_SRC
 
 
 * Highlight line after jump to definition
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (iqbal-highlight-line-after-func iqbal-c-find-definition-rtags)
      (iqbal-highlight-line-after-func iqbal-find-definition-rtags-fallback)
      (iqbal-highlight-line-after-func gtags-find-tag)
      (iqbal-highlight-line-after-func find-tag)
-   #+end_src
+   #+END_SRC
 
 
 * Setup auto-completion
    Also add company-c-headers to company-backends
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when iqbal-irony-available
        (irony-mode)
        (add-to-list 'company-backends '(company-irony company-c-headers))
        (company-irony-setup-begin-commands))
-   #+end_src
+   #+END_SRC
 
 
 * Setup eldoc
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-irony-available
       (irony-eldoc))
-  #+end_src
+  #+END_SRC
 
 
 * Setup syntax checking
 ** Enable flycheck mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-mode)
-  #+end_src
+  #+END_SRC
 
 ** Select whichever checker is available
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (flycheck-select-checker (cond ((and iqbal-gcc-version (not (version< iqbal-gcc-version "4.8.1"))) 'c/c++-gcc)
                                     (iqbal-clang-version 'c/c++-clang)))
-   #+end_src
+   #+END_SRC
 
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (eval-after-load 'projectile
       '(add-to-list 'projectile-project-root-files "compile_commands.json"))
-  #+end_src
+  #+END_SRC

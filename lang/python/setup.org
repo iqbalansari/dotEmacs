@@ -1,78 +1,78 @@
 * Disable electric indent mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (electric-indent-local-mode -1)
-  #+end_src
+  #+END_SRC
 
 
 * Setup Jedi for autocompletion
 ** Check if jedi is installed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq iqbal-jedi-available (locate-library "jedi"))
-   #+end_src
+   #+END_SRC
 
 ** Automatically start completion after inserting a dot
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq jedi:complete-on-dot t)
-  #+end_src
+  #+END_SRC
 
 ** Show function signature in minibuffer
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq jedi:tooltip-method nil)
-   #+end_src
+   #+END_SRC
 
 ** Setup jedi for current buffer
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (auto-complete-mode +1)
      (when iqbal-jedi-available
        (jedi:setup))
-   #+end_src
+   #+END_SRC
 
 
 * Use django style comments with fill-column
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq python-fill-docstring-style 'django)
-  #+end_src
+  #+END_SRC
 
 
 * Setup flycheck for error checking
 ** Enable flycheck-mode (except if the file is in non-writable folder)
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (and (buffer-file-name)
                (file-writable-p (file-name-directory (buffer-file-name))))
       (flycheck-mode))
-  #+end_src
+  #+END_SRC
 
 ** Use pylint (if available) for syntax checking
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (if (executable-find "pylint")
          (flycheck-select-checker 'python-pylint)
        (warn "Install pylint enable syntax checking"))
-   #+end_src
+   #+END_SRC
 
 
 * Use nosetests for testing
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (locate-library "nose")
       (load "nose"))
-  #+end_src
+  #+END_SRC
 
 
 * Use flat imenu index
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (set (make-local-variable 'imenu-create-index-function)
          #'python-imenu-create-flat-index)
-  #+end_src
+  #+END_SRC
 
 
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (hs-minor-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Flash current line after a jump to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-jedi-available
       (iqbal-highlight-line-after-func jedi:goto-definition))
-  #+end_src
+  #+END_SRC

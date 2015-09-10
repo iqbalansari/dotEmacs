@@ -1,18 +1,18 @@
 * Managing imports
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key haskell-mode-map iqbal-refactor-organize-imports #'haskell-mode-format-imports)
     (define-key haskell-mode-map (kbd "SPC") #'haskell-mode-contextual-space)
-  #+end_src
+  #+END_SRC
 
 
 * Interacting with the repl
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key haskell-mode-map iqbal-run-shell #'haskell-interactive-bring)
     (define-key haskell-mode-map iqbal-send-file #'haskell-process-load-or-reload)
-  #+end_src
+  #+END_SRC
 
 
 * Getting info at point
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key haskell-mode-map iqbal-show-doc #'iqbal-haskell-doc-at-point)
-  #+end_src
+  #+END_SRC

@@ -1,8 +1,8 @@
 * Ensure that the required packages are installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-json-packages
       '(json-snatcher))
 
     (iqbal-install-packages iqbal-json-packages)
 
-  #+end_src
+  #+END_SRC

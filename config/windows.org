@@ -1,12 +1,12 @@
 * Use switch-window for switching between windows
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'switch-window)
     (global-set-key (kbd "C-x o") 'switch-window)
-  #+end_src
+  #+END_SRC
 
 
 * Install transpose-frame
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'transpose-frame)
 
     (autoload #'transpose-frame "transpose-frame" "Transpose windows arrangement at FRAME." t)
@@ -15,57 +15,57 @@
     (autoload #'rotate-frame "transpose-frame" "Rotate windows arrangement 180 degrees at FRAME." t)
     (autoload #'rotate-frame-clockwise "transpose-frame" "Rotate windows arrangement 90 degrees clockwise at FRAME." t)
     (autoload #'rotate-frame-anticlockwise "transpose-frame" "Rotate windows arrangement 90 degrees anti-clockwise at FRAME." t)
-  #+end_src
+  #+END_SRC
 
 
 * Enable popwin, automatically gets rid of useless windows
 ** Enable popwin
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'popwin)
     (load "popwin")
     (popwin-mode 1)
-  #+end_src
+  #+END_SRC
 
 ** Popwin config
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (push '(grep-mode :dedicated t :width 0.5 :position right :stick t :noselect t) popwin:special-display-config)
      (push '(occur-mode :dedicated t :width 0.5 :position right :stick t :noselect t) popwin:special-display-config)
      (push '(help-mode :dedicated t :width 0.5 :position right :stick nil) popwin:special-display-config)
      (setq popwin:special-display-config (delete 'slime-repl-mode popwin:special-display-config))
-   #+end_src
+   #+END_SRC
 
 
 * Use qwerty shortcuts to switch windows
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq switch-window-shortcut-style 'qwerty)
-  #+end_src
+  #+END_SRC
 
 
 * Use windmove to select windows using ctrl + arrow keys
 ** Use default keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (windmove-default-keybindings 'control)
-  #+end_src
+  #+END_SRC
 
 ** Wrap around when moving off last window in a direction
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq windmove-wrap-around t)
-   #+end_src
+   #+END_SRC
 
 
 * Switch to bar cursor type before invoking switch-window
   Box cursor doesn't look good in switch-window
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defadvice switch-window (around switch-to-bar-cursor)
       (let ((cursor-type nil))
         ad-do-it))
 
     (ad-activate 'switch-window)
-  #+end_src
+  #+END_SRC
 
 
 * Open current buffer in new frame
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun detach-window ()
       "Close current window and re-open it in new frame."
       (interactive)
@@ -73,23 +73,23 @@
         (delete-window)
         (select-frame (make-frame))
         (set-window-buffer (selected-window) current-buffer)))
-  #+end_src
+  #+END_SRC
 
 
 * Enable winner mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (winner-mode 1)
-  #+end_src
+  #+END_SRC
 
 
 * Shorter keybinding to switch windows
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "M-o") #'other-window)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings to split windows
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-split-window-vertically ()
       (interactive)
       (select-window (split-window-vertically)))
@@ -100,4 +100,4 @@
 
     (global-set-key (kbd "C-x -") #'iqbal-split-window-vertically)
     (global-set-key (kbd "C-x \\") #'iqbal-split-window-horizontally)
-  #+end_src
+  #+END_SRC

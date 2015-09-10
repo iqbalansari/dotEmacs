@@ -1,16 +1,16 @@
 * Enable cider
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (cider-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Enable eldoc
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (cider-turn-on-eldoc-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Flash the current line after jump to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func cider-find-var)
-  #+end_src
+  #+END_SRC

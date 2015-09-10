@@ -1,5 +1,5 @@
 * Setup racer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (require 'racer)
     (setq racer-cmd (executable-find "racer"))
 
@@ -10,24 +10,24 @@
                 "Path to rust src not set, not activating racer. Please set `RUST_SRC_PATH' environment variable
 and restart emacs or set manually set `racer-rust-src-path'"
               "`racer' not found in path, please install it from https://github.com/phildawes/racer")))
-  #+end_src
+  #+END_SRC
 
 
 * Enable syntax checking
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-rust-setup)
     (flycheck-mode +1)
-  #+end_src
+  #+END_SRC
 
 
 * Set compilation command
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (set (make-variable-buffer-local 'compile-command) "cargo run")
-  #+end_src
+  #+END_SRC
 
 
 * Flash the current line after jump to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func racer-find-definition)
-  #+end_src
+  #+END_SRC
   

@@ -3,23 +3,23 @@
   autocompletion and refactorings
 + [[https://github.com/magnars/js2-refactor.el][js2-refactor]] - A JavaScript refactoring library for emacs
 
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-javascript-packages '(js2-refactor
                                      skewer-mode
                                      nodejs-repl))
-  #+end_src
+  #+END_SRC
 
 
 * Install ternjs if npm is installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (if (executable-find "tern")
         (progn (add-to-list 'iqbal-javascript-packages 'tern)
                (add-to-list 'iqbal-javascript-packages 'company-tern))
       (warn "You need to install tern using NPM, for auto-completion and jump to definition to work"))
-  #+end_src
+  #+END_SRC
 
 
 * Install the packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages iqbal-javascript-packages)
-  #+end_src
+  #+END_SRC

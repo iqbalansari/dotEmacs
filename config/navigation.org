@@ -1,45 +1,45 @@
 * Install some packages useful for navigation
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-navigation-packages
       '(goto-chg
         ace-jump-mode))
   
     (iqbal-install-packages iqbal-navigation-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Ace Jump mode setup
 ** Use line-mode if called with single prefix arg
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq ace-jump-mode-submode-list '(ace-jump-word-mode
                                        ace-jump-line-mode
                                        ace-jump-char-mode))
-  #+end_src
+  #+END_SRC
 
 ** Keybinding for ace-jump-mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
-   #+end_src
+   #+END_SRC
 
 
 * Push mark before jumping to last change
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defadvice goto-last-change (before iqbal-push-mark-before-jumping-to-chg (&rest ignored))
       (push-mark))
-  #+end_src
+  #+END_SRC
 
 
 * Swap keybindings for 'pop-tag-mark' and 'tags-loop-continue'
   The find the current bindings inconvenient
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "M-*") 'tags-loop-continue)
     (global-set-key (kbd "M-,") 'pop-tag-mark)
-  #+end_src
+  #+END_SRC
 
 
 * Goto beginning of the line or indentation
   If we are the begining of the line goto to indentation and vice versa
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-beginning-of-line-or-indent ()
       "Go to the position of the first non-whitespace character.
     If already there, go to actual beginning of line."
@@ -49,52 +49,52 @@
         (move-beginning-of-line nil)))
 
     (global-set-key (kbd "C-a") 'iqbal-beginning-of-line-or-indent)
-  #+end_src
+  #+END_SRC
 
 
 * Preserve point position when scrolling the window
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq scroll-preserve-screen-position t)
-  #+end_src
+  #+END_SRC
 
 
 * Flash current line after jumping to buffers
 ** After jumping using imenu
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'imenu-after-jump-hook 'iqbal-highlight-line t)
-  #+end_src
+  #+END_SRC
 
 ** After jumping to occurrence from occur mode 
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'occur-mode-find-occurrence-hook #'iqbal-highlight-line t)
-   #+end_src
+   #+END_SRC
 
 ** After jumping to error from grep/compilation mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'next-error-hook #'iqbal-highlight-line t)
-   #+end_src
+   #+END_SRC
 
 
 * Unfold headline when jumping to a point in org buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-reveal-maybe ()
       (when (eq major-mode 'org-mode)
         (org-reveal)))
 
     (add-hook 'next-error-hook #'iqbal-org-reveal-maybe)
     (add-hook 'occur-mode-find-occurrence-hook #'iqbal-org-reveal-maybe)
-  #+end_src
+  #+END_SRC
 
 
 * Always rescan buffers when using imenu
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq imenu-auto-rescan t)
-  #+end_src
+  #+END_SRC
 
 
 * When popping the mark, continue popping until the cursor actually moves
   Taken from [[https://github.com/magnars/.emacs.d]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defadvice pop-to-mark-command (around ensure-new-position activate)
       (let ((p (point)))
         (when (eq last-command 'save-region-or-current-line)
@@ -103,20 +103,20 @@
           ad-do-it)
         (dotimes (i 10)
           (when (= p (point)) ad-do-it))))
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for navigating between errors
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "M-n") 'next-error)
     (global-set-key (kbd "M-p") 'previous-error)
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding for jumping to last change
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-/") 'goto-last-change)
     (global-set-key (kbd "C-x C-?") 'goto-last-change-reverse)
-  #+end_src
+  #+END_SRC
 
 

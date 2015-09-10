@@ -1,17 +1,17 @@
 * Save files without asking before compiling 
- #+begin_src emacs-lisp
+ #+BEGIN_SRC emacs-lisp
    (setq compilation-ask-about-save nil)
- #+end_src
+ #+END_SRC
 
 
 * Keybinding to compile
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c ;") #'compile)
-  #+end_src
+  #+END_SRC
 
 
 * Notify of completion of compilation
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-buffer-on-screen-p (buffer)
       (let ((buffer-window (get-buffer-window buffer t)))
         ;; If buffer is not open in a window it is not visible
@@ -33,11 +33,11 @@
             (notify "Emacs compile.el" disp-message)))))
 
     (add-hook 'compilation-finish-functions #'iqbal-notify-compilation-finish)
-  #+end_src
+  #+END_SRC
 
 
 * Translate ansi sequences in compilation buffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'ansi-color-apply-on-region "ansi-color")
     (defun iqbal-colorize-compilation-buffer ()
       (when (eq major-mode 'compilation-mode)
@@ -45,5 +45,5 @@
           (ansi-color-apply-on-region compilation-filter-start (point)))))
 
     (add-hook 'compilation-filter-hook 'iqbal-colorize-compilation-buffer)
-  #+end_src
+  #+END_SRC
 

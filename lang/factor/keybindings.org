@@ -1,22 +1,22 @@
 * Set keybindings for refactoring
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key factor-mode-map iqbal-refactor-rename #'fuel-refactor-rename-word)
-  #+end_src
+  #+END_SRC
 
 
 * Finding references
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key factor-mode-map iqbal-find-references #'fuel-show-callers)
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding for get documentation
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key factor-mode-map iqbal-show-doc #'fuel-help)
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding to update `USING:`
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key factor-mode-map iqbal-refactor-organize-imports #'fuel-update-usings)
-  #+end_src
+  #+END_SRC

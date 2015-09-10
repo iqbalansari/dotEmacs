@@ -1,25 +1,25 @@
 * Custom function for expanding emmet snippets
    If region is active wrap it with expression otherwise
    expand current line
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-emmet-wrap-or-expand-snippet ()
        (interactive)
        (if (region-active-p)
            (call-interactively #'emmet-wrap-with-markup)
          (call-interactively #'emmet-expand-line)))
-   #+end_src
+   #+END_SRC
 
 
 * Function to highlight a line only if not at a tag
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-disable-hl-line-on-tags ()
       (unless (web-mode-element-boundaries)
         (cons (line-beginning-position) (line-end-position))))
-  #+end_src
+  #+END_SRC
 
 
 * TODO Function for cleaning up messy markup
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun sgml-inspect ()
       "Convert a messy chunk of sgml tags into one you can easily inspect"
       (interactive)
@@ -32,4 +32,4 @@
         (while (re-search-forward "\\( \\)[^ ]+=" end t)
           (replace-match "\n" nil nil nil 1))
         (indent-region beginning end)))
-  #+end_src
+  #+END_SRC

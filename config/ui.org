@@ -1,5 +1,5 @@
 * Ensure that the required packages are installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-display-packages
       '(diminish
         eval-sexp-fu
@@ -9,46 +9,46 @@
         highlight-thing))
 
     (iqbal-install-packages iqbal-display-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Replace yes-no questions with y-n questions
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (fset 'yes-or-no-p 'y-or-n-p)
-  #+end_src
+  #+END_SRC
 
 
 * Confirm before killing emacs
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq confirm-kill-emacs 'y-or-n-p)
-  #+end_src
+  #+END_SRC
 
 
 * Do not show the startup screen
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq inhibit-startup-screen t)
-  #+end_src
+  #+END_SRC
 
 
 * Use solarized theme
 ** Do not use different font sizes
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq solarized-use-variable-pitch nil
            solarized-height-minus-1 1.0
            solarized-height-plus-1 1.0
            solarized-height-plus-2 1.0
            solarized-height-plus-3 1.0
            solarized-height-plus-4 1.0)
-   #+end_src
+   #+END_SRC
 
 ** Fix underline position in X
    The default makes the mode-line appear broken in solarized theme
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq x-underline-at-descent-line t)
-   #+end_src
+   #+END_SRC
 
 ** Use dark or light theme according time
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-load-solarized-theme (&optional frame)
       (interactive)
       (let ((current-hour (third (decode-time)))
@@ -73,36 +73,36 @@
 
     (when (display-graphic-p)
       (add-hook 'after-init-hook #'iqbal-load-solarized-theme))
-  #+end_src
+  #+END_SRC
 
 
 * Don't show menubar, scrollbar and toolbar
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (menu-bar-mode -1)
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
-  #+end_src
+  #+END_SRC
 
 
 * Enable visual line mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-visual-line-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Use DejaVu Sans Mono / Source Code Pro / Consolas font if available
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (set-frame-font (cond ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
                           ((member "Source Code Pro" (font-family-list)) "Source Code Pro-10.90")
                           ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
                     t
                     t)
-  #+end_src
+  #+END_SRC
 
 
 * Customizations for linum-mode
 ** Make custom linum consistent [http://www.emacswiki.org/emacs/LineNumbers#toc6]
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'linum
        (defface linum-leading-zero
          `((t :inherit 'linum
@@ -119,66 +119,66 @@
             (propertize (concat " " (number-to-string line) " ") 'face 'linum))))
 
        (setq linum-format 'linum-format-func))
-   #+end_src
+   #+END_SRC
 
 
 * Customizations for modeline
 ** Show date time in modeline
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (display-time-mode 1)
      (setq display-time-day-and-date t)
-   #+end_src
+   #+END_SRC
 ** Display current column number
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (column-number-mode)
-   #+end_src
+   #+END_SRC
 
 
 * Highlight changes in the buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq highlight-changes-visibility-initial-state nil)
     (global-highlight-changes-mode t)
     (set-face-foreground 'highlight-changes nil)
     (set-face-background 'highlight-changes "#382f2f")
     (set-face-foreground 'highlight-changes-delete nil)
     (set-face-background 'highlight-changes-delete "#916868")
-  #+end_src
+  #+END_SRC
 
 
 * Highlight current line
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (display-graphic-p)
       (global-hl-line-mode) )
-  #+end_src
+  #+END_SRC
 
 
 * Temporarily highlight yanks and undos
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "volatile-highlights")
     (volatile-highlights-mode 1)
-  #+end_src
+  #+END_SRC
 
 
 * Display the keys pressed the minibuffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq echo-keystrokes 0.01)
-  #+end_src
+  #+END_SRC
 
 
 * Customizations for cursor
 ** Display cursor as bar
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq-default cursor-type 'box)
-   #+end_src
+   #+END_SRC
 
 ** Don't blink the cursor
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (blink-cursor-mode 0)
-   #+end_src
+   #+END_SRC
 
 
 * Change the cursor display according to minor modes
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-set-cursor-color-color nil)
     (defvar iqbal-set-cursor-color-buffer nil)
 
@@ -193,13 +193,13 @@
           (setq iqbal-set-cursor-color-buffer (buffer-name)))))
 
     (add-hook 'post-command-hook 'iqbal-set-cursor-color-according-to-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Key for toggling fullscreen
   A simple function to toggle fullscreen, which works on windows as well as Linux
   borrowed from emacswiki
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-fullscreen-p t "Check if fullscreen is on or off")
 
     (defun iqbal-non-fullscreen ()
@@ -225,73 +225,73 @@
         (iqbal-fullscreen)))
 
     (global-set-key (kbd "<f11>") 'iqbal-toggle-fullscreen)
-  #+end_src
+  #+END_SRC
 
 
 * Avoid jumps of scrolling 
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq scroll-margin 0)
     (setq redisplay-dont-pause t)
-  #+end_src
+  #+END_SRC
 
 
 * Better scrolling with mouse
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
-  #+end_src
+  #+END_SRC
 
 
 * Indicate size in modeline
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (size-indication-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Flash the currently executed sexp
 ** Load eval-sexp-fu
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "eval-sexp-fu")
-  #+end_src
+  #+END_SRC
 
 ** Custom colors
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (set-face-attribute 'eval-sexp-fu-flash nil :background "#38B4D2" :foreground nil)
-   #+end_src
+   #+END_SRC
 
 
 * Not ringing and dinging please!
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq ring-bell-function 'ignore)
-  #+end_src
+  #+END_SRC
 
 
 * Fix scroll lagging on windows not very good but better than earlier
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq redisplay-dont-pause t
           scroll-margin 1
           scroll-step 1
           scroll-conservatively 10000
           scroll-preserve-screen-position 1)
-  #+end_src
+  #+END_SRC
 
 
 * Show form feed characters as horizontal lines
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-page-break-lines-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Display buffer name in frame title
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq frame-title-format
           '(:eval (if (buffer-file-name)
                       (abbreviate-file-name (buffer-file-name))
                     "%b")))
-  #+end_src
+  #+END_SRC
 
 
 * Diminsh some minor modes
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     ;; Apparently package.el fails to autoload this sometimes
     (load "diminish")
 
@@ -319,10 +319,10 @@
     (with-eval-after-load 'abbrev (diminish 'abbrev-mode))
     (with-eval-after-load 'helm-mode (diminish 'helm-mode))
     (with-eval-after-load 'eyebrowse (diminish ' eyebrowse-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Enable recursive minibuffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq enable-recursive-minibuffers t)
-  #+end_src
+  #+END_SRC

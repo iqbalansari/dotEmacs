@@ -1,4 +1,4 @@
 * Install alchemist
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'alchemist)
-  #+end_src
+  #+END_SRC

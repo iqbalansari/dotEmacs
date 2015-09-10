@@ -1,14 +1,14 @@
 * Getting documentation at point
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key clojure-mode-map iqbal-show-doc #'cider-doc)
-  #+end_src
+  #+END_SRC
 
 
 * Interaction with the REPL
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key cider-mode-map iqbal-send-file nil)
     (define-key clojure-mode-map iqbal-send-file #'cider-load-file)
 
     (define-key cider-mode-map iqbal-send-buffer nil)
     (define-key clojure-mode-map iqbal-send-buffer #'cider-eval-buffer)
-  #+end_src
+  #+END_SRC

@@ -1,7 +1,7 @@
 * Interacting with the REPL
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key sml-mode-map iqbal-run-shell #'sml-prog-proc-switch-to)
     (define-key sml-mode-map iqbal-send-function #'sml-send-function)
     (define-key sml-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-sml-eval-line sml-send-region))
     (define-key sml-mode-map iqbal-send-file #'sml-load-file)
-  #+end_src
+  #+END_SRC

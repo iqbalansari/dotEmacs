@@ -1,6 +1,6 @@
 * Modify ledger-report to work with gpg encrypted files
   Credits [[https://groups.google.com/d/msg/ledger-cli/_umUQakuVkM/bVCFfqlRjQEJ]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defadvice ledger-report-cmd (around ledger-report-gpg)
       (let ((ledger-reports
              (if (and (buffer-file-name ledger-buf)
@@ -21,4 +21,4 @@
         ad-do-it))
 
     (ad-activate 'ledger-report-cmd)
-  #+end_src
+  #+END_SRC

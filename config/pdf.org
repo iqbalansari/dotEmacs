@@ -1,47 +1,47 @@
 * Install pdf-tools on linux platforms
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (eq system-type 'gnu/linux)
       (iqbal-install-packages '(pdf-tools org-pdfview)))
-  #+end_src
+  #+END_SRC
 
 
 * Install interleave, very useful for taking/reading notes while reading PDFs
 ** Install from melpa
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'interleave)
-  #+end_src
+  #+END_SRC
 
 ** Location to interleave notes directory
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq interleave--org-notes-dir-list (list (iqbal-get-file-in-data-directory "notes" t)))
-   #+end_src
+   #+END_SRC
 
 
 * Goto to next/previous page we reach the end/start of a page in doc-view
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq doc-view-continuous t)
-  #+end_src
+  #+END_SRC
 
 
 * Create higher resolution image in doc-view
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq doc-view-resolution 200)
-  #+end_src
+  #+END_SRC
 
 
 * Initialize pdf tools
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-install-pdf-tools ()
       (add-hook 'doc-view-mode-hook #'pdf-tools-install))
 
     (add-hook 'after-init-hook #'iqbal-install-pdf-tools t)
-  #+end_src
+  #+END_SRC
 
 
 * org-pdfview configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-load-org-pdfview ()
       (require 'org-pdfview))
 
     (add-hook 'pdf-view-mode-hook #'iqbal-load-org-pdfview)
-  #+end_src
+  #+END_SRC

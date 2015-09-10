@@ -1,57 +1,57 @@
 * Gofmt configurations
 ** Use goimports if installed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (executable-find "goimports")
        (setq gofmt-command "goimports"))
-   #+end_src
+   #+END_SRC
 
 ** Run gofmt on save
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (make-variable-buffer-local 'before-save-hook)
     (when (executable-find "gofmt")
       (add-hook 'before-save-hook 'gofmt-before-save))
-  #+end_src
+  #+END_SRC
 
 ** Show errors in echo area
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq gofmt-show-errors nil)
-   #+end_src
+   #+END_SRC
 
 
 * Enable eldoc
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (locate-library "go-eldoc")
       (go-eldoc-setup))
-  #+end_src
+  #+END_SRC
 
 
 * Setup auto-completion
 ** Use company-go for completion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'company-backends 'company-go)
-  #+end_src
+  #+END_SRC
 
 ** Display annotation for completion candidates
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq company-go-show-annotation t)
-   #+end_src
+   #+END_SRC
 
 
 * Highlight line after jumping to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-godef-available
       (iqbal-highlight-line-after-func godef-jump))
-  #+end_src
+  #+END_SRC
 
 
 * Setup syntax checking
 ** Enable flycheck
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-mode)
-  #+end_src
+  #+END_SRC
 
 ** Select appropriate checker
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (flycheck-select-checker (cond ((executable-find "errcheck") 'go-errcheck)
                                     ((executable-find "go") 'go-vet)))
-   #+end_src
+   #+END_SRC

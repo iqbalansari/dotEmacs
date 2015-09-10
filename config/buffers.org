@@ -1,43 +1,43 @@
 * Install some useful packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(swap-buffers buffer-move ibuffer-projectile))
-  #+end_src
+  #+END_SRC
 
 
 * Create unique names for same named buffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "uniquify")
     (setq uniquify-buffer-name-style 'forward)
-  #+end_src
+  #+END_SRC
 
 
 * Auto refresh buffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-auto-revert-mode 1)
     (setq global-auto-revert-non-file-buffers t)
     (setq auto-revert-verbose nil)
-  #+end_src
+  #+END_SRC
 
 
 * Use ibuffer instead of regular buffer switcher
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-b") 'ibuffer)
-  #+end_src
+  #+END_SRC
 
 
 * Use ibuffer-projectile to group buffers by projects
 ** Group buffers by projectile projects
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun ibuffer-projectile-setup ()
       (ibuffer-projectile-set-filter-groups)
       (unless (eq ibuffer-sorting-mode 'alphabetic)
         (ibuffer-do-sort-by-alphabetic)))
 
     (add-hook 'ibuffer-hook #'ibuffer-projectile-setup)
-  #+end_src
+  #+END_SRC
 
 ** Include vc status in ibuffer-list
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ibuffer-formats
            '((mark modified read-only vc-status-mini " "
                    (name 18 18 :left :elide)
@@ -49,26 +49,26 @@
                    (vc-status 16 16 :left)
                    " "
                    filename-and-process)))
-   #+end_src
+   #+END_SRC
 
 
 * Do not show empty groups in ibuffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq ibuffer-show-empty-filter-groups nil)
-  #+end_src
+  #+END_SRC
 
 
 * Do not skip some buffers in ibuffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'ibuf-ext
       (add-to-list 'ibuffer-never-show-predicates "\\*helm.*")
       (add-to-list 'ibuffer-never-show-predicates "\\*Flycheck.*"))
-  #+end_src
+  #+END_SRC
 
 
 * DWIM version of narrow commands
   Taken from [[http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun narrow-or-widen-dwim (p)
       "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.
     Intelligently means: region, org-src-block, org-subtree, or defun,
@@ -89,23 +89,23 @@
             (t (narrow-to-defun))))
 
     (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
-  #+end_src
+  #+END_SRC
 
 
 * Disable swapping buffer with minibuffer when using buffer-move
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defadvice buf-move-to (around my-do-not-swap-with-minibuffer (direction))
       (unless (minibufferp (window-buffer (windmove-find-other-window direction)))
         ad-do-it))
 
     (ad-activate 'buf-move-to)
-  #+end_src
+  #+END_SRC
 
 
 * Simulate buffer-switch-hook, since emacs does not have one
   Alternative approach would be to advise a low level function like
   `set-buffer`, but I guess that could lead to difficult-to-debug errors
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-last-buffer nil "Records last buffer that was visible")
     (defvar iqbal-buffer-change-in-progress-p nil
       "Used to avoid running iqbal-buffer-switch-hook while running a iqbal-buffer-switch-hook")
@@ -123,17 +123,17 @@
     (add-hook 'after-init-hook
               (lambda ()
                 (add-hook 'post-command-hook #'iqbal-run-buffer-switch-hooks-maybe)))
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding to swap buffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c b") 'swap-buffers)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for buf-move
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "<C-S-up>")     'buf-move-up)
     (global-set-key (kbd "<C-S-down>")   'buf-move-down)
     (global-set-key (kbd "<C-S-left>")   'buf-move-left)
@@ -144,13 +144,13 @@
       (org-defkey org-mode-map (kbd "<C-S-down>")   'buf-move-down)
       (org-defkey org-mode-map (kbd "<C-S-left>")   'buf-move-left)
       (org-defkey org-mode-map (kbd "<C-S-right>")  'buf-move-right))
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding to kill current buffer without prompting for buffer name
   Use a custom command to kill the buffer since the standard `kill-this-buffer`
   commands seems to be tied to the menu bar see [http://git.savannah.gnu.org/cgit/emacs.git/tree/lisp/menu-bar.el?id=59b5723c9b613f14cd60cd3239cfdbc0d2343b18#n1865]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-kill-this-buffer ()
       (interactive)
       (cond
@@ -158,5 +158,5 @@
        (t (kill-buffer (current-buffer)))))
 
     (global-set-key (kbd "C-x k") #'iqbal-kill-this-buffer)
-  #+end_src
+  #+END_SRC
 

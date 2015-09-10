@@ -1,64 +1,64 @@
 * Ensure that autocomplete packages are installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-auto-complete-packages
       '(company company-quickhelp auto-complete pos-tip))
 
     (iqbal-install-packages iqbal-auto-complete-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Auto-complete configurations
 ** How sensitive is autocompletion
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ac-auto-start 3)
      (setq ac-auto-show-menu 0.5)
-   #+end_src
+   #+END_SRC
 
 ** Enable fuzzy completion
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ac-use-fuzzy t)
-   #+end_src
+   #+END_SRC
 
 ** Enable menu mode-map when autocomplete menu is displayed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ac-use-menu-map t)
-   #+end_src
+   #+END_SRC
 
 ** Display completion correctly
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq popup-use-optimized-column-computation nil)
-   #+end_src
+   #+END_SRC
 
 ** Use auto-complete with flyspell
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'auto-complete
        (define-key ac-menu-map [backtab] 'ac-previous)
        (ac-flyspell-workaround))
-   #+end_src
+   #+END_SRC
 
 ** To get pop-ups with docs even if a word is uniquely completed from Steve Purcell's config
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq-default ac-dwim nil)
-   #+end_src
+   #+END_SRC
 
 ** Maximum width of auto-complete menu
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ac-max-width 0.5)
-   #+end_src
+   #+END_SRC
 
 ** Try to complete, if line already indented on hitting tab
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq tab-always-indent 'complete)
-   #+end_src
+   #+END_SRC
 
 ** Do not use pos-tip
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ac-quick-help-prefer-pos-tip nil)
-   #+end_src
+   #+END_SRC
 
 
 * Use M-/ for hippie-expand
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "M-/") 'hippie-expand)
 
     (setq hippie-expand-try-functions-list
@@ -70,12 +70,12 @@
             try-expand-all-abbrevs
             try-expand-list
             try-expand-line))
-  #+end_src
+  #+END_SRC
 
 
 * Configuration for using tab for autocompletion taken from [[https://github.com/purcell/emacs.d][Steve Purcell's config]]
   Trigger autocompletion using <tab>
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-auto-complete-at-point ()
       (when (and (not (minibufferp))
                  auto-complete-mode
@@ -89,27 +89,27 @@
                   (remove 'iqbal-auto-complete-at-point completion-at-point-functions))))
 
     (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
-  #+end_src
+  #+END_SRC
 
 
 * Company mode configuration
 ** Align annotations
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq company-tooltip-align-annotations t)
-   #+end_src
+   #+END_SRC
 
 ** Wrap around popup menu on reaching end
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq company-selection-wrap-around t)
-  #+end_src
+  #+END_SRC
 
 ** Allow non-matching input when company-mode is active
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq company-require-match nil)
-   #+end_src
+   #+END_SRC
 
 ** Complete if only preview is being displayed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-complete-if-just-one-candidate ()
        (interactive)
        ;; This might fail sometimes since, it checks whether
@@ -118,11 +118,11 @@
        (call-interactively (if (company--show-inline-p)
                                'company-complete-selection
                              'company-abort)))
-   #+end_src
+   #+END_SRC
 
 ** Keybindings
    Remap company-complete-common to company-complete-common-or-cycle
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'company
        (define-key company-active-map [remap company-complete-common] #'company-complete-common-or-cycle)
        (define-key company-active-map (kbd "<backtab>") #'company-select-previous)
@@ -131,31 +131,31 @@
        (define-key company-active-map (kbd "<right>") #'iqbal-complete-if-just-one-candidate)
        (define-key company-active-map (kbd "C-n") #'company-select-next)
        (define-key company-active-map (kbd "C-p") #'company-select-previous))
-   #+end_src
+   #+END_SRC
 
 
 * Enable company-mode globally
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq company-global-modes '(not erlang-mode python-mode))
     (setq iqbal-default-company-backends '(company-capf company-dabbrev company-files))
     (setq-default company-backends iqbal-default-company-backends)
     (make-variable-buffer-local 'company-backends)
     (global-company-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Enable quick help for company-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (display-graphic-p)
       (company-quickhelp-mode +1))
-  #+end_src
+  #+END_SRC
 
 
 * Enable company-ispell in all text/fundamental mode buffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-text-mode-enable-completion ()
       (setq company-backends '(company-capf company-ispell company-dabbrev)))
 
     (add-hook 'text-mode-hook #'iqbal-text-mode-enable-completion)
     (add-hook 'fundamental-mode #'iqbal-text-mode-enable-completion)
-  #+end_src
+  #+END_SRC

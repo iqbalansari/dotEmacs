@@ -5,7 +5,7 @@
   + [[www.github.com/nonsequitur/smex][smex]]- M-x interface with Ido-style fuzzy matching.
   + [[http://www.emacswiki.org/emacs/download/idomenu.el][idomenu]] - imenu tag selection a la ido
 
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-ido-packages
       '(flx
         flx-ido
@@ -15,47 +15,47 @@
         ido-vertical-mode))
 
     (iqbal-install-packages iqbal-ido-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Enable ido-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (ido-mode t)
-  #+end_src
+  #+END_SRC
 
 
 * Use ido for completion in org-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-completion-use-ido t)
-  #+end_src
+  #+END_SRC
 
 
 * Always use ido to read buffer name and file name
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq read-buffer-function #'ido-read-buffer)
-  #+end_src
+  #+END_SRC
 
 
 * Use flx for better flex matching
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flx-ido-mode t)
-  #+end_src
+  #+END_SRC
 
 
 * Use ido everywhere
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (ido-ubiquitous-mode t)
-  #+end_src
+  #+END_SRC
 
 
 * Use flex matching with Ido
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ido-enable-flex-matching t)
-   #+end_src
+   #+END_SRC
 
 
 * Use ~ to jump to home directly or emacs init directory in ido-find-file
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'ido-setup-hook
                (lambda ()
                  ;; Go straight home
@@ -67,42 +67,42 @@
                                                  (if (looking-back "/")
                                                      (insert "~/")
                                                    (call-interactively 'self-insert-command))))))))
-   #+end_src
+   #+END_SRC
 
 
 * Disable automatic file search
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ido-auto-merge-work-directories-length -1)
-   #+end_src
+   #+END_SRC
 
 
 * Keybindings for smex
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "M-x") 'smex)
      (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-   #+end_src
+   #+END_SRC
 
 
 * Enable ido-vertical-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (ido-vertical-mode +1)
-  #+end_src
+  #+END_SRC
 
 
 * Map Alt-backspace to 'ido-delete-backward-updir
    I often mistakenly type these when in ido-find-file leading to 'buffer-read-only' error
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-ido-keys ()
        "Add my keybindings for ido."
        (define-key ido-file-dir-completion-map (kbd "<M-backspace>") 'ido-delete-backward-updir))
 
      (add-hook 'ido-setup-hook 'iqbal-ido-keys)
-   #+end_src
+   #+END_SRC
 
 
 * Map up and down keys to more intuitive commands in ido-vertical mode
   By default they are bound `next-history-element` and `previous-history-element` 
   which is terribly confusing since it seems they would cycle the candidates
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
-   #+end_src
+   #+END_SRC

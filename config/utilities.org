@@ -1,22 +1,22 @@
 * Install required packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(inf-mongo
                               helm-commandlinefu
                               eldoc-eval
                               guide-key
                               which-key
                               rainbow-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Install try, useful for trying out packages before actually installing them
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'try)
-  #+end_src
+  #+END_SRC
 
 
 * Command to replace the current expression with the result of its evaluation
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun eval-and-replace ()
       "Replace the preceding sexp with its value."
       (interactive)
@@ -28,25 +28,25 @@
                (insert (current-kill 0)))))
 
     (global-set-key (kbd "C-c e") 'eval-and-replace)
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding for starting proced
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-p") 'proced)
-  #+end_src
+  #+END_SRC
 
 
 * Start emacs-server
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "server")
     (unless (server-running-p)
       (server-start))
-  #+end_src
+  #+END_SRC
 
 
 * Use 'C-h C-a' as a entry point to starting various types of apropos
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq apropos-do-all t)
     (global-set-key (kbd "C-h a") 'apropos-command)
     (define-prefix-command 'Apropos-Prefix nil "Apropos (a,d,f,l,v,C-v)")
@@ -58,23 +58,23 @@
     (define-key Apropos-Prefix (kbd "l")   'apropos-library)
     (define-key Apropos-Prefix (kbd "v")   'apropos-variable)
     (define-key Apropos-Prefix (kbd "C-v") 'apropos-value)
-  #+end_src
+  #+END_SRC
 
 
 * Enable eldoc in modeline when minibuffer is active
 ** Enable eldoc
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (eldoc-in-minibuffer-mode 1)
-  #+end_src
+  #+END_SRC
 
 ** Use eval-expression to evaluate expressions
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq eldoc-eval-preferred-function 'eval-expression)
-   #+end_src
+   #+END_SRC
 
 
 * Save macros as functions, credit [[http://draketo.de/light/english/emacs/babcore]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-save-current-kbd-macro-to-dot-emacs (name)
       "Save the current macro as named function definition inside
     your initialization file so you can reuse it anytime in the
@@ -87,48 +87,48 @@
         (insert "\n\n;; Saved macro\n")
         (insert-kbd-macro name)
         (insert "\n")))
-  #+end_src
+  #+END_SRC
 
 
 * which-key configuration
 ** Shorter delay before showing which-key window
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq which-key-idle-delay 0.3)
-   #+end_src
+   #+END_SRC
 
 ** Enable which-key mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (which-key-mode +1)
-   #+end_src
+   #+END_SRC
 
 ** Display which-key menu as window at the bottom
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (which-key-setup-side-window-bottom)
-   #+end_src
+   #+END_SRC
 
 ** Let it take some more space
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq which-key-side-window-max-height 0.5)
-   #+end_src
+   #+END_SRC
 
 ** Paging for keybindings starting with C-x and C-c
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq which-key-paging-prefixes '("C-x" "C-c"))
      (setq which-key-paging-key "<f5>")
-   #+end_src
+   #+END_SRC
 
 
 * Additional keybinding for redo in calc
   Just for consistency with regular redo keybinding
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'calc
       (define-key calc-mode-map (kbd "C-?") #'calc-redo))
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding to start calculator
   By default start calc, but with prefix argument start simple calculator
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-start-calculator ()
       (interactive)
       (if current-prefix-arg
@@ -136,4 +136,4 @@
         (call-interactively #'calc)))
 
     (global-set-key (kbd "C-c C") #'iqbal-start-calculator)
-  #+end_src
+  #+END_SRC

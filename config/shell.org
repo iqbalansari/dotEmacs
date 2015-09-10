@@ -1,61 +1,61 @@
 * Install shelldoc
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'shelldoc)
-  #+end_src
+  #+END_SRC
 
 
 * Enable shelldoc in sh-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'shelldoc-minor-mode-on "shelldoc")
     (add-hook 'sh-mode-hook 'shelldoc-minor-mode-on)
-  #+end_src
+  #+END_SRC
 
 
 * Install powershell mode on windows
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (and (equal system-type 'windows-nt)
                (executable-find "powershell"))
       (iqbal-install-package 'powershell))
-  #+end_src
+  #+END_SRC
 
 
 * Use shift-enter to accumulate output in comint mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'comint
       (define-key comint-mode-map (kbd "C-c SPC") nil)
       (define-key comint-mode-map (kbd "<S-return>") #'comint-accumulate))
-  #+end_src
+  #+END_SRC
 
    
 * Scroll conservatively in shells
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun set-scroll-conservatively ()
       "Add to shell-mode-hook to prevent jump-scrolling on newlines in shell buffers."
       (set (make-local-variable 'scroll-conservatively) 10))
 
     (add-hook 'shell-mode-hook 'set-scroll-conservatively)
-  #+end_src
+  #+END_SRC
 
 
 * Instruct emacs to strip echos from the shell
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-set-process-echoes-input ()
       (setq comint-process-echoes t))
 
     (add-hook 'shell-mode-hook #'iqbal-set-process-echoes-input)
-  #+end_src
+  #+END_SRC
 
 
 * Make URLs clickable
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'shell-mode-hook 'goto-address-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Better completion UI for shell-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'shell
       (define-key shell-mode-map (kbd "TAB") #'company-complete))
 
     (add-hook 'shell-mode-hook #'company-mode)
-  #+end_src
+  #+END_SRC

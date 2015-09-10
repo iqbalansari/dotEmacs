@@ -1,68 +1,68 @@
 * Enable inf-ruby
 ** Enable inf-ruby minor mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (inf-ruby-minor-mode)
-  #+end_src
+  #+END_SRC
 
 ** Prefer pry if installed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (unless (equal system-type 'windows-nt)
        (when (executable-find "pry")
          (setq inf-ruby-default-implementation "pry")))
-   #+end_src
+   #+END_SRC
 
 
 * Ensure correct ruby is enabled
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (and (executable-find "rvm")
                (file-exists-p default-directory))
       (rvm-activate-corresponding-ruby))
-  #+end_src
+  #+END_SRC
 
 
 * Setup auto-completion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'company-backends 'company-robe)
-  #+end_src
+  #+END_SRC
 
 
 * Enable auto-completion in inf-ruby buffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'inf-ruby-mode-hook 'company-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Enable robe if pry is installed
 ** Determine if robe can be run
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (make-variable-buffer-local 'iqbal-robe-can-run)
      (setq iqbal-robe-can-run (if (and buffer-file-name
                                     (locate-dominating-file buffer-file-name "Gemfile"))
                                (and (executable-find "bundle")
                                     (zerop (shell-command "bundle show pry")))
                              (executable-find "pry")))
-   #+end_src
+   #+END_SRC
 
 ** Enable robe if prerequisites are satisfied
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (if iqbal-robe-can-run
          (progn (robe-mode)
                 (run-at-time 0.1 nil #'iqbal-try-starting-robe))
        (warn "`pry' not installed, robe won't start. See `http://github.com/dgutov/robe'"))
-   #+end_src
+   #+END_SRC
 
 
 * Enable syntax checking
 ** Enable flycheck
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-mode)
-  #+end_src
+  #+END_SRC
 
 ** Select checker
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (flycheck-select-checker (cond ((executable-find "rubocop") 'ruby-rubocop)
                                     ((executable-find "ruby-lint") 'ruby-rubylint)
                                     ((executable-find "ruby") 'ruby)
                                     (t (progn (warn "No syntax checker found, searched for `rubocop', `ruby-lint'")
                                               nil))))
-   #+end_src
+   #+END_SRC

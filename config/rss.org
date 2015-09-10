@@ -1,26 +1,26 @@
 * Install required packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'elfeed)
-  #+end_src
+  #+END_SRC
 
 
 * Store the database in data directory
    So that it is synced with rest of the files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq elfeed-db-directory (iqbal-get-file-in-data-directory "elfeed" t))
-   #+end_src
+   #+END_SRC
 
 
 * Make url-queue more linient
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq url-queue-parallel-processes 3)
     (setq url-queue-timeout 30)
-  #+end_src
+  #+END_SRC
 
 
 * Open current article in w3m in elfeed-search-mode
   Fallback to eww, if available or fallback to system browser
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-elfeed-search-open-article-in-w3m ()
       (interactive)
       (let ((browse-url-browser-function (cond ((locate-library "w3m") #'w3m-browse-url)
@@ -31,12 +31,12 @@
         (save-excursion
           (forward-line -1)
           (elfeed-search-browse-url))))
-  #+end_src
+  #+END_SRC
 
 
 * Open current article in w3m in elfeed-show mode
   Fallback to eww, if available or fallback to system browser
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-elfeed-show-reddit-get-orig-article ()
       (save-excursion
         (goto-char (point-min))
@@ -61,11 +61,11 @@
                   (t (progn (message "`w3m' not installed, falling back to system browser")
                             (elfeed-show-visit))))
           (message "Not visiting an article!"))))
-  #+end_src
+  #+END_SRC
 
 
 * Jump directly to original article when viewing reddit feed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-elfeed-show-visit ()
       "Visit the current entry in the browser."
       (interactive)
@@ -79,17 +79,17 @@
         (when link
           (message "Sent to browser: %s" link)
           (browse-url link))))
-  #+end_src
+  #+END_SRC
 
 
 * Load the feeds from elfeed.org file
 ** Path to elfeed feeds file
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq iqbal-elfeed-file (iqbal-get-file-in-data-directory "elfeed.org"))
-   #+end_src
+   #+END_SRC
 
 ** Function to extract all links from an org file
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-org-get-all-feeds (file)
        (with-temp-buffer
          (erase-buffer)
@@ -104,11 +104,11 @@
 
                (add-to-list 'feeds (if tags (append (list link) tags) link))))
            (nreverse feeds))))
-   #+end_src
+   #+END_SRC
 
 ** Function to extract all tags for given org-element
    This returns the tags from all ancestors of given element
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-org-get-parents-tags ()
        (mapcar #'intern
                (save-excursion
@@ -116,25 +116,25 @@
                    (while (not (equal (org-back-to-heading t) t))
                      (setq tags (append tags (org-get-tags))))
                    tags))))
-   #+end_src
+   #+END_SRC
 
 ** Function to import feeds from elfeed.org
-   #+begin_src emacs-lisp 
+   #+BEGIN_SRC emacs-lisp 
      (defun iqbal-import-elfeed-feeds ()
        (interactive)
        (let ((feeds (when (file-exists-p iqbal-elfeed-file)
                       (iqbal-org-get-all-feeds iqbal-elfeed-file))))
          (setq elfeed-feeds feeds)
          (message (format "Imported %d feeds" (length feeds)))))
-   #+end_src
+   #+END_SRC
 
 ** Import all feeds after init
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'after-init-hook #'iqbal-import-elfeed-feeds)
-   #+end_src
+   #+END_SRC
 
 ** Re-import feeds on saving feeds file
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-import-elfeed-feeds-maybe ()
        (when (and (eq major-mode 'org-mode)
                   buffer-file-name
@@ -143,21 +143,21 @@
          (iqbal-import-elfeed-feeds)))
 
      (add-hook 'after-save-hook #'iqbal-import-elfeed-feeds-maybe)
-   #+end_src
+   #+END_SRC
 
 ** Org capture template adding new feed sources
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-to-list 'org-capture-templates (list "f"
                                                "Elfeed feed"
                                                'entry
                                                (list 'file iqbal-elfeed-file)
                                                "* %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
                                                :empty-lines-after 2))
-   #+end_src
+   #+END_SRC
 
 
 * Integration with org-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-elfeed-store-link ()
       "Store a link to a w3m buffer."
       (when (eq major-mode 'elfeed-show-mode)
@@ -167,17 +167,17 @@
          :description (elfeed-entry-title elfeed-show-entry))))
 
     (add-hook 'org-store-link-functions 'iqbal-org-elfeed-store-link)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings
 ** Launch elfeed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c N") #'elfeed)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for elfeed-search mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun elfeed-save-db-interactive ()
        (interactive)
        (elfeed-db-save)
@@ -188,13 +188,13 @@
        (define-key elfeed-search-mode-map (kbd "/") #'elfeed-search-live-filter)
        (define-key elfeed-search-mode-map (kbd "U") #'elfeed-update)
        (define-key elfeed-search-mode-map (kbd "C-x C-s") #'elfeed-save-db-interactive))
-   #+end_src
+   #+END_SRC
 
 ** Keybindings for elfeed-show mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'elfeed-show
        (define-key elfeed-show-mode-map (kbd "w") #'iqbal-elfeed-show-open-article-in-w3m)
        (define-key elfeed-show-mode-map (kbd "/") #'elfeed-show-new-live-search)
        (define-key elfeed-show-mode-map (kbd "b") #'iqbal-elfeed-show-visit)
        (define-key elfeed-show-mode-map (kbd "C-x C-s") #'elfeed-save-db-interactive))
-   #+end_src
+   #+END_SRC

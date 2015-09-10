@@ -1,27 +1,27 @@
 * Select an application for spellchecking
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar ispell-program-name (or (executable-find "ispell")
                                      (executable-find "aspell")
                                      (executable-find "hunspell")))
 
      (when (equal system-type 'windows-nt)
        (setenv "LANG" "en_US.utf8"))
-   #+end_src
+   #+END_SRC
 
 
 * Enable flyspell prog mode in all programming buffers
 ** Enable flyspell
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when ispell-program-name
       (add-hook 'prog-mode-hook #'flyspell-prog-mode))
-  #+end_src
+  #+END_SRC
 
 ** Disable spell checking inside strings
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq flyspell-prog-text-faces '(font-lock-comment-face font-lock-doc-face))
-   #+end_src
+   #+END_SRC
 
 ** Disable the keybindings for auto-correcting word
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq flyspell-use-meta-tab nil)
-   #+end_src
+   #+END_SRC

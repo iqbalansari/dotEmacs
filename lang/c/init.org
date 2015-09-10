@@ -1,21 +1,21 @@
 * Add compile_commands.json to projectile project root files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (eval-after-load 'projectile
       '(add-to-list 'projectile-project-root-files "compile_commands.json"))
-  #+end_src
+  #+END_SRC
 
 
 * Variables controlling installation of libraries
   Do not try installing libraries on windows
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-install-rtags (eq system-type 'gnu/linux))
     (defvar iqbal-install-irony (eq system-type 'gnu/linux))
     (defvar iqbal-c-install-gtags t)
-  #+end_src
+  #+END_SRC
 
 
 * Variables to record versions of needed programs
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-gcc-version nil)
     (defvar iqbal-g++-version nil)
     (defvar iqbal-clang-version nil)
@@ -24,11 +24,11 @@
     (defvar iqbal-libclang-version nil)
     (defvar iqbal-cmake-version nil)
     (defvar iqbal-gnu-global-version "0")
-  #+end_src
+  #+END_SRC
 
 
 * Helper functions to retrieve the information
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal--find-llvm-config-executable()
        "Try finding llvm-config executable"
        (or (executable-find "llvm-config")
@@ -82,37 +82,37 @@
        (when (executable-find "global")
          (car (last (split-string (car (split-string (shell-command-to-string "global --version") "\n"))
                                   " ")))))
-   #+end_src
+   #+END_SRC
 
 
 * Variables to record availability of packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-rtags-available nil)
     (defvar iqbal-irony-available nil)
     (defvar iqbal-gtags-available nil)
-  #+end_src
+  #+END_SRC
 
 
 * Is the current project indexed?
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-rtags-project-indexed nil)
     (make-local-variable 'iqbal-rtags-project-indexed)
-  #+end_src
+  #+END_SRC
 
 
 * Open man page for symbol at point
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-get-man-page-at-pt ()
       (interactive)
       (let ((symbol (thing-at-point 'symbol)))
         (with-electric-help (lambda () (woman symbol)) "*c-help*")))
-  #+end_src
+  #+END_SRC
 
 
 * Custom jump to definition functions using rtags
   Try to use rtags, if it fails fallback to gtags, if gtags is not available use
   etags
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-find-definition-rtags-fallback ()
       (with-current-buffer rtags-buffer-name
         (when (= (point-min) (point-max))
@@ -137,15 +137,15 @@
       (cond (iqbal-rtags-project-indexed (call-interactively #'rtags-location-stack-back))
             (iqbal-gtags-available (call-interactively #'gtags-pop-stack))
             (t (call-interactively #'pop-tag-mark))))
-  #+end_src
+  #+END_SRC
 
 
 * Function to find references
   Fallback to gtags, if rtags is not present
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-c-find-references ()
       (interactive)
       (cond (iqbal-rtags-project-indexed (call-interactively #'rtags-find-references))
             (iqbal-gtags-available (call-interactively #'gtags-find-rtag))
             (t (call-interactively #'rgrep))))
-  #+end_src
+  #+END_SRC

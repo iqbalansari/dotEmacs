@@ -1,14 +1,14 @@
 * Keybindings for interacting with the REPL
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key inf-ruby-minor-mode-map iqbal-run-shell #'iqbal-start-ruby-shell)
     (define-key inf-ruby-minor-mode-map iqbal-send-function #'iqbal-ruby-send-definition)
     (define-key inf-ruby-minor-mode-map iqbal-send-file #'ruby-load-file)
     (define-key inf-ruby-minor-mode-map iqbal-send-buffer (iqbal-evaluate-buffer-in-repl iqbal-ruby-send-buffer ruby-send-region))
     (define-key inf-ruby-minor-mode-map iqbal-send-line #'ruby-send-block)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings to get documentation
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key ruby-mode-map iqbal-show-doc #'robe-doc)
-  #+end_src
+  #+END_SRC

@@ -1,12 +1,12 @@
 * Misc variables
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-edts-available)
-  #+end_src
+  #+END_SRC
 
 
 * Helper function to start distel
   This is used only on windows where edts is not available
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
      (defun iqbal-start-distel ()
        (unless (and inferior-erlang-buffer
                     (buffer-live-p inferior-erlang-buffer))
@@ -21,4 +21,4 @@
            (setq erl-nodename-cache name)
            (setq distel-modeline-node name-string)
            (erl-ping name))))
-   #+end_src
+   #+END_SRC

@@ -1,5 +1,5 @@
 * Function to set keybindings for utop
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-set-bindings-for-utop ()
       (define-key tuareg-mode-map iqbal-run-shell #'utop)
       (define-key tuareg-mode-map iqbal-send-region #'utop-eval-region)
@@ -7,11 +7,11 @@
       (define-key tuareg-mode-map iqbal-send-phrase/sexp/block #'utop-eval-phrase)
       (define-key tuareg-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-ocaml-send-line utop-eval-region))
       (define-key tuareg-mode-map iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-ocaml-send-file utop-eval-region)))
-  #+end_src
+  #+END_SRC
 
 
 * Function to set keybindings for vanilla OCaml REPL
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-set-bindings-for-ocaml-repl ()
       (define-key tuareg-mode-map iqbal-run-shell #'run-ocaml)
       (define-key tuareg-mode-map iqbal-send-region #'tuareg-eval-region)
@@ -19,4 +19,4 @@
       (define-key tuareg-mode-map iqbal-send-phrase/sexp/block #'utop-eval-phrase)
       (define-key tuareg-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-ocaml-send-line tuareg-eval-region))
       (define-key tuareg-mode-map iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-ocaml-send-file tuareg-eval-region)))
-  #+end_src
+  #+END_SRC

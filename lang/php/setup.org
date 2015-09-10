@@ -1,40 +1,40 @@
 * Path to php-executable
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq php-executable (executable-find "php"))
-  #+end_src
+  #+END_SRC
 
 
 * Set the path to boris
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (unless (boundp 'php-boris-command)
       (setq php-boris-command (or (executable-find "boris")
                                   (executable-find "boris.phar"))))
-  #+end_src
+  #+END_SRC
 
 
 * Enable php-boris-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (locate-library "php-boris-minor-mode")
       (php-boris-minor-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Configuration for jump to definition
 ** Enable gtags mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when iqbal-gtags-available
        (ggtags-mode +1))
 
      (setq ggtags-enable-navigation-keys nil)
-   #+end_src
+   #+END_SRC
 
 ** Sort candidates by nearness
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ggtags-sort-by-nearness t)
-   #+end_src
+   #+END_SRC
 
 ** Generate tags file for project if not already generated 
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-gtags-available
       (let ((project-root (or (ignore-errors (projectile-project-root))
                               (locate-dominating-file (or buffer-file-name default-directory)
@@ -56,51 +56,51 @@
                 (add-to-list 'iqbal-php-no-tags-projects project-root)))
           (warn "Could not locate project root! Skipping generation of TAGS!"))))
 
-  #+end_src
+  #+END_SRC
 
 ** Regenerate tags for project on saving buffer
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook (make-variable-buffer-local 'after-save-hook) #'iqbal-php-regenerate-tags)
-   #+end_src
+   #+END_SRC
 
 ** Regex to match included/required files this helps jumping to the files easily using ggtags-find-tag-dwim
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (make-variable-buffer-local 'ggtags-include-pattern)
      (setq ggtags-include-pattern  '("^\\s-*\\(?:include\\|include_once\\|require_once\\|require\\)\\s-*\\((\\)?\\s\"\\(.+\\)\\s\"\\()\\)?\\s-*;" . 2))
-   #+end_src
+   #+END_SRC
 
 
 * Get documentation at point
 ** Load php-extra for documentation of builtin php functions
    This is needed by [[file:init.org::*Function%20to%20retrieve%20documentation%20for%20symbol%20using%20gtags%20or%20php-extras][function to retrieve documentation for symbol using gtags or php-extras]]
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (load "php-extras")
-   #+end_src
+   #+END_SRC
 
 
 * Enable eldoc
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (eldoc-mode)
     (make-local-variable 'eldoc-documentation-function)
     (setq eldoc-documentation-function #'iqbal-php-eldoc-function)
-  #+end_src
+  #+END_SRC
 
 
 * Setup auto-completion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'company-backends
                  '(company-gtags php-extras-company company-dabbrev-code company-keywords))
-  #+end_src
+  #+END_SRC
 
 
 * Enable syntax checking
 ** Enable flycheck mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-mode)
-  #+end_src
+  #+END_SRC
 
 ** Check if phpcs is installed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (if (executable-find "phpcs") 
          (let* ((ruleset-dir (locate-dominating-file default-directory "ruleset.xml"))
                 (project-std (when ruleset-dir
@@ -110,13 +110,13 @@
                      (when (iqbal-install-variable-analysis-sniffs)
                        iqbal-phpcs-standard))))
        (warn "PHP Codesniffer not found! Install it using composer for better syntax checking"))
-   #+end_src
+   #+END_SRC
 
 
 * Fix ace-jump-mode for php
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (boundp 'ace-jump-mode-submode-list)
       (setq-local ace-jump-mode-submode-list (cons 'iqbal-ace-jump-mode-goto-word-php
                                                    (delq 'ace-jump-word-mode
                                                          ace-jump-mode-submode-list))))
-  #+end_src
+  #+END_SRC

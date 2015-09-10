@@ -1,31 +1,31 @@
 * Install flycheck
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'flycheck)
-  #+end_src
+  #+END_SRC
 
 
 * Disable syntax checking on new-line
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'flycheck
       (setq flycheck-check-syntax-automatically (delq 'new-line flycheck-check-syntax-automatically)))
-  #+end_src
+  #+END_SRC
 
 
 * Check syntax automatically after a second of inactivity
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq flycheck-idle-change-delay 1)
-  #+end_src
+  #+END_SRC
 
 
 * Underline only errors in buffers
 ** Disable underlining provided by flycheck
    We will add a custom function that will underline only errors
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq flycheck-highlighting-mode nil)
-   #+end_src
+   #+END_SRC
 
 ** Add a custom function for underlining errors
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (eval-when-compile
        (require 'flycheck))
 
@@ -49,11 +49,11 @@
 
      (with-eval-after-load 'flycheck
        (add-to-list 'flycheck-process-error-functions #'iqbal-add-lines-for-errors))
-   #+end_src
+   #+END_SRC
 
 
 * Change flycheck face to use straight lines instead of wavy lines
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-flycheck-use-straight-lines ()
       (when (display-graphic-p)
         (let ((error-color (plist-get (face-attribute 'flycheck-error :underline) :color))
@@ -64,4 +64,4 @@
           (set-face-attribute 'flycheck-info nil :underline (list :style 'line :color info-color)))))
 
     (add-hook 'flycheck-mode-hook #'iqbal-flycheck-use-straight-lines)
-  #+end_src
+  #+END_SRC

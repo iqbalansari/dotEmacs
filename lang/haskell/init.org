@@ -1,15 +1,15 @@
 * Line range function to be used with hl-line mode
   This disables highlighting of current line if the point is on a
   haskell node
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-shm-do-not-highlight-line-on-nodes ()
       (unless shm-current-node-overlay
         (cons (line-beginning-position) (line-end-position))))
-  #+end_src
+  #+END_SRC
 
 
 * Function to get documentation for symbol at point
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-haskell-doc-at-point ()
       (interactive)
       (if (executable-find "hoogle")
@@ -19,16 +19,16 @@
                            (error "No symbol at point"))))
             (with-electric-help (lambda () (insert result)) "*hoogle-info*"))
         (error "You need to install `hoogle' for this to work")))
-  #+end_src
+  #+END_SRC
 
 
 * Variable to record availability of ghc-mod
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-ghc-mod-available nil)
-  #+end_src
+  #+END_SRC
 
 
 * Make 'haskell-tags-on-save' buffer local
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (make-variable-buffer-local 'haskell-tags-on-save)
-  #+end_src
+  #+END_SRC

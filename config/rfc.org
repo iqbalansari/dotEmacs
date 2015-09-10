@@ -1,5 +1,5 @@
 * Autoload irfc entry points
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'irfc-mode "irfc" "Major mode for IETF RFC documents." t nil)
 
     (autoload 'irfc-follow "irfc" "Open RFC document around point.
@@ -7,18 +7,18 @@
 
     (autoload 'irfc-visit "irfc" "Open RFC document RFC-NUMBER.
     Download and open RFC document if it does not exist in `irfc-directory'." t nil)
-  #+end_src
+  #+END_SRC
 
 
 * Location of RFC files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq irfc-directory (iqbal-get-file-in-data-directory "RFCs" t))
-  #+end_src
+  #+END_SRC
 
 
 * Integration with org-mode
 ** Helper functions to get info about currently viewed RFC
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-irfc-get-title ()
       (save-excursion
         (goto-char (irfc-render-buffer-hide-blank-line (or (irfc-render-buffer-hide-whitespace-at-start)
@@ -37,10 +37,10 @@
                                                                            (point-min))))
                                  t)
           (buffer-substring (match-beginning 3) (match-end 3)))))
-  #+end_src
+  #+END_SRC
 
 ** Function to store an org link to given RFC
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-store-irfc-link ()
        (when (eq major-mode 'irfc-mode)
          (let ((rfc-number (iqbal-irfc-get-number))
@@ -50,10 +50,10 @@
                                  :description rfc-title
                                  :rfcnumber rfc-number)
            rfc-number)))
-   #+end_src
+   #+END_SRC
 
 ** Function to export irfc links
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-irfc-export (rfc-number desc format)
        "Export a irfc link from Org files."
        (let* ((web-link (format "https://tools.ietf.org/html/rfc%s" rfc-number))
@@ -64,19 +64,19 @@
           ((eq format 'ascii) (format "%s (%s)" desc web-link))
           ((eq format 'md) (format "[%s](%s)" desc web-link))
           (t web-link))))
-   #+end_src
+   #+END_SRC
 
 ** Function to open org RFC link
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-open-rfc-file (path)
       (irfc-visit (string-to-int path)))
-  #+end_src
+  #+END_SRC
 
 ** Hook the above to org-mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-open-rfc-file (path)
        (irfc-visit (string-to-int path)))
 
      (org-add-link-type "rfc" #'iqbal-open-rfc-file #'iqbal-irfc-export)
      (add-hook 'org-store-link-functions 'iqbal-store-irfc-link)
-   #+end_src
+   #+END_SRC

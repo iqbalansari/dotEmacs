@@ -1,4 +1,4 @@
 * Install scala2, ensime and sbt-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(sbt-mode ensime))
-  #+end_src
+  #+END_SRC

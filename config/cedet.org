@@ -1,14 +1,14 @@
 * Enable semantic only in c-mode, cc-mode and java-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'semantic
       (add-to-list 'semantic-inhibit-functions
                    (lambda ()
                      (not (member major-mode '(java-mode c-mode c++-mode))))))
-  #+end_src
+  #+END_SRC
 
 
 * Minor modes enabled by semantic mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode t)
     (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode t)
     (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode t)
@@ -19,31 +19,31 @@
     (add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode t)
     (add-to-list 'semantic-default-submodes 'global-semantic-show-unmatched-syntax-mode t)
     (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode t)
-  #+end_src
+  #+END_SRC
 
 
 * Enable Semantic
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (semantic-mode 1)
-  #+end_src
+  #+END_SRC
 
 
 * Disable setup by semantic for python, javascript and scheme buffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq semantic-new-buffer-setup-functions (remove-if (lambda (buffer-setup-function)
                                                            (member (car buffer-setup-function)
                                                                    '(python-mode js-mode scheme-mode html-mode)))
                                                          semantic-new-buffer-setup-functions))
 
     (remove-hook 'python-mode-hook 'wisent-python-default-setup)
-  #+end_src
+  #+END_SRC
 
 
 
 * Setup autocompletion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-setup-cedet-auto-completion ()
       (add-to-list 'ac-sources 'ac-source-semantic))
 
     (add-hook 'c-mode-common-hook 'iqbal-setup-cedet-auto-completion)
-  #+end_src
+  #+END_SRC

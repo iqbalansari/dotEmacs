@@ -1,11 +1,11 @@
 * Enable syntax-checking
 ** Enable flycheck mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-mode)
-  #+end_src
+  #+END_SRC
 
 ** Use luacheck if available
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (executable-find "luacheck")
        (flycheck-select-checker 'luacheck))
-   #+end_src
+   #+END_SRC

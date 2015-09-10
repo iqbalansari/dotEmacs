@@ -1,25 +1,25 @@
 * Enable merlin if present
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (locate-library "merlin")
       (merlin-mode))
-  #+end_src
+  #+END_SRC
 
 
 * UTOP configuration
 ** Load utop
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (locate-library "utop")
        (load "utop"))
-   #+end_src
+   #+END_SRC
 
 ** Do not prompt for utop command when starting REPL
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq utop-edit-command nil)
-  #+end_src
+  #+END_SRC
 
 
 * Flash current line after jumping to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (fboundp 'merlin-locate)
       (iqbal-highlight-line-after-func merlin-locate))
-  #+end_src
+  #+END_SRC

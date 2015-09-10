@@ -1,18 +1,18 @@
 * Install backup-walker
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'backup-walker)
-  #+end_src
+  #+END_SRC
 
 
 * Create auto-save directory if it does not already exist
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (unless (file-exists-p (locate-user-emacs-file "auto-save/"))
       (make-directory (locate-user-emacs-file "auto-save/")))
-  #+end_src
+  #+END_SRC
 
 
 * Force backup on each save
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun force-backup-of-buffer ()
       ;; Make a special "per session" backup at the first save of each
       ;; emacs session.
@@ -28,52 +28,52 @@
         (backup-buffer)))
 
     (add-hook 'before-save-hook  'force-backup-of-buffer)
-  #+end_src
+  #+END_SRC
 
 
 * Write backup files to own directory
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq backup-directory-alist
           `(("." . ,(expand-file-name
                      (concat user-emacs-directory "backups")))))
 
     (setq auto-save-file-name-transforms
           `((".*" ,(concat user-emacs-directory "auto-save/") t)))
-  #+end_src
+  #+END_SRC
 
 
 * Make backups of files, even when they're in version control
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq vc-make-backup-files t)
-  #+end_src
+  #+END_SRC
 
 
 * Always use copying to create backup files (don't clobber symlinks)
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq backup-by-copying t)
-  #+end_src
+  #+END_SRC
 
 
 * Make numeric backup versions
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq version-control t)
-  #+end_src
+  #+END_SRC
 
 
 * Number of oldest versions to keep when a new numbered backup is made
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq kept-old-versions 0)
-  #+end_src
+  #+END_SRC
 
 
 * Number of newest versions to keep when a new numbered backup is made
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq kept-new-versions 20)
-  #+end_src
+  #+END_SRC
 
 
 * Don't backup certain files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun starts-with-p (string1 string2)
        (string= (substring string1 0 (min (length string1) (length string2)))
                 string2))
@@ -86,10 +86,10 @@
            (normal-backup-enable-predicate filename))))
 
      (setq backup-enable-predicate 'dont-backup-files-p)
-   #+end_src
+   #+END_SRC
 
 
 * Delete excess backup files without asking
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq delete-old-versions t)
-  #+end_src
+  #+END_SRC

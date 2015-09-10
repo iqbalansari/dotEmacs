@@ -1,14 +1,14 @@
 * Install geiser and auto-completion package for geiser
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-scm-packages
       '(geiser
         ac-geiser))
 
     (iqbal-install-packages iqbal-scm-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Workaround for a bug in guile-2.0
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setenv "LC_ALL" "en_US.UTF-8")
-  #+end_src
+  #+END_SRC

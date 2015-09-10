@@ -1,43 +1,43 @@
 * Keybindings for navigation
 ** Jump to definition
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (define-key c-mode-base-map iqbal-jump-to-definition #'iqbal-c-find-definition)
-   #+end_src
+   #+END_SRC
 
 ** And back
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key c-mode-base-map iqbal-pop-jump-to-definition-marker #'iqbal-c-pop-mark)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for gtags select buffer
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when iqbal-gtags-available
        (define-key gtags-select-mode-map (kbd "<return>") #'gtags-select-tag)
        (define-key gtags-select-mode-map (kbd "q") #'bury-buffer))
-   #+end_src
+   #+END_SRC
 
 
 * Keybinding for renaming
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-rtags-available
       (define-key c-mode-base-map iqbal-refactor-rename #'rtags-rename-symbol))
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding for finding references
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key c-mode-base-map iqbal-find-references #'iqbal-c-find-references)
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding to add current file to current project and index it
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-rtags-available
       (define-key c-mode-base-map (kbd "C-c C-k") #'rtags-reparse-file))
-  #+end_src
+  #+END_SRC
 
 
 * Open man page for symbol at point
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key c-mode-base-map iqbal-show-doc #'iqbal-get-man-page-at-pt)
-  #+end_src
+  #+END_SRC

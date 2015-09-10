@@ -1,7 +1,7 @@
 * Install markdown-toc and pandoc-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'markdown-toc)
 
     (when (executable-find "pandoc")
       (iqbal-install-package 'pandoc-mode))
-  #+end_src
+  #+END_SRC

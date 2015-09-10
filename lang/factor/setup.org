@@ -1,18 +1,18 @@
 * Enable fuel-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (fuel-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Flash the current line after jump to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func fuel-edit-word-at-point)
-  #+end_src
+  #+END_SRC
 
 
 * Run factor
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (if fuel-factor-root-dir
         (run-at-time 0.1 nil (lambda () (save-window-excursion (run-factor))))
     (warn "`fuel-factor-root-dir' not set, please set it directory containing factor"))
-  #+end_src
+  #+END_SRC

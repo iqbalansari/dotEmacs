@@ -1,69 +1,69 @@
 * Install neotree
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'neotree)
-  #+end_src
+  #+END_SRC
 
 
 * Use shorter keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq neo-keymap-style 'concise)
-  #+end_src
+  #+END_SRC
 
 
 * Keep the cursor at start of node
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq neo-auto-indent-point t)
-  #+end_src
+  #+END_SRC
 
 
 * Readjust neotree to current buffer's directory on reopen
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq neo-smart-open t)
-  #+end_src
+  #+END_SRC
 
 
 * Auto open file on creation
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq neo-create-file-auto-open t)
-  #+end_src
+  #+END_SRC
 
 
 * Neotree display settings
 ** Do not display the cursor when the neotree buffer is not selected
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-neotree-hide-cursor ()
        (setq-local cursor-type nil))
 
      (add-hook 'neotree-mode-hook #'iqbal-neotree-hide-cursor)
-   #+end_src
+   #+END_SRC
      
 ** Do not display updir line
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq neo-show-updir-line nil)
-   #+end_src
+   #+END_SRC
 
 ** Make neotree a bit wider
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq neo-window-width 30)
 
      ;; To reduce split-window-threshold since some width is
      ;; taken up by neotree
      (setq split-width-threshold (- split-width-threshold neo-window-width))
-   #+end_src
+   #+END_SRC
 
 ** Use nerd theme
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq neo-theme 'nerd)
-  #+end_src
+  #+END_SRC
 
 ** Always split the root window of the frame
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq neo-modern-sidebar t)
-   #+end_src
+   #+END_SRC
 
 
 * Automatically change neotree on changing current buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-neotree-refresh (last-buffer current-buffer)
       (when (and (not (eq current-buffer (neo-global--get-buffer)))
                  (neo-global--window-exists-p))
@@ -86,11 +86,11 @@
     (with-eval-after-load 'neotree
       (add-hook 'buffer-switch-hook #'iqbal-neotree-refresh)
       (define-key neotree-mode-map (kbd "^") #'neotree-select-up-node))
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding for neotree
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'neotree-toggle "neotree")
     (global-set-key (kbd "C-c z") 'neotree-toggle)
-  #+end_src
+  #+END_SRC

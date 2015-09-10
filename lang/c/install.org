@@ -2,7 +2,7 @@
 ** Find and store information about the environment
    Try retrieving the information only if we need to install any of the
    libraries
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (or (and iqbal-install-rtags
                     (not (locate-library "rtags")))
                (and iqbal-install-irony
@@ -19,18 +19,18 @@
                                    (iqbal--get-libclang-version iqbal-llvm-executable))
              iqbal-cmake-version (if (executable-find "cmake")
                                   (nth 2 (split-string (shell-command-to-string "cmake --version"))))))
-   #+end_src
+   #+END_SRC
 
 ** Find global's version
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq iqbal-gnu-global-version (iqbal--get-gnu-global-version))
-   #+end_src
+   #+END_SRC
 
 
 * Install rtags
   Install rtags for jumping to definition and friends, if requirements are
   satisfied otherwise display the missing requirements
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-install-rtags
       (if (and iqbal-cmake-version
                iqbal-llvm-executable
@@ -52,13 +52,13 @@
                           "[found]"
                         "[not found]") "\n"
                         "skipping installation"))))
-  #+end_src
+  #+END_SRC
 
 
 * Install irony-mode, company-irony and irony-eldoc
   Install irony-mode for context sensitive completion, if requirements are
   satisfied otherwise display the missing requirements
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-install-irony
       (if (and iqbal-cmake-version
                (not (version< iqbal-cmake-version "2.8.3"))
@@ -71,17 +71,17 @@
                       (if iqbal-cmake-version (concat " [found " iqbal-cmake-version "]") " [not found]") "\n"
                       "\t2. libclang-dev" (if iqbal-libclang-version (concat " [found " iqbal-libclang-version " ]") " [not found]")
                       "\nskipping installation"))))
-  #+end_src
+  #+END_SRC
 
 
 * Install company-c-headers for completing headers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'company-c-headers)
-  #+end_src
+  #+END_SRC
 
 
 * Install gtags if GNU Global is installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-c-install-gtags
       (if (and iqbal-gnu-global-version
                (not (version< iqbal-gnu-global-version "5.9.7")))
@@ -90,10 +90,10 @@
         (cond ((not iqbal-gnu-global-version) (warn "GNU Global not installed, not installing gtags"))
               (t (warn (concat "GNU Global version is " iqbal-gnu-global-version
                                " install latest version to install gtags"))))))
-  #+end_src
+  #+END_SRC
 
 
 * Install preproc-font-lock for highlighting preprocessor directives
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'preproc-font-lock)
-  #+end_src
+  #+END_SRC

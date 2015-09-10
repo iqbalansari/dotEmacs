@@ -1,5 +1,5 @@
 * Ensure that required packages are installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-version-control-packages
       '(magit
         diff-hl
@@ -11,51 +11,51 @@
       (add-to-list 'iqbal-version-control-packages 'magit-gitflow))
 
     (iqbal-install-packages iqbal-version-control-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Let magit revert buffers silently
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq magit-revert-buffers 'silent)
-  #+end_src
+  #+END_SRC
 
 
 * Enable revert backup
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq magit-revert-backup t)
-  #+end_src
+  #+END_SRC
 
 
 * Do not check for commit conventions in magit commit buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'magit
       (remove-hook 'git-commit-finish-query-functions #'git-commit-check-style-conventions))
-  #+end_src
+  #+END_SRC
 
 
 * Do not verify if pushing current branch to its upstream branch
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq magit-push-always-verify 'PP)
-  #+end_src
+  #+END_SRC
 
 
 * Use 'emacsclient' as editor
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setenv "EDITOR" "emacsclient")
-  #+end_src
+  #+END_SRC
 
 
 * Show complete git commit message in git-messenger popup
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq git-messenger:show-detail t)
-  #+end_src
+  #+END_SRC
 
 
 * Fullscreen magit
   Start magit in fullscreen, on exit (from magit) restore
   window configuration. Again copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
 
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'magit
       (defadvice magit-status (around magit-fullscreen activate)
         (window-configuration-to-register :magit-fullscreen)
@@ -67,14 +67,14 @@
       (interactive)
       (kill-buffer)
       (jump-to-register :magit-fullscreen))
-  #+end_src
+  #+END_SRC
 
 
 * Configurations for magit-repos-directories
   If projectile is present then configure magit to prompt for the
   projectile projects that are also git repositories, when magit is
   invoked with a prefix argument or from a non-git folder
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-update-magit-repository-directories ()
       (setq magit-repository-directories (mapcar #'directory-file-name
                                                  (cl-remove-if-not (lambda (project)
@@ -86,46 +86,46 @@
     (add-hook 'projectile-global-mode-hook #'iqbal-update-magit-repository-directories)
     (add-hook 'projectile-switch-project-hook #'iqbal-update-magit-repository-directories)
 
-  #+end_src
+  #+END_SRC
 
 
 * Function to launch magit UI
   This simply checks if the magit status mode is active now, in which case it prompts
   for the git repository to switch to
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-magit-status ()
       (interactive)
       (let ((current-prefix-arg (or current-prefix-arg (equal major-mode 'magit-status-mode))))
         (call-interactively 'magit-status)))
-  #+end_src
+  #+END_SRC
 
 
 * diff-hl config
 ** Display diff-hl highlight on right fringe
    This avoids conflicts with flycheck
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq diff-hl-side 'right)
-   #+end_src
+   #+END_SRC
 
 ** Enable diff-hl mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-diff-hl-mode)
-   #+end_src
+   #+END_SRC
 
 
 * Enable magit-gitflow in magit mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (locate-library "magit-gitflow")
       (autoload 'turn-on-magit-gitflow "magit-gitflow")
       (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
       (with-eval-after-load 'magit-gitflow
         (define-key magit-gitflow-mode-map (kbd "C-f") nil)
         (define-key magit-gitflow-mode-map (kbd "C-c f") 'magit-gitflow-popup)))
-  #+end_src
+  #+END_SRC
 
 
 * Enable smerge mode automatically for conflicted files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-enable-smerge-maybe (last-buffer current-buffer)
       (when (vc-backend buffer-file-name)
         (save-excursion
@@ -140,11 +140,11 @@
         (show-all)))
 
     (add-hook 'smerge-mode-hook #'iqbal-org-mode-expand-all)
-  #+end_src
+  #+END_SRC
 
 
 * Change prefix for smerge mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq smerge-command-prefix "\C-cv")
 
     (defun iqbal-redefine-smerge-keybindings ()
@@ -153,18 +153,18 @@
                          "Keymap for `smerge-mode'."))
 
     (add-hook 'smerge-mode-hook #'iqbal-redefine-smerge-keybindings)
-  #+end_src
+  #+END_SRC
 
 
 * Configurations for ediff
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq ediff-split-window-function 'split-window-vertically)
     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  #+end_src
+  #+END_SRC
 
 
 * Restoring window configuration after ediff session
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-store-pre-ediff-winconfig ()
       (setq iqbal-ediff-last-windows (current-window-configuration)))
 
@@ -173,18 +173,18 @@
 
     (add-hook 'ediff-before-setup-hook #'iqbal-store-pre-ediff-winconfig)
     (add-hook 'ediff-quit-hook #'iqbal-restore-pre-ediff-winconfig)
-  #+end_src
+  #+END_SRC
 
 
 * Follow symlinks automatically
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq vc-follow-symlinks t)
-  #+end_src
+  #+END_SRC
 
 
 * Unfold all headlines for an org file in ediff mode
   Taken from [[http://orgmode.org/worg/org-hacks.html]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'ediff-select-hook 'f-ediff-org-unfold-tree-element)
     (add-hook 'ediff-unselect-hook 'f-ediff-org-fold-tree)
     ;; Check for org mode and existence of buffer
@@ -205,21 +205,21 @@
       (f-ediff-org-showhide ediff-buffer-A 'hide-sublevels 1)  
       (f-ediff-org-showhide ediff-buffer-B 'hide-sublevels 1)  
       (f-ediff-org-showhide ediff-buffer-C 'hide-sublevels 1))
-  #+end_src
+  #+END_SRC
 
 
 * Disable vc on tramp files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'tramp
       (setq vc-ignore-dir-regexp
             (format "\\(%s\\)\\|\\(%s\\)"
                     vc-ignore-dir-regexp
                     tramp-file-name-regexp)))
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x g") 'iqbal-magit-status)
 
     (with-eval-after-load 'magit
@@ -230,6 +230,6 @@
       (define-key git-commit-mode-map (kbd "C-c C-k") 'git-commit-abort))
 
     (global-set-key (kbd "C-x v p") 'git-messenger:popup-message)
-  #+end_src
+  #+END_SRC
 
   

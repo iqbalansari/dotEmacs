@@ -1,5 +1,5 @@
 * Helper function to load ensime
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-load-ensime ()
       (if (or (getenv "JDK_HOME")
               (getenv "JAVA_HOME")
@@ -10,4 +10,4 @@
                    (warn "Ensime requires sbt 0.13.x and upwards for sbt project"))
                  (load "ensime"))
         (warn "JDK_HOME and JAVA_HOME are not set, javac not found! Ensime will NOT work!")))
-  #+end_src
+  #+END_SRC

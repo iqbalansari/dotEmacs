@@ -1,5 +1,5 @@
 * Install cmake-font-lock
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'cmake-font-lock)
-  #+end_src
+  #+END_SRC
 

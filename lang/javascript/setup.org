@@ -1,68 +1,68 @@
 * Configurations for js2-mode
 ** Underline errors
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (set-face-attribute 'js2-error nil :underline "red" :foreground nil)
-   #+end_src
+   #+END_SRC
 
 ** Indent 'case' on additional level inside 'switch' statements
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq js2-indent-switch-body t)
-   #+end_src
+   #+END_SRC
 
 ** Additional globals
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq-default js2-global-externs '("module" "require" "setTimeout" "clearTimeout"
                                         "setInterval" "clearInterval" "console" "JSON"))
-   #+end_src
+   #+END_SRC
 
 
 * Enhancements for imenu
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (js2-imenu-extras-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Setup Tern for autocompletion and some refactoring
 ** Check ternjs availability
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq iqbal-ternjs-available (locate-library "tern"))
-   #+end_src
+   #+END_SRC
 
 ** Enable tern-mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when iqbal-ternjs-available
        (tern-mode t))
-   #+end_src
+   #+END_SRC
 
 ** Setup tern backend for auto-completion if ternjs is available
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq tern-ac-on-dot nil)
      (define-key tern-mode-keymap "." nil)
 
      (when iqbal-ternjs-available
        (add-to-list 'company-backends 'company-tern))
-   #+end_src
+   #+END_SRC
 
 
 * REPL for javascript
 ** Should we use nodejs-repl
    nodejs-repl is better for node as it provides autocompletion, use it if inside
    a node project
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq iqbal-js-use-nodejs-repl (when buffer-file-name 
                                    (locate-dominating-file buffer-file-name "package.json")))
-   #+end_src
+   #+END_SRC
 
 ** Skewer mode configuration
 *** Enable skewer mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (unless iqbal-js-use-nodejs-repl
       (skewer-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (hs-minor-mode)
-  #+end_src
+  #+END_SRC

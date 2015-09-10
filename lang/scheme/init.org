@@ -1,4 +1,4 @@
 * Scheme implementation available
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-available-scheme)
-  #+end_src
+  #+END_SRC

@@ -1,36 +1,36 @@
 * Turn on el-doc mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "css-eldoc")
     (turn-on-css-eldoc)
-  #+end_src
+  #+END_SRC
 
 
 * Enable emmet mode
 ** Enable emmet mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (emmet-mode)
-  #+end_src
+  #+END_SRC
 
 ** Disable preview before expanding snippets
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq emmet-preview-default nil)
-   #+end_src
+   #+END_SRC
 
 
 * Use company-mode for auto-completion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'company-backends '(company-css company-dabbrev))
-  #+end_src
+  #+END_SRC
 
 
 * Enable skewer mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (skewer-css-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Enable flycheck if csslint is found
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "csslint")
       (flycheck-mode))
-  #+end_src
+  #+END_SRC

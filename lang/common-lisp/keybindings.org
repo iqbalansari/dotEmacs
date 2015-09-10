@@ -1,20 +1,20 @@
 * Unset some keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key slime-mode-map iqbal-send-buffer nil)
     (define-key slime-mode-map iqbal-send-phrase/sexp/block nil)
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for interacting with the REPL
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key lisp-mode-map iqbal-run-shell #'slime-switch-to-output-buffer)
     (define-key lisp-mode-map iqbal-send-buffer #'slime-eval-buffer)
     (define-key lisp-mode-map iqbal-send-file #'slime-load-file)
     (define-key lisp-mode-map iqbal-send-phrase/sexp/block #'slime-eval-last-expression)
-  #+end_src
+  #+END_SRC
 
 
 * Describe the current symbol
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key lisp-mode-map iqbal-show-doc #'slime-describe-symbol)
-  #+end_src
+  #+END_SRC

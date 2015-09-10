@@ -1,19 +1,19 @@
 * Open links in firefox by default
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "firefox")
       (setq browse-url-browser-function #'browse-url-firefox))
-  #+end_src
+  #+END_SRC
 
 
 * Install emacs-w3m if w3m executable is found
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (executable-find "w3m")
        (iqbal-install-package 'w3m))
-   #+end_src
+   #+END_SRC
 
 
 * Set mark before jumping to next/previous urls
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-w3m-set-mark-before-jump ()
        (defadvice w3m-next-anchor (before iqbal-w3m-set-mark-before-next-url (&rest args))
          (push-mark))
@@ -27,11 +27,11 @@
        (ad-activate 'w3m-next-anchor)
        (ad-activate 'w3m-previous-anchor)
        (ad-activate 'w3m-view-this-url))
-   #+end_src
+   #+END_SRC
 
 
 * Keybindings for emacs-w3m
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-set-w3m-keybindings ()
        (define-key w3m-mode-map (kbd "M-n") #'w3m-next-anchor)
        (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
@@ -55,33 +55,33 @@
      (with-eval-after-load 'w3m
        (iqbal-set-w3m-keybindings)
        (iqbal-w3m-set-mark-before-jump))
-   #+end_src
+   #+END_SRC
 
 
 * Delete trailing spaces in w3m buffer
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'w3m-display-hook (lambda (url)
                                    (let ((buffer-read-only nil))
                                      (delete-trailing-whitespace))))
-   #+end_src
+   #+END_SRC
 
 
 * Enable lnum mode for faster opening of urls
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'w3m-mode-hook 'w3m-lnum-mode)
-   #+end_src
+   #+END_SRC
 
 
 * Display images by default
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq w3m-default-display-inline-images t)
-  #+end_src
+  #+END_SRC
 
 
 * Jump to the title on loaded page
   A simple heuristic to avoid the useless menus on the page (which are do not
   work in w3m anyway) on a webpage and jump to the actual content
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-w3m-jump-to-title t "Jump to the title in w3m buffers after the page loads")
 
     (defun iqbal-w3m-goto-to-title (&optional url)
@@ -96,32 +96,32 @@
           (recenter 0))))
 
     (add-hook 'w3m-display-hook #'iqbal-w3m-goto-to-title)
-  #+end_src
+  #+END_SRC
 
 
 * DWIM version of w3m-browse-url
    Prompts to open currently opened feeds URL in elfeed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-w3m-browse-url-dwim ()
        (interactive)
        (if (and (eq major-mode 'elfeed-show-mode)
                 (elfeed-entry-link elfeed-show-entry))
            (w3m-browse-url (read-string "Emacs-w3m URL: " (elfeed-entry-link elfeed-show-entry)))
          (call-interactively 'w3m-browse-url)))
-   #+end_src
+   #+END_SRC
 
 
 * Open current url in external browser
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-w3m-view-url-in-external-browser ()
       (interactive)
       (browse-url w3m-current-url))
-  #+end_src
+  #+END_SRC
 
 
 * Global w3m keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "w3m")
       (global-set-key (kbd "C-c w") #'w3m)
       (global-set-key (kbd "C-c l") #'iqbal-w3m-browse-url-dwim))
-  #+end_src
+  #+END_SRC

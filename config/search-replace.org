@@ -1,5 +1,5 @@
 * Install packages useful for search and replace
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-search-replace-packages
       '(visual-regexp
         wgrep
@@ -14,32 +14,32 @@
       (add-to-list 'iqbal-search-replace-packages 'wgrep-ag))
 
     (iqbal-install-packages iqbal-search-replace-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Use findstr on windows
   Taken from [[https://github.com/npostavs/emacs.d]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (and (eq system-type 'windows-nt)
                (not (executable-find "grep")))
       (with-eval-after-load 'grep
         (grep-apply-setting 'grep-find-template
                             "findstr /S /N /D:. /C:<R> <F>")
         (setq find-name-arg nil)))
-  #+end_src
+  #+END_SRC
 
 
 * Use regex searches by default.
   Universal prefix argument will initiate normal search
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-s") 'isearch-forward-regexp)
     (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
-  #+end_src
+  #+END_SRC
 
 
 * Enhancements to isearch mode taken from [[https://github.com/purcell/emacs.d/blob/master/init-isearch.el][purcell/emacs.d]]
 ** Search for the symbol at point
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun isearch-yank-symbol ()
        "*Put symbol at current point into search string."
        (interactive)
@@ -52,10 +52,10 @@
                      isearch-yank-flag t))
            (ding)))
        (isearch-search-and-update))
-   #+end_src
+   #+END_SRC
 
 ** Delete region mark and closest portion of isearch match string
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun zap-to-isearch (rbeg rend)
        "Kill the region between the mark and the closest portion of
      the isearch match string. The behaviour is meant to be analogous
@@ -80,32 +80,32 @@
                (kill-region ismax (mark))
              (error "Internal error in isearch kill function.")))
          (isearch-exit)))
-   #+end_src
+   #+END_SRC
 
 ** Some addtional keybindings
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
      (define-key isearch-mode-map "\C-\M-w" 'isearch-yank-symbol)
      (define-key isearch-mode-map (kbd "M-z") 'zap-to-isearch)
-   #+end_src
+   #+END_SRC
 
 
 * Wgrep allows modifying the grep buffer and apply the changes to the files
 ** General setting
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq wgrep-auto-save-buffer t)
     (setq wgrep-enable-key (kbd "C-c C-e"))
-  #+end_src
+  #+END_SRC
 
 ** Enable wgrep for ag
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'ag-mode-hook 'wgrep-ag-setup)
-   #+end_src
+   #+END_SRC
 
 
 * Show all lines matching REGEXP in buffers with this major mode. Taken from
   [[http://www.masteringemacs.org/articles/2011/07/20/searching-buffers-occur-mode/][mastering-emacs]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     ;; Get lines matching REGEXP in all buffers with this major mode
     (defun get-buffers-matching-mode (mode)
       "Returns a list of buffers where their major-mode is equal to MODE"
@@ -122,11 +122,11 @@
       (multi-occur
        (get-buffers-matching-mode major-mode)
        (car (occur-read-primary-args))))
-  #+end_src
+  #+END_SRC
 
 
 * Replace words in parallel taken from [[http://stackoverflow.com/questions/2588277/how-can-i-swap-or-replace-multiple-strings-in-code-at-the-same-time][stackoverflow]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun parallel-query-replace (plist &optional delimited start end)
       "Replace every occurrence of the (2n)th token of PLIST in
     buffer with the (2n+1)th token; if only two tokens are provided,
@@ -154,38 +154,38 @@
                                                  (cadr (assoc-string (match-string 0) ',alist
                                                                      case-fold-search)))))
         (query-replace-regexp matcher to-spec nil start end)))
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for visual-regexp
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-M-%") 'vr/query-replace)
     (global-set-key (kbd "C-S-v") 'vr/mc-mark)
-  #+end_src
+  #+END_SRC
 
 
 * Configurations for anzu
 ** Load anzu
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-anzu-mode +1)
-   #+end_src
+   #+END_SRC
 
 ** Sample configuration taken from README
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq anzu-mode-lighter "")
      (setq anzu-deactivate-region t)
      (setq anzu-search-threshold 1000)
      (setq anzu-replace-to-string-separator " => ")
-   #+end_src
+   #+END_SRC
 
 ** Keybindings
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "M-%") 'anzu-query-replace)
-   #+end_src
+   #+END_SRC
 
 
 * Keep the search results in the center in incremental search
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defadvice isearch-repeat-forward (after isearch-repeat-forward-recenter activate)
       (recenter))
 
@@ -194,31 +194,31 @@
 
     (ad-activate 'isearch-repeat-forward)
     (ad-activate 'isearch-repeat-backward)
-  #+end_src
+  #+END_SRC
 
 
 * Enable highlighting of search term in ag
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq ag-highlight-search (when (executable-find "ag")
                                 (version<= "0.14"
                                            (third (split-string (shell-command-to-string "ag --version"))))))
-  #+end_src
+  #+END_SRC
 
 
 * Use <tab> to complete word using dabbrev during isearch
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key isearch-mode-map (kbd "<tab>") 'isearch-dabbrev-expand)
-  #+end_src
+  #+END_SRC
 
 
 * Enable global rxt mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (rxt-global-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Additional keybindings for search replace
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "M-s o") #'occur)
     (global-set-key (kbd "M-s O") #'multi-occur)
     (global-set-key (kbd "M-s m") #'multi-occur-in-this-mode)
@@ -240,4 +240,4 @@
       (global-set-key (kbd "M-s a f") #'ag-files)
       (global-set-key (kbd "M-s a d") #'ag-dired)
       (global-set-key (kbd "M-s a p") #'ag-dired))
-  #+end_src
+  #+END_SRC

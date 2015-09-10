@@ -1,15 +1,15 @@
 * Ensure that the required "packages" are installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-python-packages '(pyvenv
                                     python-x
                                     nose))
 
     (iqbal-install-packages iqbal-python-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Install jedi if virtualenv is present
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (if (executable-find "virtualenv")
         (iqbal-install-package 'jedi (lambda ()
                                        (jedi:install-server-block)
@@ -17,11 +17,11 @@
                                          (message "You might need to restart emacs for `jedi' to work")
                                          (sit-for 5))))
       (warn "You need to install python `virtualenv' to install jedi"))
-  #+end_src
+  #+END_SRC
 
 
 * Install py-autopep8 if autopep8 is available
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "autopep8")
       (iqbal-install-package 'py-autopep8))
-  #+end_src
+  #+END_SRC

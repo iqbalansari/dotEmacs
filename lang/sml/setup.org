@@ -1,5 +1,5 @@
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (hs-minor-mode)
-  #+end_src
+  #+END_SRC

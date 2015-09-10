@@ -1,21 +1,21 @@
 * Setup syntax checking
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-mode +1)
-  #+end_src
+  #+END_SRC
 
 
 * Select a proper syntax checker
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (flycheck-select-checker (cond ((executable-find "js-yaml") 'yaml-jsyaml)
                                    ((executable-find "ruby") 'yaml-ruby)
                                    (t nil)))
-  #+end_src
+  #+END_SRC
 
 
 * Detect if we are in ansible playbook
   The following guesses the whether the file belongs to ansible playbook
   using some hueristics
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq iqbal-in-ansible-playbook-p (and (executable-find "ansible")
                                         (or (let ((src-file (or buffer-file-name default-directory)))
                                               (or (locate-dominating-file src-file "ansible")
@@ -27,10 +27,10 @@
                                                   (locate-dominating-file src-file "meta")))
                                             (string-match-p "playbook.y[a]?ml" (buffer-name))
                                             (string-match-p "site.y[a]?ml" (buffer-name)))))
-  #+end_src
+  #+END_SRC
 
 
 * Enable ansible-doc mode in ansible playbook
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-in-ansible-playbook-p (ansible-doc-mode +1))
-  #+end_src
+  #+END_SRC

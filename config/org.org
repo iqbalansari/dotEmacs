@@ -1,83 +1,83 @@
 * Install some useful packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(org-bullets toc-org company-math org-player org-download pcsv notify))
-  #+end_src
+  #+END_SRC
 
 
 * Enable org bullets in org mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'org-mode-hook #'org-bullets-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Directory for org files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-directory (iqbal-get-file-in-data-directory "org" t))
-  #+end_src
+  #+END_SRC
 
 
 * Fontify code blocks in org-src
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-src-fontify-natively t)
-   #+end_src
+   #+END_SRC
 
 
 * Start flyspell in org mode buffers
   The value of ispell-program name is set in iqbal-init.org
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'org-mode-hook 'flyspell-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Enable special behavior for Ctrl-a/e/k in headlines
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-special-ctrl-a/e t)
     (setq org-special-ctrl-k t)
-  #+end_src
+  #+END_SRC
 
 
 * Do not allow a parent to be marked DONE, if children are marked TODO
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-enforce-todo-dependencies t)
     (customize-set-variable 'org-enforce-todo-checkbox-dependencies t)
-  #+end_src
+  #+END_SRC
 
 
 * Enable org-ditaa if ditaa is installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-ditaa-jar-path (executable-find "ditaa"))
 
     (when org-ditaa-jar-path
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((ditaa . t))))
-  #+end_src
+  #+END_SRC
 
 
 * Org mode integration for graphviz
 ** Install graphviz-dot-mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (executable-find "dot")
        (iqbal-install-package 'graphviz-dot-mode))
-   #+end_src
+   #+END_SRC
 
 ** Associate 'dot' extension with graphviz-dot-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (locate-library "graphviz-dot-mode") 
       (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot)))
-  #+end_src
+  #+END_SRC
 
 ** Enable org-babel for graphviz
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "dot") 
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((dot . t))))
-  #+end_src
+  #+END_SRC
 
 
 * Enable company mode and company-math in org-mode files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-enable-company-mode ()
       (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
       (add-to-list 'company-backends
@@ -87,39 +87,39 @@
                      company-dabbrev)))
 
     (add-hook 'org-mode-hook #'iqbal-org-enable-company-mode)
-  #+end_src
+  #+END_SRC
 
 
 * org-export configuration
 ** Export backends that should always be available
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'org
        (add-to-list 'org-export-backends 'md)
        (add-to-list 'org-export-backends 'odt)
        (add-to-list 'org-export-backends 'gfm))
-   #+end_src
+   #+END_SRC
 
 ** Do not include tags in export
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-export-with-tags nil)
-   #+end_src
+   #+END_SRC
 
 
 * toc-org configuration
 ** By default use org-mode links
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq toc-org-hrefify-default "org")
-   #+end_src
+   #+END_SRC
 
 ** Enable org-toc
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'org-mode-hook #'toc-org-enable)
-  #+end_src
+  #+END_SRC
 
 ** Exclude trees with TOC tag
    org already exports a better table of contents, I find org-toc useful for
    org documents that are do not need to be exported
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'ox
        (add-to-list 'org-export-exclude-tags "TOC")
        (add-to-list 'org-export-exclude-tags "TOC_2")
@@ -128,26 +128,26 @@
        (add-to-list 'org-export-exclude-tags "TOC_3")
        (add-to-list 'org-export-exclude-tags "TOC_3_org")
        (add-to-list 'org-export-exclude-tags "TOC_3_gh"))
-   #+end_src
+   #+END_SRC
 
 
 * Keybinding to save edits in org-src mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'org-src
       (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
-  #+end_src
+  #+END_SRC
 
 
 * Use org speed commands
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-use-speed-commands t)
-  #+end_src
+  #+END_SRC
 
 
 * Throw error if editing invisible regions
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-catch-invisible-edits 'show-and-error)
-  #+end_src
+  #+END_SRC
 
 
 * DWIM version C-c SPC
@@ -155,7 +155,7 @@
   is useful only if point is in a table) the ace-jump-mode's binding is
   overshadowed, the following sets the keybinding to a DWIM version which calls
   ace-jump-mode unless the point is inside a table
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-dwim-org-table-blank-field ()
       (interactive)
       (if (and (not current-prefix-arg)
@@ -166,12 +166,12 @@
           (message "Not in org-mode table"))))
 
     (org-defkey org-mode-map (kbd "C-c SPC") #'iqbal-dwim-org-table-blank-field)
-  #+end_src
+  #+END_SRC
 
 
 * Automatically mark a task as DONE, when all checkboxes are checked
   Taken from [[http://orgmode.org/worg/org-hacks.html]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'org-list
       (add-hook 'org-checkbox-statistics-hook (function ndk/checkbox-list-complete)))
 
@@ -198,17 +198,17 @@
                   (when (and current-state
                              (string= current-state "DONE"))
                     (org-todo 'todo))))))))
-  #+end_src
+  #+END_SRC
 
 
 * Log things in a drawer always
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-log-into-drawer t)
-  #+end_src
+  #+END_SRC
 
 
 * Convert csv to org-table
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun yf/lisp-table-to-org-table (table &optional function)
       "Convert a lisp table to `org-mode' syntax, applying FUNCTION to each of its elements.
     The elements should not have any more newlines in them after
@@ -227,11 +227,11 @@
       (insert (yf/lisp-table-to-org-table (pcsv-parse-region beg end)))
       (delete-region beg end)
       (org-table-align))
-  #+end_src
+  #+END_SRC
 
 
 * Notify about appointments using notify-send
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-notify-appt (time-to-appt new-time msg)
       (if (equal (type-of time-to-appt) 'cons)
           (mapcar* #'iqbal-notify-appt time-to-appt new-time 'msg)
@@ -240,4 +240,4 @@
 
     (setq appt-disp-window-function #'iqbal-notify-appt)
     (setq appt-delete-window-function #'ignore)
-  #+end_src
+  #+END_SRC

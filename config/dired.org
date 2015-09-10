@@ -1,54 +1,54 @@
 * Some additional packages for working with dired
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger))
     (iqbal-install-packages iqbal-dired-packages)
-  #+end_src
+  #+END_SRC
 
 
 * Autoload for dircmp (since the package does not have it)
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'compare-directories "dircmp" nil t)
-  #+end_src
+  #+END_SRC
 
 
 * Allow recursive delete, after asking for each directory at top level
- #+begin_src emacs-lisp
+ #+BEGIN_SRC emacs-lisp
    (setq dired-recursive-deletes 'top)
- #+end_src
+ #+END_SRC
 
 
 * Copy recursively without asking
- #+begin_src emacs-lisp
+ #+BEGIN_SRC emacs-lisp
    (setq dired-recursive-copies 'always)
- #+end_src
+ #+END_SRC
 
 
 * Auto revert dired buffer on revisiting
- #+begin_src emacs-lisp
+ #+BEGIN_SRC emacs-lisp
    (setq dired-auto-revert-buffer t)
- #+end_src
+ #+END_SRC
 
 
 * Let dired guess the target directory
- #+begin_src emacs-lisp
+ #+BEGIN_SRC emacs-lisp
    (setq dired-dwim-target t)
- #+end_src
+ #+END_SRC
 
 
 * Isearch in file names only, if when initial point position is on a file name
- #+begin_src emacs-lisp
+ #+BEGIN_SRC emacs-lisp
    (setq dired-isearch-filenames 'dwim)
- #+end_src
+ #+END_SRC
 
 
 * Display human-readable sizes in dired
- #+begin_src emacs-lisp
+ #+BEGIN_SRC emacs-lisp
    (setq dired-listing-switches "-lah")
- #+end_src
+ #+END_SRC
 
 
 * When in dired jump to start and end of directory listing (not the dired buffer)
- #+begin_src emacs-lisp
+ #+BEGIN_SRC emacs-lisp
    (defun dired-jump-to-bottom ()
      (interactive)
      (goto-char (point-max))
@@ -62,28 +62,28 @@
    (with-eval-after-load 'dired
      (define-key dired-mode-map [remap beginning-of-buffer] 'dired-back-to-top)
      (define-key dired-mode-map [remap end-of-buffer] 'dired-jump-to-bottom))
- #+end_src
+ #+END_SRC
 
 
 * Load dired-x for additional functionality
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'dired
       (load "dired-x"))
-  #+end_src
+  #+END_SRC
 
 
 * Dired-details configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'dired-mode-hook
               (lambda ()
                 (load "dired-details")
                 (dired-details-install)
                 (setq dired-details-hidden-string "[..] ")))
-  #+end_src
+  #+END_SRC
 
 
 * Dired-single configuration as recommended in dired-single.el
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-dired-init ()
       "Bunch of stuff to run for dired, either immediately or when it's
             loaded."
@@ -99,33 +99,33 @@
         (iqbal-dired-init)
       ;; it's not loaded yet, so add our bindings to the load-hook
       (add-hook 'dired-load-hook 'iqbal-dired-init))
-  #+end_src
+  #+END_SRC
 
 
 * Wdired configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'wdired-change-to-wdired-mode "wdired")
     (setq wdired-confirm-overwrite t)
     (setq wdired-use-dired-vertical-movement t)
-  #+end_src
+  #+END_SRC
 
 
 * Dired filter's configurations
 ** Do not print output any messages
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq dired-filter-verbose nil)
-   #+end_src
+   #+END_SRC
 
 ** Keybinding for filtering
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'dired
       (load "dired-filter")
       (define-key dired-mode-map "/" dired-filter-mark-map))
-  #+end_src
+  #+END_SRC
 
 
 * Dired ranger's configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'dired
       (load "dired-filter")
       (define-key dired-mode-map "rc" #'dired-ranger-copy)
@@ -133,35 +133,35 @@
       (define-key dired-mode-map "rp" #'dired-ranger-paste)
       (define-key dired-mode-map "rb" #'dired-ranger-bookmark)
       (define-key dired-mode-map "rv" #'dired-ranger-bookmark-visit))
-  #+end_src
+  #+END_SRC
 
 
 * Configurations to hide certain files in dired
 ** Hide ._ files created by Mac
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq dired-omit-files "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\._.*")
-  #+end_src
+  #+END_SRC
 
 ** Enable omit mode in dired
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'dired-mode-hook 'dired-omit-mode)
-   #+end_src
+   #+END_SRC
 
 ** Do not log omit events
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq dired-omit-verbose nil)
-   #+end_src
+   #+END_SRC
 
 
 * Keybindings
 ** Keybinding to enable wdired mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'dired
       (define-key dired-mode-map (kbd "C-c C-e") #'dired-toggle-read-only))
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for starting dired
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-d") 'dired)
-  #+end_src
+  #+END_SRC
 

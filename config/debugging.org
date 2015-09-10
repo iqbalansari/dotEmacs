@@ -1,12 +1,12 @@
 * Install realgud
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'realgud)
-  #+end_src
+  #+END_SRC
 
 
 * Autoloads for debuggers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'realgud:pdb "realgud" "pdb debugger defined by realgud" t)
     (autoload 'realgud:zshdb "realgud" "zsh debugger defined by realgud" t)
     (autoload 'realgud:nodejs "realgud" "nodejs debugger defined by realgud" t)
-  #+end_src
+  #+END_SRC

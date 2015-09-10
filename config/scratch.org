@@ -1,5 +1,5 @@
 * Create scratch buffer for a given major mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-create-scratch-buffer (&optional read-major-mode-p)
       (interactive "P")
       (let* ((major-mode-function (if read-major-mode-p
@@ -25,10 +25,10 @@
                                  (cl-remove-if-not #'symbolp
                                                 (mapcar #'cdr auto-mode-alist)))
                          :test #'string=))
-  #+end_src
+  #+END_SRC
 
 
 * Keybinding to create scratch buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c j") #'iqbal-create-scratch-buffer)
-  #+end_src
+  #+END_SRC

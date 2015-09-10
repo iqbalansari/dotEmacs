@@ -1,6 +1,6 @@
 * Separate functions for moving to start/end of function and class
 ** A modified version of python-mode's python-nav-end-of-defun
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-python-nav-end-of-defun (&optional args)
        "Move point to the end of def or class.
      Returns nil if point is not in a def or class."
@@ -20,53 +20,53 @@
            (forward-line 1)
            ;; Ensure point moves forward.
            (and (> beg-pos (point)) (goto-char beg-pos)))))
-   #+end_src
+   #+END_SRC
 
 ** Macro to define modified navigation commands
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defmacro iqbal-py-define-nav-command (name bound-regexp nav-func)
        `(defun ,name (&optional args)
           (interactive "p")
           (let ((python-nav-beginning-of-defun-regexp ,bound-regexp))
             (push-mark)
             (,nav-func args))))
-   #+end_src
+   #+END_SRC
 
 ** Function for moving at start of class
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-py-define-nav-command iqbal-py-begining-of-class
                               "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
                               python-nav-beginning-of-defun)
-  #+end_src
+  #+END_SRC
 
 ** Function for moving at end of class
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (iqbal-py-define-nav-command iqbal-py-end-of-class
                                "^[[:space:]]*\\_<\\(?:class\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
                                iqbal-python-nav-end-of-defun)
-   #+end_src
+   #+END_SRC
 
 ** Function for moving at start of function
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (iqbal-py-define-nav-command iqbal-py-begining-of-defun
                                "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
                                python-nav-beginning-of-defun)
-   #+end_src
+   #+END_SRC
 
 ** Function for moving at end of function
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (iqbal-py-define-nav-command iqbal-py-end-of-defun
                                "^[[:space:]]*\\_<\\(?:def\\)\\_>[[:space:]]+\\([_[:alpha:]][_[:word:]]*\\)"
                                iqbal-python-nav-end-of-defun)
-   #+end_src
+   #+END_SRC
 
 
 * Function to execute nose tests using the nose library 
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-execute-nose-tests (options nose-fn)
       (let ((debug (assoc "--pdb" options)))
         (funcall nose-fn debug)))
-  #+end_src
+  #+END_SRC
 
 
 * Setting the correct python interpreter
@@ -74,7 +74,7 @@
    If virtualenv is active and ipython is not installed in the virtualenv
    the following will return nil, irrespective of whether ipython is installed
    globally, unless the `check-venv-p` is nil
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-ipython-available-in-virtualenv-p ()
       (when (executable-find "ipython")
         ;; If a virtualenv is active also make sure ipython is installed
@@ -82,10 +82,10 @@
         (or (not (bound-and-true-p pyvenv-virtual-env))
             (string-prefix-p (file-truename pyvenv-virtual-env)
                              (file-truename (executable-find "ipython"))))))
-  #+end_src
+  #+END_SRC
 
 ** Function to setup python interpreter
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-set-python-interpreter ()
        ;; Do not check venv for ipython if we are deactivating the
        ;; current venv
@@ -99,9 +99,9 @@
                   (not (zerop (shell-command "python -c \"import readline\""))))
          (warn "`pyreadline' not installed, completion in python shell would not work
          do `pip install pyreadline', to install pyreadline")))
-   #+end_src
+   #+END_SRC
 
 ** Setup python interpreter before starting python shell
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (advice-add 'python-shell-parse-command :before #'iqbal-set-python-interpreter)
-   #+end_src
+   #+END_SRC

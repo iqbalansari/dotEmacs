@@ -1,30 +1,30 @@
 * Ensure that required packages are installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'projectile)
-  #+end_src
+  #+END_SRC
 
 
 * Enable projectile
 ** Projectile requires 'vc-git' for 'git-grep'
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (load "vc-git")
-   #+end_src
+   #+END_SRC
 
 ** Enable projectile mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (projectile-global-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Use git grep for grepping in project
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq projectile-use-git-grep t)
-  #+end_src
+  #+END_SRC
 
 
 * Custom project types
 ** Function for treating dropbox directory as projects
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-projectile-locate-dropbox-project (dir &optional list) 
       (let ((candidate (projectile-locate-dominating-file dir ".dropbox")))
         ;; The .dropbox directory in home folder should not be treated as
@@ -34,18 +34,18 @@
           (expand-file-name candidate))))
 
     (add-to-list 'projectile-project-root-files-functions #'iqbal-projectile-locate-dropbox-project t)
-  #+end_src
+  #+END_SRC
 
 ** Additional projectile project roots
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq projectile-project-root-files
            (append projectile-project-root-files
                    '(".tern-project" "compile_commands.json" ".edts" ".ensime" ".merlin" "configure" "Vagrantfile" "Dockerfile")))
-   #+end_src
+   #+END_SRC
 
 
 * Process buffers should not be considered part of project unless they are shells
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-filter-out-non-shell-processes (buffers)
       (cl-remove-if (lambda (buffer)
                    (let ((buffer-major-mode (with-current-buffer buffer
@@ -57,11 +57,11 @@
                  buffers))
 
     (setq projectile-buffers-filter-function #'iqbal-filter-out-non-shell-processes)
-  #+end_src
+  #+END_SRC
 
 
 * Custom projectile-completion taken from [[https://gist.github.com/rejeep/5933343]]
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun rejeep-projectile-completion-fn (prompt choises)
        "Projectile completion function that only shows file name.
 
@@ -82,4 +82,4 @@
            (car matching-files))))
 
      (setq projectile-completion-system 'rejeep-projectile-completion-fn)
-   #+end_src
+   #+END_SRC

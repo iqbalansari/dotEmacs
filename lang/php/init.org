@@ -1,5 +1,5 @@
 * Function to find GNU global's version
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-gnu-global-version "0")
     (defvar iqbal-gtags-available nil)
 
@@ -7,17 +7,17 @@
       (when (executable-find "global")
         (car (last (split-string (car (split-string (shell-command-to-string "global --version") "\n"))
                                  " ")))))
-  #+end_src
+  #+END_SRC
 
 
 * Project root for current buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-project-root nil)
-  #+end_src
+  #+END_SRC
 
 
 * Helper functions to retrieve and format documentation for function using gtags output
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-php-format-doc-string (docstring)
        "Strip comments from php DOCSTRING"
        (with-current-buffer (get-buffer-create " *php-ggtags-doc-format*")
@@ -64,11 +64,11 @@
                               (iqbal-php-format-doc-string (iqbal-php-grab-comments (point)))
                               (iqbal-php-format-eldoc-string (apply #'mapconcat (list 'identity (cdddr location) " ")) 0)
                               (abbreviate-file-name (car location))))))
-   #+end_src
+   #+END_SRC
 
 
 * Helper function to format the documentation retrieved using php-extras
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-php-format-php-extras-doc (doc)
        "Format the doc returned by php-extras this fontifies the function signature in the doc"
        (with-current-buffer (get-buffer-create " *php-doc-format")
@@ -83,11 +83,11 @@
                                            (line-end-position)
                                            nil)
          (buffer-string)))
-   #+end_src
+   #+END_SRC
 
 
 * Function to retrieve documentation for symbol using gtags or php-extras
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-php-get-doc (symbol)
        "Try fetching documentation for symbol using gtags otherwise fallback to php-extras"
        (let* ((doc (php-extras-function-documentation symbol))
@@ -100,11 +100,11 @@
                       (not (string= location "global: GTAGS not found.\n"))
                       (not (string= location "")))
              (iqbal-php-retrieve-and-format-docstring (split-string location " "))))))
-   #+end_src
+   #+END_SRC
 
 
 * Function to show documentation for symbol at point
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-php-doc-at-point (symbol)
       "Show documentation for symbol at point"
       (interactive (list (symbol-at-point)))
@@ -114,11 +114,11 @@
           (if doc
               (with-electric-help (lambda () (insert doc)) "*php-doc*")
             (error (format "No doc found for %s" (symbol-name symbol)))))))
-  #+end_src
+  #+END_SRC
 
 
 * Custom function to combine eldoc retrieved using ggtags and php-extra eldoc
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-php-count-args (arglist)
        ;; Count the number of arguments in given argument list
        (with-current-buffer (get-buffer-create " *php-eldoc*")
@@ -191,11 +191,11 @@
          (when doc
            ;; Format the doc and return
            (ignore-errors (iqbal-php-format-eldoc-string doc arg-number)))))
-   #+end_src
+   #+END_SRC
 
 
 * Function to refresh tags on save
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-php-regenerate-tags ()
       (when (and iqbal-project-root
                  buffer-file-name
@@ -207,12 +207,12 @@
                          "global"
                          "--single-update"
                          buffer-file-name))))
-  #+end_src
+  #+END_SRC
 
 
 * Function to quickly start debugging a script using geben
   Copied from [[https://blogs.oracle.com/opal/entry/quick_debugging_of_php_scripts]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-php-debug ()
       "Run current PHP script for debugging with geben"
       (interactive)
@@ -223,11 +223,11 @@
                           (executable-find "php")
                           (buffer-file-name))))
         (message "`geben' is not installed")))
-  #+end_src
+  #+END_SRC
 
 
 * Some extra configurations for boris repl
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-boris-enable-extra-settings ()
       (company-mode -1)
       (auto-complete-mode +1)
@@ -237,19 +237,19 @@
       (php-extras-eldoc-setup))
 
     (add-hook 'php-boris-mode-hook #'iqbal-boris-enable-extra-settings)
-  #+end_src
+  #+END_SRC
 
 
 * Remove ggtags around local eldoc function
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'ggtags-mode-hook (lambda ()
                                   (when (fboundp 'remove-function)
                                     (remove-function (local 'eldoc-documentation-function) 'ggtags-eldoc-function))))
-  #+end_src
+  #+END_SRC
 
 
 * Function to install variable analysis plugin for PHP Code Sniffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-phpcs-variable-analysis-path (concat (locate-user-emacs-file "etc/PHP_Codesniffer-VariableAnalysis/")))
     (defvar iqbal-phpcs-standard (expand-file-name (locate-user-emacs-file "etc/ruleset.xml")))
 
@@ -272,11 +272,11 @@
             (copy-file variable-analysis-sniff
                        destination-sniff-file))
           t)))
-  #+end_src
+  #+END_SRC
 
 
 * Function to format a file using 'phpcbf' command
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-php-format-this-file ()
       (interactive)
       (if (not (executable-find "phpcbf"))
@@ -288,29 +288,29 @@
                                  (if (executable-find "diff") "" "--no-patch")
                                  (expand-file-name buffer-file-name)))
           (revert-buffer t t))))
-  #+end_src
+  #+END_SRC
 
 
 * List of projects to not prompt for gtags generation
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-php-no-tags-projects nil)
-  #+end_src
+  #+END_SRC
 
 
 * Do not display project name in modeline
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq ggtags-mode-line-project-name nil)
-  #+end_src
+  #+END_SRC
 
 
 * Jumping to symbol using ace-jump-mode
   Need a special function, since when jumping to character 'a' we want to able
   to jump to 'a' as well as '$a' (since PHP prefixes variables with '$')
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (autoload 'ace-jump-do "ace-jump-mode")
 
     (defun iqbal-ace-jump-mode-goto-word-php (char)
       "Jump to the currently visible PHP identifier."
       (interactive (list (string (read-char "Head char: " t))))
       (ace-jump-do (format "\\<$%s\\|\\<\\%s" char char)))
-  #+end_src
+  #+END_SRC

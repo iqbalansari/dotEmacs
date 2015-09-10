@@ -1,28 +1,28 @@
 * Enable gfm-mode if the origin is github
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (and buffer-file-name
                (locate-dominating-file buffer-file-name ".git")
                (string-match-p "github"
                                (or (shell-command-to-string "git config --get remote.origin.url") "")))
       (delay-mode-hooks (gfm-mode)))
-  #+end_src
+  #+END_SRC
 
 
 * Enable pandoc-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (locate-library "pandoc-mode")
       (pandoc-mode +1))
-  #+end_src
+  #+END_SRC
 
 
 * Enable spell check
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when ispell-program-name
       (flyspell-mode 1))
-  #+end_src
+  #+END_SRC
 
 
 * Setup auto-completion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'company-backends '(company-ispell company-dabbrev))
-  #+end_src
+  #+END_SRC

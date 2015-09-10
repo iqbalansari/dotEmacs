@@ -1,10 +1,10 @@
 * Setup completion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'company-backends 'company-cmake)
-  #+end_src
+  #+END_SRC
 
 
 * Enable cmake-font-lock
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (cmake-font-lock-activate)
-  #+end_src
+  #+END_SRC

@@ -1,6 +1,6 @@
 * Declaration of global variables and utility functions
 ** Check if given file is older than any of the other given files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-is-file-stale (orig-file &rest files)
        (if (file-exists-p orig-file)
            (reduce (lambda (is-stale-yet? file)
@@ -9,10 +9,10 @@
                    files
                    :initial-value nil)
          t))
-   #+end_src
+   #+END_SRC
 
 ** Helper functions to read/write from/to file
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-read-file (path)
        (with-temp-buffer
          (insert-file-contents-literally path)
@@ -22,22 +22,22 @@
        (with-temp-file file
          (erase-buffer)
          (insert data)))
-   #+end_src
+   #+END_SRC
 
 ** Function to declare one-shot keybindings
     These bindings active only after a particular command and are
     deactivated as soon as some other key is pressed (as in 'C-x e'
     and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun one-shot-keybinding (key command)
         (set-temporary-overlay-map
          (let ((map (make-sparse-keymap)))
            (define-key map (kbd key) command)
            map) t))
-    #+end_src
+    #+END_SRC
 
 ** Interacting with REPL
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defmacro iqbal-evaluate-line-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
@@ -65,10 +65,10 @@
                 (end   (save-excursion (end-of-defun) (point))))
             (,send-region-func  start
                                 end))))
-   #+end_src
+   #+END_SRC
 
 ** Highlighting the line to reorient the user
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (autoload #'pulse-momentary-highlight-one-line "pulse")
 
      (defun iqbal-highlight-line ()
@@ -80,25 +80,25 @@
                  "Flash the current line after jump"
                  (run-at-time 0.1 nil #'iqbal-highlight-line))
                (ad-activate ',func)))
-   #+end_src
+   #+END_SRC
 
 ** Prefer utf-8 encoding
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq locale-coding-system 'utf-8)
      (set-terminal-coding-system 'utf-8)
      (set-keyboard-coding-system 'utf-8)
      (set-selection-coding-system 'utf-8)
      (prefer-coding-system 'utf-8)
-   #+end_src
+   #+END_SRC
 
 ** Increase gc threshhold
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq gc-cons-threshold (* 100 1024 1024))
-   #+end_src
+   #+END_SRC
 
 
 * Location of data directory
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-data-directory (locate-user-emacs-file "data/") "Directory to store personal data")
 
     (defun iqbal-get-file-in-data-directory (filename &optional directory-p)
@@ -114,19 +114,19 @@
           (make-directory file t))
 
         file))
-  #+end_src
+  #+END_SRC
 
 
 * Initialize package management
 ** Add some more repositories
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
      (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
      (package-initialize)
-   #+end_src
+   #+END_SRC
 
 ** Refresh package contents if needed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-package-refresh-needed (reduce (lambda (need-refresh repo)
                                                  (or (not (file-exists-p (concat package-user-dir "/archives/"
                                                                                  (car repo)
@@ -136,18 +136,18 @@
 
      (when iqbal-package-refresh-needed
        (package-refresh-contents))
-   #+end_src
+   #+END_SRC
 
 ** Path to custom El-Get recipies
    Use recipies from this directory
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-local-recipes (locate-user-emacs-file "recipies/"))
      (eval-after-load "el-get"
        '(add-to-list 'el-get-recipe-path iqbal-local-recipes))
-   #+end_src
+   #+END_SRC
 
 ** Helper functions to install package if not already installed 
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal--install-package (package &optional after-install)
        (unless (package-installed-p package)
          (condition-case err
@@ -182,61 +182,61 @@
      (defun iqbal-install-packages (packages)
        (dolist (package packages)
          (iqbal-install-package package)))
-   #+end_src
+   #+END_SRC
 
 ** Install el-get for installing packages that have external dependencies
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (iqbal-install-package 'el-get)
-   #+end_src
+   #+END_SRC
 
 ** Create directory for el-get
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (unless (file-exists-p (locate-user-emacs-file "el-get"))
        (make-directory (locate-user-emacs-file "el-get")))
-   #+end_src
+   #+END_SRC
 
 ** Use shallow clones for git repositories
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq el-get-git-shallow-clone t)
-   #+end_src
+   #+END_SRC
 
 ** Path to packages not in a package manager
    Packages not currently installable package manager reside in this directory
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
 
      (let ((default-directory otherpackages))
        (normal-top-level-add-subdirs-to-load-path))
-   #+end_src
+   #+END_SRC
 
 ** Byte compile installed packages in a clean environment
 *** Install emacs-async
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (iqbal-install-package 'async)
-    #+end_src
+    #+END_SRC
 
 *** Enable async byte compilation for all packages
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (setq async-bytecomp-allowed-packages '(all))
       (async-bytecomp-package-mode)
-    #+end_src
+    #+END_SRC
 
 
 * Setup the PATH and exec-path from shell
   This is needed if emacs not started from a shell
 ** The variables to copy from shell
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq exec-path-from-shell-variables (list "PATH" "MANPATH" "PKG_CONFIG_PATH" "LD_LIBRARY_PATH" "ACLOCAL_PATH"))
-   #+end_src
+   #+END_SRC
 
 ** Initialize the environment from shell
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'exec-path-from-shell)
 
     (when (and (display-graphic-p)
                (not (equal system-type 'windows-nt)))
       (exec-path-from-shell-initialize))
-  #+end_src
+  #+END_SRC
 
  
 * Declare common keybindings
@@ -246,30 +246,30 @@
   functions by the respective major modes.
 
 ** Jumping to definitions
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-jump-to-definition (kbd "M-."))
      (defvar iqbal-pop-jump-to-definition-marker (kbd "M-,"))
-   #+end_src
+   #+END_SRC
 
 ** Finding references
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-find-references (kbd "C-c <"))
-   #+end_src
+   #+END_SRC
 
 ** Displaying doc
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-show-doc (kbd "C-c d"))
-   #+end_src
+   #+END_SRC
 
 ** Refactoring
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-refactor-rename (kbd "C-c r"))
      (defvar iqbal-refactor-auto-import (kbd "C-c i"))
      (defvar iqbal-refactor-organize-imports (kbd "C-c o"))
-   #+end_src
+   #+END_SRC
 
 ** Interacting with REPL
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-run-shell (kbd "C-c C-z"))
      (defvar iqbal-send-region (kbd "C-c C-r"))
      (defvar iqbal-send-buffer (kbd "C-c C-b"))
@@ -277,12 +277,12 @@
      (defvar iqbal-send-file (kbd "C-c C-f"))
      (defvar iqbal-send-function (kbd "C-M-x"))
      (defvar iqbal-send-phrase/sexp/block (kbd "C-x C-e"))
-   #+end_src
+   #+END_SRC
 
 ** Expanding macro
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-expand-macro (kbd "C-c RET"))
-   #+end_src
+   #+END_SRC
 
 
 * Load common libraries
@@ -290,7 +290,7 @@
    by different modes
 
    The libaries are loaded by the file 'config/init.org'
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (unless (file-exists-p (locate-user-emacs-file "config/.compiled/"))
        (make-directory (locate-user-emacs-file "config/.compiled/")))
 
@@ -301,23 +301,23 @@
                               "emacs-lisp"))
 
      (load-file (locate-user-emacs-file "config/.compiled/init.el"))
-   #+end_src
+   #+END_SRC
 
 
 * Setup language configurations
 ** Path to language specific configurations
    Lang contain the configuration related to one specific type of file.
    They reside in the following directory
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-langs-dir (locate-user-emacs-file "lang/"))
-   #+end_src
+   #+END_SRC
 
 ** Function to load language configuration
    A simple helper function to load a particular language configuration.
    Instead of loading the org files one by one it combines all the code in
    them in one compiled file and loads that file, the compiled file is regenerated
    if any of the org files change
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-initialized-langs nil)
 
      (defun iqbal-initialize-lang (lang)
@@ -422,10 +422,10 @@
                           (when (or (not extension)
                                     (string-match-p extension (or (file-name-extension (buffer-name)) "")))
                             (iqbal-load-lang-config-for-buffer language))))))
-   #+end_src
+   #+END_SRC
 
 ** Emacs lisp is needs to be configured specially
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-elisp-packages '(elisp-slime-nav 
                                  macrostep
                                  cl-lib-highlight))
@@ -460,10 +460,10 @@
        (local-set-key iqbal-expand-macro 'macrostep-expand))
 
      (add-hook 'emacs-lisp-mode-hook #'iqbal-emacs-lisp-config)
-   #+end_src
+   #+END_SRC
 
 ** Setup installation of external language modes
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-auto-install-lang (rx ".js" string-end) 'js2-mode 'js2-mode)
     (iqbal-auto-install-lang (rx ".php" string-end) 'php-mode 'php-mode)
     (iqbal-auto-install-lang (rx ".lua" string-end) 'lua-mode 'lua-mode)
@@ -496,19 +496,19 @@
     (iqbal-auto-install-lang (rx word-start "ledger" string-end) 'ledger-mode 'ledger-mode)
     (iqbal-auto-install-lang (rx ".ledger" string-end) 'ledger-mode 'ledger-mode)
     (iqbal-auto-install-lang (rx "Dockerfile" string-end) 'dockerfile-mode 'dockerfile-mode)
-  #+end_src
+  #+END_SRC
 
 ** Some extra auto-mode-alist entries
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-to-list 'auto-mode-alist (cons (rx ".rkt" string-end) 'scheme-mode))
      (add-to-list 'auto-mode-alist (cons (rx (or ".irbrc" ".pryrc" "Gemfile") string-end) 'ruby-mode))
      (add-to-list 'auto-mode-alist (cons (rx word-start "composer.lock" string-end) 'json-mode))
      (add-to-list 'auto-mode-alist (cons (rx word-start "diary" string-end) 'diary-mode))
      (add-to-list 'auto-mode-alist (cons (rx ".zsh" string-end) 'sh-mode))
-   #+end_src
+   #+END_SRC
 
 ** Distinguishing between objc-headers and c-headers
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-file-objective-c-header-p ()
        (and buffer-file-name
             (string= (file-name-extension buffer-file-name) "h")
@@ -519,10 +519,10 @@
 
      (add-to-list 'magic-mode-alist
                   (cons #'iqbal-file-objective-c-header-p #'objc-mode))
-   #+end_src
+   #+END_SRC
 
 ** Setup loading of language configuration when the language mode loads
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (iqbal-setup-lang 'python-mode-hook "python")
      (iqbal-setup-lang 'js2-mode-hook "javascript")
      (iqbal-setup-lang 'php-mode-hook "php")
@@ -549,4 +549,4 @@
      (iqbal-setup-lang 'ledger-mode-hook "ledger")
      (iqbal-setup-lang 'yaml-mode-hook "yaml")
      (iqbal-setup-lang 'cmake-mode-hook "cmake")
-   #+end_src
+   #+END_SRC

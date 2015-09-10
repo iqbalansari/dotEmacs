@@ -1,5 +1,5 @@
 * Choose lisp implementation
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (unless (and (boundp 'inferior-lisp-program)
                  inferior-lisp-program
                  (executable-find inferior-lisp-program))
@@ -13,46 +13,46 @@
                (string-match-p " " inferior-lisp-program))
       (warn (format "Path to `inferior-lisp-program' contains spaces (%s), slime may fail!"
                     inferior-lisp-program)))
-  #+end_src
+  #+END_SRC
 
 
 * Setup slime
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "slime")
     (slime-setup '(slime-fancy slime-company slime-mdot-fu))
-  #+end_src
+  #+END_SRC
 
 
 * Enable redshank mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (redshank-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Start slime if not connected yet
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     ;; Ensures slime is loaded after entire config has loaded
     (run-at-time 0.1 nil (lambda ()
                            (when (and inferior-lisp-program
                                       (not (slime-connected-p)))
                              (save-window-excursion (slime)))))
-  #+end_src
+  #+END_SRC
 
 
 * Enable slime-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (slime-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Flash the current line after jump to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func slime-edit-definition)
-  #+end_src
+  #+END_SRC
 
 
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (hs-minor-mode)
-  #+end_src
+  #+END_SRC

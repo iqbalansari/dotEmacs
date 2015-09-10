@@ -1,33 +1,33 @@
 * Geiser startup
 
 ** Check scheme implementation is available
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq iqbal-available-scheme (or (executable-find "guile")
                                    (executable-find "racket")))
 
      (unless iqbal-available-scheme
        (warn "No scheme implementation found! Geiser requires either `guile' (for scheme files) or `racket' (for racket files) installed"))
-   #+end_src
+   #+END_SRC
 
 ** Always start a repl (if one is not running already) when geiser is activated
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-available-scheme (setq geiser-mode-start-repl-p t))
-  #+end_src
+  #+END_SRC
 
 ** Turn on geiser mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when iqbal-available-scheme (turn-on-geiser-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Flash the current line after jump to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func geiser-edit-symbol-at-point)
-  #+end_src
+  #+END_SRC
 
 
 * Setup code folding
   Enable "hs-minor-mode"
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (hs-minor-mode)
-  #+end_src
+  #+END_SRC

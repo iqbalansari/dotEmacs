@@ -1,46 +1,46 @@
 * Indentation settings for web-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq web-mode-markup-indent-offset 4)
     (setq web-mode-css-indent-offset 4)
     (setq web-mode-code-indent-offset 4)
-  #+end_src
+  #+END_SRC
 
 
 * Enable auto-completion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (company-mode +1)
     (add-to-list 'company-backends 'company-web-html)
     (add-to-list 'company-backends 'company-css)
-  #+end_src
+  #+END_SRC
 
 
 * Enable auto-expansion
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq web-mode-enable-auto-expanding t)
-  #+end_src
+  #+END_SRC
 
 
 * Disable web-mode's autopairing
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq web-mode-enable-auto-pairing nil)
-  #+end_src
+  #+END_SRC
 
 
 * Enable current element highlight
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq web-mode-enable-current-element-highlight t)
-  #+end_src
+  #+END_SRC
 
 
 * Disable hl-line when current tag is highlighted
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (make-local-variable 'hl-line-range-function)
     (setq hl-line-range-function #'iqbal-disable-hl-line-on-tags)
-  #+end_src
+  #+END_SRC
 
 
 * Color customizations for web-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (set-face-attribute 'web-mode-html-tag-face nil :foreground (face-attribute 'font-lock-keyword-face :foreground))
     (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "#b58900")
     (set-face-attribute 'web-mode-html-attr-value-face nil :foreground "#2aa198")
@@ -49,22 +49,22 @@
                         :foreground nil)
 
     (set-face-attribute 'web-mode-block-delimiter-face nil :foreground "red" :weight 'ultra-bold)
-  #+end_src
+  #+END_SRC
 
 
 * Enable emmet mode
 ** Enable emmet mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (emmet-mode)
-  #+end_src
+  #+END_SRC
 
 ** Disable preview before expanding snippets
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq emmet-preview-default nil)
-   #+end_src
+   #+END_SRC
 
 
 * Enable skewer mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (skewer-html-mode)
-  #+end_src
+  #+END_SRC

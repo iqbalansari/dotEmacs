@@ -1,7 +1,7 @@
 * Update emacs exec path so that emacs can locate opam packages
   OPAM packages likes merlin and utop come with required elisp files
   add the path to those files to load-path
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "opam")
       (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
         (setenv (car var) (cadr var)))
@@ -12,20 +12,20 @@
 
       ;; Update the emacs path
       (setq exec-path (split-string (getenv "PATH") path-separator)))
-  #+end_src
+  #+END_SRC
 
 
 * Load merlin if ocamlmerlin is installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (if (executable-find "ocamlmerlin")
         (load "merlin")
       (warn "`ocamlmerlin' not installed, use opam to install it"))
-  #+end_src
+  #+END_SRC
 
 
 * Load utop package if utop is installed
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (if (executable-find "utop")
         (load "utop")
       (warn "`utop' not installed will use vanilla ocaml toplevel"))
-  #+end_src
+  #+END_SRC

@@ -1,5 +1,5 @@
 * Unset some keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (boundp 'ensime-mode-map)
       (dolist (letter '("r" "o" "l" "m" "i" "t"))
         (define-key ensime-mode-map (kbd (concat "C-c C-r " letter)) nil))
@@ -10,45 +10,45 @@
         (define-key ensime-mode-map (kbd (concat "C-c C-b " letter)) nil))
     
       (define-key ensime-mode-map (kbd "C-c C-b") nil))
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for editing
   Suggestions from scala-mode2's readme
 ** If inside a multi line comment add asterisk on pressing enter
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key scala-mode-map (kbd "RET") '(lambda ()
                                               (interactive)
                                               (newline-and-indent)
                                               (scala-indent:insert-asterisk-on-multiline-comment)))
-  #+end_src
+  #+END_SRC
 
 ** Outdent code after indenting it
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (define-key scala-mode-map (kbd "<backtab>") 'scala-indent:indent-with-reluctant-strategy)
-   #+end_src
+   #+END_SRC
 
 
 * Keybinding to start scala interpreter or sbt
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (if (equal (file-name-extension buffer-file-name) "sbt")
         (define-key scala-mode-map iqbal-run-shell #'sbt-start)
       (define-key scala-mode-map iqbal-run-shell #'run-scala))
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for interacting with the REPL
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key scala-mode-map iqbal-send-region #'sbt-send-region)
     (define-key scala-mode-map iqbal-send-buffer (iqbal-evaluate-buffer-in-repl iqbal-scala-eval-buffer sbt:send-region))
     (define-key scala-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-scala-eval-line sbt:send-region))
     (define-key scala-mode-map iqbal-send-function (iqbal-evaluate-defun-in-repl iqbal-scala-eval-defun sbt:send-region))
     (define-key scala-mode-map iqbal-send-file (iqbal-evaluate-file-in-repl iqbal-scala-eval-file sbt:send-region))
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings for refactoring
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key scala-mode-map iqbal-refactor-rename #'ensime-refactor-rename)
     (define-key scala-mode-map iqbal-refactor-organize-imports #'ensime-refactor-organize-imports)
-  #+end_src
+  #+END_SRC

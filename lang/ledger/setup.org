@@ -1,20 +1,20 @@
 * Setup error checking
 ** Be pedantic about errors
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq flycheck-ledger-pedantic 'check-payees)
-   #+end_src
+   #+END_SRC
 
 ** Enable flycheck
    Make sure we do not enable it for encrypted files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "flycheck-ledger")
     (unless (flycheck-encrypted-buffer-p) (flycheck-mode +1))
-  #+end_src
+  #+END_SRC
 
 
 * Setup completion
   Since ledger uses pcomplete, we need to add it to completion-at-point-functions
   so that company-mode picks it up
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
-  #+end_src
+  #+END_SRC

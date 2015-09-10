@@ -10,7 +10,7 @@
   This way the startup will be slow only when any of the org files
   are modified or there is some new org file, otherwise it will be
   faster since we load a single file
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-modules-dir (locate-user-emacs-file "config/"))
     (defvar iqbal-modules-compiled-dir (expand-file-name ".compiled/" iqbal-modules-dir))
 
@@ -85,11 +85,11 @@
 
       (when (interactive-p)
         (jump-to-register 'w)))
-  #+end_src
+  #+END_SRC
 
 
 * List of modules to be loaded
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-modules-list '(ui
                                  editing
                                  compile
@@ -129,10 +129,10 @@
 
     (when (eq system-type 'windows-nt)
       (add-to-list 'iqbal-modules-list 'unxutils))
-  #+end_src
+  #+END_SRC
 
 
 * Load the modules
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-compile-and-load-modules)
-  #+end_src
+  #+END_SRC

@@ -1,28 +1,28 @@
 * Install org-projectile, orgit and org-journal
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(org-projectile org-journal org-dashboard orgbox orgit noflet))
     (require 'orgbox)
-  #+end_src
+  #+END_SRC
 
 
 * Directory for storing notes
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-notes-dir (iqbal-get-file-in-data-directory "notes" t))
-  #+end_src
+  #+END_SRC
 
 
 * Custom TODO keywords and priority levels
   Copied from [[http://doc.norang.ca/org-mode.html#TodoKeywords]]
 ** Define some extra keywords
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-todo-keywords
           (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s!)" "DONE(d@/!)")
                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "CANCELLED(c@/!)")
                   (sequence "UNREAD(u!)" "READING(r!)" "READ(f@/!)"))))
-  #+end_src
+  #+END_SRC
 
 ** Colors for TODO keywords
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-todo-keyword-faces
            (quote (("TODO" :foreground "red" :weight bold)
                    ("NEXT" :foreground "blue" :weight bold)
@@ -33,23 +33,23 @@
                    ("UNREAD" :foreground "red" :weight bold)
                    ("READING" :foreground "blue" :weight bold)
                    ("READ" :foreground "forest green" :weight bold))))
-   #+end_src
+   #+END_SRC
 
 ** Custom task priorities
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-default-priority ?E)
      (setq org-lowest-priority ?E)
-   #+end_src
+   #+END_SRC
 
 
 * Org refile configuration
 ** Allow creating parent nodes while refiling
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-refile-allow-creating-parent-nodes 'confirm)
-   #+end_src
+   #+END_SRC
 
 ** Allow refiling to agenda files and org files in current directory
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-get-refile-targets ()
        (let ((files (mapcar #'file-truename
                             ;; Files in current directory
@@ -65,18 +65,18 @@
            files)))
 
      (setq org-refile-targets (list (cons 'iqbal-get-refile-targets '(:maxlevel . 3))))
-   #+end_src
+   #+END_SRC
 
 ** Use outline path while refiling
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-refile-use-outline-path 'file)
-   #+end_src
+   #+END_SRC
 
 
 * Command to call org-capture in a separate frame
   Useful for invoking org-capture from a window manager
   like xmonad using emacsclient
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (require 'noflet)
 
     (defadvice org-capture-finalize (after delete-capture-frame activate)  
@@ -112,61 +112,61 @@
                    ;; Otherwise main frame keeps listening for
                    ;; input
                    (keyboard-quit))))))
-  #+end_src
+  #+END_SRC
 
 
 * Command to toggle org-dashboard
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-toggle-org-dashboard ()
       (interactive)
       (let ((dashboard-window (get-buffer-window "*Org Dashboard*")))
         (if dashboard-window
             (delete-window dashboard-window)
           (call-interactively #'org-dashboard-display))))
-  #+end_src
+  #+END_SRC
 
 
 * Directory for org-journal
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-journal-dir (iqbal-get-file-in-data-directory "journal/" t))
-  #+end_src
+  #+END_SRC
 
 
 * Configurations for emacs diary
 ** Store diary file in org folder
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq diary-file (iqbal-get-file-in-data-directory "diary"))
-  #+end_src
+  #+END_SRC
 
 ** Let diary entries be included in agenda buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-agenda-include-diary t)
-  #+end_src
+  #+END_SRC
 
 
 * Enable notifications for appointments
 ** Do not show diary on initial appt setup
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq appt-display-diary nil)
-   #+end_src
+   #+END_SRC
 
 ** Warn 15 min in advance
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq appt-message-warning-time 15)
-  #+end_src
+  #+END_SRC
 
 ** Show remaining time in the modeline
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq appt-display-mode-line t)
-   #+end_src
+   #+END_SRC
 
 ** Show notification in a separate window
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq appt-display-format 'window)
-   #+end_src
+   #+END_SRC
 
 ** Enable appt and activate appointments found in org-agenda files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-appt-activate ()
        "(Re)initialize appt, also add agenda items to appt"
        (interactive)
@@ -177,73 +177,73 @@
      (add-hook 'after-init-hook #'iqbal-appt-activate)
 
      (display-time)
-   #+end_src
+   #+END_SRC
 
 ** Reinitialize appt on finishing capture and displaying agenda
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'org-capture-after-finalize-hook #'iqbal-appt-activate)
      (add-hook 'org-agenda-finalize-hook #'iqbal-appt-activate)
-   #+end_src
+   #+END_SRC
 
 ** Refresh appt at midnights
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (run-at-time "24:01" nil #'iqbal-appt-activate)
-   #+end_src
+   #+END_SRC
 
 
 * Configurations for org-agenda
 ** Enable org-habits
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (load "org-habit")
-   #+end_src
+   #+END_SRC
 
 ** Directory for agenda files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-org-agenda-dir (iqbal-get-file-in-data-directory "agenda" t))
-  #+end_src
+  #+END_SRC
 
 ** Path to default org-captured file
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-default-notes-file (expand-file-name "captured.org" iqbal-org-agenda-dir))
-  #+end_src
+  #+END_SRC
 
 ** The org agenda files
 *** Path to org-projectile todo file
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-projectile:projects-file
            (expand-file-name "projects.org" iqbal-org-agenda-dir))
-   #+end_src
+   #+END_SRC
 
 *** Path to per repo TODO file
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (setq org-projectile:per-repo-filename "TODO.org")
-    #+end_src
+    #+END_SRC
 
 *** Any files in org folder will be added to agenda files
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-agenda-files (list iqbal-org-agenda-dir))
-  #+end_src
+  #+END_SRC
 
 ** Add a note when task is marked as DONE
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-log-done 'note)
-  #+end_src
+  #+END_SRC
 
 ** `q` should bury agenda rather then killing it
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-agenda-sticky t)
-   #+end_src
+   #+END_SRC
 
 ** Ignore scheduled items or deadlines if they have been marked 'DONE'
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-agenda-skip-deadline-if-done t)
      (setq org-agenda-skip-scheduled-if-done t)
-   #+end_src
+   #+END_SRC
 
 ** Do not display tasks from past in org-agenda
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-agenda-start-on-weekday nil)
-   #+end_src
+   #+END_SRC
 
 
 * Org capture templates
@@ -251,16 +251,16 @@
 *** Get url at point where org capture was called
     We need to switch to previous buffer since, the function is executed in
     context of org-capture buffer, not the buffer where org-capture was invoked
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-url-at-point ()
         (require 'thingatpt)
         (save-window-excursion
           (switch-to-buffer (plist-get org-capture-plist :original-buffer))
           (thing-at-point-url-at-point)))
-    #+end_src
+    #+END_SRC
 
 *** Get the url from the clipboard
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-get-url-from-clipboard ()
        (require 'thingatpt)
        (let ((current-kill (ignore-errors (current-kill 0))))
@@ -269,40 +269,40 @@
              (insert (string-trim current-kill))
              (goto-char 0)
              (thing-at-point-url-at-point)))))
-   #+end_src
+   #+END_SRC
 
 *** Get current url of w3m-buffer
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-w3m-url ()
         (save-window-excursion
           (switch-to-buffer (plist-get org-capture-plist :original-buffer))
           (when (equal major-mode 'w3m-mode)
             (or (get-text-property (point) 'w3m-href-anchor)
                 w3m-current-url))))
-    #+end_src
+    #+END_SRC
 
 *** Get url from point or clipboard
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-url-at-point-or-from-clipboard ()
         (require 'thingatpt)
         (or (iqbal-get-url-at-point)
             (iqbal-get-url-from-clipboard)
             (iqbal-get-w3m-url)))
-    #+end_src
+    #+END_SRC
 
 *** Get name of major mode of buffer from which org-capture was called
-    The returned value can be uses as language in '#+begin_src' markup. We need
+    The returned value can be uses as language in '#+BEGIN_SRC' markup. We need
     to switch to previous buffer since, the function is executed in context of
     org-capture buffer, not the buffer where org-capture was invoked
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-source-buffers-mode ()
           (save-window-excursion
             (switch-to-buffer (plist-get org-capture-plist :original-buffer))
             (substring (symbol-name major-mode) 0 -5)))
-    #+end_src
+    #+END_SRC
 
 *** Read date from user using calender widget and convert it to format diary can understand
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal--time-to-am/pm (hours minutes)
         (when (and hours minutes)
           (let* ((hours-int (string-to-int hours))
@@ -329,18 +329,18 @@
                   (car date-string)
                   " "
                   (iqbal--time-to-am/pm hours minutes))))
-    #+end_src
+    #+END_SRC
 
 *** Get the projectile project of the buffer from which capture was invoked
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-source-buffers-project ()
         (save-window-excursion
           (switch-to-buffer (plist-get org-capture-plist :original-buffer))
           (projectile-project-name)))
-    #+end_src
+    #+END_SRC
 
 *** Get active region in previous buffer as quote and org link to it
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-justify-paragraph-text (text)
         (with-temp-buffer
           (insert text)
@@ -374,10 +374,10 @@
                                                  "\n#+end_quote\n"))
                                        (org-store-link nil))
                                (when (region-active-p) 4 2)))))
-    #+end_src
+    #+END_SRC
 
 *** Function to get journal file
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-find-journal-file ()
         (org-journal-dir-check-or-create)
         (let ((file-name (concat org-journal-dir
@@ -388,16 +388,16 @@
                     (format-time-string org-journal-date-format)
                     "\n"))
           (goto-char (point-max))))
-    #+end_src
+    #+END_SRC
 
 ** The templates
 *** org-capture is not yet loaded, so initialize org-capture templates to empty list
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defvar org-capture-templates nil)
-    #+end_src
+    #+END_SRC
 
 *** Template for capturing todos
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'org-capture-templates (list "t"
                                               "TODO"
                                               'entry
@@ -406,10 +406,10 @@
                                                     "Unfiled")
                                               "* TODO %?\n%U\n\n"
                                               :empty-lines-after 2))
-  #+end_src
+  #+END_SRC
 
 *** Template for capturing todos linked to current buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'org-capture-templates (list "T"
                                               "TODO linked to current buffer"
                                               'entry
@@ -418,10 +418,10 @@
                                                     "Unfiled")
                                               "* TODO %?\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
                                               :empty-lines-after 2))
-  #+end_src
+  #+END_SRC
 
 *** Template for capturing links
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "l"
                                                 "Interesting links"
                                                 'entry
@@ -430,10 +430,10 @@
                                                       "To read")
                                                 "* UNREAD %?\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
-    #+end_src
+    #+END_SRC
 
 *** Template for capturing notes
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "n"
                                                 "Note"
                                                 'entry
@@ -442,10 +442,10 @@
                                                       "Unfiled")
                                                 "* %? %^G\n%U\n\n"
                                                 :empty-lines-after 2))
-    #+end_src
+    #+END_SRC
     
 *** Template for capturing notes linked to current buffer
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "N"
                                                 "Note linked to current buffer"
                                                 'entry
@@ -454,116 +454,116 @@
                                                       "Unfiled")
                                                 "* %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
                                                 :empty-lines-after 2))
-    #+end_src
+    #+END_SRC
 
 *** Template for capturing code snippets
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "s"
                                                 "Code snippets"
                                                 'entry
                                                 (list 'file
                                                       (expand-file-name "snippets.org" iqbal-notes-dir))
-                                                "* %? \n  #+begin_src %(iqbal-get-source-buffers-mode)\n    %i\n  #+end_src\n\n"
+                                                "* %? \n  #+BEGIN_SRC %(iqbal-get-source-buffers-mode)\n    %i\n  #+END_SRC\n\n"
                                                 :empty-lines-after 2))
-    #+end_src
+    #+END_SRC
 
 *** Template for capturing appointments
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "a"
                                                 "Appointment"
                                                 'plain
                                                 (list 'file
                                                       (expand-file-name "appt.org" iqbal-org-agenda-dir))
                                                 "* %? %^g\n  SCHEDULED: <%(org-read-date)>"))
-    #+end_src
+    #+END_SRC
 
 *** Template for capturing appointments linked to current buffer
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "A"
                                                 "Appointment linked to current buffer"
                                                 'plain
                                                 (list 'file
                                                       (expand-file-name "appt.org" iqbal-org-agenda-dir))
                                                 "* %? %^g\n%(iqbal-get-source-buffers-region-and-link)\n  SCHEDULED: <%(org-read-date)>"))
-    #+end_src
+    #+END_SRC
 
 *** Template to capture a diary entry
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "d"
                                                 "Diary"
                                                 'plain
                                                 (list 'file
                                                       (iqbal-get-file-in-data-directory "diary"))
                                                 "%(iqbal-read-date-for-diary) %?\n\n"))
-    #+end_src
+    #+END_SRC
 
 *** Template for capturing habit
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "h" 
                                                 "Habit" 
                                                 'entry 
                                                 (list 'file 
                                                       (expand-file-name "habits.org" iqbal-org-agenda-dir))
                                                 "* TODO %?\nSCHEDULED: <%<%Y-%m-%d .+1d/2d>>\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))
-    #+end_src
+    #+END_SRC
 
 *** Template for project specific TODOs
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-enable-org-projectile ()
         (load "org-projectile")
         (add-to-list 'org-capture-templates 
                      (org-projectile:project-todo-entry "p" "* TODO %? :%(iqbal-get-source-buffers-project):\n%a\n")))
 
       (with-eval-after-load 'projectile (iqbal-enable-org-projectile))
-    #+end_src
+    #+END_SRC
 
 *** Template for capturing journal entry
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "j"
                                                 "Journal entry"
                                                 'plain
                                                 (list 'function #'iqbal-find-journal-file)
                                                 "** %(format-time-string org-journal-time-format)%?\n"))
-    #+end_src
+    #+END_SRC
 
 *** Template for capturing journal entry linked to given buffer
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-capture-templates (list "J"
                                                 "Journal entry linked to current buffer"
                                                 'plain
                                                 (list 'function #'iqbal-find-journal-file)
                                                 "** %(format-time-string org-journal-time-format)%?\n%(iqbal-get-source-buffers-region-and-link 1)"))
-    #+end_src
+    #+END_SRC
 
 ** Re-import elfeed feeds after capturing a feed
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-maybe-reimport-feeds-after-capture ()
        (when (string= (org-capture-get :key) "f")
          (iqbal-import-elfeed-feeds)))
 
      (add-hook 'org-capture-after-finalize-hook #'iqbal-maybe-reimport-feeds-after-capture)
-   #+end_src
+   #+END_SRC
 
 
 * Add id to each captured item
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
-  #+end_src
+  #+END_SRC
 
 
 * Custom agenda commands
   Command to view link log
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-agenda-custom-commands
           `(("l" "View link log" ((todo "UNREAD")
                                   (todo "READING")
                                   (todo "READ"))
              ((org-agenda-files '(,(expand-file-name "links.org" iqbal-notes-dir)))))))
-  #+end_src
+  #+END_SRC
 
 
 * Change TODO state to READING when opening a UNREAD link
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-mark-link-as-reading-on-follow ()
       (let ((todo-state (save-excursion (when (ignore-errors (org-back-to-heading t))
                                           (org-get-todo-state)))))
@@ -571,11 +571,11 @@
           (org-todo "READING"))))
 
     (add-hook 'org-follow-link-hook #'iqbal-org-mark-link-as-reading-on-follow)
-  #+end_src
+  #+END_SRC
 
 
 * Clock in automatically if TODO state changes to STARTED or READING
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-clock-in-on-todo-change ()
       (when (and org-state
                  (or (string= org-state "STARTED")
@@ -591,14 +591,14 @@
         (let (org-clock-in-switch-to-state) (org-clock-in))))
 
     (add-hook 'org-after-todo-state-change-hook #'iqbal-org-clock-in-on-todo-change)
-  #+end_src
+  #+END_SRC
 
 
 * Clock into a task interactively
   This queries for a tag for searching (similar to org-tag-view) and list all
   the matching pending tasks. This is different from `C-u org-clock-in` which
   prompts only for recent tasks
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-extract-todos (file matcher)
       (let ((existing-buffer (find-buffer-visiting file))
             (org-agenda-buffer nil))
@@ -621,17 +621,17 @@
                                           (loop for agenda-file in (org-agenda-files)
                                                 append (iqbal-extract-todos agenda-file matcher)))))
           (org-clock-in '(4)))))
-  #+end_src
+  #+END_SRC
 
 
 * Configurations for org clocking
 ** Capture a note while clocking out
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-log-note-clock-out t)
-   #+end_src
+   #+END_SRC
 
 ** Better display of clocked in task, also indicate if not currently clocked in
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-clock-clocked-in-display nil)
 
      (defface iqbal-org-not-clocked-in
@@ -661,40 +661,40 @@
      (setq global-mode-string (remove '(:eval (iqbal-org-clock-mode-line)) global-mode-string))
      (push '(:eval (iqbal-org-clock-mode-line))
            (cdr global-mode-string))
-   #+end_src
+   #+END_SRC
 
 ** Store persistence info inside org directory
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-clock-persist-file (expand-file-name "org-clock-save.el" (iqbal-get-file-in-data-directory "misc" t)))
-   #+end_src
+   #+END_SRC
 
 ** Save both the running clock, and the entire clock history on exiting emacs
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-clock-persist t)
-  #+end_src
+  #+END_SRC
 
 ** Always insert clocking info in *CLOCK* drawer
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-clock-into-drawer "CLOCK")
-   #+end_src
+   #+END_SRC
 
 ** Remove clock line if resulting time is zero
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-clock-out-remove-zero-time-clocks t)
-   #+end_src
+   #+END_SRC
 
 ** Do not find a recent task, if there is not current clocked in task in org-clock-goto
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-clock-goto-may-find-recent-task nil)
-   #+end_src
+   #+END_SRC
 
 ** Setup clock persistence
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (org-clock-persistence-insinuate)
-   #+end_src
+   #+END_SRC
 
 ** Automatically change todo states on clock-in and clock-out
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-org-clock-in-switch (state)
        (cond ((string= state "UNREAD") "READING")
              ((string= state "READ") "READING")
@@ -706,10 +706,10 @@
 
      (setq org-clock-in-switch-to-state #'iqbal-org-clock-in-switch)
      (setq org-clock-out-switch-to-state #'iqbal-org-clock-out-switch)
-   #+end_src
+   #+END_SRC
 
 ** View currently clocked in task
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-hide/show-current-task ()
       (interactive)
       (let ((task-buffer-name "*Current Task*"))
@@ -724,10 +724,10 @@
             (org-clock-goto)
             (switch-to-buffer (clone-indirect-buffer task-buffer-name nil) t)
             (org-narrow-to-subtree)))))
-  #+end_src
+  #+END_SRC
 
 ** Automatically clock out if task is marked as 'non-started' state
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq org-clock-out-when-done '("TODO"
                                       "NEXT"
                                       "DONE"
@@ -736,11 +736,11 @@
                                       "CANCELLED"
                                       "READ"
                                       "UNREAD"))
-   #+end_src
+   #+END_SRC
 
 
 * View pending tasks
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-view-lagging-tasks ()
       (interactive)
       (let ((time (if current-prefix-arg (read-string "For time: " "now") "now"))
@@ -750,11 +750,11 @@
                                    time
                                    not-done-matcher
                                    time))))
-  #+end_src
+  #+END_SRC
 
 
 * Goto to a random task from global TODO list
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun org-random-entry (&optional arg)
       "Select and goto a random todo item from the global agenda"
       (interactive "P")
@@ -811,12 +811,12 @@
               (when (outline-invisible-p)
                 (show-entry))                 ; display invisible text
               (run-hooks 'org-agenda-after-show-hook))))))
-  #+end_src
+  #+END_SRC
 
 
 * Keybindings
 ** Global keybindings for org-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c a") #'org-agenda)
     (global-set-key (kbd "C-c c") #'org-capture)
 
@@ -828,9 +828,9 @@
     (global-set-key (kbd "<f10>") #'iqbal-view-lagging-tasks)
     (global-set-key (kbd "<f11>") #'org-todo-list)
     (global-set-key (kbd "<f12>") #'org-agenda-list)
-  #+end_src
+  #+END_SRC
 
 ** Keybinding to view diary
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-c D") #'diary)
-   #+end_src
+   #+END_SRC

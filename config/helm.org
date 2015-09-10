@@ -1,21 +1,21 @@
 * Install helm packages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-c-yasnippet helm-company wgrep-helm))
 
     (when (executable-find "ag")
       (iqbal-install-package 'helm-ag))
-  #+end_src
+  #+END_SRC
 
 
 * Enable helm
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (helm-mode +1)
-  #+end_src
+  #+END_SRC
 
 
 * Make helm more like ido
 ** Enable fuzzy-match everywhere
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq helm-mode-fuzzy-match t)
      (setq helm-recentf-fuzzy-match t)
      (setq helm-buffers-fuzzy-matching t)
@@ -26,12 +26,12 @@
      (setq helm-apropos-fuzzy-match t)
      (setq helm-lisp-fuzzy-completion t)
      (setq helm-completion-in-region-fuzzy-match t)
-   #+end_src
+   #+END_SRC
 
 ** Use enter the current directory (if we are at a directory file) or open the file 
    Inspired by http://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
    and https://github.com/emacs-helm/helm/issues/776
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-helm-ff-find-file-or-expand ()
       (interactive)
       (if (and (file-directory-p (helm-get-selection))
@@ -43,11 +43,11 @@
 
     (with-eval-after-load 'helm-files
       (define-key helm-find-files-map (kbd "RET") 'iqbal-helm-ff-find-file-or-expand))
-  #+end_src
+  #+END_SRC
 
 ** Use backspace to either delete current character or go up a directory (if looking at a directory)
    Inspired by https://github.com/syl20bnr/spacemacs/pull/1524
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-helm-ff-backward-char-or-updir ()
        (interactive)
        (if (string= (file-name-nondirectory helm-pattern) "")
@@ -56,90 +56,90 @@
 
      (with-eval-after-load 'helm-files
        (define-key helm-find-files-map (kbd "<backspace>") 'iqbal-helm-ff-backward-char-or-updir))
-   #+end_src
+   #+END_SRC
 
 ** Swap C-z and tab
    Stolen from http://tuhdo.github.io/helm-intro.html
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'helm
        (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
        (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
        (define-key helm-map (kbd "C-z")  'helm-select-action))
-   #+end_src
+   #+END_SRC
 
 
 * Turn on helm-projectile
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'projectile
       (helm-projectile-on))
 
     (setq projectile-switch-project-action #'helm-projectile)
-  #+end_src
+  #+END_SRC
 
 
 * Instruct projectile to use helm for completing read
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'projectile
       (setq projectile-completion-system 'helm))
-  #+end_src
+  #+END_SRC
 
 
 * Add projectile sources to helm-mini
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'helm-projectile
       (setq helm-mini-default-sources '(helm-source-buffers-list
                                         helm-source-projectile-buffers-list
                                         helm-source-projectile-files-list 
                                         helm-source-buffer-not-found
                                         helm-source-recentf)))
-  #+end_src
+  #+END_SRC
 
 
 * helm-descbinds configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq helm-descbinds-window-style 'split-window)
     (helm-descbinds-mode +1)
-  #+end_src
+  #+END_SRC
 
 
 * Echo input in header line
   Taken from http://www.reddit.com/r/emacs/comments/3asbyn/new_and_very_useful_helm_feature_enter_search/
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (display-graphic-p)
       (setq helm-echo-input-in-header-line t
             helm-split-window-in-side-p t)
       (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
-  #+end_src
+  #+END_SRC
 
 
 * Do not prompt when creating new file
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq helm-ff-newfile-prompt-p nil)
-  #+end_src
+  #+END_SRC
 
 
 * Helm company configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'company
       (define-key company-active-map (kbd "C-<return>") 'helm-company))
-  #+end_src
+  #+END_SRC
 
 
 * Various mode settings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq haskell-completing-read-function #'helm--completing-read-default)
-  #+end_src
+  #+END_SRC
 
 
 * Helm kill-ring configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "M-y") #'helm-show-kill-ring)
-  #+end_src
+  #+END_SRC
 
 
 * Sources for helm-files
   Remove source for buffers and move source for current directory to the top
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq helm-for-files-preferred-list '(helm-source-files-in-current-dir
                                           helm-source-find-files
                                           helm-source-recentf
@@ -153,32 +153,32 @@
                                             helm-source-recentf
                                             helm-source-bookmarks
                                             helm-source-locate)))
-  #+end_src
+  #+END_SRC
 
 
 * Helm Imenu configuration
 ** Keybinding to quickly jump to a symbol in buffer
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (global-set-key (kbd "C-c s") 'helm-imenu)
-   #+end_src
+   #+END_SRC
 
 ** Do not directly jump to the definition even if there is just on candidate
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq helm-imenu-execute-action-at-once-if-one nil)
-   #+end_src
+   #+END_SRC
 
 
 * Do not complete in step while org-refiling
   Otherwise only the top level completions are shown by helm
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq org-outline-path-complete-in-steps nil)
-  #+end_src
+  #+END_SRC
 
 
 * Global keybindings
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
     (global-set-key (kbd "M-x") #'helm-M-x)
     (global-set-key (kbd "C-x b") #'helm-mini)
     (global-set-key [remap locate] #'helm-locate)
-  #+end_src
+  #+END_SRC

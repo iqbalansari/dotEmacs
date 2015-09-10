@@ -5,15 +5,15 @@
   with emacs.
   
 ** Path of unxutils files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-unxutils-bin-dir (expand-file-name (locate-user-emacs-file "etc/unxutils/bin"))
        "Path to bin directory of Unxutils distribution")
      (defvar iqbal-unxutils-wbin-dir (expand-file-name (locate-user-emacs-file "etc/unxutils/usr/local/wbin"))
        "Path to usr/local/wbin directory of Unxutils distribution")
-   #+end_src
+   #+END_SRC
 
 ** Add programs provided by unxutils to the exec-path and PATH
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (dolist (directory (list iqbal-unxutils-bin-dir iqbal-unxutils-wbin-dir))
        (when (equal system-type 'windows-nt)
          (add-to-list 'exec-path directory)
@@ -21,10 +21,10 @@
                                    (cons directory
                                          (split-string (getenv "PATH") path-separator))
                                    path-separator))))
-   #+end_src
+   #+END_SRC
 
 ** Warn on absence of files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-windows-warn-abt-missing-unxutils t)
 
      (when (and iqbal-windows-warn-abt-missing-unxutils
@@ -37,4 +37,4 @@
      disable this warning set `iqbal-windows-warn-abt-missing-unxutils' to nil."
                                  "http://sourceforge.net/projects/unxutils/"
                                  (expand-file-name (locate-user-emacs-file "etc/unxutils")))))))
-   #+end_src
+   #+END_SRC

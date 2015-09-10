@@ -1,47 +1,47 @@
 * Use eager mode for indenting code
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq scala-indent:default-run-on-strategy scala-indent:eager-strategy)
-   #+end_src
+   #+END_SRC
 
 
 * Load sbt-mode
 ** Load it just once per session
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (unless (fboundp 'start-sbt)
       (load "sbt-mode"))
-  #+end_src
+  #+END_SRC
 
 
 * Start ensime if inside 'ensime' project
 ** Always ask to connect ensime, if not already connected
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq ensime-auto-connect 'ask)
-   #+end_src
+   #+END_SRC
 
 ** Load ensime if not loaded already and prerequisites are satisfied
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (unless (fboundp #'ensime-mode)
       (iqbal-load-ensime))
-  #+end_src
+  #+END_SRC
 
 ** Enable ensime
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (and (fboundp 'ensime-mode)
                 buffer-file-name)
        (if (locate-dominating-file buffer-file-name ".ensime")
            (ensime-mode +1)
          (warn "`.ensime' file not found, generate it [https://github.com/ensime/ensime-server/wiki/Quick-Start-Guide] and do M-x `ensime-mode'")))
-   #+end_src
+   #+END_SRC
 
 
 * Enable flycheck
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when buffer-file-name
       (flycheck-mode))
-  #+end_src
+  #+END_SRC
 
 
 * Flash current line after jumping to definition
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func ensime-edit-definition)
-  #+end_src
+  #+END_SRC

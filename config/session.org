@@ -1,21 +1,21 @@
 * Use desktop mode
 ** Restore just one buffer immediately
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq desktop-restore-eager 1)
-   #+end_src
+   #+END_SRC
 
 ** Do not save temporary buffers
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq desktop-buffers-not-to-save  "\\(\\` \\|^\\*\\)")
-   #+end_src
+   #+END_SRC
 
 ** Enable desktop mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (desktop-save-mode 1)
-  #+end_src
+  #+END_SRC
 
 ** Avoid stale locks on desktop file taken from [[http://www.emacswiki.org/emacs/DeskTop#toc4][emacswiki]]
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun emacs-process-p (pid)
        "If pid is the process ID of an emacs process, return t, else nil.
      Also returns nil if pid is nil."
@@ -30,56 +30,56 @@
        "Don't allow dead emacsen to own the desktop file."
        (when (not (emacs-process-p ad-return-value))
          (setq ad-return-value nil)))
-   #+end_src
+   #+END_SRC
 
 ** Do not save encrypted files, message mode files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\|\.gpg$\\|,S$\\|,DS\\)")
      (add-to-list 'desktop-modes-not-to-save 'message-mode)
-   #+end_src
+   #+END_SRC
 
 
 * Save minibuffer history across sessions
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (savehist-mode 1)
     (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
-  #+end_src
+  #+END_SRC
 
 
 * Use virtual buffers
   This will show the buffers previously opened in the ido-switch-buffer prompt
   and allow to select it. On selecting the buffer the file is opened again
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq ido-use-virtual-buffers t)
-  #+end_src
+  #+END_SRC
 
 ** Do not remember 'sent email' files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'recentf
        (add-to-list 'recentf-exclude ".+,DS")
        (add-to-list 'recentf-exclude ".+,S")
        (add-to-list 'recentf-exclude ".*\.git/.*"))
-   #+end_src
+   #+END_SRC
 
 ** Remember more files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq recentf-max-saved-items 1000)
-   #+end_src
+   #+END_SRC
 
 ** Enable recentf mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (recentf-mode +1)
-   #+end_src
+   #+END_SRC
 
 
 * Remember place in buffers across sessions
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq-default save-place t)
     (require 'saveplace)
-  #+end_src
+  #+END_SRC
 
 
 * Store more history
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq history-length 1000)
-  #+end_src
+  #+END_SRC

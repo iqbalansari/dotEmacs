@@ -1,26 +1,26 @@
 * Install bongo
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(bongo volume))
-  #+end_src
+  #+END_SRC
 
 
 * Prefer playlist buffers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq bongo-prefer-library-buffers nil)
-  #+end_src
+  #+END_SRC
 
 
 * Custom backend matchers
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq bongo-custom-backend-matchers '((vlc . ("https:" . t))))
     (setq bongo-custom-backend-matchers '((vlc . (local-file . ("webm")))))
-  #+end_src
+  #+END_SRC
 
 
 * Hacks around vlc backend
   Would eventually report these upstream
 ** Fetch timing data when bongo player starts or seeks
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-bongo-start-vlc-timer (&optional player)
        (when (eq (bongo-player-backend-name bongo-player) 'vlc)
          (bongo-vlc-player-start-timer bongo-player)))
@@ -28,51 +28,51 @@
      (add-hook 'bongo-player-sought-functions #'iqbal-bongo-start-vlc-timer)
      (add-hook 'bongo-player-started-functions #'iqbal-bongo-start-vlc-timer)
      (add-hook 'bongo-player-started-hook #'iqbal-bongo-start-vlc-timer)
-   #+end_src
+   #+END_SRC
 
 
 * Other minor configurations
 ** Do not display bongo logo
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq bongo-logo nil)
-  #+end_src
+  #+END_SRC
 
 ** Mark played tracks
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq bongo-mark-played-tracks t)
-   #+end_src
+   #+END_SRC
 
 ** Update references to renamed files without asking
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq bongo-update-references-to-renamed-files t)
-   #+end_src
+   #+END_SRC
 
 ** Insert intermediate headers
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq bongo-insert-intermediate-headers t)
-   #+end_src
+   #+END_SRC
 
 ** Insert directories without asking
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq bongo-insert-whole-directory-trees t)
-   #+end_src
+   #+END_SRC
 
 
 * Bongo keybindings
 ** Keybinding to start bongo
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c M") #'bongo)
-  #+end_src
+  #+END_SRC
 
 ** Keybindings for bongo-dired-library-mode
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'bongo
        (define-key bongo-dired-library-mode-map (kbd "C-c C-e") nil))
-   #+end_src
+   #+END_SRC
 
 
 * Setup auto-mode-alist entries
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'auto-mode-alist
                  '("\\.bongo-library$" . bongo-library-mode))
     (add-to-list 'auto-mode-alist
@@ -81,11 +81,11 @@
     (autoload 'bongo-library-mode "bongo" "bongo library mode" t)
     (autoload 'bongo-playlist-mode "bongo" "bongo playlist mode" t)
     (autoload 'bongo-dired-library-mode "bongo" "bongo dired library mode" t)
-  #+end_src
+  #+END_SRC
 
 
 * Add elfeed enclosures to bongo library
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-resolve-redirects-url (url)
       (let ((url-request-method "HEAD")
             (url-show-status nil))
@@ -129,27 +129,27 @@
 
     (with-eval-after-load 'elfeed-show
       (define-key elfeed-show-mode-map (kbd "M") #'iqbal-elfeed-show-add-enclosure-to-bongo))
-  #+end_src
+  #+END_SRC
 
 
 * Enqueuing tracks from arbitrary dired buffers
 ** Helper functions to enqueue files from dired 
 *** Autoload required function
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (autoload 'bongo-dired-enqueue-lines "bongo")
-    #+end_src
+    #+END_SRC
 
 *** Enqueuing files from dired marks
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (eval-when-compile
        (require 'dired))
       
      (defun iqbal-bongo-dired-enqueue-files-from-marks-or-point (mode)
        (dired-map-over-marks (bongo-dired-enqueue-lines mode 0 t) nil))
-    #+end_src
+    #+END_SRC
 
 *** Enqueuing files from region 
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-bongo-dired-enqueue-files-from-region (mode)
         (let ((start (region-beginning))
               (end (region-end)))
@@ -158,10 +158,10 @@
             (while (< (point) end)
               (bongo-dired-enqueue-lines mode 0 t)
               (forward-line +1)))))
-   #+end_src
+   #+END_SRC
 
 *** Tying them together
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-bongo-dired-enqueue (mode)
         (if (region-active-p)
             (iqbal-bongo-dired-enqueue-files-from-region mode)
@@ -174,10 +174,10 @@
       (defun iqbal-bongo-dired-insert-enqueue-lines ()
         (interactive)
         (iqbal-bongo-dired-enqueue 'insert))
-    #+end_src
+    #+END_SRC
 
 ** Keybindings
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'dired
        (define-key dired-mode-map "e" 'iqbal-bongo-dired-append-enqueue-lines)
        (define-key dired-mode-map "E" 'iqbal-bongo-dired-insert-enqueue-lines))
@@ -185,12 +185,12 @@
      (with-eval-after-load 'bongo
        (define-key bongo-dired-library-mode-map "e" 'iqbal-bongo-dired-append-enqueue-lines)
        (define-key bongo-dired-library-mode-map "E" 'iqbal-bongo-dired-insert-enqueue-lines))
-   #+end_src
+   #+END_SRC
 
 
 * Follow marked tracks (if available) in random playback mode
   Stolen from [[http://www.emacswiki.org/emacs/BongoHacks#toc5]]
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-play-only-marked-tracks (orig-func &optional point)
       (let ((play-this-track-p (funcall orig-func point)))
         (and play-this-track-p
@@ -199,12 +199,12 @@
 
     (with-eval-after-load 'bongo
         (advice-add 'bongo-randomly-playable-track-line-p :around #'iqbal-play-only-marked-tracks))
-  #+end_src
+  #+END_SRC
 
 
 * Integration with org-mode
 ** Storing link to currently playing media in bongo
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-seconds-as-minutes (seconds)
       (format "%02d:%02d"(/ seconds 60)
               (mod seconds 60)))
@@ -261,10 +261,10 @@
                                       :description description)))))))
 
     (add-hook 'org-store-link-functions 'iqbal-store-bongo-link)
-  #+end_src
+  #+END_SRC
 
 ** Opening links to media in bongo
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-bongo-playlist-file (make-temp-file "playlist" nil ".bongo-playlist")
        "Temporary bongo playlist to be used for playing bongo links")
 
@@ -304,4 +304,4 @@
              (bongo-seek-to (car time))))))
 
      (org-add-link-type "bongo" #'iqbal-open-bongo-link)
-   #+end_src
+   #+END_SRC

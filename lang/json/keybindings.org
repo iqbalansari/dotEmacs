@@ -1,4 +1,4 @@
 * Keybinding for json-snatcher
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (define-key json-mode-map (kbd "C-c C-g") 'jsons-print-path)
-  #+end_src
+  #+END_SRC

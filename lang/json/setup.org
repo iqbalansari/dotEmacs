@@ -1,17 +1,17 @@
 * Do not escape slashes while reformatting
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq json-reformat:pretty-string? t)
-  #+end_src
+  #+END_SRC
 
 
 * Load json-snatcher
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (load "json-snatcher")
-  #+end_src
+  #+END_SRC
 
 
 * Syntax checking
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "jsonlint")
       (flycheck-mode))
-  #+end_src
+  #+END_SRC

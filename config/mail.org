@@ -1,6 +1,6 @@
 * Install the required libraries
 ** Install mu when on Linux
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (when (eq system-type 'gnu/linux)
        ;; Install only if the prerequisites are satisfied
        (if (and (executable-find "autoreconf")
@@ -16,24 +16,24 @@
                     (warn "Please set `mu4e-maildir' to your maildir")))
          (message "You need to install `autoconf', `libxapian-dev', `libtool'
      and `libgmime-2.6-dev' for building mu4e")))
-   #+end_src
+   #+END_SRC
 
 ** Install notify.el for notifications
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (iqbal-install-package 'notify)
-   #+end_src
+   #+END_SRC
 
 
 * Set mail-host-address
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq mail-host-address "emacs.localhost")
-  #+end_src
+  #+END_SRC
 
 
 * Auto-complete addresses in 'From', 'To' field in message mode
 ** Use company mode for better completion interface
    Remove text-properties that interfere with company mode's menu
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-strip-message-mode-problematic-text-props ()
        (save-excursion
          (goto-char (point-min))
@@ -42,111 +42,111 @@
 
      (add-hook 'message-mode-hook 'iqbal-strip-message-mode-problematic-text-props)
      (add-hook 'mu4e-compose-mode-hook 'iqbal-strip-message-mode-problematic-text-props)
-   #+end_src
+   #+END_SRC
 
 
 * Enable flyspell mode in message-mode
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-hook 'message-mode-hook 'flyspell-mode)
     (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
-  #+end_src
+  #+END_SRC
 
 
 * Offlineimap configuration
 ** Use offlineimap to update messages in mu4e
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "offlineimap")
       (setq mu4e-get-mail-command "offlineimap"))
-  #+end_src
+  #+END_SRC
 
 ** .offlineimaprc is a unix conf file
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (add-to-list 'auto-mode-alist '("\\.offlineimaprc" . conf-mode))
-  #+end_src
+  #+END_SRC
 
 
 * General mu4e configuration
 ** Use w3m to render html messages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (executable-find "w3m")
       (setq mu4e-view-prefer-html t)
       (setq mu4e-html2text-command "w3m -dump -T text/html"))
-  #+end_src
+  #+END_SRC
 
 ** View images inline in message view buffer
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq mu4e-view-show-images t)
 
     (when (fboundp 'imagemagick-register-types)
       (imagemagick-register-types))
-  #+end_src
+  #+END_SRC
 
 ** Do not insert signature in sent emails
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq mu4e-compose-signature-auto-include nil)
-  #+end_src
+  #+END_SRC
 
 ** It is OK to use non-ascii characters
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq mu4e-use-fancy-chars t)
-  #+end_src
+  #+END_SRC
 
 ** Save attachments in ~/Downloads directory
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq mu4e-attachment-dir "~/Downloads")
-  #+end_src
+  #+END_SRC
 
 ** The information to displayed in the header line
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq mu4e-headers-fields '((:human-date . 20)
                                 (:tags . 12)
                                 (:from . 22)
                                 (:to . 22)
                                 (:subject)))
-  #+end_src
+  #+END_SRC
 
 ** Make bindings to open links in mu4e consistent with org-mode bindings
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e-view
        (define-key mu4e-view-clickable-urls-keymap (kbd "C-c C-o") #'mu4e~view-browse-url-from-binding))
-   #+end_src
+   #+END_SRC
 
 ** Always show email addresses in mu4e
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq mu4e-view-show-addresses t)
-   #+end_src
+   #+END_SRC
 
 ** Do not display duplicate messages
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq mu4e-headers-skip-duplicates t)
-   #+end_src
+   #+END_SRC
 
 ** Kill message buffer after email is sent
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq message-kill-buffer-on-exit t)
-   #+end_src
+   #+END_SRC
 
 
 * Apply format=flowed to outgoing messages 
   [[http://www.djcbsoftware.nl/code/mu/mu4e/Writing-messages.html][mu4e manual]] says this should add format=flowed for autogoing messages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-mu4e-toggle-hard-newlines ()
       (use-hard-newlines nil 'guess))
 
       ;; Result isn't as good as it sounds
     ;(add-hook 'mu4e-compose-mode-hook #'iqbal-mu4e-toggle-hard-newlines)
-  #+end_src
+  #+END_SRC
 
 
 * Attach files directly from dired
 ** Helper functions to attach files
 *** Autoload `gnus-dired-attach`
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (autoload 'gnus-dired-attach "gnus-dired")
-    #+end_src
+    #+END_SRC
 
 *** Attaching files in selected region
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-mu4e-file-attach-files-from-region ()
         (let ((start (region-beginning))
               (end (region-end))
@@ -157,27 +157,27 @@
               (add-to-list 'files (dired-get-file-for-visit))
               (forward-line +1)))
           (gnus-dired-attach files)))
-    #+end_src
+    #+END_SRC
 
 *** Attaching marked files
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (eval-when-compile (require 'dired))
 
       (defun iqbal-mu4e-file-attach-marked-files ()
         (gnus-dired-attach (dired-map-over-marks (dired-get-file-for-visit) nil)))
-    #+end_src
+    #+END_SRC
 
 *** Tying them together
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-mu4e-attach-files-from-dired ()
         (interactive)
         (if (region-active-p)
             (iqbal-mu4e-file-attach-files-from-region)
           (iqbal-mu4e-file-attach-marked-files)))
-    #+end_src
+    #+END_SRC
 
 ** Make gnus-dired aware of mu4e
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e
 
        ;; Monkey patch gnus-dired to consider mu4e messages
@@ -194,18 +194,18 @@
              (nreverse buffers))))
 
        (setq gnus-dired-mail-mode 'mu4e-user-agent))
-   #+end_src
+   #+END_SRC
 
 ** Keybindings
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'dired
        (define-key dired-mode-map (kbd "a") #'iqbal-mu4e-attach-files-from-dired))
-   #+end_src
+   #+END_SRC
 
 
 * Additional actions for messages
 ** Action to retag message
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e
        (add-to-list 'mu4e-headers-actions
                     (cons "retag" 'mu4e-action-retag-message)
@@ -213,10 +213,10 @@
        (add-to-list 'mu4e-view-actions
                     (cons "retag" 'mu4e-action-retag-message)
                     t))
-   #+end_src
+   #+END_SRC
 
 ** Action to view current message in a browser
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-mu4e-action-view-in-browser (msg)
        "Modified version of original `mu4e-action-view-in-browser' this adds a meta
      tag to charset, hardcoded to utf8 field, this makes the resulting document
@@ -250,10 +250,10 @@
 
      (with-eval-after-load 'mu4e
        (add-to-list 'mu4e-view-actions '("View in browser" . iqbal-mu4e-action-view-in-browser)))
-   #+end_src
+   #+END_SRC
 
 ** Action to view current message in w3m
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun mu4e-action-view-in-w3m (msg)
       "View message in w3m"
       (let ((browse-url-browser-function #'w3m-browse-url))
@@ -262,10 +262,10 @@
     (with-eval-after-load 'mu4e
       (when (locate-library "w3m")
         (add-to-list 'mu4e-view-actions '("open in w3m" . mu4e-action-view-in-w3m))))
-  #+end_src
+  #+END_SRC
 
 ** Action to import appointments from ical files
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (require 'org-import-icalendar)
 
      (defun iqbal-cleanup-ical-text (text)
@@ -324,19 +324,19 @@
 
      (with-eval-after-load 'mu4e
        (add-to-list 'mu4e-view-actions (cons "ical to appt" 'mu4e-action-appt-from-ics) t))
-   #+end_src
+   #+END_SRC
 
 
 * Auto update configuration
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (setq mu4e-hide-index-messages t)
     (setq mu4e-get-mail-command "offlineimap")
     (setq mu4e-update-interval 300)
-  #+end_src
+  #+END_SRC
 
 
 * Start mu4e
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-start-mu4e-bg ()
       "Start in background avoiding any prompts and ignoring errors"
       (when (and (require 'mu4e nil t)
@@ -348,13 +348,13 @@
                        (setq mail-user-agent 'mu4e-user-agent))))
 
     (add-hook 'after-init-hook #'iqbal-start-mu4e-bg)
-  #+end_src
+  #+END_SRC
 
 
 * Notify the number of unread emails after fetching new mail
 ** Helper functions to interact with mu/mu4e
 *** Function to get count of unread emails asynchronously
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-mu-unread-mail-count (callback)
         (let ((mail-count-command (format "%s find --nocolor flag:unread AND NOT flag:trashed 2>/dev/null | wc -l"
                                           mu4e-mu-binary))
@@ -367,25 +367,25 @@
                                              "-c"
                                              mail-count-command)
                               process-filter)))
-    #+end_src
+    #+END_SRC
 
 *** Helper function to view unread emails
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-mu4e-view-unread-mails ()
         (interactive)
         (setq iqbal-pre-mu-win-config (current-window-configuration))
         (mu4e-headers-search-bookmark "flag:unread AND NOT flag:trashed")
         (setq iqbal-mu-win-config (current-window-configuration)))
-    #+end_src
+    #+END_SRC
 
 ** Displaying unread mail count in modeline
 *** Disable the default mail mode-line indicator 
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq display-time-mail-string "")
-   #+end_src
+   #+END_SRC
 
 *** Custom mode-line indicator for mail
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-mail-mode-line "")
      (add-to-list 'global-mode-string '(:eval iqbal-mail-mode-line) t)
 
@@ -410,46 +410,46 @@
                  (if (zerop unread-mail-count)
                      " "
                    (format " [%d] " unread-mail-count)))))
-   #+end_src
+   #+END_SRC
 
 *** Function to update mail count in modeline
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-redisplay-mail-count-modeline (count)
         (setq iqbal-mail-mode-line (iqbal-get-mailcount-mode-line-string count))
         (force-mode-line-update))
 
       (defun iqbal-update-mail-count-modeline ()
         (iqbal-get-mu-unread-mail-count #'iqbal-redisplay-mail-count-modeline))
-    #+end_src
+    #+END_SRC
 
 *** Setup for updating the mail mode line
 **** Update mode-line when mu4e loads
-     #+begin_src emacs-lisp
+     #+BEGIN_SRC emacs-lisp
        (with-eval-after-load 'mu4e (iqbal-update-mail-count-modeline))
-     #+end_src
+     #+END_SRC
 
 **** Update mode-line after executing marks
-    #+begin_src emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (defun iqbal-setup-mail-count-update-after-exec-marks ()
         (defadvice mu4e-mark-execute-all (after iqbal-update-mail-count)
           (iqbal-update-mail-count-modeline))
         (ad-activate 'mu4e-mark-execute-all))
 
       (with-eval-after-load 'mu4e '(iqbal-setup-mail-count-update-after-exec-marks))
-    #+end_src
+    #+END_SRC
 
 **** Update mode-line after viewing a message
-     #+begin_src emacs-lisp
+     #+BEGIN_SRC emacs-lisp
        (add-hook 'mu4e-view-mode-hook #'iqbal-update-mail-count-modeline)
-     #+end_src
+     #+END_SRC
 
 **** Update mode-line after fetching mail
-     #+begin_src emacs-lisp
+     #+BEGIN_SRC emacs-lisp
        (add-hook 'mu4e-index-updated-hook #'iqbal-update-mail-count-modeline)
-     #+end_src
+     #+END_SRC
 
 ** Helper function to notify about unread email
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defun iqbal-mu4e-notify-unread-messages (unread-mail-count)
       (when (not (zerop unread-mail-count))
         (notify "mu4e" (if (= unread-mail-count 1)
@@ -458,17 +458,17 @@
 
     (defun iqbal-mu4e-notify-unread-messages-async ()
       (iqbal-get-mu-unread-mail-count #'iqbal-mu4e-notify-unread-messages))
-  #+end_src
+  #+END_SRC
 
 ** Notify after updating the index
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (add-hook 'mu4e-index-updated-hook #'iqbal-mu4e-notify-unread-messages-async)
-   #+end_src
+   #+END_SRC
 
 
 * Configuration for sending mail
 ** Sending mail from multiple smtp accounts when using mu4e
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (defvar iqbal-mu4e-account-alist nil "List of accounts in format specified here [http://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html]")
 
     (defun iqbal-mu4e-set-account ()
@@ -499,33 +499,33 @@
                 account-vars))))
 
     (add-hook 'mu4e-compose-pre-hook 'iqbal-mu4e-set-account)
-  #+end_src
+  #+END_SRC
 
 ** Prefer .authinfo.gpg for credentials
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'auth-source
        (setq auth-sources (cons "~/.authinfo.gpg"
                                 (delete "~/.authinfo.gpg" auth-sources))))
-   #+end_src
+   #+END_SRC
 
 ** Send mail using smtp
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (setq send-mail-function 'smtpmail-send-it)
-   #+end_src
+   #+END_SRC
 
 
 * Integration with org-mode
 ** Register a handler to open links to mu4e messages
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (when (locate-library "org-mu4e")
       (autoload 'org-mu4e-open "org-mu4e")
       (org-add-link-type "mu4e" 'org-mu4e-open))
-  #+end_src
+  #+END_SRC
 
 ** Load org-mu4e on loading mu4e
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e (load "org-mu4e" t))
-   #+end_src
+   #+END_SRC
 
 
 * Convenience functions
@@ -534,7 +534,7 @@
    deep in .emacs.d folder and might not be in PATH, as such it cannot be run
    directly from shell. The following advice copies the path to mu to clipboard,
    so that it can be directly run from shell
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defun iqbal-advise-mu4e~proc-sentinel ()
        (defadvice mu4e~proc-sentinel (around show-path-to-mu-binary (&rest args))
          (condition-case err
@@ -547,12 +547,12 @@
        (ad-activate 'mu4e~proc-sentinel))
 
      (with-eval-after-load 'mu4e (iqbal-advise-mu4e~proc-sentinel))
-   #+end_src
+   #+END_SRC
 
 ** Functions to start/hide mu4e
    Store the window configuration before starting mu4e and restore it when
    exiting mu4e
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (defvar iqbal-pre-mu-win-config nil)
      (defvar iqbal-mu-win-config nil)
 
@@ -577,11 +577,11 @@
        (setq iqbal-mu-win-config (current-window-configuration))
        (when iqbal-pre-mu-win-config
          (set-window-configuration iqbal-pre-mu-win-config)))
-   #+end_src
+   #+END_SRC
 
 
 * Keybindings to hide/show mu4e
-  #+begin_src emacs-lisp
+  #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c m") #'iqbal-start-mu4e)    
 
     (with-eval-after-load 'mu4e
@@ -593,4 +593,4 @@
       (define-key mu4e-headers-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
       (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
       (define-key mu4e-view-mode-map (kbd "U") #'mu4e-headers-rerun-search))
-  #+end_src
+  #+END_SRC
