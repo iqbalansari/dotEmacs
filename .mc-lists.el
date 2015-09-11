@@ -44,6 +44,9 @@
         iqbal-beginning-of-line-or-indent
         iqbal-beginning-of-line-or-indent
         iqbal-dwim-org-table-blank-field
+        iqbal-upcase-dwim
+        iqbal-downcase-dwim
+        iqbal-capitalize-dwim
         jedi:dot-complete
         kill-region
         kill-sentence
