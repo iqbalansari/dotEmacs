@@ -64,13 +64,6 @@
   #+END_SRC
 
 
-* Setup code folding
-  Enable "hs-minor-mode"
-  #+BEGIN_SRC emacs-lisp
-    (hs-minor-mode)
-  #+END_SRC
-
-
 * Flash current line after a jump to definition
   #+BEGIN_SRC emacs-lisp
     (when iqbal-jedi-available

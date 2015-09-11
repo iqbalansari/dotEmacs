@@ -59,10 +59,3 @@
     (unless iqbal-js-use-nodejs-repl
       (skewer-mode))
   #+END_SRC
-
-
-* Setup code folding
-  Enable "hs-minor-mode"
-  #+BEGIN_SRC emacs-lisp
-    (hs-minor-mode)
-  #+END_SRC

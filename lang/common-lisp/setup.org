@@ -49,10 +49,3 @@
   #+BEGIN_SRC emacs-lisp
     (iqbal-highlight-line-after-func slime-edit-definition)
   #+END_SRC
-
-
-* Setup code folding
-  Enable "hs-minor-mode"
-  #+BEGIN_SRC emacs-lisp
-    (hs-minor-mode)
-  #+END_SRC

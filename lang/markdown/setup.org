@@ -8,13 +8,6 @@
   #+END_SRC
 
 
-* Enable pandoc-mode
-  #+BEGIN_SRC emacs-lisp
-    (when (locate-library "pandoc-mode")
-      (pandoc-mode +1))
-  #+END_SRC
-
-
 * Enable spell check
   #+BEGIN_SRC emacs-lisp
     (when ispell-program-name

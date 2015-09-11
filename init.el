@@ -9,7 +9,14 @@ this may lead to unexpected behaviour, not proceeding. Please set `HOME' to
 value of `USERPROFILE', and move your .emacs.d directory there. Remember
 to restart any shell you are using to launch emacs after making the changes!"))
 
-;; Ensure we are using atleast version 24.4 of emacs
+;; Ensure we are using atleast version 24.4 of Emacs. This config uses a lot of
+;; features introduced in Emacs 24.4 especially
+;; 
+;; - eval-after-load's replacement with-eval-after-load
+;; - the new advice mechanism nadvice.el
+;; - the new functions for interacting with string
+;;
+;; As such it will not work properly on older versions
 (when (version< emacs-version "24.4")
   (error "This config works only with emacs version 24.4 and higher, please upgrade
 your emacs and try again!"))
