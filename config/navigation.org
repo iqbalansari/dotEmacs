@@ -120,3 +120,7 @@
   #+END_SRC
 
 
+* Keybinding for imenu
+  #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-c s") 'imenu)
+  #+END_SRC

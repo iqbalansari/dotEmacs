@@ -6,8 +6,7 @@
         anzu
         swoop
         pcre2el
-        isearch-dabbrev
-        helm))
+        isearch-dabbrev))
 
     (when (executable-find "ag")
       (add-to-list 'iqbal-search-replace-packages 'ag)
