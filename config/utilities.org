@@ -6,6 +6,9 @@
                               guide-key
                               which-key
                               rainbow-mode))
+
+    (when (executable-find "pandoc")
+      (iqbal-install-package 'pandoc-mode))
   #+END_SRC
 
 
@@ -137,3 +140,28 @@
 
     (global-set-key (kbd "C-c C") #'iqbal-start-calculator)
   #+END_SRC
+
+
+* Make links in comments and string clickable
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'prog-mode-hook #'goto-address-prog-mode)
+  #+END_SRC
+
+
+* Make bug references in comments and string clickable
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
+  #+END_SRC
+
+
+* Enable pandoc-mode
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-enable-pandoc-mode-maybe () 
+      (when (locate-library "pandoc-mode")
+        (pandoc-mode +1)))
+
+    (add-hook 'text-mode-hook #'iqbal-enable-pandoc-mode-maybe)
+  #+END_SRC
+
+
+

@@ -6,7 +6,8 @@
         volatile-highlights
         solarized-theme
         page-break-lines
-        highlight-thing))
+        highlight-thing
+        hl-todo))
 
     (iqbal-install-packages iqbal-display-packages)
   #+END_SRC
@@ -325,4 +326,10 @@
 * Enable recursive minibuffers
   #+BEGIN_SRC emacs-lisp
     (setq enable-recursive-minibuffers t)
+  #+END_SRC
+
+
+* Highlight TODO items in current buffer
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'prog-mode-hook #'hl-todo-mode)
   #+END_SRC
