@@ -11,6 +11,27 @@
          t))
    #+END_SRC
 
+** Given a url, resolve any redirects and get the original url
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-resolve-redirects-url (url)
+       (let ((url-request-method "HEAD")
+             (url-show-status nil))
+         (with-current-buffer (url-retrieve-synchronously url)
+           (url-recreate-url url-http-target-url))))
+
+     (defun iqbal-resolve-redirects-curl (url)
+       (let ((curl-command (format "curl -L -I -s -o /dev/null %s -w '%%{url_effective}'"
+                                   (shell-quote-argument url))))
+         (with-temp-buffer
+           (when (shell-command curl-command (current-buffer))
+             (buffer-string)))))
+
+     (defun iqbal-resolve-redirects (url)
+       (if (executable-find "curl")
+           (iqbal-resolve-redirects-curl url)
+         (iqbal-resolve-redirects-url url)))
+   #+END_SRC
+
 ** Helper functions to read/write from/to file
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-read-file (path)

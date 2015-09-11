@@ -86,24 +86,6 @@
 
 * Add elfeed enclosures to bongo library
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-resolve-redirects-url (url)
-      (let ((url-request-method "HEAD")
-            (url-show-status nil))
-        (with-current-buffer (url-retrieve-synchronously url)
-          (url-recreate-url url-http-target-url))))
-
-    (defun iqbal-resolve-redirects-curl (url)
-      (let ((curl-command (format "curl -L -I -s -o /dev/null %s -w '%%{url_effective}'"
-                                  (shell-quote-argument url))))
-        (with-temp-buffer
-          (when (shell-command curl-command (current-buffer))
-            (buffer-string)))))
-
-    (defun iqbal-resolve-redirects (url)
-      (if (executable-find "curl")
-          (iqbal-resolve-redirects-curl url)
-        (iqbal-resolve-redirects-url url)))
-
     (defun iqbal-add-enclosure-to-bongo (elfeed-entry bongo-buffer)
       (let* ((enclosures (elfeed-entry-enclosures elfeed-entry))
              (enclosure (when enclosures (car enclosures))))

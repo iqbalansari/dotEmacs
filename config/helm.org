@@ -7,19 +7,13 @@
   #+END_SRC
 
 
-* Enable helm
-  #+BEGIN_SRC emacs-lisp
-    (helm-mode +1)
-  #+END_SRC
-
-
 * Make helm more like ido
-** Enable fuzzy-match everywhere
+** Enable fuzzy-match where appropriate
    #+BEGIN_SRC emacs-lisp
      (setq helm-mode-fuzzy-match t)
      (setq helm-recentf-fuzzy-match t)
      (setq helm-buffers-fuzzy-matching t)
-     (setq helm-locate-fuzzy-match t)
+     (setq helm-locate-fuzzy-match nil)
      (setq helm-M-x-fuzzy-match t)
      (setq helm-semantic-fuzzy-match t)
      (setq helm-imenu-fuzzy-match t)
@@ -68,6 +62,12 @@
    #+END_SRC
 
 
+* Enable helm
+  #+BEGIN_SRC emacs-lisp
+    (helm-mode +1)
+  #+END_SRC
+
+
 * Turn on helm-projectile
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'projectile
@@ -93,6 +93,31 @@
                                         helm-source-buffer-not-found
                                         helm-source-recentf)))
   #+END_SRC
+
+
+* Sources for helm-files
+** The default list for `helm-for-files`
+   Remove source for buffers and move source for current directory to the top
+   #+BEGIN_SRC emacs-lisp
+    (setq helm-for-files-preferred-list '(helm-source-files-in-current-dir
+                                          helm-source-find-files
+                                          helm-source-recentf
+                                          helm-source-bookmarks
+                                          helm-source-locate))
+
+    (with-eval-after-load 'helm-projectile
+      (setq helm-for-files-preferred-list '(helm-source-files-in-current-dir
+                                            helm-source-projectile-files-list 
+                                            helm-source-find-files
+                                            helm-source-recentf
+                                            helm-source-bookmarks
+                                            helm-source-locate)))
+   #+END_SRC
+
+** Keybinding to toggle helm-locate source in `helm-multi-files` 
+   #+BEGIN_SRC emacs-lisp
+     (setq helm-multi-files-toggle-locate-binding "C-c C-l")
+   #+END_SRC
 
 
 * helm-descbinds configuration
@@ -137,25 +162,6 @@
   #+END_SRC
 
 
-* Sources for helm-files
-  Remove source for buffers and move source for current directory to the top
-  #+BEGIN_SRC emacs-lisp
-    (setq helm-for-files-preferred-list '(helm-source-files-in-current-dir
-                                          helm-source-find-files
-                                          helm-source-recentf
-                                          helm-source-bookmarks
-                                          helm-source-locate))
-
-    (with-eval-after-load 'helm-projectile
-      (setq helm-for-files-preferred-list '(helm-source-files-in-current-dir
-                                            helm-source-projectile-files-list 
-                                            helm-source-find-files
-                                            helm-source-recentf
-                                            helm-source-bookmarks
-                                            helm-source-locate)))
-  #+END_SRC
-
-
 * Helm Imenu configuration
 ** Keybinding to quickly jump to a symbol in buffer
    #+BEGIN_SRC emacs-lisp
@@ -172,6 +178,13 @@
   Otherwise only the top level completions are shown by helm
   #+BEGIN_SRC emacs-lisp
     (setq org-outline-path-complete-in-steps nil)
+  #+END_SRC
+
+
+* Do not restore helm-mode using desktop  
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'desktop
+      (add-to-list 'desktop-minor-mode-table '(helm-mode nil)))
   #+END_SRC
 
 

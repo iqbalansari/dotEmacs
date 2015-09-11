@@ -92,8 +92,8 @@
 
 * Use DejaVu Sans Mono / Source Code Pro / Consolas font if available
   #+BEGIN_SRC emacs-lisp
-    (set-frame-font (cond ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
-                          ((member "Source Code Pro" (font-family-list)) "Source Code Pro-10.90")
+    (set-frame-font (cond ((member "Source Code Pro" (font-family-list)) "Source Code Pro-11")
+                          ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
                           ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
                     t
                     t)
