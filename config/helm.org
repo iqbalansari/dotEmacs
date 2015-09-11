@@ -1,9 +1,12 @@
 * Install helm packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-c-yasnippet helm-company wgrep-helm))
+    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company wgrep-helm))
 
     (when (executable-find "ag")
       (iqbal-install-package 'helm-ag))
+
+    (when (locate-library "yasnippet")
+      (iqbal-install-package 'helm-c-yasnippet))
   #+END_SRC
 
 
@@ -120,13 +123,6 @@
    #+END_SRC
 
 
-* helm-descbinds configuration
-  #+BEGIN_SRC emacs-lisp
-    (setq helm-descbinds-window-style 'split-window)
-    (helm-descbinds-mode +1)
-  #+END_SRC
-
-
 * Echo input in header line
   Taken from http://www.reddit.com/r/emacs/comments/3asbyn/new_and_very_useful_helm_feature_enter_search/
   #+BEGIN_SRC emacs-lisp
@@ -143,16 +139,23 @@
   #+END_SRC
 
 
-* Helm company configuration
+* Various mode settings
+** Use helm for completing in haskell mode
   #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'company
-      (define-key company-active-map (kbd "C-<return>") 'helm-company))
+    (setq haskell-completing-read-function #'helm--completing-read-default)
+  #+END_SRC
+
+** Do not complete in step while org-refiling
+  Otherwise only the top level completions are shown by helm
+  #+BEGIN_SRC emacs-lisp
+    (setq org-outline-path-complete-in-steps nil)
   #+END_SRC
 
 
-* Various mode settings
+* helm-descbinds configuration
   #+BEGIN_SRC emacs-lisp
-    (setq haskell-completing-read-function #'helm--completing-read-default)
+    (setq helm-descbinds-window-style 'split-window)
+    (helm-descbinds-mode +1)
   #+END_SRC
 
 
@@ -174,10 +177,16 @@
    #+END_SRC
 
 
-* Do not complete in step while org-refiling
-  Otherwise only the top level completions are shown by helm
+* Helm company configuration
   #+BEGIN_SRC emacs-lisp
-    (setq org-outline-path-complete-in-steps nil)
+    (with-eval-after-load 'company
+      (define-key company-active-map (kbd "C-<return>") 'helm-company))
+  #+END_SRC
+
+
+* Helm yasnippet integration
+  #+BEGIN_SRC emacs-lisp
+    (global-set-key [remap yas-insert-snippet] #'helm-yas-complete)
   #+END_SRC
 
 

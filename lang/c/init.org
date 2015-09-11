@@ -120,18 +120,18 @@
               (if iqbal-gtags-available (gtags-find-tag) (call-interactively #'find-tag))
             (rtags-find-symbols-by-name-internal "No obvious location found for jump, find symbol"
                                                  "-F")))))
-    
+
     (defun iqbal-c-find-definition-rtags (&optional prefix)
       (interactive "P")
-      (rtags-find-symbol-at-point prefix)
+      (rtags-find-symbol prefix)
       (iqbal-find-definition-rtags-fallback))
-    
+
     (defun iqbal-c-find-definition (&optional prefix)
       (interactive "P")
       (cond (iqbal-rtags-project-indexed (call-interactively #'iqbal-c-find-definition-rtags))
             (iqbal-gtags-available (call-interactively  #'gtags-find-tag))
             (t (call-interactively  #'find-tag))))
-    
+
     (defun iqbal-c-pop-mark ()
       (interactive)
       (cond (iqbal-rtags-project-indexed (call-interactively #'rtags-location-stack-back))

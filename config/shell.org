@@ -54,8 +54,9 @@
 
 * Better completion UI for shell-mode
   #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'shell
-      (define-key shell-mode-map (kbd "TAB") #'company-complete))
+    (with-eval-after-load 'company
+      (with-eval-after-load 'shell
+        (define-key shell-mode-map (kbd "TAB") #'company-complete))
 
-    (add-hook 'shell-mode-hook #'company-mode)
+      (add-hook 'shell-mode-hook #'company-mode))
   #+END_SRC

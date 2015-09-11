@@ -1,6 +1,6 @@
 * Install neotree
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-package 'neotree)
+    (iqbal-install-packages '(projectile neotree))
   #+END_SRC
 
 
@@ -29,9 +29,10 @@
 
 
 * Neotree display settings
-** Do not display the cursor when the neotree buffer is not selected
+** Do not display the cursor in the neo-tree buffer, highlight current line
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-neotree-hide-cursor ()
+       (hl-line-mode +1)
        (setq-local cursor-type nil))
 
      (add-hook 'neotree-mode-hook #'iqbal-neotree-hide-cursor)

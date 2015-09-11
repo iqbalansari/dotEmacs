@@ -79,12 +79,13 @@
 * Enable company mode and company-math in org-mode files
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-enable-company-mode ()
-      (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
-      (add-to-list 'company-backends
-                   '(company-capf
-                     company-math-symbols-unicode
-                     company-ispell
-                     company-dabbrev)))
+      (with-eval-after-load 'company
+        (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
+        (add-to-list 'company-backends
+                     '((company-capf
+                        company-math-symbols-unicode
+                        company-ispell
+                        :with company-dabbrev)))))
 
     (add-hook 'org-mode-hook #'iqbal-org-enable-company-mode)
   #+END_SRC
@@ -221,25 +222,6 @@
 
     (setq appt-disp-window-function #'iqbal-notify-appt)
     (setq appt-delete-window-function #'ignore)
-  #+END_SRC
-
-
-* DWIM version C-c SPC
-  Since org-mode binds `C-c SPC` to the command `org-table-blank-field` (which
-  is useful only if point is in a table) the ace-jump-mode's binding is
-  overshadowed, the following sets the keybinding to a DWIM version which calls
-  ace-jump-mode unless the point is inside a table
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-dwim-org-table-blank-field ()
-      (interactive)
-      (if (and (not current-prefix-arg)
-               (org-at-table-p))
-          (call-interactively #'org-table-blank-field)
-        (if (functionp (global-key-binding (kbd "C-c SPC")))
-            (call-interactively (global-key-binding (kbd "C-c SPC")))
-          (message "Not in org-mode table"))))
-
-    (org-defkey org-mode-map (kbd "C-c SPC") #'iqbal-dwim-org-table-blank-field)
   #+END_SRC
 
 

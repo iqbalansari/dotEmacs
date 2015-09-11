@@ -59,17 +59,19 @@
             (load-theme 'solarized-light t)
           (load-theme 'solarized-dark t))
 
-        (set-face-attribute 'company-tooltip-common frame
-                            :underline nil
-                            :background (face-background 'company-tooltip)
-                            :foreground (face-foreground 'company-tooltip)
-                            :bold t)
+        (with-eval-after-load 'company
 
-        (set-face-attribute 'company-tooltip-common-selection frame
-                            :underline nil
-                            :background (face-background 'company-tooltip-selection)
-                            :foreground (face-foreground 'company-tooltip-selection)
-                            :bold t)))
+          (set-face-attribute 'company-tooltip-common frame
+                              :underline nil
+                              :background (face-background 'company-tooltip)
+                              :foreground (face-foreground 'company-tooltip)
+                              :bold t)
+
+          (set-face-attribute 'company-tooltip-common-selection frame
+                              :underline nil
+                              :background (face-background 'company-tooltip-selection)
+                              :foreground (face-foreground 'company-tooltip-selection)
+                              :bold t))))
 
 
     (when (display-graphic-p)

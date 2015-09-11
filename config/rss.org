@@ -145,21 +145,23 @@
      (add-hook 'after-save-hook #'iqbal-import-elfeed-feeds-maybe)
    #+END_SRC
 
-** Org capture template adding new feed sources
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'org-capture-templates (list "f"
-                                               "Elfeed feed"
-                                               'entry
-                                               (list 'file iqbal-elfeed-file)
-                                               "* %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
-                                               :empty-lines-after 2))
-   #+END_SRC
-
 
 * Integration with org-mode
+** Org capture template adding new feed sources
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org-capture
+       (add-to-list 'org-capture-templates (list "f"
+                                                 "Elfeed feed"
+                                                 'entry
+                                                 (list 'file iqbal-elfeed-file)
+                                                 "* %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
+                                                 :empty-lines-after 2)))
+   #+END_SRC
+
+** Storing links to feed being currently viewed 
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-elfeed-store-link ()
-      "Store a link to a w3m buffer."
+      "Store a link to currently viewed feed."
       (when (eq major-mode 'elfeed-show-mode)
         (org-store-link-props
          :type "elfeed"
@@ -168,6 +170,15 @@
 
     (add-hook 'org-store-link-functions 'iqbal-org-elfeed-store-link)
   #+END_SRC
+
+** Re-import elfeed feeds after capturing a feed
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-maybe-reimport-feeds-after-capture ()
+       (when (string= (org-capture-get :key) "f")
+         (iqbal-import-elfeed-feeds)))
+
+     (add-hook 'org-capture-after-finalize-hook #'iqbal-maybe-reimport-feeds-after-capture)
+   #+END_SRC
 
 
 * Keybindings

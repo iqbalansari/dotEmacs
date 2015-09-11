@@ -99,15 +99,14 @@
 
 * Command to toggle comment on region or line if no region is selected
   #+BEGIN_SRC emacs-lisp
-    (defun comment-or-uncomment-region-or-line ()
-        "Comments or uncomments the region or the current line if there's no active region."
-        (interactive)
-        (let (beg end)
-            (if (region-active-p)
-                (setq beg (region-beginning) end (region-end))
-                (setq beg (line-beginning-position) end (line-end-position)))
-            (comment-or-uncomment-region beg end)
-            (forward-line)))
+    (defun iqbal-comment-or-uncomment-region-or-line ()
+      "Comments or uncomments the region or the current line if there's no active region."
+      (interactive)
+      (apply #'comment-or-uncomment-region 
+             (if (region-active-p)
+                 (list (region-beginning) (region-end))
+               (list (line-beginning-position) (line-end-position))))
+      (forward-line))
   #+END_SRC
 
 
@@ -586,7 +585,7 @@
 
 ** Keybinding to toggle comment on line or region
    #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
+     (global-set-key (kbd "M-;") 'iqbal-comment-or-uncomment-region-or-line)
    #+END_SRC
 
 ** Keybindings for multiple cursors

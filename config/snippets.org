@@ -27,34 +27,15 @@
  #+END_SRC
 
 
-* Use company-mode (if enabled) to expand snippet
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-expand-yas-using-company ()
-      (interactive)
-      (condition-case err
-          (call-interactively #'company-yasnippet)
-        (error (when (and (string= (error-message-string err) "Cannot complete at point")
-                          (yas--templates-for-key-at-point)))
-               (yas-expand))))
-
-    (defun iqbal-expand-yas ()
-      (interactive)
-      (call-interactively (cond ((bound-and-true-p company-mode) #'iqbal-expand-yas-using-company)
-                                ((fboundp 'helm-yas-complete) #'helm-yas-complete)
-                                (t #'yas-insert-snippet))))
-  #+END_SRC
-
-
 * Keybindings to expand yasnippets
   #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'yasnippet
-      (define-key yas-minor-mode-map (kbd "<C-return>") #'iqbal-expand-yas))
+    (autoload 'yas-insert-snippet "yasnippet" "Insert snippet at point" t)
+    (global-set-key (kbd "<C-return>") #'yas-insert-snippet)
   #+END_SRC
 
 
-* Enable yasnippets
+* Do not use x-menu to prompt 
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'after-init-hook 'yas-global-mode)
+    (with-eval-after-load 'yasnippet
+      (setq yas-prompt-functions (delq 'yas-x-prompt yas-prompt-functions)))
   #+END_SRC
-
-  

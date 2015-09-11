@@ -535,15 +535,6 @@
                                                 "** %(format-time-string org-journal-time-format)%?\n%(iqbal-get-source-buffers-region-and-link 1)"))
     #+END_SRC
 
-** Re-import elfeed feeds after capturing a feed
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-maybe-reimport-feeds-after-capture ()
-       (when (string= (org-capture-get :key) "f")
-         (iqbal-import-elfeed-feeds)))
-
-     (add-hook 'org-capture-after-finalize-hook #'iqbal-maybe-reimport-feeds-after-capture)
-   #+END_SRC
-
 
 * Add id to each captured item
   #+BEGIN_SRC emacs-lisp

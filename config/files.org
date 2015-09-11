@@ -152,7 +152,7 @@
   #+END_SRC
 
 
-* Do not delete files directly
+* Delete files by moving to trash
   #+BEGIN_SRC emacs-lisp
     (setq delete-by-moving-to-trash t)
   #+END_SRC

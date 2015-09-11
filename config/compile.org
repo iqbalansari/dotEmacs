@@ -1,3 +1,9 @@
+* Install notify for desktop notification
+  #+BEGIN_SRC emacs-lisp
+    (iqbal-install-package 'notify)
+  #+END_SRC
+
+
 * Save files without asking before compiling 
  #+BEGIN_SRC emacs-lisp
    (setq compilation-ask-about-save nil)
@@ -39,6 +45,7 @@
 * Translate ansi sequences in compilation buffers
   #+BEGIN_SRC emacs-lisp
     (autoload 'ansi-color-apply-on-region "ansi-color")
+
     (defun iqbal-colorize-compilation-buffer ()
       (when (eq major-mode 'compilation-mode)
         (let ((inhibit-read-only t))

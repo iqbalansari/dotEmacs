@@ -53,6 +53,8 @@
     (setq ido-use-virtual-buffers t)
   #+END_SRC
 
+
+* recentf-mode configuration
 ** Do not remember 'sent email' files
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'recentf
