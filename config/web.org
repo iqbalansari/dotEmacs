@@ -123,5 +123,5 @@
   #+BEGIN_SRC emacs-lisp
     (when (executable-find "w3m")
       (global-set-key (kbd "C-c w") #'w3m)
-      (global-set-key (kbd "C-c l") #'iqbal-w3m-browse-url-dwim))
+      (global-set-key iqbal-open-link #'iqbal-w3m-browse-url-dwim))
   #+END_SRC

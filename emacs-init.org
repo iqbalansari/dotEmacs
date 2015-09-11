@@ -302,9 +302,14 @@
 
 ** Expanding macro
    #+BEGIN_SRC emacs-lisp
-     (defvar iqbal-expand-macro (kbd "C-c RET"))
+     (defvar iqbal-expand-macro (kbd "C-c x"))
    #+END_SRC
 
+** Opening links
+   #+BEGIN_SRC emacs-lisp
+     (defvar iqbal-open-link (kbd "C-c RET"))
+   #+END_SRC
+   
 
 * Load common libraries
    These are general purpose libraries that can are used

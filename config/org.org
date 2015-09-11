@@ -169,6 +169,12 @@
   #+END_SRC
 
 
+* Make `C-c RET` keybinding consistent with rest of emacs (open link at point)
+  #+BEGIN_SRC emacs-lisp
+    (org-defkey org-mode-map iqbal-open-link #'org-open-at-point)
+  #+END_SRC
+
+  
 * Automatically mark a task as DONE, when all checkboxes are checked
   Taken from [[http://orgmode.org/worg/org-hacks.html]]
   #+BEGIN_SRC emacs-lisp

@@ -105,10 +105,10 @@
                                 (:subject)))
   #+END_SRC
 
-** Make bindings to open links in mu4e consistent with org-mode bindings
+** Make bindings to open links in mu4e consistent with rest of emacs
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e-view
-       (define-key mu4e-view-clickable-urls-keymap (kbd "C-c C-o") #'mu4e~view-browse-url-from-binding))
+       (define-key mu4e-view-clickable-urls-keymap iqbal-open-link #'mu4e~view-browse-url-from-binding))
    #+END_SRC
 
 ** Always show email addresses in mu4e
