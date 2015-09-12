@@ -236,3 +236,9 @@
     (org-defkey org-mode-map (kbd "C-c l") #'org-insert-link)
     (global-set-key (kbd "C-c k") #'org-store-link)
   #+END_SRC
+
+
+* Free up keybindings for expanding snippets
+  #+BEGIN_SRC emacs-lisp
+    (org-defkey org-mode-map iqbal-expand-snippet nil)
+  #+END_SRC

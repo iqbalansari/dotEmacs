@@ -305,6 +305,11 @@
      (defvar iqbal-expand-macro (kbd "C-c x"))
    #+END_SRC
 
+** Expanding snippet
+   #+BEGIN_SRC emacs-lisp
+     (defvar iqbal-expand-snippet (kbd "<C-return>"))
+   #+END_SRC
+
 ** Opening links
    #+BEGIN_SRC emacs-lisp
      (defvar iqbal-open-link (kbd "C-c RET"))

@@ -30,9 +30,8 @@
 * Keybindings to expand yasnippets
   #+BEGIN_SRC emacs-lisp
     (autoload 'yas-insert-snippet "yasnippet" "Insert snippet at point" t)
-    (global-set-key (kbd "<C-return>") #'yas-insert-snippet)
+    (global-set-key iqbal-expand-snippet #'yas-insert-snippet)
   #+END_SRC
-
 
 * Do not use x-menu to prompt 
   #+BEGIN_SRC emacs-lisp
