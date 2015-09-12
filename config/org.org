@@ -82,10 +82,10 @@
       (with-eval-after-load 'company
         (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
         (add-to-list 'company-backends
-                     '((company-capf
-                        company-math-symbols-unicode
-                        company-ispell
-                        :with company-dabbrev)))))
+                     '(company-capf
+                       company-math-symbols-unicode
+                       company-ispell
+                       :with company-dabbrev))))
 
     (add-hook 'org-mode-hook #'iqbal-org-enable-company-mode)
   #+END_SRC

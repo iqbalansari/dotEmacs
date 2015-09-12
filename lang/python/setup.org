@@ -23,8 +23,10 @@
 ** Setup jedi for current buffer
    #+BEGIN_SRC emacs-lisp
      (auto-complete-mode +1)
+
      (when iqbal-jedi-available
-       (jedi:setup))
+       (jedi:setup)
+       (setq ac-sources '(ac-source-jedi-direct)))
    #+END_SRC
 
 
