@@ -94,7 +94,7 @@
                                  editing
                                  compile
                                  parenthesis
-                                 yasnippet
+                                 snippets
                                  navigation
                                  helm
                                  search-replace
