@@ -67,7 +67,13 @@
 
 * Enable helm
   #+BEGIN_SRC emacs-lisp
-    (helm-mode +1)
+    (add-hook 'after-init-hook #'helm-mode)
+  #+END_SRC
+
+
+* Enable helm-adaptive-mode
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'after-init-hook #'helm-adaptive-mode)
   #+END_SRC
 
 

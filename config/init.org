@@ -52,7 +52,7 @@
       (let ((stale-modules (iqbal-get-changed-module-files current-modules))
             (module-list-changed-p (set-exclusive-or previous-modules current-modules)))
         (when (or stale-modules module-list-changed-p)
-          (require 'bytecomp)
+          (load "bytecomp")
           ;; Delete previously compiled file
           (when (file-exists-p (byte-compile-dest-file iqbal-tangled-modules))
             (delete-file (byte-compile-dest-file iqbal-tangled-modules)))

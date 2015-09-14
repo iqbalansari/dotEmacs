@@ -255,7 +255,7 @@
 
     (when (and (display-graphic-p)
                (not (equal system-type 'windows-nt)))
-      (add-hook 'after-init-hook #'exec-path-from-shell-initialize))
+      (exec-path-from-shell-initialize))
   #+END_SRC
 
  
