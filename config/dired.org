@@ -35,6 +35,18 @@
  #+END_SRC
 
 
+* Hide details in dired-mode
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-dired-hide-details ()
+      (load "dired-details")
+      (dired-details-install))
+
+    (setq dired-details-hidden-string "[...] ")
+
+    (add-hook 'dired-mode-hook #'iqbal-dired-hide-details)
+  #+END_SRC
+
+
 * Isearch in file names only, if when initial point position is on a file name
  #+BEGIN_SRC emacs-lisp
    (setq dired-isearch-filenames 'dwim)
@@ -67,38 +79,23 @@
 
 * Load dired-x for additional functionality
   #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'dired
+    (defun iqbal-load-dired-x ()
       (load "dired-x"))
-  #+END_SRC
 
-
-* Dired-details configuration
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'dired-mode-hook
-              (lambda ()
-                (load "dired-details")
-                (dired-details-install)
-                (setq dired-details-hidden-string "[..] ")))
+    (add-hook 'dired-mode-hook #'iqbal-load-dired-x)
   #+END_SRC
 
 
 * Dired-single configuration as recommended in dired-single.el
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-dired-init ()
-      "Bunch of stuff to run for dired, either immediately or when it's
-            loaded."
-      (define-key dired-mode-map (kbd "RET") 'dired-single-buffer)
-      (define-key dired-mode-map [mouse-1] 'dired-single-buffer-mouse)
-      (define-key dired-mode-map "^"
-        (function
-         (lambda nil (interactive) (dired-single-buffer "..")))))
+    (defun iqbal-dired-single-up ()
+      (interactive)
+      (dired-single-buffer ".."))
 
-    ;; if dired's already loaded, then the keymap will be bound
-    (if (boundp 'dired-mode-map)
-        ;; we're good to go; just add our bindings
-        (iqbal-dired-init)
-      ;; it's not loaded yet, so add our bindings to the load-hook
-      (add-hook 'dired-load-hook 'iqbal-dired-init))
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map (kbd "RET") #'dired-single-buffer)
+      (define-key dired-mode-map [mouse-1] #'dired-single-buffer-mouse)
+      (define-key dired-mode-map "^" #'iqbal-dired-single-up))
   #+END_SRC
 
 
@@ -118,16 +115,19 @@
 
 ** Keybinding for filtering
   #+BEGIN_SRC emacs-lisp
+    (defun iqbal-dired-load-dired-filter ()
+      (load "dired-filter"))
+
     (with-eval-after-load 'dired
-      (load "dired-filter")
       (define-key dired-mode-map "/" dired-filter-mark-map))
+
+    (add-hook 'dired-mode-hook #'iqbal-dired-load-dired-filter)
   #+END_SRC
 
 
 * Dired ranger's configuration
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'dired
-      (load "dired-filter")
       (define-key dired-mode-map "rc" #'dired-ranger-copy)
       (define-key dired-mode-map "rr" #'dired-ranger-move)
       (define-key dired-mode-map "rp" #'dired-ranger-paste)

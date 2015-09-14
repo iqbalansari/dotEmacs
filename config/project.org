@@ -5,15 +5,16 @@
 
 
 * Enable projectile
-** Projectile requires 'vc-git' for 'git-grep'
-   #+BEGIN_SRC emacs-lisp
-     (load "vc-git")
-   #+END_SRC
-
 ** Enable projectile mode
   #+BEGIN_SRC emacs-lisp
-    (projectile-global-mode)
+    (add-hook 'after-init-hook #'projectile-global-mode)
   #+END_SRC
+
+** Projectile requires 'vc-git' for 'git-grep'
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'projectile
+       (load "vc-git"))
+   #+END_SRC
 
 
 * Use git grep for grepping in project
@@ -25,7 +26,7 @@
 * Custom project types
 ** Function for treating dropbox directory as projects
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-projectile-locate-dropbox-project (dir &optional list) 
+    (defun iqbal-projectile-locate-dropbox-project (dir &optional list)
       (let ((candidate (projectile-locate-dominating-file dir ".dropbox")))
         ;; The .dropbox directory in home folder should not be treated as
         ;; project root
@@ -33,14 +34,23 @@
                    (not (file-directory-p (concat candidate ".dropbox"))))
           (expand-file-name candidate))))
 
-    (add-to-list 'projectile-project-root-files-functions #'iqbal-projectile-locate-dropbox-project t)
+    (with-eval-after-load 'projectile
+      (add-to-list 'projectile-project-root-files-functions #'iqbal-projectile-locate-dropbox-project t))
   #+END_SRC
 
 ** Additional projectile project roots
    #+BEGIN_SRC emacs-lisp
-     (setq projectile-project-root-files
-           (append projectile-project-root-files
-                   '(".tern-project" "compile_commands.json" ".edts" ".ensime" ".merlin" "configure" "Vagrantfile" "Dockerfile")))
+     (with-eval-after-load 'projectile
+       (setq projectile-project-root-files
+             (append projectile-project-root-files
+                     '(".tern-project"
+                       "compile_commands.json"
+                       ".edts"
+                       ".ensime"
+                       ".merlin"
+                       "configure"
+                       "Vagrantfile"
+                       "Dockerfile"))))
    #+END_SRC
 
 

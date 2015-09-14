@@ -3,11 +3,11 @@
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-is-file-stale (orig-file &rest files)
        (if (file-exists-p orig-file)
-           (reduce (lambda (is-stale-yet? file)
-                     (or is-stale-yet?
-                         (file-newer-than-file-p file orig-file)))
-                   files
-                   :initial-value nil)
+           (cl-reduce (lambda (is-stale-yet? file)
+                        (or is-stale-yet?
+                            (file-newer-than-file-p file orig-file)))
+                      files
+                      :initial-value nil)
          t))
    #+END_SRC
 
@@ -147,12 +147,12 @@
 
 ** Refresh package contents if needed
    #+BEGIN_SRC emacs-lisp
-     (defvar iqbal-package-refresh-needed (reduce (lambda (need-refresh repo)
-                                                 (or (not (file-exists-p (concat package-user-dir "/archives/"
-                                                                                 (car repo)
-                                                                                 "/archive-contents")))
-                                                     need-refresh))
-                                               package-archives :initial-value nil))
+     (defvar iqbal-package-refresh-needed (cl-reduce (lambda (need-refresh repo)
+                                                       (or (not (file-exists-p (concat package-user-dir "/archives/"
+                                                                                       (car repo)
+                                                                                       "/archive-contents")))
+                                                           need-refresh))
+                                                     package-archives :initial-value nil))
 
      (when iqbal-package-refresh-needed
        (package-refresh-contents))

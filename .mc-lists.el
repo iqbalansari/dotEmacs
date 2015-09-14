@@ -43,10 +43,11 @@
         indent-for-tab-command
         iqbal-beginning-of-line-or-indent
         iqbal-beginning-of-line-or-indent
+        iqbal-capitalize-dwim
+        iqbal-copy-line-or-region
+        iqbal-downcase-dwim
         iqbal-dwim-org-table-blank-field
         iqbal-upcase-dwim
-        iqbal-downcase-dwim
-        iqbal-capitalize-dwim
         jedi:dot-complete
         kill-region
         kill-sentence
