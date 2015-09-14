@@ -12,8 +12,7 @@
 
 * Custom backend matchers
   #+BEGIN_SRC emacs-lisp
-    (setq bongo-custom-backend-matchers '((vlc . ("https:" . t))))
-    (setq bongo-custom-backend-matchers '((vlc . (local-file . ("webm")))))
+    (setq bongo-custom-backend-matchers '((vlc . ("https:" . t)) (vlc . (local-file . ("webm")))))
   #+END_SRC
 
 
