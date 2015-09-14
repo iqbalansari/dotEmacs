@@ -143,7 +143,6 @@
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
      (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-     (package-initialize)
    #+END_SRC
 
 ** Refresh package contents if needed
@@ -256,7 +255,7 @@
 
     (when (and (display-graphic-p)
                (not (equal system-type 'windows-nt)))
-      (exec-path-from-shell-initialize))
+      (add-hook 'after-init-hook #'exec-path-from-shell-initialize))
   #+END_SRC
 
  

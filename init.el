@@ -39,17 +39,20 @@ your emacs and try again!"))
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
 
-;; Do not let org overtake shift-arrow, ctrl-arrow keys windmove and buffermove
-;; use them. Unfortunately this needs to be set before loading org, hence
-;; setting it here
-(require 'org)
+;; No special handling of files at startup
+;; Credits: https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
+(let (file-name-handler-alist)
 
-;; Avoid re-extraction if file has not changed
-(if (file-newer-than-file-p (locate-user-emacs-file "emacs-init.org") 
-			    (locate-user-emacs-file "emacs-init.el"))
-    (org-babel-load-file (locate-user-emacs-file "emacs-init.org"))
-  (load-file (locate-user-emacs-file "emacs-init.el")))
-
-;; Load private settings if exist
-(when (file-exists-p (locate-user-emacs-file "private.org"))
-  (org-babel-load-file (locate-user-emacs-file "private.org")))
+  ;; Avoid re-extraction if file has not changed
+  (if (file-newer-than-file-p (locate-user-emacs-file "emacs-init.org") 
+                              (locate-user-emacs-file "emacs-init.el"))
+      (org-babel-load-file (locate-user-emacs-file "emacs-init.org"))
+    (load-file (locate-user-emacs-file "emacs-init.el")))
+  
+  ;; Load private settings if exist
+  (when (file-exists-p (locate-user-emacs-file "private.org"))
+    ;; But avoid re-extraction if the file has not changed
+    (if (file-newer-than-file-p (locate-user-emacs-file "private.org") 
+                                (locate-user-emacs-file "private.el"))
+        (org-babel-load-file (locate-user-emacs-file "private.org"))
+      (load-file (locate-user-emacs-file "private.el")))))
