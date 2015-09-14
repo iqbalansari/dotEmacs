@@ -39,6 +39,7 @@
         (helm-exit-minibuffer)))
 
     (with-eval-after-load 'helm-files
+      (define-key helm-read-file-map (kbd "RET") 'iqbal-helm-ff-find-file-or-expand)
       (define-key helm-find-files-map (kbd "RET") 'iqbal-helm-ff-find-file-or-expand))
   #+END_SRC
 
@@ -52,6 +53,7 @@
          (call-interactively #'helm-ff-delete-char-backward)))
 
      (with-eval-after-load 'helm-files
+       (define-key helm-read-file-map (kbd "<backspace>") 'iqbal-helm-ff-backward-char-or-updir)
        (define-key helm-find-files-map (kbd "<backspace>") 'iqbal-helm-ff-backward-char-or-updir))
    #+END_SRC
 
