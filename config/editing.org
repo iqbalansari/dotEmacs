@@ -4,7 +4,7 @@
       '(undo-tree
         browse-kill-ring
         multiple-cursors
-        tiny
+        ws-butler
         expand-region
         hungry-delete
         zop-to-char
@@ -110,36 +110,37 @@
   #+END_SRC
 
 
+* Enable ws-butler
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'after-init-hook 'ws-butler-global-mode)
+  #+END_SRC
+
+
 * Command to copy/cut current line if no region is selected, if rectangle is selected use it
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-mark-lines(arg)
+    (defun iqbal-mark-lines (arg)
       (back-to-indentation)
       (set-mark-command nil)
       (move-end-of-line arg))
 
-    (defun copy-line-or-region (arg)
+    (defun iqbal-copy-line-or-region (arg)
       "Copy current line, or current text selection."
       (interactive "p")
-      (cond ((and (boundp 'cua--rectangle) cua--rectangle)
-             (progn (call-interactively 'cua-copy-rectangle)
-                    (message "Copied rectangle")))
-            ((region-active-p)
-             (progn (call-interactively 'kill-ring-save)
-                    (indicate-copied-region)))
-            (t (let ((cur-pos (point)))
+      (cond ((bound-and-true-p cua--rectangle) (progn (call-interactively 'cua-copy-rectangle)
+                                                      (message "Copied rectangle")))
+            ((region-active-p) (progn (call-interactively 'kill-ring-save)
+                                      (indicate-copied-region)))
+            (t (save-excursion
                  (iqbal-mark-lines arg)
                  (call-interactively 'kill-ring-save)
                  (deactivate-mark t)
-                 (goto-char cur-pos)
-                 (message (concat "Saved "
-                                  (number-to-string arg)
-                                  " line(s) to kill ring"))))))
+                 (message (concat "Saved " (number-to-string arg) " line(s) to kill ring"))))))
 
-    (defun cut-line-or-region (arg)
+    (defun iqbal-cut-line-or-region (arg)
       "Cut the current line, or current text selection."
       (interactive "p")
-      (cond ((and (boundp 'cua--rectangle) cua--rectangle) (progn (call-interactively 'cua-cut-rectangle)
-                                                                  (message "Killed rectangle")))
+      (cond ((bound-and-true-p cua--rectangle) (progn (call-interactively 'cua-cut-rectangle)
+                                                      (message "Killed rectangle")))
             ((region-active-p) (progn (call-interactively 'kill-region)
                                       (message "Killed region")))
             (t  (progn (iqbal-mark-lines arg)
@@ -561,8 +562,8 @@
 
 ** Keybindings for DWIM versions of copy/cut versions
    #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "M-w") 'copy-line-or-region)
-     (global-set-key (kbd "C-w") 'cut-line-or-region)
+     (global-set-key (kbd "M-w") 'iqbal-copy-line-or-region)
+     (global-set-key (kbd "C-w") 'iqbal-cut-line-or-region)
    #+END_SRC
 
 ** Keybinding to duplicate current line or region
@@ -611,12 +612,6 @@
 
      (add-hook 'multiple-cursors-mode-hook #'iqbal-additional-mc-keybindings)
    #+END_SRC
-
-** Keybindings for expanding tiny expressions
-  #+BEGIN_SRC emacs-lisp
-    (autoload 'tiny-expand "tiny")
-    (global-set-key (kbd "C-:") 'tiny-expand)
-  #+END_SRC
 
 ** Keybindings for browse kill ring
   #+BEGIN_SRC emacs-lisp
