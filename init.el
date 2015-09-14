@@ -39,6 +39,9 @@ your emacs and try again!"))
   (package-refresh-contents)
   (package-install 'org-plus-contrib))
 
+;; Autoload org-babel-tangle-file
+(autoload 'org-babel-tangle-file "ob-tangle" "Extract the bodies of source code blocks in org-mode-file.")
+
 ;; No special handling of files at startup
 ;; Credits: https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
 (let (file-name-handler-alist)

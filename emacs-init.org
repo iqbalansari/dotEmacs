@@ -385,12 +385,12 @@
              (make-directory compiled-file-dest))
 
            (iqbal-write-to-file compiled-file
-                             (loop for file in files
-                                   when (file-exists-p (concat lang-path file ".org"))
-                                   concat (iqbal-read-file (car (org-babel-tangle-file
-                                                              (concat lang-path file ".org")
-                                                              (concat compiled-file-dest file ".el")
-                                                              "emacs-lisp")))))
+                                (loop for file in files
+                                      when (file-exists-p (concat lang-path file ".org"))
+                                      concat (iqbal-read-file (car (org-babel-tangle-file
+                                                                    (concat lang-path file ".org")
+                                                                    (concat compiled-file-dest file ".el")
+                                                                    "emacs-lisp")))))
            (byte-compile-file compiled-file))))
 
      (defun iqbal-load-lang-config (language)
@@ -401,7 +401,7 @@
 
          (when (file-exists-p lang-path)
            (iqbal-initialize-lang language)
-           
+
            (when (apply #'iqbal-is-file-stale compiled-file
                         (loop for file in files
                               when (file-exists-p (concat lang-path file ".org"))
