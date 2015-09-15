@@ -1,6 +1,6 @@
 * Install bongo
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(bongo volume))
+    (iqbal-install-packages '(bongo volume org-player))
   #+END_SRC
 
 

@@ -1,6 +1,6 @@
 * Install some useful packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-bullets toc-org company-math org-player org-download pcsv notify))
+    (iqbal-install-packages '(org-bullets toc-org company-math org-download pcsv notify))
   #+END_SRC
 
 
