@@ -25,23 +25,48 @@
      (setq helm-completion-in-region-fuzzy-match t)
    #+END_SRC
 
-** Use enter the current directory (if we are at a directory file) or open the file 
-   Inspired by http://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
-   and https://github.com/emacs-helm/helm/issues/776
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-helm-ff-find-file-or-expand ()
-      (interactive)
-      (if (and (file-directory-p (helm-get-selection))
-               (< (length (helm-marked-candidates)) 2)
-               ;; Open a directory if we are '.'
-               (not (string= (file-name-nondirectory (helm-get-selection)) ".")))
-          (helm-execute-persistent-action)
-        (helm-exit-minibuffer)))
+** Use enter the current directory (if we are at a directory file) or open the file
+*** Remap RET in helm-find-file map
+    Inspired by http://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
+    and https://github.com/emacs-helm/helm/issues/776
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-helm-ff-find-file-or-expand ()
+        (interactive)
+        (if (and (file-directory-p (helm-get-selection))
+                 (< (length (helm-marked-candidates)) 2)
+                 ;; Open a directory if we are '.'
+                 (not (string= (file-name-nondirectory (helm-get-selection)) ".")))
+            (helm-execute-persistent-action)
+          (helm-exit-minibuffer)))
 
-    (with-eval-after-load 'helm-files
-      (define-key helm-read-file-map (kbd "RET") 'iqbal-helm-ff-find-file-or-expand)
-      (define-key helm-find-files-map (kbd "RET") 'iqbal-helm-ff-find-file-or-expand))
-  #+END_SRC
+      (with-eval-after-load 'helm-files
+        (define-key helm-find-files-map (kbd "RET") 'iqbal-helm-ff-find-file-or-expand))
+    #+END_SRC
+
+*** TODO Remap RET in helm-read-file-map
+    `helm-read-file-name` is used by helm to replace `read-file-name`. The
+    following makes it consistent with `helm-find-files`. Unfortunately this
+    isn't as simple as adding a keybinding to `helm-read-file-map`, since helm
+    adds an `minor-mode-overriding-map-alist` which binds `RET` to
+    `helm-confirm-and-exit-minibuffer` which takes precedence over the
+    keybindings in `helm-read-file-map`. So we advice the code adding the
+    `minor-mode-overriding-map-alist` entry and add our own overriding entry :).
+
+    Ideally the keybinding added by `helm--maybe-update-keymap` should be
+    customizable, I should report a bug upstream.
+
+    See also [[help:minor-mode-overriding-map-alist][documentation of minor-mode-overriding-map-alist]]
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-helm-read-file-override-RET (orig &rest args)
+        (let* ((results (apply orig args))
+               (helm-overriding-map (cdar minor-mode-overriding-map-alist)))
+          (when minibuffer-completing-file-name
+            (define-key helm-overriding-map (kbd "C-j") #'helm-confirm-and-exit-minibuffer)
+            (define-key helm-overriding-map (kbd "RET") 'iqbal-helm-ff-find-file-or-expand))
+          helm-overriding-map))
+
+      (advice-add 'helm--maybe-update-keymap :around #'iqbal-helm-read-file-override-RET)
+    #+END_SRC
 
 ** Use backspace to either delete current character or go up a directory (if looking at a directory)
    Inspired by https://github.com/syl20bnr/spacemacs/pull/1524
@@ -82,9 +107,8 @@
 * Turn on helm-projectile
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'projectile
-      (helm-projectile-on))
-
-    (setq projectile-switch-project-action #'helm-projectile)
+      (helm-projectile-on)
+      (setq projectile-switch-project-action #'helm-projectile))
   #+END_SRC
 
 
