@@ -87,8 +87,9 @@
 
 ** Associate 'dot' extension with graphviz-dot-mode
   #+BEGIN_SRC emacs-lisp
-    (when (locate-library "graphviz-dot-mode") 
-      (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot)))
+    (with-eval-after-load 'org-src
+      (when (locate-library "graphviz-dot-mode")
+        (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))))
   #+END_SRC
 
 ** Enable org-babel for graphviz
