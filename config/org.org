@@ -43,6 +43,30 @@
   #+END_SRC
 
 
+* org-id configuration
+** Location of file remembering id locations
+   #+BEGIN_SRC emacs-lisp
+     (setq org-id-locations-file (iqbal-get-file-in-data-directory ".org-id-locations"))
+   #+END_SRC
+
+** Use org-ids for links to org file
+   #+BEGIN_SRC emacs-lisp
+     (setq org-id-link-to-org-use-id t)
+   #+END_SRC
+
+** Command to quickly assign ids to entries in current org-mod buffer
+   Credits: http://stackoverflow.com/a/16247032/5285712
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-add-ids-to-headlines-in-file ()
+       "Add ID properties to all headlines in the current file which
+     do not already have one."
+       (interactive)
+       (if (derived-mode-p 'org-mode)
+           (org-map-entries 'org-id-get-create)
+         (user-error "Not in an org-mode buffer")))
+   #+END_SRC
+
+
 * Enable org-ditaa if ditaa is installed
   #+BEGIN_SRC emacs-lisp
     (setq org-ditaa-jar-path (executable-find "ditaa"))
@@ -152,7 +176,7 @@
 
 
 * Automatically mark a task as DONE, when all checkboxes are checked
-  Taken from [[http://orgmode.org/worg/org-hacks.html]]
+  Credits: [[http://orgmode.org/worg/org-hacks.html]]
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'org-list
       (add-hook 'org-checkbox-statistics-hook (function ndk/checkbox-list-complete)))
