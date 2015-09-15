@@ -70,7 +70,8 @@
   #+END_SRC
 
 
-* Custom projectile-completion taken from [[https://gist.github.com/rejeep/5933343]]
+* Custom projectile-completion
+  Credits: [[https://gist.github.com/rejeep/5933343]]
    #+BEGIN_SRC emacs-lisp
      (defun rejeep-projectile-completion-fn (prompt choises)
        "Projectile completion function that only shows file name.

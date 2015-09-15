@@ -18,7 +18,7 @@
 
 
 * Open a file using sudo
-  These were taken from [[https://github.com/fniessen/emacs-leuven][emacs-leuven]]
+  Credits: [[https://github.com/fniessen/emacs-leuven][emacs-leuven]]
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-find-file-sudo-header-warning ()
       "*Display a warning in header line of the current buffer."
@@ -71,7 +71,8 @@
   #+END_SRC
 
 
-* Function to rename current buffer and associated file taken from [[http://whattheemacsd.com/file-defuns.el-01.html][whattheemacsd]].
+* Function to rename current buffer and associated file
+  Credits: [[http://whattheemacsd.com/file-defuns.el-01.html][whattheemacsd]].
   #+BEGIN_SRC emacs-lisp
     (defun rename-current-buffer-file ()
       "Renames current buffer and file it is visiting."

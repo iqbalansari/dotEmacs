@@ -17,7 +17,7 @@
 
 
 * Use findstr on windows
-  Taken from [[https://github.com/npostavs/emacs.d]]
+  Credits: [[https://github.com/npostavs/emacs.d]]
   #+BEGIN_SRC emacs-lisp
     (when (and (eq system-type 'windows-nt)
                (not (executable-find "grep")))
@@ -102,8 +102,8 @@
    #+END_SRC
 
 
-* Show all lines matching REGEXP in buffers with this major mode. Taken from
-  [[http://www.masteringemacs.org/articles/2011/07/20/searching-buffers-occur-mode/][mastering-emacs]]
+* Show all lines matching REGEXP in buffers with this major mode.
+  Credits: [[http://www.masteringemacs.org/articles/2011/07/20/searching-buffers-occur-mode/][mastering-emacs]]
   #+BEGIN_SRC emacs-lisp
     ;; Get lines matching REGEXP in all buffers with this major mode
     (defun get-buffers-matching-mode (mode)
@@ -124,7 +124,8 @@
   #+END_SRC
 
 
-* Replace words in parallel taken from [[http://stackoverflow.com/questions/2588277/how-can-i-swap-or-replace-multiple-strings-in-code-at-the-same-time][stackoverflow]]
+* Replace words in parallel
+  Credits: [[http://stackoverflow.com/questions/2588277/how-can-i-swap-or-replace-multiple-strings-in-code-at-the-same-time][stackoverflow]]
   #+BEGIN_SRC emacs-lisp
     (defun parallel-query-replace (plist &optional delimited start end)
       "Replace every occurrence of the (2n)th token of PLIST in

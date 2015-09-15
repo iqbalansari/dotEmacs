@@ -183,7 +183,7 @@
 
 
 * Unfold all headlines for an org file in ediff mode
-  Taken from [[http://orgmode.org/worg/org-hacks.html]]
+  Credits: [[http://orgmode.org/worg/org-hacks.html]]
   #+BEGIN_SRC emacs-lisp
     (add-hook 'ediff-select-hook 'f-ediff-org-unfold-tree-element)
     (add-hook 'ediff-unselect-hook 'f-ediff-org-fold-tree)

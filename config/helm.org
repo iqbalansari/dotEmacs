@@ -156,7 +156,7 @@
 
 
 * Echo input in header line
-  Taken from http://www.reddit.com/r/emacs/comments/3asbyn/new_and_very_useful_helm_feature_enter_search/
+  Credits: http://www.reddit.com/r/emacs/comments/3asbyn/new_and_very_useful_helm_feature_enter_search/
   #+BEGIN_SRC emacs-lisp
     (when (display-graphic-p)
       (setq helm-echo-input-in-header-line t

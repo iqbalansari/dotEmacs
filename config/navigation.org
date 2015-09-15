@@ -110,7 +110,7 @@
 
 
 * When popping the mark, continue popping until the cursor actually moves
-  Taken from [[https://github.com/magnars/.emacs.d]]
+  Credits: [[https://github.com/magnars/.emacs.d]]
   #+BEGIN_SRC emacs-lisp
     (defadvice pop-to-mark-command (around ensure-new-position activate)
       (let ((p (point)))

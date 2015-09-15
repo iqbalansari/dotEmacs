@@ -73,8 +73,8 @@
   #+END_SRC
 
 
-* Configuration for using tab for autocompletion taken from [[https://github.com/purcell/emacs.d][Steve Purcell's config]]
-  Trigger autocompletion using <tab>
+* Configuration for using tab for autocompletion
+  Credits: [[https://github.com/purcell/emacs.d][Steve Purcell's config]]
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-auto-complete-at-point ()
       (when (and (not (minibufferp))

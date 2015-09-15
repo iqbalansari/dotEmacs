@@ -39,7 +39,7 @@
 
 
 * Clear comint based REPL
-  Taken from [[http://emacsredux.com/blog/2015/01/18/clear-comint-buffers/]]
+  Credits: [[http://emacsredux.com/blog/2015/01/18/clear-comint-buffers/]]
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-comint-clear-buffer ()
       (interactive)
@@ -52,7 +52,7 @@
 
 
 * Remembering comint history across sessions
-  Taken from [[https://oleksandrmanzyuk.wordpress.com/2011/10/23/a-persistent-command-history-in-emacs/]]
+  Credits: [[https://oleksandrmanzyuk.wordpress.com/2011/10/23/a-persistent-command-history-in-emacs/]]
 ** Directory where comint history will be stored
   #+BEGIN_SRC emacs-lisp
     (defvar comint-history-dir (locate-user-emacs-file "comint-history"))

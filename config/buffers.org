@@ -67,7 +67,7 @@
 
 
 * DWIM version of narrow commands
-  Taken from [[http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html]]
+  Credits: [[http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html]]
   #+BEGIN_SRC emacs-lisp
     (defun narrow-or-widen-dwim (p)
       "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.

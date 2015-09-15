@@ -316,7 +316,8 @@
   #+END_SRC
 
 
-* Auto-indent on yanked text taken from [[http://www.emacswiki.org/emacs/AutoIndentation#toc3][emacswiki]]
+* Auto-indent on yanked text
+  Credits: [[http://www.emacswiki.org/emacs/AutoIndentation#toc3][emacswiki]]
   #+BEGIN_SRC emacs-lisp
     (dolist (command '(yank yank-pop))
        (eval `(defadvice ,command (after indent-region activate)

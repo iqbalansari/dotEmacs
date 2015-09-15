@@ -87,7 +87,7 @@
     (defun make-capture-frame ()
       "Create a new frame and run org-capture. Useful for calling from
     an external program, using emacsclient eg. xmonad 
-    CREDITS: Alexander Vorobiev
+    Credits: Alexander Vorobiev
     http://lists.gnu.org/archive/html/emacs-orgmode/2013-10/msg00150.html and
     http://www.glassberg-powell.com/blog/20140709/emacs-org-mode-capture-anywhere"
       (interactive)
