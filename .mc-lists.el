@@ -45,6 +45,7 @@
         iqbal-beginning-of-line-or-indent
         iqbal-capitalize-dwim
         iqbal-copy-line-or-region
+        iqbal-cut-line-or-region
         iqbal-downcase-dwim
         iqbal-dwim-org-table-blank-field
         iqbal-upcase-dwim
@@ -69,6 +70,7 @@
         org-kill-line
         org-metaleft
         org-metaright
+        org-previous-visible-heading
         org-return-indent
         org-self-insert-command
         org-shiftup

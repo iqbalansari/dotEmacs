@@ -11,7 +11,6 @@
                     (when (executable-find "pkg-config")
                       (zerop (shell-command "pkg-config --exists gmime-2.6")))))
            (progn (iqbal-install-package 'mu4e)
-                  (load "time")
                   (when (and (boundp 'mu4e-maildir)
                              (not (file-exists-p mu4e-maildir)))
                     (warn "Please set `mu4e-maildir' to your maildir")))
@@ -396,6 +395,7 @@
                  (propertize
                   "Mail"
                   'display (when (display-graphic-p)
+                             (load "time")
                              display-time-mail-icon)
                   'face display-time-mail-face
                   'help-echo (concat (if (= unread-mail-count 1)

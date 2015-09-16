@@ -253,9 +253,8 @@
     context of org-capture buffer, not the buffer where org-capture was invoked
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-url-at-point ()
-        (require 'thingatpt)
-        (save-window-excursion
-          (switch-to-buffer (plist-get org-capture-plist :original-buffer))
+        (load "thingatpt")
+        (with-current-buffer (org-capture-get :original-buffer)
           (thing-at-point-url-at-point)))
     #+END_SRC
 
@@ -274,8 +273,7 @@
 *** Get current url of w3m-buffer
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-w3m-url ()
-        (save-window-excursion
-          (switch-to-buffer (plist-get org-capture-plist :original-buffer))
+        (with-current-buffer (org-capture-get :original-buffer)
           (when (equal major-mode 'w3m-mode)
             (or (get-text-property (point) 'w3m-href-anchor)
                 w3m-current-url))))
@@ -296,9 +294,8 @@
     org-capture buffer, not the buffer where org-capture was invoked
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-source-buffers-mode ()
-          (save-window-excursion
-            (switch-to-buffer (plist-get org-capture-plist :original-buffer))
-            (substring (symbol-name major-mode) 0 -5)))
+        (with-current-buffer (org-capture-get :original-buffer)
+          (substring (symbol-name major-mode) 0 -5)))
     #+END_SRC
 
 *** Read date from user using calender widget and convert it to format diary can understand
@@ -334,8 +331,7 @@
 *** Get the projectile project of the buffer from which capture was invoked
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-source-buffers-project ()
-        (save-window-excursion
-          (switch-to-buffer (plist-get org-capture-plist :original-buffer))
+        (with-current-buffer (org-capture-get :original-buffer)
           (projectile-project-name)))
     #+END_SRC
 
@@ -363,8 +359,7 @@
           (buffer-string)))
 
       (defun iqbal-get-source-buffers-region-and-link ()
-        (save-window-excursion
-          (switch-to-buffer (plist-get org-capture-plist :original-buffer))
+        (with-current-buffer (org-capture-get :original-buffer)
           (let ((fill-prefix "  "))
             (iqbal-indent-text (concat (when (region-active-p)
                                          (concat "#+begin_quote\n"
@@ -428,7 +423,7 @@
                                                 (list 'file+headline
                                                       (expand-file-name "links.org" iqbal-notes-dir)
                                                       "To read")
-                                                "* UNREAD %?\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
+                                                "* UNREAD %?\n  :PROPERTIES:\n  :ID:       %(iqbal-get-url-at-point-or-from-clipboard)\n  :END:\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
     #+END_SRC
 
