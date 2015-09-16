@@ -362,7 +362,7 @@
    keymap property of the overlay
 
    #+BEGIN_SRC emacs-lisp
-     (load "pos-tip")
+     (require 'pos-tip)
      (defun iqbal--display-folded-content (window ov pos)
        (pos-tip-show (buffer-substring (overlay-start ov)
                                                 (overlay-end ov)))
@@ -433,9 +433,9 @@
 ** Load mc-cycle-cursors and mc-hide-unmatched-lines-mode for extra functionality
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'multiple-cursors-core
-       (load "mc-mark-more")
-       (load "mc-hide-unmatched-lines-mode")
-       (load "mc-cycle-cursors"))
+       (require 'mc-mark-more)
+       (require 'mc-hide-unmatched-lines-mode)
+       (require 'mc-cycle-cursors))
    #+END_SRC
 
 ** Location for mc/list-file

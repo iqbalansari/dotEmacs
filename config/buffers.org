@@ -6,7 +6,7 @@
 
 * Create unique names for same named buffers
   #+BEGIN_SRC emacs-lisp
-    (load "uniquify")
+    (require 'uniquify)
     (setq uniquify-buffer-name-style 'forward)
   #+END_SRC
 

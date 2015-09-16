@@ -13,7 +13,7 @@
 ** Projectile requires 'vc-git' for 'git-grep'
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'projectile
-       (load "vc-git"))
+       (require 'vc-git))
    #+END_SRC
 
 

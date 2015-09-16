@@ -194,7 +194,7 @@
 * Configurations for org-agenda
 ** Enable org-habits
    #+BEGIN_SRC emacs-lisp
-     (load "org-habit")
+     (require 'org-habit)
    #+END_SRC
 
 ** Directory for agenda files
@@ -253,7 +253,7 @@
     context of org-capture buffer, not the buffer where org-capture was invoked
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-url-at-point ()
-        (load "thingatpt")
+        (require 'thingatpt)
         (with-current-buffer (org-capture-get :original-buffer)
           (thing-at-point-url-at-point)))
     #+END_SRC
@@ -505,7 +505,7 @@
 *** Template for project specific TODOs
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-enable-org-projectile ()
-        (load "org-projectile")
+        (require 'org-projectile)
         (add-to-list 'org-capture-templates 
                      (org-projectile:project-todo-entry "p" "* TODO %? :%(iqbal-get-source-buffers-project):\n%a\n")))
 

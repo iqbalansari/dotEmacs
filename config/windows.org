@@ -22,7 +22,7 @@
 ** Enable popwin
   #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'popwin)
-    (load "popwin")
+    (require 'popwin)
     (popwin-mode 1)
   #+END_SRC
 

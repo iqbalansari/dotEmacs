@@ -46,7 +46,7 @@
 * Extra configuration for some modes
 ** Load smartparens config for extra configuration
   #+BEGIN_SRC emacs-lisp
-    (load "smartparens-config")
+    (require 'smartparens-config)
   #+END_SRC
 
 ** Enable strict mode in all lispy modes

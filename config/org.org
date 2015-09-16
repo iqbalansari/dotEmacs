@@ -54,7 +54,7 @@
      ;; Make sure org-id is loaded before org-store-link is invoked
      (defun iqbal-org-load-org-id-maybe (&rest ignored)
        (unless (featurep 'org-id)
-         (load "org-id")))
+         (require 'org-id)))
 
      (advice-add 'org-store-link :before #'iqbal-org-load-org-id-maybe)
 

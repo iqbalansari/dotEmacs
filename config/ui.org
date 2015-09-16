@@ -157,7 +157,7 @@
 
 * Temporarily highlight yanks and undos
   #+BEGIN_SRC emacs-lisp
-    (load "volatile-highlights")
+    (require 'volatile-highlights)
     (volatile-highlights-mode 1)
   #+END_SRC
 
@@ -253,7 +253,7 @@
 * Flash the currently executed sexp
 ** Load eval-sexp-fu
   #+BEGIN_SRC emacs-lisp
-    (load "eval-sexp-fu")
+    (require 'eval-sexp-fu)
   #+END_SRC
 
 ** Custom colors
@@ -296,7 +296,7 @@
 * Diminsh some minor modes
   #+BEGIN_SRC emacs-lisp
     ;; Apparently package.el fails to autoload this sometimes
-    (load "diminish")
+    (require 'diminish)
 
     (diminish 'visual-line-mode)
     (with-eval-after-load 'yasnippet (diminish 'yas-minor-mode))

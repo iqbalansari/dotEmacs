@@ -38,7 +38,7 @@
 * Hide details in dired-mode
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-dired-hide-details ()
-      (load "dired-details")
+      (require 'dired-details)
       (dired-details-install))
 
     (setq dired-details-hidden-string "[...] ")
@@ -80,7 +80,7 @@
 * Load dired-x for additional functionality
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-load-dired-x ()
-      (load "dired-x"))
+      (require 'dired-x))
 
     (add-hook 'dired-mode-hook #'iqbal-load-dired-x)
   #+END_SRC
@@ -116,7 +116,7 @@
 ** Keybinding for filtering
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-dired-load-dired-filter ()
-      (load "dired-filter"))
+      (require 'dired-filter))
 
     (with-eval-after-load 'dired
       (define-key dired-mode-map "/" dired-filter-mark-map))

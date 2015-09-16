@@ -42,7 +42,7 @@
 
 * Start emacs-server
   #+BEGIN_SRC emacs-lisp
-    (load "server")
+    (require 'server)
     (unless (server-running-p)
       (server-start))
   #+END_SRC

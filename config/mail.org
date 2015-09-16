@@ -395,7 +395,7 @@
                  (propertize
                   "Mail"
                   'display (when (display-graphic-p)
-                             (load "time")
+                             (require 'time)
                              display-time-mail-icon)
                   'face display-time-mail-face
                   'help-echo (concat (if (= unread-mail-count 1)
@@ -525,7 +525,7 @@
 
 ** Load org-mu4e on loading mu4e
    #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'mu4e (load "org-mu4e" t))
+     (with-eval-after-load 'mu4e (require 'org-mu4e nil t))
    #+END_SRC
 
 
