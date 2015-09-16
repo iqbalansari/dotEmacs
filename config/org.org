@@ -51,7 +51,14 @@
 
 ** Use org-ids for links to org file
    #+BEGIN_SRC emacs-lisp
-     (setq org-id-link-to-org-use-id t)
+     ;; Make sure org-id is loaded before org-store-link is invoked
+     (defun iqbal-org-load-org-id-maybe (&rest ignored)
+       (unless (featurep 'org-id)
+         (load "org-id")))
+
+     (advice-add 'org-store-link :before #'iqbal-org-load-org-id-maybe)
+
+     (setq org-id-link-to-org-use-id 'use-existing)
    #+END_SRC
 
 ** Command to quickly assign ids to entries in current org-mod buffer
