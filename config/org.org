@@ -289,3 +289,29 @@
   #+BEGIN_SRC emacs-lisp
     (org-defkey org-mode-map iqbal-expand-snippet nil)
   #+END_SRC
+
+
+* Use M-n and M-p to change priority in org-mode
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'org
+      (org-defkey org-mode-map (kbd "M-p") #'org-priority-up)
+      (org-defkey org-mode-map (kbd "M-n") #'org-priority-down))
+ #+END_SRC
+
+
+* DWIM binding for C-c SPC in org-mode
+  Since org-mode binds `C-c SPC` to the command `org-table-blank-field` (which
+  is useful only if point is in a table) the ace-jump-mode's binding is
+  overshadowed, the following sets the keybinding to a DWIM version which calls
+  ace-jump-mode unless the point is inside a table
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-dwim-org-table-blank-field ()
+      (interactive)
+      (call-interactively (if (and (not current-prefix-arg)
+                                   (org-at-table-p))
+                              #'org-table-blank-field
+                            (global-key-binding (kbd "C-c SPC")))))
+
+    (with-eval-after-load 'org
+      (org-defkey org-mode-map (kbd "C-c SPC") #'iqbal-dwim-org-table-blank-field))
+  #+END_SRC

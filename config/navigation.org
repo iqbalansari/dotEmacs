@@ -27,23 +27,6 @@
      (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
    #+END_SRC
 
-** DWIM version C-c SPC for org-mode
-  Since org-mode binds `C-c SPC` to the command `org-table-blank-field` (which
-  is useful only if point is in a table) the ace-jump-mode's binding is
-  overshadowed, the following sets the keybinding to a DWIM version which calls
-  ace-jump-mode unless the point is inside a table
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-dwim-org-table-blank-field ()
-      (interactive)
-      (call-interactively (if (and (not current-prefix-arg)
-                                   (org-at-table-p))
-                              #'org-table-blank-field
-                            #'ace-jump-mode)))
-
-    (with-eval-after-load 'org
-      (org-defkey org-mode-map (kbd "C-c SPC") #'iqbal-dwim-org-table-blank-field))
-  #+END_SRC
-
 
 * Push mark before jumping to last change
   #+BEGIN_SRC emacs-lisp
