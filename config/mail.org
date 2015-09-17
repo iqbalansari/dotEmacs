@@ -601,16 +601,24 @@
      (defvar iqbal-pre-mu-win-config nil)
      (defvar iqbal-mu-win-config nil)
 
-     (defun iqbal--start-mu4e ()
-       ;; If mu4e is running and a mu4e window configuration is
-       ;; stored
-       (if (and iqbal-mu-win-config
-                (mu4e-running-p))
-           (set-window-configuration iqbal-mu-win-config)
-         (call-interactively #'mu4e)))
+     (defun iqbal-switch-to-window-conf-or-fallback (wconf fallback &rest args)
+       (let ((pre-wconf (current-window-configuration)))
+         (set-window-configuration wconf)
+         (when (compare-window-configurations (current-window-configuration) pre-wconf)
+           ;; if the windows didn't change then most probably the window
+           ;; configuration given was invalid, fallback
+           (apply fallback args))))
 
      (defun iqbal-start-mu4e ()
        (interactive)
+
+       (defun iqbal--start-mu4e ()
+         ;; If mu4e is running and a mu4e window configuration is
+         ;; stored
+         (if iqbal-mu-win-config
+             (iqbal-switch-to-window-conf-or-fallback iqbal-mu-win-config #'mu4e)
+           (call-interactively #'mu4e)))
+
        (setq iqbal-pre-mu-win-config (current-window-configuration))
 
        (if (locate-library "mu4e")
@@ -620,6 +628,7 @@
      (defun iqbal-hide-mu4e ()
        (interactive)
        (setq iqbal-mu-win-config (current-window-configuration))
+
        (when iqbal-pre-mu-win-config
          (set-window-configuration iqbal-pre-mu-win-config)))
    #+END_SRC
