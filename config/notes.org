@@ -10,6 +10,12 @@
   #+END_SRC
 
 
+* Disable deft autosave
+  #+BEGIN_SRC emacs-lisp
+    (setq deft-auto-save-interval 0)
+  #+END_SRC
+
+
 * Path to notes directory
  #+BEGIN_SRC emacs-lisp
    (setq deft-directory (iqbal-get-file-in-data-directory "notes" t))
