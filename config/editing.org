@@ -162,11 +162,11 @@
           (lexical-let ((beg (region-beginning))
                 (end (region-end)))
             (duplicate-region arg beg end)
-            (one-shot-keybinding "d" (lambda ()
+            (iqbal-one-shot-keybinding "d" (lambda ()
                                        (interactive)
                                        (duplicate-region 1 beg end))))
         (duplicate-current-line arg)
-        (one-shot-keybinding "d" 'duplicate-current-line)))
+        (iqbal-one-shot-keybinding "d" 'duplicate-current-line)))
 
     (defun duplicate-region (&optional num start end)
       "Duplicates the region bounded by START and END NUM times.
@@ -502,25 +502,6 @@
       (untabify (point-min) (point-max))
       (delete-trailing-whitespace)
       (set-buffer-file-coding-system 'utf-8))
-  #+END_SRC
-
-
-* Convert buffer from DOS end-of-lines to Unix end-of-lines and vice versa
-  #+BEGIN_SRC emacs-lisp
-    (defun dos-to-unix ()
-      "Cut all visible ^M from the current buffer."
-      (interactive)
-      (save-excursion
-        (goto-char (point-min))
-        (while (search-forward "\r" nil t)
-          (replace-match ""))))
-
-    (defun unix-to-dos ()
-      (interactive)
-      (save-excursion
-        (goto-char (point-min))
-        (while (search-forward "\n" nil t)
-          (replace-match "\r\n"))))
   #+END_SRC
 
 

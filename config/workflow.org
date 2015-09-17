@@ -337,27 +337,6 @@
 
 *** Get active region in previous buffer as quote and org link to it
     #+BEGIN_SRC emacs-lisp
-      (defun iqbal-justify-paragraph-text (text)
-        (with-temp-buffer
-          (insert text)
-          (mark-whole-buffer)
-          (fill-paragraph nil t)
-          (buffer-string)))
-
-      (defun iqbal-indent-text (text &optional indent)
-        (with-temp-buffer
-          (insert text)
-          (indent-region (point-min) (point-max) indent)
-          (buffer-string)))
-
-      (defun iqbal-fix-newlines (text)
-        (with-temp-buffer
-          (insert (replace-regexp-in-string "\n"
-                                            "\n\n"
-                                            (replace-regexp-in-string "\\(\n\\)[^\n]" " " text nil nil 1)))
-          (delete-trailing-whitespace)
-          (buffer-string)))
-
       (defun iqbal-get-source-buffers-region-and-link ()
         (with-current-buffer (org-capture-get :original-buffer)
           (let ((fill-prefix "  "))

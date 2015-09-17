@@ -33,24 +33,79 @@
    #+END_SRC
 
 ** Helper functions to read/write from/to file
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-read-file (path)
-       (with-temp-buffer
-         (insert-file-contents-literally path)
-         (buffer-substring-no-properties (point-min) (point-max))))
+*** Reading from a file
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-read-file (path)
+        (with-temp-buffer
+          (insert-file-contents-literally path)
+          (buffer-substring-no-properties (point-min) (point-max))))
+    #+END_SRC
 
-     (defun iqbal-write-to-file (file data)
-       (with-temp-file file
-         (erase-buffer)
-         (insert data)))
-   #+END_SRC
+*** Writing to a file
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-write-to-file (file data)
+        (with-temp-file file
+          (erase-buffer)
+          (insert data)))
+    #+END_SRC
+
+** Helper functions for text manipulation
+*** Functions/commands to convert from dos to unix line-endings and vice versa
+    Credits: I think I copied these from emacswiki
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-dos-to-unix ()
+        "Cut all visible ^M from the current buffer."
+        (interactive)
+        (save-excursion
+          (goto-char (point-min))
+          (while (search-forward "\r" nil t)
+            (replace-match ""))))
+
+      (defun iqbal-unix-to-dos ()
+        (interactive)
+        (save-excursion
+          (goto-char (point-min))
+          (while (search-forward "\n" nil t)
+            (replace-match "\r\n"))))
+    #+END_SRC
+
+*** Function to justify given text
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-justify-paragraph-text (text)
+        (with-temp-buffer
+          (insert text)
+          (mark-whole-buffer)
+          (fill-paragraph nil t)
+          (buffer-string)))
+    #+END_SRC
+
+*** Function to indent given text
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-indent-text (text &optional indent)
+        (with-temp-buffer
+          (insert text)
+          (indent-region (point-min) (point-max) indent)
+          (buffer-string)))
+    #+END_SRC
+
+*** Function to cleanup the newlines in given text
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-fix-newlines (text)
+        (with-temp-buffer
+          (insert (replace-regexp-in-string "\n"
+                                            "\n\n"
+                                            (replace-regexp-in-string "\\(\n\\)[^\n]" " " text nil nil 1)))
+          (delete-trailing-whitespace)
+          (buffer-string)))
+    #+END_SRC
 
 ** Function to declare one-shot keybindings
     These bindings active only after a particular command and are
     deactivated as soon as some other key is pressed (as in 'C-x e'
-    and 'e'). Borrowed from [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
+    and 'e').
+    Credits: [[https://github.com/magnars/.emacs.d][Magnar Sveen's .emacs.d]]
     #+BEGIN_SRC emacs-lisp
-      (defun one-shot-keybinding (key command)
+      (defun iqbal-one-shot-keybinding (key command)
         (set-temporary-overlay-map
          (let ((map (make-sparse-keymap)))
            (define-key map (kbd key) command)
