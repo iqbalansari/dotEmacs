@@ -423,7 +423,7 @@
                                                 (list 'file+headline
                                                       (expand-file-name "links.org" iqbal-notes-dir)
                                                       "To read")
-                                                "* UNREAD %?\n  :PROPERTIES:\n  :ID:       %(iqbal-get-url-at-point-or-from-clipboard)\n  :END:\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
+                                                "* UNREAD %?\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
     #+END_SRC
 
@@ -531,9 +531,30 @@
     #+END_SRC
 
 
-* Add id to each captured item
+* Check captured links for duplicates
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'org-capture-prepare-finalize-hook 'org-id-get-create)
+    (defun iqbal-org-check-captured-link-dup ()
+      "For link captures check that we are not capturing an already captured link"
+      (when (string= (org-capture-get :key) "l")
+        (let ((link (car (org-offer-links-in-entry (current-buffer) (point) 1))))
+          (when (org-id-find link)
+            (let ((user-input (condition-case error
+                                  (read-char-choice "This link has been captured already, [a] abort the capture, [j] abort capture and jump to the existing entry, [c] continue capturing: "
+                                                    '(?a ?j ?c))
+                                ((error quit) nil))))
+              (when (memq user-input '(?a ?j))
+                ;; org-capture-kill looks for local value of org-capture-plist but is
+                ;; set after this hook is run, so set it locally in current buffer.
+                ;; Should not cause any issues since this buffer is going to be killed
+                ;; anyways
+                (org-set-local 'org-capture-current-plist org-capture-plist)
+                (org-capture-kill)
+                (ignore-errors
+                  (when (eq user-input ?j)
+                    (org-id-goto link)
+                    (run-hooks 'iqbal-org-link-capture-aborted-and-jumped)))))))))
+
+    (add-hook 'org-capture-mode-hook #'iqbal-org-check-captured-link-dup)
   #+END_SRC
 
 
