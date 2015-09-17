@@ -18,7 +18,9 @@
              (scratch-buffer-name (concat "*scratch ["
                                           (replace-regexp-in-string "-mode$" ""
                                                                     (symbol-name major-mode-function))
-                                          "]*")))
+                                          "]*"))
+             (selected-text (when (region-active-p)
+                              (buffer-substring (region-beginning) (region-end)))))
         (switch-to-buffer (if (get-buffer scratch-buffer-name)
                               scratch-buffer-name
                             (with-current-buffer (generate-new-buffer scratch-buffer-name)
@@ -27,7 +29,11 @@
                                 (insert "Here is buffer for you to scratch :)\n")
                                 (comment-region (point-min) (point-max)))
                               (goto-char (point-max))
-                              (current-buffer))))))
+                              (current-buffer))))
+        (when selected-text
+          (goto-char (point-max))
+          (newline)
+          (insert selected-text))))
 
 
     (defun iqbal-get-all-major-modes-names ()
