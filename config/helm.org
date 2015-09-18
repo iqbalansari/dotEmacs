@@ -1,6 +1,6 @@
 * Install helm packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company wgrep-helm))
+    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company helm-mu wgrep-helm))
 
     (when (executable-find "ag")
       (iqbal-install-package 'helm-ag))
@@ -153,6 +153,18 @@
    #+BEGIN_SRC emacs-lisp
      (setq helm-multi-files-toggle-locate-binding "C-c C-l")
    #+END_SRC
+
+
+* Attach files from helm-file-files
+  Credits: https://www.reddit.com/r/emacs/comments/3l3ukg/mu4e_and_helm_attachments/cv33w9b
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'mu4e
+      (add-to-list 'helm-find-files-actions
+                   '("Attach files for mu4e" . helm-mu4e-attach) t)
+
+      (defun iqbal-helm-mu4e-attach (_file)
+        (gnus-dired-attach (helm-marked-candidates))))
+  #+END_SRC
 
 
 * Echo input in header line

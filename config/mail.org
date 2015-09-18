@@ -305,8 +305,9 @@
       (defun iqbal-make-appt-from-parsed-ical-data (data source)
         (with-current-buffer (find-file-noselect (iqbal-get-file-in-data-directory "agenda/appt.org"))
           (goto-char (point-max))
+          (newline)
           (delete-blank-lines)
-          (insert (format "\n* TODO %s\n\n%s\n"
+          (insert (format "* TODO %s\n\n%s\n"
                           (plist-get data :summary)
                           (iqbal-indent-text (plist-get data :description) 2)
                           source))

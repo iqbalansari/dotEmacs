@@ -32,11 +32,18 @@
          (setq ad-return-value nil)))
    #+END_SRC
 
+** Additional locals to save
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'desktop
+       (add-to-list 'desktop-locals-to-save 'sql-product))
+   #+END_SRC
+
 ** Do not save encrypted files, message mode files
    #+BEGIN_SRC emacs-lisp
      (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\|\.gpg$\\|,S$\\|,DS\\)")
      (add-to-list 'desktop-modes-not-to-save 'message-mode)
    #+END_SRC
+
 
 
 * Save minibuffer history across sessions
