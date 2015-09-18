@@ -179,54 +179,20 @@
    #+END_SRC
 
 
-* Keybinding to save edits in org-src mode
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'org-src
-      (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
-  #+END_SRC
-
-
-* Use org speed commands
-  #+BEGIN_SRC emacs-lisp
-    (setq org-use-speed-commands t)
-  #+END_SRC
-
-
 * Throw error if editing invisible regions
   #+BEGIN_SRC emacs-lisp
     (setq org-catch-invisible-edits 'show-and-error)
   #+END_SRC
 
 
-* Automatically mark a task as DONE, when all checkboxes are checked
-  Credits: [[http://orgmode.org/worg/org-hacks.html]]
+* Unfold headline when jumping to a point in org buffer
   #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'org-list
-      (add-hook 'org-checkbox-statistics-hook (function ndk/checkbox-list-complete)))
+    (defun iqbal-org-reveal-maybe ()
+      (when (eq major-mode 'org-mode)
+        (org-reveal)))
 
-    (defun ndk/checkbox-list-complete ()
-      (save-excursion
-        (org-back-to-heading t)
-        (let ((beg (point))
-              (current-state (org-get-todo-state))
-              end)
-          (end-of-line)
-          (setq end (point))
-          (goto-char beg)
-          (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]" end t)
-              (if (match-end 1)
-                  (if (equal (match-string 1) "100%")
-                      ;; all done - do the state change
-                      (org-todo 'done)
-                    (when (and current-state
-                               (string= current-state "DONE"))
-                      (org-todo 'todo)))
-                (if (and (> (match-end 2) (match-beginning 2))
-                         (equal (match-string 2) (match-string 3)))
-                    (org-todo 'done)
-                  (when (and current-state
-                             (string= current-state "DONE"))
-                    (org-todo 'todo))))))))
+    (add-hook 'next-error-hook #'iqbal-org-reveal-maybe)
+    (add-hook 'occur-mode-find-occurrence-hook #'iqbal-org-reveal-maybe)
   #+END_SRC
 
 
@@ -272,9 +238,21 @@
   #+END_SRC
 
 
+* Use org speed commands
+  #+BEGIN_SRC emacs-lisp
+    (setq org-use-speed-commands t)
+  #+END_SRC
+
+
 * Make `C-c RET` keybinding consistent with rest of emacs (open link at point)
   #+BEGIN_SRC emacs-lisp
     (org-defkey org-mode-map iqbal-open-link #'org-open-at-point)
+  #+END_SRC
+
+
+* Free up keybindings for expanding snippets
+  #+BEGIN_SRC emacs-lisp
+    (org-defkey org-mode-map iqbal-expand-snippet nil)
   #+END_SRC
 
 
@@ -285,9 +263,10 @@
   #+END_SRC
 
 
-* Free up keybindings for expanding snippets
+* Keybinding to save edits in org-src mode
   #+BEGIN_SRC emacs-lisp
-    (org-defkey org-mode-map iqbal-expand-snippet nil)
+    (with-eval-after-load 'org-src
+      (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
   #+END_SRC
 
 

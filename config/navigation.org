@@ -81,17 +81,6 @@
    #+END_SRC
 
 
-* Unfold headline when jumping to a point in org buffer
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-org-reveal-maybe ()
-      (when (eq major-mode 'org-mode)
-        (org-reveal)))
-
-    (add-hook 'next-error-hook #'iqbal-org-reveal-maybe)
-    (add-hook 'occur-mode-find-occurrence-hook #'iqbal-org-reveal-maybe)
-  #+END_SRC
-
-
 * Always rescan buffers when using imenu
   #+BEGIN_SRC emacs-lisp
     (setq imenu-auto-rescan t)

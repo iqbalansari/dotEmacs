@@ -211,7 +211,7 @@
   #+END_SRC
 
 
-* Helm Imenu configuration
+* Helm imenu configuration
 ** Keybinding to quickly jump to a symbol in buffer
    #+BEGIN_SRC emacs-lisp
      (global-set-key [remap imenu] 'helm-imenu)

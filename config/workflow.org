@@ -42,6 +42,38 @@
    #+END_SRC
 
 
+* Automatically mark a task as DONE, when all checkboxes are checked
+  Credits: [[http://orgmode.org/worg/org-hacks.html]]
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'org-list
+      (add-hook 'org-checkbox-statistics-hook #'ndk/checkbox-list-complete))
+
+    (defun ndk/checkbox-list-complete ()
+      (save-excursion
+        (org-back-to-heading t)
+        (let ((beg (point))
+              (current-state (org-get-todo-state))
+              end)
+          (end-of-line)
+          (setq end (point))
+          (goto-char beg)
+          (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]" end t)
+              (if (match-end 1)
+                  (if (equal (match-string 1) "100%")
+                      ;; all done - do the state change
+                      (org-todo 'done)
+                    (when (and current-state
+                               (string= current-state "DONE"))
+                      (org-todo 'todo)))
+                (if (and (> (match-end 2) (match-beginning 2))
+                         (equal (match-string 2) (match-string 3)))
+                    (org-todo 'done)
+                  (when (and current-state
+                             (string= current-state "DONE"))
+                    (org-todo 'todo))))))))
+  #+END_SRC
+
+
 * Org refile configuration
 ** Allow creating parent nodes while refiling
    #+BEGIN_SRC emacs-lisp
