@@ -66,6 +66,12 @@
   #+END_SRC
 
 
+* Enable pyvenv tracking mode
+  #+BEGIN_SRC emacs-lisp
+    (pyvenv-tracking-mode +1)
+  #+END_SRC
+
+
 * Flash current line after a jump to definition
   #+BEGIN_SRC emacs-lisp
     (when iqbal-jedi-available
