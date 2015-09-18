@@ -443,6 +443,16 @@
      (setq mc/list-file (locate-user-emacs-file ".mc-lists.el"))
    #+END_SRC
 
+** Expand org-mode headline at point after adding the cursor
+   Otherwise the virtual cursors remain invisible making editing difficult
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-mc-org-reveal (&rest ignored)
+       (when (derived-mode-p 'org-mode)
+         (org-reveal)))
+
+     (advice-add 'mc/create-fake-cursor-at-point :after #'iqbal-mc-org-reveal)
+   #+END_SRC
+
 
 * Undo tree setup
 ** Keep the region active when undoing in a region
