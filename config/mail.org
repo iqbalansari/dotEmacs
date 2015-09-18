@@ -138,13 +138,34 @@
   #+END_SRC
 
 
-* Attach files directly from dired
-** Helper functions to attach files
+* Additional ways to attach files
+** Making gnus-dired aware of mu4e
 *** Autoload `gnus-dired-attach`
     #+BEGIN_SRC emacs-lisp
       (autoload 'gnus-dired-attach "gnus-dired")
     #+END_SRC
 
+*** Monkey patch `gnus-dired-mail-buffers' to use mu4e buffers to attach files`
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'mu4e
+
+       ;; Monkey patch gnus-dired to consider mu4e messages
+       (with-eval-after-load 'gnus-dired
+         (defun gnus-dired-mail-buffers ()
+           "Return a list of active message buffers."
+           (let (buffers)
+             (save-current-buffer
+               (dolist (buffer (buffer-list t))
+                 (set-buffer buffer)
+                 (when (and (derived-mode-p 'message-mode)
+                            (null message-sent-message-via))
+                   (push (buffer-name buffer) buffers))))
+             (nreverse buffers))))
+
+       (setq gnus-dired-mail-mode 'mu4e-user-agent))
+   #+END_SRC
+
+** Attach files from dired 
 *** Attaching files in selected region
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-mu4e-file-attach-files-from-region ()
@@ -176,30 +197,21 @@
           (iqbal-mu4e-file-attach-marked-files)))
     #+END_SRC
 
-** Make gnus-dired aware of mu4e
+*** Keybindings
+    #+BEGIN_SRC emacs-lisp
+      (with-eval-after-load 'dired
+        (define-key dired-mode-map (kbd "a") #'iqbal-mu4e-attach-files-from-dired))
+    #+END_SRC
+
+** Attach files from helm-file-files
+   Credits: https://www.reddit.com/r/emacs/comments/3l3ukg/mu4e_and_helm_attachments/cv33w9b
    #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'mu4e
+     (with-eval-after-load 'helm-files
+       (add-to-list 'helm-find-files-actions
+                    '("Attach files for mu4e" . helm-mu4e-attach) t)
 
-       ;; Monkey patch gnus-dired to consider mu4e messages
-       (with-eval-after-load 'gnus-dired
-         (defun gnus-dired-mail-buffers ()
-           "Return a list of active message buffers."
-           (let (buffers)
-             (save-current-buffer
-               (dolist (buffer (buffer-list t))
-                 (set-buffer buffer)
-                 (when (and (derived-mode-p 'message-mode)
-                            (null message-sent-message-via))
-                   (push (buffer-name buffer) buffers))))
-             (nreverse buffers))))
-
-       (setq gnus-dired-mail-mode 'mu4e-user-agent))
-   #+END_SRC
-
-** Keybindings
-   #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'dired
-       (define-key dired-mode-map (kbd "a") #'iqbal-mu4e-attach-files-from-dired))
+       (defun iqbal-helm-mu4e-attach (_file)
+         (gnus-dired-attach (helm-marked-candidates))))
    #+END_SRC
 
 
