@@ -185,55 +185,58 @@
   #+END_SRC
 
 
-* helm-descbinds configuration
-  #+BEGIN_SRC emacs-lisp
-    (setq helm-descbinds-window-style 'split-window)
-    (helm-descbinds-mode +1)
-  #+END_SRC
-
-
-* Helm kill-ring configuration
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-show-helm-kill-ring-unless-mc-active ()
-      (interactive)
-      (call-interactively (if (bound-and-true-p multiple-cursors-mode)
-                              #'yank-pop
-                            #'helm-show-kill-ring)))
-
-    (global-set-key [remap yank-pop] #'iqbal-show-helm-kill-ring-unless-mc-active)
-  #+END_SRC
-
-
-* Use helm to search comint history
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'comint
-      (define-key comint-mode-map (kbd "M-r") #'helm-comint-input-ring))
-  #+END_SRC
-
-
-* Helm imenu configuration
-** Keybinding to quickly jump to a symbol in buffer
+* Helm integration for other modes
+** helm-descbinds configuration
    #+BEGIN_SRC emacs-lisp
-     (global-set-key [remap imenu] 'helm-imenu)
+     (setq helm-descbinds-window-style 'split-window)
+     (helm-descbinds-mode +1)
    #+END_SRC
 
-** Do not directly jump to the definition even if there is just on candidate
+** Helm kill-ring configuration
    #+BEGIN_SRC emacs-lisp
-     (setq helm-imenu-execute-action-at-once-if-one nil)
+     (defun iqbal-show-helm-kill-ring-unless-mc-active ()
+       (interactive)
+       (call-interactively (if (bound-and-true-p multiple-cursors-mode)
+                               #'yank-pop
+                             #'helm-show-kill-ring)))
+
+     (global-set-key [remap yank-pop] #'iqbal-show-helm-kill-ring-unless-mc-active)
    #+END_SRC
 
+** Use helm to search comint history
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'comint
+       (define-key comint-mode-map (kbd "M-r") #'helm-comint-input-ring))
+   #+END_SRC
 
-* Helm company configuration
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'company
-      (define-key company-active-map (kbd "C-<return>") 'helm-company))
-  #+END_SRC
+** Helm imenu configuration
+*** Keybinding to quickly jump to a symbol in buffer
+    #+BEGIN_SRC emacs-lisp
+      (global-set-key [remap imenu] 'helm-imenu)
+    #+END_SRC
 
+*** Do not directly jump to the definition even if there is just on candidate
+    #+BEGIN_SRC emacs-lisp
+      (setq helm-imenu-execute-action-at-once-if-one nil)
+    #+END_SRC
 
-* Helm yasnippet integration
-  #+BEGIN_SRC emacs-lisp
-    (global-set-key [remap yas-insert-snippet] #'helm-yas-complete)
-  #+END_SRC
+** Helm company configuration
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'company
+       (define-key company-active-map (kbd "C-<return>") 'helm-company))
+   #+END_SRC
+
+** Helm yasnippet integration
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key [remap yas-insert-snippet] #'helm-yas-complete)
+   #+END_SRC
+
+** helm-mu configuration
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'mu4e
+       (define-key mu4e-main-mode-map (kbd "/") #'helm-mu)
+       (define-key mu4e-headers-mode-map (kbd "/") #'helm-mu))
+   #+END_SRC
 
 
 * Do not restore helm-mode using desktop  
