@@ -1,6 +1,6 @@
 * Some additional packages for working with dired
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger))
+    (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger async))
     (iqbal-install-packages iqbal-dired-packages)
   #+END_SRC
 
@@ -75,6 +75,15 @@
      (define-key dired-mode-map [remap beginning-of-buffer] 'dired-back-to-top)
      (define-key dired-mode-map [remap end-of-buffer] 'dired-jump-to-bottom))
  #+END_SRC
+
+
+* Enable async dired mode for async file transfer operations
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-dired-enable-async-mode ()
+      (dired-async-mode +1))
+
+    (add-hook 'dired-mode-hook #'iqbal-dired-enable-async-mode)
+  #+END_SRC
 
 
 * Load dired-x for additional functionality
