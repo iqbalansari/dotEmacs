@@ -193,7 +193,13 @@
 
 * Helm kill-ring configuration
   #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "M-y") #'helm-show-kill-ring)
+    (defun iqbal-show-helm-kill-ring-unless-mc-active ()
+      (interactive)
+      (call-interactively (if (bound-and-true-p multiple-cursors-mode)
+                              #'yank-pop
+                            #'helm-show-kill-ring)))
+
+    (global-set-key [remap yank-pop] #'iqbal-show-helm-kill-ring-unless-mc-active)
   #+END_SRC
 
 

@@ -48,6 +48,7 @@
         iqbal-cut-line-or-region
         iqbal-downcase-dwim
         iqbal-dwim-org-table-blank-field
+        iqbal-show-helm-kill-ring-unless-mc-active
         iqbal-upcase-dwim
         jedi:dot-complete
         kill-region
@@ -126,6 +127,7 @@
         anzu-query-replace
         c-electric-pound
         describe-key
+        eldoc-eval-expression
         ggtags-find-tag-dwim
         haskell-indentation-delete-backward-char
         help-for-help
