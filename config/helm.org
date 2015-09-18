@@ -94,6 +94,7 @@
 
 * Enable helm
   #+BEGIN_SRC emacs-lisp
+    (require 'helm-config)
     (add-hook 'after-init-hook #'helm-mode)
   #+END_SRC
 
@@ -212,6 +213,13 @@
                             #'helm-show-kill-ring)))
 
     (global-set-key [remap yank-pop] #'iqbal-show-helm-kill-ring-unless-mc-active)
+  #+END_SRC
+
+
+* Use helm to search comint history
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'comint
+      (define-key comint-mode-map (kbd "M-r") #'helm-comint-input-ring))
   #+END_SRC
 
 
