@@ -270,11 +270,23 @@
   #+END_SRC
 
 
-* Use M-n and M-p to change priority in org-mode
+* Use M-n and M-p to change priority in org-mode unless there is an error buffer open
   #+BEGIN_SRC emacs-lisp
+    (defun iqbal-org-previous-error-or-priority-up ()
+      (interactive)
+      (call-interactively (if (eq (next-error-find-buffer) (current-buffer))
+                              #'org-priority-up
+                            #'previous-error)))
+
+    (defun iqbal-org-next-error-or-priority-down ()
+      (interactive)
+      (call-interactively (if (eq (next-error-find-buffer) (current-buffer))
+                              #'org-priority-down
+                            #'next-error)))
+
     (with-eval-after-load 'org
-      (org-defkey org-mode-map (kbd "M-p") #'org-priority-up)
-      (org-defkey org-mode-map (kbd "M-n") #'org-priority-down))
+      (org-defkey org-mode-map (kbd "M-p") #'iqbal-org-previous-error-or-priority-up)
+      (org-defkey org-mode-map (kbd "M-n") #'iqbal-org-next-error-or-priority-down))
  #+END_SRC
 
 
