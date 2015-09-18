@@ -1,0 +1,4 @@
+* Install sqlup mode
+  #+BEGIN_SRC emacs-lisp
+    (iqbal-install-package 'sqlup-mode)
+  #+END_SRC

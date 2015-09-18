@@ -1,0 +1,4 @@
+* Enable sqlup mode
+  #+BEGIN_SRC emacs-lisp
+    (sqlup-mode)
+  #+END_SRC

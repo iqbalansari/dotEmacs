@@ -1,0 +1,7 @@
+* Invalidate sqlup's keyword cache when sql product changes
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-sql-invalidate-sqlup-keyword-cache (&rest ignored)
+      (setq sqlup-local-keywords-regexps nil))
+
+    (advice-add 'sql-set-product :after #'iqbal-sql-invalidate-sqlup-keyword-cache)
+  #+END_SRC

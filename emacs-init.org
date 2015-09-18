@@ -634,4 +634,5 @@
      (iqbal-setup-lang 'ledger-mode-hook "ledger")
      (iqbal-setup-lang 'yaml-mode-hook "yaml")
      (iqbal-setup-lang 'cmake-mode-hook "cmake")
+     (iqbal-setup-lang 'sql-mode-hook "sql")
    #+END_SRC
