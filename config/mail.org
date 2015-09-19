@@ -208,7 +208,7 @@
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'helm-files
        (add-to-list 'helm-find-files-actions
-                    '("Attach files for mu4e" . helm-mu4e-attach) t)
+                    '("Attach files for mu4e" . iqbal-helm-mu4e-attach) t)
 
        (defun iqbal-helm-mu4e-attach (_file)
          (gnus-dired-attach (helm-marked-candidates))))
@@ -431,7 +431,7 @@
       (defun iqbal-mu4e-view-unread-mails ()
         (interactive)
         (setq iqbal-pre-mu-win-config (current-window-configuration))
-        (mu4e-headers-search-bookmark "flag:unread AND NOT flag:trashed")
+        (mu4e-headers-search "flag:unread AND NOT flag:trashed")
         (setq iqbal-mu-win-config (current-window-configuration)))
     #+END_SRC
 
@@ -647,14 +647,13 @@
    #+END_SRC
 
 
-* Keybindings to hide/show mu4e
+* Keybindings mu4e
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c m") #'iqbal-start-mu4e)    
 
     (with-eval-after-load 'mu4e
       (define-key mu4e-main-mode-map (kbd "q") #'iqbal-hide-mu4e)
       (define-key mu4e-main-mode-map (kbd "Q") #'mu4e-quit)
-      (define-key mu4e-main-mode-map (kbd "/") #'mu4e-headers-search)
       (define-key mu4e-main-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
       (define-key mu4e-view-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
       (define-key mu4e-headers-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
