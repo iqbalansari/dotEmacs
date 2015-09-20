@@ -31,8 +31,7 @@
 
 
 * Auto-complete addresses in 'From', 'To' field in message mode
-** Use company mode for better completion interface
-   Remove text-properties that interfere with company mode's menu
+** Remove text-properties that interfere with company mode's menu
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-strip-message-mode-problematic-text-props ()
        (save-excursion

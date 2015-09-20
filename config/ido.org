@@ -43,9 +43,16 @@
 
 
 * Use ido everywhere
+** Enable ido ubiquitous mode
   #+BEGIN_SRC emacs-lisp
     (ido-ubiquitous-mode t)
   #+END_SRC
+
+** Configuration for other modes
+*** Use ido-completing-read in mu4e
+    #+BEGIN_SRC emacs-lisp
+      (setq mu4e-completing-read-function 'ido-completing-read)
+    #+END_SRC
 
 
 * Use flex matching with Ido
