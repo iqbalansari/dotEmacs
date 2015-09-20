@@ -126,11 +126,6 @@
 
 
 * Customizations for modeline
-** Show date time in modeline
-   #+BEGIN_SRC emacs-lisp
-     (display-time-mode 1)
-     (setq display-time-day-and-date t)
-   #+END_SRC
 ** Display current column number
    #+BEGIN_SRC emacs-lisp
      (column-number-mode)
