@@ -223,8 +223,6 @@
        (org-agenda-to-appt))
 
      (add-hook 'after-init-hook #'iqbal-appt-activate)
-
-     (display-time)
    #+END_SRC
 
 ** Reinitialize appt on finishing capture and displaying agenda
@@ -759,8 +757,7 @@
          (format "%s " (propertize mode-line-string 'face mode-line-face 'mouse-face 'mode-line-highlight))))
 
      (setq global-mode-string (remove '(:eval (iqbal-org-clock-mode-line)) global-mode-string))
-     (push '(:eval (iqbal-org-clock-mode-line))
-           (cdr global-mode-string))
+     (push '(:eval (iqbal-org-clock-mode-line)) global-mode-string)
    #+END_SRC
 
 ** Store persistence info inside org directory
@@ -880,6 +877,10 @@
 
 ** Function to get modeline format
    #+BEGIN_SRC emacs-lisp
+     (defface iqbal-overdue-task-face
+       `((t :weight bold :inherit error))
+       "Face for when you are not clocked in to an org task")
+
      (defvar iqbal-overdue-tasks-mode-line "")
      (add-to-list 'global-mode-string '(:eval iqbal-overdue-tasks-mode-line) t)
 
@@ -889,7 +890,7 @@
            (concat " "
                    (propertize
                     "Tasks"
-                    'face 'error
+                    'face 'iqbal-overdue-task-face
                     'help-echo (concat (if (= no-overdue-task 1)
                                            "You have an overdue task"
                                          (format "You have %s overdue tasks" no-overdue-task))
