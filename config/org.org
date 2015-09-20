@@ -73,22 +73,6 @@
          (user-error "Not in an org-mode buffer")))
    #+END_SRC
 
-** Add id to each captured item
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-create-id-for-org-capture ()
-       (save-excursion
-         (goto-char (point-min))
-         (if (not (string= (org-capture-get :key) "l"))
-             (org-id-get-create)
-           ;; For link captures use the link as the id
-           (let ((link (car (org-offer-links-in-entry (current-buffer) (point) 1))))
-             (org-entry-put (point) "ID" link)
-             (org-id-add-location link (buffer-file-name (buffer-base-buffer)))))))
-
-     (add-hook 'org-capture-prepare-finalize-hook 'iqbal-create-id-for-org-capture)
-   #+END_SRC
-
-
 * Enable org-ditaa if ditaa is installed
   #+BEGIN_SRC emacs-lisp
     (setq org-ditaa-jar-path (executable-find "ditaa"))

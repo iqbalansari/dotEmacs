@@ -1,6 +1,6 @@
 * Install org-projectile, orgit and org-journal
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-projectile org-journal org-dashboard orgbox orgit noflet))
+    (iqbal-install-packages '(org-projectile org-journal org-dashboard orgbox orgit noflet calfw))
     (require 'orgbox)
   #+END_SRC
 
@@ -173,6 +173,22 @@
 ** Let diary entries be included in agenda buffer
   #+BEGIN_SRC emacs-lisp
     (setq org-agenda-include-diary t)
+  #+END_SRC
+
+
+* Add id to each captured item
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-create-id-for-org-capture ()
+      (save-excursion
+        (goto-char (point-min))
+        (if (not (string= (org-capture-get :key) "l"))
+            (org-id-get-create)
+          ;; For link captures use the link as the id
+          (let ((link (car (org-offer-links-in-entry (current-buffer) (point) 1))))
+            (org-entry-put (point) "ID" link)
+            (org-id-add-location link (buffer-file-name (buffer-base-buffer)))))))
+
+    (add-hook 'org-capture-prepare-finalize-hook 'iqbal-create-id-for-org-capture)
   #+END_SRC
 
 
@@ -570,14 +586,80 @@
 
 
 * Custom agenda commands
-  Command to view link log
-  #+BEGIN_SRC emacs-lisp
-    (setq org-agenda-custom-commands
-          `(("l" "View link log" ((todo "UNREAD")
-                                  (todo "READING")
-                                  (todo "READ"))
-             ((org-agenda-files '(,(expand-file-name "links.org" iqbal-notes-dir)))))))
-  #+END_SRC
+  The timesheet command are taken from
+  https://github.com/fniessen/emacs-leuven/blob/master/org-custom-agenda-views.el
+** Add a dedicated section for custom agenda commands
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'org-agenda-custom-commands '("c" . "Custom commands ... ") t)
+     (add-to-list 'org-agenda-custom-commands '("ct" . "Timesheets ... ") t)
+   #+END_SRC
+
+** Command to view daily timesheets
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'org-agenda-custom-commands
+                  '("ctd" "Daily Timesheet"
+                    ((agenda ""))
+                    ((org-agenda-log-mode-items '(clock closed))
+                     (org-agenda-overriding-header "DAILY TIMESHEET")
+                     (org-agenda-show-log 'clockcheck)
+                     (org-agenda-span 'day)
+                     (org-agenda-start-with-clockreport-mode t)
+                     (org-agenda-time-grid nil))) t)
+   #+END_SRC
+
+** Command to view weekly timesheets
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'org-agenda-custom-commands
+                  '("ctw" "Weekly Timesheet"
+                    ((agenda ""))
+                    ((org-agenda-overriding-header "WEEKLY TIMESHEET")
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
+                     (org-agenda-span 'week)
+                     (org-agenda-start-on-weekday 1)
+                     (org-agenda-start-with-clockreport-mode t)
+                     (org-agenda-time-grid nil))) t)
+   #+END_SRC
+
+** Command to view calfw-org
+   #+BEGIN_SRC emacs-lisp
+     (autoload 'cfw:open-org-calendar "calfw-org" "Open an Org schedule calendar." t)
+
+     (add-to-list 'org-agenda-custom-commands
+                  '("cc" "Calendar for current month"
+                    (lambda (&rest ignore)
+                      (cfw:open-org-calendar))) t)
+   #+END_SRC
+
+** Command to view org-dashboard
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'org-agenda-custom-commands
+                  '("cd" "Calendar for current month"
+                    (lambda (&rest ignore)
+                      (call-interactively #'org-dashboard-display))) t)
+   #+END_SRC
+
+** Command to view delayed tasks
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'org-agenda-custom-commands
+                  '("co" "View overdue tasks"
+                    (lambda (&rest ignore)
+                      (call-interactively #'iqbal-view-overdue-tasks))) t)
+   #+END_SRC
+
+** Command to view link log
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'org-agenda-custom-commands
+                  `("cl" "View link log" ((tags-todo "SCHEDULED<>{^$}"
+                                                     ((org-agenda-overriding-header "SCHEDULED")
+                                                      (org-agenda-sorting-strategy '(time-up priority-down))))
+                                          (todo "UNREAD"
+                                                ((org-agenda-overriding-header "UNREAD")))
+                                          (todo "READING"
+                                                ((org-agenda-overriding-header "READING")))
+                                          (todo "READ"
+                                                ((org-agenda-overriding-header "READ"))))
+                    ((org-agenda-files '(,(expand-file-name "links.org" iqbal-notes-dir))))))
+   #+END_SRC
 
 
 * Change TODO state to READING when opening a UNREAD link
@@ -759,7 +841,7 @@
 
 * View pending tasks
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-view-lagging-tasks ()
+    (defun iqbal-view-overdue-tasks ()
       (interactive)
       (let ((time (if current-prefix-arg (read-string "For time: " "now") "now"))
             (not-done-matcher "TODO<>\"DONE\"+TODO<>\"CANCELLED\"+TODO<>\"STARTED\""))
@@ -843,7 +925,7 @@
     (global-set-key (kbd "<f7>") #'iqbal-toggle-org-dashboard)
     (global-set-key (kbd "<f8>") #'iqbal-org-hide/show-current-task)
     (global-set-key (kbd "<f9>") #'org-tags-view)
-    (global-set-key (kbd "<f10>") #'iqbal-view-lagging-tasks)
+    (global-set-key (kbd "<f10>") #'iqbal-view-overdue-tasks)
     (global-set-key (kbd "<f11>") #'org-todo-list)
     (global-set-key (kbd "<f12>") #'org-agenda-list)
   #+END_SRC
