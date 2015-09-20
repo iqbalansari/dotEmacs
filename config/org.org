@@ -73,6 +73,7 @@
          (user-error "Not in an org-mode buffer")))
    #+END_SRC
 
+
 * Enable org-ditaa if ditaa is installed
   #+BEGIN_SRC emacs-lisp
     (setq org-ditaa-jar-path (executable-find "ditaa"))
