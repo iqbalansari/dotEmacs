@@ -300,7 +300,7 @@
 
 
 * Diminsh some minor modes
-  #+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp :tangle no
     ;; Apparently package.el fails to autoload this sometimes
     (require 'diminish)
 

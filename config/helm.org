@@ -238,6 +238,11 @@
        (define-key mu4e-headers-mode-map (kbd "/") #'helm-mu))
    #+END_SRC
 
+** Integration with emacs bookmarks
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key [remap bookmark-jump] #'helm-bookmarks)
+   #+END_SRC
+
 
 * Do not restore helm-mode using desktop  
   #+BEGIN_SRC emacs-lisp

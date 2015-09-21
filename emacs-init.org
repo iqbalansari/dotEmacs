@@ -428,8 +428,8 @@
        "Compile a languages configuration file, it simply tangles all the related
      org files and combines them into one elisp file"
        (interactive
-        (list (ido-completing-read "Language: "
-                                   (directory-files iqbal-langs-dir nil "[^.]+"))))
+        (list (completing-read "Language: "
+                               (directory-files iqbal-langs-dir nil "[^.]+"))))
        (let* ((files '("install" "setup" "keybindings"))
               (lang-path (concat iqbal-langs-dir lang "/"))
               (compiled-file-dest (concat lang-path ".compiled/"))
@@ -469,8 +469,8 @@
        "Load a languages configuration, it compiles the config files
           first (if needed)"
        (interactive
-        (list (ido-completing-read "Language: "
-                                   (directory-files iqbal-langs-dir nil "[^.]+"))))
+        (list (completing-read "Language: "
+                               (directory-files iqbal-langs-dir nil "[^.]+"))))
        (unless (or (and (string-prefix-p "*" (buffer-name))
                         (not (numberp (string-match-p "*scratch [\\[a-z0-9A-Z]+\\]"
                                                       (buffer-name)))))

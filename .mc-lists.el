@@ -130,6 +130,7 @@
         eldoc-eval-expression
         ggtags-find-tag-dwim
         haskell-indentation-delete-backward-char
+        helm-mini
         help-for-help
         ido-find-file
         ido-switch-buffer

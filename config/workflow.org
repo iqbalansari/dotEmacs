@@ -583,13 +583,31 @@
   #+END_SRC
 
 
+* View pending tasks
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-view-overdue-tasks ()
+      (interactive)
+      (let ((time (if current-prefix-arg (read-string "For time: " "now") "now"))
+            (not-done-matcher "TODO<>\"DONE\"+TODO<>\"CANCELLED\"+TODO<>\"STARTED\"")
+            (org-agenda-overriding-header "OVERDUE TASKS")
+            org-agenda-sticky)
+        (org-tags-view nil (format "%s+DEADLINE<=\"<%s>\"|%s+SCHEDULED<=\"<%s>\""
+                                   not-done-matcher
+                                   time
+                                   not-done-matcher
+                                   time))))
+  #+END_SRC
+
+
 * Custom agenda commands
   The timesheet command are taken from
   https://github.com/fniessen/emacs-leuven/blob/master/org-custom-agenda-views.el
 ** Add a dedicated section for custom agenda commands
    #+BEGIN_SRC emacs-lisp
+     (defvar org-agenda-custom-commands "Custom commands for the agenda")
      (add-to-list 'org-agenda-custom-commands '("c" . "Custom commands ... ") t)
      (add-to-list 'org-agenda-custom-commands '("ct" . "Timesheets ... ") t)
+     (add-to-list 'org-agenda-custom-commands '("ca" . "Agenda ... ") t)
    #+END_SRC
 
 ** Command to view daily timesheets
@@ -603,6 +621,19 @@
                      (org-agenda-span 'day)
                      (org-agenda-start-with-clockreport-mode t)
                      (org-agenda-time-grid nil))) t)
+   #+END_SRC
+
+** Command to view daily agenda along with DONE items and log
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'org-agenda-custom-commands
+                  '("ca." "Daily log"
+                    ((agenda ""))
+                    ((org-agenda-overriding-header "DAILY LOG")
+                     (org-agenda-span 'day)
+                     (org-agenda-show-log t)
+                     (org-agenda-skip-deadline-if-done nil)
+                     (org-agenda-skip-scheduled-if-done nil)
+                     (org-agenda-sticky nil))) t)
    #+END_SRC
 
 ** Command to view weekly timesheets
@@ -636,7 +667,7 @@
                       (call-interactively #'org-dashboard-display))) t)
    #+END_SRC
 
-** Command to view delayed tasks
+** Command to view overdue tasks
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'org-agenda-custom-commands
                   '("co" "View overdue tasks"
@@ -838,6 +869,7 @@
 
 * Display count of overdue tasks in mode-line
 ** Helper function to get overdue tasks
+   Most of this is copied from org-mode
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-get-overdue-task-list (&optional time)
        (let* ((time (or time "now"))
@@ -911,20 +943,6 @@
 
      (defvar iqbal-overdue-tasks-mode-line-timer (run-at-time 5 60 #'iqbal-update-overdue-task-mode-line))
    #+END_SRC
-
-
-* View pending tasks
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-view-overdue-tasks ()
-      (interactive)
-      (let ((time (if current-prefix-arg (read-string "For time: " "now") "now"))
-            (not-done-matcher "TODO<>\"DONE\"+TODO<>\"CANCELLED\"+TODO<>\"STARTED\""))
-        (org-tags-view nil (format "%s+DEADLINE<=\"<%s>\"|%s+SCHEDULED<=\"<%s>\""
-                                   not-done-matcher
-                                   time
-                                   not-done-matcher
-                                   time))))
-  #+END_SRC
 
 
 * Goto to a random task from global TODO list

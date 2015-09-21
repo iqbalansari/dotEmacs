@@ -82,14 +82,14 @@
        (let* ((stripped-choises
                (-uniq (--map (file-name-nondirectory (directory-file-name it)) choises)))
               (choise
-               (ido-completing-read prompt stripped-choises))
+               (completing-read prompt stripped-choises))
               (matching-files
                (-filter
                 (lambda (file)
                   (equal (file-name-nondirectory (directory-file-name file)) choise))
                 choises)))
          (if (> (length matching-files) 1)
-             (ido-completing-read prompt matching-files)
+             (completing-read prompt matching-files)
            (car matching-files))))
 
      (setq projectile-completion-system 'rejeep-projectile-completion-fn)

@@ -125,6 +125,11 @@
      (setq message-kill-buffer-on-exit t)
    #+END_SRC
 
+** Do not use ido by default
+   #+BEGIN_SRC emacs-lisp
+     (setq mu4e-completing-read-function 'completing-read)
+   #+END_SRC
+
 
 * Apply format=flowed to outgoing messages 
   [[http://www.djcbsoftware.nl/code/mu/mu4e/Writing-messages.html][mu4e manual]] says this should add format=flowed for autogoing messages
