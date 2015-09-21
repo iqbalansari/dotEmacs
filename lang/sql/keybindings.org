@@ -1,0 +1,4 @@
+* Interaction with the REPL
+  #+BEGIN_SRC emacs-lisp
+    (define-key sql-mode-map iqbal-run-shell #'sql-product-interactive)
+  #+END_SRC

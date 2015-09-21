@@ -2,3 +2,11 @@
   #+BEGIN_SRC emacs-lisp
     (sqlup-mode)
   #+END_SRC
+
+
+* Setup indentation
+  #+BEGIN_SRC emacs-lisp
+    (require 'sql-indent)
+    (make-local-variable 'indent-line-function)
+    (setq indent-line-function 'sql-indent-line)
+  #+END_SRC
