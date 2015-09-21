@@ -127,25 +127,25 @@
       "Copy current line, or current text selection."
       (interactive "p")
       (cond ((bound-and-true-p cua--rectangle) (progn (call-interactively 'cua-copy-rectangle)
-                                                      (message "Copied rectangle")))
+                                                      (unless (minibufferp)(message "Copied rectangle"))))
             ((region-active-p) (progn (call-interactively 'kill-ring-save)
                                       (indicate-copied-region)))
             (t (save-excursion
                  (iqbal-mark-lines arg)
                  (call-interactively 'kill-ring-save)
                  (deactivate-mark t)
-                 (message (concat "Saved " (number-to-string arg) " line(s) to kill ring"))))))
+                 (unless (minibufferp)(message (concat "Saved " (number-to-string arg) " line(s) to kill ring")))))))
 
     (defun iqbal-cut-line-or-region (arg)
       "Cut the current line, or current text selection."
       (interactive "p")
       (cond ((bound-and-true-p cua--rectangle) (progn (call-interactively 'cua-cut-rectangle)
-                                                      (message "Killed rectangle")))
+                                                      (unless (minibufferp)(message "Killed rectangle"))))
             ((region-active-p) (progn (call-interactively 'kill-region)
-                                      (message "Killed region")))
+                                      (unless (minibufferp)(message "Killed region"))))
             (t  (progn (iqbal-mark-lines arg)
                        (call-interactively 'kill-region)
-                       (message (concat "Killed " (number-to-string arg) " line(s)"))))))
+                       (unless (minibufferp)(message (concat "Killed " (number-to-string arg) " line(s)")))))))
   #+END_SRC
 
 

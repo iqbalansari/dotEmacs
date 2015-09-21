@@ -119,21 +119,21 @@
           (interactive)
           (,send-region-func (line-beginning-position)
                              (line-end-position))))
-     
+
      (defmacro iqbal-evaluate-file-in-repl (name send-region-func)
        `(defun ,name (file)
-          (interactive (list (ido-read-file-name "File to evaluate: ")))
+          (interactive (list (read-file-name "File to evaluate: ")))
           (with-temp-buffer
             (insert-file-contents file)
             (,send-region-func (point-min)
                                (point-max)))))
-     
+
      (defmacro iqbal-evaluate-buffer-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
           (,send-region-func (point-min)
                              (point-max))))
-     
+
      (defmacro iqbal-evaluate-defun-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
