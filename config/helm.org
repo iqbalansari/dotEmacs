@@ -1,6 +1,6 @@
 * Install helm packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company helm-mu wgrep-helm))
+    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company helm-mu helm-gitignore wgrep-helm))
 
     (when (executable-find "ag")
       (iqbal-install-package 'helm-ag))
