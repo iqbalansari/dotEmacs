@@ -60,8 +60,14 @@
 * Bongo keybindings
 ** Keybinding to start bongo
   #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-c M") #'bongo)
+    (define-key launcher-map "b" #'bongo)
   #+END_SRC
+
+** Keybinding to quit bongo
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'bongo
+       (define-key bongo-mode-map iqbal-hide-app #'bongo-quit))
+   #+END_SRC
 
 ** Keybindings for bongo-dired-library-mode
    #+BEGIN_SRC emacs-lisp

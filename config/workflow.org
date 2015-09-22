@@ -1024,5 +1024,5 @@
 
 ** Keybinding to view diary
    #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "C-c D") #'diary)
+     (define-key launcher-map "d" #'diary)
    #+END_SRC

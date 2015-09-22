@@ -653,14 +653,12 @@
 
 * Keybindings mu4e
   #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-c m") #'iqbal-start-mu4e)    
+    (define-key launcher-map "m" #'iqbal-start-mu4e)
 
     (with-eval-after-load 'mu4e
-      (define-key mu4e-main-mode-map (kbd "q") #'iqbal-hide-mu4e)
-      (define-key mu4e-main-mode-map (kbd "Q") #'mu4e-quit)
-      (define-key mu4e-main-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
-      (define-key mu4e-view-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
-      (define-key mu4e-headers-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
-      (define-key mu4e~update-mail-mode-map (kbd "C-c m") #'iqbal-hide-mu4e)
+      (define-key mu4e-main-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
+      (define-key mu4e-view-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
+      (define-key mu4e-headers-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
+      (define-key mu4e~update-mail-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
       (define-key mu4e-view-mode-map (kbd "U") #'mu4e-headers-rerun-search))
   #+END_SRC

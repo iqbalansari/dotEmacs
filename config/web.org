@@ -45,7 +45,7 @@
        (define-key w3m-mode-map (kbd "<C-next>") #'w3m-next-buffer)
        (define-key w3m-mode-map (kbd "<C-S-prior>") #'w3m-tab-move-left)
        (define-key w3m-mode-map (kbd "<C-S-next>") #'w3m-tab-move-right)
-       (define-key w3m-mode-map (kbd "C-c w") #'w3m-close-window)
+       (define-key w3m-mode-map iqbal-hide-app #'w3m-close-window)
        (define-key w3m-mode-map (kbd "C-t") #'w3m-create-empty-session)
        (define-key w3m-mode-map (kbd "C-c C-o") #'w3m-lnum-external-view-this-url)
        (define-key w3m-mode-map (kbd "E") #'iqbal-w3m-view-url-in-external-browser)
@@ -122,6 +122,6 @@
 * Global w3m keybindings
   #+BEGIN_SRC emacs-lisp
     (when (executable-find "w3m")
-      (global-set-key (kbd "C-c w") #'w3m)
+      (define-key launcher-map "w" #'w3m)
       (global-set-key iqbal-open-link #'iqbal-w3m-browse-url-dwim))
   #+END_SRC

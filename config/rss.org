@@ -184,7 +184,7 @@
 * Keybindings
 ** Launch elfeed
   #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-c N") #'elfeed)
+    (define-key launcher-map "e" #'elfeed)
   #+END_SRC
 
 ** Keybindings for elfeed-search mode

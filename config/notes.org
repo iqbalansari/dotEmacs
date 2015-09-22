@@ -48,7 +48,8 @@
 
 * Keybinding to open/exit deft
   #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-c n") #'deft)
+    (define-key launcher-map "n" #'deft)
+
     (with-eval-after-load 'deft
-      (define-key deft-mode-map (kbd "C-c n") #'quit-window))
+      (define-key deft-mode-map iqbal-hide-app #'quit-window))
   #+END_SRC

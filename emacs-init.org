@@ -374,11 +374,23 @@
      (defvar iqbal-expand-snippet (kbd "<C-return>"))
    #+END_SRC
 
+** Hiding apps
+   #+BEGIN_SRC emacs-lisp
+     (defvar iqbal-hide-app (kbd "C-c q"))
+   #+END_SRC
+
 ** Opening links
    #+BEGIN_SRC emacs-lisp
      (defvar iqbal-open-link (kbd "C-c RET"))
    #+END_SRC
-   
+
+** Launcher map
+   Credits: http://endlessparentheses.com/launcher-keymap-for-standalone-features.html
+   #+BEGIN_SRC emacs-lisp
+     (define-prefix-command 'launcher-map)
+     (global-set-key (kbd "C-x l") 'launcher-map)
+   #+END_SRC
+
 
 * Load common libraries
    These are general purpose libraries that can are used

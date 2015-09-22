@@ -138,7 +138,7 @@
           (call-interactively #'calculator)
         (call-interactively #'calc)))
 
-    (global-set-key (kbd "C-c C") #'iqbal-start-calculator)
+    (define-key launcher-map "c" #'iqbal-start-calculator)
   #+END_SRC
 
 
@@ -154,14 +154,19 @@
   #+END_SRC
 
 
-* Enable pandoc-mode
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-enable-pandoc-mode-maybe () 
-      (when (locate-library "pandoc-mode")
-        (pandoc-mode +1)))
+* pandoc-mode configuration
+** Change default keybinding
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'pandoc-mode
+       (define-key launcher-map "p" #'pandoc-main-hydra/body)
+       (define-key pandoc-mode-map (kbd "C-c /") nil))
+   #+END_SRC
 
-    (add-hook 'text-mode-hook #'iqbal-enable-pandoc-mode-maybe)
-  #+END_SRC
+** Enable pandoc mode in text-modes
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-enable-pandoc-mode-maybe ()
+       (when (locate-library "pandoc-mode")
+         (pandoc-mode +1)))
 
-
-
+     (add-hook 'text-mode-hook #'iqbal-enable-pandoc-mode-maybe)
+   #+END_SRC
