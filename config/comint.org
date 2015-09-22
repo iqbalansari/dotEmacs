@@ -51,6 +51,12 @@
   #+END_SRC
 
 
+* Store more command history
+  #+BEGIN_SRC emacs-lisp
+    (setq comint-input-ring-size 1000)
+  #+END_SRC
+
+
 * Remembering comint history across sessions
   Credits: [[https://oleksandrmanzyuk.wordpress.com/2011/10/23/a-persistent-command-history-in-emacs/]]
 ** Directory where comint history will be stored

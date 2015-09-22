@@ -2,9 +2,3 @@
   #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'sqlup-mode)
   #+END_SRC
-
-
-* Install sql-indent mode
-  #+BEGIN_SRC emacs-lisp
-    (iqbal-install-package 'sql-indent)
-  #+END_SRC

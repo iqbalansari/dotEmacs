@@ -167,11 +167,6 @@
      (prefer-coding-system 'utf-8)
    #+END_SRC
 
-** Increase gc threshhold
-   #+BEGIN_SRC emacs-lisp
-     (setq gc-cons-threshold (* 100 1024 1024))
-   #+END_SRC
-
 
 * Location of data directory
   #+BEGIN_SRC emacs-lisp
@@ -313,7 +308,22 @@
       (exec-path-from-shell-initialize))
   #+END_SRC
 
- 
+
+* Try to load only latest elc files
+** Always prefer the uncompiled file if the compiled file is older
+   #+BEGIN_SRC emacs-lisp
+     (setq load-prefer-newer t)
+   #+END_SRC
+
+** Enable auto-compile mode
+   #+BEGIN_SRC emacs-lisp
+     (iqbal-install-package 'auto-compile)
+     (require 'auto-compile)
+     (auto-compile-on-load-mode 1)
+     (auto-compile-on-save-mode 1)
+   #+END_SRC
+
+
 * Declare common keybindings
   These don't actually bind any command rather they define the keys that will
   be used for common actions across multiple modes for commands
