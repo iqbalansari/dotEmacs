@@ -217,27 +217,60 @@
   #+END_SRC
 
 
-* Additional keybindings for search replace
-  #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "M-s o") #'occur)
-    (global-set-key (kbd "M-s O") #'multi-occur)
-    (global-set-key (kbd "M-s m") #'multi-occur-in-this-mode)
-    (global-set-key (kbd "M-s M") #'multi-occur-in-matching-buffers)
-    (global-set-key (kbd "M-s s") #'swoop)
-    (global-set-key (kbd "M-s S") #'swoop-multi)
-    (global-set-key (kbd "M-s n") #'find-name-dired)
-    (global-set-key (kbd "M-s g") #'find-grep-dired)
-    (global-set-key (kbd "M-s f") #'find-grep)
-    (global-set-key (kbd "M-s c") #'lgrep)
-    (global-set-key (kbd "M-s r") #'rgrep)                       
-    (global-set-key (kbd "M-s z") #'zrgrep)
-    (global-set-key (kbd "M-s p g") #'projectile-grep)
-    (global-set-key (kbd "M-s l") #'locate)
+* Keybindings
+** Additional keys on search map
+   #+BEGIN_SRC emacs-lisp
+     (define-key search-map "o" #'occur)
+     (define-key search-map "O" #'multi-occur)
+     (define-key search-map "m" #'multi-occur-in-this-mode)
+     (define-key search-map "M" #'multi-occur-in-matching-buffers)
+     (define-key search-map "s" #'swoop)
+     (define-key search-map "S" #'swoop-multi)
+     (define-key search-map "n" #'find-name-dired)
+     (define-key search-map "g" #'find-grep-dired)
+     (define-key search-map "f" #'find-grep)
+     (define-key search-map "c" #'lgrep)
+     (define-key search-map "r" #'rgrep)
+     (define-key search-map "z" #'zrgrep)
+     (define-key search-map "p g" #'projectile-grep)
+     (define-key search-map "l" #'locate)
+   #+END_SRC
 
-    (when (executable-find "ag")
-      (global-set-key (kbd "M-s p s") #'projectile-ag)
-      (global-set-key (kbd "M-s a s") #'ag)
-      (global-set-key (kbd "M-s a f") #'ag-files)
-      (global-set-key (kbd "M-s a d") #'ag-dired)
-      (global-set-key (kbd "M-s a p") #'ag-dired))
-  #+END_SRC
+** Keybindings for ag
+   #+BEGIN_SRC emacs-lisp
+     (when (executable-find "ag")
+       (define-key search-map "p s" #'projectile-ag)
+       (define-key search-map "a s" #'ag)
+       (define-key search-map "a f" #'ag-files)
+       (define-key search-map "a d" #'ag-dired)
+       (define-key search-map "a p" #'ag-dired))
+   #+END_SRC
+
+** Keybindings for pcre2el
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'pcre2el
+       ;; Steal away
+       (define-key rxt-mode-map (kbd "C-c /") nil)
+
+       (define-key search-map (kbd "/ /") 'rxt-explain)
+       (define-key search-map (kbd "/ c") 'rxt-convert-syntax)
+       (define-key search-map (kbd "/ x") 'rxt-convert-to-rx)
+       (define-key search-map (kbd "/ '") 'rxt-convert-to-strings)
+
+       ;; From PCRE
+       (define-key search-map (kbd "/ p /") 'rxt-explain-pcre)
+       (define-key search-map (kbd "/ p e") 'rxt-pcre-to-elisp)
+       (define-key search-map (kbd "/ p x") 'rxt-pcre-to-rx)
+       (define-key search-map (kbd "/ p '") 'rxt-pcre-to-strings)
+
+       ;; From Elisp
+       (define-key search-map (kbd "/ e /") 'rxt-explain-elisp)
+       (define-key search-map (kbd "/ e p") 'rxt-elisp-to-pcre)
+       (define-key search-map (kbd "/ e x") 'rxt-elisp-to-rx)
+       (define-key search-map (kbd "/ e '") 'rxt-elisp-to-strings)
+       (define-key search-map (kbd "/ e t") 'rxt-toggle-elisp-rx)
+       (define-key search-map (kbd "/ t") 'rxt-toggle-elisp-rx)
+
+       ;; Search
+       (define-key search-map (kbd "/ %") 'pcre-query-replace-regexp))
+   #+END_SRC
