@@ -1,7 +1,7 @@
 * Install org-projectile, orgit and org-journal
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-projectile org-journal org-dashboard orgbox orgit noflet calfw))
     (require 'orgbox)
+    (iqbal-install-packages '(org-projectile org-journal org-dashboard orgbox orgit calfw))
   #+END_SRC
 
 
@@ -109,16 +109,14 @@
   Useful for invoking org-capture from a window manager
   like xmonad using emacsclient
   #+BEGIN_SRC emacs-lisp
-    (require 'noflet)
-
-    (defadvice org-capture-finalize (after delete-capture-frame activate)  
-      "Advise capture-finalize to close the frame"  
-      (if (equal "*Org Capture*" (frame-parameter nil 'name))  
+    (defadvice org-capture-finalize (after delete-capture-frame activate)
+      "Advise capture-finalize to close the frame"
+      (if (equal "*Org Capture*" (frame-parameter nil 'name))
           (delete-frame)))
 
     (defun make-capture-frame ()
       "Create a new frame and run org-capture. Useful for calling from
-    an external program, using emacsclient eg. xmonad 
+    an external program, using emacsclient eg. xmonad
     Credits: Alexander Vorobiev
     http://lists.gnu.org/archive/html/emacs-orgmode/2013-10/msg00150.html and
     http://www.glassberg-powell.com/blog/20140709/emacs-org-mode-capture-anywhere"
@@ -127,7 +125,7 @@
       (make-frame '((name . "*Org Capture*") (desktop-dont-save . t)))
       (select-frame-by-name "*Org Capture*")
       (delete-other-windows)
-      (noflet ((switch-to-buffer-other-window (buf) (switch-to-buffer buf)))
+      (cl-flet (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
         ;; Handle any error so that subsequent frame cleanup code
         ;; gets a chance to run
         (condition-case err

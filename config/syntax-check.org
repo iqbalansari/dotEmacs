@@ -26,26 +26,24 @@
 
 ** Add a custom function for underlining errors
    #+BEGIN_SRC emacs-lisp
-     (eval-when-compile
-       (require 'flycheck))
-
      (defun iqbal-add-lines-for-errors (err)
-       (flycheck-error-with-buffer err
-         (when (equal (flycheck-error-level err) 'error)
-           (pcase-let* ((`(,beg . ,end) (flycheck-error-region-for-mode
-                                         err 'lines))
-                        (overlay (make-overlay beg end))
-                        (level (flycheck-error-level err))
-                        (category (flycheck-error-level-overlay-category level)))
-             (overlay-put overlay 'flycheck-overlay t)
-             (overlay-put overlay 'flycheck-error err)
-             (overlay-put overlay 'category category)
-             (when flycheck-indication-mode
-               (overlay-put overlay 'before-string
-                            (flycheck-error-level-make-fringe-icon
-                             level flycheck-indication-mode)))
-             (overlay-put overlay 'help-echo #'flycheck-help-echo)
-             overlay))))
+       (when (buffer-live-p (flycheck-error-buffer err))
+         (with-current-buffer (flycheck-error-buffer err)
+           (when (equal (flycheck-error-level err) 'error)
+             (pcase-let* ((`(,beg . ,end) (flycheck-error-region-for-mode
+                                           err 'lines))
+                          (overlay (make-overlay beg end))
+                          (level (flycheck-error-level err))
+                          (category (flycheck-error-level-overlay-category level)))
+               (overlay-put overlay 'flycheck-overlay t)
+               (overlay-put overlay 'flycheck-error err)
+               (overlay-put overlay 'category category)
+               (when flycheck-indication-mode
+                 (overlay-put overlay 'before-string
+                              (flycheck-error-level-make-fringe-icon
+                               level flycheck-indication-mode)))
+               (overlay-put overlay 'help-echo #'flycheck-help-echo)
+               overlay)))))
 
      (with-eval-after-load 'flycheck
        (add-to-list 'flycheck-process-error-functions #'iqbal-add-lines-for-errors))

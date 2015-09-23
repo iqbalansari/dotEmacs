@@ -167,6 +167,11 @@
      (prefer-coding-system 'utf-8)
    #+END_SRC
 
+** Always prefer the uncompiled file if the compiled file is older
+   #+BEGIN_SRC emacs-lisp
+     (setq load-prefer-newer t)
+   #+END_SRC
+
 
 * Location of data directory
   #+BEGIN_SRC emacs-lisp
@@ -307,21 +312,6 @@
                (not (equal system-type 'windows-nt)))
       (exec-path-from-shell-initialize))
   #+END_SRC
-
-
-* Try to load only latest elc files
-** Always prefer the uncompiled file if the compiled file is older
-   #+BEGIN_SRC emacs-lisp
-     (setq load-prefer-newer t)
-   #+END_SRC
-
-** Enable auto-compile mode
-   #+BEGIN_SRC emacs-lisp
-     (iqbal-install-package 'auto-compile)
-     (require 'auto-compile)
-     (auto-compile-on-load-mode 1)
-     (auto-compile-on-save-mode 1)
-   #+END_SRC
 
 
 * Declare common keybindings
