@@ -306,6 +306,7 @@
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-get-url-from-clipboard ()
        (require 'thingatpt)
+       (require 'subr-x)
        (let ((current-kill (ignore-errors (current-kill 0))))
          (when current-kill
            (with-temp-buffer

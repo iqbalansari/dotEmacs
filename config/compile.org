@@ -27,6 +27,7 @@
                     t))))
 
     (defun iqbal-notify-compilation-finish (buffer message)
+      (require 'subr-x)
       (with-current-buffer buffer
         ;; Display notification only if we are in compilation mode
         ;; and buffer is not visible

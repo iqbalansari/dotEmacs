@@ -417,6 +417,7 @@
 *** Function to get count of unread emails asynchronously
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-get-mu-unread-mail-count (callback)
+        (require 'subr-x)
         (let ((mail-count-command (format "%s find --nocolor flag:unread AND NOT flag:trashed 2>/dev/null | wc -l"
                                           mu4e-mu-binary))
               (process-filter (lexical-let ((callback callback))

@@ -197,6 +197,7 @@
               (mod seconds 60)))
 
     (defun iqbal-get-player-state-org-description (player &optional elapsed-time stop-time)
+      (require 'subr-x)
       (let* ((description (or (ignore-errors (cdr (assoc 'title
                                                          (assoc 'track (bongo-player-infoset player)))))
                               (file-name-base (bongo-player-file-name player))))
