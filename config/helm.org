@@ -1,6 +1,6 @@
 * Install helm packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company helm-mu helm-gitignore wgrep-helm))
+    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company helm-mu org-linkany helm-gitignore wgrep-helm))
 
     (when (executable-find "ag")
       (iqbal-install-package 'helm-ag))
@@ -241,6 +241,12 @@
 ** Integration with emacs bookmarks
    #+BEGIN_SRC emacs-lisp
      (global-set-key [remap bookmark-jump] #'helm-bookmarks)
+   #+END_SRC
+
+** Enable additional completion in org-store-link
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org
+       (require 'org-linkany))
    #+END_SRC
 
 

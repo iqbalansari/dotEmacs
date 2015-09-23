@@ -388,7 +388,7 @@
    Credits: http://endlessparentheses.com/launcher-keymap-for-standalone-features.html
    #+BEGIN_SRC emacs-lisp
      (define-prefix-command 'launcher-map)
-     (global-set-key (kbd "C-x l") 'launcher-map)
+     (global-set-key (kbd "C-z") 'launcher-map)
    #+END_SRC
 
 
