@@ -158,7 +158,7 @@
 
 * Configurations for ediff
   #+BEGIN_SRC emacs-lisp
-    (setq ediff-split-window-function 'split-window-vertically)
+    (setq ediff-split-window-function 'split-window-horizontally)
     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   #+END_SRC
 
