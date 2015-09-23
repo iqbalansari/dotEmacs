@@ -645,10 +645,17 @@
 
      (defun iqbal-hide-mu4e ()
        (interactive)
+       (defun iqbal-purge-mu4e-windows ()
+         (dolist (window (window-list))
+           (with-selected-window window
+             (when (string-match-p "^mu4e-" (symbol-name major-mode))
+               (if (one-window-p)
+                   ;; What is the next buffer is also a mu4e buffer :)
+                   (bury-buffer)
+                 (delete-window))))))
        (setq iqbal-mu-win-config (current-window-configuration))
 
-       (when iqbal-pre-mu-win-config
-         (set-window-configuration iqbal-pre-mu-win-config)))
+       (iqbal-switch-to-window-conf-or-fallback iqbal-pre-mu-win-config #'iqbal-purge-mu4e-windows))
    #+END_SRC
 
 

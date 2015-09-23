@@ -235,7 +235,9 @@
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e
        (define-key mu4e-main-mode-map (kbd "/") #'helm-mu)
-       (define-key mu4e-headers-mode-map (kbd "/") #'helm-mu))
+       (define-key mu4e-headers-mode-map (kbd "/") #'helm-mu)
+       (define-key search-map "m" #'helm-mu)
+       (define-key search-map "c" #'helm-mu-contacts))
    #+END_SRC
 
 ** Integration with emacs bookmarks
