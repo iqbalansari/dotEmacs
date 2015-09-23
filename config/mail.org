@@ -652,11 +652,23 @@
    #+END_SRC
 
 
+* Advice mu4e-view-quit to switch to main buffer after there is not header buffer
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-mu4e-switch-to-main-buffer-maybe (&rest ignored)
+      (unless (eq (current-buffer) mu4e~headers-buffer)
+        (when (get-buffer mu4e~main-buffer-name)
+          (switch-to-buffer mu4e~main-buffer-name))))
+
+    (advice-add 'mu4e~view-quit-buffer :after #'iqbal-mu4e-switch-to-main-buffer-maybe)
+  #+END_SRC
+
+
 * Keybindings mu4e
   #+BEGIN_SRC emacs-lisp
     (define-key launcher-map "m" #'iqbal-start-mu4e)
 
     (with-eval-after-load 'mu4e
+      (define-key mu4e-main-mode-map "q" #'iqbal-hide-mu4e)
       (define-key mu4e-main-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
       (define-key mu4e-view-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
       (define-key mu4e-headers-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
