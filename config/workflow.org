@@ -1,7 +1,7 @@
-* Install org-projectile, orgit and org-journal
+* Install, orgit and org-journal
   #+BEGIN_SRC emacs-lisp
     (require 'orgbox)
-    (iqbal-install-packages '(org-projectile org-journal org-dashboard orgbox orgit calfw))
+    (iqbal-install-packages '(org-journal org-dashboard orgbox orgit calfw))
   #+END_SRC
 
 
@@ -251,22 +251,10 @@
     (setq org-default-notes-file (expand-file-name "captured.org" iqbal-org-agenda-dir))
   #+END_SRC
 
-** The org agenda files
-*** Path to org-projectile todo file
-   #+BEGIN_SRC emacs-lisp
-     (setq org-projectile:projects-file
-           (expand-file-name "projects.org" iqbal-org-agenda-dir))
-   #+END_SRC
-
-*** Path to per repo TODO file
-    #+BEGIN_SRC emacs-lisp
-      (setq org-projectile:per-repo-filename "TODO.org")
-    #+END_SRC
-
-*** Any files in org folder will be added to agenda files
-  #+BEGIN_SRC emacs-lisp
-    (setq org-agenda-files (list iqbal-org-agenda-dir))
-  #+END_SRC
+** Any files in org folder will be added to agenda files
+ #+BEGIN_SRC emacs-lisp
+   (setq org-agenda-files (list iqbal-org-agenda-dir))
+ #+END_SRC
 
 ** Add a note when task is marked as DONE
   #+BEGIN_SRC emacs-lisp
@@ -524,16 +512,6 @@
                                                 (list 'file 
                                                       (expand-file-name "habits.org" iqbal-org-agenda-dir))
                                                 "* TODO %?\nSCHEDULED: <%<%Y-%m-%d .+1d/2d>>\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))
-    #+END_SRC
-
-*** Template for project specific TODOs
-    #+BEGIN_SRC emacs-lisp
-      (defun iqbal-enable-org-projectile ()
-        (require 'org-projectile)
-        (add-to-list 'org-capture-templates 
-                     (org-projectile:project-todo-entry "p" "* TODO %? :%(iqbal-get-source-buffers-project):\n%a\n")))
-
-      (with-eval-after-load 'projectile (iqbal-enable-org-projectile))
     #+END_SRC
 
 *** Template for capturing journal entry
