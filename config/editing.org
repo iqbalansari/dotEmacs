@@ -200,13 +200,13 @@
   #+BEGIN_SRC emacs-lisp
     ;; Directly calling indent-line-function, since indent-for-tab-command can
     ;; trigger completions (if tab-always-indent is set to complete)
-    (defun open-line-below ()
+    (defun iqbal-open-line-below ()
       (interactive)
       (end-of-line)
       (newline)
       (funcall indent-line-function))
 
-    (defun open-line-above ()
+    (defun iqbal-open-line-above ()
       (interactive)
       (beginning-of-line)
       (newline)
@@ -214,17 +214,20 @@
       (funcall indent-line-function))
 
 
-    (defun new-line-dwim ()
+    (defun iqbal-new-line-dwim ()
       (interactive)
-      (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
-                                 (and (looking-back ">") (looking-at "<"))
-                                 (and (looking-back "\\[") (looking-at "\\]")))))
-        (newline)
-        (when break-open-pair
-          (save-excursion
-            (newline)
-            (funcall indent-line-function)))
-        (funcall indent-line-function)))
+      ;; If inside comment delegate to comment-indent-new-line
+      (if (nth 4 (syntax-ppss))
+          (call-interactively #'comment-indent-new-line)
+        ;; If in between parenthesis add an extra line
+        (let ((break-open-pair (and (looking-back "\\s(")
+                                    (looking-at "\\s)"))))
+          (newline)
+          (when break-open-pair
+            (save-excursion
+              (newline)
+              (funcall indent-line-function)))
+          (funcall indent-line-function))))
   #+END_SRC
 
 
@@ -565,9 +568,9 @@
 
 ** Keybindings to open newlines
    #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "C-o") 'open-line-below)
-     (global-set-key (kbd "C-S-o") 'open-line-above)
-     (define-key prog-mode-map (kbd "<M-return>") 'new-line-dwim)
+     (global-set-key (kbd "C-o") 'iqbal-open-line-below)
+     (global-set-key (kbd "C-S-o") 'iqbal-open-line-above)
+     (define-key prog-mode-map (kbd "<M-return>") 'iqbal-new-line-dwim)
    #+END_SRC
 
 ** Keybindings to increment/decrement integers at point
