@@ -125,7 +125,8 @@
   Just for consistency with regular redo keybinding
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'calc
-      (define-key calc-mode-map (kbd "C-?") #'calc-redo))
+      (define-key calc-mode-map (kbd "C-?") #'calc-redo)
+      (define-key calc-mode-map iqbal-hide-app #'calc-quit))
   #+END_SRC
 
 

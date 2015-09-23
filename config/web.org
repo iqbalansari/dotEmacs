@@ -14,25 +14,18 @@
 
 * Set mark before jumping to next/previous urls
    #+BEGIN_SRC emacs-lisp
-     (defun iqbal-w3m-set-mark-before-jump ()
-       (defadvice w3m-next-anchor (before iqbal-w3m-set-mark-before-next-url (&rest args))
-         (push-mark))
+     (defun iqbal-w3m-set-mark-before-jump (&rest args)
+       (push-mark))
 
-       (defadvice w3m-previous-anchor (before iqbal-w3m-set-mark-before-previous-url (&rest args))
-         (push-mark))
-
-       (defadvice w3m-view-this-url (before iqbal-w3m-set-mark-before-viewing-url (&rest args))
-         (push-mark))
-
-       (ad-activate 'w3m-next-anchor)
-       (ad-activate 'w3m-previous-anchor)
-       (ad-activate 'w3m-view-this-url))
+     (advice-add 'w3m-next-anchor :after #'iqbal-w3m-set-mark-before-jump)
+     (advice-add 'w3m-previous-anchor :after #'iqbal-w3m-set-mark-before-jump)
+     (advice-add 'w3m-view-this-url :after #'iqbal-w3m-set-mark-before-jump)
    #+END_SRC
 
 
 * Keybindings for emacs-w3m
    #+BEGIN_SRC emacs-lisp
-     (defun iqbal-set-w3m-keybindings ()
+     (with-eval-after-load 'w3m
        (define-key w3m-mode-map (kbd "M-n") #'w3m-next-anchor)
        (define-key w3m-mode-map (kbd "M-p") #'w3m-previous-anchor)
        (define-key w3m-mode-map (kbd "<down>") #'next-line)
@@ -51,10 +44,6 @@
        (define-key w3m-mode-map (kbd "E") #'iqbal-w3m-view-url-in-external-browser)
        (define-key w3m-mode-map (kbd "M-RET") #'w3m-lnum-external-view-this-url)
        (define-key w3m-mode-map (kbd "C-w") #'w3m-delete-buffer))
-
-     (with-eval-after-load 'w3m
-       (iqbal-set-w3m-keybindings)
-       (iqbal-w3m-set-mark-before-jump))
    #+END_SRC
 
 

@@ -166,12 +166,6 @@
   #+END_SRC
 
 
-* Do not prompt when creating new file
-  #+BEGIN_SRC emacs-lisp
-    (setq helm-ff-newfile-prompt-p nil)
-  #+END_SRC
-
-
 * Various mode settings
 ** Use helm for completing in haskell mode
   #+BEGIN_SRC emacs-lisp
