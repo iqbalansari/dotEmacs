@@ -1,6 +1,6 @@
 * Install some useful packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-bullets toc-org company-math org-download pcsv notify))
+    (iqbal-install-packages '(org-bullets toc-org org-autolist company-math org-download pcsv notify))
   #+END_SRC
 
 
@@ -136,6 +136,12 @@
    #+BEGIN_SRC emacs-lisp
      (setq org-export-with-tags nil)
    #+END_SRC
+
+
+* Enable org-autolist
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'org-mode-hook #'org-autolist-mode)
+  #+END_SRC
 
 
 * toc-org configuration
