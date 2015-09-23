@@ -36,7 +36,7 @@
 
     (defun iqbal-combine-modules (modules target)
       (iqbal-write-to-file target
-                           (reduce (lambda (code module)
+                           (cl-reduce (lambda (code module)
                                      (concat code
                                              (iqbal-read-file (iqbal-get-module-el-file module))))
                                      modules :initial-value ""))
@@ -50,7 +50,7 @@
 
     (defun iqbal-regenerate-compiled-file-maybe (current-modules previous-modules target)
       (let ((stale-modules (iqbal-get-changed-module-files current-modules))
-            (module-list-changed-p (set-exclusive-or previous-modules current-modules)))
+            (module-list-changed-p (cl-set-exclusive-or previous-modules current-modules)))
         (when (or stale-modules module-list-changed-p)
           (require 'bytecomp)
           ;; Delete previously compiled file

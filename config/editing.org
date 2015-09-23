@@ -664,8 +664,3 @@
      (global-set-key (kbd "M-c") #'iqbal-capitalize-dwim)
    #+END_SRC
    
-** Unset C-z, I don't find it useful
-   #+BEGIN_SRC emacs-lisp
-     (global-unset-key (kbd "C-z"))
-     (global-unset-key (kbd "C-x C-z"))
-   #+END_SRC
