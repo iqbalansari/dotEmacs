@@ -95,6 +95,7 @@
 * Enable helm
   #+BEGIN_SRC emacs-lisp
     (require 'helm-config)
+    (define-key 'iqbal-launcher-map "h" 'helm-command-prefix)
     (add-hook 'after-init-hook #'helm-mode)
   #+END_SRC
 
@@ -154,6 +155,19 @@
    #+BEGIN_SRC emacs-lisp
      (setq helm-multi-files-toggle-locate-binding "C-c C-l")
    #+END_SRC
+
+
+* Command to open info using helm
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'helm-info
+      (setf (cdr (assoc 'requires-pattern helm-source-info-pages)) 1)
+
+      (defun helm-info ()
+        (interactive)
+        (helm :sources helm-source-info-pages))
+
+      (define-key iqbal-launcher-map "i" 'helm-info))
+  #+END_SRC
 
 
 * Echo input in header line
