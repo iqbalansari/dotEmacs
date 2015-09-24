@@ -180,19 +180,6 @@
   #+END_SRC
 
 
-* Various mode settings
-** Use helm for completing in haskell mode
-  #+BEGIN_SRC emacs-lisp
-    (setq haskell-completing-read-function #'helm--completing-read-default)
-  #+END_SRC
-
-** Do not complete in step while org-refiling
-  Otherwise only the top level completions are shown by helm
-  #+BEGIN_SRC emacs-lisp
-    (setq org-outline-path-complete-in-steps nil)
-  #+END_SRC
-
-
 * Helm integration for other modes
 ** helm-descbinds configuration
    #+BEGIN_SRC emacs-lisp
@@ -253,11 +240,22 @@
      (global-set-key [remap bookmark-jump] #'helm-bookmarks)
    #+END_SRC
 
+** Use helm for completing in haskell mode
+  #+BEGIN_SRC emacs-lisp
+    (setq haskell-completing-read-function #'helm--completing-read-default)
+  #+END_SRC
+
 ** Enable additional completion in org-store-link
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'org
        (require 'org-linkany))
    #+END_SRC
+
+** Do not complete in step while org-refiling
+  Otherwise only the top level completions are shown by helm
+  #+BEGIN_SRC emacs-lisp
+    (setq org-outline-path-complete-in-steps nil)
+  #+END_SRC
 
 
 * Do not restore helm-mode using desktop  
@@ -273,4 +271,5 @@
     (global-set-key (kbd "M-x") #'helm-M-x)
     (global-set-key (kbd "C-x b") #'helm-mini)
     (global-set-key [remap locate] #'helm-locate)
+    (global-set-key (kbd "C-c o") #'helm-org-agenda-files-headings)
   #+END_SRC
