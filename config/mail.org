@@ -396,6 +396,22 @@
   #+END_SRC
 
 
+* Additional bookmarks for mu4e
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-get-all-mail-query ()
+      (require 'subr-x)
+      (string-join (mapcar (lambda (maildir) (format "maildir:\"%s\"" maildir))
+                           (cl-remove-if
+                            (lambda (maildir) (or (string-match-p "[Ss]pam" maildir) (string-match-p "[Tt]rash" maildir)))
+                            (cl-set-difference (mu4e-get-maildirs) (list mu4e-trash-folder) :test #'string=)))
+                   " OR "))
+
+    (with-eval-after-load 'mu4e
+      (add-to-list 'mu4e-bookmarks `(,(iqbal-get-all-mail-query) "All mail" ?a))
+      (add-to-list 'mu4e-bookmarks '("flag:attach" "Mails with attachement" ?T) t))
+  #+END_SRC
+
+
 * Start mu4e
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-start-mu4e-bg ()
@@ -621,7 +637,8 @@
 
      (defun iqbal-switch-to-window-conf-or-fallback (wconf fallback &rest args)
        (let ((pre-wconf (current-window-configuration)))
-         (set-window-configuration wconf)
+         (when (window-configuration-p wconf)
+           (set-window-configuration wconf))
          (when (compare-window-configurations (current-window-configuration) pre-wconf)
            ;; if the windows didn't change then most probably the window
            ;; configuration given was invalid, fallback
