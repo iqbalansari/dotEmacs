@@ -1002,5 +1002,5 @@
 
 ** Keybinding to view diary
    #+BEGIN_SRC emacs-lisp
-     (define-key launcher-map "d" #'diary)
+     (define-key iqbal-launcher-map "d" #'diary)
    #+END_SRC

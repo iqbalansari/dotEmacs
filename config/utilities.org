@@ -139,7 +139,7 @@
           (call-interactively #'calculator)
         (call-interactively #'calc)))
 
-    (define-key launcher-map "c" #'iqbal-start-calculator)
+    (define-key iqbal-launcher-map "c" #'iqbal-start-calculator)
   #+END_SRC
 
 
@@ -159,7 +159,7 @@
 ** Change default keybinding
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'pandoc-mode
-       (define-key launcher-map "p" #'pandoc-main-hydra/body)
+       (define-key iqbal-launcher-map "p" #'pandoc-main-hydra/body)
        (define-key pandoc-mode-map (kbd "C-c /") nil))
    #+END_SRC
 

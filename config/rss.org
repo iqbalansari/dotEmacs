@@ -184,7 +184,7 @@
 * Keybindings
 ** Launch elfeed
   #+BEGIN_SRC emacs-lisp
-    (define-key launcher-map "e" #'elfeed)
+    (define-key iqbal-launcher-map "e" #'elfeed)
   #+END_SRC
 
 ** Keybindings for elfeed-search mode

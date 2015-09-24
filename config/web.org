@@ -111,6 +111,6 @@
 * Global w3m keybindings
   #+BEGIN_SRC emacs-lisp
     (when (executable-find "w3m")
-      (define-key launcher-map "w" #'w3m)
+      (define-key iqbal-launcher-map "w" #'w3m)
       (global-set-key iqbal-open-link #'iqbal-w3m-browse-url-dwim))
   #+END_SRC

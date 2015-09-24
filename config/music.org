@@ -60,7 +60,7 @@
 * Bongo keybindings
 ** Keybinding to start bongo
   #+BEGIN_SRC emacs-lisp
-    (define-key launcher-map "b" #'bongo)
+    (define-key iqbal-launcher-map "b" #'bongo)
   #+END_SRC
 
 ** Keybinding to quit bongo

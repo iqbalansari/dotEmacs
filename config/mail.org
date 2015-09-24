@@ -672,7 +672,7 @@
 
 * Keybindings mu4e
   #+BEGIN_SRC emacs-lisp
-    (define-key launcher-map "m" #'iqbal-start-mu4e)
+    (define-key iqbal-launcher-map "m" #'iqbal-start-mu4e)
 
     (with-eval-after-load 'mu4e
       (define-key mu4e-main-mode-map "q" #'iqbal-hide-mu4e)
