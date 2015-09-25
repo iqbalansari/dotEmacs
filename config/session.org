@@ -48,8 +48,8 @@
 
 * Save minibuffer history across sessions
   #+BEGIN_SRC emacs-lisp
+    (setq savehist-additional-variables '(kill-ring))
     (savehist-mode 1)
-    (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
   #+END_SRC
 
 
