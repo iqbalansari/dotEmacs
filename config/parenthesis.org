@@ -12,7 +12,6 @@
 * Diable smartparens in some modes
 ** We don't need smartparens in RE builder
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'sp-ignore-modes-list 'reb-mode)
      (add-to-list 'sp-ignore-modes-list 'artist-mode)
    #+END_SRC
 
