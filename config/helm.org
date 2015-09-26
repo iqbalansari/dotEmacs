@@ -226,6 +226,22 @@
       (global-set-key [remap multi-occur] #'helm-multi-occur)
     #+END_SRC
 
+** helm-ag
+*** Use C-c C-c to save ag results
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-helm-ag-save-results ()
+        (interactive)
+        (helm-exit-and-execute-action 'helm-ag--action-save-buffer))
+
+      (with-eval-after-load 'helm-ag
+        (define-key helm-ag-map (kbd "C-c C-c") #'iqbal-helm-ag-save-results))
+    #+END_SRC
+
+*** Replace ag with helm-do-ag
+    #+BEGIN_SRC emacs-lisp
+      (global-set-key [remap ag] #'helm-do-ag)
+    #+END_SRC
+
 ** helm-descbinds configuration
    #+BEGIN_SRC emacs-lisp
      (setq helm-descbinds-window-style 'split-window)
