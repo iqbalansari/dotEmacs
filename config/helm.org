@@ -199,13 +199,11 @@
         args)
 
       (advice-add 'helm-do-grep-1 :filter-args #'iqbal-helm-grep-recurse-by-default)
-      (advice-add 'helm-ff-zgrep-1 :filter-args #'iqbal-helm-grep-recurse-by-default)
     #+END_SRC
 
 *** Replace rgrep and zrgrep with helm equivalents
     #+BEGIN_SRC emacs-lisp
       (global-set-key [remap rgrep] #'helm-do-grep)
-      (global-set-key [remap zrgrep] #'helm-do-zgrep)
     #+END_SRC
 
 ** helm-occur configuration
