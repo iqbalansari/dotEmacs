@@ -160,7 +160,7 @@
 * Command to open info using helm
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'helm-info
-      (setf (cdr (assoc 'requires-pattern helm-source-info-pages)) 1)
+      (setf (cdr (assoc 'requires-pattern helm-source-info-pages)) 0)
 
       (defun helm-info ()
         (interactive)
