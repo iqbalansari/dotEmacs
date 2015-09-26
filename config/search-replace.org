@@ -218,6 +218,14 @@
 
 
 * Keybindings
+** Keybinding for occur-edit-mode
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-occur-setup-keys ()
+       (define-key occur-mode-map (kbd "C-c C-e") #'occur-edit-mode))
+
+     (add-hook 'occur-mode-hook #'iqbal-occur-setup-keys)
+   #+END_SRC
+
 ** Additional keys on search map
    #+BEGIN_SRC emacs-lisp
      (define-key search-map "o" #'occur)

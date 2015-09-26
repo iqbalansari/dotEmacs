@@ -181,6 +181,53 @@
 
 
 * Helm integration for other modes
+** helm-grep configuration
+*** Use C-c C-c to save grep results
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-helm-grep-save-results ()
+        (interactive)
+        (helm-exit-and-execute-action 'helm-grep-save-results))
+
+      (with-eval-after-load 'helm-grep
+        (define-key helm-grep-map (kbd "C-c C-c") #'iqbal-helm-grep-save-results))
+    #+END_SRC
+
+*** Default to recursive grep
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-helm-grep-recurse-by-default (args)
+        (setf (cadr args) (not (cadr args)))
+        args)
+
+      (advice-add 'helm-do-grep-1 :filter-args #'iqbal-helm-grep-recurse-by-default)
+      (advice-add 'helm-ff-zgrep-1 :filter-args #'iqbal-helm-grep-recurse-by-default)
+    #+END_SRC
+
+*** Replace rgrep and zrgrep with helm equivalents
+    #+BEGIN_SRC emacs-lisp
+      (global-set-key [remap rgrep] #'helm-do-grep)
+      (global-set-key [remap zrgrep] #'helm-do-zgrep)
+    #+END_SRC
+
+** helm-occur configuration
+*** Use C-c C-c to open a regular occur buffer
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-helm-occur-save-results ()
+        (interactive)
+        (apply #'helm-run-after-exit
+               (if (string= (cdr (assoc 'name (helm-get-current-source))) "occur")
+                   `(occur ,helm-pattern)
+                 `(multi-occur ,(mapcar #'get-buffer (helm-attr 'moccur-buffers)) ,helm-pattern))))
+
+      (with-eval-after-load 'helm-regexp
+        (define-key helm-moccur-map (kbd "C-c C-c") #'iqbal-helm-occur-save-results))
+    #+END_SRC
+
+*** Replace occur with helm-occur
+    #+BEGIN_SRC emacs-lisp
+      (global-set-key [remap occur] #'helm-occur)
+      (global-set-key [remap multi-occur] #'helm-multi-occur)
+    #+END_SRC
+
 ** helm-descbinds configuration
    #+BEGIN_SRC emacs-lisp
      (setq helm-descbinds-window-style 'split-window)
