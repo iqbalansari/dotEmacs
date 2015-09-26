@@ -64,20 +64,38 @@
   #+END_SRC
 
 
-* Flash current line after jumping to buffers
+* Recenter line and flash current line after jumping to buffers
 ** After jumping using imenu
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'imenu-after-jump-hook 'iqbal-highlight-line t)
+    (add-hook 'imenu-after-jump-hook #'iqbal-reorient t)
   #+END_SRC
 
 ** After jumping to occurrence from occur mode 
    #+BEGIN_SRC emacs-lisp
-     (add-hook 'occur-mode-find-occurrence-hook #'iqbal-highlight-line t)
+     (add-hook 'occur-mode-find-occurrence-hook #'iqbal-reorient t)
    #+END_SRC
 
 ** After jumping to error from grep/compilation mode
    #+BEGIN_SRC emacs-lisp
-     (add-hook 'next-error-hook #'iqbal-highlight-line t)
+     (add-hook 'next-error-hook #'iqbal-reorient t)
+   #+END_SRC
+
+** After jumping to a function from help-mode
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-help-flash-line-on-find-function (orig &rest args)
+       (let ((result (apply orig args)))
+         (when (and result
+                    (not (eq major-mode 'help-mode)))
+           (iqbal-reorient))
+         result))
+
+     (advice-add 'help-button-action :around #'iqbal-help-flash-line-on-find-function)
+   #+END_SRC
+
+** After jumping to last change
+   #+BEGIN_SRC emacs-lisp
+     (advice-add 'goto-last-change :after #'iqbal-reorient)
+     (advice-add 'goto-last-change-reverse :after #'iqbal-reorient)
    #+END_SRC
 
 
