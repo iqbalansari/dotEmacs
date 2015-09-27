@@ -226,19 +226,23 @@
 
 * Make `C-c RET` keybinding consistent with rest of emacs (open link at point)
   #+BEGIN_SRC emacs-lisp
-    (org-defkey org-mode-map iqbal-open-link #'org-open-at-point)
+    (with-eval-after-load 'org
+      (org-defkey org-mode-map iqbal-open-link #'org-open-at-point))
   #+END_SRC
 
 
 * Free up keybindings for expanding snippets
   #+BEGIN_SRC emacs-lisp
-    (org-defkey org-mode-map iqbal-expand-snippet nil)
+    (with-eval-after-load 'org
+      (org-defkey org-mode-map iqbal-expand-snippet nil))
   #+END_SRC
 
 
 * Keybindings to store link and insert link at point
   #+BEGIN_SRC emacs-lisp
-    (org-defkey org-mode-map (kbd "C-c l") #'org-insert-link)
+    (with-eval-after-load 'org
+      (org-defkey org-mode-map (kbd "C-c l") #'org-insert-link))
+
     (global-set-key (kbd "C-c k") #'org-store-link)
   #+END_SRC
 
