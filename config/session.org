@@ -35,13 +35,22 @@
 ** Additional locals to save
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'desktop
+       (add-to-list 'desktop-locals-to-save 'sql-product)
        (add-to-list 'desktop-locals-to-save 'sql-product))
+   #+END_SRC
+
+** Minor modes that should not be stored
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'desktop
+       (add-to-list 'desktop-minor-mode-table '(rich-minority-mode nil))
+       (add-to-list 'desktop-minor-mode-table '(helm-mode nil)))
    #+END_SRC
 
 ** Do not save encrypted files, message mode files
    #+BEGIN_SRC emacs-lisp
-     (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\|\.gpg$\\|,S$\\|,DS\\)")
-     (add-to-list 'desktop-modes-not-to-save 'message-mode)
+     (with-eval-after-load 'desktop
+       (setq desktop-files-not-to-save "\\(^/[^/:]*:\\|(ftp)$\\|\.gpg$\\|,S$\\|,DS\\)")
+       (add-to-list 'desktop-modes-not-to-save 'message-mode))
    #+END_SRC
 
 

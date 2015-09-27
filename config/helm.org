@@ -319,13 +319,6 @@
   #+END_SRC
 
 
-* Do not restore helm-mode using desktop  
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'desktop
-      (add-to-list 'desktop-minor-mode-table '(helm-mode nil)))
-  #+END_SRC
-
-
 * Global keybindings
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-f") #'helm-find-files)
