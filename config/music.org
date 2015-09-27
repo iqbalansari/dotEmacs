@@ -209,44 +209,21 @@
 
 
     (defun iqbal-store-bongo-link ()
-      ;; It seems org calls org-store-link-functions twice.  First to check which
-      ;; functions are capable of capturing links in the buffer and second time to
-      ;; get link This is problematic since we read input from user We can avoiding
-      ;; capturing link again by checking org-store-link-plist which is set globally
-      ;; by org-mode after processing a link function.  It is set to nil at start of
-      ;; capture process by org-mode, so if it is set we can safely it to know
-      ;; whether we are being called second time and simply return the stored value,
-      ;; will report this as a bug to org-mode, the API can be improved OR atleast better
-      ;; documented
-      (if (and org-store-link-plist
-               (string= (plist-get org-store-link-plist :type) "bongo"))
-          org-store-link-plist
-        (save-window-excursion
-          (when (bongo-buffer-p)
-            (when (bongo-library-buffer-p)
-              (bongo-switch-buffers))
-            (when bongo-player
-              (let* ((current-time (bongo-player-elapsed-time bongo-player))
-                     (duration (when current-time
-                                 (read-number "[org-store-link] Duration of the clip, if 0 play till end of media: " 0)))
-                     (stop-time (when (and duration (not (zerop duration)))
-                                  (+ current-time duration)))
-                     (start-time (if (and stop-time (< stop-time current-time))
-                                     stop-time
-                                   current-time))
-                     (stop-time (when stop-time
-                                  (max current-time stop-time)))
-                     (file-name (bongo-player-file-name bongo-player))
-                     (description (iqbal-get-player-state-org-description bongo-player start-time stop-time))
-                     (link (concat "bongo:"
-                                   (url-hexify-string file-name)
-                                   (when start-time
-                                     (concat (format "::%d" start-time)
-                                             (when stop-time
-                                               (format "-%d" stop-time)))))))
-                (org-store-link-props :type "bongo"
-                                      :link link
-                                      :description description)))))))
+      (save-window-excursion
+        (when (bongo-buffer-p)
+          (when (bongo-library-buffer-p)
+            (bongo-switch-buffers))
+          (when bongo-player
+            (let* ((start-time (bongo-player-elapsed-time bongo-player))
+                   (file-name (bongo-player-file-name bongo-player))
+                   (description (iqbal-get-player-state-org-description bongo-player start-time))
+                   (link (concat "bongo:"
+                                 (url-hexify-string file-name)
+                                 (when start-time
+                                   (concat (format "::%d" start-time))))))
+              (org-store-link-props :type "bongo"
+                                    :link link
+                                    :description description))))))
 
     (add-hook 'org-store-link-functions 'iqbal-store-bongo-link)
   #+END_SRC
