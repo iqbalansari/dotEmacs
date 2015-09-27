@@ -287,6 +287,12 @@
      (global-set-key [remap yas-insert-snippet] #'helm-yas-complete)
    #+END_SRC
 
+** helm-M-x configuration
+*** Save command history even on errors
+    #+BEGIN_SRC emacs-lisp
+      (setq helm-M-x-always-save-history t)
+    #+END_SRC
+
 ** helm-mu configuration
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e
