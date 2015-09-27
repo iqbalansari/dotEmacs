@@ -202,8 +202,8 @@
 * Initialize package management
 ** Add some more repositories
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-     (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
    #+END_SRC
 
 ** Refresh package contents if needed
