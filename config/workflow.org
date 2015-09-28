@@ -1,6 +1,5 @@
 * Install, orgit and org-journal
   #+BEGIN_SRC emacs-lisp
-    (require 'orgbox)
     (iqbal-install-packages '(org-journal org-dashboard orgbox orgit calfw))
   #+END_SRC
 
@@ -286,6 +285,19 @@
    #+BEGIN_SRC emacs-lisp
      (setq org-agenda-start-on-weekday nil)
    #+END_SRC
+
+
+* orgbox configuration
+  #+BEGIN_SRC emacs-lisp
+    (autoload 'orgbox-schedule "orgbox" "Schedule using orgbox" t)
+    (autoload 'orgbox-agenda-schedule "orgbox" "Schedule using orgbox" t)
+
+    (with-eval-after-load 'org
+      (org-defkey org-mode-map (kbd "C-c C-s") 'orgbox-schedule))
+
+    (with-eval-after-load 'org-agenda
+      (org-defkey org-agenda-mode-map (kbd "C-c C-s") 'orgbox-agenda-schedule))
+  #+END_SRC
 
 
 * Org capture templates
@@ -799,14 +811,14 @@
      (setq org-clock-out-remove-zero-time-clocks t)
    #+END_SRC
 
-** Do not find a recent task, if there is not current clocked in task in org-clock-goto
+** Do not find a recent task, if there is no current clocked in task in org-clock-goto
    #+BEGIN_SRC emacs-lisp
      (setq org-clock-goto-may-find-recent-task nil)
    #+END_SRC
 
 ** Setup clock persistence
    #+BEGIN_SRC emacs-lisp
-     (org-clock-persistence-insinuate)
+     (add-hook 'after-init-hook 'org-clock-persistence-insinuate)
    #+END_SRC
 
 ** Automatically change todo states on clock-in and clock-out

@@ -1,6 +1,9 @@
 * Install helm packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(helm helm-descbinds helm-projectile helm-company helm-mu org-linkany helm-gitignore wgrep-helm))
+    (iqbal-install-packages '(helm helm-descbinds helm-projectile
+                                   helm-swoop helm-company
+                                   helm-mu org-linkany
+                                   helm-gitignore wgrep-helm))
 
     (when (executable-find "ag")
       (iqbal-install-package 'helm-ag))
@@ -241,6 +244,12 @@
     #+BEGIN_SRC emacs-lisp
       (global-set-key [remap ag] #'helm-do-ag)
     #+END_SRC
+
+** helm-swoop configuration
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key [remap swoop] #'helm-swoop)
+     (global-set-key [remap swoop-multi] #'helm-multi-swoop)
+   #+END_SRC
 
 ** helm-descbinds configuration
    #+BEGIN_SRC emacs-lisp
