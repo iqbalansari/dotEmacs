@@ -341,4 +341,5 @@
     (global-set-key (kbd "C-x b") #'helm-mini)
     (global-set-key [remap locate] #'helm-locate)
     (global-set-key (kbd "C-c o") #'helm-org-agenda-files-headings)
+    (global-set-key (kbd "C-c m") #'helm-all-mark-rings)
   #+END_SRC

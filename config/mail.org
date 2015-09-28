@@ -316,7 +316,8 @@
 *** Functions to convert the parsed ical data to appt
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-cleanup-ical-text (text)
-        (replace-regexp-in-string "\\\\," "," (replace-regexp-in-string "\\\\n" "\n" text)))
+        (and (stringp text)
+             (replace-regexp-in-string "\\\\," "," (replace-regexp-in-string "\\\\n" "\n" text))))
 
       (defun iqbal-make-appt-from-parsed-ical-data (data source)
         (with-current-buffer (find-file-noselect (iqbal-get-file-in-data-directory "agenda/appt.org"))
