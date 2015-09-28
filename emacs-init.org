@@ -320,6 +320,12 @@
   #+END_SRC
 
 
+* A simple command to restart emacs for with in emacs
+  #+BEGIN_SRC emacs-lisp
+    (iqbal-install-package 'restart-emacs)
+  #+END_SRC
+
+
 * Declare common keybindings
   These don't actually bind any command rather they define the keys that will
   be used for common actions across multiple modes for commands
