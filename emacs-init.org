@@ -495,10 +495,7 @@
        (interactive
         (list (completing-read "Language: "
                                (directory-files iqbal-langs-dir nil "[^.]+"))))
-       (unless (or (and (string-prefix-p "*" (buffer-name))
-                        (not (numberp (string-match-p "*scratch [\\[a-z0-9A-Z]+\\]"
-                                                      (buffer-name)))))
-                   (string-prefix-p " " (buffer-name)))
+       (unless (string-prefix-p " " (buffer-name))
          (iqbal-load-lang-config language)))
 
      (defun iqbal-compile-all-lang-config ()
@@ -529,6 +526,7 @@
                                     (extension extension))
                         (lambda ()
                           (when (or (not extension)
+                                    (member 'org-src-mode minor-mode-list)
                                     (string-match-p extension (or (file-name-extension (buffer-name)) "")))
                             (iqbal-load-lang-config-for-buffer language))))))
    #+END_SRC
