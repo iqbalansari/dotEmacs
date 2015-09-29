@@ -432,7 +432,7 @@
                                               (list 'file+headline
                                                     (expand-file-name "todos.org" iqbal-org-agenda-dir)
                                                     "Unfiled")
-                                              "* TODO %?\n%U\n\n"
+                                              "* TODO %? %^G\n%U\n\n"
                                               :empty-lines-after 2))
   #+END_SRC
 
@@ -444,7 +444,7 @@
                                               (list 'file+headline
                                                     (expand-file-name "todos.org" iqbal-org-agenda-dir)
                                                     "Unfiled")
-                                              "* TODO %?\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
+                                              "* TODO %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
                                               :empty-lines-after 2))
   #+END_SRC
 
@@ -456,7 +456,7 @@
                                                 (list 'file+headline
                                                       (expand-file-name "links.org" iqbal-notes-dir)
                                                       "To read")
-                                                "* UNREAD %?\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
+                                                "* UNREAD %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2))
     #+END_SRC
 
