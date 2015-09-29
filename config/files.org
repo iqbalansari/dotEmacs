@@ -74,7 +74,7 @@
 * Function to rename current buffer and associated file
   Credits: [[http://whattheemacsd.com/file-defuns.el-01.html][whattheemacsd]].
   #+BEGIN_SRC emacs-lisp
-    (defun rename-current-buffer-file ()
+    (defun iqbal-rename-current-buffer-file ()
       "Renames current buffer and file it is visiting."
       (interactive)
       (let ((name (buffer-name))
@@ -93,13 +93,13 @@
               (message "File '%s' successfully renamed to '%s'"
                        name (file-name-nondirectory new-name)))))))
 
-    (global-set-key (kbd "C-x C-r") 'rename-current-buffer-file)
+    (global-set-key (kbd "C-x C-r") 'iqbal-rename-current-buffer-file)
   #+END_SRC
 
 
 * Function to delete current buffer and its associated file
   #+BEGIN_SRC emacs-lisp
-    (defun delete-file-and-buffer ()
+    (defun iqbal-delete-file-and-buffer ()
       "Kill the current buffer and deletes the file it is visiting."
       (interactive)
       (let* ((filename (buffer-file-name))
