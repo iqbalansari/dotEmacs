@@ -176,6 +176,12 @@
   #+END_SRC
 
 
+* Enable eldoc mode
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'org-mode-hook 'turn-on-eldoc-mode)
+  #+END_SRC
+
+
 * Log things in a drawer always
   #+BEGIN_SRC emacs-lisp
     (setq org-log-into-drawer t)
