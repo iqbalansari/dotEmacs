@@ -303,14 +303,20 @@
   #+END_SRC
 
 
-* Jumping to symbol using ace-jump-mode
+* Jumping to symbol using avy
   Need a special function, since when jumping to character 'a' we want to able
   to jump to 'a' as well as '$a' (since PHP prefixes variables with '$')
-  #+BEGIN_SRC emacs-lisp
-    (autoload 'ace-jump-do "ace-jump-mode")
-
-    (defun iqbal-ace-jump-mode-goto-word-php (char)
-      "Jump to the currently visible PHP identifier."
-      (interactive (list (string (read-char "Head char: " t))))
-      (ace-jump-do (format "\\<$%s\\|\\<\\%s" char char)))
-  #+END_SRC
+  #+begin_src emacs-lisp
+    (defun iqbal-avy-goto-char-php (char &optional arg)
+      "Jump to the currently visible PHP identifier.
+    The window scope is determined by `avy-all-windows' (ARG negates it)."
+      (interactive (list (read-char "char: " t)
+                         current-prefix-arg))
+      (avy-with avy-goto-char
+        (avy--generic-jump
+         (if (= 13 char)
+             "\n"
+           (format "\\$?%s" (regexp-quote (string char))))
+         arg
+         avy-style)))
+  #+end_src

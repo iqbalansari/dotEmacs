@@ -110,13 +110,4 @@
                      (when (iqbal-install-variable-analysis-sniffs)
                        iqbal-phpcs-standard))))
        (warn "PHP Codesniffer not found! Install it using composer for better syntax checking"))
-   #+END_SRC
-
-
-* Fix ace-jump-mode for php
-  #+BEGIN_SRC emacs-lisp
-    (when (boundp 'ace-jump-mode-submode-list)
-      (setq-local ace-jump-mode-submode-list (cons 'iqbal-ace-jump-mode-goto-word-php
-                                                   (delq 'ace-jump-word-mode
-                                                         ace-jump-mode-submode-list))))
-  #+END_SRC
+   #+end_src
