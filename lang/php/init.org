@@ -307,7 +307,7 @@
   Need a special function, since when jumping to character 'a' we want to able
   to jump to 'a' as well as '$a' (since PHP prefixes variables with '$')
   #+begin_src emacs-lisp
-    (defun iqbal-avy-goto-char-php (char &optional arg)
+    (defun iqbal-avy-goto-word-php (char &optional arg)
       "Jump to the currently visible PHP identifier.
     The window scope is determined by `avy-all-windows' (ARG negates it)."
       (interactive (list (read-char "char: " t)
@@ -316,7 +316,7 @@
         (avy--generic-jump
          (if (= 13 char)
              "\n"
-           (format "\\$?%s" (regexp-quote (string char))))
+           (format "\\_<\\$?%s" (regexp-quote (string char))))
          arg
          avy-style)))
   #+end_src

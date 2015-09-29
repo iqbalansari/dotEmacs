@@ -30,5 +30,5 @@
   #+begin_src emacs-lisp
     (with-eval-after-load 'avy
       (when (where-is-internal 'avy-goto-word-or-subword-1)
-        (define-key php-mode-map (car (where-is-internal 'avy-goto-word-or-subword-1)) #'iqbal-avy-goto-char-php)))
+        (define-key php-mode-map (car (where-is-internal 'avy-goto-word-or-subword-1)) #'iqbal-avy-goto-word-php)))
   #+end_src
