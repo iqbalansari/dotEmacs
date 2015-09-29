@@ -189,7 +189,21 @@
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-helm-grep-save-results ()
         (interactive)
-        (helm-exit-and-execute-action 'helm-grep-save-results))
+        (require 'subr-x)
+        (let* ((patterns (split-string (with-current-buffer "*helm grep*"
+                                         helm-grep-include-files)))
+               (quoted-extensions (mapcar (lambda (pattern)
+                                            (car (last (split-string pattern "="))))
+                                          patterns))
+               (extensions  (mapcar (lambda (extension)
+                                      ;; TODO: Poor man's shell unquoting
+                                      (replace-regexp-in-string "\\\\" "" extension))
+                                    quoted-extensions)))
+          (grep-compute-defaults)
+          (helm-run-after-exit 'rgrep
+                               helm-pattern
+                               (string-join extensions " ")
+                               helm-ff-default-directory)))
 
       (with-eval-after-load 'helm-grep
         (define-key helm-grep-map (kbd "C-c C-c") #'iqbal-helm-grep-save-results))
@@ -234,7 +248,9 @@
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-helm-ag-save-results ()
         (interactive)
-        (helm-exit-and-execute-action 'helm-ag--action-save-buffer))
+        (if (featurep 'ag)
+            (helm-run-after-exit #'ag helm-pattern helm-ag--default-directory)
+          (helm-exit-and-execute-action 'helm-ag--action-save-buffer)))
 
       (with-eval-after-load 'helm-ag
         (define-key helm-ag-map (kbd "C-c C-c") #'iqbal-helm-ag-save-results))
