@@ -135,18 +135,20 @@
                                           iqbal-ignored-local-vars)))
       (setq iqbal-ignored-local-vars (delete dir iqbal-ignored-local-vars)))
 
-    (defadvice hack-local-variables-confirm (around iqbal-cache-local-vars-resp
-                                                    (all-vars unsafe-vars risky-vars dir-name))
-      "If the user replies in negative to applying local vars remember it and do not
-    prompt the user the next time"
+    (defun iqbal-cache-local-vars-resp (orig &rest args)
       (unless (member dir-name iqbal-ignored-local-vars)
-        ad-do-it
-        (unless ad-return-value
-          (add-to-list 'iqbal-ignored-local-vars dir-name)))
-      (setq ad-return-value nil))
+        (let ((user-resp (apply orig args)))
+          )))
+
+    (defun iqbal-cache-local-vars-resp (orig &rest args)
+      (let ((dir-name (last args)))
+        (unless (member dir-name iqbal-ignored-local-vars)
+          (let ((user-resp (apply orig args)))
+            (unless user-resp (add-to-list 'iqbal-ignored-local-vars dir-name))
+            user-resp))))
 
     ;; Activate the advice
-    (ad-activate 'hack-local-variables-confirm)
+    (advice-add 'hack-local-variables-confirm :around #'iqbal-cache-local-vars-resp)
 
     ;; Store the user choices when emacs exists
     (add-hook 'kill-emacs-hook #'iqbal-store-ignored-local-vars)
