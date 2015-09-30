@@ -143,6 +143,12 @@
   #+END_SRC
 
 
+* Keybinding for re-builder
+  #+BEGIN_SRC emacs-lisp
+    (define-key iqbal-launcher-map "r" #'re-builder)
+  #+END_SRC
+
+
 * Make links in comments and string clickable
   #+BEGIN_SRC emacs-lisp
     (add-hook 'prog-mode-hook #'goto-address-prog-mode)

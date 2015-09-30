@@ -181,7 +181,7 @@
 
 * Location of data directory
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-data-directory (locate-user-emacs-file "data/") "Directory to store personal data")
+    (defvar iqbal-data-directory (expand-file-name "personal-data" "~") "Directory to store personal data")
 
     (defun iqbal-get-file-in-data-directory (filename &optional directory-p)
       (unless (file-exists-p iqbal-data-directory)
@@ -386,6 +386,17 @@
      (defvar iqbal-hide-app (kbd "C-c q"))
    #+END_SRC
 
+** By default hide apps by closing their window or burying them
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-default-hide-app ()
+       (interactive)
+       (if (one-window-p)
+           (bury-buffer)
+         (delete-window)))
+
+     (global-set-key iqbal-hide-app #'iqbal-default-hide-app)
+   #+END_SRC
+
 ** Opening links
    #+BEGIN_SRC emacs-lisp
      (defvar iqbal-open-link (kbd "C-c RET"))
@@ -396,6 +407,12 @@
    #+BEGIN_SRC emacs-lisp
      (define-prefix-command 'iqbal-launcher-map)
      (global-set-key (kbd "C-z") 'iqbal-launcher-map)
+   #+END_SRC
+
+** Keybinding to launch ielm
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key iqbal-run-shell #'ielm)
+     (define-key iqbal-launcher-map "R" #'ielm)
    #+END_SRC
 
 
