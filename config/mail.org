@@ -645,15 +645,15 @@
            ;; configuration given was invalid, fallback
            (apply fallback args))))
 
+     (defun iqbal--start-mu4e ()
+       ;; If mu4e is running and a mu4e window configuration is
+       ;; stored
+       (if iqbal-mu-win-config
+           (iqbal-switch-to-window-conf-or-fallback iqbal-mu-win-config #'mu4e)
+         (call-interactively #'mu4e)))
+
      (defun iqbal-start-mu4e ()
        (interactive)
-
-       (defun iqbal--start-mu4e ()
-         ;; If mu4e is running and a mu4e window configuration is
-         ;; stored
-         (if iqbal-mu-win-config
-             (iqbal-switch-to-window-conf-or-fallback iqbal-mu-win-config #'mu4e)
-           (call-interactively #'mu4e)))
 
        (setq iqbal-pre-mu-win-config (current-window-configuration))
 
@@ -661,18 +661,18 @@
            (iqbal--start-mu4e)
          (message "mu4e not installed! You need to install `autoconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev' for installing mu4e")))
 
+     (defun iqbal-purge-mu4e-windows ()
+       (dolist (window (window-list))
+         (with-selected-window window
+           (when (string-match-p "^mu4e-" (symbol-name major-mode))
+             (if (one-window-p)
+                 ;; What is the next buffer is also a mu4e buffer :)
+                 (bury-buffer)
+               (delete-window))))))
+
      (defun iqbal-hide-mu4e ()
        (interactive)
-       (defun iqbal-purge-mu4e-windows ()
-         (dolist (window (window-list))
-           (with-selected-window window
-             (when (string-match-p "^mu4e-" (symbol-name major-mode))
-               (if (one-window-p)
-                   ;; What is the next buffer is also a mu4e buffer :)
-                   (bury-buffer)
-                 (delete-window))))))
        (setq iqbal-mu-win-config (current-window-configuration))
-
        (iqbal-switch-to-window-conf-or-fallback iqbal-pre-mu-win-config #'iqbal-purge-mu4e-windows))
    #+END_SRC
 

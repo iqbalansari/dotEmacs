@@ -1,51 +1,56 @@
-* Create scratch buffer for a given major mode
-  #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-scratch-buffer nil "Set locally in scratch buffers")
-    (make-variable-buffer-local 'iqbal-scratch-buffer)
+* Create scratch file for a given major mode
+** Directory to store scratch files
+   #+BEGIN_SRC emacs-lisp
+     (defvar iqbal-scratch-dir (iqbal-get-file-in-data-directory "itches" t))
+   #+END_SRC
 
-    (defun iqbal-get-active-major-mode ()
-      (if (eq major-mode 'org-mode)
-          (let ((element (org-element-at-point)))
-            ;; If inside an org-src block return the language of the block
-            (if (eq (org-element-type element) 'src-block)
-                (org-src--get-lang-mode (org-element-property :language element))
-              major-mode))
-        ;; Otherwise return current major-mode
-        major-mode))
+** Command to open the scratch file
+   #+BEGIN_SRC emacs-lisp
+     (defvar iqbal-scratch-buffer nil "Set locally in scratch buffers")
+     (make-variable-buffer-local 'iqbal-scratch-buffer)
 
-    (defun iqbal-create-scratch-buffer (&optional read-major-mode-p)
-      (interactive "P")
-      (let* ((major-mode-function (if read-major-mode-p
-                                      (intern (completing-read "Major mode: " (iqbal-get-all-major-modes-names)))
-                                    (iqbal-get-active-major-mode)))
-             (scratch-buffer-name (concat "*scratch ["
-                                          (replace-regexp-in-string "-mode$" ""
-                                                                    (symbol-name major-mode-function))
-                                          "]*"))
-             (selected-text (when (region-active-p)
-                              (buffer-substring (region-beginning) (region-end)))))
-        (switch-to-buffer (if (get-buffer scratch-buffer-name)
-                              scratch-buffer-name
-                            (with-current-buffer (generate-new-buffer scratch-buffer-name)
-                              (funcall major-mode-function)
-                              (when comment-start
-                                (insert "Here is buffer for you to scratch :)\n")
-                                (comment-region (point-min) (point-max)))
-                              (goto-char (point-max))
-                              (current-buffer))))
-        (setq-local iqbal-scratch-buffer t)
-        (when selected-text
-          (goto-char (point-max))
-          (newline)
-          (insert selected-text))))
+     (defun iqbal-get-active-major-mode ()
+       (if (eq major-mode 'org-mode)
+           (let ((element (org-element-at-point)))
+             ;; If inside an org-src block return the language of the block
+             (if (eq (org-element-type element) 'src-block)
+                 (org-src--get-lang-mode (org-element-property :language element))
+               major-mode))
+         ;; Otherwise return current major-mode
+         major-mode))
 
+     (defun iqbal-create-scratch-buffer (&optional read-major-mode-p)
+       (interactive "P")
+       (let* ((major-mode-function (if read-major-mode-p
+                                       (intern (completing-read "Major mode: " (iqbal-get-all-major-modes-names)))
+                                     (iqbal-get-active-major-mode)))
+              (scratch-file (expand-file-name (concat "scratch-"
+                                                      (replace-regexp-in-string "-mode$"
+                                                                                ""
+                                                                                (symbol-name major-mode-function)))
+                                              iqbal-scratch-dir))
+              (selected-text (when (region-active-p)
+                               (buffer-substring (region-beginning) (region-end)))))
+         (switch-to-buffer (find-file-noselect scratch-file))
+         (setq-local iqbal-scratch-buffer t)
+         (when (string= (buffer-string) "")
+           (funcall major-mode-function)
+           (when comment-start
+             (insert (format "-*- mode: %s -*-\n" (replace-regexp-in-string "-mode$" "" (symbol-name major-mode))))
+             (insert "Here is file for you to scratch :)\n")
+             (comment-region (point-min) (point-max)))
+           (goto-char (point-max)))
+         (when selected-text
+           (goto-char (point-max))
+           (newline)
+           (insert selected-text))))
 
-    (defun iqbal-get-all-major-modes-names ()
-      (remove-duplicates (mapcar #'symbol-name
-                                 (cl-remove-if-not #'symbolp
-                                                (mapcar #'cdr auto-mode-alist)))
-                         :test #'string=))
-  #+END_SRC
+     (defun iqbal-get-all-major-modes-names ()
+       (cl-remove-duplicates (mapcar #'symbol-name
+                                     (cl-remove-if-not #'symbolp
+                                                       (mapcar #'cdr auto-mode-alist)))
+                             :test #'string=))
+   #+END_SRC
 
 
 * Keybinding to create scratch buffer
