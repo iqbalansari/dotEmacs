@@ -1,5 +1,8 @@
 * Create scratch buffer for a given major mode
   #+BEGIN_SRC emacs-lisp
+    (defvar iqbal-scratch-buffer nil "Set locally in scratch buffers")
+    (make-variable-buffer-local 'iqbal-scratch-buffer)
+
     (defun iqbal-get-active-major-mode ()
       (if (eq major-mode 'org-mode)
           (let ((element (org-element-at-point)))
@@ -30,6 +33,7 @@
                                 (comment-region (point-min) (point-max)))
                               (goto-char (point-max))
                               (current-buffer))))
+        (setq-local iqbal-scratch-buffer t)
         (when selected-text
           (goto-char (point-max))
           (newline)

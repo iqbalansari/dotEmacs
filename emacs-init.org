@@ -188,12 +188,17 @@
         (make-directory iqbal-data-directory))
 
       (unless (file-directory-p iqbal-data-directory)
-        (user-error "The specified data-directory %s, is a file. Please delete it or custom `iqbal-data-directory'"))
+        (user-error "The specified data-directory %s, is a file. Please delete it or customize `iqbal-data-directory'"))
 
       (let ((file (expand-file-name filename
                                     (file-truename iqbal-data-directory))))
-        (when directory-p
-          (make-directory file t))
+        (if directory-p
+            (make-directory file t)
+          (unless (file-exists-p (file-name-directory file))
+            (make-directory (make-directory file t) t))
+
+          (unless (file-exists-p file)
+            (iqbal-write-to-file file "")))
 
         file))
   #+END_SRC

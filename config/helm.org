@@ -248,7 +248,7 @@
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-helm-ag-save-results ()
         (interactive)
-        (if (featurep 'ag)
+        (if (fboundp 'ag)
             (helm-run-after-exit #'ag helm-pattern helm-ag--default-directory)
           (helm-exit-and-execute-action 'helm-ag--action-save-buffer)))
 
