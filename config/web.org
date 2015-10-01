@@ -96,7 +96,7 @@
        (if (and (eq major-mode 'elfeed-show-mode)
                 (elfeed-entry-link elfeed-show-entry))
            (w3m-browse-url (read-string "Emacs-w3m URL: " (elfeed-entry-link elfeed-show-entry)))
-         (call-interactively 'w3m-browse-url)))
+         (call-interactively 'browse-url)))
    #+END_SRC
 
 

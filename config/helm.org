@@ -248,8 +248,8 @@
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-helm-ag-save-results ()
         (interactive)
-        (if (fboundp 'ag)
-            (helm-run-after-exit #'ag helm-pattern helm-ag--default-directory)
+        (if (fboundp 'ag-regexp)
+            (helm-run-after-exit #'ag-regexp helm-pattern helm-ag--default-directory)
           (helm-exit-and-execute-action 'helm-ag--action-save-buffer)))
 
       (with-eval-after-load 'helm-ag
@@ -337,11 +337,18 @@
     (setq haskell-completing-read-function #'helm--completing-read-default)
   #+END_SRC
 
-** Enable additional completion in org-store-link
-   #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'org
-       (require 'org-linkany))
-   #+END_SRC
+** org-mode integration
+*** Enable additional completion in org-store-link
+    #+BEGIN_SRC emacs-lisp
+      (with-eval-after-load 'org
+        (require 'org-linkany))
+    #+END_SRC
+
+*** Use `helm-org-in-buffer-headings` instead of imenu in org-mode
+    #+BEGIN_SRC emacs-lisp
+      (with-eval-after-load 'org
+        (org-defkey org-mode-map [remap imenu] #'helm-org-in-buffer-headings))
+    #+END_SRC
 
 ** Do not complete in step while org-refiling
   Otherwise only the top level completions are shown by helm
