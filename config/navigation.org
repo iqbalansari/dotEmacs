@@ -62,6 +62,11 @@
      (add-hook 'occur-mode-find-occurrence-hook #'iqbal-reorient t)
    #+END_SRC
 
+** After finding a tag
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'find-tag-hook #'iqbal-reorient t)
+   #+END_SRC
+
 ** After jumping to error from grep/compilation mode
    #+BEGIN_SRC emacs-lisp
      (add-hook 'next-error-hook #'iqbal-reorient t)
@@ -84,6 +89,7 @@
      (advice-add 'goto-last-change :after #'iqbal-reorient)
      (advice-add 'goto-last-change-reverse :after #'iqbal-reorient)
    #+END_SRC
+
 
 
 * Always rescan buffers when using imenu

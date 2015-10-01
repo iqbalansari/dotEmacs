@@ -18,21 +18,23 @@
   #+END_SRC
 
 
-* Enable popwin, automatically gets rid of useless windows
-** Enable popwin
+* Managing windows automatically
+** Enable shackle
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-package 'popwin)
-    (require 'popwin)
-    (popwin-mode 1)
+    (iqbal-install-package 'shackle)
+    (add-hook 'after-init-hook #'shackle-mode)
   #+END_SRC
 
-** Popwin config
+** Shackle config
    #+BEGIN_SRC emacs-lisp
-     (push '(grep-mode :dedicated t :width 0.5 :position right :stick t) popwin:special-display-config)
-     (push '(ag-mode :dedicated t :width 0.5 :position right :stick t ) popwin:special-display-config)
-     (push '(occur-mode :dedicated t :width 0.5 :position right :stick t) popwin:special-display-config)
-     (push '(help-mode :dedicated t :width 0.5 :position right :stick nil) popwin:special-display-config)
-     (setq popwin:special-display-config (delete 'slime-repl-mode popwin:special-display-config))
+     (setq shackle-rules '((help-mode :select t)
+                           (occur-mode  :ratio 0.5 :align right :select t)
+                           (ag-mode  :ratio 0.5 :align right :select t)
+                           (grep-mode  :ratio 0.5 :align right :select t)
+                           ("*Miniedit Help*" :noselect t)
+                           (completion-list-mode :select t)
+                           (compilation-mode :select nil :align below :ratio 0.4)
+                           (" *undo-tree*" :ratio 0.4 :align right)))
    #+END_SRC
 
 
