@@ -37,21 +37,9 @@
   #+END_SRC
 
 
-* Advice skewer-repl so that run-skewer is executed before switching to repl
-   #+BEGIN_SRC emacs-lisp
-     (eval-after-load "skewer"
-       (progn (defadvice skewer-repl (before ensure-skewer-clients (&rest args))
-                (unless skewer-clients
-                  (run-skewer)))
-
-              (ad-activate #'skewer-repl)))
-   #+END_SRC
-
-
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
-    (eval-after-load "tern"
-      '(iqbal-highlight-line-after-func tern-find-definition))
+    (iqbal-reorient-after-func 'tern-find-definition)
   #+END_SRC
 
 
@@ -85,3 +73,13 @@
     (defvar iqbal-js-use-nodejs-repl nil)
     (make-variable-buffer-local 'iqbal-js-use-nodejs-repl)
   #+END_SRC
+
+
+* Advice skewer-repl so that run-skewer is executed before switching to repl
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-skewer-ensure-clients (&rest ignored)
+       (unless skewer-clients
+         (run-skewer)))
+
+     (advice-add 'skewer-repl :before #'iqbal-skewer-ensure-clients)
+   #+END_SRC

@@ -47,5 +47,5 @@
 
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
-    (iqbal-highlight-line-after-func slime-edit-definition)
+    (iqbal-reorient-after-func 'slime-edit-definition)
   #+END_SRC

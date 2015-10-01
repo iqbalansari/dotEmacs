@@ -68,5 +68,5 @@
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
     (when iqbal-edts-available
-      (iqbal-highlight-line-after-func edts-find-source-under-point))
+      (iqbal-reorient-after-func 'edts-find-source-under-point))
   #+END_SRC

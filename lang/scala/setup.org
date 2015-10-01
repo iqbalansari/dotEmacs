@@ -43,5 +43,5 @@
 
 * Flash current line after jumping to definition
   #+BEGIN_SRC emacs-lisp
-    (iqbal-highlight-line-after-func ensime-edit-definition)
+    (iqbal-reorient-after-func 'ensime-edit-definition)
   #+END_SRC

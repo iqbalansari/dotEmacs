@@ -12,5 +12,5 @@
 
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
-    (iqbal-highlight-line-after-func cider-find-var)
+    (iqbal-reorient-after-func 'cider-find-var)
   #+END_SRC

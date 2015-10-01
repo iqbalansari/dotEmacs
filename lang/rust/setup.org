@@ -28,6 +28,6 @@ and restart emacs or set manually set `racer-rust-src-path'"
 
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
-    (iqbal-highlight-line-after-func racer-find-definition)
+    (iqbal-reorient-after-func 'racer-find-definition)
   #+END_SRC
   

@@ -67,10 +67,10 @@
 
 * Highlight line after jump to definition
    #+BEGIN_SRC emacs-lisp
-     (iqbal-highlight-line-after-func iqbal-c-find-definition-rtags)
-     (iqbal-highlight-line-after-func iqbal-find-definition-rtags-fallback)
-     (iqbal-highlight-line-after-func gtags-find-tag)
-     (iqbal-highlight-line-after-func find-tag)
+     (iqbal-reorient-after-func 'iqbal-c-find-definition-rtags)
+     (iqbal-reorient-after-func 'iqbal-find-definition-rtags-fallback)
+     (iqbal-reorient-after-func 'gtags-find-tag)
+     (iqbal-reorient-after-func 'find-tag)
    #+END_SRC
 
 
@@ -102,8 +102,3 @@
      (flycheck-select-checker (cond ((and iqbal-gcc-version (not (version< iqbal-gcc-version "4.8.1"))) 'c/c++-gcc)
                                     (iqbal-clang-version 'c/c++-clang)))
    #+END_SRC
-
-  #+BEGIN_SRC emacs-lisp
-    (eval-after-load 'projectile
-      '(add-to-list 'projectile-project-root-files "compile_commands.json"))
-  #+END_SRC

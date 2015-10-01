@@ -22,5 +22,5 @@
 
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
-    (iqbal-highlight-line-after-func geiser-edit-symbol-at-point)
+    (iqbal-reorient-after-func 'geiser-edit-symbol-at-point)
   #+END_SRC

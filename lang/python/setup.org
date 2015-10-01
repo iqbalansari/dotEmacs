@@ -75,5 +75,5 @@
 * Flash current line after a jump to definition
   #+BEGIN_SRC emacs-lisp
     (when iqbal-jedi-available
-      (iqbal-highlight-line-after-func jedi:goto-definition))
+      (iqbal-reorient-after-func 'jedi:goto-definition))
   #+END_SRC

@@ -156,12 +156,9 @@
      (defun iqbal-highlight-line ()
        (pulse-momentary-highlight-one-line (point)))
 
-     (defmacro iqbal-highlight-line-after-func (func)
-       `(progn (defadvice ,func (after highlight-current-line
-                                       (&rest args))
-                 "Flash the current line after jump"
-                 (run-at-time 0.1 nil #'iqbal-highlight-line))
-               (ad-activate ',func)))
+
+     (defun iqbal-reorient-after-func (func)
+       (advice-add func :after #'iqbal-reorient))
    #+END_SRC
 
 ** Prefer utf-8 encoding

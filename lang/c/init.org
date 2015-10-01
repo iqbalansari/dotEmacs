@@ -1,7 +1,7 @@
 * Add compile_commands.json to projectile project root files
   #+BEGIN_SRC emacs-lisp
-    (eval-after-load 'projectile
-      '(add-to-list 'projectile-project-root-files "compile_commands.json"))
+    (with-eval-after-load 'projectile
+      (add-to-list 'projectile-project-root-files "compile_commands.json"))
   #+END_SRC
 
 

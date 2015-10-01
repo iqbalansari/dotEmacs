@@ -103,5 +103,5 @@
 
 * Flash line after jump
   #+BEGIN_SRC emacs-lisp
-    (iqbal-highlight-line-after-func haskell-mode-jump-to-def-or-tag)
+    (iqbal-reorient-after-func 'haskell-mode-jump-to-def-or-tag)
   #+END_SRC

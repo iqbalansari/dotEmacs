@@ -40,7 +40,7 @@
 * Highlight line after jumping to definition
   #+BEGIN_SRC emacs-lisp
     (when iqbal-godef-available
-      (iqbal-highlight-line-after-func godef-jump))
+      (iqbal-reorient-after-func 'godef-jump))
   #+END_SRC
 
 

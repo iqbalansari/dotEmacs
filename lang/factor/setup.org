@@ -6,7 +6,7 @@
 
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
-    (iqbal-highlight-line-after-func fuel-edit-word-at-point)
+    (iqbal-reorient-after-func 'fuel-edit-word-at-point)
   #+END_SRC
 
 
