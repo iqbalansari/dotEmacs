@@ -101,12 +101,13 @@
 
 ** Enable which-key mode
    #+BEGIN_SRC emacs-lisp
-     (which-key-mode +1)
+     (add-hook 'after-init-hook #'which-key-mode)
    #+END_SRC
 
 ** Display which-key menu as window at the bottom
    #+BEGIN_SRC emacs-lisp
-     (which-key-setup-side-window-bottom)
+     (with-eval-after-load 'which-key
+       (which-key-setup-side-window-bottom))
    #+END_SRC
 
 ** Let it take some more space
@@ -118,6 +119,14 @@
    #+BEGIN_SRC emacs-lisp
      (setq which-key-paging-prefixes '("C-x" "C-c"))
      (setq which-key-paging-key "<f5>")
+   #+END_SRC
+
+** Prettier (unicode) display for special keys
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'which-key
+       (dolist (replacements '(("TAB" . "↹") ("RET" . "⏎") ("SPC" . "␣") ("DEL" . "⌫") ("ESC" . "⎋")))
+         (when (char-displayable-p (string-to-char (cdr replacements)))
+           (push replacements which-key-key-replacement-alist))))
    #+END_SRC
 
 
