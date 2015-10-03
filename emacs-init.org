@@ -151,8 +151,8 @@
 *** Writing to a file
     Copied from
     #+BEGIN_SRC emacs-lisp
-      (defun iqbal-write-to-file (file data &optional coding)
-        (f-write data (or coding 'utf-8) file))
+      (defun iqbal-write-to-file (path data &optional coding)
+        (f-write data (or coding 'utf-8) path))
     #+END_SRC
 
 ** Helper functions for text manipulation

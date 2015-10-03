@@ -144,6 +144,17 @@
   #+END_SRC
 
 
+* org-crypt configuration
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'org
+      (require 'org-crypt)
+      (org-crypt-use-before-save-magic)
+      (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+      (when (string= org-crypt-key "")
+        (setq org-crypt-key nil)))
+  #+END_SRC
+
+
 * toc-org configuration
 ** By default use org-mode links
    #+BEGIN_SRC emacs-lisp

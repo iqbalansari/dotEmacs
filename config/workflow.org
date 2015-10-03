@@ -10,6 +10,20 @@
   #+END_SRC
 
 
+* List of tags with shorter keys for set them
+  #+BEGIN_SRC emacs-lisp
+    (setq org-tag-alist '((:startgroup)
+                          ("Work" . ?W)
+                          ("Personal" . ?P)
+                          ("Javascript" . ?j)
+                          ("Python" . ?p)
+                          ("Emacs" . ?e)
+                          ("Org" . ?o)
+                          (:endgroup)
+                          ("crypt" . ?E)))
+  #+END_SRC
+
+
 * Custom TODO keywords and priority levels
   Copied from [[http://doc.norang.ca/org-mode.html#TodoKeywords]]
 ** Define some extra keywords
@@ -421,7 +435,7 @@
 ** The templates
 *** org-capture is not yet loaded, so initialize org-capture templates to empty list
     #+BEGIN_SRC emacs-lisp
-      (defvar org-capture-templates nil)
+      (setq org-capture-templates nil)
     #+END_SRC
 
 *** Template for capturing todos
