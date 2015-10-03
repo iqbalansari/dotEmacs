@@ -471,7 +471,9 @@
                                                       (expand-file-name "links.org" iqbal-notes-dir)
                                                       "To read")
                                                 "* UNREAD %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
-                                                :empty-lines-after 2))
+                                                :empty-lines-after 2
+                                                :clock-in t
+                                                :clock-resume t))
     #+END_SRC
 
 *** Template for capturing notes
@@ -516,7 +518,7 @@
                                                 'plain
                                                 (list 'file
                                                       (expand-file-name "appt.org" iqbal-org-agenda-dir))
-                                                "* %? %^g\n  SCHEDULED: <%(org-read-date)>"))
+                                                "* TODO %? %^g\n  SCHEDULED: <%(org-read-date)>"))
     #+END_SRC
 
 *** Template for capturing appointments linked to current buffer
@@ -526,7 +528,7 @@
                                                 'plain
                                                 (list 'file
                                                       (expand-file-name "appt.org" iqbal-org-agenda-dir))
-                                                "* %? %^g\n%(iqbal-get-source-buffers-region-and-link)\n  SCHEDULED: <%(org-read-date)>"))
+                                                "* TODO %? %^g\n%(iqbal-get-source-buffers-region-and-link)\n  SCHEDULED: <%(org-read-date)>"))
     #+END_SRC
 
 *** Template to capture a diary entry
