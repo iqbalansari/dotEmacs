@@ -129,6 +129,19 @@
            (push replacements which-key-key-replacement-alist))))
    #+END_SRC
 
+** Custom sorting order for keys in which-key
+   Inspired by https://github.com/justbur/emacs-which-key/issues/44#issuecomment-141950413
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-which-key-prefix-first-then-by-keys (acons bcons)
+       (let ((a-group-p (which-key--group-p (cdr acons)))
+             (b-group-p (which-key--group-p (cdr bcons))))
+         (if (eq a-group-p b-group-p)
+             (which-key-key-order acons bcons)
+           a-group-p)))
+
+     (setq which-key-sort-order 'iqbal-which-key-prefix-first-then-by-keys)
+   #+END_SRC
+
 
 * Additional keybinding for redo in calc
   Just for consistency with regular redo keybinding

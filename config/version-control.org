@@ -165,6 +165,8 @@
 
 * Restoring window configuration after ediff session
   #+BEGIN_SRC emacs-lisp
+    (defvar iqbal-ediff-last-windows nil)
+
     (defun iqbal-store-pre-ediff-winconfig ()
       (setq iqbal-ediff-last-windows (current-window-configuration)))
 
