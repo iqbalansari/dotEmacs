@@ -1,3 +1,107 @@
+* Initialize package management
+** Add some more repositories
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+   #+END_SRC
+
+** Refresh package contents if needed
+   #+BEGIN_SRC emacs-lisp
+     (defvar iqbal-package-refresh-needed (cl-reduce (lambda (need-refresh repo)
+                                                       (or (not (file-exists-p (concat package-user-dir "/archives/"
+                                                                                       (car repo)
+                                                                                       "/archive-contents")))
+                                                           need-refresh))
+                                                     package-archives :initial-value nil))
+
+     (when iqbal-package-refresh-needed
+       (package-refresh-contents))
+   #+END_SRC
+
+** Path to custom El-Get recipies
+   Use recipies from this directory
+   #+BEGIN_SRC emacs-lisp
+     (defvar iqbal-local-recipes (locate-user-emacs-file "recipies/"))
+     (eval-after-load "el-get"
+       '(add-to-list 'el-get-recipe-path iqbal-local-recipes))
+   #+END_SRC
+
+** Helper functions to install package if not already installed
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal--install-package (package &optional after-install)
+       (unless (package-installed-p package)
+         (condition-case err
+             (package-install package)
+
+           ;; File error most probably means, the contents are old
+           ;; refresh content and try again (emacs-version >= 24.4)
+           (file-error (progn (package-refresh-contents)
+                              (package-install package)))
+
+           ;; Older emacs
+           (error (if (or (string-match-p "Error during download request.*Not Found"
+                                          (error-message-string err))
+                          (string-match-p "Package `.*' is unavailable"
+                                          (error-message-string err)))
+                      (progn (package-refresh-contents)
+                             (package-install package))
+                    (signal (car err) (cdr err)))))
+
+         (when after-install
+           (funcall after-install))))
+
+     (defun iqbal-install-package (package &optional after-install)
+       "Install package if not already installed, use el-get if 'local' recipe exists
+          for the package. Otherwise install it using package"
+       (if (file-exists-p (concat iqbal-local-recipes
+                                  (symbol-name package)
+                                  ".rcp"))
+           (el-get 'sync package)
+         (iqbal--install-package package after-install)))
+
+     (defun iqbal-install-packages (packages)
+       (dolist (package packages)
+         (iqbal-install-package package)))
+   #+END_SRC
+
+** Install el-get for installing packages that have external dependencies
+   #+BEGIN_SRC emacs-lisp
+     (iqbal-install-package 'el-get)
+   #+END_SRC
+
+** Create directory for el-get
+   #+BEGIN_SRC emacs-lisp
+     (unless (file-exists-p (locate-user-emacs-file "el-get"))
+       (make-directory (locate-user-emacs-file "el-get")))
+   #+END_SRC
+
+** Use shallow clones for git repositories
+   #+BEGIN_SRC emacs-lisp
+     (setq el-get-git-shallow-clone t)
+   #+END_SRC
+
+** Path to packages not in a package manager
+   Packages not currently installable package manager reside in this directory
+   #+BEGIN_SRC emacs-lisp
+     (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
+
+     (let ((default-directory otherpackages))
+       (normal-top-level-add-subdirs-to-load-path))
+   #+END_SRC
+
+** Byte compile installed packages in a clean environment
+*** Install emacs-async
+    #+BEGIN_SRC emacs-lisp
+      (iqbal-install-package 'async)
+    #+END_SRC
+
+*** Enable async byte compilation for all packages
+    #+BEGIN_SRC emacs-lisp
+      (setq async-bytecomp-allowed-packages '(all))
+      (async-bytecomp-package-mode)
+    #+END_SRC
+
+
 * Declaration of global variables and utility functions
 ** Check if given file is older than any of the other given files
    #+BEGIN_SRC emacs-lisp
@@ -33,20 +137,22 @@
    #+END_SRC
 
 ** Helper functions to read/write from/to file
+*** Install f.el
+    #+BEGIN_SRC emacs-lisp
+      (iqbal-install-package 'f)
+      (require 'f)
+    #+END_SRC
+
 *** Reading from a file
     #+BEGIN_SRC emacs-lisp
-      (defun iqbal-read-file (path)
-        (with-temp-buffer
-          (insert-file-contents-literally path)
-          (buffer-substring-no-properties (point-min) (point-max))))
+      (defalias 'iqbal-read-file 'f-read)
     #+END_SRC
 
 *** Writing to a file
+    Copied from
     #+BEGIN_SRC emacs-lisp
-      (defun iqbal-write-to-file (file data)
-        (with-temp-file file
-          (erase-buffer)
-          (insert data)))
+      (defun iqbal-write-to-file (file data &optional coding)
+        (f-write data (or coding 'utf-8) file))
     #+END_SRC
 
 ** Helper functions for text manipulation
@@ -199,110 +305,6 @@
 
         file))
   #+END_SRC
-
-
-* Initialize package management
-** Add some more repositories
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-   #+END_SRC
-
-** Refresh package contents if needed
-   #+BEGIN_SRC emacs-lisp
-     (defvar iqbal-package-refresh-needed (cl-reduce (lambda (need-refresh repo)
-                                                       (or (not (file-exists-p (concat package-user-dir "/archives/"
-                                                                                       (car repo)
-                                                                                       "/archive-contents")))
-                                                           need-refresh))
-                                                     package-archives :initial-value nil))
-
-     (when iqbal-package-refresh-needed
-       (package-refresh-contents))
-   #+END_SRC
-
-** Path to custom El-Get recipies
-   Use recipies from this directory
-   #+BEGIN_SRC emacs-lisp
-     (defvar iqbal-local-recipes (locate-user-emacs-file "recipies/"))
-     (eval-after-load "el-get"
-       '(add-to-list 'el-get-recipe-path iqbal-local-recipes))
-   #+END_SRC
-
-** Helper functions to install package if not already installed 
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal--install-package (package &optional after-install)
-       (unless (package-installed-p package)
-         (condition-case err
-             (package-install package)
-           
-           ;; File error most probably means, the contents are old
-           ;; refresh content and try again (emacs-version >= 24.4)
-           (file-error (progn (package-refresh-contents)
-                              (package-install package)))
-
-           ;; Older emacs
-           (error (if (or (string-match-p "Error during download request.*Not Found"
-                                          (error-message-string err))
-                          (string-match-p "Package `.*' is unavailable"
-                                          (error-message-string err)))
-                      (progn (package-refresh-contents)
-                             (package-install package))
-                    (signal (car err) (cdr err)))))
-
-         (when after-install
-           (funcall after-install))))
-
-     (defun iqbal-install-package (package &optional after-install)
-       "Install package if not already installed, use el-get if 'local' recipe exists
-          for the package. Otherwise install it using package"
-       (if (file-exists-p (concat iqbal-local-recipes 
-                                  (symbol-name package)
-                                  ".rcp"))
-           (el-get 'sync package)
-         (iqbal--install-package package after-install)))
-
-     (defun iqbal-install-packages (packages)
-       (dolist (package packages)
-         (iqbal-install-package package)))
-   #+END_SRC
-
-** Install el-get for installing packages that have external dependencies
-   #+BEGIN_SRC emacs-lisp
-     (iqbal-install-package 'el-get)
-   #+END_SRC
-
-** Create directory for el-get
-   #+BEGIN_SRC emacs-lisp
-     (unless (file-exists-p (locate-user-emacs-file "el-get"))
-       (make-directory (locate-user-emacs-file "el-get")))
-   #+END_SRC
-
-** Use shallow clones for git repositories
-   #+BEGIN_SRC emacs-lisp
-     (setq el-get-git-shallow-clone t)
-   #+END_SRC
-
-** Path to packages not in a package manager
-   Packages not currently installable package manager reside in this directory
-   #+BEGIN_SRC emacs-lisp
-     (defvar otherpackages (locate-user-emacs-file "otherpackages/"))
-
-     (let ((default-directory otherpackages))
-       (normal-top-level-add-subdirs-to-load-path))
-   #+END_SRC
-
-** Byte compile installed packages in a clean environment
-*** Install emacs-async
-    #+BEGIN_SRC emacs-lisp
-      (iqbal-install-package 'async)
-    #+END_SRC
-
-*** Enable async byte compilation for all packages
-    #+BEGIN_SRC emacs-lisp
-      (setq async-bytecomp-allowed-packages '(all))
-      (async-bytecomp-package-mode)
-    #+END_SRC
 
 
 * Setup the PATH and exec-path from shell
