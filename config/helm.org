@@ -177,9 +177,18 @@
   Credits: http://www.reddit.com/r/emacs/comments/3asbyn/new_and_very_useful_helm_feature_enter_search/
   #+BEGIN_SRC emacs-lisp
     (when (display-graphic-p)
-      (setq helm-echo-input-in-header-line t
-            helm-split-window-in-side-p t)
+      (setq helm-echo-input-in-header-line t)
       (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe))
+  #+END_SRC
+
+
+* Display helm inside current window unless it is too small
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-helm-show-inside-window-if-large-enough (orig &rest args)
+      (let ((helm-split-window-in-side-p (> (window-height) 20)))
+        (apply orig args)))
+
+    (advice-add 'helm-split-window-default-fn :around #'iqbal-helm-show-inside-window-if-large-enough)
   #+END_SRC
 
 
