@@ -473,7 +473,8 @@
                                                 "* UNREAD %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
                                                 :empty-lines-after 2
                                                 :clock-in t
-                                                :clock-resume t))
+                                                :clock-resume t
+                                                :clock-keep nil))
     #+END_SRC
 
 *** Template for capturing notes
@@ -498,6 +499,15 @@
                                                       "Unfiled")
                                                 "* %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
                                                 :empty-lines-after 2))
+    #+END_SRC
+
+*** Add some data to currently clocked task
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-capture-templates (list "c"
+                                                "Append to current task"
+                                                'entry
+                                                '(clock)
+                                                "* %?"))
     #+END_SRC
 
 *** Template for capturing code snippets
