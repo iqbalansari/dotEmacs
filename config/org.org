@@ -155,6 +155,25 @@
   #+END_SRC
 
 
+* org-expiry configuration
+** Add creation time whenever an entry is created
+    #+BEGIN_SRC emacs-lisp
+      (with-eval-after-load 'org
+        (require 'org-expiry)
+        (org-expiry-insinuate))
+    #+END_SRC
+
+** Do not add created time for non-agenda buffers
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-avoid-creation-property-in-non-agenda-files (orig &rest args)
+       (when (and (buffer-file-name)
+                  (org-agenda-file-p (buffer-file-name)))
+         (apply orig args)))
+
+     (advice-add 'org-expiry-insert-created :around #'iqbal-org-avoid-creation-property-in-non-agenda-files)
+   #+END_SRC
+
+
 * toc-org configuration
 ** By default use org-mode links
    #+BEGIN_SRC emacs-lisp
