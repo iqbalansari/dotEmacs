@@ -546,15 +546,20 @@
 
 ** Emacs lisp is needs to be configured specially
    #+BEGIN_SRC emacs-lisp
-     (defvar iqbal-elisp-packages '(elisp-slime-nav 
+     (defvar iqbal-elisp-packages '(elisp-slime-nav
                                  macrostep
                                  cl-lib-highlight))
 
      (iqbal-install-packages iqbal-elisp-packages)
 
      ;; ielm replaces the current window, stop it from doing so
-     (defadvice ielm (before do-not-replace-this-window (&rest args))
-       (select-window (split-window)))
+     (defun iqbal-ielm-split-before-start (&rest ignored)
+       (select-window (or (split-window-sensibly)
+                          (when (one-window-p)
+                            (split-window))
+                          (next-window))))
+
+     (advice-add 'ielm :before #'iqbal-ielm-split-before-start)
 
      (defun iqbal-emacs-lisp-config ()
        ;; Setup
@@ -564,7 +569,7 @@
        (cl-lib-highlight-initialize)
 
        (setq flycheck-emacs-lisp-load-path load-path)
-       
+
        (unless (string= (buffer-name) "*scratch*")
          (flycheck-mode))
 

@@ -160,14 +160,16 @@
     #+BEGIN_SRC emacs-lisp
       (with-eval-after-load 'org
         (require 'org-expiry)
-        (org-expiry-insinuate))
+        (org-expiry-insinuate)
+        (add-hook 'org-capture-prepare-finalize-hook #'org-expiry-insert-created))
     #+END_SRC
 
 ** Do not add created time for non-agenda buffers
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-org-avoid-creation-property-in-non-agenda-files (orig &rest args)
-       (when (and (buffer-file-name)
-                  (org-agenda-file-p (buffer-file-name)))
+       (when (or (bound-and-true-p org-capture-mode)
+                 (and (buffer-file-name)
+                      (org-agenda-file-p (buffer-file-name))))
          (apply orig args)))
 
      (advice-add 'org-expiry-insert-created :around #'iqbal-org-avoid-creation-property-in-non-agenda-files)

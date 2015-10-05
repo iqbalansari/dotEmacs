@@ -508,20 +508,21 @@
 
 * Cleanup whitespace in the buffer
   #+BEGIN_SRC emacs-lisp
-    (defun cleanup-buffer-safe ()
+    (defun iqbal-cleanup-buffer-safe ()
       "Perform a bunch of safe operations on the whitespace content of a buffer.
     Does not indent buffer, because it is used for a before-save-hook, and that
     might be bad."
       (interactive)
       (untabify (point-min) (point-max))
       (delete-trailing-whitespace)
-      (set-buffer-file-coding-system 'utf-8))
-  #+END_SRC
-
-
-* Require final newlines
-  #+BEGIN_SRC emacs-lisp
-    (setq require-final-newline 'ask)
+      (when (and (> (point-max) (point-min))
+                 (/= (char-after (1- (point-max))) ?\n)
+                 (not (and (eq selective-display t)
+                           (= (char-after (1- (point-max))) ?\r)))
+                 (not buffer-read-only))
+        (save-excursion
+          (goto-char (point-max))
+          (ignore-errors (insert "\n")))))
   #+END_SRC
 
 

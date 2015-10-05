@@ -239,7 +239,7 @@
      (define-key search-map "d" #'lgrep)
      (define-key search-map "r" #'rgrep)
      (define-key search-map "z" #'zrgrep)
-     (define-key search-map "p g" #'projectile-grep)
+     (define-key search-map (kbd "p g") #'projectile-grep)
      (define-key search-map "l" #'locate)
    #+END_SRC
 
@@ -250,7 +250,7 @@
        (define-key search-map (kbd "a s") #'ag)
        (define-key search-map (kbd "a f") #'ag-files)
        (define-key search-map (kbd "a d") #'ag-dired)
-       (define-key search-map (kbd "a p") #'ag-dired))
+       (define-key search-map (kbd "a p") #'ag-project))
    #+END_SRC
 
 ** Keybindings for pcre2el

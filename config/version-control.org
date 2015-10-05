@@ -33,6 +33,12 @@
   #+END_SRC
 
 
+* Enable flyspell mode in git-commit mode
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'git-commit-mode-hook #'flyspell-mode)
+  #+END_SRC
+
+
 * Do not verify if pushing current branch to its upstream branch
   #+BEGIN_SRC emacs-lisp
     (setq magit-push-always-verify 'PP)

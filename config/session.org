@@ -86,7 +86,7 @@
 
 ** Enable recentf mode
    #+BEGIN_SRC emacs-lisp
-     (recentf-mode +1)
+     (add-hook 'after-init-hook #'recentf-mode)
    #+END_SRC
 
 

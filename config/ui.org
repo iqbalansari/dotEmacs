@@ -176,7 +176,7 @@
 
 * Display the keys pressed the minibuffer
   #+BEGIN_SRC emacs-lisp
-    (setq echo-keystrokes 0.01)
+    (setq echo-keystrokes 0.1)
   #+END_SRC
 
 
