@@ -299,6 +299,12 @@
      (setq org-agenda-start-on-weekday nil)
    #+END_SRC
 
+** Do not show entries with timestamp in agenda
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org-agenda
+       (setq org-agenda-entry-types '(:deadline :scheduled :sexp)))
+   #+END_SRC
+
 
 * orgbox configuration
   #+BEGIN_SRC emacs-lisp
@@ -797,7 +803,9 @@
        "Face for when you are not clocked in to an org task")
 
      (defun iqbal-org-clock-mode-line ()
-       (when (org-clocking-p) (org-clock-update-mode-line))
+       (when (and (fboundp 'org-clocking-p)
+                  (org-clocking-p))
+         (org-clock-update-mode-line))
        (let ((mode-line-string (format " %s "
                                        (if (org-clocking-p)
                                            org-mode-line-string
