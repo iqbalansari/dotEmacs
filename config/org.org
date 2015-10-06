@@ -29,49 +29,11 @@
   #+END_SRC
 
 
-* Enable special behavior for Ctrl-a/e/k in headlines
-  #+BEGIN_SRC emacs-lisp
-    (setq org-special-ctrl-a/e t)
-    (setq org-special-ctrl-k t)
-  #+END_SRC
-
-
 * Do not allow a parent to be marked DONE, if children are marked TODO
   #+BEGIN_SRC emacs-lisp
     (setq org-enforce-todo-dependencies t)
     (customize-set-variable 'org-enforce-todo-checkbox-dependencies t)
   #+END_SRC
-
-
-* org-id configuration
-** Location of file remembering id locations
-   #+BEGIN_SRC emacs-lisp
-     (setq org-id-locations-file (iqbal-get-file-in-data-directory ".org-id-locations"))
-   #+END_SRC
-
-** Use org-ids for links to org file
-   #+BEGIN_SRC emacs-lisp
-     ;; Make sure org-id is loaded before org-store-link is invoked
-     (defun iqbal-org-load-org-id-maybe (&rest ignored)
-       (unless (featurep 'org-id)
-         (require 'org-id)))
-
-     (advice-add 'org-store-link :before #'iqbal-org-load-org-id-maybe)
-
-     (setq org-id-link-to-org-use-id 'use-existing)
-   #+END_SRC
-
-** Command to quickly assign ids to entries in current org-mod buffer
-   Credits: http://stackoverflow.com/a/16247032/5285712
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-org-add-ids-to-headlines-in-file ()
-       "Add ID properties to all headlines in the current file which
-     do not already have one."
-       (interactive)
-       (if (derived-mode-p 'org-mode)
-           (org-map-entries 'org-id-get-create)
-         (user-error "Not in an org-mode buffer")))
-   #+END_SRC
 
 
 * Enable org-ditaa if ditaa is installed
@@ -142,6 +104,37 @@
   #+BEGIN_SRC emacs-lisp
     (add-hook 'org-mode-hook #'org-autolist-mode)
   #+END_SRC
+
+
+* org-id configuration
+** Location of file remembering id locations
+   #+BEGIN_SRC emacs-lisp
+     (setq org-id-locations-file (iqbal-get-file-in-data-directory ".org-id-locations"))
+   #+END_SRC
+
+** Use org-ids for links to org file
+   #+BEGIN_SRC emacs-lisp
+     ;; Make sure org-id is loaded before org-store-link is invoked
+     (defun iqbal-org-load-org-id-maybe (&rest ignored)
+       (unless (featurep 'org-id)
+         (require 'org-id)))
+
+     (advice-add 'org-store-link :before #'iqbal-org-load-org-id-maybe)
+
+     (setq org-id-link-to-org-use-id 'use-existing)
+   #+END_SRC
+
+** Command to quickly assign ids to entries in current org-mod buffer
+   Credits: http://stackoverflow.com/a/16247032/5285712
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-add-ids-to-headlines-in-file ()
+       "Add ID properties to all headlines in the current file which
+     do not already have one."
+       (interactive)
+       (if (derived-mode-p 'org-mode)
+           (org-map-entries 'org-id-get-create)
+         (user-error "Not in an org-mode buffer")))
+   #+END_SRC
 
 
 * org-crypt configuration
@@ -256,75 +249,75 @@
   #+END_SRC
 
 
-* Use org speed commands
-  #+BEGIN_SRC emacs-lisp
-    (setq org-use-speed-commands t)
+* Keybindings
+** Use org speed commands
+   #+BEGIN_SRC emacs-lisp
+     (setq org-use-speed-commands t)
+   #+END_SRC
+** Enable special behavior for Ctrl-a/e/k in headlines
+   #+BEGIN_SRC emacs-lisp
+     (setq org-special-ctrl-a/e t)
+     (setq org-special-ctrl-k t)
+   #+END_SRC
+
+** Free up keybindings for expanding snippets
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org
+       (org-defkey org-mode-map iqbal-expand-snippet nil))
+   #+END_SRC
+
+** Make `C-c RET` keybinding consistent with rest of emacs (open link at point)
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org
+       (org-defkey org-mode-map iqbal-open-link #'org-open-at-point))
+   #+END_SRC
+
+** Keybindings to store link and insert link at point
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org
+       (org-defkey org-mode-map (kbd "C-c l") #'org-insert-link))
+
+     (global-set-key (kbd "C-c k") #'org-store-link)
+   #+END_SRC
+
+** Keybinding to save edits in org-src mode
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org-src
+       (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
+   #+END_SRC
+
+** Use M-n and M-p to change priority in org-mode unless there is an error buffer open
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-previous-error-or-priority-up ()
+       (interactive)
+       (call-interactively (if (eq (next-error-find-buffer) (current-buffer))
+                               #'org-priority-up
+                             #'previous-error)))
+
+     (defun iqbal-org-next-error-or-priority-down ()
+       (interactive)
+       (call-interactively (if (eq (next-error-find-buffer) (current-buffer))
+                               #'org-priority-down
+                             #'next-error)))
+
+     (with-eval-after-load 'org
+       (org-defkey org-mode-map (kbd "M-p") #'iqbal-org-previous-error-or-priority-up)
+       (org-defkey org-mode-map (kbd "M-n") #'iqbal-org-next-error-or-priority-down))
   #+END_SRC
 
+** DWIM binding for C-c SPC in org-mode
+   Since org-mode binds `C-c SPC` to the command `org-table-blank-field` (which
+   is useful only if point is in a table) the ace-jump-mode's binding is
+   overshadowed, the following sets the keybinding to a DWIM version which calls
+   ace-jump-mode unless the point is inside a table
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-dwim-org-table-blank-field ()
+       (interactive)
+       (call-interactively (if (and (not current-prefix-arg)
+                                    (org-at-table-p))
+                               #'org-table-blank-field
+                             (global-key-binding (kbd "C-c SPC")))))
 
-* Make `C-c RET` keybinding consistent with rest of emacs (open link at point)
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'org
-      (org-defkey org-mode-map iqbal-open-link #'org-open-at-point))
-  #+END_SRC
-
-
-* Free up keybindings for expanding snippets
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'org
-      (org-defkey org-mode-map iqbal-expand-snippet nil))
-  #+END_SRC
-
-
-* Keybindings to store link and insert link at point
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'org
-      (org-defkey org-mode-map (kbd "C-c l") #'org-insert-link))
-
-    (global-set-key (kbd "C-c k") #'org-store-link)
-  #+END_SRC
-
-
-* Keybinding to save edits in org-src mode
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'org-src
-      (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
-  #+END_SRC
-
-
-* Use M-n and M-p to change priority in org-mode unless there is an error buffer open
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-org-previous-error-or-priority-up ()
-      (interactive)
-      (call-interactively (if (eq (next-error-find-buffer) (current-buffer))
-                              #'org-priority-up
-                            #'previous-error)))
-
-    (defun iqbal-org-next-error-or-priority-down ()
-      (interactive)
-      (call-interactively (if (eq (next-error-find-buffer) (current-buffer))
-                              #'org-priority-down
-                            #'next-error)))
-
-    (with-eval-after-load 'org
-      (org-defkey org-mode-map (kbd "M-p") #'iqbal-org-previous-error-or-priority-up)
-      (org-defkey org-mode-map (kbd "M-n") #'iqbal-org-next-error-or-priority-down))
- #+END_SRC
-
-
-* DWIM binding for C-c SPC in org-mode
-  Since org-mode binds `C-c SPC` to the command `org-table-blank-field` (which
-  is useful only if point is in a table) the ace-jump-mode's binding is
-  overshadowed, the following sets the keybinding to a DWIM version which calls
-  ace-jump-mode unless the point is inside a table
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-dwim-org-table-blank-field ()
-      (interactive)
-      (call-interactively (if (and (not current-prefix-arg)
-                                   (org-at-table-p))
-                              #'org-table-blank-field
-                            (global-key-binding (kbd "C-c SPC")))))
-
-    (with-eval-after-load 'org
-      (org-defkey org-mode-map (kbd "C-c SPC") #'iqbal-dwim-org-table-blank-field))
-  #+END_SRC
+     (with-eval-after-load 'org
+       (org-defkey org-mode-map (kbd "C-c SPC") #'iqbal-dwim-org-table-blank-field))
+   #+END_SRC
