@@ -143,6 +143,26 @@
    #+END_SRC
 
 
+* Magic buffer
+  #+BEGIN_SRC emacs-lisp
+    (defun magic-buffer ()
+      (interactive)
+      (let (( file-name
+              (concat temporary-file-directory
+                      "magic-buffer.el"))
+            ( try-downloading
+              (lambda ()
+                (url-copy-file
+                 "https://raw.githubusercontent.com/sabof/magic-buffer/master/magic-buffer.el"
+                 file-name t)
+                (require 'magic-buffer file-name))))
+        (condition-case nil
+            (funcall try-downloading)
+          (error (funcall try-downloading))))
+      (magic-buffer))
+  #+END_SRC
+
+
 * Additional keybinding for redo in calc
   Just for consistency with regular redo keybinding
   #+BEGIN_SRC emacs-lisp

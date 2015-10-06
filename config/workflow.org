@@ -196,22 +196,6 @@
   #+END_SRC
 
 
-* Add id to each captured item
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-create-id-for-org-capture ()
-      (save-excursion
-        (goto-char (point-min))
-        (if (not (string= (org-capture-get :key) "l"))
-            (org-id-get-create)
-          ;; For link captures use the link as the id
-          (let ((link (car (org-offer-links-in-entry (current-buffer) (point) 1))))
-            (org-entry-put (point) "ID" link)
-            (org-id-add-location link (buffer-file-name (buffer-base-buffer)))))))
-
-    (add-hook 'org-capture-prepare-finalize-hook 'iqbal-create-id-for-org-capture)
-  #+END_SRC
-
-
 * Enable notifications for appointments
 ** Do not show diary on initial appt setup
    #+BEGIN_SRC emacs-lisp
@@ -260,7 +244,8 @@
 * Configurations for org-agenda
 ** Enable org-habits
    #+BEGIN_SRC emacs-lisp
-     (require 'org-habit)
+     (with-eval-after-load 'org-agenda
+       (require 'org-habit))
    #+END_SRC
 
 ** Directory for agenda files
@@ -299,10 +284,98 @@
      (setq org-agenda-start-on-weekday nil)
    #+END_SRC
 
+** Use date at point when capturing from agenda
+   #+BEGIN_SRC emacs-lisp
+     (setq org-capture-use-agenda-date t)
+   #+END_SRC
+
 ** Do not show entries with timestamp in agenda
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'org-agenda
        (setq org-agenda-entry-types '(:deadline :scheduled :sexp)))
+   #+END_SRC
+
+
+* org-id configuration
+** Location of file remembering id locations
+   #+BEGIN_SRC emacs-lisp
+     (setq org-id-locations-file (iqbal-get-file-in-data-directory ".org-id-locations"))
+   #+END_SRC
+
+** Use org-ids for links to org file
+   #+BEGIN_SRC emacs-lisp
+     ;; Make sure org-id is loaded before org-store-link is invoked
+     (defun iqbal-org-load-org-id-maybe (&rest ignored)
+       (unless (featurep 'org-id)
+         (require 'org-id)))
+
+     (advice-add 'org-store-link :before #'iqbal-org-load-org-id-maybe)
+
+     (setq org-id-link-to-org-use-id 'use-existing)
+   #+END_SRC
+
+** Command to quickly assign ids to entries in current org-mod buffer
+   Credits: http://stackoverflow.com/a/16247032/5285712
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-add-ids-to-headlines-in-file ()
+       "Add ID properties to all headlines in the current file which
+     do not already have one."
+       (interactive)
+       (if (derived-mode-p 'org-mode)
+           (org-map-entries 'org-id-get-create)
+         (user-error "Not in an org-mode buffer")))
+   #+END_SRC
+
+** Add ids to headlines created in org agenda buffers
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-agenda-add-id ()
+       (when (or (bound-and-true-p org-capture-mode)
+                 (and (buffer-file-name)
+                      (org-agenda-file-p (buffer-file-name))))
+         (org-id-get-create)))
+
+     (add-hook 'org-insert-heading-hook #'iqbal-org-agenda-add-id)
+   #+END_SRC
+
+** Add id to each captured item
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-create-id-for-org-capture ()
+       (save-excursion
+         (goto-char (point-min))
+         (if (not (string= (org-capture-get :key) "l"))
+             (org-id-get-create)
+           ;; For link captures use the link as the id
+           (let ((link (car (org-offer-links-in-entry (current-buffer) (point) 1))))
+             (org-entry-put (point) "ID" link)
+             (org-id-add-location link (buffer-file-name (buffer-base-buffer)))))))
+
+     (add-hook 'org-capture-prepare-finalize-hook 'iqbal-create-id-for-org-capture)
+   #+END_SRC
+
+
+* org-expiry configuration
+** Use inactive timestamps
+   #+BEGIN_SRC emacs-lisp
+     (setq org-expiry-inactive-timestamps t)
+   #+END_SRC
+
+** Add creation time whenever an entry is created
+    #+BEGIN_SRC emacs-lisp
+      (with-eval-after-load 'org
+        (require 'org-expiry)
+        (org-expiry-insinuate)
+        (add-hook 'org-capture-prepare-finalize-hook #'org-expiry-insert-created))
+    #+END_SRC
+
+** Do not add created time for non-agenda buffers
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-avoid-creation-property-in-non-agenda-files (orig &rest args)
+       (when (or (bound-and-true-p org-capture-mode)
+                 (and (buffer-file-name)
+                      (org-agenda-file-p (buffer-file-name))))
+         (apply orig args)))
+
+     (advice-add 'org-expiry-insert-created :around #'iqbal-org-avoid-creation-property-in-non-agenda-files)
    #+END_SRC
 
 
