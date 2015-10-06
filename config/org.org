@@ -136,6 +136,17 @@
          (user-error "Not in an org-mode buffer")))
    #+END_SRC
 
+** Add ids to headlines created in org agenda buffers
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-agenda-add-id ()
+       (when (or (bound-and-true-p org-capture-mode)
+                 (and (buffer-file-name)
+                      (org-agenda-file-p (buffer-file-name))))
+         (org-id-get-create)))
+
+     (add-hook 'org-insert-heading-hook #'iqbal-org-agenda-add-id)
+   #+END_SRC
+
 
 * org-crypt configuration
   #+BEGIN_SRC emacs-lisp
@@ -149,6 +160,11 @@
 
 
 * org-expiry configuration
+** Use inactive timestamps
+   #+BEGIN_SRC emacs-lisp
+     (setq org-expiry-inactive-timestamps t)
+   #+END_SRC
+
 ** Add creation time whenever an entry is created
     #+BEGIN_SRC emacs-lisp
       (with-eval-after-load 'org

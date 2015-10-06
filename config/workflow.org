@@ -452,7 +452,7 @@
                                               (list 'file+headline
                                                     (expand-file-name "todos.org" iqbal-org-agenda-dir)
                                                     "Unfiled")
-                                              "* TODO %? %^G\n%U\n\n"
+                                              "* TODO %? %^G\n\n"
                                               :empty-lines-after 2))
   #+END_SRC
 
@@ -464,7 +464,7 @@
                                               (list 'file+headline
                                                     (expand-file-name "todos.org" iqbal-org-agenda-dir)
                                                     "Unfiled")
-                                              "* TODO %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
+                                              "* TODO %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n\n"
                                               :empty-lines-after 2))
   #+END_SRC
 
@@ -476,7 +476,7 @@
                                                 (list 'file+headline
                                                       (expand-file-name "links.org" iqbal-notes-dir)
                                                       "To read")
-                                                "* UNREAD %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Found on %U\n\n"
+                                                "* UNREAD %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard)\n\n"
                                                 :empty-lines-after 2
                                                 :clock-in t
                                                 :clock-resume t
@@ -491,7 +491,7 @@
                                                 (list 'file+headline
                                                       (expand-file-name "notes.org" iqbal-notes-dir)
                                                       "Unfiled")
-                                                "* %? %^G\n%U\n\n"
+                                                "* %? %^G\n\n"
                                                 :empty-lines-after 2))
     #+END_SRC
     
@@ -503,7 +503,7 @@
                                                 (list 'file+headline
                                                       (expand-file-name "notes.org" iqbal-notes-dir)
                                                       "Unfiled")
-                                                "* %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n%U\n\n"
+                                                "* %? %^G\n%(iqbal-get-source-buffers-region-and-link)\n\n"
                                                 :empty-lines-after 2))
     #+END_SRC
 
