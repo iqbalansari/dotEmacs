@@ -398,7 +398,7 @@
     We need to switch to previous buffer since, the function is executed in
     context of org-capture buffer, not the buffer where org-capture was invoked
     #+BEGIN_SRC emacs-lisp
-      (defun iqbal-get-url-at-point ()
+      (defun iqbal-org-capture-url-at-point ()
         (require 'thingatpt)
         (with-current-buffer (org-capture-get :original-buffer)
           (thing-at-point-url-at-point)))
@@ -419,20 +419,28 @@
 
 *** Get current url of w3m-buffer
     #+BEGIN_SRC emacs-lisp
-      (defun iqbal-get-w3m-url ()
+      (defun iqbal-org-capture-get-w3m-url ()
         (with-current-buffer (org-capture-get :original-buffer)
           (when (equal major-mode 'w3m-mode)
             (or (get-text-property (point) 'w3m-href-anchor)
                 w3m-current-url))))
     #+END_SRC
 
+*** Get url of current elfeed buffer
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-org-capture-get-elfeed-url ()
+        (with-current-buffer (org-capture-get :original-buffer)
+          (cond ((eq major-mode 'elfeed-show-mode) (elfeed-entry-link elfeed-show-entry))
+                ((eq major-mode 'elfeed-search-mode) (elfeed-entry-link (elfeed-search-selected t))))))
+    #+END_SRC
+
 *** Get url from point or clipboard
     #+BEGIN_SRC emacs-lisp
-      (defun iqbal-get-url-at-point-or-from-clipboard ()
-        (require 'thingatpt)
-        (or (iqbal-get-url-at-point)
-            (iqbal-get-url-from-clipboard)
-            (iqbal-get-w3m-url)))
+      (defun iqbal-org-capture-url-at-point-or-from-clipboard ()
+        (or (iqbal-org-capture-url-at-point)
+            (iqbal-org-capture-get-w3m-url)
+            (iqbal-org-capture-get-elfeed-url)
+            (iqbal-get-url-from-clipboard)))
     #+END_SRC
 
 *** Get name of major mode of buffer from which org-capture was called
@@ -549,7 +557,7 @@
                                                 (list 'file+headline
                                                       (expand-file-name "links.org" iqbal-notes-dir)
                                                       "To read")
-                                                "* UNREAD %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard)\n\n"
+                                                "* UNREAD %? %^g\n  %(iqbal-org-capture-url-at-point-or-from-clipboard)\n\n"
                                                 :empty-lines-after 2
                                                 :clock-in t
                                                 :clock-resume t

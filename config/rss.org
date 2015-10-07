@@ -158,18 +158,33 @@
                                                  :empty-lines-after 2)))
    #+END_SRC
 
-** Storing links to feed being currently viewed 
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-org-elfeed-store-link ()
-      "Store a link to currently viewed feed."
-      (when (eq major-mode 'elfeed-show-mode)
-        (org-store-link-props
-         :type "elfeed"
-         :link (elfeed-entry-link elfeed-show-entry)
-         :description (elfeed-entry-title elfeed-show-entry))))
+** Storing links to feed being currently viewed
+*** Storing link in elfeed-show-mode
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-elfeed-show-store-link ()
+       "Store a link to currently viewed feed."
+       (when (eq major-mode 'elfeed-show-mode)
+         (org-store-link-props
+          :type "elfeed"
+          :link (elfeed-entry-link elfeed-show-entry)
+          :description (elfeed-entry-title elfeed-show-entry))))
 
-    (add-hook 'org-store-link-functions 'iqbal-org-elfeed-store-link)
-  #+END_SRC
+     (add-hook 'org-store-link-functions 'iqbal-org-elfeed-show-store-link)
+   #+END_SRC
+
+*** Storing link in elfeed-search-mode
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-org-elfeed-search-store-link ()
+        "Store a link to feed at point."
+        (when (eq major-mode 'elfeed-search-mode)
+          (let ((entry (elfeed-search-selected t)))
+            (org-store-link-props
+             :type "elfeed"
+             :link (elfeed-entry-link entry)
+             :description (elfeed-entry-title entry)))))
+
+      (add-hook 'org-store-link-functions 'iqbal-org-elfeed-search-store-link)
+    #+END_SRC
 
 ** Re-import elfeed feeds after capturing a feed
    #+BEGIN_SRC emacs-lisp
@@ -198,6 +213,7 @@
        (define-key elfeed-search-mode-map (kbd "w") #'iqbal-elfeed-search-open-article-in-w3m)
        (define-key elfeed-search-mode-map (kbd "/") #'elfeed-search-live-filter)
        (define-key elfeed-search-mode-map (kbd "U") #'elfeed-update)
+       (define-key elfeed-search-mode-map (kbd "V") #'elfeed-search-browse-url)
        (define-key elfeed-search-mode-map (kbd "C-x C-s") #'elfeed-save-db-interactive))
    #+END_SRC
 
@@ -206,6 +222,6 @@
      (with-eval-after-load 'elfeed-show
        (define-key elfeed-show-mode-map (kbd "w") #'iqbal-elfeed-show-open-article-in-w3m)
        (define-key elfeed-show-mode-map (kbd "/") #'elfeed-show-new-live-search)
-       (define-key elfeed-show-mode-map (kbd "b") #'iqbal-elfeed-show-visit)
+       (define-key elfeed-show-mode-map (kbd "V") #'iqbal-elfeed-show-visit)
        (define-key elfeed-show-mode-map (kbd "C-x C-s") #'elfeed-save-db-interactive))
    #+END_SRC
