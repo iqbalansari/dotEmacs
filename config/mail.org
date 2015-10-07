@@ -99,6 +99,7 @@
   #+BEGIN_SRC emacs-lisp
     (setq mu4e-headers-fields '((:human-date . 20)
                                 (:tags . 12)
+                                (:flags . 5)
                                 (:from . 22)
                                 (:to . 22)
                                 (:subject)))
