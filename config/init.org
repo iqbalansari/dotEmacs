@@ -125,7 +125,7 @@
                                  rss
                                  pdf
                                  rfc
-                                 music
+                                 media
                                  utilities))
 
     (when (eq system-type 'windows-nt)
