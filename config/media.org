@@ -57,25 +57,6 @@
    #+END_SRC
 
 
-* Bongo keybindings
-** Keybinding to start bongo
-  #+BEGIN_SRC emacs-lisp
-    (define-key iqbal-launcher-map "b" #'bongo)
-  #+END_SRC
-
-** Keybinding to quit bongo
-   #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'bongo
-       (define-key bongo-mode-map iqbal-hide-app #'bongo-quit))
-   #+END_SRC
-
-** Keybindings for bongo-dired-library-mode
-   #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'bongo
-       (define-key bongo-dired-library-mode-map (kbd "C-c C-e") nil))
-   #+END_SRC
-
-
 * Setup auto-mode-alist entries
   #+BEGIN_SRC emacs-lisp
     (add-to-list 'auto-mode-alist
@@ -269,4 +250,28 @@
              (bongo-seek-to (car time))))))
 
      (org-add-link-type "bongo" #'iqbal-open-bongo-link)
+   #+END_SRC
+
+
+* Keybindings
+** Keybinding to start bongo
+  #+BEGIN_SRC emacs-lisp
+    (define-key iqbal-launcher-map "b" #'bongo)
+  #+END_SRC
+
+** Keybinding to change volume
+   #+BEGIN_SRC emacs-lisp
+     (define-key iqbal-launcher-map "v" #'volume)
+   #+END_SRC
+
+** Keybinding to quit bongo
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'bongo
+       (define-key bongo-mode-map iqbal-hide-app #'bongo-quit))
+   #+END_SRC
+
+** Keybindings for bongo-dired-library-mode
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'bongo
+       (define-key bongo-dired-library-mode-map (kbd "C-c C-e") nil))
    #+END_SRC
