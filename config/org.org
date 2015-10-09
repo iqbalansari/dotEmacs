@@ -99,6 +99,18 @@
      (setq org-export-with-tags nil)
    #+END_SRC
 
+** Always export in background
+   #+BEGIN_SRC emacs-lisp
+     (setq org-export-in-background t)
+   #+END_SRC
+
+
+* org-babel configuration
+** Do not confirm before evaluation
+   #+BEGIN_SRC emacs-lisp
+     (setq org-confirm-babel-evaluate nil)
+   #+END_SRC
+
 
 * Enable org-autolist
   #+BEGIN_SRC emacs-lisp

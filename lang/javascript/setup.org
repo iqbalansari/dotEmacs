@@ -22,6 +22,12 @@
   #+END_SRC
 
 
+* By default indent to 4 spaces
+  #+BEGIN_SRC emacs-lisp
+    (setq js2-basic-offset 4)
+  #+END_SRC
+
+
 * Setup Tern for autocompletion and some refactoring
 ** Check ternjs availability
    #+BEGIN_SRC emacs-lisp
