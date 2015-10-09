@@ -4,13 +4,6 @@
   #+END_SRC
 
 
-* Enable shelldoc in sh-mode
-  #+BEGIN_SRC emacs-lisp
-    (autoload 'shelldoc-minor-mode-on "shelldoc")
-    (add-hook 'sh-mode-hook 'shelldoc-minor-mode-on)
-  #+END_SRC
-
-
 * Install powershell mode on windows
   #+BEGIN_SRC emacs-lisp
     (when (and (equal system-type 'windows-nt)
