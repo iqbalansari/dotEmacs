@@ -12,7 +12,7 @@
   #+END_SRC
 
 
-* Use shift-enter to accumulate output in comint mode
+* Use shift-enter to accumulate input in comint mode
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'comint
       (define-key comint-mode-map (kbd "C-c SPC") nil)
