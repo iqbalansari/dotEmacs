@@ -94,11 +94,6 @@
 
 
 * which-key configuration
-** Shorter delay before showing which-key window
-   #+BEGIN_SRC emacs-lisp
-     (setq which-key-idle-delay 0.3)
-   #+END_SRC
-
 ** Enable which-key mode
    #+BEGIN_SRC emacs-lisp
      (add-hook 'after-init-hook #'which-key-mode)
