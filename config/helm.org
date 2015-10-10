@@ -29,6 +29,11 @@
      (setq helm-completion-in-region-fuzzy-match t)
    #+END_SRC
 
+** Suppress displaying sources that are not on screen
+   #+BEGIN_SRC emacs-lisp
+     (setq helm-quick-update t)
+   #+END_SRC
+
 ** Use enter the current directory (if we are at a directory file) or open the file
 *** Remap RET in helm-find-file map
     Inspired by http://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
@@ -227,7 +232,7 @@
       (let ((helm-split-window-in-side-p (> (window-height) 20)))
         (apply orig args)))
 
-    ;(advice-add 'helm :around #'iqbal-helm-show-inside-window-if-large-enough)
+    (advice-add 'helm :around #'iqbal-helm-show-inside-window-if-large-enough)
   #+END_SRC
 
 
