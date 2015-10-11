@@ -29,11 +29,6 @@
      (setq helm-completion-in-region-fuzzy-match t)
    #+END_SRC
 
-** Suppress displaying sources that are not on screen
-   #+BEGIN_SRC emacs-lisp
-     (setq helm-quick-update t)
-   #+END_SRC
-
 ** Use enter the current directory (if we are at a directory file) or open the file
 *** Remap RET in helm-find-file map
     Inspired by http://emacs.stackexchange.com/questions/3798/how-do-i-make-pressing-ret-in-helm-find-files-open-the-directory
@@ -153,30 +148,35 @@
   #+END_SRC
 
 
-* Turn on helm-projectile
+* Suppress displaying sources that are not on screen
   #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'projectile
-      (helm-projectile-on)
-      (setq projectile-switch-project-action #'helm-projectile))
+    (setq helm-quick-update t)
   #+END_SRC
 
 
-* Instruct projectile to use helm for completing read
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'projectile
-      (setq projectile-completion-system 'helm))
-  #+END_SRC
+* helm-projectile configuration
+** Turn on helm-projectile
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'projectile
+       (helm-projectile-on)
+       (setq projectile-switch-project-action #'helm-projectile))
+   #+END_SRC
 
+** Instruct projectile to use helm for completing read
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'projectile
+       (setq projectile-completion-system 'helm))
+   #+END_SRC
 
-* Add projectile sources to helm-mini
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'helm-projectile
-      (setq helm-mini-default-sources '(helm-source-buffers-list
-                                        helm-source-projectile-buffers-list
-                                        helm-source-projectile-files-list
-                                        helm-source-recentf
-                                        helm-source-buffer-not-found)))
-  #+END_SRC
+** Add projectile sources to helm-mini
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'helm-projectile
+       (setq helm-mini-default-sources '(helm-source-buffers-list
+                                         helm-source-projectile-buffers-list
+                                         helm-source-projectile-files-list
+                                         helm-source-recentf
+                                         helm-source-buffer-not-found)))
+   #+END_SRC
 
 
 * Sources for helm-files
