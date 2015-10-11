@@ -157,7 +157,7 @@
 
 * Throw error if editing invisible regions
   #+BEGIN_SRC emacs-lisp
-    (setq org-catch-invisible-edits 'show-and-error)
+    (setq org-catch-invisible-edits 'smart)
   #+END_SRC
 
 

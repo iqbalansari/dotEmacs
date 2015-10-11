@@ -295,6 +295,15 @@
        (setq org-agenda-entry-types '(:deadline :scheduled :sexp)))
    #+END_SRC
 
+** Customizations for org-agenda-current-time
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org-faces
+       (set-face-attribute 'org-agenda-current-time nil :foreground "green"))
+
+     (when (char-displayable-p ?─)
+       (setq org-agenda-current-time-string (concat (make-string 23 ?─) "> now <" (make-string 23 ?─))))
+   #+END_SRC
+
 
 * org-id configuration
 ** Location of file remembering id locations
