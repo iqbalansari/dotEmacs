@@ -331,10 +331,21 @@
   #+END_SRC
 
 
-* Enable recursive minibuffers
-  #+BEGIN_SRC emacs-lisp
-    (setq enable-recursive-minibuffers t)
-  #+END_SRC
+* Recursive minibuffers
+** Enable recursive minibuffers
+   #+BEGIN_SRC emacs-lisp
+     (setq enable-recursive-minibuffers t)
+   #+END_SRC
+
+** Better indication of recursive minibuffers
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-minibuffer-depth-indicator-function (minibuffer-depth)
+       (propertize (concat (make-string (1- minibuffer-depth) ?>) " ") 'face '(:inherit default :foreground "red")))
+
+     (setq minibuffer-depth-indicator-function #'iqbal-minibuffer-depth-indicator-function)
+
+     (minibuffer-depth-indicate-mode +1)
+   #+END_SRC
 
 
 * Highlight TODO items in current buffer
