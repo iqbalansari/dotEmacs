@@ -395,6 +395,11 @@
     (setq haskell-completing-read-function #'helm--completing-read-default)
   #+END_SRC
 
+** Rebind apropos to helm-apropos
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key [remap apropos] #'helm-apropos)
+   #+END_SRC
+
 ** org-mode integration
 *** Enable additional completion in org-store-link
     #+BEGIN_SRC emacs-lisp

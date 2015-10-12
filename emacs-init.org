@@ -654,7 +654,7 @@
      (iqbal-setup-lang lua-mode-hook "lua")
      (iqbal-setup-lang lisp-mode-hook "common-lisp")
      (iqbal-setup-lang scheme-mode-hook "scheme")
-     (iqbal-setup-lang c-mode-hook "c" "\\.[ch]$")
+     (iqbal-setup-lang c-mode-hook "c" "[ch]$")
      (iqbal-setup-lang css-mode-hook "css")
      (iqbal-setup-lang scala-mode-hook "scala" "scala")
      (iqbal-setup-lang tuareg-mode-hook "ocaml")
