@@ -166,6 +166,24 @@
                                          helm-source-buffer-not-found)))
    #+END_SRC
 
+** Keybinding to switch to helm mini from helm-buffers-list
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-helm-buffers-toggle-helm-mini ()
+       (interactive)
+       (let ((helm-buffer-list-sources '(helm-source-buffers-list
+                                         helm-source-ido-virtual-buffers
+                                         helm-source-buffer-not-found)))
+         (with-current-buffer (helm-buffer-get)
+           (when (string= (buffer-name) "*helm buffers*")
+             (if (equal helm-buffer-list-sources helm-sources)
+                 (helm-set-sources (cl-remove-if (lambda (source) (member source helm-buffer-list-sources))
+                                                 helm-mini-default-sources))
+               (helm-set-sources helm-buffer-list-sources))))))
+
+        (with-eval-after-load 'helm
+          (define-key helm-map (kbd "C-x C-p") #'iqbal-helm-buffers-toggle-helm-mini))
+   #+END_SRC
+
 
 * Sources for helm-files
 ** The default list for `helm-for-files`
@@ -188,7 +206,7 @@
 
 ** Keybinding to toggle helm-locate source in `helm-multi-files` 
    #+BEGIN_SRC emacs-lisp
-     (setq helm-multi-files-toggle-locate-binding "C-c C-l")
+     (setq helm-multi-files-toggle-locate-binding "C-x C-p")
    #+END_SRC
 
 
