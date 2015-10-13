@@ -369,7 +369,7 @@
 ** Helm company configuration
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'company
-       (define-key company-active-map (kbd "C-/") 'helm-company))
+       (define-key company-active-map (kbd "C-\\") 'helm-company))
    #+END_SRC
 
 ** Helm yasnippet integration
