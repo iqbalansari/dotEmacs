@@ -163,7 +163,8 @@
                                          helm-source-projectile-files-list
                                          helm-source-projectile-projects
                                          helm-source-recentf
-                                         helm-source-buffer-not-found)))
+                                         helm-source-buffer-not-found
+                                         helm-source-locate)))
    #+END_SRC
 
 ** Keybinding to switch to helm mini from helm-buffers-list
