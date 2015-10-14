@@ -567,10 +567,7 @@
                                                       (expand-file-name "links.org" iqbal-notes-dir)
                                                       "To read")
                                                 "* UNREAD %? %^g\n  %(iqbal-org-capture-url-at-point-or-from-clipboard)\n\n"
-                                                :empty-lines-after 2
-                                                :clock-in t
-                                                :clock-resume t
-                                                :clock-keep nil))
+                                                :empty-lines-after 2))
     #+END_SRC
 
 *** Template for capturing notes
