@@ -165,7 +165,7 @@
        "Store a link to currently viewed feed."
        (when (eq major-mode 'elfeed-show-mode)
          (org-store-link-props
-          :type "elfeed"
+          :type "http"
           :link (elfeed-entry-link elfeed-show-entry)
           :description (elfeed-entry-title elfeed-show-entry))))
 
@@ -179,7 +179,7 @@
         (when (eq major-mode 'elfeed-search-mode)
           (let ((entry (elfeed-search-selected t)))
             (org-store-link-props
-             :type "elfeed"
+             :type "http"
              :link (elfeed-entry-link entry)
              :description (elfeed-entry-title entry)))))
 

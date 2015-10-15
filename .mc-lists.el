@@ -41,6 +41,7 @@
         hungry-delete-forward
         increment-integer-at-point
         indent-for-tab-command
+        insert-parentheses
         iqbal-beginning-of-line-or-indent
         iqbal-beginning-of-line-or-indent
         iqbal-capitalize-dwim
