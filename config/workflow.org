@@ -413,19 +413,6 @@
           (thing-at-point-url-at-point)))
     #+END_SRC
 
-*** Get the url from the clipboard
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-get-url-from-clipboard ()
-       (require 'thingatpt)
-       (require 'subr-x)
-       (let ((current-kill (ignore-errors (current-kill 0))))
-         (when current-kill
-           (with-temp-buffer
-             (insert (string-trim current-kill))
-             (goto-char 0)
-             (thing-at-point-url-at-point)))))
-   #+END_SRC
-
 *** Get current url of w3m-buffer
     #+BEGIN_SRC emacs-lisp
       (defun iqbal-org-capture-get-w3m-url ()

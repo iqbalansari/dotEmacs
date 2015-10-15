@@ -154,7 +154,7 @@
                                                  "Elfeed feed"
                                                  'entry
                                                  (list 'file iqbal-elfeed-file)
-                                                 "* %? %^g\n  %(iqbal-get-url-at-point-or-from-clipboard) - Added on %U\n\n"
+                                                 "* %? %^g\n  %(iqbal-get-url-from-clipboard) - Added on %U\n\n"
                                                  :empty-lines-after 2)))
    #+END_SRC
 
