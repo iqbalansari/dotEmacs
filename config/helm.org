@@ -181,8 +181,9 @@
                                                  helm-mini-default-sources))
                (helm-set-sources helm-buffer-list-sources))))))
 
-        (with-eval-after-load 'helm
-          (define-key helm-map (kbd "C-x C-p") #'iqbal-helm-buffers-toggle-helm-mini))
+     (with-eval-after-load 'helm
+       (define-key helm-map (kbd "C-x C-p") #'iqbal-helm-buffers-toggle-helm-mini)
+       (define-key helm-map (kbd "C-x p") #'iqbal-helm-buffers-toggle-helm-mini))
    #+END_SRC
 
 

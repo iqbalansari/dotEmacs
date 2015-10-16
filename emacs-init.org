@@ -641,6 +641,7 @@
      (add-to-list 'auto-mode-alist (cons (rx ".rkt" string-end) 'scheme-mode))
      (add-to-list 'auto-mode-alist (cons (rx (or ".irbrc" ".pryrc" "Gemfile") string-end) 'ruby-mode))
      (add-to-list 'auto-mode-alist (cons (rx word-start "composer.lock" string-end) 'json-mode))
+     (add-to-list 'auto-mode-alist (cons (rx ".tern-project" string-end) 'json-mode))
      (add-to-list 'auto-mode-alist (cons (rx word-start "diary" string-end) 'diary-mode))
      (add-to-list 'auto-mode-alist (cons (rx ".zsh" string-end) 'sh-mode))
    #+END_SRC
