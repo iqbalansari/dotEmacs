@@ -105,9 +105,16 @@
    #+END_SRC
 
 ** Use symbola for symbols
+   It is appended to current font-spec, since
+   1) We do not want to override earlier settings
+   2) Symbola fonts are not monospace, we want to use them as a last resort
+      otherwise some things current config break eg. org-dashboard uses the
+      character █ to draw its progress bars, since Symbola's fullblock takes
+      more space than 'space' (␣) the size of progress bars is different for
+      tasks with different progress.
    #+BEGIN_SRC emacs-lisp
      (when (member "Symbola" (font-family-list))
-       (set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'prepend))
+       (set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'append))
    #+END_SRC
 
 
