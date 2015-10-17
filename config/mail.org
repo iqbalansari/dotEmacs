@@ -10,7 +10,7 @@
                          (getenv "GMIME_LIBS"))
                     (when (executable-find "pkg-config")
                       (zerop (shell-command "pkg-config --exists gmime-2.6")))))
-           (progn (iqbal-install-package 'mu4e)
+           (progn (iqbal-install-packages '(mu4e mu4e-alert))
                   (when (and (boundp 'mu4e-maildir)
                              (not (file-exists-p mu4e-maildir)))
                     (warn "Please set `mu4e-maildir' to your maildir")))
@@ -430,121 +430,18 @@
   #+END_SRC
 
 
-* Notify the number of unread emails after fetching new mail
-** Helper functions to interact with mu/mu4e
-*** Function to get count of unread emails asynchronously
-    #+BEGIN_SRC emacs-lisp
-      (defun iqbal-get-mu-unread-mail-count (callback)
-        (require 'subr-x)
-        (let ((mail-count-command (format "%s find --nocolor flag:unread AND NOT flag:trashed 2>/dev/null | wc -l"
-                                          mu4e-mu-binary))
-              (process-filter (lexical-let ((callback callback))
-                                (lambda (process output)
-                                  (funcall callback (string-to-int (string-trim output)))))))
-          (set-process-filter (start-process "mu4e-unread-count"
-                                             nil
-                                             (getenv "SHELL")
-                                             "-c"
-                                             mail-count-command)
-                              process-filter)))
-    #+END_SRC
-
-*** Helper function to view unread emails
-    #+BEGIN_SRC emacs-lisp
-      (defun iqbal-mu4e-view-unread-mails ()
-        (interactive)
-        (setq iqbal-pre-mu-win-config (current-window-configuration))
-        (mu4e-headers-search "flag:unread AND NOT flag:trashed")
-        (setq iqbal-mu-win-config (current-window-configuration)))
-    #+END_SRC
-
-** Displaying unread mail count in modeline
-*** Disable the default mail mode-line indicator 
-   #+BEGIN_SRC emacs-lisp
-     (setq display-time-mail-string "")
-   #+END_SRC
-
-*** Custom mode-line indicator for mail
-   #+BEGIN_SRC emacs-lisp
-     (defvar iqbal-mail-mode-line "")
-     (add-to-list 'global-mode-string '(:eval iqbal-mail-mode-line) t)
-
-     (defun iqbal-get-mailcount-mode-line-string (unread-mail-count)
-       (when (not (zerop unread-mail-count))
-         (concat " "
-                 (propertize
-                  "Mail"
-                  'display (when (display-graphic-p)
-                             (require 'time)
-                             display-time-mail-icon)
-                  'face display-time-mail-face
-                  'help-echo (concat (if (= unread-mail-count 1)
-                                         "You have an unread email"
-                                       (format "You have %s unread email(s)" unread-mail-count))
-                                     "\nClick here to view "
-                                     (if (= unread-mail-count 1) "it" "them"))
-                  'mouse-face 'mode-line-highlight
-                  'keymap '(mode-line keymap
-                                      (mouse-1 . iqbal-mu4e-view-unread-mails)
-                                      (mouse-2 . iqbal-mu4e-view-unread-mails)
-                                      (mouse-3 . iqbal-mu4e-view-unread-mails)))
-                 (if (zerop unread-mail-count)
-                     " "
-                   (format " [%d] " unread-mail-count)))))
-   #+END_SRC
-
-*** Function to update mail count in modeline
-    #+BEGIN_SRC emacs-lisp
-      (defun iqbal-redisplay-mail-count-modeline (count)
-        (setq iqbal-mail-mode-line (iqbal-get-mailcount-mode-line-string count))
-        (force-mode-line-update))
-
-      (defun iqbal-update-mail-count-modeline ()
-        (iqbal-get-mu-unread-mail-count #'iqbal-redisplay-mail-count-modeline))
-    #+END_SRC
-
-*** Setup for updating the mail mode line
-**** Update mode-line when mu4e loads
-     #+BEGIN_SRC emacs-lisp
-       (with-eval-after-load 'mu4e (iqbal-update-mail-count-modeline))
-     #+END_SRC
-
-**** Update mode-line after executing marks
-    #+BEGIN_SRC emacs-lisp
-      (defun iqbal-setup-mail-count-update-after-exec-marks ()
-        (defadvice mu4e-mark-execute-all (after iqbal-update-mail-count)
-          (iqbal-update-mail-count-modeline))
-        (ad-activate 'mu4e-mark-execute-all))
-
-      (with-eval-after-load 'mu4e '(iqbal-setup-mail-count-update-after-exec-marks))
-    #+END_SRC
-
-**** Update mode-line after viewing a message
-     #+BEGIN_SRC emacs-lisp
-       (add-hook 'mu4e-view-mode-hook #'iqbal-update-mail-count-modeline)
-     #+END_SRC
-
-**** Update mode-line after fetching mail
-     #+BEGIN_SRC emacs-lisp
-       (add-hook 'mu4e-index-updated-hook #'iqbal-update-mail-count-modeline)
-     #+END_SRC
-
-** Helper function to notify about unread email
+* mu4e-alert configuration
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-mu4e-notify-unread-messages (unread-mail-count)
-      (when (not (zerop unread-mail-count))
-        (notify "mu4e" (if (= unread-mail-count 1)
-                           "You have an unread email"
-                         (format "You have %s unread email(s)" unread-mail-count)))))
+    (defun iqbal-enable-mu4e-alert ()
+      (when (locate-library "mu4e-alert")
+        (mu4e-alert-set-default-style (if (executable-find "notify-send")
+                                          'libnotify
+                                        'notifications))
+        (mu4e-alert-enable-notifications)
+        (mu4e-alert-enable-mode-line-display)))
 
-    (defun iqbal-mu4e-notify-unread-messages-async ()
-      (iqbal-get-mu-unread-mail-count #'iqbal-mu4e-notify-unread-messages))
+    (add-hook 'after-init-hook #'iqbal-enable-mu4e-alert)
   #+END_SRC
-
-** Notify after updating the index
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'mu4e-index-updated-hook #'iqbal-mu4e-notify-unread-messages-async)
-   #+END_SRC
 
 
 * Configuration for sending mail
