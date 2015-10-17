@@ -73,13 +73,7 @@
 * Enable company mode and company-math in org-mode files
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-org-enable-company-mode ()
-      (with-eval-after-load 'company
-        (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
-        (add-to-list 'company-backends
-                     '(company-capf
-                       company-math-symbols-unicode
-                       company-ispell
-                       :with company-dabbrev))))
+      (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t))
 
     (add-hook 'org-mode-hook #'iqbal-org-enable-company-mode)
   #+END_SRC
