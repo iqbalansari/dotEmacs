@@ -361,6 +361,14 @@
      (add-hook 'org-capture-prepare-finalize-hook 'iqbal-create-id-for-org-capture)
    #+END_SRC
 
+** Automatically save org-id locations file after update org ids
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-id-save-after-update (&rest ignored)
+       (org-id-locations-save))
+
+     (advice-add 'org-id-update-id-locations :after #'iqbal-org-id-save-after-update)
+   #+END_SRC
+
 
 * org-expiry configuration
 ** Use inactive timestamps
