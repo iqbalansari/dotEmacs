@@ -94,14 +94,21 @@
   #+END_SRC
 
 
-* Use DejaVu Sans Mono / Source Code Pro / Consolas font if available
-  #+BEGIN_SRC emacs-lisp
-    (set-frame-font (cond ((member "Source Code Pro" (font-family-list)) "Source Code Pro-10.5")
-                          ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
-                          ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
-                    t
-                    t)
-  #+END_SRC
+* Fonts setup
+** Use DejaVu Sans Mono / Source Code Pro / Consolas font if available
+   #+BEGIN_SRC emacs-lisp
+     (set-frame-font (cond ((member "Source Code Pro" (font-family-list)) "Source Code Pro-10.5")
+                           ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
+                           ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
+                     t
+                     t)
+   #+END_SRC
+
+** Use symbola for symbols
+   #+BEGIN_SRC emacs-lisp
+     (when (member "Symbola" (font-family-list))
+       (set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'prepend))
+   #+END_SRC
 
 
 * Customizations for linum-mode
