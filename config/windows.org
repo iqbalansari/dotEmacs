@@ -59,11 +59,11 @@
 * Switch to bar cursor type before invoking switch-window
   Box cursor doesn't look good in switch-window
   #+BEGIN_SRC emacs-lisp
-    (defadvice switch-window (around switch-to-bar-cursor)
+    (defun iqbal-switch-window-hide-cursor (orig &rest args)
       (let ((cursor-type nil))
-        ad-do-it))
+        (apply orig args)))
 
-    (ad-activate 'switch-window)
+    (advice-add #'switch-window :around #'iqbal-switch-window-hide-cursor)
   #+END_SRC
 
 

@@ -92,13 +92,14 @@
   #+END_SRC
 
 
-* Disable swapping buffer with minibuffer when using buffer-move
+* TODO Disable swapping buffer with minibuffer when using buffer-move
   #+BEGIN_SRC emacs-lisp
-    (defadvice buf-move-to (around my-do-not-swap-with-minibuffer (direction))
-      (unless (minibufferp (window-buffer (windmove-find-other-window direction)))
-        ad-do-it))
+    (defun iqbal-do-not-swap-with-minibuffer (orig direction)
+      (if (minibufferp (window-buffer (windmove-find-other-window direction)))
+          (user-error "Not swapping with minibuffer")
+        (apply orig (list direction))))
 
-    (ad-activate 'buf-move-to)
+    (advice-add #'buf-move-to :around #'iqbal-do-not-swap-with-minibuffer)
   #+END_SRC
 
 

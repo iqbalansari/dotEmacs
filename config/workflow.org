@@ -132,10 +132,11 @@
   Useful for invoking org-capture from a window manager
   like xmonad using emacsclient
   #+BEGIN_SRC emacs-lisp
-    (defadvice org-capture-finalize (after delete-capture-frame activate)
-      "Advise capture-finalize to close the frame"
-      (if (equal "*Org Capture*" (frame-parameter nil 'name))
-          (delete-frame)))
+    (defun iqbal-org-capture-delete-frame (&rest ignored)
+      (when (equal "*Org Capture*" (frame-parameter nil 'name))
+        (delete-frame)))
+
+    (advice-add #'org-capture-finalize :after #'iqbal-org-capture-delete-frame)
 
     (defun make-capture-frame ()
       "Create a new frame and run org-capture. Useful for calling from

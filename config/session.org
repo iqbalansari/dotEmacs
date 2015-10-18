@@ -26,10 +26,12 @@
                  (setq cmd (cdr attr))))
            (if (and cmd (or (string= "emacs" cmd) (string= "emacs.exe" cmd))) t))))
 
-     (defadvice desktop-owner (after pry-from-cold-dead-hands activate)
-       "Don't allow dead emacsen to own the desktop file."
-       (when (not (emacs-process-p ad-return-value))
-         (setq ad-return-value nil)))
+     (defun iqbal-desktop-avoid-stale-locks (orig &rest args)
+       (let ((process (apply orig args)))
+         (when (emacs-process-p process)
+           process)))
+
+     (advice-add #'desktop-owner :around #'iqbal-desktop-avoid-stale-locks)
    #+END_SRC
 
 ** Additional locals to save

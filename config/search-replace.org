@@ -186,14 +186,8 @@
 
 * Keep the search results in the center in incremental search
   #+BEGIN_SRC emacs-lisp
-    (defadvice isearch-repeat-forward (after isearch-repeat-forward-recenter activate)
-      (recenter))
-
-    (defadvice isearch-repeat-backward (after isearch-repeat-backward-recenter activate)
-      (recenter))
-
-    (ad-activate 'isearch-repeat-forward)
-    (ad-activate 'isearch-repeat-backward)
+    (iqbal-reorient-after-func #'isearch-repeat-forward)
+    (iqbal-reorient-after-func #'isearch-repeat-backward)
   #+END_SRC
 
 

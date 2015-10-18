@@ -517,18 +517,15 @@
   directly from shell. The following advice copies the path to mu to clipboard,
   so that it can be directly run from shell
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-advise-mu4e~proc-sentinel ()
-      (defadvice mu4e~proc-sentinel (around show-path-to-mu-binary (&rest args))
-        (condition-case err
-            ad-do-it
-          (error (progn (kill-new mu4e-mu-binary)
-                        (error "Failed to start mu. %s. Path to mu binary (%s) copied to clipboard."
-                               (error-message-string err)
-                               mu4e-mu-binary)))))
+    (defun iqbal-advise-mu4e~proc-sentinel (orig &rest args)
+      (condition-case err
+          (apply orig args)
+        (error (progn (kill-new mu4e-mu-binary)
+                      (error "Failed to start mu. %s. Path to mu binary (%s) copied to clipboard."
+                             (error-message-string err)
+                             mu4e-mu-binary)))))
 
-      (ad-activate 'mu4e~proc-sentinel))
-
-    (with-eval-after-load 'mu4e (iqbal-advise-mu4e~proc-sentinel))
+    (advice-add 'mu4e~proc-sentinel :around #'iqbal-advise-mu4e~proc-sentinel)
   #+END_SRC
 
 
