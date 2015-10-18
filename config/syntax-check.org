@@ -18,48 +18,21 @@
 
 
 * Underline only errors in buffers
-** Disable underlining provided by flycheck
-   We will add a custom function that will underline only errors
-   #+BEGIN_SRC emacs-lisp
-     (setq flycheck-highlighting-mode nil)
-   #+END_SRC
-
-** Add a custom function for underlining errors
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-add-lines-for-errors (err)
-       (when (buffer-live-p (flycheck-error-buffer err))
-         (with-current-buffer (flycheck-error-buffer err)
-           (when (equal (flycheck-error-level err) 'error)
-             (pcase-let* ((`(,beg . ,end) (flycheck-error-region-for-mode
-                                           err 'lines))
-                          (overlay (make-overlay beg end))
-                          (level (flycheck-error-level err))
-                          (category (flycheck-error-level-overlay-category level)))
-               (overlay-put overlay 'flycheck-overlay t)
-               (overlay-put overlay 'flycheck-error err)
-               (overlay-put overlay 'category category)
-               (when flycheck-indication-mode
-                 (overlay-put overlay 'before-string
-                              (flycheck-error-level-make-fringe-icon
-                               level flycheck-indication-mode)))
-               (overlay-put overlay 'help-echo #'flycheck-help-echo)
-               overlay)))))
-
-     (with-eval-after-load 'flycheck
-       (add-to-list 'flycheck-process-error-functions #'iqbal-add-lines-for-errors))
-   #+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'flycheck
+      (set-face-attribute 'flycheck-warning nil :underline nil)
+      (set-face-attribute 'flycheck-info nil :underline nil))
+  #+END_SRC
 
 
 * Change flycheck face to use straight lines instead of wavy lines
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-flycheck-use-straight-lines ()
       (when (display-graphic-p)
-        (let ((error-color (plist-get (face-attribute 'flycheck-error :underline) :color))
-              (warning-color (plist-get (face-attribute 'flycheck-warning :underline) :color))
-              (info-color (plist-get (face-attribute 'flycheck-info :underline) :color)))
-          (set-face-attribute 'flycheck-error nil :underline (list :style 'line :color error-color))
-          (set-face-attribute 'flycheck-warning nil :underline (list :style 'line :color warning-color))
-          (set-face-attribute 'flycheck-info nil :underline (list :style 'line :color info-color)))))
+        (dolist (face '(flycheck-error flycheck-warning flycheck-info))
+          (let ((color (plist-get (face-attribute face :underline) :color)))
+            (when color
+              (set-face-attribute face nil :underline (list :style 'line :color color)))))))
 
     (add-hook 'flycheck-mode-hook #'iqbal-flycheck-use-straight-lines)
   #+END_SRC
