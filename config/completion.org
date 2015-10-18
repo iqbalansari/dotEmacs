@@ -152,7 +152,6 @@
                                            company-math-symbols-unicode
                                            company-files
                                            company-capf
-                                           :with
                                            (company-dabbrev
                                             company-ispell)))
 
