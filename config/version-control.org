@@ -87,6 +87,15 @@
   #+END_SRC
 
 
+* Delete other windows on running magit-status
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-magit-delete-other-windows (&rest ignored)
+      (delete-other-windows))
+
+    (advice-add 'magit-status :after #'iqbal-magit-delete-other-windows)
+  #+END_SRC
+
+
 * diff-hl config
 ** Display diff-hl highlight on right fringe
    This avoids conflicts with flycheck
@@ -111,58 +120,58 @@
   #+END_SRC
 
 
-* Enable smerge mode automatically for conflicted files
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-enable-smerge-maybe (last-buffer current-buffer)
-      (when (vc-backend buffer-file-name)
-        (save-excursion
-          (goto-char (point-min))
-          (when (re-search-forward "^<<<<<<< " nil t)
-            (smerge-mode +1)))))
+* Smerge mode configuration
+** Enable smerge mode automatically for conflicted files
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-enable-smerge-maybe (last-buffer current-buffer)
+       (when (vc-backend buffer-file-name)
+         (save-excursion
+           (goto-char (point-min))
+           (when (re-search-forward "^<<<<<<< " nil t)
+             (smerge-mode +1)))))
 
-    (add-hook 'buffer-switch-hook 'iqbal-enable-smerge-maybe)
+     (add-hook 'buffer-switch-hook 'iqbal-enable-smerge-maybe)
 
-    (defun iqbal-org-mode-expand-all ()
-      (when (eq major-mode 'org-mode)
-        (show-all)))
+     (defun iqbal-org-mode-expand-all ()
+       (when (eq major-mode 'org-mode)
+         (show-all)))
 
-    (add-hook 'smerge-mode-hook #'iqbal-org-mode-expand-all)
-  #+END_SRC
+     (add-hook 'smerge-mode-hook #'iqbal-org-mode-expand-all)
+   #+END_SRC
 
+** Change prefix for smerge mode
+   #+BEGIN_SRC emacs-lisp
+     (setq smerge-command-prefix "\C-cv")
 
-* Change prefix for smerge mode
-  #+BEGIN_SRC emacs-lisp
-    (setq smerge-command-prefix "\C-cv")
+     (defun iqbal-redefine-smerge-keybindings ()
+       (easy-mmode-defmap smerge-mode-map
+                          `((,smerge-command-prefix . ,smerge-basic-map))
+                          "Keymap for `smerge-mode'."))
 
-    (defun iqbal-redefine-smerge-keybindings ()
-      (easy-mmode-defmap smerge-mode-map
-                         `((,smerge-command-prefix . ,smerge-basic-map))
-                         "Keymap for `smerge-mode'."))
-
-    (add-hook 'smerge-mode-hook #'iqbal-redefine-smerge-keybindings)
-  #+END_SRC
-
-
-* Configurations for ediff
-  #+BEGIN_SRC emacs-lisp
-    (setq ediff-split-window-function 'split-window-horizontally)
-    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  #+END_SRC
+     (add-hook 'smerge-mode-hook #'iqbal-redefine-smerge-keybindings)
+   #+END_SRC
 
 
-* Restoring window configuration after ediff session
-  #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-ediff-last-windows nil)
+* Ediff configuration
+** Configurations for window spilts in ediff
+   #+BEGIN_SRC emacs-lisp
+     (setq ediff-split-window-function 'split-window-horizontally)
+     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+   #+END_SRC
 
-    (defun iqbal-store-pre-ediff-winconfig ()
-      (setq iqbal-ediff-last-windows (current-window-configuration)))
+** Restoring window configuration after ediff session
+   #+BEGIN_SRC emacs-lisp
+     (defvar iqbal-ediff-last-windows nil)
 
-    (defun iqbal-restore-pre-ediff-winconfig ()
-      (set-window-configuration iqbal-ediff-last-windows))
+     (defun iqbal-store-pre-ediff-winconfig ()
+       (setq iqbal-ediff-last-windows (current-window-configuration)))
 
-    (add-hook 'ediff-before-setup-hook #'iqbal-store-pre-ediff-winconfig)
-    (add-hook 'ediff-quit-hook #'iqbal-restore-pre-ediff-winconfig)
-  #+END_SRC
+     (defun iqbal-restore-pre-ediff-winconfig ()
+       (set-window-configuration iqbal-ediff-last-windows))
+
+     (add-hook 'ediff-before-setup-hook #'iqbal-store-pre-ediff-winconfig)
+     (add-hook 'ediff-quit-hook #'iqbal-restore-pre-ediff-winconfig)
+   #+END_SRC
 
 
 * Follow symlinks automatically
