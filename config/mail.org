@@ -131,6 +131,11 @@
      (setq mu4e-completing-read-function 'completing-read)
    #+END_SRC
 
+** Do not confirm on quit
+   #+BEGIN_SRC emacs-lisp
+     (setq mu4e-confirm-quit nil)
+   #+END_SRC
+
 
 * Apply format=flowed to outgoing messages 
   [[http://www.djcbsoftware.nl/code/mu/mu4e/Writing-messages.html][mu4e manual]] says this should add format=flowed for autogoing messages
@@ -506,76 +511,28 @@
    #+END_SRC
 
 
-* Convenience functions
-** Advice mu4e~proc-sentinel so that path to mu binary is copied to clipboard
-   This is needed since in case mu is installed using el-get, which is buried
-   deep in .emacs.d folder and might not be in PATH, as such it cannot be run
-   directly from shell. The following advice copies the path to mu to clipboard,
-   so that it can be directly run from shell
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-advise-mu4e~proc-sentinel ()
-       (defadvice mu4e~proc-sentinel (around show-path-to-mu-binary (&rest args))
-         (condition-case err
-             ad-do-it
-           (error (progn (kill-new mu4e-mu-binary)
-                         (error "Failed to start mu. %s. Path to mu binary (%s) copied to clipboard."
-                                (error-message-string err)
-                                mu4e-mu-binary)))))
+* Advice mu4e~proc-sentinel so that path to mu binary is copied to clipboard
+  This is needed since in case mu is installed using el-get, which is buried
+  deep in .emacs.d folder and might not be in PATH, as such it cannot be run
+  directly from shell. The following advice copies the path to mu to clipboard,
+  so that it can be directly run from shell
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-advise-mu4e~proc-sentinel ()
+      (defadvice mu4e~proc-sentinel (around show-path-to-mu-binary (&rest args))
+        (condition-case err
+            ad-do-it
+          (error (progn (kill-new mu4e-mu-binary)
+                        (error "Failed to start mu. %s. Path to mu binary (%s) copied to clipboard."
+                               (error-message-string err)
+                               mu4e-mu-binary)))))
 
-       (ad-activate 'mu4e~proc-sentinel))
+      (ad-activate 'mu4e~proc-sentinel))
 
-     (with-eval-after-load 'mu4e (iqbal-advise-mu4e~proc-sentinel))
-   #+END_SRC
-
-** Functions to start/hide mu4e
-   Store the window configuration before starting mu4e and restore it when
-   exiting mu4e
-   #+BEGIN_SRC emacs-lisp
-     (defvar iqbal-pre-mu-win-config nil)
-     (defvar iqbal-mu-win-config nil)
-
-     (defun iqbal-switch-to-window-conf-or-fallback (wconf fallback &rest args)
-       (let ((pre-wconf (current-window-configuration)))
-         (when (window-configuration-p wconf)
-           (set-window-configuration wconf))
-         (when (compare-window-configurations (current-window-configuration) pre-wconf)
-           ;; if the windows didn't change then most probably the window
-           ;; configuration given was invalid, fallback
-           (apply fallback args))))
-
-     (defun iqbal--start-mu4e ()
-       ;; If mu4e is running and a mu4e window configuration is
-       ;; stored
-       (if iqbal-mu-win-config
-           (iqbal-switch-to-window-conf-or-fallback iqbal-mu-win-config #'mu4e)
-         (call-interactively #'mu4e)))
-
-     (defun iqbal-start-mu4e ()
-       (interactive)
-
-       (setq iqbal-pre-mu-win-config (current-window-configuration))
-
-       (if (locate-library "mu4e")
-           (iqbal--start-mu4e)
-         (message "mu4e not installed! You need to install `autoconf', `libtool', `libxapian-dev' and `libgmime-2.6-dev' for installing mu4e")))
-
-     (defun iqbal-purge-mu4e-windows ()
-       (dolist (window (window-list))
-         (with-selected-window window
-           (when (string-match-p "^mu4e-" (symbol-name major-mode))
-             (if (one-window-p)
-                 ;; What is the next buffer is also a mu4e buffer :)
-                 (bury-buffer)
-               (delete-window))))))
-
-     (defun iqbal-hide-mu4e ()
-       (interactive)
-       (setq iqbal-mu-win-config (current-window-configuration))
-       (iqbal-switch-to-window-conf-or-fallback iqbal-pre-mu-win-config #'iqbal-purge-mu4e-windows))
-   #+END_SRC
+    (with-eval-after-load 'mu4e (iqbal-advise-mu4e~proc-sentinel))
+  #+END_SRC
 
 
-* Advice mu4e-view-quit to switch to main buffer after there is not header buffer
+* Advice mu4e-view-quit to switch to main buffer no header buffer
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-mu4e-switch-to-main-buffer-maybe (&rest ignored)
       (unless (eq (current-buffer) mu4e~headers-buffer)
@@ -588,13 +545,10 @@
 
 * Keybindings mu4e
   #+BEGIN_SRC emacs-lisp
-    (define-key iqbal-launcher-map "m" #'iqbal-start-mu4e)
+    (define-key iqbal-launcher-map "m" #'mu4e)
 
     (with-eval-after-load 'mu4e
-      (define-key mu4e-main-mode-map "q" #'iqbal-hide-mu4e)
-      (define-key mu4e-main-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
-      (define-key mu4e-view-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
-      (define-key mu4e-headers-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
-      (define-key mu4e~update-mail-mode-map iqbal-hide-app #'iqbal-hide-mu4e)
-      (define-key mu4e-view-mode-map (kbd "U") #'mu4e-headers-rerun-search))
+      (define-key mu4e-view-mode-map (kbd "U") #'mu4e-headers-rerun-search)
+      (define-key mu4e-main-mode-map (kbd "q") #'bury-buffer)
+      (define-key mu4e-main-mode-map (kbd "Q") #'mu4e-quit))
   #+END_SRC

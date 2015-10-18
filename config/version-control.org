@@ -57,25 +57,6 @@
   #+END_SRC
 
 
-* Fullscreen magit
-  Start magit in fullscreen, on exit (from magit) restore
-  window configuration. Again copied from [[http://whattheemacsd.com/setup-magit.el-02.html][whattheemacsd]].
-
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'magit
-      (defadvice magit-status (around magit-fullscreen activate)
-        (window-configuration-to-register :magit-fullscreen)
-        ad-do-it
-        (delete-other-windows)))
-
-    (defun magit-quit-session ()
-      "Restores the previous window configuration and kills the magit buffer"
-      (interactive)
-      (kill-buffer)
-      (jump-to-register :magit-fullscreen))
-  #+END_SRC
-
-
 * Configurations for magit-repos-directories
   If projectile is present then configure magit to prompt for the
   projectile projects that are also git repositories, when magit is
@@ -229,9 +210,6 @@
 * Keybindings
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x g") 'iqbal-magit-status)
-
-    (with-eval-after-load 'magit
-      (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
 
     (with-eval-after-load 'git-commit-mode
       (define-key git-commit-mode-map (kbd "C-c C-k") 'git-commit-abort))
