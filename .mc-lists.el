@@ -133,6 +133,7 @@
         haskell-indentation-delete-backward-char
         helm-M-x
         helm-mini
+        helm-projectile-find-file
         help-for-help
         ido-find-file
         ido-switch-buffer
