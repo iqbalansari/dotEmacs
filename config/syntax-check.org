@@ -17,22 +17,18 @@
   #+END_SRC
 
 
-* Underline only errors in buffers
-  #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'flycheck
-      (set-face-attribute 'flycheck-warning nil :underline nil)
-      (set-face-attribute 'flycheck-info nil :underline nil))
-  #+END_SRC
-
-
 * Change flycheck face to use straight lines instead of wavy lines
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-flycheck-use-straight-lines ()
-      (when (display-graphic-p)
-        (dolist (face '(flycheck-error flycheck-warning flycheck-info))
-          (let ((color (plist-get (face-attribute face :underline) :color)))
-            (when color
-              (set-face-attribute face nil :underline (list :style 'line :color color)))))))
+    (defun iqbal-flycheck-face-customizations ()
+      (set-face-attribute 'flycheck-error
+                          nil
+                          :underline
+                          (list :style 'line
+                                :color (plist-get (face-attribute 'flycheck-error
+                                                                  :underline)
+                                                  :color)))
+      (set-face-attribute 'flycheck-warning nil :underline nil)
+      (set-face-attribute 'flycheck-info nil :underline nil))
 
-    (add-hook 'flycheck-mode-hook #'iqbal-flycheck-use-straight-lines)
+    (add-hook 'flycheck-mode-hook #'iqbal-flycheck-face-customizations)
   #+END_SRC
