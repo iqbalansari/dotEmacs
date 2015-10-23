@@ -1,7 +1,7 @@
 * Ensure that autocomplete packages are installed
   #+BEGIN_SRC emacs-lisp
     (defvar iqbal-auto-complete-packages
-      '(company company-quickhelp company-math company-emoji auto-complete pos-tip))
+      '(company company-quickhelp company-math company-emoji company-flx auto-complete pos-tip))
 
     (iqbal-install-packages iqbal-auto-complete-packages)
   #+END_SRC
@@ -159,6 +159,11 @@
     (make-variable-buffer-local 'company-backends)
   #+END_SRC
 
+** flx matching in company
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'company
+       (company-flx-mode +1))
+   #+END_SRC
 ** Enable company-mode globally
   #+BEGIN_SRC emacs-lisp
     (global-company-mode)
