@@ -257,7 +257,7 @@
        (recenter)
        (iqbal-highlight-line)
        (when (equal major-mode 'org-mode)
-         (org-reveal)))
+         (org-show-subtree)))
 
      (defun iqbal-highlight-line ()
        (pulse-momentary-highlight-one-line (point)))
