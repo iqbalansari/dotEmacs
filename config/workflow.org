@@ -96,11 +96,12 @@
 ** Allow refiling to agenda files and org files in current directory
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-get-project-org-files ()
-       (when (featurep 'projectile)
+       (when (and (featurep 'projectile)
+                  (ignore-errors (projectile-project-root)))
          (let ((project-root (projectile-project-root)))
-           (mapcar (lambda (file) (expand-file-name file project-root))
-                   (cl-remove-if-not (lambda (file) (string-suffix-p ".org" file))
-                                     (projectile-current-project-files))))))
+           (when (mapcar (lambda (file) (expand-file-name file project-root))
+                         (cl-remove-if-not (lambda (file) (string-suffix-p ".org" file))
+                                           (projectile-current-project-files)))))))
 
      (defun iqbal-get-refile-targets ()
        (let ((files (cl-delete-duplicates (mapcar #'file-truename
