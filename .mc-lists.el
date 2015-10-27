@@ -132,6 +132,7 @@
         ggtags-find-tag-dwim
         haskell-indentation-delete-backward-char
         helm-M-x
+        helm-buffers-list
         helm-mini
         helm-projectile-find-file
         help-for-help

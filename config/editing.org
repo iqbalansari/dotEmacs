@@ -2,7 +2,6 @@
   #+BEGIN_SRC emacs-lisp
     (defvar iqbal-editing-packages
       '(undo-tree
-        comment-dwim-2
         browse-kill-ring
         multiple-cursors
         ws-butler
@@ -565,7 +564,7 @@
 
 ** Keybinding to toggle comment on line or region
    #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "M-;") #'comment-dwim-2)
+     (global-set-key (kbd "M-;") 'iqbal-comment-or-uncomment-region-or-line)
    #+END_SRC
 
 ** Keybindings for multiple cursors
