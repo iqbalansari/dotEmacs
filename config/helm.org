@@ -318,8 +318,7 @@
 *** Replace ag with helm-do-ag
     #+BEGIN_SRC emacs-lisp
       (global-set-key [remap ag] #'helm-do-ag)
-      (global-set-key [remap projectile-ag] #'helm-projectile-ag)
-      (global-set-key [remap ag-project] #'helm-do-ag-project-root)
+      (global-set-key [remap ag-project] #'helm-projectile-ag)
     #+END_SRC
 
 *** Use thing at point while searching
