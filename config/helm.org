@@ -4,7 +4,7 @@
                                    helm-swoop helm-company
                                    helm-mu org-linkany
                                    helm-gitignore wgrep-helm
-                                   helm-flx))
+                                   helm-flx helm-fuzzier))
 
     (when (executable-find "ag")
       (iqbal-install-package 'helm-ag))
@@ -85,6 +85,7 @@
 * Helm flx integration
   #+BEGIN_SRC emacs-lisp
     (helm-flx-mode +1)
+    (helm-fuzzier-mode +1)
   #+END_SRC
 
 
