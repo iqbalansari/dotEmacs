@@ -23,10 +23,13 @@
       (set-face-attribute 'flycheck-error
                           nil
                           :underline
-                          (list :style 'line
-                                :color (plist-get (face-attribute 'flycheck-error
-                                                                  :underline)
-                                                  :color)))
+                          (append (list :style 'line)
+                                  (when (plist-get (face-attribute 'flycheck-error
+                                                                   :underline)
+                                                   :color)
+                                    (list :color (plist-get (face-attribute 'flycheck-error
+                                                                            :underline)
+                                                            :color)))))
       (set-face-attribute 'flycheck-warning nil :underline nil)
       (set-face-attribute 'flycheck-info nil :underline nil))
 
