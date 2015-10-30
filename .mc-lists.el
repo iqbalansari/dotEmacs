@@ -134,7 +134,6 @@
         helm-M-x
         helm-buffers-list
         helm-mini
-        helm-projectile-find-file
         help-for-help
         ido-find-file
         ido-switch-buffer
