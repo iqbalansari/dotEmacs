@@ -36,11 +36,6 @@
     (setq bongo-logo nil)
   #+END_SRC
 
-** Mark played tracks
-   #+BEGIN_SRC emacs-lisp
-     (setq bongo-mark-played-tracks t)
-   #+END_SRC
-
 ** Update references to renamed files without asking
    #+BEGIN_SRC emacs-lisp
      (setq bongo-update-references-to-renamed-files t)

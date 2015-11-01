@@ -123,7 +123,8 @@
 * Yasnippet breaks tab completion in term-mode disable it
   #+BEGIN_SRC emacs-lisp
     (add-hook 'term-mode-hook (lambda ()
-                                (yas-minor-mode -1)
+                                (when (fboundp 'yas-minor-mode)
+                                  (yas-minor-mode -1))
                                 (toggle-truncate-lines 1)))
   #+END_SRC
 
