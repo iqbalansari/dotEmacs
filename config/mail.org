@@ -502,7 +502,8 @@
   #+BEGIN_SRC emacs-lisp
     (when (locate-library "org-mu4e")
       (autoload 'org-mu4e-open "org-mu4e")
-      (org-add-link-type "mu4e" 'org-mu4e-open))
+      (with-eval-after-load 'org
+        (org-add-link-type "mu4e" 'org-mu4e-open)))
   #+END_SRC
 
 ** Load org-mu4e on loading mu4e

@@ -77,6 +77,8 @@
      (defun iqbal-open-rfc-file (path)
        (irfc-visit (string-to-int path)))
 
-     (org-add-link-type "rfc" #'iqbal-open-rfc-file #'iqbal-irfc-export)
+     (with-eval-after-load 'org
+       (org-add-link-type "rfc" #'iqbal-open-rfc-file #'iqbal-irfc-export))
+
      (add-hook 'org-store-link-functions 'iqbal-store-irfc-link)
    #+END_SRC
