@@ -45,10 +45,12 @@
         iqbal-beginning-of-line-or-indent
         iqbal-beginning-of-line-or-indent
         iqbal-capitalize-dwim
+        iqbal-comment-or-uncomment-region-or-line
         iqbal-copy-line-or-region
         iqbal-cut-line-or-region
         iqbal-downcase-dwim
         iqbal-dwim-org-table-blank-field
+        iqbal-open-line-below
         iqbal-show-helm-kill-ring-unless-mc-active
         iqbal-upcase-dwim
         jedi:dot-complete
@@ -59,6 +61,7 @@
         ledger-magic-tab
         mark-sexp
         markdown-exdent-or-delete
+        mouse-save-then-kill
         new-line-dwim
         nxml-electric-slash
         open-line-above
@@ -155,6 +158,7 @@
         switch-window
         tern-find-definition
         undo-tree-visualizer-quit
+        wgrep-abort-changes
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit
         where-is
