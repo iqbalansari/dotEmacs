@@ -67,3 +67,6 @@ trello/
 /data/
 /helm-adaptive-history
 /games
+/network-security.data
+.cask
+xkcd
