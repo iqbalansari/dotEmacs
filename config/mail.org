@@ -307,10 +307,8 @@
 
       (defun iqbal-parse-ical-file (file)
         (with-temp-buffer
-          ;; insert-file-contents does not work apparently due to the file not being
-          ;; synced to the file-system (?). Hack around it. TODO: Properly debug this
           (message (format "Parsing appts from %s" file))
-          (insert (with-current-buffer (find-file-noselect file) (buffer-string)))
+          (insert-file-contents file)
           (iqbal-dos-to-unix)
           (goto-char (point-min))
           (let* ((ical-data (icalendar--read-element nil nil))
@@ -377,17 +375,23 @@
     #+BEGIN_SRC emacs-lisp
       (defun mu4e-action-appt-from-ics (msg)
         (dolist (index (hash-table-keys mu4e~view-attach-map))
-          (let ((attachment (mu4e~view-get-attach msg index))
-                (tmpfile (make-temp-file "mu4e"))
-                (source (org-store-link nil)))
+          (let* ((attachment (mu4e~view-get-attach msg index))
+                 (msgpath (plist-get msg :path))
+                 (tmpdir (make-temp-file "mu4e" t))
+                 (dest (string-join (list tmpdir (plist-get attachment :name)) "/"))
+                 (source-link (org-store-link nil)))
             (when (string= (plist-get attachment :mime-type)
                            "application/ics")
-              (mu4e~proc-extract 'save
-                                 (mu4e-message-field msg :docid)
-                                 (plist-get attachment :index)
-                                 mu4e-decryption-policy
-                                 tmpfile)
-              (iqbal-make-appts-from-parsed-ical-data (iqbal-parse-ical-file tmpfile) source)
+              ;; Calling the server to save does not work reliably specifically
+              ;; sometimes the file extracted is blank when Emacs reads it, though
+              ;; if read later it has the extracted contents, maybe file system
+              ;; cache issue, who knows! :confused:
+              (shell-command (format "%s extract %s --parts=%d --target-dir=%s"
+                                     mu4e-mu-binary
+                                     (shell-quote-argument msgpath)
+                                     (plist-get attachment :index)
+                                     tmpdir))
+              (iqbal-make-appts-from-parsed-ical-data (iqbal-parse-ical-file dest) source-link)
               (message (format "Imported %s" (plist-get attachment :name)))))))
 
       (with-eval-after-load 'mu4e
