@@ -3,6 +3,7 @@
     (defvar iqbal-navigation-packages
       '(goto-chg
         avy
+        ace-link
         helm))
 
     (iqbal-install-packages iqbal-navigation-packages)
@@ -13,6 +14,12 @@
   #+begin_src emacs-lisp
     (global-set-key (kbd "C-c SPC") 'avy-goto-word-or-subword-1)
   #+end_src
+
+
+* Ace link setup
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'after-init-hook #'ace-link-setup-default)
+  #+END_SRC
 
 
 * Push mark before jumping to last change
