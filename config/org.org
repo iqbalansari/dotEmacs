@@ -10,6 +10,13 @@
   #+END_SRC
 
 
+* Use fancier character for org-ellipsis
+  #+BEGIN_SRC emacs-lisp
+    (when (char-displayable-p ?▼)
+      (setq org-ellipsis " ▼"))
+  #+END_SRC
+
+
 * Directory for org files
   #+BEGIN_SRC emacs-lisp
     (setq org-directory (iqbal-get-file-in-data-directory "org" t))
