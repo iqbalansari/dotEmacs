@@ -112,7 +112,7 @@
 
 ** Paging for keybindings starting with C-x and C-c
    #+BEGIN_SRC emacs-lisp
-     (setq which-key-paging-prefixes '("C-x" "C-c"))
+     (setq which-key-paging-prefixes '("C-x" "C-c" "C-h"))
      (setq which-key-paging-key "<f5>")
    #+END_SRC
 

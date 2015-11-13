@@ -10,6 +10,11 @@
     (add-hook 'after-init-hook #'projectile-global-mode)
   #+END_SRC
 
+** Disable fancy mode-line
+   #+BEGIN_SRC emacs-lisp
+     (setq projectile-mode-line " Projectile")
+   #+END_SRC
+
 ** Projectile requires 'vc-git' for 'git-grep'
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'projectile
