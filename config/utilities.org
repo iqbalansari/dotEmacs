@@ -110,7 +110,7 @@
      (setq which-key-side-window-max-height 0.5)
    #+END_SRC
 
-** Paging for keybindings starting with C-x and C-c
+** Paging for keybindings starting with C-x, C-c and C-h
    #+BEGIN_SRC emacs-lisp
      (setq which-key-paging-prefixes '("C-x" "C-c" "C-h"))
      (setq which-key-paging-key "<f5>")
@@ -135,6 +135,11 @@
            a-group-p)))
 
      (setq which-key-sort-order 'iqbal-which-key-prefix-first-then-by-keys)
+   #+END_SRC
+
+** Keybinding to view toplevel keys
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key (kbd "C-h W") #'which-key-show-top-level)
    #+END_SRC
 
 
