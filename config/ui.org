@@ -8,7 +8,8 @@
         page-break-lines
         highlight-thing
         hl-todo
-        rich-minority))
+        rich-minority
+        emojify))
 
     (iqbal-install-packages iqbal-display-packages)
   #+END_SRC
@@ -365,4 +366,10 @@
 * Highlight TODO items in current buffer
   #+BEGIN_SRC emacs-lisp
     (add-hook 'prog-mode-hook #'hl-todo-mode)
+  #+END_SRC
+
+
+* Enable emojify mode
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'after-init-hook #'global-emojify-mode)
   #+END_SRC
