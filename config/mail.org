@@ -354,21 +354,24 @@
             (org-entry-put (point)
                            "ATTENDEES"
                            (string-join (plist-get data :attendees) ", ")))
+
+          (when (plist-get data :status)
+            (ignore-errors (org-todo (upcase (plist-get data :status)))))
+
           (insert (format "\nSource: %s\n" source))))
 
-      (defun iqbal-process-existing-appt (data)
+      (defun iqbal-process-existing-appt (data source)
         (save-window-excursion
           (org-id-goto (plist-get data :uid))
-          ;; TODO: Handle other statuses
-          (when (string= (plist-get data :status) "CANCELLED")
-            (org-todo "CANCELLED"))))
+          (org-archive-subtree)
+          (iqbal-make-appt-from-parsed-ical-data data source)))
 
       (defun iqbal-make-appts-from-parsed-ical-data (data source)
         (dolist (ical-data data)
           (let ((exisiting-appt (org-id-find (plist-get ical-data :uid))))
             (if (not exisiting-appt)
                 (iqbal-make-appt-from-parsed-ical-data ical-data source)
-              (iqbal-process-existing-appt ical-data)))))
+              (iqbal-process-existing-appt ical-data source)))))
     #+END_SRC
 
 *** Hooking the above into mu4e
