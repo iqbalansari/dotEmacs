@@ -16,20 +16,6 @@
   #+END_SRC
 
 
-* Hacks around vlc backend
-  Would eventually report these upstream
-** Fetch timing data when bongo player starts or seeks
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-bongo-start-vlc-timer (&optional player)
-       (when (eq (bongo-player-backend-name bongo-player) 'vlc)
-         (bongo-vlc-player-start-timer bongo-player)))
-
-     (add-hook 'bongo-player-sought-functions #'iqbal-bongo-start-vlc-timer)
-     (add-hook 'bongo-player-started-functions #'iqbal-bongo-start-vlc-timer)
-     (add-hook 'bongo-player-started-hook #'iqbal-bongo-start-vlc-timer)
-   #+END_SRC
-
-
 * Other minor configurations
 ** Do not display bongo logo
   #+BEGIN_SRC emacs-lisp
