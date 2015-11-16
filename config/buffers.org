@@ -1,6 +1,6 @@
 * Install some useful packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(swap-buffers buffer-move ibuffer-projectile))
+    (iqbal-install-packages '(swap-buffers buffer-move ibuffer-projectile ibuffer-vc))
   #+END_SRC
 
 
