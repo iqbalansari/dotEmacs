@@ -363,6 +363,7 @@
       (defun iqbal-process-existing-appt (data source)
         (save-window-excursion
           (org-id-goto (plist-get data :uid))
+          (org-set-property "ID" (concat (plist-get data :uid) "_archived"))
           (org-archive-subtree)
           (iqbal-make-appt-from-parsed-ical-data data source)))
 
