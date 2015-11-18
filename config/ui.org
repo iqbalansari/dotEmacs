@@ -4,7 +4,7 @@
       '(diminish
         eval-sexp-fu
         volatile-highlights
-        monokai-theme
+        solarized-theme
         page-break-lines
         highlight-thing
         hl-todo
@@ -33,15 +33,15 @@
   #+END_SRC
 
 
-* Use monokai theme
+* Use solarized theme
 ** Do not use different font sizes
    #+BEGIN_SRC emacs-lisp
-     (setq monokai-use-variable-pitch nil
-           monokai-height-minus-1 1.0
-           monokai-height-plus-1 1.0
-           monokai-height-plus-2 1.0
-           monokai-height-plus-3 1.0
-           monokai-height-plus-4 1.0)
+     (setq solarized-use-variable-pitch nil
+           solarized-height-minus-1 1.0
+           solarized-height-plus-1 1.0
+           solarized-height-plus-2 1.0
+           solarized-height-plus-3 1.0
+           solarized-height-plus-4 1.0)
    #+END_SRC
 
 ** Fix underline position in X
@@ -52,19 +52,32 @@
 
 ** Use dark or light theme according time
   #+BEGIN_SRC emacs-lisp
-    (load-theme 'monokai t)
+    (defun iqbal-load-solarized-theme (&optional frame)
+      (interactive)
+      (let ((current-hour (third (decode-time)))
+            (current-minute (second (decode-time))))
+        (if (and (< current-hour 19)
+                 (> current-hour 7))
+            (load-theme 'solarized-light t)
+          (load-theme 'solarized-dark t))
 
-    (with-eval-after-load 'company
-      (set-face-attribute 'company-tooltip-common nil
-                          :underline nil
-                          :background (face-background 'company-tooltip)
-                          :foreground (face-foreground 'company-tooltip)
-                          :bold t)
-      (set-face-attribute 'company-tooltip-common-selection nil
-                          :underline nil
-                          :background (face-background 'company-tooltip-selection)
-                          :foreground (face-foreground 'company-tooltip-selection)
-                          :bold t))
+        (with-eval-after-load 'company
+
+          (set-face-attribute 'company-tooltip-common frame
+                              :underline nil
+                              :background (face-background 'company-tooltip)
+                              :foreground (face-foreground 'company-tooltip)
+                              :bold t)
+
+          (set-face-attribute 'company-tooltip-common-selection frame
+                              :underline nil
+                              :background (face-background 'company-tooltip-selection)
+                              :foreground (face-foreground 'company-tooltip-selection)
+                              :bold t))))
+
+
+    (when (display-graphic-p)
+      (add-hook 'after-init-hook #'iqbal-load-solarized-theme))
   #+END_SRC
 
 
