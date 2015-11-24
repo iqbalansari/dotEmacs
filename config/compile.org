@@ -1,6 +1,6 @@
-* Install notify for desktop notification
+* Install alert for desktop notification
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-package 'notify)
+    (iqbal-install-package 'alert)
   #+END_SRC
 
 
@@ -37,7 +37,7 @@
                                       (string-trim compile-command)
                                       (string-trim default-directory)
                                       (string-trim message))))
-            (notify "Emacs compile.el" disp-message)))))
+            (alert disp-message :title "Emacs compile.el" :category "compile")))))
 
     (add-hook 'compilation-finish-functions #'iqbal-notify-compilation-finish)
   #+END_SRC

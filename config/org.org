@@ -1,6 +1,6 @@
 * Install some useful packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-bullets toc-org org-autolist company-math org-download org-agenda-property pcsv notify))
+    (iqbal-install-packages '(org-bullets toc-org org-autolist company-math org-download org-agenda-property pcsv alert))
   #+END_SRC
 
 
@@ -202,8 +202,9 @@
     (defun iqbal-notify-appt (time-to-appt new-time msg)
       (if (equal (type-of time-to-appt) 'cons)
           (mapcar* #'iqbal-notify-appt time-to-appt new-time 'msg)
-        (notify (format "Appointment in %s minutes" time-to-appt)
-                msg)))
+        (alert msg
+               :title (format "Appointment in %s minutes" time-to-appt)
+               :category "appt")))
 
     (setq appt-disp-window-function #'iqbal-notify-appt)
     (setq appt-delete-window-function #'ignore)

@@ -18,11 +18,6 @@
      and `libgmime-2.6-dev' for building mu4e")))
    #+END_SRC
 
-** Install notify.el for notifications
-   #+BEGIN_SRC emacs-lisp
-     (iqbal-install-package 'notify)
-   #+END_SRC
-
 
 * Set mail-host-address
   #+BEGIN_SRC emacs-lisp
