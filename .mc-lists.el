@@ -29,6 +29,8 @@
         delete-horizontal-space
         down-list
         electric-newline-and-maybe-indent
+        emojify-delete-emoji-backward
+        emojify-delete-emoji-forward
         end-of-visual-line
         eval-and-replace
         eval-defun
@@ -136,6 +138,7 @@
         haskell-indentation-delete-backward-char
         helm-M-x
         helm-buffers-list
+        helm-find-files
         helm-mini
         help-for-help
         ido-find-file
