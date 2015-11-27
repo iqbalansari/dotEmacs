@@ -1,6 +1,6 @@
 * Some additional packages for working with dired
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger async))
+    (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger dired-narrow async))
     (iqbal-install-packages iqbal-dired-packages)
   #+END_SRC
 
@@ -128,7 +128,7 @@
       (require 'dired-filter))
 
     (with-eval-after-load 'dired
-      (define-key dired-mode-map "/" dired-filter-mark-map))
+      (define-key dired-mode-map "f" dired-filter-mark-map))
 
     (add-hook 'dired-mode-hook #'iqbal-dired-load-dired-filter)
   #+END_SRC
@@ -142,6 +142,13 @@
       (define-key dired-mode-map "rp" #'dired-ranger-paste)
       (define-key dired-mode-map "rb" #'dired-ranger-bookmark)
       (define-key dired-mode-map "rv" #'dired-ranger-bookmark-visit))
+  #+END_SRC
+
+
+* Dired narrow configuration
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map "/" #'dired-narrow-fuzzy))
   #+END_SRC
 
 
@@ -173,4 +180,3 @@
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-d") 'dired)
   #+END_SRC
-
