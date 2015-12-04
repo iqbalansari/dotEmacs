@@ -4,8 +4,10 @@
       '(magit
         diff-hl
         git-timemachine
-        git-messenger
-        ssh-agency))
+        git-messenger))
+
+    (when (equal system-type 'windows-nt)
+      (iqbal-install-package ssh-agency))
 
     (when (zerop (call-process "git" nil nil nil "flow" "init" "help"))
       (add-to-list 'iqbal-version-control-packages 'magit-gitflow))

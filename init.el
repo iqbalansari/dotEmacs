@@ -1,6 +1,7 @@
 ;; Do not start on windows, if HOME environment is not equal to
 ;; USERPROFILE. This leads unexpected behaviour such as applications started
 ;; from emacs do not pick up correct HOME folder
+
 (when (and (equal system-type 'windows-nt)
            (not (string= (expand-file-name (getenv "HOME"))
                          (expand-file-name (getenv "USERPROFILE")))))
