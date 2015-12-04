@@ -147,6 +147,8 @@
 
 
 * Integration with org-mode
+  Credits: The code for storing elfeed links and open them is
+  based on code mentioned [[https://github.com/skeeto/elfeed/issues/34#issuecomment-158824561][here]].
 ** Org capture template adding new feed sources
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'org-capture
@@ -158,34 +160,6 @@
                                                  :empty-lines-after 2)))
    #+END_SRC
 
-** Storing links to feed being currently viewed
-*** Storing link in elfeed-show-mode
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-org-elfeed-show-store-link ()
-       "Store a link to currently viewed feed."
-       (when (eq major-mode 'elfeed-show-mode)
-         (org-store-link-props
-          :type "http"
-          :link (elfeed-entry-link elfeed-show-entry)
-          :description (elfeed-entry-title elfeed-show-entry))))
-
-     (add-hook 'org-store-link-functions 'iqbal-org-elfeed-show-store-link)
-   #+END_SRC
-
-*** Storing link in elfeed-search-mode
-    #+BEGIN_SRC emacs-lisp
-      (defun iqbal-org-elfeed-search-store-link ()
-        "Store a link to feed at point."
-        (when (eq major-mode 'elfeed-search-mode)
-          (let ((entry (elfeed-search-selected t)))
-            (org-store-link-props
-             :type "http"
-             :link (elfeed-entry-link entry)
-             :description (elfeed-entry-title entry)))))
-
-      (add-hook 'org-store-link-functions 'iqbal-org-elfeed-search-store-link)
-    #+END_SRC
-
 ** Re-import elfeed feeds after capturing a feed
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-maybe-reimport-feeds-after-capture ()
@@ -193,6 +167,49 @@
          (iqbal-import-elfeed-feeds)))
 
      (add-hook 'org-capture-after-finalize-hook #'iqbal-maybe-reimport-feeds-after-capture)
+   #+END_SRC
+
+** Storing links to feed being currently viewed
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-elfeed-show-store-link ()
+       "Store a link to an elfeed search or entry buffer."
+       (when (derived-mode-p 'elfeed-show-mode)
+         (org-store-link-props
+          :type "elfeed"
+          :link (format "elfeed:%s#%s"
+                        (car (elfeed-entry-id elfeed-show-entry))
+                        (cdr (elfeed-entry-id elfeed-show-entry)))
+          :description (elfeed-entry-title elfeed-show-entry))))
+
+     (add-hook 'org-store-link-functions #'iqbal-org-elfeed-show-store-link)
+   #+END_SRC
+
+** Storing link to current elfeed search
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-elfeed-search-store-link ()
+       (when (derived-mode-p 'elfeed-search-mode)
+         (org-store-link-props
+          :type "elfeed"
+          :link (format "elfeed:%s" elfeed-search-filter)
+          :description elfeed-search-filter)))
+
+     (add-hook 'org-store-link-functions 'iqbal-org-elfeed-search-store-link)
+   #+END_SRC
+
+** Opening elfeed links
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-elfeed-open-link (filter-or-id)
+       "Jump to an elfeed entry or search, depending on what FILTER-OR-ID looks like."
+       (if (string-match "\\([^#]+\\)#\\(.+\\)" filter-or-id)
+           (elfeed-show-entry (elfeed-db-get-entry (cons (match-string 1 filter-or-id)
+                                                         (match-string 2 filter-or-id))))
+         (switch-to-buffer (elfeed-search-buffer))
+         (unless (eq major-mode 'elfeed-search-mode)
+           (elfeed-search-mode))
+         (elfeed-search-set-filter filter-or-id)))
+
+     (with-eval-after-load 'org
+       (org-add-link-type "elfeed" #'iqbal-org-elfeed-open-link))
    #+END_SRC
 
 
