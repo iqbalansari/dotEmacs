@@ -147,9 +147,33 @@
 
 
 * Elfeed goodies configuration
+** Use wider columns in elfeed search
+   #+BEGIN_SRC emacs-lisp
+     (setq elfeed-goodies/feed-source-column-width 24)
+     (setq elfeed-goodies/tag-column-width 30)
+   #+END_SRC
+
+** Load elfeed-goodies
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'elfeed
       (elfeed-goodies/setup))
+  #+END_SRC
+
+
+* A more colorful elfeed search buffer
+  Credits: https://github.com/skeeto/.emacs.d
+  #+BEGIN_SRC emacs-lisp
+    (defface iqbal-elfeed-comics
+      '((t :foreground "#BFF"))
+      "Marks comics in Elfeed.")
+
+    (defface iqbal-elfeed-audio
+      '((t :foreground "#FA0"))
+      "Marks podcasts in Elfeed.")
+
+    (with-eval-after-load 'elfeed
+      (push '(comics iqbal-elfeed-comics) elfeed-search-face-alist)
+      (push '(podcast iqbal-elfeed-audio) elfeed-search-face-alist))
   #+END_SRC
 
 
