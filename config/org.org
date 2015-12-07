@@ -198,6 +198,7 @@
 
 
 * Notify about appointments using notify-send
+** Function to notify about appointments
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-notify-appt (time-to-appt new-time msg)
       (if (equal (type-of time-to-appt) 'cons)
@@ -209,6 +210,14 @@
     (setq appt-disp-window-function #'iqbal-notify-appt)
     (setq appt-delete-window-function #'ignore)
   #+END_SRC
+
+** Set style for appointment notifications
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'alert
+       (alert-add-rule :category "appt" :style (if (executable-find "notify-send")
+                                                      'libnotify
+                                                    'notifications)))
+   #+END_SRC
 
 
 * Keybindings

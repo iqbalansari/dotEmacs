@@ -17,30 +17,39 @@
 
 
 * Notify of completion of compilation
-  #+BEGIN_SRC emacs-lisp
-    (defun iqbal-buffer-on-screen-p (buffer)
-      (let ((buffer-window (get-buffer-window buffer t)))
-        ;; If buffer is not open in a window it is not visible
-        (and buffer-window
-             ;; Check the visibility of the frame the window belongs to
-             (equal (frame-visible-p (window-frame buffer-window))
-                    t))))
+** Functions to notify after compilation
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-buffer-on-screen-p (buffer)
+       (let ((buffer-window (get-buffer-window buffer t)))
+         ;; If buffer is not open in a window it is not visible
+         (and buffer-window
+              ;; Check the visibility of the frame the window belongs to
+              (equal (frame-visible-p (window-frame buffer-window))
+                     t))))
 
-    (defun iqbal-notify-compilation-finish (buffer message)
-      (require 'subr-x)
-      (with-current-buffer buffer
-        ;; Display notification only if we are in compilation mode
-        ;; and buffer is not visible
-        (when (and (eq major-mode 'compilation-mode)
-                   (not (iqbal-buffer-on-screen-p (current-buffer))))
-          (let ((disp-message (format "Command: %s \n\nIn directory: %s\n\nStatus: %s"
-                                      (string-trim compile-command)
-                                      (string-trim default-directory)
-                                      (string-trim message))))
-            (alert disp-message :title "Emacs compile.el" :category "compile")))))
+     (defun iqbal-notify-compilation-finish (buffer message)
+       (require 'subr-x)
+       (with-current-buffer buffer
+         ;; Display notification only if we are in compilation mode
+         ;; and buffer is not visible
+         (when (and (eq major-mode 'compilation-mode)
+                    (not (iqbal-buffer-on-screen-p (current-buffer))))
+           (let ((disp-message (format "Command: %s \n\nIn directory: %s\n\nStatus: %s"
+                                       (string-trim compile-command)
+                                       (string-trim default-directory)
+                                       (string-trim message))))
+             (alert disp-message :title "Emacs compile.el" :category "compile")))))
 
-    (add-hook 'compilation-finish-functions #'iqbal-notify-compilation-finish)
-  #+END_SRC
+     (add-hook 'compilation-finish-functions #'iqbal-notify-compilation-finish)
+   #+END_SRC
+
+** Set style for compile notifications
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'alert
+       (alert-add-rule :category "compile" :style (if (executable-find "notify-send")
+                                                      'libnotify
+                                                    'notifications)))
+   #+END_SRC
 
 
 * Translate ansi sequences in compilation buffers
