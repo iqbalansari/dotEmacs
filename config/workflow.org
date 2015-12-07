@@ -1,6 +1,6 @@
 * Install, orgit and org-journal
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-journal org-dashboard orgbox orgit calfw))
+    (iqbal-install-packages '(org-journal org-dashboard orgbox orgit calfw async))
   #+END_SRC
 
 
@@ -989,40 +989,37 @@
 ** Helper function to get overdue tasks
    Most of this is copied from org-mode
    #+BEGIN_SRC emacs-lisp
-     (defun iqbal-get-overdue-task-list (&optional time)
-       (let* ((time (or time "now"))
-              (files (org-agenda-files nil 'ifmode))
-              (not-done-matcher "TODO<>\"DONE\"+TODO<>\"CANCELLED\"+TODO<>\"STARTED\"")
-              (todo-only nil)
-              (matcher (cdr (org-make-tags-matcher (format "%s+DEADLINE<=\"<%s>\"|%s+SCHEDULED<=\"<%s>\""
-                                                           not-done-matcher
-                                                           time
-                                                           not-done-matcher
-                                                           time))))
-              rtn rtnall)
-         (while (setq file (pop files))
-           (catch 'nextfile
-             (org-check-agenda-file file)
-             (setq buffer (if (file-exists-p file)
-                              (org-get-agenda-file-buffer file)
-                            (error "No such file %s" file)))
-             (if (not buffer)
-                 ;; If file does not exist, error message to agenda
-                 (setq rtn (list
-                            (format "ORG-AGENDA-ERROR: No such org-file %s" file))
-                       rtnall (append rtnall rtn))
-               (with-current-buffer buffer
-                 (unless (derived-mode-p 'org-mode)
-                   (error "Agenda file %s is not in `org-mode'" file))
-                 (save-excursion
-                   (save-restriction
-                     (if (eq buffer org-agenda-restrict)
-                         (narrow-to-region org-agenda-restrict-begin
-                                           org-agenda-restrict-end)
-                       (widen))
-                     (setq rtn (org-scan-tags 'agenda matcher todo-only))
-                     (setq rtnall (append rtnall rtn))))))))
-         rtnall))
+     (require 'async)
+
+     (defun iqbal-get-overdue-task-count-async (callback)
+       (async-start `(lambda ()
+                       (require 'package)
+                       (package-initialize)
+                       (require 'org)
+                       ,(async-inject-variables "org-agenda-files")
+                       (let* ((time "now")
+                              (files (org-agenda-files nil 'ifmode))
+                              (todo-only t)
+                              (matcher (cdr (org-make-tags-matcher (format "DEADLINE<=\"<%s>\"|SCHEDULED<=\"<%s>\""
+                                                                           time
+                                                                           time))))
+                              rtnall)
+                         (while (setq file (pop files))
+                           (catch 'nextfile
+                             (org-check-agenda-file file)
+                             (setq buffer (if (file-exists-p file)
+                                              (org-get-agenda-file-buffer file)
+                                            (error "No such file %s" file)))
+                             (when buffer
+                               (with-current-buffer buffer
+                                 (unless (derived-mode-p 'org-mode)
+                                   (error "Agenda file %s is not in `org-mode'" file))
+                                 (save-excursion
+                                   (save-restriction
+                                     (widen)
+                                     (setq rtnall (append rtnall (org-scan-tags 'agenda matcher todo-only)))))))))
+                         (length rtnall)))
+                    callback))
    #+END_SRC
 
 ** Function to get modeline format
@@ -1034,30 +1031,30 @@
      (defvar iqbal-overdue-tasks-mode-line "")
      (add-to-list 'global-mode-string '(:eval iqbal-overdue-tasks-mode-line) t)
 
-     (defun iqbal-get-overdue-tasks-mode-line-string (overdue-tasks)
-       (let ((no-overdue-task (length overdue-tasks)))
-         (unless (zerop no-overdue-task)
-           (concat " "
-                   (propertize
-                    "Tasks"
-                    'face 'iqbal-overdue-task-face
-                    'help-echo (concat (if (= no-overdue-task 1)
-                                           "You have an overdue task"
-                                         (format "You have %s overdue tasks" no-overdue-task))
-                                       "\nClick here to view "
-                                       (if (= no-overdue-task 1) "it" "them"))
-                    'mouse-face 'mode-line-highlight
-                    'keymap '(mode-line keymap
-                                        (mouse-1 . iqbal-view-overdue-tasks)
-                                        (mouse-2 . iqbal-view-overdue-tasks)
-                                        (mouse-3 . iqbal-view-overdue-tasks)))
-                   (format " [%d] " no-overdue-task)))))
+     (defun iqbal-get-overdue-tasks-mode-line-string (no-overdue-tasks)
+       (unless (zerop no-overdue-tasks)
+         (concat " "
+                 (propertize
+                  "Tasks"
+                  'face 'iqbal-overdue-task-face
+                  'help-echo (concat (if (= no-overdue-tasks 1)
+                                         "You have an overdue task"
+                                       (format "You have %s overdue tasks" no-overdue-tasks))
+                                     "\nClick here to view "
+                                     (if (= no-overdue-tasks 1) "it" "them"))
+                  'mouse-face 'mode-line-highlight
+                  'keymap '(mode-line keymap
+                                      (mouse-1 . iqbal-view-overdue-tasks)
+                                      (mouse-2 . iqbal-view-overdue-tasks)
+                                      (mouse-3 . iqbal-view-overdue-tasks)))
+                 (format " [%d] " no-overdue-tasks))))
    #+END_SRC
 
 ** Setup update of overdue tasks update every 60 seconds
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-update-overdue-task-mode-line ()
-       (setq iqbal-overdue-tasks-mode-line (iqbal-get-overdue-tasks-mode-line-string (iqbal-get-overdue-task-list))))
+       (iqbal-get-overdue-task-count-async (lambda (task-count)
+                                             (setq iqbal-overdue-tasks-mode-line (iqbal-get-overdue-tasks-mode-line-string task-count)))))
 
      (defvar iqbal-overdue-tasks-mode-line-timer (run-at-time 5 60 #'iqbal-update-overdue-task-mode-line))
    #+END_SRC
