@@ -1059,6 +1059,16 @@
      (defvar iqbal-overdue-tasks-mode-line-timer (run-at-time 5 60 #'iqbal-update-overdue-task-mode-line))
    #+END_SRC
 
+** Update task count on saving agenda file
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-org-setup-overdue-task-count-update ()
+       (when (and (buffer-file-name)
+                  (org-agenda-file-p (buffer-file-name)))
+         (add-hook 'after-save-hook #'iqbal-update-overdue-task-mode-line t t)))
+
+     (add-hook 'find-file-hook #'iqbal-org-setup-overdue-task-count-update)
+   #+END_SRC
+
 
 * Goto to a random task from global TODO list
   #+BEGIN_SRC emacs-lisp
