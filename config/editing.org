@@ -532,6 +532,12 @@
   #+END_SRC
 
 
+* Visit read-only files in view-mode
+  #+BEGIN_SRC emacs-lisp
+    (setq view-read-only t)
+  #+END_SRC
+
+
 * Keybindings
 ** Keybinding to prompt user for value during recording macro
    #+BEGIN_SRC emacs-lisp
