@@ -1,6 +1,6 @@
 * Install required packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-package 'elfeed)
+    (iqbal-install-packages '(elfeed elfeed-goodies))
   #+END_SRC
 
 
@@ -144,6 +144,13 @@
 
      (add-hook 'after-save-hook #'iqbal-import-elfeed-feeds-maybe)
    #+END_SRC
+
+
+* Elfeed goodies configuration
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'elfeed
+      (elfeed-goodies/setup))
+  #+END_SRC
 
 
 * Integration with org-mode

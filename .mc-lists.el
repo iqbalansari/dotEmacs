@@ -134,6 +134,7 @@
         c-electric-pound
         describe-key
         eldoc-eval-expression
+        eval-buffer
         ggtags-find-tag-dwim
         haskell-indentation-delete-backward-char
         helm-M-x
