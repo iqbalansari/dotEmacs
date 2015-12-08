@@ -996,6 +996,7 @@
                        (require 'package)
                        (package-initialize)
                        (require 'org)
+                       (require 'org-agenda)
                        ,(async-inject-variables "org-agenda-files")
                        (let* ((time "now")
                               (files (org-agenda-files nil 'ifmode))
