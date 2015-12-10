@@ -1,15 +1,16 @@
 * Setup racer
   #+BEGIN_SRC emacs-lisp
-    (require 'racer)
-    (setq racer-cmd (executable-find "racer"))
+        (require 'racer)
+        (setq racer-cmd (executable-find "racer"))
 
     (if (and racer-cmd
+             racer-rust-src-path
              (file-exists-p racer-rust-src-path))
-        (racer-activate)
-      (warn (if racer-cmd
-                "Path to rust src not set, not activating racer. Please set `RUST_SRC_PATH' environment variable
-and restart emacs or set manually set `racer-rust-src-path'"
-              "`racer' not found in path, please install it from https://github.com/phildawes/racer")))
+            (racer-activate)
+          (warn (if racer-cmd
+                    "Path to rust src not set, not activating racer. Please set `RUST_SRC_PATH' environment variable
+    and restart emacs or set manually set `racer-rust-src-path'"
+                  "`racer' not found in path, please install it from https://github.com/phildawes/racer")))
   #+END_SRC
 
 

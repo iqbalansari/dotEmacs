@@ -167,7 +167,8 @@
       (push '(unread font-lock-type-face) elfeed-search-face-alist)
       (push '(comics font-lock-function-name-face) elfeed-search-face-alist)
       (push '(podcasts font-lock-type-face) elfeed-search-face-alist)
-      (push '(blog font-lock-doc-face) elfeed-search-face-alist))
+      (push '(blog font-lock-doc-face) elfeed-search-face-alist)
+      (set-face-foreground 'elfeed-search-title-face (face-foreground font-lock-type-face)))
   #+END_SRC
 
 
