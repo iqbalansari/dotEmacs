@@ -991,36 +991,39 @@
    #+BEGIN_SRC emacs-lisp
      (require 'async)
 
+     (defvar iqbal-get-overdue-task-count-process nil)
+
      (defun iqbal-get-overdue-task-count-async (callback)
-       (async-start `(lambda ()
-                       (require 'package)
-                       (package-initialize)
-                       (require 'org)
-                       (require 'org-agenda)
-                       ,(async-inject-variables "org-agenda-files")
-                       (let* ((time "now")
-                              (files (org-agenda-files nil 'ifmode))
-                              (todo-only t)
-                              (matcher (cdr (org-make-tags-matcher (format "DEADLINE<=\"<%s>\"|SCHEDULED<=\"<%s>\""
-                                                                           time
-                                                                           time))))
-                              rtnall)
-                         (while (setq file (pop files))
-                           (catch 'nextfile
-                             (org-check-agenda-file file)
-                             (setq buffer (if (file-exists-p file)
-                                              (org-get-agenda-file-buffer file)
-                                            (error "No such file %s" file)))
-                             (when buffer
-                               (with-current-buffer buffer
-                                 (unless (derived-mode-p 'org-mode)
-                                   (error "Agenda file %s is not in `org-mode'" file))
-                                 (save-excursion
-                                   (save-restriction
-                                     (widen)
-                                     (setq rtnall (append rtnall (org-scan-tags 'agenda matcher todo-only)))))))))
-                         (length rtnall)))
-                    callback))
+       (unless (process-live-p iqbal-get-overdue-task-count-process)
+         (let ((async-func `(lambda ()
+                              (require 'package)
+                              (package-initialize)
+                              (require 'org)
+                              (require 'org-agenda)
+                              ,(async-inject-variables "org-agenda-files")
+                              (let* ((time "now")
+                                     (files (org-agenda-files nil 'ifmode))
+                                     (todo-only t)
+                                     (matcher (cdr (org-make-tags-matcher (format "DEADLINE<=\"<%s>\"|SCHEDULED<=\"<%s>\""
+                                                                                  time
+                                                                                  time))))
+                                     rtnall)
+                                (while (setq file (pop files))
+                                  (catch 'nextfile
+                                    (org-check-agenda-file file)
+                                    (setq buffer (if (file-exists-p file)
+                                                     (org-get-agenda-file-buffer file)
+                                                   (error "No such file %s" file)))
+                                    (when buffer
+                                      (with-current-buffer buffer
+                                        (unless (derived-mode-p 'org-mode)
+                                          (error "Agenda file %s is not in `org-mode'" file))
+                                        (save-excursion
+                                          (save-restriction
+                                            (widen)
+                                            (setq rtnall (append rtnall (org-scan-tags 'agenda matcher todo-only)))))))))
+                                (length rtnall)))))
+           (setq iqbal-get-overdue-task-count-process (async-start async-func callback)))))
    #+END_SRC
 
 ** Function to get modeline format
@@ -1057,7 +1060,7 @@
        (iqbal-get-overdue-task-count-async (lambda (task-count)
                                              (setq iqbal-overdue-tasks-mode-line (iqbal-get-overdue-tasks-mode-line-string task-count)))))
 
-     (defvar iqbal-overdue-tasks-mode-line-timer (run-at-time 5 60 #'iqbal-update-overdue-task-mode-line))
+     (defvar iqbal-overdue-tasks-mode-line-timer (run-at-time 1 60 #'iqbal-update-overdue-task-mode-line))
    #+END_SRC
 
 ** Update task count on saving agenda file
