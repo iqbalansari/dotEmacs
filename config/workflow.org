@@ -1,6 +1,6 @@
-* Install, orgit and org-journal
+* Install some useful packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-journal org-dashboard orgbox orgit calfw async))
+    (iqbal-install-packages '(org-journal org-dashboard org-pomodoro orgbox orgit calfw async))
   #+END_SRC
 
 
