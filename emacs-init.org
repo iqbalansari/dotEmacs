@@ -313,7 +313,7 @@
         (if directory-p
             (make-directory file t)
           (unless (file-exists-p (file-name-directory file))
-            (make-directory (make-directory file t) t))
+            (make-directory (file-name-directory file) t))
 
           (unless (file-exists-p file)
             (iqbal-write-to-file file "")))

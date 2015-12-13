@@ -1,0 +1,17 @@
+* Save newsrc in data directory
+  #+BEGIN_SRC emacs-lisp
+    (setq gnus-startup-file (iqbal-get-file-in-data-directory "gnus/.newsrc"))
+  #+END_SRC
+
+
+* Add Gmane news server
+  #+BEGIN_SRC emacs-lisp
+    (setq gnus-select-method '(nntp "news.gmane.org"))
+    (setq gnus-secondary-select-methods '((nntp "news.gwene.org")))
+  #+END_SRC
+
+
+* Keybinding to start Gnus
+  #+BEGIN_SRC emacs-lisp
+    (define-key iqbal-launcher-map "g" #'gnus)
+  #+END_SRC
