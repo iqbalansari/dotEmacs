@@ -123,6 +123,7 @@
                                  web
                                  mail
                                  rss
+                                 gnus
                                  pdf
                                  rfc
                                  media
