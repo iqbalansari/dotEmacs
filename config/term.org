@@ -304,9 +304,6 @@
        (define-key term-raw-map (kbd "C-|") #'iqbal-split-window-right-start-terminal)
        (define-key term-raw-map (kbd "C-\\") #'iqbal-split-window-below-start-terminal)
        (define-key term-raw-map (kbd "C-S-q") #'delete-window))
-
-     (with-eval-after-load 'shell
-       (define-key shell-mode-map (kbd "C-S-q") #'delete-window))
    #+END_SRC
 
 
