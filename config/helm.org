@@ -242,15 +242,24 @@
 
 *** Default to recursive grep
     #+BEGIN_SRC emacs-lisp
-      (defun iqbal-helm-grep-recurse-by-default (args)
-        (setf (cadr args) (not (cadr args)))
-        args)
-
-      (advice-add 'helm-do-grep-1 :filter-args #'iqbal-helm-grep-recurse-by-default)
+      (with-eval-after-load 'helm-grep
+        '(setq helm-grep-default-command helm-grep-default-recurse-command))
     #+END_SRC
 
-*** Replace rgrep and zrgrep with helm equivalents
+*** Replace rgrep helm equivalents
     #+BEGIN_SRC emacs-lisp
+      (defun helm-do-grep ()
+        "Copied from older helm (https://github.com/emacs-helm/helm/blob/4d4b9d63c5fbe33fe472cf75ac83167d8d82c8e5/helm-grep.el)
+
+      The latest versions do not come with it."
+        (interactive)
+        (require 'helm-mode)
+        (let* ((only (helm-read-file-name
+                      "Search in file(s): "
+                      :marked-candidates t))
+               (prefarg (or current-prefix-arg helm-current-prefix-arg)))
+          (helm-do-grep-1 only prefarg)))
+
       (global-set-key [remap rgrep] #'helm-do-grep)
     #+END_SRC
 
