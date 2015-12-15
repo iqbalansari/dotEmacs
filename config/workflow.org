@@ -96,6 +96,7 @@
 ** Allow refiling to agenda files and org files in current directory
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-get-project-org-files ()
+       (require 'cl-lib)
        (when (and (featurep 'projectile)
                   (ignore-errors (projectile-project-root)))
          (let ((project-root (projectile-project-root)))
@@ -104,6 +105,7 @@
                                            (projectile-current-project-files)))))))
 
      (defun iqbal-get-refile-targets ()
+       (require 'cl-lib)
        (let ((files (cl-delete-duplicates (mapcar #'file-truename
                                                   ;; Files in current directory
                                                   (append (directory-files default-directory t "\\.org$")
@@ -145,6 +147,7 @@
     Credits: Alexander Vorobiev
     http://lists.gnu.org/archive/html/emacs-orgmode/2013-10/msg00150.html and        http://www.glassberg-powell.com/blog/20140709/emacs-org-mode-capture-anywhere"
       (interactive)
+      (require 'cl-lib)
       ;; Instruct desktop to not save org capture frame
       (make-frame '((name . "*Org Capture*") (desktop-dont-save . t)))
       (select-frame-by-name "*Org Capture*")

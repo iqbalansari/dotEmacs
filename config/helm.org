@@ -140,6 +140,7 @@
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-helm-buffers-toggle-helm-mini ()
        (interactive)
+       (require 'cl-lib)
        (let ((helm-buffer-list-sources '(helm-source-buffers-list
                                          helm-source-ido-virtual-buffers
                                          helm-source-buffer-not-found)))

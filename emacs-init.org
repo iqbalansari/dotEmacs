@@ -9,6 +9,7 @@
 
 ** Refresh package contents if needed
    #+BEGIN_SRC emacs-lisp
+     (require 'cl-lib)
      (defvar iqbal-package-refresh-needed (cl-reduce (lambda (need-refresh repo)
                                                        (or (not (file-exists-p (concat package-user-dir "/archives/"
                                                                                        (car repo)
@@ -107,6 +108,7 @@
 * Declaration of global variables and utility functions
 ** Check if given file is older than any of the other given files
    #+BEGIN_SRC emacs-lisp
+     (require 'cl-lib)
      (defun iqbal-is-file-stale (orig-file &rest files)
        (if (file-exists-p orig-file)
            (cl-reduce (lambda (is-stale-yet? file)

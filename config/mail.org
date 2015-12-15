@@ -422,6 +422,7 @@
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-get-all-mail-query ()
       (require 'subr-x)
+      (require 'cl-lib)
       (string-join (mapcar (lambda (maildir) (format "maildir:\"%s\"" maildir))
                            (cl-remove-if
                             (lambda (maildir) (or (string-match-p "[Ss]pam" maildir) (string-match-p "[Tt]rash" maildir)))
@@ -471,6 +472,7 @@
 
     (defun iqbal-mu4e-set-account ()
       "Set the account for composing a message."
+      (require 'cl-lib)
       (let* ((account
               ;; If we are about to compose a reply retrieve try retrieving the
               ;; the account corresponding to 'to' field of email

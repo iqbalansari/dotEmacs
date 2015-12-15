@@ -11,6 +11,7 @@
   are modified or there is some new org file, otherwise it will be
   faster since we load a single file
   #+BEGIN_SRC emacs-lisp
+    (require 'cl-lib)
     (defvar iqbal-modules-dir (locate-user-emacs-file "config/"))
     (defvar iqbal-modules-compiled-dir (expand-file-name ".compiled/" iqbal-modules-dir))
 

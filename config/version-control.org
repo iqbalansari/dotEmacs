@@ -65,6 +65,7 @@
   invoked with a prefix argument or from a non-git folder
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-update-magit-repository-directories ()
+      (require 'cl-lib)
       (setq magit-repository-directories (mapcar #'directory-file-name
                                                  (cl-remove-if-not (lambda (project)
                                                                      (file-directory-p (concat project "/.git/")))

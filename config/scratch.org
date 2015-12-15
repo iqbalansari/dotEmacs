@@ -46,6 +46,7 @@
            (insert selected-text))))
 
      (defun iqbal-get-all-major-modes-names ()
+       (require 'cl-lib)
        (cl-remove-duplicates (mapcar #'symbol-name
                                      (cl-remove-if-not #'symbolp
                                                        (mapcar #'cdr auto-mode-alist)))

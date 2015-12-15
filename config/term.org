@@ -190,14 +190,15 @@
      (defun iqbal-get-live-shell-for-project (project-root)
        "Return the first live shell for a project"
        ;; Clean up any killed shells
+       (require 'cl-lib)
        (puthash project-root
                 (cl-remove-if-not (lambda (buffer)
-                                 (buffer-live-p buffer))
-                               (gethash project-root iqbal-shell-to-project-map))
+                                    (buffer-live-p buffer))
+                                  (gethash project-root iqbal-shell-to-project-map))
                 iqbal-shell-to-project-map)
 
        ;; Return the first live shell
-       (car (gethash project-root iqbal-shell-to-project-map)))    
+       (car (gethash project-root iqbal-shell-to-project-map)))
 
      (defun iqbal-create-new-shell-and-store (project-root)
        "Create a new shell for the project and store it in the global hash"

@@ -62,6 +62,7 @@
 * Process buffers should not be considered part of project unless they are shells
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-filter-out-non-shell-processes (buffers)
+      (require 'cl-lib)
       (cl-remove-if (lambda (buffer)
                    (let ((buffer-major-mode (with-current-buffer buffer
                                               major-mode)))

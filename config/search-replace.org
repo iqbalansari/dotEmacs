@@ -195,7 +195,7 @@
   #+BEGIN_SRC emacs-lisp
     (setq ag-highlight-search (when (executable-find "ag")
                                 (version<= "0.14"
-                                           (cl-third (split-string (shell-command-to-string "ag --version"))))))
+                                           (car (cddr (split-string (shell-command-to-string "ag --version")))))))
   #+END_SRC
 
 
