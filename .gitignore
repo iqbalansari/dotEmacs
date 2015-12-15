@@ -70,3 +70,5 @@ trello/
 /network-security.data
 .cask
 xkcd
+elpa-*
+custom-*

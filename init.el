@@ -25,11 +25,18 @@ your emacs and try again!"))
 ;; Use absolute file name of user-emacs-directory.
 (setq user-emacs-directory (file-truename "~/.emacs.d/"))
 
-;; Save custom variables in separate file
-(setq custom-file (locate-user-emacs-file "custom.el"))
+;; Save custom variables in separate file for different version
+(setq custom-file (locate-user-emacs-file (format "custom-%d.%d.el"
+                                                  emacs-major-version
+                                                  emacs-minor-version)))
 
 (when (file-exists-p custom-file)
   (load custom-file))
+
+;; Use separate package directory for different version
+(setq package-user-dir (locate-user-emacs-file (format "elpa-%d.%d"
+                                                       emacs-major-version
+                                                       emacs-minor-version)))
 
 (require 'package)
 (package-initialize)
