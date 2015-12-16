@@ -331,11 +331,6 @@
      (setq exec-path-from-shell-variables (list "PATH" "MANPATH" "PKG_CONFIG_PATH" "LD_LIBRARY_PATH" "ACLOCAL_PATH"))
    #+END_SRC
 
-** Arguments to passed to the exec-path-from-shell
-   #+BEGIN_SRC emacs-lisp
-     (setq exec-path-from-shell-arguments '("-l"))
-   #+END_SRC
-
 ** Initialize the environment from shell
   #+BEGIN_SRC emacs-lisp
     (iqbal-install-package 'exec-path-from-shell)
