@@ -26,9 +26,7 @@ your emacs and try again!"))
 (setq user-emacs-directory (file-truename "~/.emacs.d/"))
 
 ;; Save custom variables in separate file for different version
-(setq custom-file (locate-user-emacs-file (format "custom-%d.%d.el"
-                                                  emacs-major-version
-                                                  emacs-minor-version)))
+(setq custom-file (locate-user-emacs-file "custom.el"))
 
 (when (file-exists-p custom-file)
   (load custom-file))
