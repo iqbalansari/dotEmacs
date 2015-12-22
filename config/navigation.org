@@ -119,6 +119,13 @@
   #+END_SRC
 
 
+* Make C-SPC after popping to pop mark again
+  CREDITS: http://endlessparentheses.com/faster-pop-to-mark-command.html
+  #+BEGIN_SRC emacs-lisp
+    (setq set-mark-command-repeat-pop t)
+  #+END_SRC
+
+
 * Keybindings for navigating between errors
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "M-n") 'next-error)
