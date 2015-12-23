@@ -34,6 +34,11 @@
      (setq iqbal-ternjs-available (locate-library "tern"))
    #+END_SRC
 
+** Do not create port files
+   #+BEGIN_SRC emacs-lisp
+     (setq tern-command '("tern" "--no-port-file"))
+   #+END_SRC
+
 ** Enable tern-mode
    #+BEGIN_SRC emacs-lisp
      (when iqbal-ternjs-available
