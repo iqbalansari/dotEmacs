@@ -558,7 +558,7 @@
   #+END_SRC
 
 
-* Keybindings mu4e
+* Keybindings for mu4e
   #+BEGIN_SRC emacs-lisp
     (define-key iqbal-launcher-map "m" #'mu4e)
 

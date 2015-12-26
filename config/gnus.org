@@ -1,5 +1,7 @@
 * Save newsrc in data directory
   #+BEGIN_SRC emacs-lisp
+    (setq gnus-directory (iqbal-get-file-in-data-directory "gnus"))
+    (setq gnus-startup-file (iqbal-get-file-in-data-directory "gnus/.newsrc"))
     (setq gnus-startup-file (iqbal-get-file-in-data-directory "gnus/.newsrc"))
   #+END_SRC
 
@@ -11,7 +13,34 @@
   #+END_SRC
 
 
-* Keybinding to start Gnus
+* Better keybinding to subscribe to a group
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'gnus-srvr
+      (define-key gnus-browse-mode-map (kbd "s") #'gnus-browse-unsubscribe-current-group))
+  #+END_SRC
+
+
+* Setup fetching of news on idle time
+** Setup gnus-demon to fetch news
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-setup-gnus-news-scan ()
+       (require 'gnus-demon)
+       (gnus-demon-add-handler #'gnus-demon-scan-news nil 1)
+       (gnus-demon-init))
+
+     (add-hook 'after-init-hook #'iqbal-setup-gnus-news-scan)
+   #+END_SRC
+
+** Notify after fetching news
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'gnus-after-getting-new-news-hook 'gnus-notifications)
+   #+END_SRC
+
+
+* Keybindings for Gnus
   #+BEGIN_SRC emacs-lisp
     (define-key iqbal-launcher-map "g" #'gnus)
+
+    (with-eval-after-load 'gnus-group
+      (define-key gnus-group-mode-map iqbal-hide-app #'gnus-group-suspend))
   #+END_SRC
