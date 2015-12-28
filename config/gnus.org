@@ -9,7 +9,6 @@
 * Add Gmane news server
   #+BEGIN_SRC emacs-lisp
     (setq gnus-select-method '(nntp "news.gmane.org"))
-    (setq gnus-secondary-select-methods '((nntp "news.gwene.org")))
   #+END_SRC
 
 
@@ -35,6 +34,12 @@
    #+BEGIN_SRC emacs-lisp
      (add-hook 'gnus-after-getting-new-news-hook 'gnus-notifications)
    #+END_SRC
+
+
+* Enable gnus topic mode
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+  #+END_SRC
 
 
 * Keybindings for Gnus
