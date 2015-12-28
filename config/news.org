@@ -1,7 +1,7 @@
-* Save newsrc in data directory
+* Save data in data directory
   #+BEGIN_SRC emacs-lisp
     (setq gnus-directory (iqbal-get-file-in-data-directory "gnus"))
-    (setq gnus-startup-file (iqbal-get-file-in-data-directory "gnus/.newsrc"))
+    (setq gnus-init-file (iqbal-get-file-in-data-directory "gnus/init.el"))
     (setq gnus-startup-file (iqbal-get-file-in-data-directory "gnus/.newsrc"))
   #+END_SRC
 

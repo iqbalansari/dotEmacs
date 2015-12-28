@@ -1,0 +1,39 @@
+* Look for startup file in data directory as well
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'erc
+      (push (iqbal-get-file-in-data-directory "irc/init.el") erc-startup-file-list))
+  #+END_SRC
+
+
+* ERC logging config
+** Enable erc-log
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'erc
+       (add-to-list 'erc-modules 'log)
+       (erc-update-modules))
+   #+END_SRC
+
+** Directory to store irc logs
+   #+BEGIN_SRC emacs-lisp
+     (setq erc-log-channels-directory (iqbal-get-file-in-data-directory "irc/logs"
+                                                                        :directory))
+   #+END_SRC
+
+
+* Switch to an existing ERC buffer or start ERC
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-erc-start ()
+      "Connect to freenode."
+      (interactive)
+      (require 'erc)
+      (if (erc-buffer-list)
+          (switch-to-buffer (completing-read "Select ERC buffer to switch to: "
+                                             (mapcar #'buffer-name (erc-buffer-list))))
+        (call-interactively #'erc)))
+  #+END_SRC
+
+
+* Keybindings for ERC
+  #+BEGIN_SRC emacs-lisp
+    (define-key iqbal-launcher-map "E" #'iqbal-erc-start)
+  #+END_SRC

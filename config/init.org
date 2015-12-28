@@ -124,7 +124,8 @@
                                  web
                                  mail
                                  rss
-                                 gnus
+                                 news
+                                 irc
                                  pdf
                                  rfc
                                  media
