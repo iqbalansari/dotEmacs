@@ -473,25 +473,24 @@
     (defun iqbal-mu4e-set-account ()
       "Set the account for composing a message."
       (require 'cl-lib)
-      (let* ((account
-              ;; If we are about to compose a reply retrieve try retrieving the
-              ;; the account corresponding to 'to' field of email
-              (if mu4e-compose-parent-message
-                  (let ((receiving-email (cdar (mu4e-message-field mu4e-compose-parent-message
-                                                                   :to))))
-                    (caar (cl-remove-if-not (lambda (account)
-                                           (string= (cadr (assoc 'user-mail-address account))
-                                                    receiving-email))
-                                         iqbal-mu4e-account-alist)))
-                ;; Otherwise read the account to use from the user
-                (when iqbal-mu4e-account-alist
-                  (completing-read (format "Compose with account: (%s) "
-                                           (mapconcat #'(lambda (var) (car var))
-                                                      iqbal-mu4e-account-alist "/"))
-                                   (mapcar #'(lambda (var) (car var)) iqbal-mu4e-account-alist)
-                                   nil t nil nil (caar iqbal-mu4e-account-alist)))))
+      ;; If we are about to compose a reply retrieve try retrieving the
+      ;; the account corresponding to 'to' field of email
+      (let* ((inferred-account (when mu4e-compose-parent-message
+                                 (let ((receiving-email (cdar (mu4e-message-field mu4e-compose-parent-message
+                                                                                  :to))))
+                                   (caar (cl-remove-if-not (lambda (account)
+                                                             (string= (cadr (assoc 'user-mail-address account))
+                                                                      receiving-email))
+                                                           iqbal-mu4e-account-alist)))))
+             ;; Otherwise read the account to use from the user
+             (read-account (when (and iqbal-mu4e-account-alist (not inferred-account))
+                             (completing-read (format "Compose with account: (%s) "
+                                                      (mapconcat #'car
+                                                                 iqbal-mu4e-account-alist "/"))
+                                              (mapcar #'car iqbal-mu4e-account-alist)
+                                              nil t nil nil (caar iqbal-mu4e-account-alist))))
              ;; Retrieve the variables corresponding to account
-             (account-vars (cdr (assoc account iqbal-mu4e-account-alist))))
+             (account-vars (cdr (assoc (or inferred-account read-account) iqbal-mu4e-account-alist))))
         (when account-vars
           ;; Set the variables
           (mapc #'(lambda (var)
