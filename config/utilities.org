@@ -5,6 +5,7 @@
                               eldoc-eval
                               guide-key
                               which-key
+                              tldr
                               rainbow-mode))
 
     (when (executable-find "pandoc")
