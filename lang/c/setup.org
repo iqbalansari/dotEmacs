@@ -67,7 +67,6 @@
 
 * Highlight line after jump to definition
    #+BEGIN_SRC emacs-lisp
-     (iqbal-reorient-after-func 'iqbal-c-find-definition-rtags)
      (iqbal-reorient-after-func 'iqbal-find-definition-rtags-fallback)
      (iqbal-reorient-after-func 'gtags-find-tag)
      (iqbal-reorient-after-func 'find-tag)

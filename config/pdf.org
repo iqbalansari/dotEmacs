@@ -38,6 +38,25 @@
   #+END_SRC
 
 
+* Enable pdfview-midnight mode
+** Enable it whenever pdf view mode loads
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'pdf-view-mode-hook 'pdf-view-midnight-minor-mode)
+  #+END_SRC
+
+** Update the colors when theme changes
+   #+BEGIN_SRC emacs-lisp
+     (defun iqbal-update-pdf-midnight-colors (&rest ignored)
+       (setq pdf-view-midnight-colors
+             (cons (face-foreground 'default)
+                   (face-background 'default))))
+
+     (advice-add 'enable-theme :after #'iqbal-update-pdf-midnight-colors)
+     (advice-add 'disable-theme :after #'iqbal-update-pdf-midnight-colors)
+     (add-hook 'after-init-hook #'iqbal-update-pdf-midnight-colors)
+   #+END_SRC
+
+
 * org-pdfview configuration
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-load-org-pdfview ()
