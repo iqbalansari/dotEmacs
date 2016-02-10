@@ -31,8 +31,8 @@
              (project-indexed (not (string= rtags-status "unknown\n"))))
         (setq iqbal-rtags-project-indexed project-indexed)
         (unless project-indexed
-          (let ((compile-commands (locate-dominating-file "compile_commands.json"
-                                                          (or buffer-file-name default-directory))))
+          (let ((compile-commands (locate-dominating-file (or buffer-file-name default-directory)
+                                                          "compile_commands.json")))
             (if (and compile-commands
                      (file-in-directory-p compile-commands project-root))
                 (shell-command (format "%s -J %s"
