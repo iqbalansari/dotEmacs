@@ -221,8 +221,8 @@
       (defun iqbal-helm-grep-save-results ()
         (interactive)
         (require 'subr-x)
-        (let* ((patterns (split-string (with-current-buffer "*helm grep*"
-                                         helm-grep-include-files)))
+        (let* ((patterns (with-current-buffer "*helm grep*"
+                           (or helm-grep-include-files '("*"))))
                (quoted-extensions (mapcar (lambda (pattern)
                                             (car (last (split-string pattern "="))))
                                           patterns))
