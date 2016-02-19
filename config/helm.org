@@ -85,7 +85,7 @@
 * Helm flx integration
   #+BEGIN_SRC emacs-lisp
     (helm-flx-mode +1)
-    (helm-fuzzier-mode +1)
+    ;;(helm-fuzzier-mode +1)
   #+END_SRC
 
 
