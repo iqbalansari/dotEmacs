@@ -1,6 +1,14 @@
 * Install some useful packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-bullets toc-org org-autolist company-math org-download org-agenda-property pcsv alert))
+    (iqbal-install-packages '(org-bullets
+                              toc-org
+                              org-autolist
+                              company-math
+                              org-download
+                              org-agenda-property
+                              pcsv
+                              alert
+                              org-clock-convenience))
   #+END_SRC
 
 
@@ -141,6 +149,20 @@
      (with-eval-after-load 'org
        (define-key org-mode-map (kbd "C-c C-/") #'org-decrypt-entry))
    #+END_SRC
+
+
+* org-clock-convenience setup
+  #+BEGIN_SRC emacs-lisp
+    (defun iqbal-org-clock-convenience-setup ()
+      (define-key org-agenda-mode-map (kbd "<S-up>") #'org-clock-convenience-timestamp-up)
+      (define-key org-agenda-mode-map (kbd "<S-down>") #'org-clock-convenience-timestamp-down)
+      (define-key org-agenda-mode-map (kbd "o") #'org-clock-convenience-fill-gap))
+
+    (add-hook 'org-agenda-mode-hook #'iqbal-org-clock-convenience-setup)
+    (autoload #'org-clock-convenience-timestamp-up "org-clock-convenience" nil t)
+    (autoload #'org-clock-convenience-timestamp-down "org-clock-convenience" nil t)
+    (autoload #'org-clock-convenience-fill-gap "org-clock-convenience" nil t)
+  #+END_SRC
 
 
 * toc-org configuration

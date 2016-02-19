@@ -399,6 +399,20 @@
         (org-defkey org-mode-map [remap imenu] #'helm-org-in-buffer-headings))
     #+END_SRC
 
+*** Add action to clock in directly from helm-org session
+    CREDITS: https://github.com/dfeich/org-clock-convenience#tip-using-helm-for-efficient-clocking-into-tasks
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-helm-org-clock-in (marker)
+        "Clock into the item at MARKER"
+        (with-current-buffer (marker-buffer marker)
+          (goto-char (marker-position marker))
+          (org-clock-in)))
+
+      (with-eval-after-load 'helm-org
+        (nconc helm-org-headings-actions
+               (list (cons "Clock into task" #'iqbal-helm-org-clock-in))))
+    #+END_SRC
+
 ** Do not complete in step while org-refiling
   Otherwise only the top level completions are shown by helm
   #+BEGIN_SRC emacs-lisp
