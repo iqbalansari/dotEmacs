@@ -123,6 +123,7 @@
                                  scratch
                                  web
                                  mail
+                                 contacts
                                  rss
                                  news
                                  irc

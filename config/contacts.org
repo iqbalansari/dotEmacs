@@ -1,0 +1,10 @@
+* Install required packages
+  #+BEGIN_SRC emacs-lisp
+    (iqbal-install-package 'bbdb)
+  #+END_SRC
+
+
+* Location to store bbdb contqcts
+  #+BEGIN_SRC emacs-lisp
+    (setq bbdb-file (iqbal-get-file-in-data-directory "contacts/bbdb"))
+  #+END_SRC
