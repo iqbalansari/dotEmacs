@@ -4,6 +4,7 @@
       '(undo-tree
         browse-kill-ring
         multiple-cursors
+        ace-mc
         ws-butler
         expand-region
         hungry-delete
@@ -581,6 +582,7 @@
     (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
     (global-set-key (kbd "C-S-r") 'set-rectangular-region-anchor)
     (global-set-key (kbd "C-S-a") 'mc/mark-all-in-region-regexp)
+    (global-set-key (kbd "C-c S-SPC") 'ace-mc-add-multiple-cursors)
   #+END_SRC
 
 ** Extra keybindings enabled in multiple cursors mode
