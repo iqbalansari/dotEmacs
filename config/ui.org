@@ -370,6 +370,14 @@
 
 
 * Enable emojify mode
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'after-init-hook #'global-emojify-mode)
-  #+END_SRC
+** Set the emoji set to use
+   #+BEGIN_SRC emacs-lisp
+     (when (and (fboundp 'imagemagick-types)
+                (memq 'PNG (imagemagick-types)))
+       (setq emojify-emoji-set "emojione-v2"))
+   #+END_SRC
+
+** Enable emojify after initialization
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'after-init-hook #'global-emojify-mode)
+   #+END_SRC
