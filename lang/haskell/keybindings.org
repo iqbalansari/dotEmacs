@@ -1,7 +1,6 @@
 * Managing imports
   #+BEGIN_SRC emacs-lisp
     (define-key haskell-mode-map iqbal-refactor-organize-imports #'haskell-mode-format-imports)
-    (define-key haskell-mode-map (kbd "SPC") #'haskell-mode-contextual-space)
   #+END_SRC
 
 
