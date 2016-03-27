@@ -1,3 +1,12 @@
+* Keybindings to interact with the listener
+  #+BEGIN_SRC emacs-lisp
+    (define-key factor-mode-map iqbal-send-region #'fuel-eval-region)
+    (define-key factor-mode-map iqbal-send-file #'fuel-run-file)
+    (define-key factor-mode-map iqbal-send-function #'factor-mode-map)
+    (define-key factor-mode-map iqbal-send-buffer (iqbal-evaluate-buffer-in-repl iqbal-factor-eval-buffer fuel-eval-region))
+    (define-key factor-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-factor-eval-line fuel-eval-region))
+  #+END_SRC
+
 * Set keybindings for refactoring
   #+BEGIN_SRC emacs-lisp
     (define-key factor-mode-map iqbal-refactor-rename #'fuel-refactor-rename-word)

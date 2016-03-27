@@ -1,0 +1,6 @@
+* Copy FACTOR_ROOTS' value from the shell
+  #+BEGIN_SRC emacs-lisp
+    (when (not (getenv "FACTOR_ROOTS"))
+      (unless (equal system-type 'windows-nt)
+        (setenv "FACTOR_ROOTS" (or (cdar (exec-path-from-shell-getenvs '("FACTOR_ROOTS"))) ""))))
+  #+END_SRC
