@@ -29,7 +29,7 @@
 ** Define some extra keywords
   #+BEGIN_SRC emacs-lisp
     (setq org-todo-keywords
-          (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s!)" "DONE(d@/!)")
+          (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s!)" "IN PROCESS(p@)"  "DONE(d@/!)")
                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "CANCELLED(c@/!)")
                   (sequence "UNREAD(u!)" "READING(r!)" "READ(f@/!)"))))
   #+END_SRC
