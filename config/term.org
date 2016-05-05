@@ -38,7 +38,6 @@
         (message "Switched to char mode")))
 
     (with-eval-after-load 'term
-      (define-key term-raw-map (kbd "<escape>") #'iqbal-toggle-term-mode)
       (define-key term-mode-map (kbd "<escape>") #'iqbal-toggle-term-mode)
       (define-key term-raw-map (kbd "C-`") #'iqbal-toggle-term-mode)
       (define-key term-mode-map (kbd "C-`") #'iqbal-toggle-term-mode))

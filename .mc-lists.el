@@ -134,6 +134,7 @@
         c-electric-pound
         describe-key
         eldoc-eval-expression
+        elisp-slime-nav-describe-elisp-thing-at-point
         eval-buffer
         ggtags-find-tag-dwim
         haskell-indentation-delete-backward-char
@@ -158,10 +159,12 @@
         orgtbl-ctrl-c-ctrl-c
         orgtbl-hijacker-command-100
         phi-search
+        scroll-other-window
         smex
         switch-window
         tern-find-definition
         undo-tree-visualizer-quit
+        vr/query-replace
         wgrep-abort-changes
         wgrep-change-to-wgrep-mode
         wgrep-finish-edit
