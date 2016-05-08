@@ -4,12 +4,6 @@
   #+END_SRC
 
 
-* Enable eldoc
-  #+BEGIN_SRC emacs-lisp
-    (cider-turn-on-eldoc-mode)
-  #+END_SRC
-
-
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
     (iqbal-reorient-after-func 'cider-find-var)
