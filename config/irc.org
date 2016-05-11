@@ -5,21 +5,6 @@
   #+END_SRC
 
 
-* ERC logging config
-** Enable erc-log
-   #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'erc
-       (add-to-list 'erc-modules 'log)
-       (erc-update-modules))
-   #+END_SRC
-
-** Directory to store irc logs
-   #+BEGIN_SRC emacs-lisp
-     (setq erc-log-channels-directory (iqbal-get-file-in-data-directory "irc/logs"
-                                                                        :directory))
-   #+END_SRC
-
-
 * Switch to an existing ERC buffer or start ERC
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-erc-start ()
