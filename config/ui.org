@@ -166,12 +166,13 @@
 
 * Highlight changes in the buffer
   #+BEGIN_SRC emacs-lisp
-    (setq highlight-changes-visibility-initial-state nil)
-    (global-highlight-changes-mode t)
-    (set-face-foreground 'highlight-changes nil)
-    (set-face-background 'highlight-changes "#382f2f")
-    (set-face-foreground 'highlight-changes-delete nil)
-    (set-face-background 'highlight-changes-delete "#916868")
+    (when (display-graphic-p)
+      (setq highlight-changes-visibility-initial-state nil)
+      (global-highlight-changes-mode t)
+      (set-face-foreground 'highlight-changes nil)
+      (set-face-background 'highlight-changes "#382f2f")
+      (set-face-foreground 'highlight-changes-delete nil)
+      (set-face-background 'highlight-changes-delete "#916868"))
   #+END_SRC
 
 
