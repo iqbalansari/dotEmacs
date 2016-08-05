@@ -538,7 +538,7 @@
       (condition-case err
           (apply orig args)
         (error (progn (kill-new mu4e-mu-binary)
-                      (error "Failed to start mu. %s. Path to mu binary (%s) copied to clipboard."
+                      (user-error "Failed to start mu. %s. Path to mu binary (%s) copied to clipboard."
                              (error-message-string err)
                              mu4e-mu-binary)))))
 
