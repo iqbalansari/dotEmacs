@@ -458,7 +458,7 @@
         (mu4e-alert-set-default-style (if (executable-find "notify-send")
                                           'libnotify
                                         'notifications))
-        (setq mu4e-alert-interesting-mail-query "flag:unread AND NOT flag:trashed AND NOT maildir:\"/personal/Bulk Mail\" AND NOT maildir:\"/professional/Bulk Mail\"")
+        (setq mu4e-alert-interesting-mail-query "flag:unread AND NOT flag:trashed AND NOT maildir:\"/professional/Bulk Mail\" AND NOT maildir:\"/personal/Bulk Mail\"")
         (mu4e-alert-enable-notifications)
         (mu4e-alert-enable-mode-line-display)))
 

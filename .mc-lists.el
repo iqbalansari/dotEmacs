@@ -94,6 +94,7 @@
         shm/backward-node
         shm/del
         shm/forward-node
+        slime-autodoc-space
         sp--self-insert-command
         sp-add-to-previous-sexp
         sp-backward-delete-char
@@ -137,6 +138,7 @@
         elisp-slime-nav-describe-elisp-thing-at-point
         eval-buffer
         ggtags-find-tag-dwim
+        handle-switch-frame
         haskell-indentation-delete-backward-char
         helm-M-x
         helm-buffers-list
