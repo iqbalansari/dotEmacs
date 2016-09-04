@@ -375,7 +375,7 @@
    #+BEGIN_SRC emacs-lisp
      (when (and (fboundp 'imagemagick-types)
                 (memq 'PNG (imagemagick-types)))
-       (setq emojify-emoji-set "emojione-v2"))
+       (setq emojify-emoji-set "emojione-v2.2.6"))
    #+END_SRC
 
 ** Enable emojify after initialization
