@@ -1,3 +1,4 @@
+
 * Initialize package management
 ** Add some more repositories
    #+BEGIN_SRC emacs-lisp
@@ -592,6 +593,8 @@
 
        (add-hook 'ielm-mode-hook 'company-mode)
        (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
+       (push '("Tests" "(\\(\\<ert-deftest\\)\\>\\s *\\(\\(?:\\sw\\|\\s_\\)+\\)?" 2) imenu-generic-expression)
 
        ;; Keybindings
        (local-set-key iqbal-show-doc #'elisp-slime-nav-describe-elisp-thing-at-point)
