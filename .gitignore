@@ -24,7 +24,7 @@ org
 org/
 auto-save/*
 var/*
-custom.el
+custom*.el
 *private*
 bookmarks
 image-dired/*
@@ -71,6 +71,5 @@ trello/
 .cask
 xkcd
 elpa-*
-custom-*
 tldr
 /emojis

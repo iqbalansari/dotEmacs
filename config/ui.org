@@ -378,6 +378,13 @@
        (setq emojify-emoji-set "emojione-v2.2.6"))
    #+END_SRC
 
+** Add some custom emojis
+   #+BEGIN_SRC emacs-lisp
+     (setq emojify-user-emojis
+           `((":trollface:" . (("name" . "Troll") ("image" . ,(expand-file-name "trollface.png" "~/.emacs.d/custom-emojis/")) ("style" . "github")))
+             (":neckbeard:" . (("name" . "Neckbeard") ("image" . ,(expand-file-name "neckbeard.png" "~/.emacs.d/custom-emojis/")) ("style" . "github")))))
+   #+END_SRC
+
 ** Enable emojify after initialization
    #+BEGIN_SRC emacs-lisp
      (add-hook 'after-init-hook #'global-emojify-mode)
