@@ -1,9 +1,14 @@
+* Enable intero-mode
+  #+BEGIN_SRC emacs-lisp
+    (intero-mode)
+  #+END_SRC
+
+
 * Configuration for haskell-mode
 ** Enable interactive haskell mode
    #+BEGIN_SRC emacs-lisp
      (setq haskell-process-suggest-remove-import-lines t)
      (setq haskell-process-auto-import-loaded-modules t)
-     (interactive-haskell-mode)
    #+END_SRC
 
 ** Enable haskell-indentation-mode
@@ -40,24 +45,6 @@
   #+END_SRC
 
 
-* Turn on eldoc
-   #+BEGIN_SRC emacs-lisp
-     (turn-on-haskell-doc)
-   #+END_SRC
-
-
-* Setup jump to definition
-** If hasktags is installed and file is not in home directory generate tags on save
-  #+BEGIN_SRC emacs-lisp
-    (if (executable-find "hasktags")
-        (when (and buffer-file-name
-                   (not (string= (file-name-directory buffer-file-name)
-                                 (expand-file-name "~/"))))
-          (setq haskell-tags-on-save t))
-      (warn "`hasktags' not installed, jump to definition MAY not work"))
-  #+END_SRC
-
-
 * Managing imports
 ** Suggest removal of unused imports
    #+BEGIN_SRC emacs-lisp
@@ -73,35 +60,7 @@
    #+END_SRC
 
 
-* Initialize ghc-mod
-  #+BEGIN_SRC emacs-lisp
-    (when iqbal-ghc-mod-available
-      (ghc-init))
-  #+END_SRC
-
-
-* Setup auto-completion
-** Enable company mode and company-ghc
-  #+BEGIN_SRC emacs-lisp
-    (when iqbal-ghc-mod-available
-      (add-to-list 'company-backends '(company-ghc :with company-dabbrev-code)))
-  #+END_SRC
-
-** Show type info in the minibuffer
-   #+BEGIN_SRC emacs-lisp
-     (setq company-ghc-show-info t)
-   #+END_SRC
-
-** Warn if hoogle is not installed
-   #+BEGIN_SRC emacs-lisp
-     (if (executable-find "hoogle")
-         (unless (zerop (shell-command "hoogle --info t"))
-           (warn "`hoogle' data not generated, run `hoogle data' to generate it"))
-       (warn "`hoogle' is not installed documentation popup would not work, install it using cabal"))
-   #+END_SRC
-
-
 * Flash line after jump
   #+BEGIN_SRC emacs-lisp
-    (iqbal-reorient-after-func 'haskell-mode-jump-to-def-or-tag)
+    (iqbal-reorient-after-func 'intero-goto-definition)
   #+END_SRC

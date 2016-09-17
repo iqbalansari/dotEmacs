@@ -27,6 +27,12 @@
   #+END_SRC
 
 
+* Enable eldoc mode
+  #+BEGIN_SRC emacs-lisp
+    (eldoc-mode)
+  #+END_SRC
+
+
 * Flash the current line after jump to definition
   #+BEGIN_SRC emacs-lisp
     (iqbal-reorient-after-func 'racer-find-definition)

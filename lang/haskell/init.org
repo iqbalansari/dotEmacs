@@ -22,12 +22,6 @@
   #+END_SRC
 
 
-* Variable to record availability of ghc-mod
-  #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-ghc-mod-available nil)
-  #+END_SRC
-
-
 * Make 'haskell-tags-on-save' buffer local
   #+BEGIN_SRC emacs-lisp
     (make-variable-buffer-local 'haskell-tags-on-save)

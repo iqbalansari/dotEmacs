@@ -1,5 +1,5 @@
 * Recommended keybindings for racer
   #+BEGIN_SRC emacs-lisp
-    (define-key rust-mode-map (kbd "TAB") #'racer-complete-or-indent)
-    (define-key rust-mode-map (kbd "M-.") #'racer-find-definition)
+    (define-key rust-mode-map iqbal-show-doc #'racer-describe)
+    (define-key rust-mode-map iqbal-jump-to-definition #'racer-find-definition)
   #+END_SRC

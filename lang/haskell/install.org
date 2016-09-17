@@ -1,9 +1,6 @@
-* Install ghc-mod frontend if ghc-mod is installed
+* Install intero mode
   #+BEGIN_SRC emacs-lisp
-    (if (executable-find "ghc-mod")
-        (progn (iqbal-install-packages '(ghc company-ghc))
-               (setq iqbal-ghc-mod-available t))
-      (warn "`ghc-mod' not installed, auto-completion will not work. Install `ghc-mod' using cabal"))
+    (iqbal-install-package 'intero)
   #+END_SRC
 
 
