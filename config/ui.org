@@ -2,7 +2,6 @@
   #+BEGIN_SRC emacs-lisp
     (defvar iqbal-display-packages
       '(diminish
-        eval-sexp-fu
         volatile-highlights
         solarized-theme
         page-break-lines
@@ -270,18 +269,6 @@
   #+BEGIN_SRC emacs-lisp
     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
   #+END_SRC
-
-
-* Flash the currently executed sexp
-** Load eval-sexp-fu
-  #+BEGIN_SRC emacs-lisp
-    (require 'eval-sexp-fu)
-  #+END_SRC
-
-** Custom colors
-   #+BEGIN_SRC emacs-lisp
-     (set-face-attribute 'eval-sexp-fu-flash nil :background "#38B4D2" :foreground nil)
-   #+END_SRC
 
 
 * Not ringing and dinging please!

@@ -1,5 +1,5 @@
 * Add custom info files
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'info
-      (add-to-list 'Info-default-directory-list (iqbal-get-file-in-data-directory "info" t)))
+      (add-to-list 'Info-directory-list (iqbal-get-file-in-data-directory "info" t)))
   #+END_SRC
