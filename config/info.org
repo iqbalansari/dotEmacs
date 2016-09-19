@@ -3,3 +3,10 @@
     (with-eval-after-load 'info
       (add-to-list 'Info-directory-list (iqbal-get-file-in-data-directory "info" t)))
   #+END_SRC
+
+
+* Remember visited info links
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'desktop
+      (add-to-list 'desktop-globals-to-save 'Info-history-list))
+  #+END_SRC
