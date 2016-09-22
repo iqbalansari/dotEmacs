@@ -6,8 +6,8 @@
 
 * Interacting with the repl
   #+BEGIN_SRC emacs-lisp
-    (define-key haskell-mode-map iqbal-run-shell #'haskell-interactive-bring)
-    (define-key haskell-mode-map iqbal-send-file #'haskell-process-load-or-reload)
+    (define-key intero-mode-map iqbal-run-shell #'haskell-interactive-bring)
+    (define-key intero-mode-map iqbal-send-file #'haskell-process-load-or-reload)
   #+END_SRC
 
 
@@ -15,6 +15,7 @@
   #+BEGIN_SRC emacs-lisp
     (define-key haskell-mode-map iqbal-jump-to-definition #'intero-goto-definition)
   #+END_SRC
+
 
 * Getting info at point
   #+BEGIN_SRC emacs-lisp
