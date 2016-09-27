@@ -6,7 +6,7 @@
 
 * Directory for storing notes
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-notes-dir (iqbal-get-file-in-data-directory "notes" t))
+    (defvar iqbal-notes-dir (iqbal-get-file-in-notes-directory "notes" t))
   #+END_SRC
 
 
@@ -255,7 +255,7 @@
 
 ** Directory for agenda files
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-org-agenda-dir (iqbal-get-file-in-data-directory "agenda" t))
+    (defvar iqbal-org-agenda-dir (iqbal-get-file-in-notes-directory "agenda" t))
   #+END_SRC
 
 ** Path to default org-captured file
@@ -313,7 +313,7 @@
 * org-id configuration
 ** Location of file remembering id locations
    #+BEGIN_SRC emacs-lisp
-     (setq org-id-locations-file (iqbal-get-file-in-data-directory ".org-id-locations"))
+     (setq org-id-locations-file (iqbal-get-file-in-notes-directory ".org-id-locations"))
    #+END_SRC
 
 ** Use org-ids for links to org file

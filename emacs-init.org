@@ -324,6 +324,30 @@
         file))
   #+END_SRC
 
+* Location of notes directory
+  #+BEGIN_SRC emacs-lisp
+    (defvar iqbal-notes-directory (expand-file-name ".notes" "~") "Directory to store notes")
+
+    (defun iqbal-get-file-in-notes-directory (filename &optional directory-p)
+      (unless (file-exists-p iqbal-notes-directory)
+        (make-directory iqbal-notes-directory))
+
+      (unless (file-directory-p iqbal-notes-directory)
+        (user-error "The specified notes %s, is a file. Please delete it or customize `iqbal-notes-directory'"))
+
+      (let ((file (expand-file-name filename
+                                    (file-truename iqbal-notes-directory))))
+        (if directory-p
+            (make-directory file t)
+          (unless (file-exists-p (file-name-directory file))
+            (make-directory (file-name-directory file) t))
+
+          (unless (file-exists-p file)
+            (iqbal-write-to-file file "")))
+
+        file))
+  #+END_SRC
+
 
 * Setup the PATH and exec-path from shell
   This is needed if emacs not started from a shell

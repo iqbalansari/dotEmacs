@@ -12,7 +12,7 @@
 
 * Path to notes directory
  #+BEGIN_SRC emacs-lisp
-   (setq deft-directory (iqbal-get-file-in-data-directory "notes" t))
+   (setq deft-directory (iqbal-get-file-in-notes-directory "notes" t))
  #+END_SRC
 
 
