@@ -191,12 +191,18 @@
   #+END_SRC
 
 
-* Enable highlighting of search term in ag
-  #+BEGIN_SRC emacs-lisp
-    (setq ag-highlight-search (when (executable-find "ag")
-                                (version<= "0.14"
-                                           (car (cddr (split-string (shell-command-to-string "ag --version")))))))
-  #+END_SRC
+* Customizations for ag.el
+** Enable highlighting of search term in ag
+   #+BEGIN_SRC emacs-lisp
+     (setq ag-highlight-search (when (executable-find "ag")
+                                 (version<= "0.14"
+                                            (car (cddr (split-string (shell-command-to-string "ag --version")))))))
+   #+END_SRC
+
+** Enable wgrep support for ag
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'ag-mode-hook 'wgrep-ag-setup)
+   #+END_SRC
 
 
 * Use <tab> to complete word using dabbrev during isearch
