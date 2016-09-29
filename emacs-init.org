@@ -6,6 +6,7 @@
      (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
      (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+     (package-initialize)
    #+END_SRC
 
 ** Refresh package contents if needed
@@ -323,6 +324,7 @@
 
         file))
   #+END_SRC
+
 
 * Location of notes directory
   #+BEGIN_SRC emacs-lisp
