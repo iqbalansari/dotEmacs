@@ -589,8 +589,9 @@
 ** Emacs lisp is needs to be configured specially
    #+BEGIN_SRC emacs-lisp
      (defvar iqbal-elisp-packages '(elisp-slime-nav
-                                 macrostep
-                                 cl-lib-highlight))
+                                    macrostep
+                                    cl-lib-highlight
+                                    suggest))
 
      (iqbal-install-packages iqbal-elisp-packages)
 
