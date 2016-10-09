@@ -1,6 +1,6 @@
 * Use switch-window for switching between windows
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-package 'switch-window)
+    (iqbal-install-packages '(switch-window eyebrowse))
     (global-set-key (kbd "C-x o") 'switch-window)
   #+END_SRC
 
@@ -103,4 +103,9 @@
 
     (global-set-key (kbd "C-x -") #'iqbal-split-window-vertically)
     (global-set-key (kbd "C-x \\") #'iqbal-split-window-horizontally)
+  #+END_SRC
+
+* Enable eyebrowse mode
+  #+BEGIN_SRC emacs-lisp
+    (eyebrowse-mode +1)
   #+END_SRC
