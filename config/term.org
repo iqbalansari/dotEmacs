@@ -152,13 +152,11 @@
   #+END_SRC
 
 
-* Convenience functions to start term buffers
-** Use zsh or bash if available else fallback to eshell
+* Convenience functions to start shell buffers
+** Use eshell
    On windows use powershell if available
    #+BEGIN_SRC emacs-lisp
-     (defvar iqbal-preferred-shell (or (executable-find "zsh")
-                                    (executable-find "bash")
-                                    #'eshell))
+     (defvar iqbal-preferred-shell #'eshell)
 
      (when (equal system-type 'windows-nt)
        (setq iqbal-preferred-shell (if (locate-library "powershell") #'powershell #'eshell)))
