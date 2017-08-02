@@ -95,6 +95,7 @@
         shm/del
         shm/forward-node
         slime-autodoc-space
+        smalltalk-colon
         sp--self-insert-command
         sp-add-to-previous-sexp
         sp-backward-delete-char
