@@ -1,6 +1,6 @@
 * Some additional packages for working with dired
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger dired-narrow async))
+    (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger dired-narrow dired-collapse async))
     (iqbal-install-packages iqbal-dired-packages)
   #+END_SRC
 
@@ -44,6 +44,12 @@
     (setq dired-details-hidden-string "[...] ")
 
     (add-hook 'dired-mode-hook #'iqbal-dired-hide-details)
+  #+END_SRC
+
+
+* Enable dired-collapse mode
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'dired-mode-hook #'dired-collapse-mode)
   #+END_SRC
 
 
