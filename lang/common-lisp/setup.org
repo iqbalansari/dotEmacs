@@ -19,7 +19,7 @@
 * Setup slime
   #+BEGIN_SRC emacs-lisp
     (load "slime")
-    (slime-setup '(slime-fancy slime-company slime-mdot-fu))
+    (slime-setup '(slime-fancy slime-company slime-mdot-fu slime-asdf))
   #+END_SRC
 
 
