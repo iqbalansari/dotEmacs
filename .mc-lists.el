@@ -41,6 +41,9 @@
         forward-sexp
         hungry-delete-backward
         hungry-delete-forward
+        idris-delete-forward-char
+        idris-load-file
+        idris-newline-and-indent
         increment-integer-at-point
         indent-for-tab-command
         insert-parentheses
@@ -52,6 +55,7 @@
         iqbal-cut-line-or-region
         iqbal-downcase-dwim
         iqbal-dwim-org-table-blank-field
+        iqbal-open-line-above
         iqbal-open-line-below
         iqbal-show-helm-kill-ring-unless-mc-active
         iqbal-upcase-dwim
@@ -89,6 +93,7 @@
         overwrite-mode
         python-indent-electric-colon
         repeat
+        rjsx-delete-creates-full-tag
         sh-assignment
         shm/backward-kill-word
         shm/backward-node
@@ -125,6 +130,8 @@
         tiny-expand
         transpose-words
         wdired-finish-edit
+        wdired-next-line
+        wdired-previous-line
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         yas-expand
@@ -163,6 +170,8 @@
         orgtbl-hijacker-command-100
         phi-search
         scroll-other-window
+        set-fill-prefix
+        slime-next-note
         smex
         switch-window
         tern-find-definition
