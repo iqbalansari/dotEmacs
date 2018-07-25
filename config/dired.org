@@ -167,6 +167,7 @@
 ** Enable omit mode in dired
    #+BEGIN_SRC emacs-lisp
      (add-hook 'dired-mode-hook 'dired-omit-mode)
+     (autoload 'dired-omit-mode "dired-x")
    #+END_SRC
 
 ** Do not log omit events
