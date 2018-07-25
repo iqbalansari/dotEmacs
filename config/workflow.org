@@ -721,7 +721,7 @@
   https://github.com/fniessen/emacs-leuven/blob/master/org-custom-agenda-views.el
 ** Add a dedicated section for custom agenda commands
    #+BEGIN_SRC emacs-lisp
-     (defvar org-agenda-custom-commands "Custom commands for the agenda")
+     (defvar org-agenda-custom-commands nil)
      (add-to-list 'org-agenda-custom-commands '("c" . "Custom commands ... ") t)
      (add-to-list 'org-agenda-custom-commands '("ct" . "Timesheets ... ") t)
      (add-to-list 'org-agenda-custom-commands '("ca" . "Agenda ... ") t)
