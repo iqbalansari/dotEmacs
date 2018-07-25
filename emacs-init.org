@@ -268,7 +268,7 @@
      (autoload #'pulse-momentary-highlight-one-line "pulse")
 
      (defun iqbal-reorient (&rest ignored)
-       (recenter)
+       (ignore-errors (recenter))
        (iqbal-highlight-line)
        (when (equal major-mode 'org-mode)
          (org-show-subtree)))
