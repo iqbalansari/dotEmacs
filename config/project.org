@@ -100,3 +100,9 @@
 
      (setq projectile-completion-system 'rejeep-projectile-completion-fn)
    #+END_SRC
+
+
+* Keybindings
+  #+BEGIN_SRC emacs-lisp
+    (setq projectile-keymap-prefix (kbd "C-c p"))
+  #+END_SRC
