@@ -1,0 +1,5 @@
+* Additional keybindings to interacting with the REPL
+  #+BEGIN_SRC emacs-lisp
+    (define-key shen-mode-map iqbal-send-buffer (iqbal-evaluate-buffer-in-repl iqbal-shen-eval-buffer shen-eval-region))
+    (define-key shen-mode-map iqbal-send-phrase/sexp/block (iqbal-evaluate-sexp-in-repl iqbal-shen-eval-sexp shen-eval-region))
+  #+END_SRC

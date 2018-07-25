@@ -1,0 +1,9 @@
+* Setup inf-shen
+  #+BEGIN_SRC emacs-lisp
+    (require 'inf-shen)
+  #+END_SRC
+
+* Start inf-shen in a new window
+  #+BEGIN_SRC emacs-lisp
+    (advice-add 'switch-to-shen :before #'iqbal-split-window-before-run)
+  #+END_SRC

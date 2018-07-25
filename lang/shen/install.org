@@ -1,0 +1,4 @@
+* Install shen-mode and shen-elisp
+  #+BEGIN_SRC emacs-lisp
+    (iqbal-install-packages '(shen-mode shen-elisp))
+  #+END_SRC

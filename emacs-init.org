@@ -226,6 +226,14 @@
 
 ** Interacting with REPL
    #+BEGIN_SRC emacs-lisp
+     (defmacro iqbal-evaluate-sexp-in-repl (name send-region-func)
+       `(defun ,name ()
+          (interactive)
+          (let ((sexp-bounds (bounds-of-thing-at-point 'sexp)))
+            (if sexp-bounds
+                (,send-region-func (car sexp-bounds) (cdr sexp-bounds))
+              (user-error "No sexp at point")))))
+
      (defmacro iqbal-evaluate-line-in-repl (name send-region-func)
        `(defun ,name ()
           (interactive)
@@ -598,13 +606,13 @@
      (iqbal-install-packages iqbal-elisp-packages)
 
      ;; ielm replaces the current window, stop it from doing so
-     (defun iqbal-ielm-split-before-start (&rest ignored)
+     (defun iqbal-split-window-before-run (&rest ignored)
        (select-window (or (split-window-sensibly)
                           (when (one-window-p)
                             (split-window))
                           (next-window))))
 
-     (advice-add 'ielm :before #'iqbal-ielm-split-before-start)
+     (advice-add 'ielm :before #'iqbal-split-window-before-run)
 
      (defun iqbal-emacs-lisp-config ()
        ;; Setup
@@ -668,7 +676,13 @@
     (iqbal-auto-install (rx word-start "ledger" string-end) ledger-mode ledger-mode)
     (iqbal-auto-install (rx ".ledger" string-end) ledger-mode ledger-mode)
     (iqbal-auto-install (rx "Dockerfile" string-end) dockerfile-mode dockerfile-mode)
+    (iqbal-auto-install (rx "shen" string-end) shen-mode shen-mode)
   #+END_SRC
+
+** Autoload entries for languages
+   #+BEGIN_SRC emacs-lisp
+     (autoload 'shen-mode "shen-mode")
+   #+END_SRC
 
 ** Some extra auto-mode-alist entries
    #+BEGIN_SRC emacs-lisp
@@ -722,4 +736,5 @@
      (iqbal-setup-lang yaml-mode-hook "yaml")
      (iqbal-setup-lang cmake-mode-hook "cmake")
      (iqbal-setup-lang sql-mode-hook "sql")
+     (iqbal-setup-lang shen-mode-hook "shen")
    #+END_SRC
