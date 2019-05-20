@@ -12,6 +12,9 @@
       (add-to-list 'iqbal-search-replace-packages 'ag)
       (add-to-list 'iqbal-search-replace-packages 'wgrep-ag))
 
+    (when (executable-find "rg")
+      (add-to-list 'iqbal-search-replace-packages 'rg))
+
     (iqbal-install-packages iqbal-search-replace-packages)
   #+END_SRC
 
@@ -205,6 +208,12 @@
    #+END_SRC
 
 
+* Setup for rg.el
+  #+begin_src emacs-lisp
+    (add-hook 'rg-mode-hook 'wgrep-rg-setup)
+  #+end_src
+
+
 * Use <tab> to complete word using dabbrev during isearch
   #+BEGIN_SRC emacs-lisp
     (define-key isearch-mode-map (kbd "<tab>") 'isearch-dabbrev-expand)
@@ -243,14 +252,17 @@
      (define-key search-map "l" #'locate)
    #+END_SRC
 
-** Keybindings for ag
+** Keybindings for ag/rg
    #+BEGIN_SRC emacs-lisp
-     (when (executable-find "ag")
-       (define-key search-map (kbd "p s") #'projectile-ag)
+    (when (executable-find "ag")
+       (define-key search-map (kbd "p a") #'projectile-ag)
        (define-key search-map (kbd "a s") #'ag)
        (define-key search-map (kbd "a f") #'ag-files)
-       (define-key search-map (kbd "a d") #'ag-dired)
-       (define-key search-map (kbd "a p") #'ag-project))
+       (define-key search-map (kbd "a d") #'ag-dired))
+
+     (when (executable-find "rg")
+       (define-key search-map (kbd "p r") #'projectile-ripgrep)
+       (define-key search-map (kbd "a s") #'rg))
    #+END_SRC
 
 ** Keybindings for pcre2el
