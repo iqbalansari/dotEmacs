@@ -9,6 +9,9 @@
     (when (executable-find "ag")
       (iqbal-install-package 'helm-ag))
 
+    (when (executable-find "rg")
+      (iqbal-install-package 'helm-rg))
+
     (when (locate-library "yasnippet")
       (iqbal-install-package 'helm-c-yasnippet))
   #+END_SRC
@@ -272,8 +275,8 @@
                    `(occur ,helm-pattern)
                  `(multi-occur ,(mapcar #'get-buffer (helm-attr 'moccur-buffers)) ,helm-pattern))))
 
-      (with-eval-after-load 'helm-regexp
-        (define-key helm-moccur-map (kbd "C-c C-c") #'iqbal-helm-occur-save-results))
+      (with-eval-after-load 'helm-occur-map
+        (define-key helm-occur-map (kbd "C-c C-c") #'iqbal-helm-occur-save-results))
     #+END_SRC
 
 *** Replace occur with helm-occur
@@ -303,6 +306,20 @@
     #+BEGIN_SRC emacs-lisp
       (setq helm-ag-insert-at-point 'symbol)
     #+END_SRC
+
+
+** helm-rg
+*** Use C-c C-c to save rg results
+    #+BEGIN_SRC emacs-lisp
+      (defun iqbal-helm-rg-save-results ()
+        (interactive)
+        (when (fboundp 'rg)
+          (helm-run-after-exit #'rg :query helm-pattern :dir helm-ag--default-directory)))
+
+      (with-eval-after-load 'helm-rg
+        (define-key helm-rg-map (kbd "C-c C-c") #'iqbal-helm-rg-save-results))
+    #+END_SRC
+
 
 ** helm-swoop configuration
    #+BEGIN_SRC emacs-lisp
