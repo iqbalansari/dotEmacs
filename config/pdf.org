@@ -1,6 +1,6 @@
 * Install pdf-tools on linux platforms
   #+BEGIN_SRC emacs-lisp
-    (when (eq system-type 'gnu/linux)
+    (when (memq system-type '(darwin gnu/linux))
       (iqbal-install-packages '(pdf-tools org-pdfview)))
   #+END_SRC
 
