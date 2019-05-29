@@ -677,6 +677,7 @@
     (iqbal-auto-install (rx ".ledger" string-end) ledger-mode ledger-mode)
     (iqbal-auto-install (rx "Dockerfile" string-end) dockerfile-mode dockerfile-mode)
     (iqbal-auto-install (rx "shen" string-end) shen-mode shen-mode)
+    (iqbal-auto-install (rx "rb" string-end) enh-ruby-mode enh-ruby-mode)
   #+END_SRC
 
 ** Autoload entries for languages
@@ -711,6 +712,7 @@
 ** Setup loading of language configuration when the language mode loads
    #+BEGIN_SRC emacs-lisp
      (iqbal-setup-lang python-mode-hook "python")
+     (iqbal-setup-lang enh-ruby-mode-hook "ruby")
      (iqbal-setup-lang js2-mode-hook "javascript")
      (iqbal-setup-lang php-mode-hook "php")
      (iqbal-setup-lang lua-mode-hook "lua")
