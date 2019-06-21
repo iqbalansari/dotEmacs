@@ -32,6 +32,7 @@
         emojify-delete-emoji-backward
         emojify-delete-emoji-forward
         end-of-visual-line
+        enh-ruby-electric-brace
         eval-and-replace
         eval-defun
         eval-last-sexp
