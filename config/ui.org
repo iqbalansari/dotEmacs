@@ -3,7 +3,7 @@
     (defvar iqbal-display-packages
       '(diminish
         volatile-highlights
-        solarized-theme
+        base16-theme
         page-break-lines
         highlight-thing
         hl-todo
@@ -32,51 +32,14 @@
   #+END_SRC
 
 
-* Use solarized theme
-** Do not use different font sizes
-   #+BEGIN_SRC emacs-lisp
-     (setq solarized-use-variable-pitch nil
-           solarized-height-minus-1 1.0
-           solarized-height-plus-1 1.0
-           solarized-height-plus-2 1.0
-           solarized-height-plus-3 1.0
-           solarized-height-plus-4 1.0)
-   #+END_SRC
-
-** Fix underline position in X
-   The default makes the mode-line appear broken in solarized theme
-   #+BEGIN_SRC emacs-lisp
-     (setq x-underline-at-descent-line t)
-   #+END_SRC
-
+* Use base16-tomorrow theme
 ** Use dark or light theme according time
   #+BEGIN_SRC emacs-lisp
-    (defun iqbal-load-solarized-theme (&optional frame)
-      (interactive)
-      (let ((current-hour (third (decode-time)))
-            (current-minute (second (decode-time))))
-        (if (and (< current-hour 19)
-                 (> current-hour 7))
-            (load-theme 'solarized-light t)
-          (load-theme 'solarized-dark t))
-
-        (with-eval-after-load 'company
-
-          (set-face-attribute 'company-tooltip-common frame
-                              :underline nil
-                              :background (face-background 'company-tooltip)
-                              :foreground (face-foreground 'company-tooltip)
-                              :bold t)
-
-          (set-face-attribute 'company-tooltip-common-selection frame
-                              :underline nil
-                              :background (face-background 'company-tooltip-selection)
-                              :foreground (face-foreground 'company-tooltip-selection)
-                              :bold t))))
-
+    (defun iqbal-load-base16-tomorrow-theme ()
+      (load-theme 'base16-tomorrow-night t))
 
     (when (display-graphic-p)
-      (add-hook 'after-init-hook #'iqbal-load-solarized-theme))
+      (add-hook 'after-init-hook #'iqbal-load-base16-tomorrow-theme))
   #+END_SRC
 
 
