@@ -36,6 +36,9 @@ your emacs and try again!"))
                                                        emacs-major-version
                                                        emacs-minor-version)))
 
+;; Let command act as meta on macOS
+(setq ns-command-modifier 'meta)
+
 (require 'package)
 (package-initialize)
 
