@@ -458,7 +458,8 @@
 
 ** Enable undo-tree globally
   #+BEGIN_SRC emacs-lisp
-    (global-undo-tree-mode)
+    (autoload #'global-undo-tree-mode "undo-tree")
+    (add-hook 'after-init-hook #'global-undo-tree-mode)
   #+END_SRC
 
 
