@@ -311,7 +311,7 @@
 
 * Location of data directory
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-data-directory (expand-file-name "personal-data" "~") "Directory to store personal data")
+    (defvar iqbal-data-directory (expand-file-name ".personal" "~") "Directory to store personal data")
 
     (defun iqbal-get-file-in-data-directory (filename &optional directory-p)
       (unless (file-exists-p iqbal-data-directory)
