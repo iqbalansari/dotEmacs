@@ -40,6 +40,12 @@
 
     (when (display-graphic-p)
       (add-hook 'after-init-hook #'iqbal-load-base16-tomorrow-theme))
+
+    (eval-after-load 'base16-tomorrow-night-theme
+      (progn
+        (set-face-background 'fringe "#1d1f21")
+        (set-face-background 'mode-line "#282a2e")
+        (set-face-background 'secondary-selection "#282a2e")))
   #+END_SRC
 
 
