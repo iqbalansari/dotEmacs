@@ -45,7 +45,8 @@
       (progn
         (set-face-background 'fringe "#1d1f21")
         (set-face-background 'mode-line "#282a2e")
-        (set-face-background 'secondary-selection "#282a2e")))
+        (set-face-background 'secondary-selection "#282a2e")
+        (set-face-foreground 'font-lock-comment-delimiter-face "#969896")))
   #+END_SRC
 
 
@@ -66,7 +67,7 @@
 * Fonts setup
 ** Use DejaVu Sans Mono / Source Code Pro / Consolas font if available
    #+BEGIN_SRC emacs-lisp
-     (set-frame-font (cond ((member "Source Code Pro" (font-family-list)) "Source Code Pro-11")
+     (set-frame-font (cond ((member "Source Code Pro" (font-family-list)) "Source Code Pro-12")
                            ((member "Menlo" (font-family-list)) "Menlo-12")
                            ((member "DejaVu Sans Mono" (font-family-list)) "DejaVu Sans Mono-09.5")
                            ((member "Consolas" (font-family-list)) "Consolas-11.7:light"))
