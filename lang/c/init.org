@@ -16,68 +16,12 @@
 
 * Variables to record versions of needed programs
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-gcc-version nil)
-    (defvar iqbal-g++-version nil)
-    (defvar iqbal-clang-version nil)
-    (defvar iqbal-llvm-executable nil)
-    (defvar iqbal-llvm-version nil)
-    (defvar iqbal-libclang-version nil)
-    (defvar iqbal-cmake-version nil)
     (defvar iqbal-gnu-global-version "0")
   #+END_SRC
 
 
 * Helper functions to retrieve the information
    #+BEGIN_SRC emacs-lisp
-     (defun iqbal--find-llvm-config-executable()
-       "Try finding llvm-config executable"
-       (or (executable-find "llvm-config")
-           (car (sort (cl-remove-if-not #'file-executable-p (loop for path in exec-path when (file-exists-p path)
-                                                               append (directory-files path t "^llvm-config")))
-                      (lambda (file1 file2)
-                        (version< (or (nth 2 (split-string file2 "-")) "0")
-                                  (or (nth 2 (split-string file1 "-")) "0")))))))
-
-     (defun iqbal--get-gcc-version()
-       "Get gcc version"
-       (when (executable-find "gcc")
-         (nth 3
-              (split-string (car (split-string (shell-command-to-string "gcc --version")
-                                               "\n"))))))
-
-     (defun iqbal--get-g++-version()
-       "Get g++ version"
-       (when (executable-find "g++")
-         (nth 3
-              (split-string (car (split-string (shell-command-to-string "g++ --version")
-                                               "\n"))))))
-
-     (defun iqbal--get-clang-version()
-       "Get clang compiler version"
-       (when (executable-find "clang")
-         (car (split-string (nth 3
-                                 (split-string (car (split-string (shell-command-to-string "clang --version") "\n"))))
-                            "-"))))
-
-     (defun iqbal--extract-libclang-version-from-file (file)
-       "Extract libclang version from header file"
-       (let* ((declarations (split-string (iqbal-read-file file) "\n"))
-              (clang-version-dec (car (cl-remove-if-not (lambda (dec)
-                                                       (string-match-p "#define[\s]+CLANG_VERSION[\s]+" dec))
-                                                     declarations))))
-         (when clang-version-dec
-           (car (last (split-string clang-version-dec " "))))))
-
-     (defun iqbal--get-libclang-version (llvm-config-executable)
-       "Get version of libclang version associated with given llvm installation"
-       (let* ((llvm-include-dir (substring (shell-command-to-string (concat llvm-config-executable
-                                                                            " --includedir"))
-                                           0
-                                           -1))
-              (clang-version-file (concat llvm-include-dir "/clang/Basic/Version.inc")))
-         (when (file-exists-p clang-version-file)
-           (iqbal--extract-libclang-version-from-file clang-version-file))))
-
      (defun iqbal--get-gnu-global-version ()
        (when (executable-find "global")
          (car (last (split-string (car (split-string (shell-command-to-string "global --version") "\n"))

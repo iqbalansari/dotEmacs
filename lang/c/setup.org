@@ -98,6 +98,6 @@
 
 ** Select whichever checker is available
    #+BEGIN_SRC emacs-lisp
-     (flycheck-select-checker (cond ((and iqbal-gcc-version (not (version< iqbal-gcc-version "4.8.1"))) 'c/c++-gcc)
-                                    (iqbal-clang-version 'c/c++-clang)))
+     (flycheck-select-checker (cond ((executable-find "gcc") 'c/c++-gcc)
+                                    ((executable-find "clang") 'c/c++-clang)))
    #+END_SRC

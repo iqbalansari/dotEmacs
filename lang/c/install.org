@@ -1,26 +1,4 @@
 * Retrieving information about C environment
-** Find and store information about the environment
-   Try retrieving the information only if we need to install any of the
-   libraries
-   #+BEGIN_SRC emacs-lisp
-     (when (or (and iqbal-install-rtags
-                    (not (locate-library "rtags")))
-               (and iqbal-install-irony
-                    (not (locate-library "irony-mode"))))
-       (setq iqbal-gcc-version (iqbal--get-gcc-version)
-             iqbal-g++-version (iqbal--get-g++-version)
-             iqbal-clang-version (iqbal--get-clang-version)
-             iqbal-llvm-executable (iqbal--find-llvm-config-executable)
-             iqbal-llvm-version  (when iqbal-llvm-executable
-                                (substring (shell-command-to-string (concat iqbal-llvm-executable " --version"))
-                                           0
-                                           -1))
-             iqbal-libclang-version (when iqbal-llvm-executable
-                                   (iqbal--get-libclang-version iqbal-llvm-executable))
-             iqbal-cmake-version (if (executable-find "cmake")
-                                  (nth 2 (split-string (shell-command-to-string "cmake --version"))))))
-   #+END_SRC
-
 ** Find global's version
    #+BEGIN_SRC emacs-lisp
      (setq iqbal-gnu-global-version (iqbal--get-gnu-global-version))
@@ -32,26 +10,8 @@
   satisfied otherwise display the missing requirements
   #+BEGIN_SRC emacs-lisp
     (when iqbal-install-rtags
-      (if (and iqbal-cmake-version
-               iqbal-llvm-executable
-               (not (version< iqbal-llvm-version "3.1"))
-               (or (not (version< (or iqbal-g++-version "0") "4.8"))
-                   (not (version< (or iqbal-clang-version "0") "3.2")))
-               (not (version< (or iqbal-libclang-version "0") "3.2")))
-          (progn (iqbal-install-package 'rtags)
-                 (setq iqbal-rtags-available t))
-        (warn (concat "rtags requirements not satisfied"
-                      "\n\t1. cmake " (if iqbal-cmake-version (concat "[found " iqbal-cmake-version "]") "[not found]")
-                      "\n\t2. llvm >= 3.2 " (if iqbal-llvm-executable (concat "[found " iqbal-llvm-version "]") "[not found]")
-                      "\n\t3. libclang-dev >= 3.2 (same version as llvm)"
-                      (if (not (version< (or iqbal-libclang-version "0") "3.2"))
-                          " [found]"
-                        " [not found]")
-                      "\n\t4. g++ >= 4.8  "
-                      (if (not (version< (or iqbal-g++-version "0") "4.7"))
-                          "[found]"
-                        "[not found]") "\n"
-                        "skipping installation"))))
+      (iqbal-install-package 'rtags)
+      (setq iqbal-rtags-available t))
   #+END_SRC
 
 
@@ -60,17 +20,11 @@
   satisfied otherwise display the missing requirements
   #+BEGIN_SRC emacs-lisp
     (when iqbal-install-irony
-      (if (and iqbal-cmake-version
-               (not (version< iqbal-cmake-version "2.8.3"))
-               iqbal-libclang-version)
-          (progn (iqbal-install-package 'irony (lambda () (call-interactively 'irony-install-server)))
-                 (iqbal-install-packages '(company-irony irony-eldoc))
-                 (setq iqbal-irony-available t))
-        (warn (concat "irony requirements not satisfied, require\n"
-                      "\t1. cmake >= 2.8.3"
-                      (if iqbal-cmake-version (concat " [found " iqbal-cmake-version "]") " [not found]") "\n"
-                      "\t2. libclang-dev" (if iqbal-libclang-version (concat " [found " iqbal-libclang-version " ]") " [not found]")
-                      "\nskipping installation"))))
+      (iqbal-install-package 'irony (lambda ()
+                                      (require 'irony)
+                                      (call-interactively 'irony-install-server)))
+      (iqbal-install-packages '(company-irony irony-eldoc))
+      (setq iqbal-irony-available t))
   #+END_SRC
 
 
