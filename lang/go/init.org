@@ -1,5 +1,5 @@
 * Variables recording the availability of external programs
   #+BEGIN_SRC emacs-lisp
     (defvar iqbal-gocode-available nil)
-    (defvar iqbal-godef-available nil)
+    (defvar iqbal-guru-available nil)
   #+END_SRC

@@ -7,7 +7,6 @@
 
 ** Run gofmt on save
   #+BEGIN_SRC emacs-lisp
-    (make-variable-buffer-local 'before-save-hook)
     (when (executable-find "gofmt")
       (add-hook 'before-save-hook 'gofmt-before-save))
   #+END_SRC
@@ -39,8 +38,8 @@
 
 * Highlight line after jumping to definition
   #+BEGIN_SRC emacs-lisp
-    (when iqbal-godef-available
-      (iqbal-reorient-after-func 'godef-jump))
+    (when iqbal-guru-available
+      (iqbal-reorient-after-func 'go-guru-definition))
   #+END_SRC
 
 

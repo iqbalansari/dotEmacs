@@ -6,14 +6,13 @@
 
 * Keybinding for jumping to definition
   #+BEGIN_SRC emacs-lisp
-    (when iqbal-godef-available
-      (define-key go-mode-map iqbal-jump-to-definition #'godef-jump)
+    (when iqbal-guru-available
+      (define-key go-mode-map iqbal-jump-to-definition #'go-guru-definition)
       (define-key go-mode-map iqbal-pop-jump-to-definition-marker #'pop-tag-mark))
   #+END_SRC
 
 
 * Keybinding for getting documentation of symbol at point
   #+BEGIN_SRC emacs-lisp
-    (when iqbal-godef-available
-      (define-key go-mode-map iqbal-show-doc #'godoc-at-point))
+    (define-key go-mode-map iqbal-show-doc #'godoc-at-point)
   #+END_SRC

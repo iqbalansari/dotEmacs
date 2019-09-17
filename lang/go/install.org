@@ -27,10 +27,11 @@
    #+END_SRC
 
 
-* Warn if godef is installed
+* Warn if guru is installed
   #+BEGIN_SRC emacs-lisp
-    (setq iqbal-godef-available (executable-find "godef"))
+    (setq iqbal-guru-available (executable-find "guru"))
 
-    (unless iqbal-godef-available
-      (warn "`godef' not installed jump to definition would not work"))
+    (if iqbal-guru-available
+        (iqbal-install-package 'go-guru)
+      (warn "`guru' not installed jump to definition would not work"))
   #+END_SRC
