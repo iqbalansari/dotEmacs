@@ -877,6 +877,41 @@
      (setq org-log-note-clock-out t)
    #+END_SRC
 
+** Better display of clocked in task, also indicate if not currently clocked in
+   #+BEGIN_SRC emacs-lisp
+     (setq org-clock-clocked-in-display nil)
+
+     (defface iqbal-org-not-clocked-in
+       `((t :background "red" :foreground "white" :weight bold))
+       "Face for when you are not clocked in to an org task")
+
+     (defface iqbal-org-clocked-in
+       `((t :background "LimeGreen" :foreground "white" :weight bold))
+       "Face for when you are not clocked in to an org task")
+
+     (defun iqbal-org-clock-mode-line ()
+       (let ((clocking-p (and (fboundp 'org-clocking-p)
+                              (org-clocking-p))))
+         (when clocking-p
+             (org-clock-update-mode-line))
+         (let ((mode-line-string (format " %s "
+                                         (if clocking-p
+                                             org-mode-line-string
+                                           (org-propertize "Not clocked in"
+                                                           'help-echo "You are not clocked in to any task\nmouse-1 allows searching for task to clock in (similar to `org-tag-view`)\nmouse-2 allows clocking in to a recent task"
+                                                           'keymap '(mode-line keymap
+                                                                               (mouse-1 . iqbal-clock-in-interactive)
+                                                                               (mouse-2 . (lambda () (interactive) (org-clock-in '(4))))
+                                                                               (mouse-3 . (lambda () (interactive) (org-clock-in '(4)))))))))
+               (mode-line-face (if clocking-p
+                                   'iqbal-org-clocked-in
+                                 'iqbal-org-not-clocked-in)))
+           (format "%s " (propertize mode-line-string 'face mode-line-face 'mouse-face 'mode-line-highlight)))))
+
+     (setq global-mode-string (remove '(:eval (iqbal-org-clock-mode-line)) global-mode-string))
+     (push '(:eval (iqbal-org-clock-mode-line)) global-mode-string)
+   #+END_SRC
+
 ** Store persistence info inside org directory
    #+BEGIN_SRC emacs-lisp
      (setq org-clock-persist-file (expand-file-name "org-clock-save.el" (iqbal-get-file-in-data-directory "misc" t)))
