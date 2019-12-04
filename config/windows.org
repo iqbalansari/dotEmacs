@@ -105,7 +105,14 @@
     (global-set-key (kbd "C-x \\") #'iqbal-split-window-horizontally)
   #+END_SRC
 
-* Enable eyebrowse mode
-  #+BEGIN_SRC emacs-lisp
-    (eyebrowse-mode +1)
-  #+END_SRC
+
+* Eyebrowse configuration
+** Change the default prefix
+   #+begin_src emacs-lisp
+     (setq eyebrowse-keymap-prefix (kbd "C-c w"))
+   #+end_src
+
+** Enable eyebrowse configuration
+   #+BEGIN_SRC emacs-lisp
+     (eyebrowse-mode +1)
+   #+END_SRC
