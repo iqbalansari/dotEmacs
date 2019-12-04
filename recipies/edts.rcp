@@ -1,4 +1,0 @@
-(:name edts
-       :description "Erlang Development Tool Suite."
-       :type elpa
-       :build ("make"))
