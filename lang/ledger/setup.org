@@ -1,3 +1,8 @@
+* Set the column used for aligning post amount
+  #+begin_src emacs-lisp
+    (setq ledger-post-amount-alignment-column 70)
+  #+end_src
+
 * Setup error checking
 ** Be pedantic about errors
    #+BEGIN_SRC emacs-lisp
