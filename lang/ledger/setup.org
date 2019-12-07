@@ -6,7 +6,7 @@
 * Setup error checking
 ** Be pedantic about errors
    #+BEGIN_SRC emacs-lisp
-     (setq flycheck-ledger-pedantic 'check-payees)
+     (setq flycheck-ledger-pedantic nil)
    #+END_SRC
 
 ** Enable flycheck
@@ -15,7 +15,6 @@
     (load "flycheck-ledger")
     (unless (flycheck-encrypted-buffer-p) (flycheck-mode +1))
   #+END_SRC
-
 
 * Setup completion
   Since ledger uses pcomplete, we need to add it to completion-at-point-functions

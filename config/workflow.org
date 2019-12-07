@@ -265,7 +265,7 @@
 
 ** Any files in org folder will be added to agenda files
  #+BEGIN_SRC emacs-lisp
-   (setq org-agenda-files (list iqbal-org-agenda-dir (iqbal-get-file-in-notes-directory "agenda/projects" t)))
+   (setq org-agenda-files (list iqbal-org-agenda-dir (iqbal-get-file-in-notes-directory "projects" t)))
  #+END_SRC
 
 ** Add a note when task is marked as DONE
