@@ -357,14 +357,15 @@
 ** Add id to each captured item
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-create-id-for-org-capture ()
-       (save-excursion
-         (goto-char (point-min))
-         (if (not (string= (org-capture-get :key) "l"))
-             (org-id-get-create)
-           ;; For link captures use the link as the id
-           (let ((link (car (org-offer-links-in-entry (current-buffer) (point) 1))))
-             (org-entry-put (point) "ID" link)
-             (org-id-add-location link (buffer-file-name (buffer-base-buffer)))))))
+       (when (derived-mode-p 'org-mode)
+         (save-excursion
+           (goto-char (point-min))
+           (if (not (string= (org-capture-get :key) "l"))
+               (org-id-get-create)
+             ;; For link captures use the link as the id
+             (let ((link (car (org-offer-links-in-entry (current-buffer) (point) 1))))
+               (org-entry-put (point) "ID" link)
+               (org-id-add-location link (buffer-file-name (buffer-base-buffer))))))))
 
      (add-hook 'org-capture-prepare-finalize-hook 'iqbal-create-id-for-org-capture)
    #+END_SRC
@@ -395,10 +396,11 @@
 ** Do not add created time for non-agenda buffers
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-org-avoid-creation-property-in-non-agenda-files (orig &rest args)
-       (when (or (bound-and-true-p org-capture-mode)
-                 (and (buffer-file-name)
-                      (org-agenda-file-p (buffer-file-name))))
-         (apply orig args)))
+       (let ((file (buffer-file-name (if (bound-and-true-p org-capture-mode)
+                                         (buffer-base-buffer (current-buffer))
+                                       (current-buffer)))))
+         (when (and file (org-agenda-file-p file))
+           (apply orig args))))
 
      (advice-add 'org-expiry-insert-created :around #'iqbal-org-avoid-creation-property-in-non-agenda-files)
    #+END_SRC
