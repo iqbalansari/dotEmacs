@@ -75,3 +75,5 @@ tldr
 /emojis
 /meghanada/*
 /transient/*
+/org-journal.cache
+/persist/
