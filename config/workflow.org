@@ -533,6 +533,21 @@
           (goto-char (point-max))))
     #+END_SRC
 
+*** Function to the get the ledger file
+    #+begin_src emacs-lisp
+      (defun iqbal-get-current-ledger-file ()
+        (let* ((date (calendar-current-date))
+               (month (car date))
+               (year (caddr date))
+               (active-years (if (< month 3)
+                                 (list (1- year) year)
+                               (list year (1+ year))))
+               (file-name (apply #'format "finances/%d-%d.ledger" active-years))
+               (file-location (iqbal-get-file-in-data-directory file-name)))
+          (find-file file-location)
+          (goto-char (point-max))))
+    #+end_src
+
 ** The templates
 *** org-capture is not yet loaded, so initialize org-capture templates to empty list
     #+BEGIN_SRC emacs-lisp
@@ -656,7 +671,7 @@
                                                 'entry 
                                                 (list 'file 
                                                       (expand-file-name "habits.org" iqbal-org-agenda-dir))
-                                                "* TODO %?\nSCHEDULED: <%<%Y-%m-%d .+1d/2d>>\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))
+                                                "* TODO %?\n SCHEDULED: <%<%Y-%m-%d .+1d/2d>>\n :PROPERTIES:\n :STYLE: habit\n :REPEAT_TO_STATE: NEXT\n :END:\n"))
     #+END_SRC
 
 *** Template for capturing journal entry
@@ -675,6 +690,15 @@
                                                 'plain
                                                 (list 'function #'iqbal-find-journal-file)
                                                 "** %(format-time-string org-journal-time-format)%?\n%(iqbal-get-source-buffers-region-and-link 1)"))
+    #+END_SRC
+
+*** Template to capture an expense
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-capture-templates (list "e"
+                                                "Record a expense in the current ledger file"
+                                                'plain
+                                                (list 'function #'iqbal-get-current-ledger-file)
+                                                "\n%(format-time-string \"%Y/%m/%d\") %^{Purpose of the expense?}\n    %?"))
     #+END_SRC
 
 
