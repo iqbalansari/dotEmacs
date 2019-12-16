@@ -13,12 +13,15 @@
 * List of tags with shorter keys for set them
   #+BEGIN_SRC emacs-lisp
     (setq org-tag-alist '((:startgroup)
-                          ("Work" . ?W)
-                          ("Personal" . ?P)
-                          ("Javascript" . ?j)
-                          ("Python" . ?p)
-                          ("Emacs" . ?e)
-                          ("Org" . ?o)
+                          ("work" . ?W)
+                          ("personal" . ?P)
+                          ("javascript" . ?j)
+                          ("python" . ?p)
+                          ("emacs" . ?e)
+                          ("org" . ?o)
+                          (:endgroup)
+                          (:startgroup)
+                          ("drill" . ?D)
                           (:endgroup)
                           ("crypt" . ?E)))
   #+END_SRC
