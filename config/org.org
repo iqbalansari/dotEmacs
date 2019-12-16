@@ -1,6 +1,7 @@
 * Install some useful packages
   #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(org-bullets
+                              org-drill
                               toc-org
                               org-autolist
                               company-math
@@ -150,6 +151,11 @@
        (define-key org-mode-map (kbd "C-c C-/") #'org-decrypt-entry))
    #+END_SRC
 
+* org-drill configuration
+   #+BEGIN_SRC emacs-lisp
+     (with-eval-after-load 'org
+       (require 'org-drill))
+   #+END_SRC
 
 * org-clock-convenience setup
   #+BEGIN_SRC emacs-lisp
