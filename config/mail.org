@@ -9,13 +9,13 @@
                 (or (and (getenv "GMIME_CFLAGS")
                          (getenv "GMIME_LIBS"))
                     (when (executable-find "pkg-config")
-                      (zerop (shell-command "pkg-config --exists gmime-2.6")))))
+                      (zerop (shell-command "pkg-config --exists gmime-3.0")))))
            (progn (iqbal-install-packages '(mu4e mu4e-alert))
                   (when (and (boundp 'mu4e-maildir)
                              (not (file-exists-p mu4e-maildir)))
                     (warn "Please set `mu4e-maildir' to your maildir")))
          (message "You need to install `autoconf', `libxapian-dev', `libtool'
-     and `libgmime-2.6-dev' for building mu4e")))
+     and `libgmime-3.0-dev' for building mu4e")))
    #+END_SRC
 
 
