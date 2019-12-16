@@ -471,7 +471,7 @@
     #+BEGIN_SRC emacs-lisp
       (defun iqbal--time-to-am/pm (hours minutes)
         (when (and hours minutes)
-          (let* ((hours-int (string-to-int hours))
+          (let* ((hours-int (string-to-number hours))
                  (hours-string (int-to-string (if (<= hours-int 12) 
                                                   hours-int
                                                 (- hours-int 12))))
@@ -488,7 +488,7 @@
                                   (split-string (cadr date-components) ":")))
                (hours (car time-components))
                (minutes (cadr time-components)))
-          (concat (calendar-month-name (string-to-int (cadr date-string)))
+          (concat (calendar-month-name (string-to-number (cadr date-string)))
                   " "
                   (caddr date-string)
                   ", "

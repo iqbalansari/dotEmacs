@@ -59,7 +59,7 @@
        (with-current-buffer (get-buffer-create " *php-ggtags-doc*")
          (erase-buffer)
          (insert-file-contents-literally (car location))
-         (goto-line (string-to-int (caddr location)))
+         (goto-line (string-to-number (caddr location)))
          (string-trim (format "%s\n\n%s\n\nUser defined function in %s"
                               (iqbal-php-format-doc-string (iqbal-php-grab-comments (point)))
                               (iqbal-php-format-eldoc-string (apply #'mapconcat (list 'identity (cdddr location) " ")) 0)

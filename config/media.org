@@ -199,7 +199,7 @@
        (if (string-match-p ".*::[0-9]+\\(-[0-9]+\\)?$" link)
            (let* ((components (split-string link "::"))
                   (path (url-unhex-string (car components)))
-                  (time (mapcar #'string-to-int (split-string (cadr components) "-"))))
+                  (time (mapcar #'string-to-number (split-string (cadr components) "-"))))
              (cons path time))
          (cons (url-unhex-string link) nil)))
 

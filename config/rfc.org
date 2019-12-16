@@ -69,13 +69,13 @@
 ** Function to open org RFC link
   #+BEGIN_SRC emacs-lisp
     (defun iqbal-open-rfc-file (path)
-      (irfc-visit (string-to-int path)))
+      (irfc-visit (string-to-number path)))
   #+END_SRC
 
 ** Hook the above to org-mode
    #+BEGIN_SRC emacs-lisp
      (defun iqbal-open-rfc-file (path)
-       (irfc-visit (string-to-int path)))
+       (irfc-visit (string-to-number path)))
 
      (with-eval-after-load 'org
        (org-add-link-type "rfc" #'iqbal-open-rfc-file #'iqbal-irfc-export))
