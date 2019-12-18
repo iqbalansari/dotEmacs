@@ -16,9 +16,7 @@
     (unless (flycheck-encrypted-buffer-p) (flycheck-mode +1))
   #+END_SRC
 
-* Setup completion
-  Since ledger uses pcomplete, we need to add it to completion-at-point-functions
-  so that company-mode picks it up
+* Configure completion
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
+    (setq ledger-complete-in-steps t)
   #+END_SRC
