@@ -7,6 +7,7 @@
     (define-key factor-mode-map iqbal-send-line (iqbal-evaluate-line-in-repl iqbal-factor-eval-line fuel-eval-region))
   #+END_SRC
 
+
 * Set keybindings for refactoring
   #+BEGIN_SRC emacs-lisp
     (define-key factor-mode-map iqbal-refactor-rename #'fuel-refactor-rename-word)

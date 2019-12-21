@@ -1,3 +1,8 @@
+* Pick scheduled transactions for "scheduled.ledger" in the same directory
+  #+begin_src emacs-lisp
+    (setq ledger-schedule-file "scheduled.ledger")
+  #+end_src
+
 * Set the column used for aligning post amount
   #+begin_src emacs-lisp
     (setq ledger-post-amount-alignment-column 70)
