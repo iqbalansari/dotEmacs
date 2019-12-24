@@ -2,7 +2,7 @@
   #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(helm helm-descbinds helm-projectile
                                    helm-swoop helm-company
-                                   helm-mu org-linkany
+                                   helm-mu
                                    helm-gitignore wgrep-helm
                                    helm-flx))
 
@@ -307,7 +307,6 @@
       (setq helm-ag-insert-at-point 'symbol)
     #+END_SRC
 
-
 ** helm-rg
 *** Use C-c C-c to save rg results
     #+BEGIN_SRC emacs-lisp
@@ -319,7 +318,6 @@
       (with-eval-after-load 'helm-rg
         (define-key helm-rg-map (kbd "C-c C-c") #'iqbal-helm-rg-save-results))
     #+END_SRC
-
 
 ** helm-swoop configuration
    #+BEGIN_SRC emacs-lisp
@@ -403,12 +401,6 @@
    #+END_SRC
 
 ** org-mode integration
-*** Enable additional completion in org-store-link
-    #+BEGIN_SRC emacs-lisp
-      (with-eval-after-load 'org
-        (require 'org-linkany))
-    #+END_SRC
-
 *** Use `helm-org-in-buffer-headings` instead of imenu in org-mode
     #+BEGIN_SRC emacs-lisp
       (with-eval-after-load 'org
