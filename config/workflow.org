@@ -943,7 +943,7 @@
 
 ** Store persistence info inside org directory
    #+BEGIN_SRC emacs-lisp
-     (setq org-clock-persist-file (expand-file-name "org-clock-save.el" (iqbal-get-file-in-data-directory "misc" t)))
+     (setq org-clock-persist-file (expand-file-name "org-clock-save.el" (iqbal-get-file-in-notes-directory "misc" t)))
    #+END_SRC
 
 ** Save both the running clock, and the entire clock history on exiting emacs
