@@ -134,17 +134,21 @@
      (with-eval-after-load 'org
        (require 'org-crypt)
        (org-crypt-use-before-save-magic)
-       (setq org-tags-exclude-from-inheritance (quote ("crypt")))
        (when (string= org-crypt-key "")
          (setq org-crypt-key nil)))
    #+END_SRC
+
+** Exclude crypt tag from inheritance
+   #+begin_src emacs-lisp
+     (add-to-list 'org-tags-exclude-from-inheritance "crypt")
+   #+end_src
 
 ** Unconditionally disable auto-save for encrypted files
    #+BEGIN_SRC emacs-lisp
      (setq org-crypt-disable-auto-save t)
    #+END_SRC
 
-** Keys to decrypt entries
+** Keybinding to decrypt entries
    #+BEGIN_SRC emacs-lisp
      (autoload #'org-decrypt-entry "org-crypt" "Decrypt encrypted org entry." t)
      (with-eval-after-load 'org
@@ -153,10 +157,16 @@
 
 
 * org-drill configuration
-   #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'org
-       (require 'org-drill))
-   #+END_SRC
+** Load org-drill once org-mode loads
+    #+BEGIN_SRC emacs-lisp
+      (with-eval-after-load 'org
+        (require 'org-drill))
+    #+END_SRC
+
+** Exclude drill tag from inheritance
+   #+begin_src emacs-lisp
+     (add-to-list 'org-tags-exclude-from-inheritance "drill")
+   #+end_src
 
 
 * org-clock-convenience setup
