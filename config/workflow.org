@@ -255,7 +255,11 @@
      (with-eval-after-load 'org-agenda
        (require 'org-habit))
    #+END_SRC
-
+** Do not display symbols in org-habit process
+   #+begin_src emacs-lisp
+     (setq org-habit-today-glyph 32
+           org-habit-completed-glyph 32)
+   #+end_src
 ** Directory for agenda files
   #+BEGIN_SRC emacs-lisp
     (defvar iqbal-org-agenda-dir (iqbal-get-file-in-notes-directory "agenda" t))
