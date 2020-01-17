@@ -9,7 +9,7 @@
   #+end_src
 
 * Setup error checking
-** Be pedantic about errors
+** Do not be pedantic about errors
    #+BEGIN_SRC emacs-lisp
      (setq flycheck-ledger-pedantic nil)
    #+END_SRC
@@ -25,3 +25,8 @@
   #+BEGIN_SRC emacs-lisp
     (setq ledger-complete-in-steps t)
   #+END_SRC
+
+* IMenu expression for ledger mode
+  #+begin_src emacs-lisp
+    (setq imenu-generic-expression '((nil "^[0-9]\\{4\\}/[0-9]\\{2\\}/[0-9]\\{2\\} .*" 0)))
+  #+end_src
