@@ -1,6 +1,6 @@
 * Install some useful packages
   #+BEGIN_SRC emacs-lisp
-    (iqbal-install-packages '(org-journal org-dashboard org-pomodoro orgbox orgit calfw async))
+    (iqbal-install-packages '(org-journal org-dashboard org-pomodoro orgit calfw async))
   #+END_SRC
 
 
@@ -408,19 +408,6 @@
 
      (advice-add 'org-expiry-insert-created :around #'iqbal-org-avoid-creation-property-in-non-agenda-files)
    #+END_SRC
-
-
-* orgbox configuration
-  #+BEGIN_SRC emacs-lisp
-    (autoload 'orgbox-schedule "orgbox" "Schedule using orgbox" t)
-    (autoload 'orgbox-agenda-schedule "orgbox" "Schedule using orgbox" t)
-
-    (with-eval-after-load 'org
-      (org-defkey org-mode-map (kbd "C-c C-s") 'orgbox-schedule))
-
-    (with-eval-after-load 'org-agenda
-      (org-defkey org-agenda-mode-map (kbd "C-c C-s") 'orgbox-agenda-schedule))
-  #+END_SRC
 
 
 * Org capture templates
