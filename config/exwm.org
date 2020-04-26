@@ -1,0 +1,18 @@
+* Install exwm
+  #+begin_src emacs-lisp
+    (iqbal-install-package 'exwm)
+  #+end_src
+
+
+* Launch EXWM if the current session is EXWM
+  #+begin_src emacs-lisp
+    (defun iqbal-enable-exwm-maybe ()
+      (when (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
+        (require 'exwm)
+        (require 'exwm-config)
+        (exwm-config-default)
+
+        (setq desktop-restore-frames nil)))
+
+    (iqbal-enable-exwm-maybe)
+  #+end_src

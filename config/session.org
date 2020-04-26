@@ -55,8 +55,6 @@
        (add-to-list 'desktop-modes-not-to-save 'message-mode))
    #+END_SRC
 
-
-
 * Save minibuffer history across sessions
   #+BEGIN_SRC emacs-lisp
     (setq savehist-additional-variables '(kill-ring))

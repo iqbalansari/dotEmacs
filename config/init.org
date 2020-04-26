@@ -131,7 +131,8 @@
                                  info
                                  rfc
                                  media
-                                 utilities))
+                                 utilities
+                                 exwm))
 
     (when (eq system-type 'windows-nt)
       (add-to-list 'iqbal-modules-list 'unxutils))
