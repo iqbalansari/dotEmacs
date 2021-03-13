@@ -189,6 +189,8 @@
 * Directory for org-journal
   #+BEGIN_SRC emacs-lisp
     (setq org-journal-dir (iqbal-get-file-in-data-directory "journal/" t))
+    (setq org-journal-file-format "%Y%m%d.org")
+    (setq org-journal-date-format "%A %d %B %Y")
   #+END_SRC
 
 
