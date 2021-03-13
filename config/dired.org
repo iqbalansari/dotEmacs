@@ -1,6 +1,6 @@
 * Some additional packages for working with dired
   #+BEGIN_SRC emacs-lisp
-    (defvar iqbal-dired-packages '(dired-details dired-single dircmp dired-filter dired-ranger dired-narrow dired-collapse async))
+    (defvar iqbal-dired-packages '(dired-single dircmp dired-filter dired-ranger dired-narrow dired-collapse async))
     (iqbal-install-packages iqbal-dired-packages)
   #+END_SRC
 
