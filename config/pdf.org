@@ -4,19 +4,7 @@
       (iqbal-install-packages '(pdf-tools org-pdftools)))
   #+END_SRC
 
-
-* Install interleave, very useful for taking/reading notes while reading PDFs
-** Install from melpa
-  #+BEGIN_SRC emacs-lisp
-    (iqbal-install-package 'interleave)
-  #+END_SRC
-
-** Location to interleave notes directory
-   #+BEGIN_SRC emacs-lisp
-     (setq interleave--org-notes-dir-list (list (iqbal-get-file-in-notes-directory "notes" t)))
-   #+END_SRC
-
-
+ 
 * Goto to next/previous page we reach the end/start of a page in doc-view
   #+BEGIN_SRC emacs-lisp
     (setq doc-view-continuous t)
