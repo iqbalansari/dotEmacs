@@ -1,3 +1,5 @@
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 ;; Do not start on windows, if HOME environment is not equal to
 ;; USERPROFILE. This leads unexpected behaviour such as applications started
 ;; from emacs do not pick up correct HOME folder
