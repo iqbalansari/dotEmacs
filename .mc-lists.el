@@ -28,6 +28,7 @@
         decrement-integer-at-point
         delete-horizontal-space
         down-list
+        duplicate-current-line-or-region
         electric-newline-and-maybe-indent
         emojify-delete-emoji-backward
         emojify-delete-emoji-forward
@@ -68,6 +69,7 @@
         ledger-magic-tab
         mark-sexp
         markdown-exdent-or-delete
+        markdown-outdent-or-delete
         mouse-save-then-kill
         new-line-dwim
         nxml-electric-slash
@@ -85,6 +87,7 @@
         org-previous-visible-heading
         org-return-indent
         org-self-insert-command
+        org-shiftmetaright
         org-shiftup
         org-table-sum
         org-todo
@@ -140,7 +143,9 @@
 
 (setq mc/cmds-to-run-once
       '(
+        abbrev-prefix-mark
         anzu-query-replace
+        avy-goto-word-or-subword-1
         c-electric-pound
         describe-key
         eldoc-eval-expression
@@ -164,12 +169,17 @@
         mouse-buffer-menu
         mouse-set-region
         narrow-or-widen-dwim
+        next-error
         org-ctrl-c-ctrl-c
         org-edit-special
+        org-edit-src-save
+        org-shiftleft
+        org-shiftright
         org-todo-list
         orgtbl-ctrl-c-ctrl-c
         orgtbl-hijacker-command-100
         phi-search
+        proced
         scroll-other-window
         set-fill-prefix
         slime-next-note
