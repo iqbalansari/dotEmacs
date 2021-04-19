@@ -1,6 +1,7 @@
 * Install some useful packages
   #+BEGIN_SRC emacs-lisp
     (iqbal-install-packages '(org-journal org-dashboard org-pomodoro orgit calfw async))
+    (autoload 'org-agenda-file-p "org-agenda")
   #+END_SRC
 
 
