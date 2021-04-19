@@ -19,6 +19,7 @@
 * Enable syntax checking
   #+BEGIN_SRC emacs-lisp
     (flycheck-mode +1)
+    (add-to-list 'flycheck-enabled-checkers 'elixir-credo)
   #+END_SRC
 
 
