@@ -190,8 +190,6 @@
 * Directory for org-journal
   #+BEGIN_SRC emacs-lisp
     (setq org-journal-dir (iqbal-get-file-in-data-directory "journal/" t))
-    (setq org-journal-file-format "%Y%m%d.org")
-    (setq org-journal-date-format "%A %d %B %Y")
   #+END_SRC
 
 
@@ -348,17 +346,6 @@
        (if (derived-mode-p 'org-mode)
            (org-map-entries 'org-id-get-create)
          (user-error "Not in an org-mode buffer")))
-   #+END_SRC
-
-** Add ids to headlines created in org agenda buffers
-   #+BEGIN_SRC emacs-lisp
-     (defun iqbal-org-agenda-add-id ()
-       (when (or (bound-and-true-p org-capture-mode)
-                 (and (buffer-file-name)
-                      (org-agenda-file-p (buffer-file-name))))
-         (org-id-get-create)))
-
-     (add-hook 'org-insert-heading-hook #'iqbal-org-agenda-add-id)
    #+END_SRC
 
 ** Add id to each captured item
