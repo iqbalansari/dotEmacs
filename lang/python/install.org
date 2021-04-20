@@ -1,8 +1,7 @@
 * Ensure that the required "packages" are installed
   #+BEGIN_SRC emacs-lisp
     (defvar iqbal-python-packages '(pyvenv
-                                    python-x
-                                    nose))
+                                    python-x))
 
     (iqbal-install-packages iqbal-python-packages)
   #+END_SRC
